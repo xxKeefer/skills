@@ -3,8 +3,8 @@ name: spike-it
 write-to: "{plans_dir}/spike_{TICKET}.md"
 description: >
   Deep-dive investigation of a feature, bug, or technical problem. Accepts issue tracker tickets,
-  wiki pages, or a plain description — then relentlessly asks clarifying questions until the problem is
-  fully understood before producing a terse output document. Use when the user says "spike it",
+  wiki pages, or a plain description — delegates to /grill-it for clarification until the problem is
+  fully understood, then produces a terse output document. Use when the user says "spike it",
   "spike this", "investigate this", "flesh this out", "hydrate ticket", "improve ticket", "research
   this", "feasibility study", or wants to fully understand a problem before committing to implementation.
 ---
@@ -29,17 +29,7 @@ Gather everything provided. For each ticket, fetch summary, description, accepta
 
 ## Step 2: Relentless Clarification
 
-Your job is to **fully understand the problem before producing anything**. Ask clarifying questions using **AskUserQuestion** until you can explain the problem, constraints, and scope back to the user and they agree you've got it.
-
-Rules:
-
-- Ask in batches of 2-4 targeted questions — not a wall of 20
-- Adapt each batch based on previous answers — don't ask questions already answered
-- Skip areas the source material already covers
-- Keep going until there are no ambiguities left
-- If the user says "that's enough" or equivalent, respect it and move on
-
-Areas to probe (skip what's already clear):
+Invoke `/grill-it` to fully understand the problem before producing anything. Pass it the gathered context from Step 1 and these spike-specific areas to probe (skip what's already clear):
 
 - **Problem clarity** — Can you state the problem in one sentence? If not, ask.
 - **User impact** — What changes from the end user's perspective?
