@@ -10,7 +10,7 @@
       "name": "xxkeefer-skills",
       "description": "Personal workflow skills for software engineering",
       "category": "development",
-      "source": ".."
+      "source": "./"
     }
   ]
 }
