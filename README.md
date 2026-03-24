@@ -39,6 +39,30 @@ Anytime:  explain-it (unpack reasoning)
           audit-workflow (optimise setup)
 ```
 
+## Setup
+
+### Install as a local marketplace
+
+Add the following to `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "xxkeefer-skills": {
+      "source": {
+        "source": "directory",
+        "path": "/path/to/this/repo"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "xxkeefer-skills@xxkeefer-skills": true
+  }
+}
+```
+
+Replace `/path/to/this/repo` with the absolute path to your local clone of this repo. Claude Code will pick up all skills automatically — no restart needed.
+
 ## Attribution
 
 Several skills were inspired by or adapted directly from
