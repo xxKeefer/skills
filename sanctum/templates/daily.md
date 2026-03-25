@@ -26,17 +26,20 @@ next: "[[YYYY-wkNN-nextday]]"
 
 ---
 
-## 🪞 Reflect
+## 🤔 Reflect
 <!-- Fill in the evening -->
 
-### What I learned
+### 🧠 What I learned
 -
 
-### What went well
+### ✅ What went well
 -
 
-### What is next
+### ➡️ What is next
 -
 
-### ⚠ Friction
+### ⚠️ Friction
+-
+
+### 💭 Thoughts
 -
