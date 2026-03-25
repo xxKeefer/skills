@@ -11,6 +11,12 @@
       "description": "Personal workflow skills for software engineering",
       "category": "development",
       "source": "./"
+    },
+    {
+      "name": "sanctum",
+      "description": "Life coach skill suite — agile-inspired personal growth system",
+      "category": "productivity",
+      "source": "./sanctum"
     }
   ]
 }
