@@ -9,6 +9,7 @@ Skills about skills -- writing, auditing, and teaching.
 | `/audit-workflow` | Audit Claude Code config and suggest optimizations |
 | `/learn-it` | Extract repeatable patterns into new skills |
 | `/teach-it` | Correct agent behaviour via persistent feedback |
+| `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
 
 ## Installation
 

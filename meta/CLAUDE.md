@@ -14,3 +14,4 @@ Meta skills reference `/grill-it` from the `primitives` plugin. Both must be ins
 | `/audit-workflow` | Audit Claude Code config and suggest optimizations |
 | `/learn-it` | Extract repeatable patterns into new skills |
 | `/teach-it` | Correct agent behaviour via persistent feedback |
+| `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
