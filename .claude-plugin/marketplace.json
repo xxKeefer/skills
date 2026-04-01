@@ -1,22 +1,40 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "xxkeefer-skills",
-  "description": "Personal workflow skills — framework-agnostic, language-agnostic best-practice engineering patterns",
+  "description": "Personal workflow skills -- framework-agnostic, language-agnostic, tool-agnostic. Primitives is always required.",
   "owner": {
     "name": "xxkeefer"
   },
   "plugins": [
     {
-      "name": "xxkeefer-skills",
-      "description": "Personal workflow skills for software engineering",
+      "name": "primitives",
+      "description": "Foundational skills that other domains compose. Always install this domain.",
       "category": "development",
-      "source": "./"
+      "source": "./primitives"
     },
     {
-      "name": "sanctum",
-      "description": "Life coach skill suite — agile-inspired personal growth system",
+      "name": "developer",
+      "description": "Opinionated engineering workflows -- investigation, planning, implementation, closure.",
+      "category": "development",
+      "source": "./developer"
+    },
+    {
+      "name": "journal",
+      "description": "Life admin skill suite -- agile-inspired personal growth system for Obsidian.",
       "category": "productivity",
-      "source": "./sanctum"
+      "source": "./journal"
+    },
+    {
+      "name": "meta",
+      "description": "Skills about skills -- writing, auditing, and teaching skills.",
+      "category": "development",
+      "source": "./meta"
+    },
+    {
+      "name": "omen",
+      "description": "Creative skills -- TTRPG, worldbuilding, narrative design.",
+      "category": "productivity",
+      "source": "./omen"
     }
   ]
 }
