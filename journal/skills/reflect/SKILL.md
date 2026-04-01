@@ -27,7 +27,7 @@ Read the file. Check if the Reflect section is already filled — if so:
 
 ## Step 2: Review the Day
 
-Read the Today and Chores sections to see what was planned.
+Read the Today section to see what was planned (chores are nested within it).
 
 Ask:
 > How did today go? What got done, what didn't?

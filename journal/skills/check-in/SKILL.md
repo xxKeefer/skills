@@ -24,7 +24,7 @@ If the file doesn't exist:
 
 ## Step 3: Append to Daily File
 
-Find the `---` separator that sits between the Today/Blockers sections and the Reflect section.
+Find the `---` separator that sits between the Today/Blockers/Check-ins sections and the Reflect section.
 Insert or append to a `## 📌 Check-ins` section just above that separator.
 
 If the section doesn't exist yet, create it. If it does, append to it.
