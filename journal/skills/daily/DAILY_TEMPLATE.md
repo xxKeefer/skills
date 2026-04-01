@@ -16,7 +16,7 @@ next: '[[YYYY-wkNN-nextday]]'
 
 # Dayname -- wkNN
 
-## Today
+## ☀️ Today
 
 - [ ] Chores
   - [ ] Chore 1
@@ -27,29 +27,33 @@ next: '[[YYYY-wkNN-nextday]]'
 - [ ] Task 1
 - [ ] Task 2 {events/reminders if applicable}
 
-## Blockers
+## 🚧 Blockers
 
 - (none) or blocker description
 
 ---
 
-## Reflect
+## 🤔 Reflect
 
 <!-- Fill in the evening with /reflect -->
 
-### What I learned
+### 🧠 What I learned
 
 -
 
-### What went well
+### ✅ What went well
 
 -
 
-### What is next
+### ➡️ What is next
 
 -
 
-### Friction
+### ⚠️ Friction
+
+-
+
+### 💭 Thoughts
 
 -
 ```
