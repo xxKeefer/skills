@@ -1,0 +1,8 @@
+{
+  "name": "developer",
+  "description": "Opinionated engineering workflows -- investigation, planning, implementation, closure. Requires primitives.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}
