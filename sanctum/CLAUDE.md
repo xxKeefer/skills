@@ -51,6 +51,7 @@ Three long-lived mutable files. Skills must read-modify-write carefully (never o
 /vault → backlog.md ↔ north-stars.md
 /weekly → reads: previous ponder + backlog + north-stars → sprint plan
 /daily → reads: sprint plan + occasions.md → day file
+/check-in → appends to: day file (between today + reflect)
 /reflect → appends to: day file
 /ponder → reads: week's day files → retro file
 /chronicle → reads: period's ponders → arc file

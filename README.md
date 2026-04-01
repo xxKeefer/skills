@@ -61,7 +61,36 @@ Add the following to `~/.claude/settings.json`:
 }
 ```
 
-Replace `/path/to/this/repo` with the absolute path to your local clone of this repo. Claude Code will pick up all skills automatically — no restart needed.
+Replace `/path/to/this/repo` with the absolute path to your local clone of this repo.
+
+### Publishing a new version
+
+After editing skills or adding new ones, follow these steps so Claude Code picks up the changes:
+
+1. **Bump the version** in the relevant `plugin.json` (e.g. `1.0.1` → `1.0.2`):
+   - Root plugin: `.claude-plugin/plugin.json`
+   - Sanctum plugin: `sanctum/.claude-plugin/plugin.json`
+2. **Commit and push** the changes to `main`:
+   ```sh
+   git add -A && git commit -m "feat: bump to vX.Y.Z"
+   git push origin main
+   ```
+3. **On each machine**, pull the latest and restart Claude Code:
+   ```sh
+   cd /path/to/this/repo && git pull origin main
+   ```
+   Then restart Claude Code (exit and relaunch, or start a new conversation). On startup it compares the source repo's HEAD SHA against its cached SHA — if they differ, it re-caches the plugin at the new version.
+
+> **How it works:** Claude Code stores installed plugin state in `~/.claude/plugins/installed_plugins.json`, keyed by `gitCommitSha` and `version`. When the source directory's HEAD moves ahead of the cached SHA, a restart triggers a re-cache into `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`.
+
+### Updating an installed plugin
+
+If you're consuming this on another machine (not the source repo):
+
+1. `cd` into your local clone and `git pull origin main`
+2. Restart Claude Code — the new version is detected and cached automatically
+
+No manual edits to `installed_plugins.json` or cache directories are needed.
 
 ## Attribution
 

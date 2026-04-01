@@ -11,6 +11,7 @@ Agile-inspired life coaching skill suite for Claude Code + Obsidian.
 | `/vault` | Backlog + north star management | Anytime |
 | `/weekly` | Sprint planning (Monday kickoff) | Weekly |
 | `/daily` | Morning standup | Daily AM |
+| `/check-in` | Adhoc micro-reflection | Anytime |
 | `/reflect` | Evening reflection | Daily PM |
 | `/ponder` | Sprint retro | End of sprint |
 | `/chronicle` | Monthly/yearly progress arc | Monthly + yearly |
@@ -22,7 +23,7 @@ Agile-inspired life coaching skill suite for Claude Code + Obsidian.
                          ↓
                       /weekly (Monday)
                          ↓
-              /daily (AM) → /reflect (PM)
+              /daily (AM) → /check-in (anytime) → /reflect (PM)
                          ↓
                       /ponder (end of sprint)
                          ↓
