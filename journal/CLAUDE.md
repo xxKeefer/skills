@@ -1,7 +1,16 @@
 # Journal -- Life Coach Skill Suite
 
-Agile-inspired personal growth system for Obsidian. All artifacts live in `10 - Sanctum/` in the
-user's Obsidian vault.
+Agile-inspired personal growth system for Obsidian. All artifacts live in the **sanctum directory**
+within the user's Obsidian vault.
+
+## Sanctum Discovery
+
+Skills must never hardcode the sanctum path. Instead:
+
+1. Scan the vault for a directory containing journal state files (`occasions.md`, `backlog.md`,
+   `north-stars.md`).
+2. If found, use that directory for all reads and writes.
+3. If not found, ask the user where journal files live and store the path to memory.
 
 ## Design Principles
 

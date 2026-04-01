@@ -10,58 +10,35 @@ description: >
 
 Morning standup. Quick, focused, <5 minutes. Be encouraging but direct.
 
+**Input:** optional date or file path, plus freeform notes (ad-hoc tasks, work context, extra chores).
+**Output:** daily file (`YYYY-wkNN-day.md`) in the sanctum directory.
+
 ## Step 1: Parse Input
 
 `<user-input>` may contain:
 
-- A **date** (e.g., "daily monday", "daily 2026-03-24") — target that day
-- A **file path** — update an existing daily file
-- **Nothing** — target today
+- A **date** (e.g., "daily monday", "daily 2026-03-24") -- target that day
+- A **file path** -- update an existing daily file
+- **Freeform notes** -- ad-hoc tasks, work context, or extra chores to fold into the checklist
+- **Nothing** -- target today
 
 Determine the day, week number, and file name: `YYYY-wkNN-day.md` (e.g., `2026-wk13-mon.md`).
 
-Check if the file already exists in `10 - Sanctum/`. If it does, read it and update rather than
-overwrite.
+Locate the sanctum directory per the journal domain's discovery convention.
+
+Check if the daily file already exists. If it does, read it and update rather than overwrite.
 
 ## Step 2: Read Context
 
-Read these files for context:
+Read these files from the sanctum directory for context:
 
-- `10 - Sanctum/YYYY-wkNN-sprint.md` — this week's sprint plan (goals, habits, experiments)
-- `10 - Sanctum/occasions.md` — chores and events for today
+- `YYYY-wkNN-sprint.md` — this week's sprint plan (goals, habits, experiments)
+- `occasions.md` — chores and events for today
 - Previous day's file (if exists) — check "What is next" from last reflect
 
 ## Step 3: Build the Day
 
-Build a single flat checklist under `## Today`. Chores and tasks live in one list, organised by
-single-level indent.
-
-### Chores group
-
-Pull from `occasions.md` and add as a top-level checkbox group within the Today list:
-
-- `- [ ] Chores` as a parent item (no emoji)
-  - All items from "Chores (Daily Default)" as indented children
-  - Any day-specific chores from the "Chores (Day-Specific)" table that match today
-  - Any events/reminders from "Recurring Events" that fall on today's date
-
-### Work group (weekdays only)
-
-On Monday--Friday, add a Work parent item:
-
-- `- [ ] 🏢 Work` as a top-level checkbox
-  - Indented children for standup, meetings, PR reviews, tickets, etc.
-  - Populate from sprint plan work-related tasks if available
-
-### Task items
-
-Pull from the sprint plan and add as top-level checkboxes (same level as Chores/Work):
-
-- Non-work tasks relevant to today from active domain goals
-- Habit items for today
-- Experiment actions if applicable
-- Carried items from yesterday's "What is next" (if reflect was filled)
-- Use indented sub-items to break down larger tasks
+Build the Today checklist. See [CHECKLIST_RULES.md](CHECKLIST_RULES.md) for assembly rules.
 
 ### Confirm
 
@@ -83,59 +60,8 @@ it: "This has come up before -- is it time to address it directly?"
 
 ## Step 4: Write the Daily File
 
-Create or update `10 - Sanctum/YYYY-wkNN-day.md`:
-
-```markdown
----
-type: sanctum/daily
-tags:
-  - sanctum
-  - sanctum/daily
-date: YYYY-MM-DD
-up: '[[YYYY-wkNN-sprint]]'
-prev: '[[YYYY-wkNN-prevday]]'
-next: '[[YYYY-wkNN-nextday]]'
----
-
-# Dayname — wkNN
-
-## ☀️ Today
-
-- [ ] Chores
-  - [ ] Chore 1
-  - [ ] Chore 2 {day-specific chores if applicable}
-- [ ] Work {weekdays only}
-  - [ ] standup
-  - [ ] {work tasks}
-- [ ] Task 1
-- [ ] Task 2 {events/reminders if applicable}
-
-## 🚧 Blockers
-
-- (none) or blocker description
-
----
-
-## 🤔 Reflect
-
-<!-- Fill in the evening with /reflect -->
-
-### What I learned
-
--
-
-### What went well
-
--
-
-### What is next
-
--
-
-### ⚠ Friction
-
--
-```
+Create or update `YYYY-wkNN-day.md` in the sanctum directory using the format in
+[DAILY_TEMPLATE.md](DAILY_TEMPLATE.md).
 
 If updating an existing file, preserve any content already written (checked chores, completed tasks,
 notes). Only update sections that need changes.
