@@ -19,7 +19,7 @@ If no domain is given, ask:
 
 > What domain are we setting a north star for? Name an area of your life you want to commit to.
 
-Read `10 - Sanctum/north-stars.md` and `10 - Sanctum/backlog.md` to check:
+Locate the sanctum directory per the journal domain's discovery convention. Read `north-stars.md` and `backlog.md` from it to check:
 - Does this domain already have an active north star? If so, flag it: "You already have an active
   north star for #domain/AREA — do you want to replace it, or pick a different domain?"
 - Are there existing backlog items for this domain? Surface them as context.
@@ -86,13 +86,13 @@ Iterate until the user confirms.
 
 ## Step 4: Write to North Stars
 
-Read `10 - Sanctum/north-stars.md`. Add a row to the Active table:
+Read `north-stars.md` from the sanctum directory. Add a row to the Active table:
 
 | Domain | Goal | Target Date | Quest | Status |
 |---|---|---|---|---|
 | #domain/AREA | Goal statement | YYYY-MM-DD | — | 🔄 |
 
-If the domain is new, also add a section header to `10 - Sanctum/backlog.md`:
+If the domain is new, also add a section header to `backlog.md` in the sanctum directory:
 
 ```markdown
 ## Domain Name #domain/area

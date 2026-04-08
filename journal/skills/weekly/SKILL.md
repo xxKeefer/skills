@@ -20,6 +20,8 @@ challenge overcommitment, celebrate momentum, push back on avoidance.
 
 Determine the sprint dates (Monday → Sunday) and the file name: `YYYY-wkNN-sprint.md`.
 
+Locate the sanctum directory per the journal domain's discovery convention.
+
 ## Step 2: Review Last Sprint
 
 Read the previous ponder file (`YYYY-wkPP-ponder.md`) if it exists. If no ponder exists, read
@@ -36,7 +38,7 @@ If no previous sprint exists (first sprint), skip this and note it's the inaugur
 
 ## Step 3: Surface Domain Status
 
-Read `10 - Sanctum/north-stars.md` and `10 - Sanctum/backlog.md`.
+Read `north-stars.md` and `backlog.md` from the sanctum directory.
 
 Present:
 > **Domain status:**
@@ -96,9 +98,9 @@ Surface incomplete items from the previous sprint:
 
 ## Step 8: Write Sprint Plan
 
-Read `10 - Sanctum/occasions.md` for any notable events this week.
+Read `occasions.md` from the sanctum directory for any notable events this week.
 
-Create `10 - Sanctum/YYYY-wkNN-sprint.md`:
+Create `YYYY-wkNN-sprint.md` in the sanctum directory:
 
 ```markdown
 ---

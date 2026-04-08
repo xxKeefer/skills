@@ -23,6 +23,8 @@ Determine the period and file name:
 - Monthly: `YYYY-MM-chronicle.md`
 - Yearly: `YYYY-chronicle.md`
 
+Locate the sanctum directory per the journal domain's discovery convention.
+
 Check if the file already exists. If so:
 > Chronicle for {period} already exists. Update it, or start fresh?
 
@@ -32,8 +34,8 @@ Check if the file already exists. If so:
 Read all files from the month:
 - Sprint plans (`YYYY-wkNN-sprint.md` for weeks in this month)
 - Ponder files (`YYYY-wkNN-ponder.md` for weeks in this month)
-- North stars (`10 - Sanctum/north-stars.md`)
-- Quest files (`10 - Sanctum/quest-*.md`) for active quests
+- North stars (`north-stars.md` in the sanctum directory)
+- Quest files (`quest-*.md` in the sanctum directory) for active quests
 
 ### For yearly chronicles
 Read all monthly chronicles from the year. If monthly chronicles don't exist, read ponder files
@@ -112,7 +114,7 @@ Iterate until the user is satisfied.
 
 ## Step 9: Write Chronicle File
 
-Create the file in `10 - Sanctum/`:
+Create the file in the sanctum directory:
 
 ### Monthly (`YYYY-MM-chronicle.md`)
 ```markdown

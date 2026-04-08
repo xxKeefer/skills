@@ -18,7 +18,7 @@ ask questions, don't just present a template. Be encouraging about wins, direct 
 - A **file path** — target a specific file
 - **Nothing** — target today
 
-Find `10 - Sanctum/YYYY-wkNN-day.md`. If the file doesn't exist:
+Locate the sanctum directory per the journal domain's discovery convention, then find `YYYY-wkNN-day.md` within it. If the file doesn't exist:
 > No daily file for today. Run `/daily` first, or should I create a minimal one and go straight
 > to reflection?
 

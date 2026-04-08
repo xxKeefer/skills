@@ -15,14 +15,14 @@ partner and encouraging mentor — challenge unrealistic timelines, celebrate th
 
 `<user-input>` may contain a domain name or north star reference.
 
-Read `10 - Sanctum/north-stars.md` to find the active north star for the domain.
+Locate the sanctum directory per the journal domain's discovery convention. Read `north-stars.md` from it to find the active north star for the domain.
 
 If no domain given or no active north star found, ask:
 
 > Which north star are we mapping a quest for? Give me a domain name, or run `/smart-goal` first
 > to set one.
 
-Check if a quest file already exists (`10 - Sanctum/quest-<domain>.md`). If so:
+Check if a quest file already exists (`quest-<domain>.md` in the sanctum directory). If so:
 
 > There's already a quest for #domain/AREA. Update it, or start fresh?
 
@@ -95,7 +95,7 @@ Link them as wikilinks to expected future notes.
 
 ## Step 7: Write the Quest File
 
-Create `10 - Sanctum/quest-<domain>.md` with:
+Create `quest-<domain>.md` in the sanctum directory with:
 
 ```markdown
 ---
@@ -131,7 +131,7 @@ up: "[[north-stars]]"
 |---|---|---|
 ```
 
-Update `10 - Sanctum/north-stars.md` — set the Quest column for this domain to `[[quest-AREA]]`.
+Update `north-stars.md` in the sanctum directory — set the Quest column for this domain to `[[quest-AREA]]`.
 
 ## Step 8: Suggest Next Steps
 

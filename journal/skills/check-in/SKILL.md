@@ -12,7 +12,7 @@ Adhoc micro-reflection. No questions, no ceremony — just capture and go.
 
 ## Step 1: Find the Daily File
 
-Find today's `10 - Sanctum/YYYY-wkNN-day.md`.
+Locate the sanctum directory per the journal domain's discovery convention, then find today's `YYYY-wkNN-day.md` within it.
 
 If the file doesn't exist:
 > No daily file for today. Run `/daily` first, or should I create a minimal one?

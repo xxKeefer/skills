@@ -18,7 +18,7 @@ domains. Be a blend of blunt accountability partner and encouraging mentor.
 - An **action** (e.g., "add", "remove", "reprioritise")
 - **Nothing** — show the full backlog overview
 
-Read `10 - Sanctum/backlog.md` and `10 - Sanctum/north-stars.md`.
+Locate the sanctum directory per the journal domain's discovery convention. Read `backlog.md` and `north-stars.md` from it.
 
 ## Step 2: Present Current State
 
@@ -78,7 +78,7 @@ Remove any active north star for that domain from `north-stars.md` and note the 
 
 ## Step 4: Write Changes
 
-Update `10 - Sanctum/backlog.md` and/or `10 - Sanctum/north-stars.md` with changes.
+Update `backlog.md` and/or `north-stars.md` in the sanctum directory with changes.
 
 Show what changed:
 > **Updated vault:**

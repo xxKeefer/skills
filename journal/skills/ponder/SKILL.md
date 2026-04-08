@@ -19,7 +19,7 @@ keep — surface patterns the user can't see from inside their own week.
 - A **file path** — update an existing ponder file
 - **Nothing** — retro the current/most recent sprint
 
-Find the sprint plan: `10 - Sanctum/YYYY-wkNN-sprint.md`.
+Locate the sanctum directory per the journal domain's discovery convention, then find the sprint plan `YYYY-wkNN-sprint.md` within it.
 
 ## Step 2: Gather Data
 
@@ -27,7 +27,7 @@ Read all files for the sprint:
 - `YYYY-wkNN-sprint.md` — what was committed
 - `YYYY-wkNN-mon.md` through `YYYY-wkNN-sun.md` — daily files (as many as exist)
 - Previous ponder (`YYYY-wkPP-ponder.md`) — for trend comparison
-- `10 - Sanctum/north-stars.md` — for progress assessment
+- `north-stars.md` (in the sanctum directory) — for progress assessment
 - Recent ponder files (2–4 prior sprints if available) — for pattern detection
 
 Extract:
@@ -115,7 +115,7 @@ Experiments should be:
 
 ## Step 8: Check Dormant Domains
 
-Read `10 - Sanctum/backlog.md` and cross-reference with sprint history.
+Read `backlog.md` from the sanctum directory and cross-reference with sprint history.
 
 For domains dormant 3+ sprints, push back hard:
 > #domain/AREA has been dormant for {N} sprints. You said this mattered when you set it up.
@@ -124,7 +124,7 @@ For domains dormant 3+ sprints, push back hard:
 
 ## Step 9: Write Ponder File
 
-Create `10 - Sanctum/YYYY-wkNN-ponder.md`:
+Create `YYYY-wkNN-ponder.md` in the sanctum directory:
 
 ```markdown
 ---
