@@ -1,7 +1,5 @@
 # When to Mock
 
-> Load the relevant [stack context](tests.md#stack-contexts) for framework-specific mocking patterns.
-
 Mock at **system boundaries** only:
 
 - **API / HTTP layer** — mock the SDK or API client module

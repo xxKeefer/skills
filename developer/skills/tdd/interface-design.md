@@ -1,7 +1,5 @@
 # Interface Design for Testability
 
-> Load the relevant [stack context](tests.md#stack-contexts) for framework-specific examples.
-
 Good interfaces make testing natural:
 
 1. **Accept dependencies, don't create them**

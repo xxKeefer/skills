@@ -1,7 +1,5 @@
 # Refactor Candidates
 
-> Load the relevant [stack context](tests.md#stack-contexts) for framework-specific migration opportunities.
-
 After TDD cycle, look for:
 
 - **Duplication** -> Extract function/class

@@ -1,7 +1,5 @@
 # Good and Bad Tests
 
-> Examples use pseudocode. Load the relevant [stack context](#stack-contexts) for framework-specific patterns.
-
 ## Good vs Bad
 
 **Good**: Tests observable behavior through public output and user interaction.
@@ -166,10 +164,4 @@ test("accepts valid item data")
   expect(result.success).toBe(true)
 ```
 
----
 
-## Stack Contexts
-
-Load when the task touches a specific part of the stack:
-
-- **Frontend**: [fe_stack.md](fe_stack.md) — Vue 3, Vitest, Pinia, TanStack Query, @testing-library/vue
