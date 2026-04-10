@@ -36,3 +36,4 @@ Anytime: explain-it, document-it, improve-it, qa-it
 | `/improve-it` | Find architectural improvement opportunities |
 | `/qa-it` | Generate manual QA test plans |
 | `/explain-it` | Unpack agent reasoning transparently |
+| `/setup-guard-rails-typescript` | Pre-commit hooks for formatting, types, and tests |
