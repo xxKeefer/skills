@@ -1,6 +1,5 @@
 ---
 name: plan-it
-write-to: "{plans_dir}/plan_{TICKET}.md"
 description: >
   Break a task into an executable plan for /do-it — or skip planning if the task is simple enough.
   Accepts an issue tracker ticket, a /spike-it output file, or a direct description. Use when the user
@@ -16,7 +15,7 @@ Assess a task and either produce an executable plan or hand off directly to `/do
 `$ARGUMENTS` may contain any combination of:
 
 - **Ticket keys** (e.g. `ENG-29019`) — fetch from the issue tracker
-- **Spike file path** (e.g. `{plans_dir}/spike_ENG-29019.md`) — read the file
+- **Spike file path** (e.g. `.ai/spike_ENG-29019.md`) — read the file
 - **Free-text description** — anything else
 
 If `$ARGUMENTS` is empty, check the current conversation for a `/spike-it` output. If still nothing, use **AskUserQuestion**:
@@ -97,7 +96,7 @@ If existing tests need tightening or migrating before implementation begins, mak
 
 ## Step 5: Write the Plan
 
-Write to the path specified by `write-to` in this skill's frontmatter. Resolve `{plans_dir}` using the "Plans Directory" convention in the user's global CLAUDE.md. If no convention is configured, use **AskUserQuestion** to ask where to write.
+Write the output using `/write-to-file` with filename `plan_{identifier}.md`.
 
 Use the [output template](OUTPUT_TEMPLATE.md).
 

@@ -15,7 +15,7 @@ simple task that skipped planning.
 
 Check these sources in order:
 
-1. **`$ARGUMENTS`** — a plan file path (e.g. `{plans_dir}/plan_TICKET-123.md`) or ticket key
+1. **`$ARGUMENTS`** — a plan file path (e.g. `.ai/plan_TICKET-123.md`) or ticket key
 2. **Conversation context** — a `/plan-it` output or a simple task description the user confirmed
 3. If nothing found, use **AskUserQuestion**: "What are we building? Give me a plan file path,
    ticket key, or description."

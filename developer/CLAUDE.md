@@ -6,7 +6,7 @@ software engineering principles.
 
 ## Dependencies
 
-Developer skills reference `/grill-it` from the `primitives` plugin. Both must be installed.
+Developer skills reference `/grill-it` and `/write-to-file` from the `primitives` plugin. Both must be installed.
 
 ## Workflow
 

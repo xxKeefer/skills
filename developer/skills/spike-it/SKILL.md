@@ -1,6 +1,5 @@
 ---
 name: spike-it
-write-to: "{plans_dir}/spike_{TICKET}.md"
 description: >
   Deep-dive investigation of a feature, bug, or technical problem. Accepts issue tracker tickets,
   wiki pages, or a plain description — delegates to /grill-it for clarification until the problem is
@@ -57,7 +56,7 @@ Summarise key findings to the user before writing. Ask if anything is missing.
 
 ## Step 4: Produce the Document
 
-Write the output to the path specified by `write-to` in this skill's frontmatter. Resolve `{plans_dir}` using the "Plans Directory" convention in the user's global CLAUDE.md. If no convention is configured, use **AskUserQuestion** to ask where to write.
+Write the output using `/write-to-file` with filename `spike_{identifier}.md`.
 
 Use the [output template](OUTPUT_TEMPLATE.md) as a starting structure but **adapt it to the investigation**:
 

@@ -15,3 +15,4 @@ installed.
 | Skill | Purpose | Used by |
 |---|---|---|
 | `/grill-it` | Relentless questioning until shared understanding | spike-it, design-it, hunt-it, smart-goal |
+| `/write-to-file` | Write output files to `.ai/` for `@`-reference | spike-it, plan-it, task-it |

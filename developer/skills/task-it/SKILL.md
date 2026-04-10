@@ -15,7 +15,7 @@ Decompose a `/spike-it` output into tickets, get approval, then create them unde
 
 `$ARGUMENTS` may contain:
 
-- **Spike file path** (e.g. `{plans_dir}/spike_TICKET-123.md`) — read the file
+- **Spike file path** (e.g. `.ai/spike_TICKET-123.md`) — read the file
 - **Ticket key** of the spike ticket — fetch from the issue tracker
 - **Nothing** — check the current conversation for a `/spike-it` output
 

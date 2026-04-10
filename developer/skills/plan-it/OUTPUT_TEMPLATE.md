@@ -12,7 +12,7 @@ Use this structure. Adapt sections to the task — drop what's irrelevant, add w
 {2-4 sentences. What are we building/changing and why. Link to spike if one exists.}
 
 **Ticket:** [TICKET-XXXXX](TICKET_URL)
-**Spike:** `{plans_dir}/spike_TICKET-XXXXX.md` _(if applicable)_
+**Spike:** `.ai/spike_TICKET-XXXXX.md` _(if applicable)_
 
 ---
 
