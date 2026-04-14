@@ -8,31 +8,33 @@ description: >
 
 # Learn It
 
-Analyze the current conversation, identify repeatable patterns, and produce a new skill.
+Extract a repeatable pattern from the current conversation and turn it into a skill. This is a
+HITL wrapper around `/write-a-skill` -- it provides conversation context that write-a-skill
+wouldn't otherwise have.
 
 ## Step 1: Scan the Conversation
 
 Review the full conversation history. Look for:
 
-- **Repeated sequences** — steps the user or agent performed in a consistent order
-- **Decision points** — where the user was asked to choose and their choice shaped the workflow
-- **Inputs and outputs** — what went in (ticket, file path, description) and what came out (document, code, commits)
-- **Tool patterns** — which tools were used, in what order, with what kind of arguments
-- **Clarification loops** — where ambiguity was resolved through questions
-- **Checkpoints** — where the user reviewed and approved before continuing
+- **Repeated sequences** -- steps performed in a consistent order
+- **Decision points** -- where choices shaped the workflow
+- **Inputs and outputs** -- what went in and what came out
+- **Tool patterns** -- which tools, in what order, with what arguments
+- **Clarification loops** -- where ambiguity was resolved through questions
+- **Checkpoints** -- where the user reviewed and approved before continuing
 
 ## Step 2: Identify the Core Pattern
 
 Distill what you found into:
 
-- **One-sentence purpose** — what does this workflow accomplish?
-- **Trigger phrases** — when would a user invoke this? (e.g. "do X", "run Y", "create Z")
-- **Inputs** — what does the skill need to start? (arguments, context, files)
-- **Steps** — the ordered sequence of actions, including decision branches
-- **Outputs** — what does the skill produce? (files, commits, issues, documents)
-- **Principles** — any recurring rules or constraints observed (e.g. "always ask before committing", "mock at boundaries only")
+- **One-sentence purpose** -- what does this workflow accomplish?
+- **Trigger phrases** -- when would a user invoke this?
+- **Inputs** -- what does the skill need to start?
+- **Steps** -- the ordered sequence, including decision branches
+- **Outputs** -- what does the skill produce?
+- **Principles** -- recurring rules or constraints observed
 
-Present this summary to the user:
+Present the summary:
 
 > **Pattern detected: `{name}`**
 >
@@ -46,61 +48,12 @@ Present this summary to the user:
 
 Wait for confirmation. Iterate if needed.
 
-## Step 3: Assess Skill Structure
+## Step 3: Hand Off to /write-a-skill
 
-Determine what files the skill needs:
+Pass the confirmed pattern as context to `/write-a-skill`, including:
 
-- **SKILL.md** — always required. The main workflow instructions.
-- **Supporting files** — only if needed:
-  - Output templates (if the skill produces a structured document)
-  - Reference material (if the skill applies specific principles repeatedly)
-  - Scripts (if the skill runs external tools)
+- The distilled pattern from Step 2
+- The target domain (ask the user if not obvious)
+- Any conversation examples that illustrate the workflow
 
-Keep SKILL.md under 500 lines. Move detailed reference material to separate files and link them.
-
-## Step 4: Write the Skill
-
-Write the skill files into the target directory. Resolve the target path:
-
-1. If `$ARGUMENTS` contains a skill name, use it as the directory name
-2. Otherwise, derive a name from the pattern (lowercase, hyphenated)
-3. Use **AskUserQuestion** to confirm: "Write skill to `{path}`?"
-
-### SKILL.md structure
-
-```yaml
----
-name: {skill-name}
-description: >
-  {What the skill does. When to use it. Trigger phrases.}
----
-```
-
-Follow these rules when writing the skill body:
-
-- **Framework-agnostic** — no hardcoded tools, libraries, or languages unless the skill is inherently stack-specific
-- **Step-based** — numbered steps with clear entry/exit criteria
-- **Decision points explicit** — where the workflow branches, state the condition and each path
-- **User checkpoints** — mark where the skill should pause for user confirmation
-- **Terse** — every line earns its place. No filler.
-- **Link, don't inline** — reference supporting files rather than embedding large blocks
-
-### Quality checks
-
-Before presenting the skill:
-
-- [ ] Each step has a clear "done" signal
-- [ ] Inputs are documented (what `$ARGUMENTS` accepts)
-- [ ] The skill doesn't duplicate an existing skill's responsibility
-- [ ] No framework or tool coupling unless inherently required
-- [ ] Supporting files are only created when they add value
-
-## Step 5: Present and Offer Next Steps
-
-Show the file path(s) and a brief summary.
-
-Ask:
-
-1. **Test it** — try invoking the skill now to verify it works
-2. **Adjust** — revise the skill
-3. **Done** — leave as-is
+Let `/write-a-skill` handle the actual skill authoring, quality checks, and review.
