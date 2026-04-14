@@ -10,6 +10,8 @@ description: >
 
 # Spike It
 
+This is the PRD skill. It produces the specification that feeds `/task-it`.
+
 Build a complete understanding of a problem, then create a GitHub issue that captures it.
 
 ## Step 1: Parse Inputs
