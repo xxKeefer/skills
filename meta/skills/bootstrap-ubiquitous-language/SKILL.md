@@ -1,13 +1,13 @@
 ---
-name: bootstrap-glossary
+name: bootstrap-ubiquitous-language
 description: >
   Bootstrap a ubiquitous language glossary for a brownfield project by mining the codebase for
   domain terms. Each proposed entry is verified by the human one at a time. Use when the user says
-  "bootstrap glossary", "seed glossary", "extract domain terms", or wants to create an initial
-  glossary from an existing codebase.
+  "bootstrap ubiquitous language", "bootstrap glossary", "seed glossary", "extract domain terms",
+  or wants to create an initial glossary from an existing codebase.
 ---
 
-# Bootstrap Glossary
+# Bootstrap Ubiquitous Language
 
 Mine a brownfield codebase for domain terminology and build a glossary from scratch. Every
 proposed term goes through human verification -- nothing gets added without approval.

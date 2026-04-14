@@ -17,4 +17,4 @@ Meta skills reference `/grill-it` from the `primitives` plugin. Both must be ins
 | `/teach-it` | Correct agent behaviour via persistent feedback |
 | `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
 | `/ubiquitous-language` | Extract and formalise domain terminology into a glossary |
-| `/bootstrap-glossary` | Mine a brownfield codebase for domain terms, human-verified one at a time |
+| `/bootstrap-ubiquitous-language` | Mine a brownfield codebase for domain terms, human-verified one at a time |
