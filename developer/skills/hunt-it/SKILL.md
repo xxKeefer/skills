@@ -88,65 +88,72 @@ After investigation, present findings:
 If the root cause is unclear, present your best hypothesis and what evidence supports or contradicts
 it. Ask the user if they can confirm or provide additional context.
 
-## Step 4: Propose the Fix
+## Step 4: Create the GitHub Issue
 
-Assess complexity the same way `/plan-it` does:
+Always create a GitHub issue as the output -- investigation findings and fix plan live in the
+issue, not just the conversation. Use `gh issue create`.
 
-**Simple** (ALL true):
+Assess complexity to determine issue structure:
 
-- Scope is 1-3 files
-- Fix is obvious from the root cause
-- No architectural decisions to make
+**Simple** (ALL true: scope is 1-3 files, fix is obvious, no architectural decisions):
 
-If simple:
+Create a short issue and offer to `/do-it` immediately.
 
-> Straightforward fix — [1-sentence description]. Want me to `/do-it`?
+**Complex** -- create a full issue with TDD fix plan.
 
-**Complex** — produce a fix plan using the same structure as `/plan-it`:
+### Issue template
 
-- Ordered steps, each atomic and testable
-- First step locks down the bug with a failing test (RED phase of TDD)
-- Subsequent steps apply the fix and verify
-- Final step checks for the same pattern elsewhere (blast radius from Step 3)
+Use durability principles: no file paths or line numbers in the issue body. Describe modules,
+behaviours, and contracts instead.
 
-### Step structure
+```markdown
+## Problem
 
+**Symptom:** one-line summary
+**Confidence:** Clear | Partial | Vague
+**Actual behavior:** what happens
+**Expected behavior:** what should happen
+**Reproduction:** steps if applicable
+
+## Root Cause Analysis
+
+Describe the modules, behaviours, and contracts involved -- NOT file paths or line numbers.
+What assumption is wrong? What contract is violated?
+
+## TDD Fix Plan
+
+1. **RED**: test that captures the bug
+   **GREEN**: minimal change to pass
+
+2. **RED**: next behaviour (if multi-step)
+   **GREEN**: minimal change
+
+**REFACTOR**: cleanup if needed
+
+## Acceptance Criteria
+
+- [ ] Failing test captures the reported symptom
+- [ ] Fix addresses root cause, not just symptom
+- [ ] All new tests pass
+- [ ] Existing tests still pass
+- [ ] Blast radius checked -- no remaining instances of the faulty pattern
 ```
-### Step 1: Reproduce with a failing test
 
-**What:** Write a test that captures the exact bug — it must fail on current code
-**Files:** <test file path>
-**Done when:** Test fails with the reported symptom
-
-### Step 2: Fix [brief description]
-
-**What:** <1-2 sentences describing the change>
-**Files:** <paths to modify>
-**Done when:** Failing test passes, existing tests still pass
-
-### Step 3: Check blast radius (if applicable)
-
-**What:** Apply the same fix to related code identified in Step 3
-**Files:** <paths>
-**Done when:** No remaining instances of the faulty pattern
-```
+Label the issue as `bug`.
 
 ## Step 5: Confirm
 
-Present the full picture:
+Present the issue URL and summary:
 
 > **Bug hunt: `{summary}`**
 >
+> **Issue:** #N
 > **Root cause:** {one-line}
-> **Fix:** {N} steps
->
-> 1. {step 1 title}
-> 2. {step 2 title}
->    ...
+> **Fix:** {simple: 1-liner | complex: N RED-GREEN cycles}
 >
 > Ready to `/do-it`, or adjust anything?
 
-Wait for the user. If they want changes, revise. If they want to execute, suggest `/do-it`.
+Wait for the user. If they want changes, edit the issue. If they want to execute, suggest `/do-it`.
 
 ## Guiding Principles
 
