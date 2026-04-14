@@ -72,6 +72,21 @@ Three long-lived mutable files. Skills must read-modify-write carefully (never o
 - 4th domain requires explicit stretch-goal override -- coach blocks by default
 - Dormant domains stay in backlog, challenged after 3+ sprints
 
+## Skills
+
+| Skill | Purpose |
+|---|---|
+| `/weekly` | Monday sprint planning ceremony |
+| `/daily` | Morning standup and day file |
+| `/check-in` | Adhoc mid-day micro-reflection |
+| `/reflect` | Evening reflection |
+| `/ponder` | Sprint retro |
+| `/chronicle` | Monthly or yearly progress arc |
+| `/vault` | Manage the life backlog and north stars |
+| `/smart-goal` | SMART goal setting for any life domain |
+| `/quest` | Map an actionable route to achieve a north star |
+| `/edit-article` | Structural and prose editing for Obsidian notes |
+
 ## Dependencies
 
 Journal skills reference `/grill-it` from the `primitives` plugin for conversational coaching

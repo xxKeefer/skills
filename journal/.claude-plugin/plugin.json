@@ -1,7 +1,7 @@
 {
   "name": "journal",
   "description": "Life admin skill suite -- agile-inspired personal growth system for Obsidian. Requires primitives.",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "author": {
     "name": "xxkeefer"
   }
