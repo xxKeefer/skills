@@ -7,6 +7,7 @@ software engineering principles.
 ## Dependencies
 
 Developer skills reference `/grill-it` and `/write-to-file` from the `primitives` plugin. Both must be installed.
+Several skills use `gh` CLI to create and manage GitHub Issues.
 
 ## Workflow
 
@@ -24,7 +25,7 @@ Anytime: explain-it, document-it, improve-it, qa-it
 | Skill | Purpose |
 |---|---|
 | `/spike-it` | Deep-dive investigation of a problem |
-| `/task-it` | Decompose a spike into tracked tickets |
+| `/task-it` | Decompose a spike into GitHub issues |
 | `/plan-it` | Break a task into ordered, atomic steps |
 | `/do-it` | Execute a plan step-by-step via /tdd |
 | `/tdd` | Red-green-refactor loop |

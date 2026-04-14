@@ -1,18 +1,17 @@
-# Output Template
+# Issue Template
 
 Use this structure. Adapt sections to the task — drop what's irrelevant, add what's needed.
 
 ---
 
 ```markdown
-# {TICKET}: {Brief Title}
+# {conventional prefix}: {Brief Title}
 
 ## Summary
 
-{2-4 sentences. What are we building/changing and why. Link to spike if one exists.}
+{2-4 sentences. What are we building/changing and why.}
 
-**Ticket:** [TICKET-XXXXX](TICKET_URL)
-**Spike:** `.ai/spike_TICKET-XXXXX.md` _(if applicable)_
+**Spike:** #N _(if applicable)_
 
 ---
 
@@ -37,14 +36,12 @@ Include file path and a 1-sentence description of why it's the reference.}
 
 **What:** {1-2 sentences}
 **Files:** {paths to create or modify}
-**Tests:** {what to test}
 **Done when:** {single sentence}
 
 ### Step 2: {Title}
 
 **What:** {1-2 sentences}
 **Files:** {paths to create or modify}
-**Tests:** {what to test}
 **Done when:** {single sentence}
 
 ---

@@ -1,30 +1,30 @@
 ---
 name: spike-it
 description: >
-  Deep-dive investigation of a feature, bug, or technical problem. Accepts issue tracker tickets,
+  Deep-dive investigation of a feature, bug, or technical problem. Accepts GitHub issue references,
   wiki pages, or a plain description — delegates to /grill-it for clarification until the problem is
-  fully understood, then produces a terse output document. Use when the user says "spike it",
+  fully understood, then creates a GitHub issue capturing the spike. Use when the user says "spike it",
   "spike this", "investigate this", "flesh this out", "hydrate ticket", "improve ticket", "research
   this", "feasibility study", or wants to fully understand a problem before committing to implementation.
 ---
 
 # Spike It
 
-Build a complete understanding of a problem, then produce a terse document that captures it.
+Build a complete understanding of a problem, then create a GitHub issue that captures it.
 
 ## Step 1: Parse Inputs
 
 `$ARGUMENTS` may contain any combination of:
 
-- **Ticket keys** (e.g. `ENG-29019`, `PLAT-1234`) — fetch from the issue tracker
+- **Issue references** (e.g. `#42`, `#123`) — fetch from GitHub via `gh`
 - **Wiki/documentation URLs** — fetch the page content
-- **Free-text description** — anything that isn't a ticket key or documentation URL
+- **Free-text description** — anything that isn't an issue reference or documentation URL
 
 If `$ARGUMENTS` is empty, use **AskUserQuestion**:
 
-> What are we spiking? Give me a ticket key, documentation link, description, or any combination.
+> What are we spiking? Give me an issue number, documentation link, description, or any combination.
 
-Gather everything provided. For each ticket, fetch summary, description, acceptance criteria, linked tickets, and comments. For each documentation page, fetch the content. Summarise all gathered context back to the user in bullet points.
+Gather everything provided. For each issue, fetch title, body, labels, linked issues, and comments via `gh`. For each documentation page, fetch the content. Summarise all gathered context back to the user in bullet points.
 
 ## Step 2: Relentless Clarification
 
@@ -40,8 +40,11 @@ Invoke `/grill-it` to fully understand the problem before producing anything. Pa
 - **New dependencies** — Libraries, APIs, patterns being considered?
 - **Constraints** — Feature flags, backwards compatibility, performance, timeline?
 - **Designs** — Mockups, wireframes, design links?
-- **Related work** — Backend spikes, other tickets, prior art?
-- **Open questions** — Anything the user already knows is unresolved?
+- **Related work** — Other issues, prior art?
+
+**All questions must be resolved before proceeding.** If `/grill-it` surfaces questions that cannot
+be answered in-session, flag them as blockers and ask the user how to resolve them — do not carry
+unresolved questions into the output.
 
 ## Step 3: Research
 
@@ -54,11 +57,9 @@ Based on the clarified understanding, do the research needed to fill gaps. This 
 
 Summarise key findings to the user before writing. Ask if anything is missing.
 
-## Step 4: Produce the Document
+## Step 4: Create the GitHub Issue
 
-Write the output using `/write-to-file` with filename `spike_{identifier}.md`.
-
-Use the [output template](OUTPUT_TEMPLATE.md) as a starting structure but **adapt it to the investigation**:
+Compose the issue body using the [issue template](ISSUE_TEMPLATE.md) as a starting structure but **adapt it to the investigation**:
 
 - Drop sections that aren't relevant
 - Add sections the investigation warrants (e.g. "Migration Path", "Performance", "Security")
@@ -71,19 +72,19 @@ Use the [output template](OUTPUT_TEMPLATE.md) as a starting structure but **adap
 - `> blockquote` for one-line section summaries
 - Tables for comparisons, checkboxes for scope items
 - Horizontal rules (`---`) between major sections
-- Link tickets as `[TICKET-XXXXX](TICKET_URL)`
+- Reference issues as `#N`
 - Code snippets only to illustrate an API surface or pattern — not implementation
 - Acceptance criteria: each item = one observable, testable behaviour
 
+Create the issue with `gh issue create` using a `spike:` title prefix.
+
 ## Step 5: Present and Offer Next Steps
 
-Show the file path and a brief summary of what the document covers.
+Show the issue URL and a brief summary of what the spike covers.
 
 Ask the user which (if any) they want:
 
-1. **Adjust** — revise the document
-2. **Publish to project wiki** — ask for the target location, then create the page
-3. **Update the source ticket** — push description and acceptance criteria to the ticket
-4. **Create tickets** — hand off to `/task-it`
-5. **Plan implementation** — hand off to `/plan-it`
-6. **Done** — leave the document as-is
+1. **Adjust** — revise the issue
+2. **Create tickets** — hand off to `/task-it`
+3. **Plan implementation** — hand off to `/plan-it`
+4. **Done** — leave the issue as-is

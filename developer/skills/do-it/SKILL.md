@@ -15,13 +15,13 @@ simple task that skipped planning.
 
 Check these sources in order:
 
-1. **`$ARGUMENTS`** — a plan file path (e.g. `.ai/plan_TICKET-123.md`) or ticket key
+1. **`$ARGUMENTS`** — a plan file path (e.g. `.ai/plan_some-feature.md`) or issue reference (e.g. `#42`)
 2. **Conversation context** — a `/plan-it` output or a simple task description the user confirmed
 3. If nothing found, use **AskUserQuestion**: "What are we building? Give me a plan file path,
-   ticket key, or description."
+   issue number, or description."
 
-For plan files, read and parse the steps. For ticket keys without a plan file, fetch the ticket from
-the issue tracker and assess — if it's simple (1-3 files, obvious approach), proceed directly;
+For plan files, read and parse the steps. For issue references without a plan file, fetch the issue
+via `gh` and assess — if it's simple (1-3 files, obvious approach), proceed directly;
 otherwise suggest running `/plan-it` first.
 
 ## Step 2: Confirm Before Starting (optional)

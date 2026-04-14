@@ -14,14 +14,16 @@ Write the given content to `.ai/` in the root of the current working directory.
 2. Write the file to `.ai/{filename}`
 3. Report the written path so the user can load it with `@.ai/{filename}`
 
-## Naming conventions
+## Naming convention
 
-| Source | Filename pattern |
+Pattern: `{doctype}_{terse-description}.{ext}`
+
+Examples:
+
+| Doctype | Example filename |
 |---|---|
-| `/spike-it` | `spike_{identifier}.md` |
-| `/plan-it` | `plan_{identifier}.md` |
-| `/task-it` | `tasks_{identifier}.md` |
-| Other | `{descriptive_slug}.md` |
+| `plan` | `plan_auth-rewrite.md` |
+| `research` | `research_bundler-comparison.md` |
+| `scratch` | `scratch_api-sketch.md` |
 
-`{identifier}` is a ticket key (e.g. `ENG-123`) when available, otherwise a short kebab-case slug
-derived from the task description.
+`{terse-description}` is a short kebab-case slug derived from the task description.

@@ -31,3 +31,22 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 ```
 
 Requires `xxkeefer-skills@primitives`.
+
+## Permissions
+
+Several skills use `gh` CLI to interact with GitHub Issues. Add these to your Claude Code
+permissions:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh issue create:*)",
+      "Bash(gh issue edit:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue close:*)"
+    ]
+  }
+}
+```

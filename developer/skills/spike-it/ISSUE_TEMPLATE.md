@@ -1,7 +1,7 @@
-# Output Template
+# Issue Template
 
-Use this as a starting structure. Drop irrelevant sections. Add new sections if the investigation
-warrants them. Every section must earn its place.
+Use this as a starting structure for the GitHub issue body. Drop irrelevant sections. Add new
+sections if the investigation warrants them. Every section must earn its place.
 
 ---
 
@@ -30,9 +30,8 @@ warrants them. Every section must earn its place.
 
 ## Scope
 
-**Ticket:** [TICKET-XXXXX](TICKET_URL)
+**Related:** #N, #N _(links to related issues, spikes)_
 **Designs:** [link](url) _(if applicable)_
-**Related:** links to related tickets, spikes, epics
 **Feature flag:** `flag_name` _(if applicable)_
 
 **In scope:**
@@ -79,13 +78,6 @@ warrants them. Every section must earn its place.
 - Migration cost if introducing new patterns
 - API contracts or schema considerations
 - Performance implications
-
----
-
-## Open Questions
-
-- ~~Resolved question~~ — answer
-- Unresolved question — context on why it matters
 
 ---
 

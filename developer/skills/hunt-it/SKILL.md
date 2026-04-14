@@ -18,7 +18,7 @@ codebase, isolate the fault, then produce a plan to fix it.
 
 - **Error messages or stack traces** — pasted directly
 - **Bug report / user feedback** — description of observed vs expected behaviour
-- **Ticket keys** (e.g. `ENG-29019`) — fetch from the issue tracker
+- **Issue references** (e.g. `#42`) — fetch from GitHub via `gh`
 - **PR URL or number** — fetch context from the PR
 - **Log output** — runtime logs showing the failure
 - **Screenshots or reproduction steps** — user-provided observations

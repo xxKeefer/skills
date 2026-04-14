@@ -2,8 +2,8 @@
 name: plan-it
 description: >
   Break a task into an executable plan for /do-it — or skip planning if the task is simple enough.
-  Accepts an issue tracker ticket, a /spike-it output file, or a direct description. Use when the user
-  says "plan it", "plan this", "break this down", "make a plan", or wants to prepare work for execution.
+  Accepts a GitHub issue, a /spike-it output, or a direct description. Use when the user says "plan it",
+  "plan this", "break this down", "make a plan", or wants to prepare work for execution.
 ---
 
 # Plan It
@@ -14,13 +14,13 @@ Assess a task and either produce an executable plan or hand off directly to `/do
 
 `$ARGUMENTS` may contain any combination of:
 
-- **Ticket keys** (e.g. `ENG-29019`) — fetch from the issue tracker
-- **Spike file path** (e.g. `.ai/spike_ENG-29019.md`) — read the file
+- **Issue references** (e.g. `#42`) — fetch from GitHub via `gh`
+- **Spike file path** (e.g. `.ai/spike_some-feature.md`) — read the file
 - **Free-text description** — anything else
 
 If `$ARGUMENTS` is empty, check the current conversation for a `/spike-it` output. If still nothing, use **AskUserQuestion**:
 
-> What are we planning? Give me a ticket key, spike file, or description.
+> What are we planning? Give me an issue number, spike file, or description.
 
 Summarise the task back to the user in 2-4 bullets.
 
@@ -94,17 +94,21 @@ If existing tests need tightening or migrating before implementation begins, mak
 - Don't add steps for "review" or "cleanup" — those happen naturally in TDD's refactor phase
 - Don't duplicate test strategy — `/tdd` decides what to test and how
 
-## Step 5: Write the Plan
+## Step 5: Create the Plan Issue
 
-Write the output using `/write-to-file` with filename `plan_{identifier}.md`.
+Compose the issue body using the [issue template](ISSUE_TEMPLATE.md).
 
-Use the [output template](OUTPUT_TEMPLATE.md).
+Create the issue with `gh issue create` using a title with the appropriate conventional prefix.
+Include `**Spike:** #N` at the top of the body if a spike issue exists.
+
+Also write the plan to `.ai/` using `/write-to-file` with filename `plan_{terse-description}.md`
+so `/do-it` can consume it locally.
 
 ## Step 6: Confirm
 
 Present a summary:
 
-> **Plan for `{ticket}`** — {N} steps
+> **Plan for `{task}`** — {N} steps
 >
 > 1. {step 1 title}
 > 2. {step 2 title}

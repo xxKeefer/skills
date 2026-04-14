@@ -91,6 +91,6 @@ wants a strong read, not just a menu.
 
 ### 7. Create issue
 
-Create a refactor RFC as an issue in the project's issue tracker. Use the template in
+Create a refactor RFC as a GitHub issue via `gh issue create`. Use the template in
 [REFERENCE.md](REFERENCE.md). Do NOT ask the user to review before creating — just create it and
 share the URL.
