@@ -88,6 +88,9 @@ Use `/write-to-file` to write `.ai/research_{terse-description}.md`.
 
 > {One-sentence decision to be made}
 
+**Researched:** {date}
+**Status:** active | consumed | stale
+
 ## Context
 
 What prompted this research. Constraints. What's already locked in.
@@ -136,9 +139,17 @@ Guidance for the `/spike-it` session and any agent picking this up:
 
 ## Guiding Principles
 
+- **Stale research is worse than none** -- a research doc that drifts from reality actively
+  misleads. Every time a research artifact is referenced, verify its claims still hold. If a
+  decision was overturned, a library was swapped, or an approach failed in practice -- update
+  or delete the artifact immediately. Never leave stale research lying around.
 - **Decisions, not descriptions** -- the artifact captures what was decided and why, not a
   survey of everything that exists
 - **Anti-approaches are first-class** -- rejected options with reasoning prevent wasted cycles
 - **Steering notes are the payoff** -- concrete directives that make the spike session faster
 - **Durable** -- no assumptions about who reads this next. An agent dropped into the repo
   cold should get full context from this document alone
+- **Prune aggressively** -- once a research artifact has been fully consumed by a spike and
+  the decisions are implemented, delete it. The spike and code are now the source of truth.
+  Research docs are transient by nature -- they exist to inform decisions, not to document them
+  permanently
