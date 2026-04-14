@@ -12,11 +12,11 @@ Several skills use `gh` CLI to create and manage GitHub Issues.
 ## Workflow
 
 ```
-spike-it -> task-it -> plan-it -> do-it (uses tdd)
-                ^
-            design-it (explore APIs)
-            hunt-it (track bugs -> issue)
-            refactor-it (improve existing code -> issue)
+research-it -> spike-it -> task-it -> plan-it -> do-it (uses tdd)
+                              ^
+                          design-it (explore APIs)
+                          hunt-it (track bugs -> issue)
+                          refactor-it (improve existing code -> issue)
 
 Triage: triage-it (label state machine, agent briefs)
 QA: qa-it (interactive bug intake -> issues)
@@ -30,6 +30,7 @@ Setup: setup-pre-commit, setup-git-guardrails
 
 | Skill | Purpose |
 |---|---|
+| `/research-it` | Pre-spike research producing decision artifacts that steer spike sessions |
 | `/spike-it` | Deep-dive investigation of a problem (PRD process) |
 | `/task-it` | Decompose a spike into vertical-slice GitHub issues with HITL/AFK classification |
 | `/plan-it` | Break a task into ordered, atomic steps |
