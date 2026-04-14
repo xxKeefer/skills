@@ -76,11 +76,13 @@ Which category applies and how dependencies are handled:
 
 ## Implementation Recommendations
 
-Durable architectural guidance that is NOT coupled to current file paths:
+Durable architectural guidance -- no file paths or line numbers. Describe behaviours and
+contracts using the project's domain language.
 
 - What the module should own (responsibilities)
 - What it should hide (implementation details)
 - What it should expose (the interface contract)
 - How callers should migrate to the new interface
+- Each migration step leaves code working (tiny-commits principle)
 
 </issue-template>

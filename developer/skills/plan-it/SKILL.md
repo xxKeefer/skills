@@ -54,7 +54,8 @@ If the user agrees, stop here. If they want a plan anyway, continue.
 
 For complex tasks, decompose into **ordered implementation steps**. Each step must be:
 
-- **Atomic** — one commit's worth of work
+- **Atomic** — one commit's worth of work. Each step leaves the code in a working state
+  (Martin Fowler's tiny-commits principle -- no step introduces a regression)
 - **Testable** — has a clear "done" signal (tests pass, typecheck passes, behaviour verified)
 - **Independent enough to checkpoint** — user can review and commit after each step
 

@@ -47,7 +47,9 @@ Output format:
 1. Interface signature (types/methods)
 2. Usage example (how caller uses it)
 3. What this design hides internally
-4. Trade-offs of this approach
+4. Hidden complexity analysis -- what non-obvious complexity does this design introduce?
+   (error handling burden, state management, concurrency, migration cost)
+5. Trade-offs of this approach
 ```
 
 ### 3. Present Designs
@@ -57,6 +59,7 @@ Show each design with:
 1. **Interface signature** - types, methods, params
 2. **Usage examples** - how callers actually use it in practice
 3. **What it hides** - complexity kept internal
+4. **Hidden complexity** - non-obvious costs this design introduces
 
 Present designs sequentially so user can absorb each approach before comparison.
 
