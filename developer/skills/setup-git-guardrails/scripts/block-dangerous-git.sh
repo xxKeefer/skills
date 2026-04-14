@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Claude Code PreToolUse hook -- blocks dangerous git commands.
-# Receives $TOOL_INPUT as first argument (JSON with "command" field).
+# Receives tool input as JSON on stdin (with "command" field).
 
 set -euo pipefail
 
-COMMAND=$(echo "$1" | jq -r '.command // empty' 2>/dev/null)
+INPUT=$(cat)
+COMMAND=$(echo "$INPUT" | jq -r '.command // empty' 2>/dev/null)
 [ -z "$COMMAND" ] && exit 0
 
 # Patterns to block

@@ -44,7 +44,7 @@ Add the hook to the chosen settings file:
         "hooks": [
           {
             "type": "command",
-            "command": "{path}/block-dangerous-git.sh $TOOL_INPUT"
+            "command": "{path}/block-dangerous-git.sh"
           }
         ]
       }
