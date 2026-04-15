@@ -35,6 +35,12 @@
       "description": "Creative skills -- TTRPG, worldbuilding, narrative design.",
       "category": "productivity",
       "source": "./omen"
+    },
+    {
+      "name": "wiki",
+      "description": "Raw note intake, knowledge management, and vault indexing for Obsidian.",
+      "category": "productivity",
+      "source": "./wiki"
     }
   ]
 }

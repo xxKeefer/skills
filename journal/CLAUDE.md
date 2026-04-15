@@ -85,7 +85,6 @@ Three long-lived mutable files. Skills must read-modify-write carefully (never o
 | `/vault` | Manage the life backlog and north stars |
 | `/smart-goal` | SMART goal setting for any life domain |
 | `/quest` | Map an actionable route to achieve a north star |
-| `/edit-article` | Structural and prose editing for Obsidian notes |
 
 ## Dependencies
 

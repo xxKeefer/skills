@@ -1,0 +1,8 @@
+{
+  "name": "wiki",
+  "description": "Raw note intake, knowledge management, and vault indexing for Obsidian. Requires primitives.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}

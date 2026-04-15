@@ -15,6 +15,7 @@ workflows.
 | `journal` | Life admin -- agile-inspired personal growth | No |
 | `meta` | Skills about skills -- writing, auditing, teaching | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
+| `wiki` | Raw note intake, knowledge management, vault indexing | No |
 
 ## Architecture
 
