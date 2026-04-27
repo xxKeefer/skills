@@ -27,12 +27,23 @@ Read the file. Check if the Reflect section is already filled — if so:
 
 ## Step 2: Review the Day
 
-Read the Today section to see what was planned (chores are nested within it).
+Read the Today section to see what was planned (chores are nested within it). Also read the
+`## 🌱 Today's kaizen` section if present — this is the morning intent to evaluate.
 
 Ask:
 > How did today go? What got done, what didn't?
 
 Listen to the response. Don't interrogate — this should feel like a debrief, not a grilling.
+
+## Step 2.5: Close the One-Day PDCA
+
+If the daily file has a `## 🌱 Today's kaizen` line with a real intent (not `skipped`), surface
+it and ask:
+
+> Your morning intent was: "{intent}". How did it land — worked, partial, or dropped?
+
+Record the outcome by appending an `**Outcome:** worked | partial | dropped — short note` line
+beneath the intent in the daily file. If the morning intent was `skipped`, skip this step.
 
 ## Step 3: Walk Through Reflection
 
@@ -62,9 +73,38 @@ This feeds into tomorrow's `/daily`. Note unfinished tasks, next steps, things t
 This is the most important section for the coaching system. Friction entries get aggregated
 by `/ponder` and drive experiment suggestions.
 
-If the user mentions friction that's come up before (check recent daily files if accessible):
-> "This is the {N}th time you've flagged {friction}. That's a pattern. Want to try an experiment
-> to address it this sprint?"
+If the user mentions friction that's come up before (scan recent daily files in the sanctum for
+similar Friction entries — at least the last 3-5 days):
+
+> "This is the {N}th time you've flagged {friction}. Let's run a quick 5 Whys."
+
+Then walk through five `Why?` prompts, one at a time, each building on the previous answer. Stop
+early if the root cause becomes obvious before five. Record the chain in the daily file's
+Friction section as a nested block:
+
+```markdown
+- {friction summary}
+  - **Why 1:** {answer}
+  - **Why 2:** {answer}
+  - **Why 3:** {answer}
+  - **Root cause:** {plain statement}
+  - **Counter-measure:** {smallest possible next action}
+```
+
+Also append the same 5 Whys block to `kaizen.md` under the `## 5 Whys Log` section with a dated
+heading: `### YYYY-MM-DD -- {friction label}`.
+
+### Tiny improvement
+> One tiny improvement you noticed today? Could be the kaizen intent paying off, or something
+> serendipitous. Skip-able.
+
+If the user names one, append a row to `kaizen.md` under `## Improvement Log`:
+
+| Date | Domain | Tiny improvement | Triggered by |
+|---|---|---|---|
+| YYYY-MM-DD | #domain/AREA (best guess from context, or blank) | one-line description | morning intent / friction / serendipity |
+
+If they skip, do nothing — the row is optional.
 
 ## Step 4: Write to Daily File
 

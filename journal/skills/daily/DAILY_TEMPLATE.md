@@ -34,6 +34,7 @@ next: '[[YYYY-wkNN-nextday]]'
 ## 🌱 Today's kaizen
 
 - one near-zero-friction improvement to attempt today, or `skipped` if the user passed
+- **Outcome:** filled in by `/reflect` -- worked | partial | dropped -- short note
 
 ---
 
