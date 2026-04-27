@@ -34,6 +34,7 @@ Read these files from the sanctum directory for context:
 
 - `YYYY-wkNN-sprint.md` — this week's sprint plan (goals, habits, experiments)
 - `occasions.md` — chores and events for today
+- `kaizen.md` — Standards (locked-in baselines, surfaced as quiet reminders if relevant)
 - Previous day's file (if exists) — check "What is next" from last reflect
 
 ## Step 3: Build the Day
@@ -57,6 +58,17 @@ Ask:
 
 If they mention blockers, note them. If a blocker is recurring (appeared in previous dailies), flag
 it: "This has come up before -- is it time to address it directly?"
+
+### Kaizen Intent
+
+After confirming the checklist and blockers, ask once -- skip-able, no pressure:
+
+> One tiny improvement to try today? Something near-zero-friction -- a 1% nudge, not a heroic
+> change. "Nothing today" is a valid answer.
+
+If the user names something, capture it verbatim as the kaizen intent. If they skip (silence,
+"nothing", "skip", "pass"), record an explicit skip marker -- do not omit the section. The
+intent is the Plan half of a one-day PDCA loop that `/reflect` closes.
 
 ## Step 4: Write the Daily File
 

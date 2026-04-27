@@ -31,6 +31,10 @@ next: '[[YYYY-wkNN-nextday]]'
 
 - (none) or blocker description
 
+## 🌱 Today's kaizen
+
+- one near-zero-friction improvement to attempt today, or `skipped` if the user passed
+
 ---
 
 ## 🤔 Reflect
