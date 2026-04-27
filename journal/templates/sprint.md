@@ -19,9 +19,12 @@ next: "[[YYYY-wkNN-sprint]]"
 ## Stretch
 - #domain/area — Stretch goal description
 
+## Standards (from [[kaizen]])
+- Locked-in standard carried in automatically (read from kaizen.md Standards)
+
 ## Habits
 - Habit 1: N/7 target
-- Habit 2: N/7 target
+- Habit 2: N/7 target -- append " (calibrated)" if currently kaizen-shrunk
 
 ## Experiments
 - [ ] Experiment description (from [[YYYY-wkPP-ponder]])

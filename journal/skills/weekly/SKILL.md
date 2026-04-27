@@ -68,12 +68,34 @@ Challenge vague goals — apply the same pressure as `/smart-goal` but at sprint
 
 ## Step 5: Set Habits
 
-Ask:
-> What habits are you tracking this sprint? Give me the habit and the target (e.g., "walk dogs 5/7").
+Read `kaizen.md` from the sanctum directory. Treat the `## Standards` section as **locked-in
+baseline** -- carried forward automatically without asking the user to re-confirm. Surface them
+once for visibility:
 
-Carry forward habits from last sprint by default. Flag if a habit has been failing:
-> "You've hit {habit} only {N}% of the time over the last 3 sprints. Adjust the target or
-> recommit?"
+> **Standards (locked-in this sprint):**
+> - {standard 1}
+> - {standard 2}
+
+Then surface any `## Active Calibrations` rows whose Status is 🔄 so the user knows what's
+currently shrunk:
+
+> **Active calibrations in trial:**
+> - {calibration} (was: {original}) -- trial sprint [[YYYY-wkPP-sprint]]
+
+Ask:
+> What additional habits are you tracking this sprint, beyond the standards? Give me the habit
+> and the target (e.g., "walk dogs 5/7").
+
+Carry forward non-standard habits from last sprint by default. For any habit that has landed
+below 50% for **2+ consecutive sprints** (cross-reference the previous one or two ponders):
+
+> "{habit}" has missed for {N} sprints in a row. Want to kaizen-shrink it to a near-zero floor?
+> Suggested: "{near-zero version}". One sprint trial.
+
+If the user accepts, append a row to `kaizen.md` under `## Active Calibrations` with the
+calibration, the previous target as Standard / Habit, "failed {N} sprints" as Reason,
+`[[YYYY-wkNN-sprint]]` as Trial Sprint, and 🔄 as Status. Use the shrunk version in the sprint
+plan instead of the original. If declined, keep the original target -- the user owns the call.
 
 ## Step 6: Set Experiments
 
@@ -130,9 +152,13 @@ next: "[[YYYY-wkNN+1-sprint]]"
 ## Stretch
 - #domain/AREA — Stretch goal description
 
+## Standards (from [[kaizen]])
+- {locked-in standard 1}
+- {locked-in standard 2}
+
 ## Habits
 - emoji Habit: N/N target
-- emoji Habit: N/N target
+- emoji Habit: N/N target {append " (calibrated)" for any habit currently shrunk}
 
 ## Experiments
 - [ ] Experiment description (from [[YYYY-wkPP-ponder]])
