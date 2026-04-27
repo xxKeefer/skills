@@ -28,6 +28,7 @@ Read all files for the sprint:
 - `YYYY-wkNN-mon.md` through `YYYY-wkNN-sun.md` — daily files (as many as exist)
 - Previous ponder (`YYYY-wkPP-ponder.md`) — for trend comparison
 - `north-stars.md` (in the sanctum directory) — for progress assessment
+- `kaizen.md` — read all sections; filter Improvement Log to entries dated within this sprint
 - Recent ponder files (2–4 prior sprints if available) — for pattern detection
 
 Extract:
@@ -98,9 +99,33 @@ For each experiment from the sprint plan:
 > Did you try it? What happened?
 
 Based on the answer:
-- **Worked** → "Keep it. I'll carry it into next sprint as an established practice."
-- **Partially worked** → "Adjust and try again? What would you change?"
+- **Worked** → "Keep it -- graduating to a Standard." Append a row to `kaizen.md` under
+  `## Standards` with the experiment phrased as a standard, the relevant `#domain/AREA`, today's
+  date as Adopted, and `[[YYYY-wkNN-ponder]]` as Source.
+- **Partially worked** → "Adjust and try again? What would you change?" Carry forward as a
+  modified experiment for next sprint -- do **not** graduate.
 - **Didn't work / didn't try** → "Drop it, or was the timing just bad? Be honest."
+
+## Step 6.5: Habit Calibration
+
+For each habit tracked this sprint, check completion rate. If a habit was below 50%:
+
+> **{habit}** landed at {N}%. That's two sprints under the line. Want to kaizen-shrink it?
+> Suggested floor: "{near-zero version}". One sprint trial.
+
+If the user accepts, append a row to `kaizen.md` under `## Active Calibrations` with the
+calibration, the original habit, "<50% completion" as the Reason, the next sprint as Trial Sprint,
+and 🔄 as Status. If declined, leave it -- the failure is recorded in the ponder either way.
+
+## Step 6.6: Review Improvement Log
+
+Surface this sprint's tiny improvements:
+
+> **Tiny improvements logged this week ({N}):**
+> - {YYYY-MM-DD} -- {improvement}
+> ...
+
+If the count is zero, note it gently -- the improvement log being empty is itself a signal.
 
 ## Step 7: Suggest New Experiments
 
@@ -160,6 +185,11 @@ next: "[[YYYY-wkNN+1-ponder]]"
 ## Experiments
 - **{experiment}**: keep / drop / adjust — {outcome}
 - **New: {suggestion}**: {description} (1-sprint trial)
+
+## Kaizen
+- **Graduated standards:** {list of experiments graduated to kaizen.md Standards this sprint, or "none"}
+- **Improvements logged:** {N} ({brief one-line summary or "none"})
+- **Calibrations:** {list of kaizen-shrinks accepted this sprint, or "none"}
 
 ## Dormant Domains
 - {domains with dormancy count and challenge}

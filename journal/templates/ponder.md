@@ -32,5 +32,10 @@ next: "[[YYYY-wkNN-ponder]]"
 - **Experiment name**: keep / drop / adjust?
 - **New suggestion**: coach-suggested from friction patterns
 
+## Kaizen
+- **Graduated standards:** experiments promoted to kaizen.md Standards this sprint
+- **Improvements logged:** N -- one-line summary
+- **Calibrations:** kaizen-shrinks accepted this sprint
+
 ## Dormant Domains
 - #domain/area — dormant N sprints. Activate or consciously shelve?
