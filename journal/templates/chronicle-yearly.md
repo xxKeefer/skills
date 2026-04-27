@@ -29,5 +29,13 @@ next: "[[NNNN-chronicle]]"
 ## Friction Themes
 - Year-level recurring patterns
 
+## Kaizen
+- **Standards adopted (N):** list, or "none this year"
+- **Improvements logged (N):** monthly counts summary, or "none this year"
+- **Calibrations (N):** list of shrinks and re-grows, or "none this year"
+
 ## Coach Notes
 - Generated narrative about the year's arc, growth trajectory, direction for next year
+
+### Kaizen Arc
+- 2-3 sentence paragraph describing the year's compounding trajectory

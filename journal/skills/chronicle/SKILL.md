@@ -36,10 +36,13 @@ Read all files from the month:
 - Ponder files (`YYYY-wkNN-ponder.md` for weeks in this month)
 - North stars (`north-stars.md` in the sanctum directory)
 - Quest files (`quest-*.md` in the sanctum directory) for active quests
+- `kaizen.md` -- filter Standards by Adopted date in the period; filter Improvement Log by date;
+  filter Active Calibrations by Trial Sprint week falling in the period
 
 ### For yearly chronicles
 Read all monthly chronicles from the year. If monthly chronicles don't exist, read ponder files
-directly.
+directly. Also read `kaizen.md` and aggregate Standards / Improvement Log / Calibrations across
+the full year.
 
 ## Step 3: Compile North Star Progress
 
@@ -87,6 +90,17 @@ This is where the coaching shines — connect dots the user might not see:
 > "You flagged time pressure on philosophy 3 out of 4 weeks. The Tue/Thu experiment helped
 > week 3 but you dropped it week 4. Is the schedule the issue, or the commitment level?"
 
+## Step 6.5: Compile Kaizen Metrics
+
+From `kaizen.md`, count for the period:
+- **Standards adopted:** N (list each with adoption date and source ponder)
+- **Improvements logged:** N (one-line summary of the most notable, or full list if monthly)
+- **Calibrations applied:** N shrinks + N re-grows (list each with original target and trial
+  sprint)
+
+If any count is zero, say so explicitly -- the section must not be omitted. An empty improvement
+log over a month is itself a signal worth surfacing.
+
 ## Step 7: Write Coach Notes
 
 This is the narrative heart of the chronicle. Draft a 3–5 sentence narrative covering:
@@ -94,6 +108,10 @@ This is the narrative heart of the chronicle. Draft a 3–5 sentence narrative c
 - Key growth or regression
 - Emerging direction — where is the user trending?
 - Suggestion for next period's focus
+
+Also draft a separate **Kaizen Arc** paragraph (2-3 sentences) describing the trajectory of small
+wins: which standards stuck, what calibrations revealed about the user's real capacity, whether
+the improvement log shows compounding momentum or a flatline.
 
 For yearly chronicles, this should be more reflective:
 - What domains defined the year
@@ -143,8 +161,16 @@ next: "[[YYYY-NN-chronicle]]"
 ## Friction Themes
 {from Step 6}
 
+## Kaizen
+- **Standards adopted ({N}):** {list with adopted date + source ponder, or "none this month"}
+- **Improvements logged ({N}):** {full list or "none this month"}
+- **Calibrations ({N}):** {list with original + trial sprint, or "none this month"}
+
 ## Coach Notes
 {narrative from Step 7}
+
+### Kaizen Arc
+{2-3 sentence paragraph from Step 7 -- trajectory of compounding improvements}
 ```
 
 ### Yearly (`YYYY-chronicle.md`)
@@ -176,8 +202,16 @@ next: "[[NNNN-chronicle]]"
 ## Friction Themes
 {year-level patterns}
 
+## Kaizen
+- **Standards adopted ({N}):** {list, or "none this year"}
+- **Improvements logged ({N}):** {monthly counts summary, or "none this year"}
+- **Calibrations ({N}):** {list of shrinks and re-grows, or "none this year"}
+
 ## Coach Notes
 {reflective narrative}
+
+### Kaizen Arc
+{2-3 sentence paragraph -- the year's compounding trajectory}
 ```
 
 ## Step 10: Close

@@ -27,5 +27,13 @@ next: "[[YYYY-NN-chronicle]]"
 ## Friction Themes
 - Recurring friction pattern
 
+## Kaizen
+- **Standards adopted (N):** list with adoption date + source ponder, or "none this month"
+- **Improvements logged (N):** full list or "none this month"
+- **Calibrations (N):** list with original target + trial sprint, or "none this month"
+
 ## Coach Notes
 - Generated narrative about the month's arc, patterns, direction suggestions
+
+### Kaizen Arc
+- 2-3 sentence paragraph describing the month's trajectory of compounding improvements
