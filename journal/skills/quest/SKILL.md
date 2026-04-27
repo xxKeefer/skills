@@ -35,6 +35,23 @@ Ask the user:
 Use `/grill-it` mechanics to get an honest assessment. Push back on both overconfidence and
 underestimation. This grounds the milestones in reality.
 
+## Step 2.5: First Kaizen Step
+
+Before mapping milestones, grill for a near-zero-friction first session that could happen this
+sprint. Read the north star's `First Move` column from `north-stars.md` if `/smart-goal` already
+captured one -- start there, but push for something even more concrete and time-boxed.
+
+> What's the first session? Time-boxed (15-30 minutes), specific (an action, not a category),
+> and doable this sprint. "Open the editor and write three lines." "Walk to the wall and read
+> the route." "Schedule the lesson."
+
+Push back on anything that:
+- Is a category, not an action ("study Japanese" -> "open Anki and add five cards")
+- Won't fit in a single sitting this sprint
+- Requires more planning before it can start
+
+The first step survives across sprints until done -- it's the literal entry point to the quest.
+
 ## Step 3: Map Milestones
 
 Break the north star into 3–5 milestones. Each milestone should be:
@@ -114,6 +131,9 @@ up: "[[north-stars]]"
 **North Star**: {full SMART goal statement}
 **Domain**: #domain/AREA
 
+## First Kaizen Step
+- [ ] {time-boxed, concrete first session from Step 2.5}
+
 ## Milestones
 {from Step 3}
 
@@ -138,4 +158,5 @@ Update `north-stars.md` in the sanctum directory — set the Quest column for th
 > Quest mapped. Next:
 > - `/vault` — add supporting tasks to the backlog
 > - `/weekly` — commit this domain to your next sprint
-> - Start working — the first milestone is {M1 name} by wk{NN}
+> - **First kaizen step:** {first step} — do this before anything else
+> - Then: M1 — {M1 name} by wk{NN}

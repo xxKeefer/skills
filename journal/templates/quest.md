@@ -14,6 +14,9 @@ up: "[[north-stars]]"
 **North Star**: Full SMART goal statement
 **Domain**: #domain/AREA
 
+## First Kaizen Step
+- [ ] Time-boxed, concrete first session doable this sprint (e.g., "open editor and write three lines")
+
 ## Milestones
 
 - [ ] **M1 — Milestone name** (by wkNN): Description of deliverable
