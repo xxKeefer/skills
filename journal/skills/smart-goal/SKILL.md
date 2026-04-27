@@ -71,26 +71,45 @@ Push for a specific date, not "sometime this year." Help calibrate:
 - If the date is too aggressive, flag it
 - If the date is too far out, suggest an intermediate milestone
 
-## Step 3: Confirm the Goal
+## Step 3: Smallest Meaningful Next Action
 
-Present the final SMART goal as a single clear statement:
+Before confirming, grill for the smallest concrete action that proves the goal is real and could
+happen this week -- not a milestone, a literal first move.
+
+> What's the smallest thing you could do this week that moves this forward? Not a milestone --
+> the literal first move. "Open the IDE." "Buy the shoes." "Email the teacher."
+
+Push back hard on actions larger than a single sprint week:
+- "Build the MVP" -> "That's a milestone. What's the first 30 minutes of it?"
+- "Read the book" -> "Whole book this week? What's the smallest version -- one chapter? The
+  introduction? Buying it?"
+- "Start training" -> "Pick the literal first session. What is it, when is it?"
+
+Aim for something the user could do in under an hour. The action should feel almost embarrassingly
+small -- that's the kaizen floor.
+
+## Step 4: Confirm the Goal
+
+Present the final SMART goal alongside the next action:
 
 > **North Star for #domain/AREA:**
 > "{Goal statement}" by {YYYY-MM-DD}
 >
 > **Evidence of completion:** {measurable criteria}
 >
+> **First move (this week):** {next action}
+>
 > Lock this in?
 
 Iterate until the user confirms.
 
-## Step 4: Write to North Stars
+## Step 5: Write to North Stars
 
 Read `north-stars.md` from the sanctum directory. Add a row to the Active table:
 
-| Domain | Goal | Target Date | Quest | Status |
-|---|---|---|---|---|
-| #domain/AREA | Goal statement | YYYY-MM-DD | — | 🔄 |
+| Domain | Goal | Target Date | First Move | Quest | Status |
+|---|---|---|---|---|---|
+| #domain/AREA | Goal statement | YYYY-MM-DD | next action | — | 🔄 |
 
 If the domain is new, also add a section header to `backlog.md` in the sanctum directory:
 
@@ -99,7 +118,7 @@ If the domain is new, also add a section header to `backlog.md` in the sanctum d
 - [ ] Goal statement ⭐ [[north-stars]]
 ```
 
-## Step 5: Suggest Next Steps
+## Step 6: Suggest Next Steps
 
 > North star locked in. Next:
 > - `/quest AREA` — map the route (milestones, resources, practice schedule)

@@ -10,9 +10,9 @@ aliases:
 
 ## Active
 
-| Domain | Goal | Target Date | Quest | Status |
-|---|---|---|---|---|
-| #domain/AREA | SMART goal description | YYYY-MM-DD | [[quest-AREA]] | 🔄 |
+| Domain | Goal | Target Date | First Move | Quest | Status |
+|---|---|---|---|---|---|
+| #domain/AREA | SMART goal description | YYYY-MM-DD | smallest action doable this week | [[quest-AREA]] | 🔄 |
 
 ## Achieved 🎉
 
