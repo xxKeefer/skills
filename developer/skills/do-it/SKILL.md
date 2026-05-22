@@ -8,77 +8,42 @@ description: >
 
 # Do It
 
-Execute implementation steps using `/tdd` for each one. Expects either a `/plan-it` output or a
-simple task that skipped planning.
+Execute work via `/tdd`. Two steps: gather context, then build.
 
-## Step 1: Find the Work
+## Step 1: Gather Context
 
-Check these sources in order:
+Invoke `/look-up` with `$ARGUMENTS`. If no arguments, check conversation context for plan file
+paths, ticket keys, or task descriptions.
 
-1. **`$ARGUMENTS`** — a plan file path (e.g. `.ai/plan_some-feature.md`) or issue reference (e.g. `#42`)
-2. **Conversation context** — a `/plan-it` output or a simple task description the user confirmed
-3. If nothing found, use **AskUserQuestion**: "What are we building? Give me a plan file path,
-   issue number, or description."
+**Exit early** if neither arguments nor conversation provide actionable context. Ask:
+> What are we building? Give me a plan file path, ticket key, or link.
 
-For plan files, read and parse the steps. For issue references without a plan file, fetch the issue
-via `gh` and assess — if it's simple (1-3 files, obvious approach), proceed directly;
-otherwise suggest running `/plan-it` first.
+After `/look-up` returns, classify the work:
 
-## Step 2: Confirm Before Starting (optional)
+- **Plan file provided** → parse steps, this is a multi-step execution
+- **Ticket or description only** → this is a one-shot task
 
-If proceeding directly present a summary:
+## Step 2: Execute
 
-> **Ready to execute `{ticket/task}`**
->
-> **Steps:** {N} (or "single task" if no plan) **Files:** {key files to modify/create}
->
-> 1. {step 1 title}
-> 2. {step 2 title} ...
->
-> Shall I proceed?
+### Multi-step (plan file)
 
-Wait for confirmation. If the user wants changes, adjust.
+For each step in the plan:
 
-**If following from a plan or spike file, there is no need to confirm and summarize**
+1. Invoke `/tdd` with the step's behaviour goal, files, and acceptance criteria
+2. Run typecheck for affected projects
+3. Commit following project git conventions
+4. Report: **"Step {N}/{M} complete"**
 
-## Step 3: Execute Steps via /tdd
+### One-shot (no plan)
 
-For each step in the plan (or the single task if no plan):
+1. Invoke `/tdd` with the task description
+2. Run typecheck for affected projects
+3. Commit following project git conventions
 
-1. **Invoke `/tdd`** with:
-   - The **behaviour to achieve** from this step's "What" description
-   - The **files** listed for this step
-   - The plan's **acceptance criteria** relevant to this step
-   - The **reference implementation** from the plan (if provided)
+### Summary
 
-2. Let `/tdd` own the full RED-GREEN-REFACTOR cycle. Do not duplicate its workflow — pass it the
-   context and let it drive.
-
-3. After `/tdd` completes the step, run **typecheck** for affected projects.
-
-### Migration steps
-
-If a step involves migrating existing code, `/tdd` handles it as a single behaviour goal. But
-respect the migration phase ordering from the plan — each phase is a separate step with its own
-`/tdd` invocation and checkpoint.
-
-## Step 4: Checkpoint Between Steps
-
-After each step completes:
-
-- Summarise: files changed, tests added/modified, behaviours verified
-- Report: **"Step {N} of {M} complete"**
-- Run the full test suite for affected projects
-- Make a commit message following conventions
-- Each checkpoint is a commit boundary.
-
-## Step 5: Final Review
-
-After all steps are complete:
+After all work is done:
 
 1. Run the full test suite one final time
-2. Run typecheck for all affected projects
-3. List all files created or modified
-4. Note any deviations from the original plan
-5. Run `/simplify` to review changed code for quality — fix any issues found
-6. Ask if the user wants to create a PR
+2. List files changed, tests added, behaviours verified
+3. Note any deviations from the original plan (if multi-step)
