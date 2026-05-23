@@ -1,34 +1,29 @@
 # Journal
 
-Agile-inspired life coaching skill suite for Claude Code + Obsidian.
+Personal planner skill suite for Claude Code + Obsidian. Cascading goal/reflection system with
+secretary/PA tone.
 
 ## Skills
 
-| Skill | Purpose | Cadence |
-|---|---|---|
-| `/smart-goal` | SMART goal grilling for any domain | When activating a domain |
-| `/quest` | Actionable plan to achieve a north star | After setting a goal |
-| `/vault` | Backlog + north star management | Anytime |
-| `/weekly` | Sprint planning (Monday kickoff) | Weekly |
-| `/daily` | Morning standup | Daily AM |
-| `/check-in` | Adhoc micro-reflection | Anytime |
-| `/reflect` | Evening reflection | Daily PM |
-| `/ponder` | Sprint retro | End of sprint |
-| `/chronicle` | Monthly/yearly progress arc | Monthly + yearly |
+| Skill | Purpose |
+|---|---|
+| `/daily` | Generate daily file with tasks and reflection sections |
+| `/weekly` | Generate weekly file with goals, events, and daily links |
+| `/monthly` | Generate monthly file with goals and weekly overview |
+| `/yearly` | Generate yearly file with aspirations and monthly overview |
+| `/reflect` | File-agnostic reflection and link maintenance tool |
 
 ## Workflow
 
 ```
-/smart-goal -> /quest -> /vault
-                         |
-                      /weekly (Monday)
-                         |
-              /daily (AM) -> /check-in (anytime) -> /reflect (PM)
-                         |
-                      /ponder (end of sprint)
-                         |
-                      /chronicle (monthly/yearly)
+/yearly -> /monthly -> /weekly -> /daily -> /reflect
 ```
+
+Goals cascade down: yearly feeds monthly, monthly feeds weekly, weekly feeds daily. Each skill
+reads its parent's goals and prompts you to pull items down.
+
+`/reflect` works on any file level -- fixes wikilinks, bubbles patterns from child reflections,
+and surfaces incomplete items for carry-forward.
 
 ## Installation
 
@@ -46,9 +41,7 @@ Requires `xxkeefer-skills@primitives` for `/grill-it` dependency.
 
 ## Vault Setup
 
-Create `10 - Sanctum/` in your Obsidian vault with seed files:
-- `north-stars.md`
-- `backlog.md`
-- `occasions.md`
+Create a journal directory in your Obsidian vault with:
+- `occasions.md` -- chores, events, reminders
 
 Templates for manual fallback are in `templates/`.
