@@ -1,151 +1,125 @@
 ---
 name: reflect
 description: >
-  Evening reflection. Appends to the daily file with what you learned, what went well, what's next,
-  and friction points. Use when user says "reflect", "evening check-in", "end of day", "what did I
-  learn", or wraps up their day.
+  File-agnostic reflection and maintenance tool. Fills reflect sections, fixes prev/next links,
+  bubbles themes to parent files, surfaces carry-forward items. Use when user says "reflect",
+  "end of day", or wants to update any journal file's reflection.
 ---
 
 # Reflect
 
-Evening reflection. Appends to the same daily file created by `/daily`. Conversational — ask
-questions, don't just present a template. Be encouraging about wins, direct about friction.
+File-agnostic reflection and maintenance tool. Three jobs: fill reflections, fix links, surface
+carry-forward items.
 
-## Step 1: Find the Daily File
+## Step 1: Parse Input
 
-`<user-input>` may contain:
+`<user-input>` determines the target file:
 
-- A **date** (e.g., "reflect monday", "reflect 2026-03-24") — target that day
-- A **file path** — target a specific file
-- **Nothing** — target today
+| Argument | Target |
+|---|---|
+| (none) | Today's daily file |
+| `yesterday` | Yesterday's daily file |
+| `DD-MM-YYYY` | Specific daily file for that date |
+| `week` | Current week file |
+| `month` | Current month file |
+| `year` | Current year file |
+| A file path | That specific file |
 
-Locate the sanctum directory per the journal domain's discovery convention, then find
-`YYYY-wkNN-day.md` within it. If the file doesn't exist:
+Locate the journal directory per the journal domain's discovery convention, then find the target
+file. If the file doesn't exist:
 
-> No daily file for today. Run `/daily` first, or should I create a minimal one and go straight to
-> reflection?
+> No file found for {target}. Want me to create a minimal one?
 
-Read the file. Check if the Reflect section is already filled — if so:
+Read the file. Check if the Reflect section is already filled -- if so:
 
-> Reflection already exists for today. Update it, or leave it?
+> Reflection already exists for {target}. Update it, or leave it?
 
-## Step 2: Review the Day
+## Step 2: Fill Reflection
 
-Read the Today section to see what was planned (chores are nested within it). Also read the
-`## 🌱 Today's kaizen` section if present — this is the morning intent to evaluate.
+Walk through the reflect sections conversationally. Adapt to the file level.
 
-Ask:
+### For daily files
 
-> How did today go? What got done, what didn't?
+Ask each section one at a time:
 
-Listen to the response. Don't interrogate — this should feel like a debrief, not a grilling.
+> What did you learn today?
 
-## Step 2.5: Close the One-Day PDCA
-
-If the daily file has a `## 🌱 Today's kaizen` line with a real intent (not `skipped`), surface it
-and ask:
-
-> Your morning intent was: "{intent}". How did it land — worked, partial, or dropped?
-
-Record the outcome by appending an `**Outcome:** worked | partial | dropped — short note` line
-beneath the intent in the daily file. If the morning intent was `skipped`, skip this step.
-
-## Step 3: Walk Through Reflection
-
-Ask each section conversationally, one at a time. Adapt based on what the user says.
-
-### What I learned
-
-> What did you learn today? Could be technical, personal, about your process — anything.
-
-If they say "nothing", gently push: "Nothing at all? Not even something small about how you work or
-what you noticed?"
-
-### What went well
-
-> What went well today?
-
-Celebrate genuine wins. Connect to sprint goals or north stars when relevant:
-
-> "That's {milestone} progress on your #domain/AREA quest — nice."
-
-### What is next
+> What went well?
 
 > What's carrying into tomorrow?
 
-This feeds into tomorrow's `/daily`. Note unfinished tasks, next steps, things to follow up on.
+> Any friction -- things that slowed you down or felt harder than they should?
 
-### Friction
+Listen and record. Don't interrogate -- this should feel like a quick debrief.
 
-> Any friction today? Things that slowed you down, frustrated you, or felt harder than they should?
+### For weekly/monthly/yearly files
 
-This is the most important section for the coaching system. Friction entries get aggregated by
-`/ponder` and drive experiment suggestions.
+These are retrospective. Read the child files' reflect sections first, then present a summary:
 
-If the user mentions friction that's come up before (scan recent daily files in the sanctum for
-similar Friction entries — at least the last 3-5 days):
-
-> "This is the {N}th time you've flagged {friction}. Let's run a quick 5 Whys."
-
-Then walk through five `Why?` prompts, one at a time, each building on the previous answer. Stop
-early if the root cause becomes obvious before five. Record the chain in the daily file's Friction
-section as a nested block:
-
-```markdown
-- {friction summary}
-  - **Why 1:** {answer}
-  - **Why 2:** {answer}
-  - **Why 3:** {answer}
-  - **Root cause:** {plain statement}
-  - **Counter-measure:** {smallest possible next action}
-```
-
-Also append the same 5 Whys block to `kaizen.md` under the `## 5 Whys Log` section with a dated
-heading: `### YYYY-MM-DD -- {friction label}`.
-
-### Tiny improvement
-
-> One tiny improvement you noticed today? Could be the kaizen intent paying off, or something
-> serendipitous. Skip-able.
-
-If the user names one, append a row to `kaizen.md` under `## Improvement Log`:
-
-| Date       | Domain                                           | Tiny improvement     | Triggered by                            |
-| ---------- | ------------------------------------------------ | -------------------- | --------------------------------------- |
-| YYYY-MM-DD | #domain/AREA (best guess from context, or blank) | one-line description | morning intent / friction / serendipity |
-
-If they skip, do nothing — the row is optional.
-
-## Step 4: Write to Daily File
-
-Read the existing daily file. Append to or update the Reflect section:
-
-```markdown
-## 🤔 Reflect
-
-### What I learned
-
-- {from conversation}
-
-### What went well
-
-- {from conversation}
-
-### What is next
-
-- {from conversation}
-
-### ⚠ Friction
-
-- {from conversation}
-```
-
-Preserve all existing content in the file (chores, tasks, blockers). Only write to the Reflect
-section.
-
-## Step 5: Close Out
-
-> **Day reflected.** {Brief encouraging note — acknowledge effort, connect to bigger picture if
-> natural}
+> Here's what came up across your {dailies/weeklies/monthlies}:
+> - Went well: {patterns}
+> - Friction: {patterns}
+> - What's next: {recurring themes}
 >
-> See you tomorrow with `/daily`. Rest well.
+> Anything to add or adjust?
+
+One round of input, then write.
+
+## Step 3: Write Reflection
+
+Update the target file's reflect section with the conversation output. Match the template
+format from `journal/templates/`.
+
+Preserve all existing content in the file. Only write to the Reflect section (and Insights
+for monthly files if applicable).
+
+## Step 4: Fix Links
+
+Scan the target file's frontmatter `prev` and `next` fields. Check whether the linked files
+actually exist in the journal directory.
+
+- If `prev` points to a non-existent file, find the nearest existing sibling before it and
+  update the link
+- If `next` points to a non-existent file, find the nearest existing sibling after it and
+  update the link
+- Also update the reciprocal link in the sibling file (their `next`/`prev` should point back)
+
+This handles date gaps -- if you skip days or weeks, links stay navigable.
+
+Report fixes silently unless the user passed `--verbose` or similar. Just fix them.
+
+## Step 5: Bubble Up Themes
+
+Check if the target file has a parent (via the `up` frontmatter field). If so, read sibling
+files at the same level and look for recurring themes:
+
+- Friction points mentioned in 2+ siblings
+- Ideas or topics appearing across multiple files
+- "What is next" items that keep reappearing without being addressed
+
+If patterns are found, suggest updating the parent file:
+
+> These themes came up across multiple {days/weeks/months}:
+> - {theme}
+>
+> Want me to add them to the {weekly/monthly/yearly} file's insights or reflect?
+
+If nothing recurs, skip silently.
+
+## Step 6: Carry Forward
+
+Scan the target file and its siblings for incomplete goals or tasks (unchecked `- [ ]` items
+in Goals or Today sections).
+
+If found, present them neutrally:
+
+> These are still open:
+> - {item} (from {file})
+>
+> Want to carry any forward?
+
+No guilt, no pressure. Just surfacing information.
+
+## Step 7: Done
+
+> **{target}** reflected. {link fixes if any}. {carry-forward count if any}.
