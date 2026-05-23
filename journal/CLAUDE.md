@@ -21,6 +21,8 @@ Skills must never hardcode the journal path. Instead:
   dependency. Compatible with Bases.
 - **Template-portable**: Every file structure is simple enough to port to Obsidian Templater.
   Skills add value over templates by reading parent goals, detecting patterns, and fixing links.
+- **Templates are the contract**: `journal/templates/` contains the authoritative output format
+  for each file type. Skills must read and write against these templates.
 - **Flat file structure**: All organisation via file naming. No nested directories.
 
 ## File Naming
