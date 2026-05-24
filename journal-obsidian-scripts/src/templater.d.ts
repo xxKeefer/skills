@@ -26,6 +26,12 @@ interface TpUser {
   journal_weekly_name(m: moment.Moment): string;
   journal_monthly_name(m: moment.Moment): string;
   journal_yearly_name(m: moment.Moment): string;
+  journal_prev_next(tp: Tp, m: moment.Moment, level: string): { prev: string; next: string };
+  journal_up_link(tp: Tp, m: moment.Moment, level: string): string;
+  journal_occasions(tp: Tp, m: moment.Moment): { chores: { sym: string; name: string }[]; events: { sym: string; name: string }[] };
+  vault_occasions(): { sym: string; name: string; type: "event" | "reminder"; test: (m: moment.Moment) => boolean }[];
+  prompt_date(tp: Tp, prompt?: string): Promise<moment.Moment>;
+  prompt_boolean(tp: Tp, prompt: string, defaultResponse?: string): Promise<boolean>;
   [key: string]: (...args: any[]) => any;
 }
 
