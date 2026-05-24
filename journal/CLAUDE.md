@@ -99,6 +99,12 @@ the parent file's goals and the previous sibling's reflection to give a quick co
 | `/reflect` | File-agnostic reflection and link maintenance tool |
 | `/update-occasions-config` | Sync vault `occasions.md` into `vault_occasions.js` for Templater |
 
+## Templater Fallback
+
+The sibling module `journal-obsidian-scripts/` provides compiled Templater scripts and templates
+as manual redundancy for when agents aren't available. These produce files matching the journal
+skill contract. See `journal-obsidian-scripts/README.md` for setup instructions.
+
 ## Dependencies
 
 Journal skills reference `/grill-it` from the `primitives` plugin for conversational mechanics.
