@@ -11,10 +11,13 @@ const newPath = `${config.journalDir}/${name}`;
 await tp.file.move(newPath);
 
 const weekEvents = [];
+const dayNotes = [];
 for (let i = 0; i < 7; i++) {
   const day = weekStart.clone().add(i, "days");
-  const { events } = tp.user.journal_occasions(tp, day);
-  for (const e of events) {
+  const occ = tp.user.journal_occasions(tp, day);
+  const allItems = [...occ.chores, ...occ.work, ...occ.tasks];
+  dayNotes.push(allItems.map((e) => `${e.sym} ${e.name}`).join(", "));
+  for (const e of allItems) {
     weekEvents.push(`- ${e.sym} ${e.name} (${day.format("ddd")})`);
   }
 }
@@ -54,7 +57,8 @@ for (let i = 0; i < 7; i++) {
   const day = weekStart.clone().add(i, "days");
   const dayName = config.days[i].charAt(0).toUpperCase() + config.days[i].slice(1);
   const dayLink = tp.user.journal_daily_name(day);
-  tR += `| ${dayName} | [[${dayLink}]] | |\n`;
+  const dd = String(day.date()).padStart(2, "0");
+  tR += `| ${dd} ${dayName} | [[${dayLink}]] | ${dayNotes[i]} |\n`;
 }
 tR += `\n`;
 
