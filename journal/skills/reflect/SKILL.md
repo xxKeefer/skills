@@ -111,12 +111,14 @@ If nothing recurs, skip silently.
 Scan the target file and its siblings for incomplete goals or tasks (unchecked `- [ ]` items
 in Goals or Today sections).
 
-If found, present them neutrally:
+If found, present as multi-select:
 
-> These are still open:
-> - {item} (from {file})
+> These are still open -- select which to carry forward:
+> - [ ] {item} (from {file})
+> - [ ] {item} (from {file})
 >
-> Want to carry any forward?
+> Selected items carry into the next file at this level.
+> Unselected items push up to the parent level.
 
 No guilt, no pressure. Just surfacing information.
 

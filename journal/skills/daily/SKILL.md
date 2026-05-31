@@ -61,6 +61,17 @@ Read the current weekly file's Goals section. Present them:
 
 Add selected goals to the Tasks group. Don't pressure -- if they skip, that's fine.
 
+### Carry Forward
+
+Check yesterday's file for incomplete tasks (unchecked `- [ ]` items in Today section).
+Present as multi-select:
+
+> These are still open from yesterday -- select which to keep today:
+> - [ ] {item 1}
+> - [ ] {item 2}
+>
+> Selected items go into today's tasks. Unselected items push up to the weekly file.
+
 ### Confirm
 
 > Here's today's file. Anything to add or drop?

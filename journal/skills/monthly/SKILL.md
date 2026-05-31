@@ -98,12 +98,13 @@ If nothing recurs, skip silently.
 
 ## Step 9: Carry Forward
 
-Check the previous month's file for incomplete goals. Surface them:
+Check the previous month's file for incomplete goals. Present as multi-select:
 
-> These are still open from last month:
-> - {item}
+> These are still open from last month -- select which to keep this month:
+> - [ ] {item 1}
+> - [ ] {item 2}
 >
-> Carry forward or drop?
+> Selected items go into this month's goals. Unselected items push up to the yearly file.
 
 ## Step 10: Write the Monthly File
 
