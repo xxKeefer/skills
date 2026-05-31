@@ -5,25 +5,26 @@ interface OccasionResult {
 
 interface OccasionsOutput {
   chores: OccasionResult[];
-  events: OccasionResult[];
+  work: OccasionResult[];
+  tasks: OccasionResult[];
 }
 
 function journal_occasions(tp: Tp, m: moment.Moment): OccasionsOutput {
   const occasions = tp.user.vault_occasions();
   const chores: OccasionResult[] = [];
-  const events: OccasionResult[] = [];
+  const work: OccasionResult[] = [];
+  const tasks: OccasionResult[] = [];
 
   for (const occ of occasions) {
     if (!occ.test(m)) continue;
     const item = { sym: occ.sym, name: occ.name };
-    if (occ.type === "reminder") {
-      chores.push(item);
-    } else {
-      events.push(item);
-    }
+    const section = occ.section ?? "chores";
+    if (section === "work") work.push(item);
+    else if (section === "tasks") tasks.push(item);
+    else chores.push(item);
   }
 
-  return { chores, events };
+  return { chores, work, tasks };
 }
 
 export = journal_occasions;

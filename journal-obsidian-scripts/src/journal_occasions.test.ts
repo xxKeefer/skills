@@ -130,12 +130,13 @@ describe("vault_occasions", () => {
     assert.ok(result.length > 0);
   });
 
-  it("each occasion has sym, name, type, and test", () => {
+  it("each occasion has sym, name, type, section, and test", () => {
     const result = vaultOccasions();
     for (const occ of result) {
       assert.equal(typeof occ.sym, "string");
       assert.equal(typeof occ.name, "string");
       assert.ok(occ.type === "event" || occ.type === "reminder");
+      assert.ok(["chores", "work", "tasks"].includes(occ.section));
       assert.equal(typeof occ.test, "function");
     }
   });
@@ -150,21 +151,23 @@ describe("vault_occasions", () => {
 // --- journal_occasions ---
 
 describe("journal_occasions", () => {
-  it("returns chores and events arrays", () => {
+  it("returns chores, work, and tasks arrays", () => {
     const tp = fakeTp();
     const m = fakeMoment({});
     const result = journalOccasions(tp, m);
     assert.ok(Array.isArray(result.chores));
-    assert.ok(Array.isArray(result.events));
+    assert.ok(Array.isArray(result.work));
+    assert.ok(Array.isArray(result.tasks));
   });
 
-  it("separates reminders into chores and events into events", () => {
+  it("routes occasions by section field", () => {
     const tp = fakeTp({
       user: {
         vault_occasions: () => [
-          { sym: "A", name: "Chore1", type: "reminder", test: () => true },
-          { sym: "B", name: "Event1", type: "event", test: () => true },
-          { sym: "C", name: "Chore2", type: "reminder", test: () => false },
+          { sym: "A", name: "Chore1", type: "reminder", section: "chores", test: () => true },
+          { sym: "B", name: "Work1", type: "event", section: "work", test: () => true },
+          { sym: "C", name: "Task1", type: "event", section: "tasks", test: () => true },
+          { sym: "D", name: "Filtered", type: "reminder", section: "chores", test: () => false },
         ],
       },
     });
@@ -172,36 +175,53 @@ describe("journal_occasions", () => {
     const result = journalOccasions(tp, m);
     assert.equal(result.chores.length, 1);
     assert.equal(result.chores[0].name, "Chore1");
-    assert.equal(result.events.length, 1);
-    assert.equal(result.events[0].name, "Event1");
+    assert.equal(result.work.length, 1);
+    assert.equal(result.work[0].name, "Work1");
+    assert.equal(result.tasks.length, 1);
+    assert.equal(result.tasks[0].name, "Task1");
+  });
+
+  it("defaults to chores when section is missing", () => {
+    const tp = fakeTp({
+      user: {
+        vault_occasions: () => [
+          { sym: "X", name: "NoSection", type: "event", test: () => true },
+        ],
+      },
+    });
+    const m = fakeMoment({});
+    const result = journalOccasions(tp, m);
+    assert.equal(result.chores.length, 1);
+    assert.equal(result.chores[0].name, "NoSection");
   });
 
   it("filters occasions by date using the test function", () => {
     const tp = fakeTp({
       user: {
         vault_occasions: () => [
-          { sym: "X", name: "Match", type: "event", test: (m: any) => m.date() === 15 },
-          { sym: "Y", name: "NoMatch", type: "event", test: (m: any) => m.date() === 20 },
+          { sym: "X", name: "Match", type: "event", section: "chores", test: (m: any) => m.date() === 15 },
+          { sym: "Y", name: "NoMatch", type: "event", section: "chores", test: (m: any) => m.date() === 20 },
         ],
       },
     });
     const m = fakeMoment({ date: () => 15 });
     const result = journalOccasions(tp, m);
-    assert.equal(result.events.length, 1);
-    assert.equal(result.events[0].name, "Match");
+    assert.equal(result.chores.length, 1);
+    assert.equal(result.chores[0].name, "Match");
   });
 
   it("returns empty arrays when no occasions match", () => {
     const tp = fakeTp({
       user: {
         vault_occasions: () => [
-          { sym: "X", name: "Nope", type: "event", test: () => false },
+          { sym: "X", name: "Nope", type: "event", section: "chores", test: () => false },
         ],
       },
     });
     const m = fakeMoment({});
     const result = journalOccasions(tp, m);
     assert.equal(result.chores.length, 0);
-    assert.equal(result.events.length, 0);
+    assert.equal(result.work.length, 0);
+    assert.equal(result.tasks.length, 0);
   });
 });
