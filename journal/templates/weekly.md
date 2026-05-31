@@ -21,15 +21,15 @@ next: '[[YYYY-wkNN-week]]'
 
 ## 📝 Days
 
-| Day | Link              | Notes |
-| --- | ----------------- | ----- |
-| Mon | [[YYYY-wkNN-mon]] |       |
-| Tue | [[YYYY-wkNN-tue]] |       |
-| Wed | [[YYYY-wkNN-wed]] |       |
-| Thu | [[YYYY-wkNN-thu]] |       |
-| Fri | [[YYYY-wkNN-fri]] |       |
-| Sat | [[YYYY-wkNN-sat]] |       |
-| Sun | [[YYYY-wkNN-sun]] |       |
+| Day    | Link              | Notes                                      |
+| ------ | ----------------- | ------------------------------------------ |
+| DD Mon | [[YYYY-wkNN-mon]] | (events from occasions.md + existing notes) |
+| DD Tue | [[YYYY-wkNN-tue]] |                                            |
+| DD Wed | [[YYYY-wkNN-wed]] |                                            |
+| DD Thu | [[YYYY-wkNN-thu]] |                                            |
+| DD Fri | [[YYYY-wkNN-fri]] |                                            |
+| DD Sat | [[YYYY-wkNN-sat]] |                                            |
+| DD Sun | [[YYYY-wkNN-sun]] |                                            |
 
 ## 🤔 Reflect
 

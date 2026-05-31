@@ -67,8 +67,14 @@ Ask:
 
 ## Step 6: Build Daily Links Table
 
-Generate the Days table with wikilinks for each day of the week (Mon-Sun). If daily files already
-exist, pull a short note from them. Otherwise leave the Notes column empty.
+Generate the Days table with wikilinks for each day of the week (Mon-Sun). The Day column shows
+the date number before the day abbreviation (e.g., "02 Mon", "03 Tue").
+
+Populate the Notes column for each day:
+
+- Match events from `occasions.md` (assembled in Step 5) to their specific day
+- If a daily file already exists, pull a short note from it
+- Combine both sources -- events first, then existing notes
 
 ## Step 7: Detect Recurring Themes
 
@@ -86,12 +92,13 @@ If nothing recurs, skip this step silently.
 
 ## Step 8: Carry Forward
 
-Check the previous week's file for incomplete goals. Surface them:
+Check the previous week's file for incomplete goals. Present as multi-select:
 
-> These are still open from last week:
-> - {item}
+> These are still open from last week -- select which to keep this week:
+> - [ ] {item 1}
+> - [ ] {item 2}
 >
-> Carry forward or drop?
+> Selected items go into this week's goals. Unselected items push up to the monthly file.
 
 ## Step 9: Write the Weekly File
 
