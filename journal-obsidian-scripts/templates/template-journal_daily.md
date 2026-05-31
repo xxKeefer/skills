@@ -5,7 +5,7 @@ const config = tp.user.journal_config();
 const name = tp.user.journal_daily_name(m);
 const { prev, next } = tp.user.journal_prev_next(tp, m, "daily");
 const up = tp.user.journal_up_link(tp, m, "daily");
-const { chores, events } = tp.user.journal_occasions(tp, m);
+const occ = tp.user.journal_occasions(tp, m);
 
 const newPath = `${config.journalDir}/${name}`;
 await tp.file.move(newPath);
@@ -25,28 +25,29 @@ tR += `> At a glance\n\n`;
 
 tR += `## 📋 Today\n\n`;
 
-tR += `### 🔄 Chores\n`;
-for (const c of chores) {
-  tR += `- [ ] ${c.sym} ${c.name}\n`;
+tR += `- [ ] 🔄 Chores\n`;
+for (const c of occ.chores) {
+  tR += `  - [ ] ${c.sym} ${c.name}\n`;
 }
 tR += `\n`;
 
-if (events.length > 0) {
-  tR += `### 📆 Events\n`;
-  for (const e of events) {
-    tR += `- ${e.sym} ${e.name}\n`;
-  }
-  tR += `\n`;
-}
-
 const isWeekday = m.isoWeekday() <= 5;
 if (isWeekday) {
-  tR += `### 🧑‍💻 Work\n`;
-  tR += `- [ ] \n\n`;
+  tR += `- [ ] 🧑‍💻 Work\n`;
+  for (const w of occ.work) {
+    tR += `  - [ ] ${w.sym} ${w.name}\n`;
+  }
+  tR += `  - [ ] \n\n`;
+} else {
+  for (const w of occ.work) {
+    tR += `- [ ] 🎯 ${w.sym} ${w.name}\n`;
+  }
 }
 
-tR += `### 🎯 Tasks\n`;
-tR += `- [ ] \n\n`;
+for (const t of occ.tasks) {
+  tR += `- [ ] 🎯 ${t.sym} ${t.name}\n`;
+}
+tR += `- [ ] 🎯 \n\n`;
 
 tR += `## 💭 Thoughts and Ideas\n\n`;
 
