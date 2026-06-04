@@ -1,0 +1,8 @@
+{
+  "name": "nix-manager",
+  "description": "NixOS config management -- add, remove, rice, refine, debug, and explain. Requires primitives.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}
