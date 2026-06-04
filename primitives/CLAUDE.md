@@ -16,3 +16,4 @@ installed.
 |---|---|---|
 | `/grill-it` | Relentless questioning until shared understanding | spike-it, design-it, hunt-it, smart-goal |
 | `/write-to-file` | Write output files to `.ai/` for `@`-reference | plan-it, research, scratch docs |
+| `/explain` | Layered what/how/why explanation of any target | developer:explain-it, nix-manager:explain |
