@@ -41,6 +41,12 @@
       "description": "Raw note intake, knowledge management, and vault indexing for Obsidian.",
       "category": "productivity",
       "source": "./wiki"
+    },
+    {
+      "name": "nix-manager",
+      "description": "NixOS config management -- add, remove, rice, refine, debug, and explain.",
+      "category": "development",
+      "source": "./nix-manager"
     }
   ]
 }

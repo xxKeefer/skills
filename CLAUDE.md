@@ -16,6 +16,7 @@ workflows.
 | `meta` | Skills about skills -- writing, auditing, teaching | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `wiki` | Raw note intake, knowledge management, vault indexing | No |
+| `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
 
 ## Architecture
 
