@@ -2,13 +2,13 @@
 name: explain
 description: >
   Explain what a block of nix config does in plain language. Layered explanation: what, how, why.
-  Agent-invocable. Other skills call this to teach, or the user asks directly.
+  Agent-invocable. Other nix-manager skills call this to teach, or the user asks directly.
 ---
 
 # Explain
 
-Plain-language explanation of nix config. Layered: what it does, how it works, why it's written
-that way.
+Plain-language explanation of nix config. Composes on the `/explain` primitive with nix-specific
+context.
 
 ## Step 1: Identify the Target
 
@@ -20,36 +20,24 @@ that way.
 
 If unclear, ask what the user wants explained.
 
-**Done when:** target code is identified and read.
+## Step 2: Explain via /explain
 
-## Step 2: Explain in Layers
+Invoke `/explain` with the identified target. When constructing the explanation layers, use
+nix-specific framing:
 
-**What** -- one sentence on what this code does.
+- **What:** one sentence on what this code does
+- **How:** walk through the nix constructs used -- function arguments (`{ pkgs, lib, ... }:`),
+  attribute sets, `let...in`, `mkIf`/`mkMerge`, `imports`, `with`/`inherit`, overlays,
+  `specialArgs`
+- **Why:** the nix pattern or idiom behind the structure -- why a separate module, why this
+  approach over alternatives
 
-**How** -- walk through the nix constructs used:
-- Function arguments (`{ pkgs, lib, ... }:`)
-- Attribute sets and nesting
-- `let...in` bindings
-- `mkIf`, `mkMerge`, `mkOption` and other `lib` functions
-- `imports` and module composition
-- `with`, `inherit`, `rec`
-- Overlays, `specialArgs`, `extraSpecialArgs`
-
-**Why** -- the pattern or idiom behind this structure:
-- Why is it a separate module?
-- Why this approach over alternatives?
-- What's the design principle?
-
-**Done when:** all three layers covered.
-
-## Step 3: Flag Issues (if any)
+## Step 3: Flag Non-idiomatic Code
 
 If the code is non-idiomatic, mention what the idiomatic version would look like -- but don't
 change it. That's `/refine-it`'s job.
 
 If the code is genuinely wrong or confusing, say so directly.
-
-**Done when:** issues flagged (or confirmed clean).
 
 ## Step 4: Connect to Context
 
@@ -60,11 +48,8 @@ Show how this piece fits the bigger picture:
 
 If the user asked about a nix concept, show where it appears in their own config.
 
-**Done when:** context is connected.
-
 ## Principles
 
 - Assume novice level but don't be condescending -- explain concepts, don't dumb them down.
-- Connect to the bigger picture. Isolated explanations are less useful than connected ones.
 - Use the user's own config for examples, not abstract ones.
-- If something is weird or wrong, say so. Don't pretend bad code is fine.
+- If something is weird or wrong, say so.

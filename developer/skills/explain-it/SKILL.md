@@ -10,7 +10,7 @@ description: >
 
 # Explain It
 
-Unpack your reasoning on demand. The user points at something you said, recommended, or did —
+Unpack your reasoning on demand. The user points at something you said, recommended, or did --
 you explain why until they're satisfied.
 
 ## Step 1: Identify What Needs Explaining
@@ -26,60 +26,28 @@ If `$ARGUMENTS` is empty or ambiguous, use **AskUserQuestion**:
 > What part of the conversation do you want me to explain? Point me at a decision, suggestion,
 > or anything that isn't sitting right.
 
-## Step 2: Reconstruct Your Reasoning
+## Step 2: Explain via /explain
 
-Walk back through the chain of reasoning that led to the conclusion. For each link in the chain,
-make explicit:
+Invoke `/explain` with the identified target. When constructing the explanation layers, frame
+them as self-reasoning:
 
-- **What you observed** — the code, context, or constraint that informed the decision
-- **What you inferred** — the conclusion you drew and why that inference follows
-- **What you assumed** — anything you took as given without verifying. Flag these honestly.
-- **What alternatives you considered** — other approaches and why you rejected them
-- **What you don't know** — gaps in your reasoning, things you could be wrong about
+- **What:** the decision or action you took
+- **How:** the chain of reasoning -- what you observed, what you inferred, what you assumed
+- **Why:** alternatives you considered and why you rejected them
 
-Present this as a structured walkthrough, not a wall of text:
+For each link in the reasoning chain, make explicit:
 
-```
-## Why: <one-line summary of the decision>
+- **Observed** -- code, context, or constraint that informed the decision
+- **Inferred** -- conclusion drawn and why that inference follows
+- **Assumed** -- anything taken as given without verifying (flag honestly)
+- **Uncertainty** -- where you could be wrong
 
-**Observed:** <what I saw in the code/context>
-**Inferred:** <the conclusion I drew>
-**Assumed:** <what I took as given — flag if unverified>
-**Alternatives considered:** <what else I looked at and why I didn't go that way>
-**Uncertainty:** <where I could be wrong>
-```
+## Step 3: Revise if Wrong
 
-Drop sections that add no value. If you considered no alternatives, don't include that section.
-If you assumed nothing, skip it.
-
-## Step 3: Check Understanding
-
-After explaining, ask:
-
-> Does that track? Or is there a specific part you want me to dig deeper on?
-
-## Step 4: Go Deeper (if needed)
-
-If the user pushes back or asks follow-ups:
-
-1. **Don't get defensive.** If they found a flaw in your reasoning, acknowledge it directly.
-2. **Re-examine from their angle.** Their question may reveal an assumption you didn't notice.
-3. **Show your work.** If the reasoning depends on a code path, trace it explicitly — file, line,
-   data flow. Don't hand-wave.
-4. **Revise if wrong.** If the explanation reveals your original conclusion was flawed, say so and
-   offer the corrected position. Do not cling to a bad call.
-
-Repeat Steps 3-4 until the user is satisfied or you've exhausted what you can explain.
+If explaining your reasoning reveals a flaw, correct course immediately. The user called
+`/explain-it` because something felt off -- they may be right.
 
 ## Guiding Principles
 
 - **Transparency over persuasion.** The goal is shared understanding, not winning the argument.
-  If your reasoning has holes, exposing them is the point.
-- **Distinguish fact from inference.** Be ruthlessly clear about what you read in the code vs
-  what you concluded from it. Never present inference as observation.
-- **Admit uncertainty.** "I don't know" and "I guessed" are valid answers. Dressing up a guess
-  as a deduction erodes trust.
-- **Trace to source.** When explaining a code-related decision, point at the specific file, line,
-  or symbol. Abstract explanations without grounding are useless.
-- **Revise in the open.** If explaining your reasoning makes you realise you were wrong, correct
-  course immediately. The user called /explain-it because something felt off — they may be right.
+- **Revise in the open.** If you realise you were wrong, say so and offer the corrected position.
