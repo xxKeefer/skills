@@ -2,7 +2,7 @@
 name: plan-it
 description: >
   Break a task into an executable plan for /do-it — or skip planning if the task is simple enough.
-  Accepts a GitHub issue, a /spike-it output, or a direct description. Use when the user says "plan it",
+  Accepts a tracker ticket, a /spike-it output, or a direct description. Use when the user says "plan it",
   "plan this", "break this down", "make a plan", or wants to prepare work for execution.
 ---
 
@@ -10,17 +10,22 @@ description: >
 
 Assess a task and either produce an executable plan or hand off directly to `/do-it`.
 
+> **Tracker:** "the project's tracker" means whatever issue system the repo's CLAUDE.md declares — a
+> GitHub issue via `gh`, a Jira ticket via the Atlassian MCP, etc. Read it to learn which tracker is
+> in use and how to create and reference tickets. Default to GitHub issues via `gh` if nothing is
+> declared.
+
 ## Step 1: Gather Context
 
 `$ARGUMENTS` may contain any combination of:
 
-- **Issue references** (e.g. `#42`) — fetch from GitHub via `gh`
+- **Tracker tickets** — references in the project's tracker; fetch via `/look-up`
 - **Spike file path** (e.g. `.ai/spike_some-feature.md`) — read the file
 - **Free-text description** — anything else
 
 If `$ARGUMENTS` is empty, check the current conversation for a `/spike-it` output. If still nothing, use **AskUserQuestion**:
 
-> What are we planning? Give me an issue number, spike file, or description.
+> What are we planning? Give me a ticket reference, spike file, or description.
 
 Summarise the task back to the user in 2-4 bullets.
 
@@ -95,12 +100,14 @@ If existing tests need tightening or migrating before implementation begins, mak
 - Don't add steps for "review" or "cleanup" — those happen naturally in TDD's refactor phase
 - Don't duplicate test strategy — `/tdd` decides what to test and how
 
-## Step 5: Create the Plan Issue
+## Step 5: Create the Plan Ticket
 
-Compose the issue body using the [issue template](ISSUE_TEMPLATE.md).
+Compose the ticket body using the [issue template](ISSUE_TEMPLATE.md).
 
-Create the issue with `gh issue create` using a title with the appropriate conventional prefix.
-Include `**Spike:** #N` at the top of the body if a spike issue exists.
+Create the ticket in the project's tracker (per the repo's CLAUDE.md — `gh issue create` for GitHub,
+the Atlassian MCP for Jira, etc.) using a title with the appropriate conventional prefix. Reference
+the originating spike ticket at the top of the body if one exists (`**Spike:** #N` / `**Spike:**
+ENG-123`, per the tracker's convention).
 
 Also write the plan to `.ai/` using `/write-to-file` with filename `plan_{terse-description}.md`
 so `/do-it` can consume it locally.

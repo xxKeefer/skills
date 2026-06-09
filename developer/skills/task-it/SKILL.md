@@ -9,21 +9,26 @@ description: >
 
 # Task It
 
-Decompose a `/spike-it` output into vertical-slice GitHub issues with HITL/AFK classification,
-get approval, create them in dependency order, and turn the spike into a tracking issue. The final
-issue is always a mandatory HITL QA verification task.
+Decompose a `/spike-it` output into vertical-slice tickets with HITL/AFK classification,
+get approval, create them in dependency order, and turn the spike into a tracking ticket. The final
+ticket is always a mandatory HITL QA verification task.
+
+> **Tracker:** "the project's tracker" means whatever issue system the repo's CLAUDE.md declares — a
+> GitHub issue via `gh`, a Jira ticket via the Atlassian MCP, etc. Read it to learn which tracker is
+> in use and how to create, reference, and edit tickets. Default to GitHub issues via `gh` if nothing
+> is declared.
 
 ## Step 1: Parse Input
 
 `$ARGUMENTS` may contain:
 
-- **Spike issue reference** (e.g. `#42`) -- fetch from GitHub via `gh`
+- **Spike ticket reference** -- fetch via `/look-up`
 - **Spike file path** (e.g. `.ai/spike_some-feature.md`) -- read the file
 - **Nothing** -- check the current conversation for a `/spike-it` output
 
 If no spike context is found, use **AskUserQuestion**:
 
-> What are we breaking into tickets? Give me a spike issue number, spike file path, or description.
+> What are we breaking into tickets? Give me a spike ticket reference, spike file path, or description.
 
 Read the spike. Extract:
 
@@ -158,11 +163,13 @@ Ask: **"Adjust any issues, or approve to create?"**
 Iterate until the user approves. They may want to merge, split, reorder, reclassify HITL/AFK,
 or drop issues. The QA task is mandatory -- it cannot be dropped.
 
-## Step 4: Create the Issues
+## Step 4: Create the Tickets
 
-Create issues in dependency order so real issue numbers can be referenced in `Blocked by` fields.
+Create tickets in dependency order so real ticket identifiers can be referenced in `Blocked by`
+fields. Create each one in the project's tracker (per the repo's CLAUDE.md — `gh issue create` for
+GitHub, the Atlassian MCP for Jira, etc.).
 
-For each approved issue, create via `gh issue create`:
+For each approved ticket:
 
 1. **Title:** `{type}: {summary}` using conventional prefixes
 2. **Body:**
@@ -170,7 +177,7 @@ For each approved issue, create via `gh issue create`:
 ```markdown
 ## Parent Spike
 
-#{spike-issue-number}
+{spike-ticket-ref}
 
 ## Description
 
@@ -182,39 +189,40 @@ For each approved issue, create via `gh issue create`:
 
 ## Blocked By
 
-#{blocker-issue-number} (if any)
+{blocker-ticket-ref} (if any)
 ```
 
-3. **Labels:** from the issue draft
+3. **Labels:** from the ticket draft
 
-After creating all issues, present:
+After creating all tickets, present:
 
-> **Created {N} issues:**
+> **Created {N} tickets:**
 >
-> 1. #N -- {summary} (AFK)
-> 2. #N -- {summary} (HITL)
+> 1. {ref} -- {summary} (AFK)
+> 2. {ref} -- {summary} (HITL)
 > ...
 
-## Step 5: Edit Spike into Tracking Issue
+## Step 5: Edit Spike into Tracking Ticket
 
-Edit the spike issue (fallback: plan issue if no spike) to append a task list at the bottom:
+Edit the spike ticket (fallback: plan ticket if no spike) to append a task list at the bottom:
 
 ```markdown
 ## Tasks
 
-- [ ] #N -- {summary} (AFK)
-- [ ] #N -- {summary} (AFK)
-- [ ] #N -- {summary} (HITL)
-- [ ] #N -- manual QA verification (HITL)
+- [ ] {ref} -- {summary} (AFK)
+- [ ] {ref} -- {summary} (AFK)
+- [ ] {ref} -- {summary} (HITL)
+- [ ] {ref} -- manual QA verification (HITL)
 ```
 
-Use `gh issue edit` to append this to the spike issue body. This turns the spike into a tracking
-issue -- GitHub will show progress as child issues are closed.
+Edit the spike ticket in the tracker (per the repo's CLAUDE.md — `gh issue edit` for GitHub, the
+Atlassian MCP for Jira, etc.) to append this. This turns the spike into a tracking ticket — trackers
+that support child-issue checklists will show progress as the work tickets are closed.
 
 Present the final state:
 
-> **Tracking issue:** #N (spike)
-> **Work issues:** #N, #N, #N
-> **QA issue:** #N
+> **Tracking ticket:** {ref} (spike)
+> **Work tickets:** {ref}, {ref}, {ref}
+> **QA ticket:** {ref}
 >
 > Pick one to `/plan-it` or `/do-it`?

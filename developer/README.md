@@ -6,6 +6,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 
 | Skill | Phase | Purpose |
 |---|---|---|
+| `/research-it` | Discovery | Pre-spike research producing decision artifacts |
 | `/spike-it` | Discovery | Deep-dive investigation |
 | `/task-it` | Discovery | Decompose spike into tickets |
 | `/plan-it` | Planning | Break task into atomic steps |
@@ -34,8 +35,9 @@ Requires `primitives@xxkeefer-skills`.
 
 ## Permissions
 
-Several skills use `gh` CLI to interact with GitHub Issues. Add these to your Claude Code
-permissions:
+Ticket-creating skills target the project's tracker — GitHub via `gh` by default, or whatever the
+repo's CLAUDE.md declares (e.g. Jira via the Atlassian MCP). For the GitHub default, add these to
+your Claude Code permissions:
 
 ```json
 {

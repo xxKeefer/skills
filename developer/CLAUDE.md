@@ -6,8 +6,10 @@ software engineering principles.
 
 ## Dependencies
 
-Developer skills reference `/grill-it` and `/write-to-file` from the `primitives` plugin. Both must be installed.
-Several skills use `gh` CLI to create and manage GitHub Issues.
+Developer skills reference `/grill-it`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
+all must be installed. Ticket-creating skills (`research-it`, `spike-it`, `task-it`, `plan-it`) target
+the project's tracker — GitHub via `gh` by default, or whatever the repo's CLAUDE.md declares (e.g.
+Jira via the Atlassian MCP). Some skills (`hunt-it`, `qa-it`, `triage-it`) are still GitHub-specific.
 
 ## Workflow
 
@@ -32,7 +34,7 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 |---|---|
 | `/research-it` | Pre-spike research producing decision artifacts that steer spike sessions |
 | `/spike-it` | Deep-dive investigation of a problem (PRD process) |
-| `/task-it` | Decompose a spike into vertical-slice GitHub issues with HITL/AFK classification |
+| `/task-it` | Decompose a spike into vertical-slice tracker tickets with HITL/AFK classification |
 | `/plan-it` | Break a task into ordered, atomic steps |
 | `/do-it` | Execute a plan step-by-step via /tdd |
 | `/tdd` | Red-green-refactor loop |
