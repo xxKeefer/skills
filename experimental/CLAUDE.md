@@ -21,6 +21,7 @@ and value aren't yet decided.
 | `/define-term` | Add a single term to the glossary under a user-specified concept |
 | `/update-language` | Audit a conversation against the glossary, propose restrained edits |
 | `/tabular-analysis` | Compare/contrast concepts in a markdown table with exactly the user's pipe-split columns |
+| `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 
 The glossary three are a cohort — they reference each other by name and share the glossary-location lookup.
 Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
