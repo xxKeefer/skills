@@ -14,6 +14,7 @@ Meta skills reference `/grill-it` from the `primitives` plugin. Both must be ins
 | `/audit-workflow` | Audit Claude Code config and suggest optimizations |
 | `/learn-it` | Extract conversation patterns into new skills (wraps /write-a-skill) |
 | `/write-a-skill` | Create a new skill from scratch with requirements gathering and review |
+| `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/teach-it` | Correct agent behaviour via persistent feedback |
 | `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
 | `/ubiquitous-language` | Extract and formalise domain terminology into a glossary |
