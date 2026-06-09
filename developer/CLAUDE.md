@@ -40,6 +40,7 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 | `/tdd` | Red-green-refactor loop |
 | `/hunt-it` | Trace a bug from report to root cause, file GitHub issue with TDD fix plan |
 | `/resolve-it` | Critically assess code review feedback |
+| `/resolve-conflicts` | Resolve git merge/rebase conflicts using history; HITL on complex cases, follows test/refactor links |
 | `/design-it` | Generate multiple radically different interface designs |
 | `/document-it` | Sync documentation to code changes |
 | `/improve-it` | Find architectural improvement opportunities |

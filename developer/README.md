@@ -15,6 +15,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/hunt-it` | Implementation | Bug tracking from symptom to fix |
 | `/close-it` | Closure | Commit, PR, QA test plan |
 | `/resolve-it` | Closure | Assess code review feedback |
+| `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/design-it` | Exploration | Multiple interface designs |
 | `/document-it` | Maintenance | Sync docs to code |
 | `/improve-it` | Maintenance | Architecture improvement |
