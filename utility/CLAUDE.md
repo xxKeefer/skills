@@ -10,6 +10,7 @@ the setup skills are easy to find, maintain, or retire on their own.
 |---|---|
 | `/setup-pre-commit` | Detect language/toolchain and configure pre-commit hooks (format, type-check, test) |
 | `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
+| `/setup-skill-tally` | Count every skill invocation into a global JSON tally via a zero-latency hook |
 
 ## Design Principles
 
