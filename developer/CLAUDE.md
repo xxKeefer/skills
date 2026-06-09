@@ -22,9 +22,9 @@ Triage: triage-it (label state machine, agent briefs)
 QA: qa-it (interactive bug intake -> issues)
 
 Anytime: explain-it, document-it, improve-it
-
-Setup: setup-pre-commit, setup-git-guardrails
 ```
+
+Environment setup (pre-commit hooks, git guardrails) lives in the `utility` domain.
 
 ## Skills
 
@@ -45,8 +45,6 @@ Setup: setup-pre-commit, setup-git-guardrails
 | `/triage-it` | Label-based state machine for GitHub issue triage |
 | `/qa-it` | Interactive bug intake session, files GitHub issues |
 | `/refactor-it` | Interview-driven refactor planning with tiny commits |
-| `/setup-pre-commit` | Language-aware pre-commit hook configuration |
-| `/setup-git-guardrails` | Block dangerous git commands via Claude Code hook |
 
 ## References
 

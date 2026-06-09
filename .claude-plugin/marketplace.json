@@ -49,6 +49,12 @@
       "source": "./nix-manager"
     },
     {
+      "name": "utility",
+      "description": "Dev-environment setup skills -- pre-commit hooks and git guardrails. Isolated so they're easy to maintain or retire.",
+      "category": "development",
+      "source": "./utility"
+    },
+    {
       "name": "experimental",
       "description": "Personal skills on probation. Promote to a real domain once usage justifies it; demote to `deprecated` if it doesn't.",
       "category": "development",

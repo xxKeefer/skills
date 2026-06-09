@@ -17,6 +17,7 @@ workflows.
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `wiki` | Raw note intake, knowledge management, vault indexing | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
+| `utility` | Dev-environment setup -- pre-commit hooks, git guardrails | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
 | `deprecated` | Skills awaiting a keep/kill decision before deletion | No |
 

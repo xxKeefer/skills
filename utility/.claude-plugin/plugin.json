@@ -1,0 +1,8 @@
+{
+  "name": "utility",
+  "description": "Dev-environment setup skills -- pre-commit hooks and git guardrails. Isolated so they're easy to maintain or retire.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}
