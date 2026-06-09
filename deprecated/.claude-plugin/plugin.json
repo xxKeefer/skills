@@ -1,0 +1,8 @@
+{
+  "name": "deprecated",
+  "description": "Personal skills awaiting a keep/kill decision. Disable freely; delete once confirmed unused.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}
