@@ -15,4 +15,12 @@ and value aren't yet decided.
 
 ## Skills
 
-_None yet._
+| Skill | Purpose |
+|---|---|
+| `/define-concept` | Mine a concept's terminology, verify term-by-term, write a glossary section |
+| `/define-term` | Add a single term to the glossary under a user-specified concept |
+| `/update-language` | Audit a conversation against the glossary, propose restrained edits |
+
+The three are a cohort — they reference each other by name and share the glossary-location lookup.
+Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
+together into a stable domain (likely `maintain`-equivalent or `meta`) once they earn it.
