@@ -10,7 +10,7 @@ idiomatic nix as it goes.
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@nix-manager": true
+    "nix-manager@xxkeefer-skills": true
   }
 }
 ```

@@ -25,12 +25,12 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@developer": true
+    "developer@xxkeefer-skills": true
   }
 }
 ```
 
-Requires `xxkeefer-skills@primitives`.
+Requires `primitives@xxkeefer-skills`.
 
 ## Permissions
 

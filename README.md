@@ -29,11 +29,11 @@ Add to `~/.claude/settings.json`:
     }
   },
   "enabledPlugins": {
-    "xxkeefer-skills@primitives": true,
-    "xxkeefer-skills@developer": true,
-    "xxkeefer-skills@journal": true,
-    "xxkeefer-skills@meta": true,
-    "xxkeefer-skills@omen": true
+    "primitives@xxkeefer-skills": true,
+    "developer@xxkeefer-skills": true,
+    "journal@xxkeefer-skills": true,
+    "meta@xxkeefer-skills": true,
+    "omen@xxkeefer-skills": true
   }
 }
 ```

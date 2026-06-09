@@ -16,9 +16,9 @@ Skills about skills -- writing, auditing, and teaching.
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@meta": true
+    "meta@xxkeefer-skills": true
   }
 }
 ```
 
-Requires `xxkeefer-skills@primitives`.
+Requires `primitives@xxkeefer-skills`.

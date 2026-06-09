@@ -9,7 +9,7 @@ This domain is currently empty. Skills will be added as creative workflows are c
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@omen": true
+    "omen@xxkeefer-skills": true
   }
 }
 ```

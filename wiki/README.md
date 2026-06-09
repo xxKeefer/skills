@@ -17,9 +17,9 @@ Raw note intake, knowledge management, and vault indexing for Obsidian.
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@wiki": true
+    "wiki@xxkeefer-skills": true
   }
 }
 ```
 
-Requires `xxkeefer-skills@primitives`.
+Requires `primitives@xxkeefer-skills`.

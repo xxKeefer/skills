@@ -13,7 +13,7 @@ Foundational skills that other domains compose. Always install this domain.
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@primitives": true
+    "primitives@xxkeefer-skills": true
   }
 }
 ```

@@ -32,12 +32,12 @@ Add to your Claude Code settings:
 ```json
 {
   "enabledPlugins": {
-    "xxkeefer-skills@journal": true
+    "journal@xxkeefer-skills": true
   }
 }
 ```
 
-Requires `xxkeefer-skills@primitives` for `/grill-it` dependency.
+Requires `primitives@xxkeefer-skills` for `/grill-it` dependency.
 
 ## Vault Setup
 
