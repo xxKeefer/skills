@@ -29,6 +29,19 @@ for all others -- it provides foundational skills (like `/grill-it`) that other 
 The root directory owns only the marketplace registry (`.claude-plugin/marketplace.json`) and
 shared documentation. No skills live at root.
 
+## Skill Maturity
+
+New skills land in `experimental` and earn their way into a stable domain, or fall through to
+`deprecated` and eventual deletion. **All moves are manual** — a deliberate human decision, not an
+automated rule:
+
+- **Promote** (`experimental` → stable domain): when a skill has proven its worth in real use, move
+  it into the domain it belongs to and bump that domain's version.
+- **Deprecate** (any domain → `deprecated`): when a skill has gone cold or its value is in doubt,
+  move it here rather than deleting outright.
+- **Delete** (`deprecated` → gone): once you're confident the skill is genuinely unused. Git history
+  is the archive.
+
 ## North Star
 
 Everything-agnostic. Skills encode *how to think about problems*, not how to use specific tools.
