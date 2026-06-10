@@ -10,7 +10,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/define-term` | Add a single term to the glossary under a user-specified concept |
 | `/update-language` | Compare a conversation against the glossary, propose restrained edits/additions |
 | `/tabular-analysis` | Compare and contrast concepts in a markdown table with user-supplied columns |
-| `/hunt-it` | Go from bug report to root cause to fix plan |
+| `/hunt-it` | Trace a non-obvious bug to proven root cause, hand off to /fix-it or /plan-it |
 
 > Migrated in from the work marketplace (`xxkeefer-work` `maintain`) — fully generic glossary tooling,
 > no Megaport content. On probation here pending promotion to a stable domain.

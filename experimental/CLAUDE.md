@@ -22,7 +22,7 @@ and value aren't yet decided.
 | `/update-language` | Audit a conversation against the glossary, propose restrained edits |
 | `/tabular-analysis` | Compare/contrast concepts in a markdown table with exactly the user's pipe-split columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
-| `/hunt-it` | Go from bug report to root cause to fix plan |
+| `/hunt-it` | Trace a non-obvious bug to proven root cause, hand off to /fix-it or /plan-it |
 
 The glossary three are a cohort — they reference each other by name and share the glossary-location lookup.
 Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
