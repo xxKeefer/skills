@@ -9,22 +9,24 @@ software engineering principles.
 Developer skills reference `/grill-it`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
 all must be installed. Ticket-creating skills (`research-it`, `spike-it`, `task-it`, `plan-it`) target
 the project's tracker — GitHub via `gh` by default, or whatever the repo's CLAUDE.md declares (e.g.
-Jira via the Atlassian MCP). Some skills (`hunt-it`, `qa-it`, `triage-it`) are still GitHub-specific.
+Jira via the Atlassian MCP).
 
 ## Workflow
 
 ```
 research-it -> spike-it -> task-it -> plan-it -> do-it (uses tdd)
-                              ^
-                          design-it (explore APIs)
-                          hunt-it (track bugs -> issue)
-                          refactor-it (improve existing code -> issue)
 
-Triage: triage-it (label state machine, agent briefs)
-QA: qa-it (interactive bug intake -> issues)
+After implementation: happy-path (manual QA checklist)
+                        -> fix-it (broken behaviour found in QA)
+                        -> tweak-it (small polish edits)
 
-Anytime: explain-it, document-it, improve-it
+Closure: resolve-it (review feedback), resolve-conflicts (merge/rebase conflicts)
+
+Anytime: explain-it, document-it
 ```
+
+Bug hunting for non-obvious root causes lives in `experimental` as `/hunt-it`; it hands off to
+`/fix-it` or `/plan-it` here.
 
 Environment setup (pre-commit hooks, git guardrails) lives in the `utility` domain.
 
@@ -38,16 +40,13 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 | `/plan-it` | Break a task into ordered, atomic steps |
 | `/do-it` | Execute a plan step-by-step via /tdd |
 | `/tdd` | Red-green-refactor loop |
-| `/hunt-it` | Trace a bug from report to root cause, file GitHub issue with TDD fix plan |
+| `/tweak-it` | Apply small, focused edits to recently built work |
+| `/fix-it` | Fix a broken behaviour found during manual QA -- lighter than a full bug hunt |
+| `/happy-path` | Generate a manual QA test plan for the current changeset |
 | `/resolve-it` | Critically assess code review feedback |
 | `/resolve-conflicts` | Resolve git merge/rebase conflicts using history; HITL on complex cases, follows test/refactor links |
-| `/design-it` | Generate multiple radically different interface designs |
 | `/document-it` | Sync documentation to code changes |
-| `/improve-it` | Find architectural improvement opportunities |
 | `/explain-it` | Unpack agent reasoning transparently |
-| `/triage-it` | Label-based state machine for GitHub issue triage |
-| `/qa-it` | Interactive bug intake session, files GitHub issues |
-| `/refactor-it` | Interview-driven refactor planning with tiny commits |
 
 ## References
 

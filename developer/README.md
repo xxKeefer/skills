@@ -12,14 +12,12 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/plan-it` | Planning | Break task into atomic steps |
 | `/do-it` | Implementation | Execute plan via /tdd |
 | `/tdd` | Implementation | Red-green-refactor loop |
-| `/hunt-it` | Implementation | Bug tracking from symptom to fix |
-| `/close-it` | Closure | Commit, PR, QA test plan |
+| `/tweak-it` | Implementation | Small focused edits to recently built work |
+| `/fix-it` | Implementation | Fix a broken behaviour found during manual QA |
+| `/happy-path` | Closure | Manual QA test plan for the current changeset |
 | `/resolve-it` | Closure | Assess code review feedback |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
-| `/design-it` | Exploration | Multiple interface designs |
 | `/document-it` | Maintenance | Sync docs to code |
-| `/improve-it` | Maintenance | Architecture improvement |
-| `/qa-it` | Closure | Manual QA test plans |
 | `/explain-it` | Anytime | Unpack agent reasoning |
 
 ## Installation

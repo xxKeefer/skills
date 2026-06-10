@@ -1,6 +1,6 @@
 # Meta
 
-Skills about skills -- writing, auditing, and teaching.
+Skills about skills -- writing, auditing, and lifecycle management.
 
 ## Skills
 
@@ -10,9 +10,6 @@ Skills about skills -- writing, auditing, and teaching.
 | `/write-a-skill` | Author a new skill from scratch with requirements gathering and review |
 | `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
-| `/learn-it` | Extract repeatable patterns into new skills |
-| `/teach-it` | Correct agent behaviour via persistent feedback |
-| `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
 
 ## Installation
 

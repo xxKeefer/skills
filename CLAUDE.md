@@ -12,8 +12,8 @@ workflows.
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
 | `developer` | Engineering workflows -- investigation to closure | No |
-| `journal` | Life admin -- agile-inspired personal growth | No |
-| `meta` | Skills about skills -- writing, auditing, teaching | No |
+| `journal` | Personal planner -- cascading goal/reflection system | No |
+| `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `wiki` | Raw note intake, knowledge management, vault indexing | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |

@@ -6,11 +6,16 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill-it | Foundational building blocks |
-| **developer** | spike-it, task-it, plan-it, do-it, tdd, close-it, hunt-it, resolve-it, design-it, document-it, improve-it, qa-it, explain-it | Engineering lifecycle |
-| **journal** | smart-goal, quest, vault, weekly, daily, check-in, reflect, ponder, chronicle | Life admin + personal growth |
-| **meta** | audit-workflow, learn-it, teach-it | Skills about skills |
-| **omen** | (empty) | Creative -- TTRPG, worldbuilding |
+| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff | Foundational building blocks |
+| **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, fix-it, tweak-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
+| **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
+| **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
+| **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
+| **wiki** | intake-raw, intake-it, edit-article, rebuild-index, standardise-frontmatter | Note intake + knowledge management |
+| **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally | Dev-environment setup |
+| **experimental** | define-concept, define-term, update-language, tabular-analysis, lobotomize, hunt-it | Skills on probation |
+| **deprecated** | bootstrap-ubiquitous-language, design-it, improve-it, learn-it, optimise-skill, qa-it, refactor-it, research-it, teach-it, triage-it, ubiquitous-language | Awaiting keep/kill decision |
 
 ## Setup
 
@@ -33,7 +38,12 @@ Add to `~/.claude/settings.json`:
     "developer@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
-    "omen@xxkeefer-skills": true
+    "omen@xxkeefer-skills": true,
+    "wiki@xxkeefer-skills": true,
+    "nix-manager@xxkeefer-skills": true,
+    "utility@xxkeefer-skills": true,
+    "experimental@xxkeefer-skills": true,
+    "deprecated@xxkeefer-skills": true
   }
 }
 ```

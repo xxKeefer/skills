@@ -22,10 +22,5 @@ Shared terminology for the xxkeefer-skills repository.
 | **Canonical frontmatter**  | The standard YAML frontmatter shape for knowledge notes: `up`, `related`, `also`, `aliases`, `tags`. Defined in the wiki domain spec.        |
 | **INDEX.md**               | Agent-maintained directory index file with frontmatter (`description`, `conventions`) and body describing purpose and structure.              |
 | **Classification routing** | The decision process mapping raw notes to destinations: `03-knowledge/`, `04-notes/`, `05-projects/`, or `00-raw/hitl/`.                     |
-| **Kaizen**                 | Continuous tiny improvement. Journal-domain principle: 1% better every day, experiments graduate to standards, friction triggers 5 Whys.     |
-| **Standard**               | A locked-in baseline in `kaizen.md` graduated from a kept experiment. Carried into every sprint by `/weekly` unless explicitly calibrated.   |
-| **Improvement Log**        | Append-only dated section of `kaizen.md` capturing one tiny improvement per `/reflect`. Reviewed by `/ponder`, summarised by `/chronicle`.   |
-| **Active Calibration**     | A recorded adjustment to a standard or habit (typically a kaizen-shrink) under trial for one sprint, logged in `kaizen.md`.                  |
-| **One-Day PDCA**           | The daily Plan-Do-Check-Act micro-loop: `/daily` plans an intent, the day acts, `/reflect` checks outcome and adjusts.                       |
-| **5 Whys**                 | Root-cause mini-dialogue triggered in `/reflect` when friction recurs. Result recorded in the `kaizen.md` 5 Whys Log with a counter-measure. |
-| **Kaizen-shrink**          | Reducing a failing habit to a near-zero-friction floor instead of abandoning it. Logged to Active Calibrations and trialled for one sprint.  |
+| **Cascading goals**        | Journal-domain mechanic: yearly goals feed monthly, monthly feed weekly, weekly feed daily. Each level is a backlog for the level below.     |
+| **Journal directory**      | The directory in the vault containing `occasions.md` and all journal files. Discovered by scanning, never hardcoded.                         |

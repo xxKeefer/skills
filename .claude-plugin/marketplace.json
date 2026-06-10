@@ -20,13 +20,13 @@
     },
     {
       "name": "journal",
-      "description": "Life admin skill suite -- agile-inspired personal growth system for Obsidian.",
+      "description": "Personal planner -- cascading goal/reflection system for Obsidian.",
       "category": "productivity",
       "source": "./journal"
     },
     {
       "name": "meta",
-      "description": "Skills about skills -- writing, auditing, and teaching skills.",
+      "description": "Skills about skills -- writing, auditing, and managing the lifecycle of skills.",
       "category": "development",
       "source": "./meta"
     },

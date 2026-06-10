@@ -1,6 +1,6 @@
 {
   "name": "meta",
-  "description": "Skills about skills -- writing, auditing, and teaching skills. Requires primitives.",
+  "description": "Skills about skills -- writing, auditing, and managing the lifecycle of skills. Requires primitives.",
   "version": "1.4.0",
   "author": {
     "name": "xxkeefer"

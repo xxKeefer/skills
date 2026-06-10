@@ -12,6 +12,7 @@ secretary/PA tone.
 | `/monthly` | Generate monthly file with goals and weekly overview |
 | `/yearly` | Generate yearly file with aspirations and monthly overview |
 | `/reflect` | File-agnostic reflection and link maintenance tool |
+| `/update-occasions-config` | Sync vault `occasions.md` into `vault_occasions.js` for Templater |
 
 ## Workflow
 

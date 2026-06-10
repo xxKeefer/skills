@@ -1,7 +1,8 @@
 # Meta
 
-Skills about skills -- writing new skills, auditing your setup, and teaching the agent to
-improve. These are self-referential tools for maintaining and evolving the skill ecosystem itself.
+Skills about skills -- writing new skills, auditing your setup, and managing the skill lifecycle
+(migrate, retire). These are self-referential tools for maintaining and evolving the skill
+ecosystem itself.
 
 ## Dependencies
 
@@ -12,11 +13,6 @@ Meta skills reference `/grill-it` from the `primitives` plugin. Both must be ins
 | Skill | Purpose |
 |---|---|
 | `/audit-workflow` | Audit Claude Code config and suggest optimizations |
-| `/learn-it` | Extract conversation patterns into new skills (wraps /write-a-skill) |
 | `/write-a-skill` | Create a new skill from scratch with requirements gathering and review |
 | `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
-| `/teach-it` | Correct agent behaviour via persistent feedback |
-| `/optimise-skill` | Harden, slim down, and recommend improvements for a skill |
-| `/ubiquitous-language` | Extract and formalise domain terminology into a glossary |
-| `/bootstrap-ubiquitous-language` | Mine a brownfield codebase for domain terms, human-verified one at a time |
