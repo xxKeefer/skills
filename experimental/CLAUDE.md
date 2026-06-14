@@ -22,6 +22,7 @@ and value aren't yet decided.
 | `/update-language` | Audit a conversation against the glossary, propose restrained edits |
 | `/tabular-analysis` | Compare/contrast concepts in a markdown table with exactly the user's pipe-split columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
+| `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 
 The glossary three are a cohort — they reference each other by name and share the glossary-location lookup.
 Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
