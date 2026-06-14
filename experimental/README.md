@@ -11,7 +11,6 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/update-language` | Compare a conversation against the glossary, propose restrained edits/additions |
 | `/tabular-analysis` | Compare and contrast concepts in a markdown table with user-supplied columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
-| `/hunt-it` | Trace a non-obvious bug to proven root cause, hand off to /fix-it or /plan-it |
 
 > Migrated in from the work marketplace (`xxkeefer-work` `maintain`) — fully generic glossary tooling,
 > no Megaport content. On probation here pending promotion to a stable domain.

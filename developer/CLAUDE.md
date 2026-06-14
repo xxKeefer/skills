@@ -18,15 +18,13 @@ research-it -> spike-it -> task-it -> plan-it -> do-it (uses tdd)
 
 After implementation: happy-path (manual QA checklist)
                         -> fix-it (broken behaviour found in QA)
+                        -> hunt-it (non-obvious root cause) -> fix-it / plan-it
                         -> tweak-it (small polish edits)
 
 Closure: resolve-it (review feedback), resolve-conflicts (merge/rebase conflicts)
 
 Anytime: explain-it, document-it
 ```
-
-Bug hunting for non-obvious root causes lives in `experimental` as `/hunt-it`; it hands off to
-`/fix-it` or `/plan-it` here.
 
 Environment setup (pre-commit hooks, git guardrails) lives in the `utility` domain.
 
@@ -41,6 +39,7 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 | `/do-it` | Execute a plan step-by-step via /tdd |
 | `/tdd` | Red-green-refactor loop |
 | `/tweak-it` | Apply small, focused edits to recently built work |
+| `/hunt-it` | Trace a non-obvious bug to proven root cause, hand off to /fix-it or /plan-it |
 | `/fix-it` | Fix a broken behaviour found during manual QA -- lighter than a full bug hunt |
 | `/happy-path` | Generate a manual QA test plan for the current changeset |
 | `/resolve-it` | Critically assess code review feedback |
