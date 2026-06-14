@@ -1,7 +1,7 @@
 {
   "name": "utility",
-  "description": "Dev-environment setup skills -- pre-commit hooks, git guardrails, and skill-usage tallying. Isolated so they're easy to maintain or retire.",
-  "version": "1.1.0",
+  "description": "Dev-environment setup skills -- pre-commit hooks, git guardrails, skill-usage tallying, and obsidian-kanban configuration. Isolated so they're easy to maintain or retire.",
+  "version": "1.2.0",
   "author": {
     "name": "xxkeefer"
   }
