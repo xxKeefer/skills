@@ -24,3 +24,8 @@ Shared terminology for the xxkeefer-skills repository.
 | **Classification routing** | The decision process mapping raw notes to destinations: `03-knowledge/`, `04-notes/`, `05-projects/`, or `00-raw/hitl/`.                     |
 | **Cascading goals**        | Journal-domain mechanic: yearly goals feed monthly, monthly feed weekly, weekly feed daily. Each level is a backlog for the level below.     |
 | **Journal directory**      | The directory in the vault containing `occasions.md` and all journal files. Discovered by scanning, never hardcoded.                         |
+| **Projects directory**     | The vault directory holding project workspaces (e.g. `05-projects/`). Discovered by scanning for `*projects`, never hardcoded.                |
+| **Project workspace**      | A stateful per-project directory (MISSION, Kanban board, decisions log, notes), modelled on the `teach` skill. The workspace is the state.    |
+| **Milestone**              | A dated project event written into the `occasions.md` Projects section so the journal surfaces it. Year-guarded, single-fire. Distinct from a goal. |
+| **Project board**          | A per-project obsidian-kanban file (`<slug>.kanban.md`): headings as columns, checkboxes as cards. Edited manually; skills only read it.       |
+| **Projects-to-journal bridge** | The one-way v1 interface: projects push milestones into `occasions.md`; the journal stays unaware of project schema.                       |

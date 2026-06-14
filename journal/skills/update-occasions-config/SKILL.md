@@ -1,9 +1,9 @@
 ---
 name: update-occasions-config
 description: >
-  Sync occasions.md from the vault into vault_occasions.js for Templater. Reads the three
-  sections (daily chores, day-specific chores, recurring events), generates JS with the
-  correct { sym, name, type, test } shape. Run when occasion data changes.
+  Sync occasions.md from the vault into vault_occasions.js for Templater. Reads all sections
+  (daily chores, day-specific chores, recurring events, one-off events, project milestones) and
+  generates JS with the { sym, name, type, section, test } shape. Run when occasion data changes.
 ---
 
 # Update Occasions Config
@@ -22,11 +22,13 @@ If either path cannot be found, ask:
 
 ## Step 2: Read occasions.md
 
-Parse the three sections:
+Parse every section. Each occasion carries a **`section`** field that routes it into the matching
+checklist group in the daily/weekly file: `chores`, `work`, or `tasks` (defaults to `chores` if a
+section has no Section column). Always emit `section` on every object.
 
 ### Chores (Daily Default)
 
-Lines matching `- [ ] <emoji> <name>`. These become reminders that fire every day.
+Lines matching `- [ ] <emoji> <name>`. These become reminders that fire every day. Section: `chores`.
 
 ```
 - [ ] 🧼 Dishes On
@@ -34,12 +36,12 @@ Lines matching `- [ ] <emoji> <name>`. These become reminders that fire every da
 
 Produces:
 ```js
-{ sym: '🧼', name: 'Dishes On', type: 'reminder', test: () => true },
+{ sym: '🧼', name: 'Dishes On', type: 'reminder', section: 'chores', test: () => true },
 ```
 
 ### Chores (Day-Specific)
 
-Table rows with `| <day-rule> | <emoji> <name> |`. Day rules:
+Table rows with `| <day-rule> | <emoji> <name> |`. Section: `chores`. Day rules:
 
 | Rule pattern | JS test |
 |---|---|
@@ -57,7 +59,8 @@ These become reminders.
 
 ### Recurring Events
 
-Table rows with `| <emoji> <name> | <date-rule> | <type> |`. Date rules:
+Table rows with `| <emoji> <name> | <date-rule> | <type> | <section> |`. The Section column routes
+the occasion (defaults to `chores`). Date rules:
 
 | Rule pattern | Example | JS test |
 |---|---|---|
@@ -124,6 +127,49 @@ For `Nth DayName Month` rules, compute the date range:
 | 3rd | 15--21 |
 | 4th | 22--28 |
 
+### One Off Events
+
+Section heading matches `## One Off Events` (optionally suffixed with a year, e.g.
+`## One Off Events - 2026`). Table rows with `| <emoji> <name> | <date-rule> | <type> | <section> |`.
+
+These fire **once on their date** and the user prunes them manually afterwards. Default Section is
+`tasks`. Parse the date with the same `Mon DD` / `Nth Day Mon` rules as recurring events, but
+**year-guard** them so a one-off doesn't recur every year:
+
+- If the heading carries a year `YYYY`, add `m.year() === YYYY &&` to the test.
+- If no year is given, fall back to the current year.
+
+```
+## One Off Events - 2026
+| 💒 A Wedding | Oct 12 | event | tasks |
+```
+
+Produces:
+```js
+{ sym: '💒', name: 'A Wedding', type: 'event', section: 'tasks', test: (m) => m.year() === 2026 && m.month() === 9 && m.date() === 12 },
+```
+
+No weekend carry-over for one-offs -- exact date only.
+
+### Projects
+
+Section heading matches `## Projects`. This section is written by the `projects` domain's
+`/schedule-goals` skill; the user does not normally hand-edit it. Same table shape as One Off Events:
+`| <emoji> <project>: <milestone> | <date-rule> | <type> | <section> |`.
+
+Project milestones are **dated, year-guarded, single-fire** like one-offs. Default Section is `tasks`
+so they render in the daily/weekly Tasks group with no template change.
+
+```
+## Projects
+| 🏗 New House: finance approved | Jul 3 | event | tasks |
+```
+
+Produces:
+```js
+{ sym: '🏗', name: 'New House: finance approved', type: 'event', section: 'tasks', test: (m) => m.year() === 2026 && m.month() === 6 && m.date() === 3 },
+```
+
 ## Step 3: Generate vault_occasions.js
 
 Write the output file to `<scripts-dir>/vault_occasions.js` with this structure:
@@ -131,13 +177,19 @@ Write the output file to `<scripts-dir>/vault_occasions.js` with this structure:
 ```js
 const OCCASIONS = [
   // --- DAILY DEFAULT CHORES ---
-  { sym: '...', name: '...', type: 'reminder', test: () => true },
+  { sym: '...', name: '...', type: 'reminder', section: 'chores', test: () => true },
 
   // --- DAY-SPECIFIC CHORES ---
-  { sym: '...', name: '...', type: 'reminder', test: (m) => ... },
+  { sym: '...', name: '...', type: 'reminder', section: 'chores', test: (m) => ... },
 
   // --- RECURRING EVENTS ---
-  { sym: '...', name: '...', type: 'event', test: (m) => ... },
+  { sym: '...', name: '...', type: 'event', section: 'chores', test: (m) => ... },
+
+  // --- ONE OFF EVENTS ---
+  { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
+
+  // --- PROJECTS ---
+  { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
 ];
 
 function vault_occasions() {
@@ -147,6 +199,9 @@ function vault_occasions() {
 module.exports = vault_occasions;
 ```
 
+Every object emits `section`. Omit a section block entirely if `occasions.md` has no such section --
+do not write empty comment headers.
+
 ## Step 4: Confirm
 
 Report what was generated:
@@ -155,5 +210,7 @@ Report what was generated:
 > - **X** daily chores
 > - **Y** day-specific chores
 > - **Z** recurring events
+> - **A** one-off events
+> - **B** project milestones
 >
 > Skipped: (list any rules that couldn't be parsed, if any)

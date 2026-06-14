@@ -13,6 +13,7 @@ workflows.
 | `primitives` | Foundational skills other domains compose | Yes |
 | `developer` | Engineering workflows -- investigation to closure | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
+| `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `wiki` | Raw note intake, knowledge management, vault indexing | No |

@@ -25,6 +25,12 @@
       "source": "./journal"
     },
     {
+      "name": "projects",
+      "description": "Long-running, goal-oriented project management for Obsidian. Stateful workspaces, Kanban boards, journal bridge.",
+      "category": "productivity",
+      "source": "./projects"
+    },
+    {
       "name": "meta",
       "description": "Skills about skills -- writing, auditing, and managing the lifecycle of skills.",
       "category": "development",

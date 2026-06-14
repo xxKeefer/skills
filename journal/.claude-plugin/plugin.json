@@ -1,7 +1,7 @@
 {
   "name": "journal",
   "description": "Personal planner -- cascading goal/reflection system for Obsidian. Requires primitives.",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": {
     "name": "xxkeefer"
   }
