@@ -42,6 +42,8 @@ One directory per project under the projects directory:
   MISSION.md          # why this project exists, definition of done, constraints, out-of-scope
   <slug>.kanban.md    # obsidian-kanban board: Backlog / This Week / Doing / Done
   decisions/          # ADR-style records (NNNN-slug.md) that steer next steps
+  tasks/              # per-card task notes created via "New note from card" in obsidian-kanban
+    _template.md      # note template used by the plugin when creating card notes
   NOTES.md            # working scratchpad
 ```
 
@@ -50,6 +52,7 @@ Format contracts live in `skills/new-project/`:
 - [MISSION-FORMAT.md](skills/new-project/MISSION-FORMAT.md)
 - [BOARD-FORMAT.md](skills/new-project/BOARD-FORMAT.md)
 - [DECISIONS-FORMAT.md](skills/new-project/DECISIONS-FORMAT.md)
+- [NOTE-FORMAT.md](skills/new-project/NOTE-FORMAT.md)
 
 Every other skill reads these as contracts -- read them before touching a workspace.
 

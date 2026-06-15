@@ -45,6 +45,8 @@ Present what will be created:
 >   MISSION.md
 >   {slug}.kanban.md
 >   decisions/
+>   tasks/
+>     _template.md
 >   NOTES.md
 > ```
 >
@@ -59,10 +61,14 @@ Create `{projects-dir}/{slug}/` and write each file against its format contract:
 
 - `MISSION.md` -- per [MISSION-FORMAT.md](MISSION-FORMAT.md), filled from the grill.
 - `{slug}.kanban.md` -- per [BOARD-FORMAT.md](BOARD-FORMAT.md). Seed the Backlog with any known
-  tasks; leave This Week / Doing / Done empty (Done keeps its `**Complete**` marker).
+  tasks; leave This Week / Doing / Done empty (Done keeps its `**Complete**` marker). Set
+  `new-note-folder` to `{projects-dir-from-vault-root}/{slug}/tasks` and `new-note-template` to
+  `{projects-dir-from-vault-root}/{slug}/tasks/_template.md` in the `%% kanban:settings %%` block.
 - `decisions/` -- create the directory empty (records are added later as choices arise). If the
   grill surfaced a foundational decision, write `decisions/0001-*.md` per
   [DECISIONS-FORMAT.md](DECISIONS-FORMAT.md).
+- `tasks/` -- create the directory and write `tasks/_template.md` per [NOTE-FORMAT.md](NOTE-FORMAT.md).
+  This is where obsidian-kanban drops new notes created from cards.
 - `NOTES.md` -- an empty scratchpad with a `# {Project Name} -- Notes` heading.
 
 ## Step 5: Confirm and Offer Next Steps
