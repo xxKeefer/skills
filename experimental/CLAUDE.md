@@ -17,13 +17,6 @@ and value aren't yet decided.
 
 | Skill | Purpose |
 |---|---|
-| `/define-concept` | Mine a concept's terminology, verify term-by-term, write a glossary section |
-| `/define-term` | Add a single term to the glossary under a user-specified concept |
-| `/update-language` | Audit a conversation against the glossary, propose restrained edits |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 | `/debrief` | Human-readable session debrief dropped into vault 00-raw/: done, next steps, teach-yourself |
-
-The glossary three are a cohort — they reference each other by name and share the glossary-location lookup.
-Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
-together into a stable domain (likely `maintain`-equivalent or `meta`) once they earn it.
