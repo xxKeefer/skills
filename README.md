@@ -6,16 +6,17 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff | Foundational building blocks |
-| **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, fix-it, tweak-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
+| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff, tabular-analysis | Foundational building blocks |
+| **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, tweak-it, hunt-it, fix-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
+| **projects** | new-project, capture-goals, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
 | **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **scribe** | add-procedure, edit-article | Capture vault procedures + edit notes |
+| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally | Dev-environment setup |
-| **experimental** | define-concept, define-term, update-language, tabular-analysis, lobotomize, hunt-it | Skills on probation |
-| **deprecated** | bootstrap-ubiquitous-language, design-it, improve-it, learn-it, optimise-skill, qa-it, refactor-it, research-it, teach-it, triage-it, ubiquitous-language | Awaiting keep/kill decision |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
+| **experimental** | debrief, do-next, lobotomize, patch-doctor, update-handoff | Skills on probation |
+| **deprecated** | design-it, improve-it, intake-it, intake-raw, rebuild-index, research-it, standardise-frontmatter | Awaiting keep/kill decision |
 
 ## Setup
 
@@ -37,6 +38,7 @@ Add to `~/.claude/settings.json`:
     "primitives@xxkeefer-skills": true,
     "developer@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
+    "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
     "omen@xxkeefer-skills": true,
     "scribe@xxkeefer-skills": true,

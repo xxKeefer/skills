@@ -8,7 +8,7 @@ argument-hint: "Any topic to emphasise in the next-time notes?"
 ---
 
 Write a session debrief for the human to read after the conversation ends. Save it as a markdown
-note directly into the Obsidian vault's `00-raw/` folder so it's ready for `/wiki:intake-raw`
+note directly into the Obsidian vault's `00-raw/` folder so it's ready for later intake or triage
 without any manual moving.
 
 If the user passed arguments, treat them as a hint about which topic to focus the next-time

@@ -16,7 +16,7 @@ workflows.
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
-| `scribe` | Capture vault procedures + edit notes | No |
+| `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, git guardrails | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
