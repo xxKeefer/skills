@@ -11,6 +11,18 @@ The domain covers two jobs:
 
 ## Vault Conventions
 
+### Procedures Directory
+
+Procedure capture lives in the vault's procedures directory. Discover it by scanning the vault root
+for a directory matching `*procedures` (e.g. `07-procedures/`). If none is found, ask the user where
+procedures should live, create it, and store the path to memory. **Never hardcode the path** -- the
+user may renumber or move it.
+
+A procedure file is a small collection of related procedures for one area (e.g. `work.md`,
+`nix.md`), not necessarily one procedure per file. Entry format is defined per skill.
+
+### Editing
+
 Preserve Obsidian-native syntax in every edit:
 
 - **Frontmatter** (YAML between `---` fences) -- preserve exactly
@@ -28,4 +40,5 @@ plugins must be installed.
 
 | Skill | Purpose |
 |---|---|
+| `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
 | `/edit-article` | HITL -- structural and prose editing for Obsidian notes |

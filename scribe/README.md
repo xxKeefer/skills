@@ -6,6 +6,7 @@ Capture and edit Obsidian vault notes -- procedure capture and prose editing.
 
 | Skill | Purpose |
 |---|---|
+| `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
 | `/edit-article` | Structural and prose editing for Obsidian notes |
 
 ## Installation
