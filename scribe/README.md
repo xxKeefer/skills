@@ -1,6 +1,6 @@
-# Wiki
+# Scribe
 
-Raw note intake, knowledge management, and vault indexing for Obsidian.
+Capture and edit Obsidian vault notes -- procedure capture and prose editing.
 
 ## Skills
 
@@ -13,7 +13,7 @@ Raw note intake, knowledge management, and vault indexing for Obsidian.
 ```json
 {
   "enabledPlugins": {
-    "wiki@xxkeefer-skills": true
+    "scribe@xxkeefer-skills": true
   }
 }
 ```

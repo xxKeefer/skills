@@ -43,10 +43,10 @@
       "source": "./omen"
     },
     {
-      "name": "wiki",
-      "description": "Raw note intake, knowledge management, and vault indexing for Obsidian.",
+      "name": "scribe",
+      "description": "Capture and edit Obsidian vault notes -- procedure capture and prose editing.",
       "category": "productivity",
-      "source": "./wiki"
+      "source": "./scribe"
     },
     {
       "name": "nix-manager",

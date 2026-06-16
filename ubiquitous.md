@@ -17,11 +17,7 @@ Shared terminology for the xxkeefer-skills repository.
 | **Durability**             | The principle that issue content must survive radical codebase changes -- no file paths, domain language, behavioural criteria.              |
 | **Agent brief**            | A structured comment added to AFK issues describing current/desired behaviour, key interfaces, acceptance criteria, and scope boundaries.   |
 | **Triage state**           | Label-based state for GitHub issues: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix.                                   |
-| **Vault**                  | The user's Obsidian vault. Wiki domain skills run from the vault root.                                                                       |
-| **Absorb-and-split**       | Wikipedia-model algorithm: insert content into an existing knowledge doc, then split oversized sections into new docs with cross-links.       |
-| **Canonical frontmatter**  | The standard YAML frontmatter shape for knowledge notes: `up`, `related`, `also`, `aliases`, `tags`. Defined in the wiki domain spec.        |
-| **INDEX.md**               | Agent-maintained directory index file with frontmatter (`description`, `conventions`) and body describing purpose and structure.              |
-| **Classification routing** | The decision process mapping raw notes to destinations: `03-knowledge/`, `04-notes/`, `05-projects/`, or `00-raw/hitl/`.                     |
+| **Vault**                  | The user's Obsidian vault. Scribe domain skills run from the vault root.                                                                       |
 | **Cascading goals**        | Journal-domain mechanic: yearly goals feed monthly, monthly feed weekly, weekly feed daily. Each level is a backlog for the level below.     |
 | **Journal directory**      | The directory in the vault containing `occasions.md` and all journal files. Discovered by scanning, never hardcoded.                         |
 | **Projects directory**     | The vault directory holding project workspaces (e.g. `05-projects/`). Discovered by scanning for `*projects`, never hardcoded.                |

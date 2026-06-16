@@ -11,7 +11,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
 | **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **wiki** | intake-raw, intake-it, edit-article, rebuild-index, standardise-frontmatter | Note intake + knowledge management |
+| **scribe** | edit-article | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally | Dev-environment setup |
 | **experimental** | define-concept, define-term, update-language, tabular-analysis, lobotomize, hunt-it | Skills on probation |
@@ -39,7 +39,7 @@ Add to `~/.claude/settings.json`:
     "journal@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
     "omen@xxkeefer-skills": true,
-    "wiki@xxkeefer-skills": true,
+    "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
     "experimental@xxkeefer-skills": true,
