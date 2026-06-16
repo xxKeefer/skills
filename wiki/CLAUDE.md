@@ -92,8 +92,4 @@ plugins must be installed.
 
 | Skill | Purpose |
 |---|---|
-| `/intake-raw` | AFK batch -- process all notes in `00-raw/`, classify, route, absorb-and-split |
-| `/intake-it` | HITL single note -- process one `00-raw/hitl/` note with human guidance |
-| `/standardise-frontmatter` | AFK -- normalise knowledge note frontmatter to canonical shape |
 | `/edit-article` | HITL -- structural and prose editing for Obsidian notes |
-| `/rebuild-index` | AFK -- generate or rebuild INDEX.md for a given directory |

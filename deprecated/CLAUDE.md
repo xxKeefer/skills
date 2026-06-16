@@ -22,3 +22,7 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/design-it` | Generate multiple radically different interface designs via parallel sub-agents |
 | `/improve-it` | Find architectural improvements by deepening shallow modules |
 | `/research-it` | Pre-spike research producing a decision artifact (superseded by developer version) |
+| `/intake-raw` | AFK batch -- process all notes in `00-raw/`, classify, route, absorb-and-split (from wiki) |
+| `/intake-it` | HITL single note -- process one `00-raw/hitl/` note with human guidance (from wiki) |
+| `/standardise-frontmatter` | AFK -- normalise knowledge note frontmatter to canonical shape (from wiki) |
+| `/rebuild-index` | AFK -- generate or rebuild INDEX.md for a given directory (from wiki) |
