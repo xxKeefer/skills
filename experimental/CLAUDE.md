@@ -23,6 +23,7 @@ and value aren't yet decided.
 | `/tabular-analysis` | Compare/contrast concepts in a markdown table with exactly the user's pipe-split columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
+| `/debrief` | Human-readable session debrief dropped into vault 00-raw/: done, next steps, teach-yourself |
 
 The glossary three are a cohort — they reference each other by name and share the glossary-location lookup.
 Migrated from the work marketplace's `maintain` plugin (generic, no Megaport coupling). Promote them
