@@ -9,7 +9,6 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/define-concept` | Mine the codebase for one concept's terminology, verify term-by-term, add as a glossary section |
 | `/define-term` | Add a single term to the glossary under a user-specified concept |
 | `/update-language` | Compare a conversation against the glossary, propose restrained edits/additions |
-| `/tabular-analysis` | Compare and contrast concepts in a markdown table with user-supplied columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 

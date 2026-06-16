@@ -48,10 +48,13 @@ Identify the set of concepts being compared — one per row:
 
 ## Step 4: Build the table
 
-- Columns are **exactly** the Step 1 headers — same wording, same order. Never add, rename, drop,
-  or reorder columns. If the user wants a first "concept"/name column, it's already in their
-  headers; don't invent one.
-- One row per concept from Step 3.
+- Always prepend a `#` column as the very first column: an auto-incrementing, 1-indexed row
+  count (1, 2, 3, …). This is the one column you add yourself — it gives every row a stable id to
+  reference in discussion ("row 3", "#3"). It sits before the user's headers and is never part of them.
+- After the `#` column, columns are **exactly** the Step 1 headers — same wording, same order.
+  Never add, rename, drop, or reorder the user's columns. If the user wants a first "concept"/name
+  column, it's already in their headers; don't invent one.
+- One row per concept from Step 3, numbered sequentially from 1 in the `#` column.
 - Fill each cell from the resolved material. Keep cells terse — phrases, not paragraphs. For
   source-backed comparisons, ground cells in the evidence (`file:line` where it helps).
 - Missing/inapplicable data → `—`, not a guess.
@@ -64,4 +67,4 @@ Output the markdown table directly in the response. Below it, add at most a coup
 if something needs flagging — gaps, caveats, or a one-line takeaway. Don't pad with prose; the
 table is the deliverable. If the user wants it persisted, offer `/write-to-file`.
 
-**Done when:** the table is shown with the user's exact columns and one row per concept.
+**Done when:** the table is shown with a leading `#` column, then the user's exact columns, and one row per concept.

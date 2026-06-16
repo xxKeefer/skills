@@ -20,7 +20,6 @@ and value aren't yet decided.
 | `/define-concept` | Mine a concept's terminology, verify term-by-term, write a glossary section |
 | `/define-term` | Add a single term to the glossary under a user-specified concept |
 | `/update-language` | Audit a conversation against the glossary, propose restrained edits |
-| `/tabular-analysis` | Compare/contrast concepts in a markdown table with exactly the user's pipe-split columns |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 | `/debrief` | Human-readable session debrief dropped into vault 00-raw/: done, next steps, teach-yourself |

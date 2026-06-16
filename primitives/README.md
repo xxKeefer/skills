@@ -12,6 +12,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/explain` | Layered what/how/why explanation of any target |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent |
+| `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
 
 ## Installation
 
