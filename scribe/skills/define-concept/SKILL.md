@@ -79,14 +79,17 @@ Present candidates **one at a time**, as plain markdown text -- never an interac
 After each decision, move straight to the next term. Keep the pace brisk. If the user gets
 impatient, offer a numbered bulk list ("accept 1-5, reject 6, edit 7: ...").
 
-### Classify each term
+### Sort each term by weight
 
-As you verify, sort each term into where it lands in Step 6:
+As you verify, note how much room each term needs in Step 6:
 
-- **Core term** -- a structural noun central to the concept. Gets a prose `### {Term}` entry.
-- **Action** -- a verb the concept supports.
-- **Qualifier** -- a state, constraint, or flavour. Terse table row.
-- **Relationship** -- how it links to another concept. Terse table row.
+- **Prose** -- structural nouns central to the concept that carry composition or cross-references.
+  These earn a `### {Term}` entry.
+- **Table** -- terse, list-like terms (states, constraints, flavours, links, verbs) that fit a one-
+  line definition.
+
+Let the natural groupings emerge from the terms themselves rather than pre-deciding a section list
+-- you'll name the sections in Step 6 to match what you actually collected.
 
 ## Step 5: Flag Ambiguities
 
@@ -100,7 +103,9 @@ Ask the user to resolve each; unresolved ones go to the Flagged for Review secti
 
 ## Step 6: Write the CONTEXT.md
 
-One file, one context. Structure (create if new, merge into if existing):
+One file, one context. **Form follows the material** -- shape the document around what the corpus
+actually contains, not around a fixed template. The example below is a common shape, not a required
+one; rename, add, drop, or reorder sections so the structure reads honestly.
 
 ```markdown
 # {Subject} — Context
@@ -123,16 +128,7 @@ product-agnostic" or "covers the northern kingdoms only".}
 {Prose definition: what it IS, not what it does. Fold in customer-facing labels, composition
 ("a Flow Exporter is a Source and a Collector"), and cross-links to other terms via anchors.}
 
-## Actions
-
-{Prose or list of the verbs the concept supports.}
-
-## Qualifiers
-
-| Term | Definition |
-| --- | --- |
-
-## Relationships
+## {Supporting section}
 
 | Term | Definition |
 | --- | --- |
@@ -142,15 +138,22 @@ product-agnostic" or "covers the northern kingdoms only".}
 1. ...
 ```
 
-Rules:
+Invariants -- hold these regardless of how the sections are arranged:
 
-- **Core Terms get prose**, one `### {Term}` each -- this is where the structural nouns earn room
-  to define composition and cross-references. Qualifiers and Relationships stay terse in tables.
-- Include only the sections that have content. The **core model** callout is optional but valued --
-  use it when one sentence captures the concept's essence.
+- **Title, `Last updated`, and a framing line** always open the file. Refresh `Last updated` on
+  every write.
+- **The structural nouns get prose** -- one `### {Term}` each, with room for composition and
+  cross-references. This is usually a `## Core Terms` section but name it to fit.
+- **Terse, list-like terms go in tables** -- a `| Term | Definition |` table per coherent group.
+  Name the group for what it holds (`## Qualifiers`, `## Relationships`, `## Actions`, `## Where
+  things live`, whatever is true). Don't force a term into an ill-fitting bucket; if a section name
+  would lie, rename the section.
+- **The core model callout is optional but valued** -- use it when one sentence captures the
+  essence.
 - Cross-link related terms with anchors (`[Reserved IP](#reserved-ip)` ... `<a id="reserved-ip"></a>`).
-- Always refresh the **Last updated** line.
-- Preserve existing sections and entries untouched unless the user approved a change.
+- **🚩 items collect in a Flagged for Review section.**
+- Preserve existing sections and entries untouched unless the user approved a change -- and follow
+  the file's own established section names when merging into an existing CONTEXT.md.
 
 ## Step 7: Summary
 

@@ -70,8 +70,9 @@ For edits, always show the current definition alongside the proposed one.
 
 For each accepted change:
 
-- Place it in the right section: prose `### {Term}` under `## Core Terms`, the Actions list, or a
-  row in the `## Qualifiers` / `## Relationships` table -- matching the file's existing shape.
+- Place it to match the file's existing shape: a prose `### {Term}` entry for a structural term, or
+  a terse row in the matching table section. Follow the section names the file already uses; add a
+  new section (named for what it holds) only if nothing fits.
 - One best term per concept; flag duplicates as synonyms to avoid rather than adding them.
 - Keep 🚩 flags and the Flagged for Review section in sync.
 - Refresh the **Last updated** line.

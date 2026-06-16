@@ -1,4 +1,4 @@
-@ubiquitous.md
+@CONTEXT.md
 
 # xxkeefer-skills
 

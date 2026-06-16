@@ -28,15 +28,17 @@ The glossary is a markdown file canonically named `CONTEXT.md`, one per context.
 
 ## Step 2: Resolve the Section
 
-The term must land somewhere in the file. Classify it:
+The term must land somewhere in the file. Read the file's existing sections first and fit the term
+to them -- a CONTEXT.md names its own sections, so follow what's there rather than imposing a fixed
+set. Then decide its weight:
 
-- **Core term** -- a structural noun; gets a prose `### {Term}` entry under `## Core Terms`.
-- **Action** -- a verb the concept supports; goes under `## Actions`.
-- **Qualifier** -- a state, constraint, or flavour; a row in the `## Qualifiers` table.
-- **Relationship** -- how it links to another concept; a row in the `## Relationships` table.
+- **Prose** -- a structural noun carrying composition or cross-references; a `### {Term}` entry in
+  the relevant prose section (usually `## Core Terms`).
+- **Table** -- a terse, list-like term; a row in the matching table section (Qualifiers,
+  Relationships, Actions, or whatever that file calls the group).
 
-If the user named a section, honour it. If not, propose the classification and confirm. Do not guess
-silently.
+If the right section doesn't exist yet, propose adding one named for what it holds. If the user
+named a section, honour it. If not, propose the placement and confirm. Do not guess silently.
 
 ## Step 3: Gather Evidence
 
@@ -59,9 +61,9 @@ Honour edits verbatim. Record any 🚩 needs-review flag the user raises, includ
 
 ## Step 5: Insert
 
-- **Core term** -- add a prose `### {Term}` entry: define what it IS, fold in composition and
-  cross-links via anchors. **Action** -- add to the Actions prose/list. **Qualifier** /
-  **Relationship** -- add a terse row to the matching table, creating the table if missing.
+- **Prose term** -- add a `### {Term}` entry: define what it IS, fold in composition and cross-links
+  via anchors. **Table term** -- add a terse row to the matching table section, creating the section
+  (named for what it holds) if missing.
 - One best term per concept -- if it's a synonym of an existing entry, say so and offer to list it
   as one to avoid rather than add a duplicate.
 - Add any 🚩 to the Flagged for Review section.
