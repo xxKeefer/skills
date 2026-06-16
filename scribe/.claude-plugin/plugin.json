@@ -1,7 +1,7 @@
 {
   "name": "scribe",
   "description": "Capture and edit Obsidian vault notes -- procedure capture and prose editing. Requires primitives.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": {
     "name": "xxkeefer"
   }
