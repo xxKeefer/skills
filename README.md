@@ -2,6 +2,16 @@
 
 Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
+## Layout
+
+| Path | Holds |
+|---|---|
+| `skills/` | The domain plugins -- one directory per domain (see table below). |
+| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails. |
+| `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
+| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
+| `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
+
 ## Domains
 
 | Domain | Skills | Purpose |
@@ -9,14 +19,14 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
 | **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, tweak-it, hunt-it, fix-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
-| **projects** | new-project, capture-goals, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
+| **projects** | new-project, capture-goals, refine-task, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
 | **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, teach | Capture vault procedures + edit notes |
+| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
-| **experimental** | debrief, lobotomize, patch-doctor, take-a-note | Skills on probation |
-| **deprecated** | _(empty)_ | Holding pen for skills awaiting a keep/kill decision |
+| **experimental** | lobotomize, patch-doctor | Skills on probation |
+| **deprecated** | debrief | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 

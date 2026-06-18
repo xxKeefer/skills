@@ -10,67 +10,67 @@
       "name": "primitives",
       "description": "Foundational skills that other domains compose. Always install this domain.",
       "category": "development",
-      "source": "./primitives"
+      "source": "./skills/primitives"
     },
     {
       "name": "developer",
       "description": "Opinionated engineering workflows -- investigation, planning, implementation, closure.",
       "category": "development",
-      "source": "./developer"
+      "source": "./skills/developer"
     },
     {
       "name": "journal",
       "description": "Personal planner -- cascading goal/reflection system for Obsidian.",
       "category": "productivity",
-      "source": "./journal"
+      "source": "./skills/journal"
     },
     {
       "name": "projects",
       "description": "Long-running, goal-oriented project management for Obsidian. Stateful workspaces, Kanban boards, journal bridge.",
       "category": "productivity",
-      "source": "./projects"
+      "source": "./skills/projects"
     },
     {
       "name": "meta",
       "description": "Skills about skills -- writing, auditing, and managing the lifecycle of skills.",
       "category": "development",
-      "source": "./meta"
+      "source": "./skills/meta"
     },
     {
       "name": "omen",
       "description": "Creative skills -- TTRPG, worldbuilding, narrative design.",
       "category": "productivity",
-      "source": "./omen"
+      "source": "./skills/omen"
     },
     {
       "name": "scribe",
       "description": "Knowledge work over a corpus -- procedure capture, prose editing, glossary curation, and stateful teaching.",
       "category": "productivity",
-      "source": "./scribe"
+      "source": "./skills/scribe"
     },
     {
       "name": "nix-manager",
       "description": "NixOS config management -- add, remove, rice, refine, debug, and explain.",
       "category": "development",
-      "source": "./nix-manager"
+      "source": "./skills/nix-manager"
     },
     {
       "name": "utility",
       "description": "Dev-environment setup skills -- pre-commit hooks and git guardrails. Isolated so they're easy to maintain or retire.",
       "category": "development",
-      "source": "./utility"
+      "source": "./skills/utility"
     },
     {
       "name": "experimental",
       "description": "Personal skills on probation. Promote to a real domain once usage justifies it; demote to `deprecated` if it doesn't.",
       "category": "development",
-      "source": "./experimental"
+      "source": "./skills/experimental"
     },
     {
       "name": "deprecated",
       "description": "Personal skills awaiting a keep/kill decision. Disable freely; delete once confirmed unused.",
       "category": "development",
-      "source": "./deprecated"
+      "source": "./skills/deprecated"
     }
   ]
 }
