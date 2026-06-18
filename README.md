@@ -6,7 +6,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff, tabular-analysis | Foundational building blocks |
+| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
 | **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, tweak-it, hunt-it, fix-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
 | **projects** | new-project, capture-goals, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
@@ -15,7 +15,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
-| **experimental** | debrief, do-next, lobotomize, patch-doctor, update-handoff | Skills on probation |
+| **experimental** | debrief, lobotomize, patch-doctor, take-a-note | Skills on probation |
 | **deprecated** | _(empty)_ | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup

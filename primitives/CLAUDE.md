@@ -20,4 +20,6 @@ installed.
 | `/explain` | Layered what/how/why explanation of any target | developer:explain-it, nix-manager:explain |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | invoked directly by the user |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user |
+| `/update-handoff` | Update a handoff/plan doc in place with current progress | invoked directly by the user |
+| `/do-next` | Cold-start from a handoff/plan doc and execute the next step | invoked directly by the user |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | invoked directly by the user; composes look-up, write-to-file |
