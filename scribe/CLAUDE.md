@@ -48,4 +48,5 @@ plugins must be installed.
 | `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
+| `/triage-notes` | HITL -- triage one fleeting inbox note: promote, taskify, or archive on approval |
 | `/teach` | Teach a topic over multiple sessions in a stateful workspace |
