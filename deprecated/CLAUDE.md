@@ -17,4 +17,6 @@ Disable this whole domain when you don't want deprecated skills loaded.
 
 ## Skills
 
-Currently empty — nothing is awaiting a kill decision.
+| Skill | Purpose |
+|---|---|
+| `/debrief` | Human-readable session debrief dropped into vault 00-notes/: done, next steps, teach-yourself |

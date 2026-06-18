@@ -4,7 +4,9 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 
 ## Skills
 
-Currently empty. Skills land here when demoted from a stable domain; they're deleted once confirmed unused.
+| Skill | Purpose |
+|---|---|
+| `/debrief` | Human-readable session debrief dropped into vault 00-notes/: done, next steps, teach-yourself |
 
 ## Installation
 
