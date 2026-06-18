@@ -49,4 +49,5 @@ plugins must be installed.
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
 | `/triage-notes` | HITL -- triage one fleeting inbox note: promote, taskify, or archive on approval |
+| `/take-a-note` | Capture something from the conversation: append to a given note (style-matched) or drop a fresh note in vault 00-notes/ |
 | `/teach` | Teach a topic over multiple sessions in a stateful workspace |
