@@ -7,7 +7,7 @@ vault root. "Vault" = the Obsidian vault.
 The domain covers three jobs:
 
 - **Capture** utilitarian procedures -- terse, repeatable how-tos for chores the user wants to
-  offload and forget (distinct from `03-knowledge/` deep-dives and `04-notes/` fleeting thoughts).
+  offload and forget (distinct from `02-research/` deep-dives and `00-notes/` fleeting thoughts).
 - **Edit** existing notes -- structural and prose editing that preserves Obsidian syntax.
 - **Curate context** -- mine a corpus for its terminology and maintain a `CONTEXT.md` glossary
   (one file per context). Corpus-agnostic: code, vault, lore, or session logs.
@@ -16,12 +16,12 @@ The domain covers three jobs:
 
 ### Procedures Directory
 
-Procedure capture lives in the vault's procedures directory. Discover it by scanning the vault root
-for a directory matching `*procedures` (e.g. `07-procedures/`). If none is found, ask the user where
-procedures should live, create it, and store the path to memory. **Never hardcode the path** -- the
-user may renumber or move it.
+Procedures are a kind of reference doc, so they live in the vault's reference directory. Discover it
+by scanning the vault root for a directory matching `*reference` (e.g. `03-reference/`). If none is
+found, ask the user where reference docs should live. **Never hardcode the path** -- the user may
+renumber or move it.
 
-A procedure file is a small collection of related procedures for one area (e.g. `work.md`,
+A procedure file is a small collection of related procedures for one area (e.g. `git.md`,
 `nix.md`), not necessarily one procedure per file. Entry format is defined per skill.
 
 ### Editing

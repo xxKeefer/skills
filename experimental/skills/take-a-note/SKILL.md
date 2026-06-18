@@ -3,7 +3,7 @@ name: take-a-note
 description: >
   Capture something from the current conversation into the user's Obsidian notes. With a file
   path, append it to the most relevant part of that note, matching the note's existing style.
-  With no path, drop a fresh note into the vault's 00-raw/ for later triage. Use when the user
+  With no path, drop a fresh note into the vault's 00-notes/ for later triage. Use when the user
   says "take a note", "note this", "capture this", "jot this down", or "add this to my notes".
 argument-hint: "[optional path to an existing note to append to]"
 ---
@@ -48,14 +48,16 @@ they sharpen it.
 
 1. Locate the vault: scan the home directory for a folder containing `.obsidian/`; the first
    match is the vault root. If none is found, warn the user and stop.
-2. Write to `{vault}/00-raw/{Descriptive Title}.md`. The title is a short, human-readable summary
-   in Title Case with spaces — matching how existing 00-raw notes are named.
-3. Frontmatter:
+2. Write to `{vault}/00-notes/{slug}-{YYYYMMDD}.md` — a short kebab-case slug plus the date,
+   matching how existing 00-notes captures are named.
+3. Frontmatter + the `#raw` tag (vault inbox convention):
    ```yaml
    ---
-   tags: ["00-raw"]
-   date: {YYYY-MM-DD}
+   source: {conversation | https://... | tool:name}
+   created: {YYYY-MM-DD}
    ---
+
+   #raw
    ```
 4. Body = the distilled content. Keep it atomic (one idea). Use `[[wikilinks]]` and `#tags` where
    natural.

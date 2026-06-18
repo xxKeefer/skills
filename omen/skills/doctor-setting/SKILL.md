@@ -18,8 +18,8 @@ structure, extract, review -- with DM approval between each.
 `$ARGUMENTS` may contain:
 
 - A path to a campaign directory
-- A campaign name -- search `02-omen/` for it
-- Nothing -- list directories in `02-omen/` and ask which one to doctor
+- A campaign name -- search `07-omen/` for it
+- Nothing -- list directories in `07-omen/` and ask which one to doctor
 
 ## Phase 1: Audit
 

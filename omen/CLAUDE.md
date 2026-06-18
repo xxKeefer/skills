@@ -7,7 +7,7 @@ live in **setting directories** within the user's Obsidian vault.
 
 Skills must never hardcode campaign paths. Instead:
 
-1. Scan `02-omen/` in the vault for directories containing setting state files (`log.md` plus a
+1. Scan `07-omen/` in the vault for directories containing setting state files (`log.md` plus a
    `lore/` subdirectory with `_cannon.md`).
 2. If multiple campaigns found, ask the user which one.
 3. If none found, ask the user where the campaign lives.

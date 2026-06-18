@@ -68,7 +68,7 @@ Present what will be created:
 > **Scaffolding: {Setting Name}**
 >
 > ```
-> 02-omen/{setting-name}/
+> 07-omen/{setting-name}/
 >   index.md
 >   blurb.md
 >   log.md
@@ -86,7 +86,7 @@ Present what will be created:
 
 ## Step 3: Create the Directory Structure
 
-Create all directories under the vault's `02-omen/` path:
+Create all directories under the vault's `07-omen/` path:
 
 - `{setting-name}/`
 - `{setting-name}/lore/`
@@ -242,5 +242,5 @@ Wikilink everything that references each other.
 
 ## Step 7: Confirm
 
-> **{Setting Name} scaffolded.** {N} files created in `02-omen/{setting-name}/`.
+> **{Setting Name} scaffolded.** {N} files created in `07-omen/{setting-name}/`.
 > Ready to run `/plan-session` or start logging.

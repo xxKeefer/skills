@@ -19,5 +19,5 @@ and value aren't yet decided.
 |---|---|
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
-| `/debrief` | Human-readable session debrief dropped into vault 00-raw/: done, next steps, teach-yourself |
-| `/take-a-note` | Capture something from the conversation: append to a given note (style-matched) or drop a fresh note in vault 00-raw/ |
+| `/debrief` | Human-readable session debrief dropped into vault 00-notes/: done, next steps, teach-yourself |
+| `/take-a-note` | Capture something from the conversation: append to a given note (style-matched) or drop a fresh note in vault 00-notes/ |

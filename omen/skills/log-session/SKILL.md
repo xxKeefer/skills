@@ -14,7 +14,7 @@ Record a completed or in-progress session in the campaign's `log.md` index.
 
 Follow the campaign discovery convention from the omen domain CLAUDE.md:
 
-1. Scan `02-omen/` in the vault for directories containing `log.md` and `lore/_cannon.md`
+1. Scan `07-omen/` in the vault for directories containing `log.md` and `lore/_cannon.md`
 2. If multiple campaigns found, ask which one
 3. If none found, ask the user where the campaign lives
 

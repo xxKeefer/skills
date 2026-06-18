@@ -1,7 +1,7 @@
 ---
 name: add-procedure
 description: >
-  Capture a just-solved task into the vault's procedures directory as a terse, repeatable how-to.
+  Capture a just-solved task into the vault's reference directory as a terse, repeatable how-to.
   Mines the current conversation for the steps, picks the best-fit procedure file (or starts a new
   one), and writes a consistent entry. Use when the user says "add procedure", "record this",
   "save this how-to", "runbook this", "I'll need to do this again", or just solved a fiddly task
@@ -11,16 +11,16 @@ description: >
 # Add Procedure
 
 Offload a chore into the vault: capture the steps once so the task is repeatable and the brain can
-forget it. Procedures are utilitarian -- distinct from `03-knowledge/` deep-dives and `04-notes/`
+forget it. Procedures are utilitarian -- distinct from `02-research/` deep-dives and `00-notes/`
 fleeting thoughts.
 
-## Step 1: Discover the Procedures Directory
+## Step 1: Discover the Reference Directory
 
-Find the vault's procedures directory per the convention in the domain `CLAUDE.md`: scan the vault
-root for a directory matching `*procedures` (e.g. `07-procedures/`). If none is found, ask the user
-where procedures should live, create it, and store the path to memory. **Never hardcode the path.**
+Find the vault's reference directory per the convention in the domain `CLAUDE.md`: scan the vault
+root for a directory matching `*reference` (e.g. `03-reference/`). If none is found, ask the user
+where reference docs should live. **Never hardcode the path.**
 
-**Done when:** you have the procedures directory path.
+**Done when:** you have the reference directory path.
 
 ## Step 2: Gather the Procedure
 
@@ -38,7 +38,7 @@ Resolve any links the procedure references via `/look-up` so captured commands/U
 
 ## Step 3: Assign a File
 
-Scan the procedures directory. For each existing procedure file, read its title and `##` headings to
+Scan the reference directory. For each existing procedure file, read its title and `##` headings to
 model what area it covers. Then decide placement:
 
 - **Best-fit file found** -- append the new entry to it. No prompt.

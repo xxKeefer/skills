@@ -1,14 +1,14 @@
 ---
 name: debrief
 description: >
-  Produce a human-readable session debrief and drop it into 00-raw/ in the Obsidian vault.
+  Produce a human-readable session debrief and drop it into 00-notes/ in the Obsidian vault.
   Covers what was done, next steps, and practical "next time" notes so the user doesn't have
   to faff around rediscovering the same things. The human counterpart to /handoff.
 argument-hint: "Any topic to emphasise in the next-time notes?"
 ---
 
 Write a session debrief for the human to read after the conversation ends. Save it as a markdown
-note directly into the Obsidian vault's `00-raw/` folder so it's ready for later intake or triage
+note directly into the Obsidian vault's `00-notes/` folder so it's ready for later triage
 without any manual moving.
 
 If the user passed arguments, treat them as a hint about which topic to focus the next-time
@@ -21,15 +21,17 @@ vault root. If none is found, fall back to `/tmp/` and warn the user.
 
 ## Step 2: Generate the Note
 
-Write a markdown file to `{vault}/00-raw/debrief-{YYYY-MM-DD}.md`.
+Write a markdown file to `{vault}/00-notes/debrief-{YYYYMMDD}.md`.
 
-Use this frontmatter:
+Use this frontmatter, then the `#raw` and `#debrief` tags (vault inbox convention):
 
 ```yaml
 ---
-tags: ["debrief", "00-raw"]
-date: {YYYY-MM-DD}
+source: conversation
+created: {YYYY-MM-DD}
 ---
+
+#raw #debrief
 ```
 
 Then write the sections below in order. Do not duplicate content already captured in other
