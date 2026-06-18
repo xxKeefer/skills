@@ -1,4 +1,4 @@
-@ubiquitous.md
+@CONTEXT.md
 
 # xxkeefer-skills
 
@@ -13,9 +13,10 @@ workflows.
 | `primitives` | Foundational skills other domains compose | Yes |
 | `developer` | Engineering workflows -- investigation to closure | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
+| `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
-| `wiki` | Raw note intake, knowledge management, vault indexing | No |
+| `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, git guardrails | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
@@ -27,8 +28,18 @@ Each domain is an independent plugin in the `xxkeefer-skills` marketplace. Domai
 separately and can be enabled/disabled independently. The `primitives` domain is a prerequisite
 for all others -- it provides foundational skills (like `/grill-it`) that other domains compose.
 
-The root directory owns only the marketplace registry (`.claude-plugin/marketplace.json`) and
-shared documentation. No skills live at root.
+Top-level layout:
+
+| Path | Holds |
+|---|---|
+| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). |
+| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails, not skills. |
+| `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
+| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
+| `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
+
+The root owns only the registry and shared documentation (`README.md`, `CLAUDE.md`, `CONTEXT.md`).
+No skills live at root -- they all live under `skills/`.
 
 ## Skill Maturity
 

@@ -2,20 +2,31 @@
 
 Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
+## Layout
+
+| Path | Holds |
+|---|---|
+| `skills/` | The domain plugins -- one directory per domain (see table below). |
+| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails. |
+| `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
+| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
+| `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
+
 ## Domains
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff | Foundational building blocks |
-| **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, fix-it, tweak-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
+| **primitives** | grill-it, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
+| **developer** | research-it, spike-it, task-it, plan-it, do-it, tdd, tweak-it, hunt-it, fix-it, happy-path, resolve-it, resolve-conflicts, document-it, explain-it | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
+| **projects** | new-project, capture-goals, refine-task, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
 | **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **wiki** | intake-raw, intake-it, edit-article, rebuild-index, standardise-frontmatter | Note intake + knowledge management |
+| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally | Dev-environment setup |
-| **experimental** | define-concept, define-term, update-language, tabular-analysis, lobotomize, hunt-it | Skills on probation |
-| **deprecated** | bootstrap-ubiquitous-language, design-it, improve-it, learn-it, optimise-skill, qa-it, refactor-it, research-it, teach-it, triage-it, ubiquitous-language | Awaiting keep/kill decision |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
+| **experimental** | lobotomize, patch-doctor | Skills on probation |
+| **deprecated** | debrief | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
@@ -37,9 +48,10 @@ Add to `~/.claude/settings.json`:
     "primitives@xxkeefer-skills": true,
     "developer@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
+    "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
     "omen@xxkeefer-skills": true,
-    "wiki@xxkeefer-skills": true,
+    "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
     "experimental@xxkeefer-skills": true,
@@ -62,8 +74,6 @@ Several skills were inspired by or adapted directly from
 [Matt Pocock's skills repo](https://github.com/mattpocock/skills):
 
 - **grill-it** -- taken from Matt's repo
-- **design-it** -- taken from Matt's repo
-- **improve-it** -- taken from Matt's repo
 - **spike-it** -- inspired by Matt's approach to investigation workflows
 - **tdd** -- inspired by Matt's TDD skill, particularly the tracer bullet pattern and
   anti-horizontal-slice philosophy
