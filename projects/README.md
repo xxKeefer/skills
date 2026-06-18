@@ -10,6 +10,7 @@ time box: a goal, a pile of discrete tasks, and state that persists across weeks
 |---|---|
 | `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
 | `/capture-goals` | Facilitate a planning session: grill the room, organise the thought dump into board cards |
+| `/refine-task` | Work a thin Kanban card up into a full, context-grounded task note in `tasks/` |
 | `/schedule-goals` | Write project milestones into `occasions.md` and goals into cascading journal files |
 | `/project-status` | PM-persona check-in: board state, stalled cards, next actions, upcoming dates |
 | `/summarize-sprint` | Generic, shareable one-pager of the current goal and timeframed task breakdown |

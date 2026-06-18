@@ -56,7 +56,8 @@ tags: [project, kanban]
   `new-note-folder`) using `tasks/_template.md` as its starting content (set via `new-note-template`).
   Both paths in the settings block are vault-relative -- substitute actual paths when writing the
   board during `/new-project`.
-- **Card edits are mostly manual.** The user moves and checks off cards by hand. Three skills write
+- **Card edits are mostly manual.** The user moves and checks off cards by hand. Four skills write
   to the board: `/new-project` (initial structure), `/capture-goals` (appends new cards to Backlog
-  and triages into This Week during a planning session), and `/close-project` (archives the file).
-  All other skills only read the board.
+  and triages into This Week during a planning session), `/refine-task` (one surgical edit -- links
+  a card to its new task note, `- [ ] Foo` -> `- [ ] [[Foo]]`, replicating obsidian-kanban's "New
+  note from card"), and `/close-project` (archives the file). All other skills only read the board.

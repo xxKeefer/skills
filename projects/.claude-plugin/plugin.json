@@ -1,7 +1,7 @@
 {
   "name": "projects",
   "description": "Long-running, goal-oriented project management for Obsidian. Stateful per-project workspaces, Kanban boards, and a bridge into the journal. Requires primitives; interfaces with journal.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "xxkeefer"
   }

@@ -72,6 +72,7 @@ Projects surface in the journal through `occasions.md`:
 ```
 /new-project      -> scaffolds <slug>/ workspace (MISSION + board + decisions)
 /capture-goals    -> facilitates a planning session -> organises a thought dump into board cards
+/refine-task      -> reads: board card + MISSION/decisions/corpus -> writes: tasks/<Card>.md, links the card
 /schedule-goals   -> writes: occasions.md Projects section + cascading journal goal
 /project-status   -> reads: board + MISSION -> PM state summary
 /summarize-sprint -> reads: board -> generic shareable one-pager (PDF-exportable)
@@ -84,6 +85,7 @@ Projects surface in the journal through `occasions.md`:
 |---|---|
 | `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
 | `/capture-goals` | Facilitate a planning session: grill the room, organise the thought dump into board cards |
+| `/refine-task` | Work a thin Kanban card up into a full, context-grounded task note in `tasks/` (4th board writer: links the card) |
 | `/schedule-goals` | Write project milestones into `occasions.md` and goals into cascading journal files |
 | `/project-status` | PM-persona check-in: board state, stalled cards, next actions, upcoming dates |
 | `/summarize-sprint` | Generic, shareable one-pager of the current goal and timeframed task breakdown |
