@@ -16,7 +16,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
 | **experimental** | debrief, do-next, lobotomize, patch-doctor, update-handoff | Skills on probation |
-| **deprecated** | design-it, improve-it, intake-it, intake-raw, rebuild-index, research-it, standardise-frontmatter | Awaiting keep/kill decision |
+| **deprecated** | _(empty)_ | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
@@ -64,8 +64,6 @@ Several skills were inspired by or adapted directly from
 [Matt Pocock's skills repo](https://github.com/mattpocock/skills):
 
 - **grill-it** -- taken from Matt's repo
-- **design-it** -- taken from Matt's repo
-- **improve-it** -- taken from Matt's repo
 - **spike-it** -- inspired by Matt's approach to investigation workflows
 - **tdd** -- inspired by Matt's TDD skill, particularly the tracer bullet pattern and
   anti-horizontal-slice philosophy
