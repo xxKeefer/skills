@@ -1,0 +1,22 @@
+{
+  "_comment": "WORKED EXAMPLE — not loaded by the hook. Copy what you want into tool-policy.config.json. runners = command prefixes that get intercepted (npx, pnpm exec, ...). allowlist = tools that pass through ('tool' allows any subcommand; 'tool:sub' allows only that subcommand). redirects = intercepted tool -> the canonical command to use instead (the message is shown verbatim to the agent; {project} is a literal placeholder, not substituted). blockedCommands = command prefixes to deny outright, matched quote-aware in command position. The values below target an nx monorepo.",
+  "runners": ["npx", "pnpm exec", "pnpm dlx", "yarn exec", "yarn dlx"],
+  "allowlist": ["nx", "syncpack", "playwright:install", "playwright:codegen", "tsx"],
+  "redirects": {
+    "vitest": "nx test:unit {project} -- <file>   (watch: nx test:unit:watch {project})",
+    "eslint": "nx lint {project}   (CI / no-fix: nx lint:ci {project})",
+    "tsc": "nx typecheck {project}",
+    "vue-tsc": "nx typecheck {project}",
+    "vite": "nx dev {project}   (production build: nx build {project})",
+    "playwright": "nx test:integration {project}   (UI: nx test:integration:ui {project})",
+    "storybook": "nx dev ui   (per-app: nx book portal / nx book cma)",
+    "start-storybook": "nx dev ui   (per-app: nx book portal / nx book cma)",
+    "prettier": "nx affected --target=prettier:check   (or the root 'prettier' / 'prettier:check' scripts)"
+  },
+  "blockedCommands": [
+    {
+      "match": "git stash",
+      "reason": "Do not use git stash to check if tests pass on a clean state. Run tests against the current working tree."
+    }
+  ]
+}

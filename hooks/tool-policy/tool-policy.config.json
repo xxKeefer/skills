@@ -1,0 +1,7 @@
+{
+  "_comment": "The live config the hook reads. Empty by default — the hook does nothing until you fill these in. See tool-policy.example.json for a worked nx example to copy from. runners = command prefixes to intercept (npx, pnpm exec, ...). allowlist = tools that pass through ('tool' = any subcommand, 'tool:sub' = only that subcommand). redirects = intercepted tool -> canonical command shown to the agent ({project} is a literal placeholder). blockedCommands = { match, reason } prefixes to deny outright, matched quote-aware in command position.",
+  "runners": [],
+  "allowlist": [],
+  "redirects": {},
+  "blockedCommands": []
+}
