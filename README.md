@@ -9,6 +9,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | `skills/` | The domain plugins -- one directory per domain (see table below). |
 | `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
+| `statusline/` | The self-contained Claude Code status line script, installed by `/setup-statusline`. |
 | `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
 
@@ -24,7 +25,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
 | **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add-it, remove-it, rice-it, refine-it, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, configure-obsidian-kanban | Dev-environment setup |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban | Dev-environment setup |
 | **experimental** | lobotomize, patch-doctor | Skills on probation |
 | **deprecated** | debrief | Holding pen for skills awaiting a keep/kill decision |
 
