@@ -34,11 +34,11 @@ Restart the session (or wait for a status-line refresh) for it to take effect.
 ## What it shows
 
 - **Line 1:** git branch · fish-style abbreviated cwd
-- **Line 2:** context-zone emoji · context tokens (%) · ⏰ 5h usage % (reset) · 📅 7d usage % (reset)
+- **Line 2:** context battery · context tokens (%) · ◀ 5h usage % (reset) · ▶ 7d usage % (reset)
 
 Two colour ladders signal severity: context tokens go green → yellow → amber → red across the
 `80k / 100k / 110k` zone thresholds, usage percentages go green `<60` → yellow `<75` → amber `<90`
-→ red. The ⏰/📅 widgets read stdin `rate_limits` (Claude Code ≥ v2.1.80, Pro/Max only) and are
+→ red. The ◀/▶ widgets read stdin `rate_limits` (Claude Code ≥ v2.1.80, Pro/Max only) and are
 dropped cleanly when absent. Usage is shown as a percentage — stdin exposes `used_percentage`, not
 raw tokens.
 

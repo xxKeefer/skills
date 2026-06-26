@@ -2,8 +2,8 @@
 # Hand-rolled Claude Code status line. Self-contained: reads the statusLine JSON on
 # stdin and local git only -- no network, no npx, no third-party packages.
 #
-# Line 1: git branch | fish-style abbreviated cwd.
-# Line 2: context-emoji context-tokens (%) | ⏰ session % (reset) | 📅 weekly % (reset)
+# Line 1: git branch · fish-style abbreviated cwd.
+# Line 2: |battery| context-tokens (%) · ◀ session % (reset) · ▶ weekly % (reset)
 #
 # Session/weekly widgets read stdin .rate_limits (Claude Code >= v2.1.80, Pro/Max only).
 # When .rate_limits is absent (API-key auth, or before the first API response) the
@@ -23,11 +23,10 @@ BOLD=$'\033[1m'
 RESET=$'\033[0m'
 
 # --- config: defaults here; statusline.config.json (next to this script) overrides ---
-DELIM='|'
+DELIM='·'
 TOK_ZONE_1=80000; TOK_ZONE_2=100000; TOK_ZONE_3=110000
-TOK_EMOJI_1='🤓'; TOK_EMOJI_2='🤯'; TOK_EMOJI_3='😵‍💫'; TOK_EMOJI_4='💀'
 PCT_GREEN=60; PCT_YELLOW=75; PCT_AMBER=90
-SESSION_EMOJI='⏰'; WEEKLY_EMOJI='📅'
+SESSION_EMOJI='◀'; WEEKLY_EMOJI='▶'
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)
 config="$script_dir/statusline.config.json"
@@ -39,32 +38,38 @@ if [ -f "$config" ]; then
     [
       (.delimiter                  // ""),
       (.smart_zone.token_count.smart // ""), (.smart_zone.token_count.good // ""), (.smart_zone.token_count.poor // ""),
-      (.smart_zone.emoji.smart     // ""), (.smart_zone.emoji.good // ""), (.smart_zone.emoji.poor // ""), (.smart_zone.emoji.dumb // ""),
       (.usage.pct_green_max       // ""), (.usage.pct_yellow_max // ""), (.usage.pct_amber_max // ""),
-      (.usage.emoji.session       // ""), (.usage.emoji.weekly // "")
+      (.usage.symbol.session      // ""), (.usage.symbol.weekly // "")
     ] | .[]' "$config" 2>/dev/null)
   [ -n "${cfg[0]:-}" ] && DELIM=${cfg[0]}
-  [ -n "${cfg[1]:-}"  ] && TOK_ZONE_1=${cfg[1]}
-  [ -n "${cfg[2]:-}"  ] && TOK_ZONE_2=${cfg[2]}
-  [ -n "${cfg[3]:-}"  ] && TOK_ZONE_3=${cfg[3]}
-  [ -n "${cfg[4]:-}"  ] && TOK_EMOJI_1=${cfg[4]}
-  [ -n "${cfg[5]:-}"  ] && TOK_EMOJI_2=${cfg[5]}
-  [ -n "${cfg[6]:-}"  ] && TOK_EMOJI_3=${cfg[6]}
-  [ -n "${cfg[7]:-}"  ] && TOK_EMOJI_4=${cfg[7]}
-  [ -n "${cfg[8]:-}"  ] && PCT_GREEN=${cfg[8]}
-  [ -n "${cfg[9]:-}"  ] && PCT_YELLOW=${cfg[9]}
-  [ -n "${cfg[10]:-}" ] && PCT_AMBER=${cfg[10]}
-  [ -n "${cfg[11]:-}" ] && SESSION_EMOJI=${cfg[11]}
-  [ -n "${cfg[12]:-}" ] && WEEKLY_EMOJI=${cfg[12]}
+  [ -n "${cfg[1]:-}" ] && TOK_ZONE_1=${cfg[1]}
+  [ -n "${cfg[2]:-}" ] && TOK_ZONE_2=${cfg[2]}
+  [ -n "${cfg[3]:-}" ] && TOK_ZONE_3=${cfg[3]}
+  [ -n "${cfg[4]:-}" ] && PCT_GREEN=${cfg[4]}
+  [ -n "${cfg[5]:-}" ] && PCT_YELLOW=${cfg[5]}
+  [ -n "${cfg[6]:-}" ] && PCT_AMBER=${cfg[6]}
+  [ -n "${cfg[7]:-}" ] && SESSION_EMOJI=${cfg[7]}
+  [ -n "${cfg[8]:-}" ] && WEEKLY_EMOJI=${cfg[8]}
 fi
 
-# Colour ladder for context tokens -- mirrors the smart/dumb-zone emoji thresholds.
+# Colour ladder for context tokens -- mirrors the smart/dumb-zone battery thresholds.
 token_colour() {
   if   [ "$1" -lt "$TOK_ZONE_1" ]; then printf '%s' "$GREEN"
   elif [ "$1" -lt "$TOK_ZONE_2" ]; then printf '%s' "$YELLOW"
   elif [ "$1" -lt "$TOK_ZONE_3" ]; then printf '%s' "$AMBER"
   else                                  printf '%s' "$RED"
   fi
+}
+
+# 4-cell battery draining one cell per smart-zone band; cells coloured, brackets dim.
+battery() {
+  local fill
+  if   [ "$1" -lt "$TOK_ZONE_1" ]; then fill='████'
+  elif [ "$1" -lt "$TOK_ZONE_2" ]; then fill='███▒'
+  elif [ "$1" -lt "$TOK_ZONE_3" ]; then fill='██▒▒'
+  else                                  fill='█▒▒▒'
+  fi
+  printf '%s%s%s' "$(token_colour "$1")" "$fill" "$RESET"
 }
 
 # Colour ladder for usage percentages: green/yellow/amber/red by configurable bands.
@@ -100,12 +105,6 @@ if [ -n "$transcript" ] && [ -f "$transcript" ]; then
     (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)
   ' 2>/dev/null | head -n 1)
   [ -n "$t" ] && tokens=$t
-fi
-
-if   [ "$tokens" -lt "$TOK_ZONE_1" ]; then emoji="$TOK_EMOJI_1"
-elif [ "$tokens" -lt "$TOK_ZONE_2" ]; then emoji="$TOK_EMOJI_2"
-elif [ "$tokens" -lt "$TOK_ZONE_3" ]; then emoji="$TOK_EMOJI_3"
-else                                       emoji="$TOK_EMOJI_4"
 fi
 
 pct=$(( tokens * 100 / ctx_max ))
@@ -181,7 +180,7 @@ line1=""
 line1+="${DIM}$(fish_cwd "$cwd")${RESET}"
 
 tok_col=$(token_colour "$tokens")
-line2="${emoji} ${BOLD}${tok_col}${tokens_fmt}${RESET} ${DIM}(${pct}%)${RESET}"
+line2="$(battery "$tokens") ${BOLD}${tok_col}${tokens_fmt}${RESET} ${DIM}(${pct}%)${RESET}"
 [ -n "$session_used" ] && line2+="${sep}$(usage_widget "$SESSION_EMOJI" "$session_used" "$session_reset")"
 [ -n "$weekly_used" ]  && line2+="${sep}$(usage_widget "$WEEKLY_EMOJI" "$weekly_used" "$weekly_reset")"
 

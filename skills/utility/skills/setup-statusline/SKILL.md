@@ -18,12 +18,12 @@ one committed source.
 It renders two lines:
 
 - Line 1: git branch, then fish-style abbreviated cwd.
-- Line 2: context-zone emoji, context tokens (%), then ⏰ session (5h) usage (reset) and 📅 weekly
+- Line 2: context battery, context tokens (%), then ◀ session (5h) usage (reset) and ▶ weekly
   (7d) usage (reset). The session/weekly widgets come from stdin `rate_limits` and are dropped
   cleanly when absent (API-key auth, or before the first API response).
 
-Emoji, thresholds, and the delimiter are read from `statusline.config.json` (sits next to the
-script); any omitted key falls back to an in-script default.
+Thresholds, the delimiter, and the usage symbols are read from `statusline.config.json` (sits next
+to the script); any omitted key falls back to an in-script default.
 
 The source of truth is the top-level `statusline/statusline.sh` plus `statusline.config.json`,
 **not** a copy bundled in this skill. This install copies both out to `~/.claude/`.

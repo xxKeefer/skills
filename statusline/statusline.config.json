@@ -1,25 +1,19 @@
 {
-  "delimiter": "|",
+  "delimiter": "·",
   "smart_zone": {
     "token_count": {
       "smart": 80000,
       "good": 100000,
       "poor": 110000
-    },
-    "emoji": {
-      "smart": "🤓",
-      "good": "🤯",
-      "poor": "😵‍💫",
-      "dumb": "💀"
     }
   },
   "usage": {
     "pct_green_max": 60,
     "pct_yellow_max": 75,
     "pct_amber_max": 90,
-    "emoji": {
-      "session": "⏰",
-      "weekly": "📅"
+    "symbol": {
+      "session": "◀",
+      "weekly": "▶"
     }
   }
 }
