@@ -17,7 +17,7 @@ one committed source.
 
 It renders two lines:
 
-- Line 1: fish-style abbreviated cwd, then git branch.
+- Line 1: git branch, then fish-style abbreviated cwd.
 - Line 2: context-zone emoji, context tokens (%), then ⏰ session (5h) usage (reset) and 📅 weekly
   (7d) usage (reset). The session/weekly widgets come from stdin `rate_limits` and are dropped
   cleanly when absent (API-key auth, or before the first API response).

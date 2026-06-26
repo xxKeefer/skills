@@ -2,7 +2,7 @@
 # Hand-rolled Claude Code status line. Self-contained: reads the statusLine JSON on
 # stdin and local git only -- no network, no npx, no third-party packages.
 #
-# Line 1: fish-style abbreviated cwd | git branch.
+# Line 1: git branch | fish-style abbreviated cwd.
 # Line 2: context-emoji context-tokens (%) | ⏰ session % (reset) | 📅 weekly % (reset)
 #
 # Session/weekly widgets read stdin .rate_limits (Claude Code >= v2.1.80, Pro/Max only).
@@ -176,8 +176,9 @@ weekly_reset=$(jq -r '.rate_limits.seven_day.resets_at // empty' <<<"$input")
 
 # --- assemble ---
 sep=" ${DIM}${DELIM}${RESET} "
-line1="${DIM}$(fish_cwd "$cwd")${RESET}"
-[ -n "$branch" ] && line1+="${sep}${MAGENTA}${branch}${RESET}"
+line1=""
+[ -n "$branch" ] && line1="${MAGENTA}${branch}${RESET}${sep}"
+line1+="${DIM}$(fish_cwd "$cwd")${RESET}"
 
 tok_col=$(token_colour "$tokens")
 line2="${emoji} ${BOLD}${tok_col}${tokens_fmt}${RESET} ${DIM}(${pct}%)${RESET}"

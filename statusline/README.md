@@ -9,7 +9,7 @@ fetching and running unvetted remote code on every invocation.
 
 ## What it shows
 
-- **Line 1:** fish-style abbreviated cwd · git branch
+- **Line 1:** git branch · fish-style abbreviated cwd
 - **Line 2:** context-zone emoji · context tokens (%) · ⏰ 5h usage % (reset) · 📅 7d usage % (reset)
 
 | Element | Source |
