@@ -12,6 +12,7 @@ the setup skills are easy to find, maintain, or retire on their own.
 | `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
 | `/setup-skill-tally` | Count every skill invocation into a global JSON tally via a zero-latency hook |
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
+| `/install-agent-voice` | Install the version-controlled Terse output style to `~/.claude/output-styles/` and select it in settings |
 | `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
 
 ## Design Principles
