@@ -29,8 +29,16 @@ and `/code-review` at the end.
 
 `grilling`, `domain-modeling`, `prototype`, `research`, `triage`, `tdd`
 
-## Tracker coupling
+## Tracker coupling and per-repo setup
 
-Matt's flow assumes GitHub (`gh` CLI, issues, PRs). This repo's flows are tracker-agnostic —
-local `.ai/` markdown at home, Jira/Confluence at work. Do not edit these skills to fix that;
-front them with adapter skills that resolve "the tracker" from the project's CLAUDE.md.
+The flow skills never hardcode a tool — each reads the repo's `docs/agents/issue-tracker.md`,
+written once by `/setup-matt-pocock-skills`. `skills/` is the verbatim vendored tree;
+`adapters/` is xxkeefer-authored and safe to edit:
+
+- `adapters/issue-tracker-ai-local.md` — personal repos; scratch root `.ai/`, aligned with
+  `/write-to-file`
+- `adapters/issue-tracker-jira.md` — work repos; Atlassian MCP, triage roles mapped to Jira
+  statuses/labels, wayfinder maps as epics
+
+Per repo: run `/setup-matt-pocock-skills`, and when it asks for the tracker, hand it the
+fitting adapter file as the answer.
