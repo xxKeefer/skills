@@ -38,7 +38,7 @@ Add to your Claude Code settings:
 }
 ```
 
-Requires `primitives@xxkeefer-skills` for `/grill-it` dependency.
+Requires `primitives@xxkeefer-skills` for `/grill` dependency.
 
 ## Vault Setup
 

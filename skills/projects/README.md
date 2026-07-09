@@ -47,7 +47,7 @@ Add to your Claude Code settings:
 }
 ```
 
-Requires `primitives@xxkeefer-skills` (`/grill-it`, `/look-up`) and `journal@xxkeefer-skills` (the
+Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`) and `journal@xxkeefer-skills` (the
 `occasions.md` interface).
 
 ## Vault Setup

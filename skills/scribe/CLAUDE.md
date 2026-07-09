@@ -36,7 +36,7 @@ Preserve Obsidian-native syntax in every edit:
 
 ## Dependencies
 
-Scribe skills reference `/grill-it` from the `primitives` plugin for HITL coaching mechanics. Both
+Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics. Both
 plugins must be installed.
 
 ## Skills

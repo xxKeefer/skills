@@ -23,9 +23,9 @@ Run skills from your nixos-config directory (the one containing `flake.nix`).
 
 | Skill | Purpose |
 |---|---|
-| `/add-it` | Find and add packages or capabilities to your config |
-| `/remove-it` | Cleanly remove packages or capabilities |
-| `/rice-it` | Visual customization from screenshots, descriptions, or repo links |
-| `/refine-it` | Best-practice audit and improvement |
+| `/add` | Find and add packages or capabilities to your config |
+| `/remove` | Cleanly remove packages or capabilities |
+| `/rice` | Visual customization from screenshots, descriptions, or repo links |
+| `/refine` | Best-practice audit and improvement |
 | `/debug` | Diagnose and fix build errors |
 | `/explain` | Plain-language explanation of nix config blocks |

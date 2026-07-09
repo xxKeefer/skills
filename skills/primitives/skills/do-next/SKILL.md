@@ -18,7 +18,7 @@ and what's next. Follow any artifacts it references (plans, ADRs, issues, commit
 
 ## Step 2: Do the Next Step
 
-Identify the next undone step and delegate it to `/do-it` — one step, the next vertical slice of
+Identify the next undone step and delegate it to `/implement` — one step, the next vertical slice of
 progress, not the whole backlog.
 
 If the next step is ambiguous or blocked, stop and say so rather than guessing.

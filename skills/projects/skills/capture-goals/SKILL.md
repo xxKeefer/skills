@@ -24,7 +24,7 @@ Read `MISSION.md` (so tasks serve the goal) and the current board per
 ## Step 2: Facilitate the Dump
 
 There may be **more than one person in the room** (e.g. the user and a partner). Address the room,
-capture every voice. Invoke `/grill-it` to draw thoughts out and pressure-test them -- but tuned for
+capture every voice. Invoke `/grill` to draw thoughts out and pressure-test them -- but tuned for
 *elicitation*, not interrogation. Keep it conversational:
 
 - "What needs to happen for this to move forward?"

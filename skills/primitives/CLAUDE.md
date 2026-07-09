@@ -14,10 +14,10 @@ installed.
 
 | Skill | Purpose | Used by |
 |---|---|---|
-| `/grill-it` | Relentless questioning until shared understanding | spike-it, research-it, write-a-skill, experimental:hunt-it |
-| `/write-to-file` | Write output files to `.ai/` for `@`-reference | plan-it, research-it, scratch docs |
-| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | spike-it, research-it, plan-it, task-it |
-| `/explain` | Layered what/how/why explanation of any target | developer:explain-it, nix-manager:explain |
+| `/grill` | Relentless questioning until shared understanding | spike, research, write-a-skill, experimental:diagnose |
+| `/write-to-file` | Write output files to `.ai/` for `@`-reference | to-plan, research, scratch docs |
+| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | spike, research, to-plan, to-tickets |
+| `/explain` | Layered what/how/why explanation of any target | developer:explain-reasoning, nix-manager:explain |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | invoked directly by the user |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user |
 | `/update-handoff` | Update a handoff/plan doc in place with current progress | invoked directly by the user |

@@ -5,7 +5,7 @@ incremental improvement of a flake-based NixOS config with home-manager.
 
 ## Dependencies
 
-Requires `primitives` plugin (`/grill-it`, `/write-to-file`).
+Requires `primitives` plugin (`/grill`, `/write-to-file`).
 
 ## Philosophy
 
@@ -33,9 +33,9 @@ toward a clean, maintainable, well-understood system.
 
 | Skill | Type | Purpose |
 |---|---|---|
-| `/add-it` | HITL | Find and add packages or capabilities |
-| `/remove-it` | HITL | Cleanly remove packages or capabilities |
-| `/rice-it` | HITL | Visual customization from screenshots, descriptions, or repos |
-| `/refine-it` | HITL | Best-practice audit and improvement (targeted or full) |
+| `/add` | HITL | Find and add packages or capabilities |
+| `/remove` | HITL | Cleanly remove packages or capabilities |
+| `/rice` | HITL | Visual customization from screenshots, descriptions, or repos |
+| `/refine` | HITL | Best-practice audit and improvement (targeted or full) |
 | `/debug` | AFK | Diagnose and fix build errors |
 | `/explain` | AFK | Plain-language explanation of nix config |

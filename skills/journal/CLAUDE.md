@@ -107,6 +107,6 @@ skill contract. See `scripts/obsidian/README.md` for setup instructions.
 
 ## Dependencies
 
-Journal skills reference `/grill-it` from the `primitives` plugin for conversational mechanics.
+Journal skills reference `/grill` from the `primitives` plugin for conversational mechanics.
 Both plugins must be installed for full functionality. Manual fallback templates in `templates/`
 work without it.

@@ -35,7 +35,7 @@ nix-specific framing:
 ## Step 3: Flag Non-idiomatic Code
 
 If the code is non-idiomatic, mention what the idiomatic version would look like -- but don't
-change it. That's `/refine-it`'s job.
+change it. That's `/refine`'s job.
 
 If the code is genuinely wrong or confusing, say so directly.
 

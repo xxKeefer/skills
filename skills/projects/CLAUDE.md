@@ -93,7 +93,7 @@ Projects surface in the journal through `occasions.md`:
 
 ## Dependencies
 
-- `primitives` -- `/grill-it` for mission clarification, `/look-up` for resource gathering.
+- `primitives` -- `/grill` for mission clarification, `/look-up` for resource gathering.
 - `journal` -- the projects interface writes to `occasions.md` and reuses the journal directory
   discovery convention. The `/update-occasions-config` skill (journal domain) parses the Projects
   section this domain writes.

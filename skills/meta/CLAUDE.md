@@ -6,7 +6,7 @@ ecosystem itself.
 
 ## Dependencies
 
-Meta skills reference `/grill-it` from the `primitives` plugin. Both must be installed.
+Meta skills reference `/grill` from the `primitives` plugin. Both must be installed.
 
 ## Skills
 

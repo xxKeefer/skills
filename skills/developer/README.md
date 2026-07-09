@@ -6,20 +6,20 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/research-it` | Discovery | Pre-spike research producing decision artifacts |
-| `/spike-it` | Discovery | Deep-dive investigation |
-| `/task-it` | Discovery | Decompose spike into tickets |
-| `/plan-it` | Planning | Break task into atomic steps |
-| `/do-it` | Implementation | Execute plan via /tdd |
+| `/research` | Discovery | Pre-spike research producing decision artifacts |
+| `/spike` | Discovery | Deep-dive investigation |
+| `/to-tickets` | Discovery | Decompose spike into tickets |
+| `/to-plan` | Planning | Break task into atomic steps |
+| `/implement` | Implementation | Execute plan via /tdd |
 | `/tdd` | Implementation | Red-green-refactor loop |
-| `/tweak-it` | Implementation | Small focused edits to recently built work |
-| `/hunt-it` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix-it or /plan-it |
-| `/fix-it` | Implementation | Fix a broken behaviour found during manual QA |
+| `/tweak` | Implementation | Small focused edits to recently built work |
+| `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix or /to-plan |
+| `/fix` | Implementation | Fix a broken behaviour found during manual QA |
 | `/happy-path` | Closure | Manual QA test plan for the current changeset |
-| `/resolve-it` | Closure | Assess code review feedback |
+| `/resolve-feedback` | Closure | Assess code review feedback |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
-| `/document-it` | Maintenance | Sync docs to code |
-| `/explain-it` | Anytime | Unpack agent reasoning |
+| `/sync-docs` | Maintenance | Sync docs to code |
+| `/explain-reasoning` | Anytime | Unpack agent reasoning |
 
 ## Installation
 

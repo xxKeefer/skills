@@ -2,7 +2,7 @@
 name: refine-task
 description: >
   Refine a thin Kanban card into a full, context-grounded task note in the project's tasks/ folder.
-  Equal parts plan-it and task-it but corpus-agnostic -- it reads the project's MISSION, decisions,
+  Equal parts to-plan and to-tickets but corpus-agnostic -- it reads the project's MISSION, decisions,
   and corpus to ground the task, whatever the project is about. Use when the user says "refine task",
   "refine this card", "flesh out this card", "turn this card into a note", or wants a board card
   worked up into something executable.
@@ -13,7 +13,7 @@ argument-hint: "[project slug and/or card text; omit to be asked]"
 
 Take a one-line Kanban card and work it up into a full task note in `tasks/` -- the card is the
 handle on the board, the note is where the detail lives. This is project-level backlog refinement:
-`plan-it`'s context-gathering and decomposition, `task-it`'s observable acceptance criteria, written
+`to-plan`'s context-gathering and decomposition, `to-tickets`'s observable acceptance criteria, written
 for a cold picker-upper in the spirit of `update-handoff`. **Corpus-agnostic** -- the MISSION tells
 you whether this is code, research, writing, or anything else; never assume a codebase.
 

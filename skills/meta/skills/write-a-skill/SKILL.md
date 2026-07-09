@@ -18,7 +18,7 @@ Author a new skill from scratch. Gather requirements, draft it, review with the 
 - **Description** -- what it should do
 - **Domain** -- which domain it belongs to (developer, meta, journal, etc.)
 
-If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill-it` to flesh
+If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill` to flesh
 out the skill design:
 
 - **Purpose** -- what problem does this skill solve?
@@ -27,7 +27,7 @@ out the skill design:
 - **Steps** -- what's the workflow? What order? What decision points?
 - **Outputs** -- what does it produce? (files, issues, commits, conversation output)
 - **Principles** -- any guiding rules or constraints?
-- **Composition** -- does it delegate to other skills? (`/grill-it`, `/write-to-file`, etc.)
+- **Composition** -- does it delegate to other skills? (`/grill`, `/write-to-file`, etc.)
 - **Supporting files** -- does it need templates, references, or scripts?
 
 ## Step 2: Check for Conflicts

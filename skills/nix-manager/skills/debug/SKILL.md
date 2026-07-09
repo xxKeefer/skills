@@ -47,7 +47,7 @@ Common causes:
 Explain the error in plain language:
 - "This failed because X."
 - "In nix, Y works like Z." (teach the concept if relevant)
-- If the error stems from a pattern that `/refine-it` would flag, mention that.
+- If the error stems from a pattern that `/refine` would flag, mention that.
 
 **Done when:** explanation delivered.
 
@@ -69,5 +69,5 @@ If it fails again, loop back to Step 1.
 ## Principles
 
 - Always explain the error -- every failure is a teaching moment.
-- Connect to broader patterns: "this is why `/refine-it` recommends avoiding `with pkgs;`".
+- Connect to broader patterns: "this is why `/refine` recommends avoiding `with pkgs;`".
 - If the fix is a workaround rather than a proper solution, say so and suggest the proper fix.

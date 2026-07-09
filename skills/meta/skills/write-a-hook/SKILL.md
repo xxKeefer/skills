@@ -21,7 +21,7 @@ and config when behaviour is data-driven. The working reference is
 - **Hook name** -- kebab-case, names the holder dir (`hooks/<name>/`)
 - **What it does** -- the behaviour to enforce, observe, redirect, or mutate
 
-If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill-it` to pin the
+If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill` to pin the
 design. A hook needs more decided up front than a skill does:
 
 - **Event** -- `PreToolUse`, `PostToolUse`, `Stop`, `SubagentStop`, `UserPromptSubmit`,

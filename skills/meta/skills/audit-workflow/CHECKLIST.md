@@ -12,7 +12,7 @@ Structured areas to examine during a workflow audit. Not every area will produce
 
 ## Skills Pipeline
 
-- [ ] Skills chain logically (spike-it -> task-it -> plan-it -> do-it -> close-it)
+- [ ] Skills chain logically (spike -> to-tickets -> to-plan -> implement -> close-it)
 - [ ] No gaps: frequent manual tasks that should be skills
 - [ ] Descriptions include "Use when..." triggers with specific keywords
 - [ ] `disable-model-invocation: true` on skills with side effects

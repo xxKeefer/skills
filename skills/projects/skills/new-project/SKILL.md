@@ -20,7 +20,7 @@ projects live and store the path to memory. Never hardcode the path.
 
 ## Step 2: Clarify the Mission
 
-Check `$ARGUMENTS` for a project name and any seed description. Then invoke `/grill-it` to pin down
+Check `$ARGUMENTS` for a project name and any seed description. Then invoke `/grill` to pin down
 the mission before scaffolding -- a vague mission produces a useless project. Probe only what's
 unclear:
 
