@@ -1,6 +1,6 @@
 # xxkeefer-skills — Context
 
-**Last updated:** 2026-06-16
+**Last updated:** 2026-07-09
 
 Shared terminology for the xxkeefer-skills marketplace. This is the repo-wide glossary; per-domain
 concepts still live here rather than in their own `CONTEXT.md` files for now.
@@ -36,14 +36,14 @@ A markdown-defined workflow in a domain's `skills/` directory, invoked via `/ski
 
 ### Primitive
 
-A foundational skill in the `primitives` domain that other domains compose. Model-invocable and
-named without the `*-it` suffix.
+A foundational skill in the `primitives` domain that other domains compose. Named as a
+straight descriptive kebab-case verb, like every skill in this repo.
 
 ## Concepts & conventions
 
 | Term | Definition |
 | --- | --- |
-| **HITL** | Human-in-the-loop. A skill or task that needs human judgment, design review, or an architectural decision. Signalled by the `*-it` suffix. |
+| **HITL** | Human-in-the-loop. A skill or task that needs human judgment, design review, or an architectural decision. Signalled by `disable-model-invocation: true` in the skill's frontmatter -- only the human can invoke it. (Formerly signalled by a `*-it` name suffix, dropped 2026-07.) |
 | **AFK** | Away-from-keyboard. A task fully specified for autonomous agent execution without human interaction. |
 | **Vertical slice** | A unit of work that cuts through all layers end-to-end and is demo-able or verifiable on its own. |
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |

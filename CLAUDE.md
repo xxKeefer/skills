@@ -27,7 +27,7 @@ workflows.
 
 Each domain is an independent plugin in the `xxkeefer-skills` marketplace. Domains are versioned
 separately and can be enabled/disabled independently. The `primitives` domain is a prerequisite
-for all others -- it provides foundational skills (like `/grill-it`) that other domains compose.
+for all others -- it provides foundational skills (like `/grill`) that other domains compose.
 
 Top-level layout:
 
