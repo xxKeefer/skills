@@ -2,112 +2,58 @@
 
 Mock at **system boundaries** only:
 
-- **API / HTTP layer** — mock the SDK or API client module
-- **Data-fetching / caching layer** — mock query factories or use a test client
-- **External services** — third-party APIs, analytics, feature flags
-- **Platform APIs** — storage, geolocation, clipboard, browser globals
-- **Routing layer** — mock or stub the router
-- **Time / clock** — fake timers for debounce, polling, animation
+- External APIs (payment, email, etc.)
+- Databases (sometimes - prefer test DB)
+- Time/randomness
+- File system (sometimes)
 
 Don't mock:
 
-- **Your own modules** — render them, call them, use them directly
-- **Your own state stores** — use real instances initialized fresh per test
-- **Internal collaborators** — if you need to mock it and you own it, the design needs work
+- Your own classes/modules
+- Internal collaborators
+- Anything you control
 
----
+## Designing for Mockability
 
-## API / HTTP Mocking
+At system boundaries, design interfaces that are easy to mock:
 
-Mock the SDK or API client at the module level:
+**1. Use dependency injection**
 
-```
-mock("api/sdk", {
-  getItem: stub().resolves(mockItem),
-  listItems: stub().resolves([mockItem]),
-})
-```
+Pass external dependencies in rather than creating them internally:
 
-Only provide the methods your test exercises. Unlisted methods should be undefined — surfaces unexpected calls immediately.
+```typescript
+// Easy to mock
+function processPayment(order, paymentClient) {
+  return paymentClient.charge(order.total);
+}
 
-If your project provides a dedicated SDK mock utility, prefer that over raw module mocking.
-
----
-
-## Data-Fetching Layer Mocking
-
-Mock query/cache factories at the module level, then override per-test:
-
-```
-// Default mock (colocated mock file)
-mock("api/queries/billing", {
-  balanceQuery: () => ({
-    key: ["balance"],
-    fetcher: stub().resolves({ balance: 1000, currency: "USD" }),
-  }),
-})
-
-// Override in specific test
-test("shows zero balance state")
-  mocked(balanceQuery).returns({
-    key: ["balance"],
-    fetcher: stub().resolves({ balance: 0, currency: "USD" }),
-  })
-  render(BillingDashboard)
-  expect(findByText("No balance")).toBeVisible()
+// Hard to mock
+function processPayment(order) {
+  const client = new StripeClient(process.env.STRIPE_KEY);
+  return client.charge(order.total);
+}
 ```
 
----
+**2. Prefer SDK-style interfaces over generic fetchers**
 
-## Module Mocking
+Create specific functions for each external operation instead of one generic function with conditional logic:
 
-```
-mock("./usePermissions", {
-  usePermissions: () => ({
-    canEdit: true,
-    canDelete: false,
-  }),
-})
-```
+```typescript
+// GOOD: Each function is independently mockable
+const api = {
+  getUser: (id) => fetch(`/users/${id}`),
+  getOrders: (userId) => fetch(`/users/${userId}/orders`),
+  createOrder: (data) => fetch('/orders', { method: 'POST', body: data }),
+};
 
-Place module mocks at the top of the file — most test runners hoist them automatically.
-
----
-
-## Router Mocking
-
-Create a mock router, inject it before each test:
-
-```
-router = createMockRouter({ initialPath: "/items/abc-123" })
-
-beforeEach()
-  injectRouter(router)
-
-test("navigates to detail page")
-  render(ItemList)
-  click(findByText("My Item"))
-  expect(router.push).toHaveBeenCalledWith({ name: "item-detail" })
+// BAD: Mocking requires conditional logic inside the mock
+const api = {
+  fetch: (endpoint, options) => fetch(endpoint, options),
+};
 ```
 
-If your project's render wrapper handles routing automatically, you may not need this.
-
----
-
-## Time Mocking
-
-```
-beforeEach()
-  useFakeTimers()
-
-afterEach()
-  useRealTimers()
-
-test("debounces search input")
-  render(SearchBar)
-  type(findByRole("searchbox"), "query")
-  expect(findByText("Results")).not.toBeVisible()
-
-  advanceTime(300)
-  expect(findByText("Results")).toBeVisible()
-```
+The SDK approach means:
+- Each mock returns one specific shape
+- No conditional logic in test setup
+- Easier to see which endpoints a test exercises
+- Type safety per endpoint
