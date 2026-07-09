@@ -1,6 +1,5 @@
 ---
 name: implement
-disable-model-invocation: true
 description: >
   Execute a plan from /to-plan or a simple task using TDD. Walks through each step, delegates
   implementation to /tdd, checkpoints between steps for commits. Use when the user says "do it",
