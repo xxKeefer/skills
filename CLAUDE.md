@@ -19,6 +19,7 @@ workflows.
 | `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, git guardrails | No |
+| `mattpocock` | Verbatim vendored copy of Matt Pocock's engineering skills (MIT, v1.1.0) | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
 | `deprecated` | Skills awaiting a keep/kill decision before deletion | No |
 
