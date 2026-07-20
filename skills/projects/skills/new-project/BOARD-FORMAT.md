@@ -42,10 +42,9 @@ tags: [project, kanban]
 ## Rules
 
 - **Columns are `##` headings.** The default four: `Backlog`, `This Week`, `Doing`, `Done`. Adjust
-  per project, but keep `This Week` and `Done` -- `/summarize-sprint` and `/project-status` read them.
+  per project, but keep `This Week` and `Done`.
 - **Cards are checkboxes.** `- [ ] text` for open, `- [x] text` for complete. One card per line.
-- **Deadlines use the obsidian-kanban date tag.** Append `@{YYYY-MM-DD}` to a card. These are the
-  dates `/schedule-goals` mirrors into `occasions.md` and `/project-status` surfaces as upcoming.
+- **Deadlines use the obsidian-kanban date tag.** Append `@{YYYY-MM-DD}` to a card.
 - **The `Done` column starts with a `**Complete**` marker line.** This is the obsidian-kanban
   convention that lets the plugin auto-archive completed cards. Leave it in place.
 - **The `%% kanban:settings %%` block must stay at the end.** It is what tells obsidian-kanban to
@@ -56,8 +55,5 @@ tags: [project, kanban]
   `new-note-folder`) using `tasks/_template.md` as its starting content (set via `new-note-template`).
   Both paths in the settings block are vault-relative -- substitute actual paths when writing the
   board during `/new-project`.
-- **Card edits are mostly manual.** The user moves and checks off cards by hand. Four skills write
-  to the board: `/new-project` (initial structure), `/capture-goals` (appends new cards to Backlog
-  and triages into This Week during a planning session), `/refine-task` (one surgical edit -- links
-  a card to its new task note, `- [ ] Foo` -> `- [ ] [[Foo]]`, replicating obsidian-kanban's "New
-  note from card"), and `/close-project` (archives the file). All other skills only read the board.
+- **Card edits are mostly manual.** The user moves and checks off cards by hand. Only
+  `/new-project` writes to the board (initial structure); after that, skills only read it.

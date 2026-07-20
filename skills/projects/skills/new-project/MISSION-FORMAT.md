@@ -41,4 +41,4 @@ abstract framings -- push for the real-world result.}
   decision (see [DECISIONS-FORMAT.md](DECISIONS-FORMAT.md)). Don't leave a stale mission steering work.
 - **Keep it short.** Past a screen, it has stopped being a compass and become a plan -- that belongs
   on the board.
-- **`status`** frontmatter is `active` while in flight; `/close-project` sets it to `done`.
+- **`status`** frontmatter is `active` while in flight; set it to `done` when the project completes.

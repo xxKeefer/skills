@@ -52,8 +52,7 @@ Present what will be created:
 >
 > Proceed?
 
-If a directory for the slug already exists, stop -- this is an existing project. Offer
-`/project-status` instead.
+If a directory for the slug already exists, stop -- this is an existing project.
 
 ## Step 4: Create the Workspace
 
@@ -73,11 +72,6 @@ Create `{projects-dir}/{slug}/` and write each file against its format contract:
 
 ## Step 5: Confirm and Offer Next Steps
 
-Report what was created and the board's seeded tasks. Then ask:
-
-> Workspace ready. Want to:
-> 1. **Schedule goals** -- push milestones into the journal via `/schedule-goals`
-> 2. **Add tasks** -- you fill the board manually in Obsidian
-> 3. **Done** -- start later
+Report what was created and the board's seeded tasks.
 
 Do not write to the board after scaffolding -- card management is manual from here.
