@@ -14,7 +14,6 @@ and `/code-review` at the end.
 
 | Skill | Role |
 |---|---|
-| `grill-with-docs` | Grill-led requirements gathering, doc-anchored |
 | `wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
 | `to-spec` | Turn an idea/conversation into a spec |
 | `to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
@@ -27,7 +26,10 @@ and `/code-review` at the end.
 
 ## Dependencies (vendored because the above compose them)
 
-`grilling`, `domain-modeling`, `prototype`, `research`, `triage`, `tdd`
+`grilling`, `prototype`, `research`, `triage`, `tdd`
+
+(`grill-with-docs` and `domain-modeling` migrated to the `developer` domain, 2026-07; skills here
+still invoke them by name, so `developer` must be enabled.)
 
 ## Tracker coupling and per-repo setup
 
