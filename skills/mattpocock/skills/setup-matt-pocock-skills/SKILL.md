@@ -42,13 +42,14 @@ Default posture: these skills were designed for GitHub. If a `git remote` points
 - **GitHub** — issues live in the repo's GitHub Issues (uses the `gh` CLI)
 - **GitLab** — issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
 - **Local markdown** — issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
+- **Obsidian Kanban** — issues live as cards on a per-project kanban board in the user's Obsidian vault (good when the repo is one of the vault's tracked project workspaces; ask the user for the board path — never guess it)
 - **Other** (Jira, Linear, etc.) — ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
 
 If — and only if — the user picked **GitHub** or **GitLab**, ask one follow-up:
 
 > Explainer: Open-source repos often receive feature requests as pull requests, not just issues — a PR is an issue with attached code. If you turn this on, `/triage` pulls *external* PRs into the same queue and runs them through the same labels and states as issues (collaborators' in-flight PRs are left alone). Leave it off if PRs aren't a request surface for you.
 
-- **PRs as a request surface** — yes / no (default: no). Record the answer in `docs/agents/issue-tracker.md`. For local-markdown and other trackers, skip this question — there are no PRs.
+- **PRs as a request surface** — yes / no (default: no). Record the answer in `docs/agents/issue-tracker.md`. For local-markdown, Obsidian Kanban, and other trackers, skip this question — there are no PRs.
 
 **Section B — Triage label vocabulary.**
 
@@ -117,6 +118,7 @@ Then write the three docs files using the seed templates in this skill folder as
 - [issue-tracker-github.md](./issue-tracker-github.md) — GitHub issue tracker
 - [issue-tracker-gitlab.md](./issue-tracker-gitlab.md) — GitLab issue tracker
 - [issue-tracker-local.md](./issue-tracker-local.md) — local-markdown issue tracker
+- [issue-tracker-obsidian-kanban.md](./issue-tracker-obsidian-kanban.md) — Obsidian Kanban issue tracker (per-project board in the user's vault)
 - [triage-labels.md](./triage-labels.md) — label mapping
 - [domain.md](./domain.md) — domain doc consumer rules + layout
 
