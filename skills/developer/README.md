@@ -8,6 +8,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 |---|---|---|
 | `/research` | Discovery | Pre-spike research producing decision artifacts |
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
+| `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/spike` | Discovery | Deep-dive investigation |
 | `/to-tickets` | Discovery | Decompose spike into tickets |
 | `/to-plan` | Planning | Break task into atomic steps |
@@ -20,8 +21,10 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/resolve-feedback` | Closure | Assess code review feedback |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
+| `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
 | `/explain-reasoning` | Anytime | Unpack agent reasoning |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
+| `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 
 ## Installation
 

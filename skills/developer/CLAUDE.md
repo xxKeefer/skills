@@ -34,6 +34,7 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 |---|---|
 | `/research` | Pre-spike research producing decision artifacts that steer spike sessions |
 | `/grill-with-docs` | Grill-led requirements gathering, doc-anchored |
+| `/prototype` | Build a throwaway prototype to answer a design question |
 | `/spike` | Deep-dive investigation of a problem (PRD process) |
 | `/to-tickets` | Decompose a spike into vertical-slice tracker tickets with HITL/AFK classification |
 | `/to-plan` | Break a task into ordered, atomic steps |
@@ -48,6 +49,8 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 | `/sync-docs` | Sync documentation to code changes |
 | `/explain-reasoning` | Unpack agent reasoning transparently |
 | `/domain-modeling` | Build and sharpen the project's domain model (glossary, ADRs) |
+| `/codebase-design` | Deep-module vocabulary the architecture skills compose |
+| `/improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
 
 ## References
 

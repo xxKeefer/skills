@@ -19,16 +19,15 @@ and `/code-review` at the end.
 | `to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
 | `implement` | Execute a ticket (TDD-backed) |
 | `code-review` | Review with a Fowler smell baseline |
-| `improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
 | `setup-matt-pocock-skills` | Per-repo config — writes `docs/agents/issue-tracker.md` + triage labels |
-| `codebase-design` | Deep-module vocabulary the architecture skills compose |
 
 ## Dependencies (vendored because the above compose them)
 
-`grilling`, `prototype`, `research`, `triage`, `tdd`
+`grilling`, `research`, `triage`, `tdd`
 
-(`grill-with-docs` and `domain-modeling` migrated to the `developer` domain, 2026-07; skills here
-still invoke them by name, so `developer` must be enabled.)
+(`grill-with-docs`, `domain-modeling`, `codebase-design`, `improve-codebase-architecture`, and
+`prototype` migrated to the `developer` domain, 2026-07; skills here still invoke them by name,
+so `developer` must be enabled.)
 
 ## Tracker coupling and per-repo setup
 
