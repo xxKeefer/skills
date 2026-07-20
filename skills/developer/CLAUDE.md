@@ -64,5 +64,5 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 
 | File | Purpose |
 |---|---|
-| `references/AGENT-BRIEF.md` | How to write durable agent briefs for AFK issues |
-| `references/OUT-OF-SCOPE.md` | How the `.ai/.out-of-scope/` knowledge base works |
+| `skills/triage/AGENT-BRIEF.md` | How to write durable agent briefs for AFK issues |
+| `skills/triage/OUT-OF-SCOPE.md` | How the `.ai/.out-of-scope/` knowledge base works |
