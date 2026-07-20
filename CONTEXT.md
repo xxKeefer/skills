@@ -1,6 +1,6 @@
 # xxkeefer-skills — Context
 
-**Last updated:** 2026-07-09
+**Last updated:** 2026-07-20
 
 Shared terminology for the xxkeefer-skills marketplace. This is the repo-wide glossary; per-domain
 concepts still live here rather than in their own `CONTEXT.md` files for now.
@@ -62,5 +62,5 @@ straight descriptive kebab-case verb, like every skill in this repo.
 | **Projects directory** | The vault directory holding project workspaces (e.g. `05-projects/`). Discovered by scanning for `*projects`, never hardcoded. |
 | **Project workspace** | A stateful per-project directory (MISSION, Kanban board, decisions log, notes), modelled on the `teach` skill. The workspace is the state. |
 | **Milestone** | A dated project event written into the `occasions.md` Projects section so the journal surfaces it. Year-guarded, single-fire. Distinct from a goal. |
-| **Project board** | A per-project obsidian-kanban file (`<slug>.kanban.md`): headings as columns, checkboxes as cards. Edited manually; skills only read it. |
+| **Project board** | A per-project obsidian-kanban file (`<slug>.kanban.md`): headings as columns, checkboxes as cards. Skills edit the board surgically — add, move, or tag a card, never reorder other cards or touch the settings block. The task notes behind the cards are fully skill-managed; `/do-next` and `/update-handoff` already treat them as handoffs. |
 | **Projects-to-journal bridge** | The one-way v1 interface: projects push milestones into `occasions.md`; the journal stays unaware of project schema. |

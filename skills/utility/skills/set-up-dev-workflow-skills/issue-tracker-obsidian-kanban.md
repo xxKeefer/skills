@@ -37,8 +37,9 @@ tags: [project, task]
 ```
 
 Body: `# <Title>`, `## Context` (why the task exists, one short paragraph), `## Acceptance
-Criteria` (checkboxes), `## Notes`. Implementation history appends as further headings — don't
-rewrite earlier entries.
+Criteria` (checkboxes), `## Notes`. Task notes double as handoff documents — skills like
+`/do-next` and `/update-handoff` manage their content wholesale; only the board file demands
+surgical edits.
 
 ## Triage state
 
