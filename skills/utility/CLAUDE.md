@@ -14,6 +14,7 @@ the setup skills are easy to find, maintain, or retire on their own.
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
 | `/install-agent-voice` | Install the version-controlled Terse output style to `~/.claude/output-styles/` and select it in settings |
 | `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
+| `/set-up-dev-workflow-skills` | Per-repo config for the engineering skills — issue tracker, triage labels, domain doc layout |
 
 ## Design Principles
 

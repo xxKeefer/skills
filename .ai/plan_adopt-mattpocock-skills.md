@@ -8,7 +8,7 @@
 
 - Vendor verbatim, never patch in place; MIT LICENSE travels with the copy.
 - Adopt wholesale wherever nothing in my chain depends on an equivalent (domain-modeling,
-  prototype, triage, codebase-design, writing-great-skills, setup-matt-pocock-skills,
+  prototype, triage, codebase-design, writing-great-skills, set-up-dev-workflow-skills,
   improve-codebase-architecture).
 - Where my chain has dependents (grill-it ×7, tdd ×3, handoff ×3): keep my skill name as the
   stable identity, align its body to Matt's design. Duplicate triggers with the vendored twins
@@ -16,7 +16,7 @@
 - No cross-plugin delegation from `primitives` to `mattpocock` — primitives is the always-required
   base and must not depend on an optional domain. Sync bodies, don't delegate.
 - Tracker adapters: Matt's skills read a per-repo `docs/agents/issue-tracker.md` written by
-  `/setup-matt-pocock-skills`. We ship two ready-made variants (local `.ai/`, Jira/Confluence)
+  `/set-up-dev-workflow-skills`. We ship two ready-made variants (local `.ai/`, Jira/Confluence)
   as xxkeefer-authored files beside the vendored skills — never inside them.
 
 ## Already in the working tree (uncommitted)
@@ -29,10 +29,10 @@
 ### Step 1: Complete and commit the vendored domain
 
 **What:** Vendor the 4 remaining adopt-wholesale skills from the clone
-(`setup-matt-pocock-skills`, `codebase-design`, `improve-codebase-architecture` from
+(`set-up-dev-workflow-skills`, `codebase-design`, `improve-codebase-architecture` from
 engineering/, `writing-great-skills` from productivity/). Update the domain README skill table,
 add a `mattpocock` row to the root CLAUDE.md domains table.
-**Files:** `skills/mattpocock/skills/{setup-matt-pocock-skills,codebase-design,improve-codebase-architecture,writing-great-skills}/`, `skills/mattpocock/README.md`, `CLAUDE.md`
+**Files:** `skills/mattpocock/skills/{set-up-dev-workflow-skills,codebase-design,improve-codebase-architecture,writing-great-skills}/`, `skills/mattpocock/README.md`, `CLAUDE.md`
 **Done when:** 16 skills vendored byte-identical to the v1.1.0 clone, registry and docs
 consistent, one commit.
 
@@ -43,7 +43,7 @@ consistent, one commit.
 `skills/mattpocock/adapters/issue-tracker-jira.md` (Atlassian MCP, Megaport project keys per
 `jira-conventions`, native blocking = Jira issue links, triage labels mapped to status
 transitions/labels, wayfinding operations section). README gains a "per-repo setup" section:
-run `/setup-matt-pocock-skills`, hand it the fitting adapter.
+run `/set-up-dev-workflow-skills`, hand it the fitting adapter.
 **Files:** `skills/mattpocock/adapters/*.md`, `skills/mattpocock/README.md`
 **Done when:** both adapters exist, README marks `skills/` as verbatim and `adapters/` as ours,
 one commit.
@@ -118,7 +118,7 @@ mentions, one commit.
 
 - Point `~/.claude/AGENTS.md`'s deep-module reference at the vendored `codebase-design` skill
   (one source of truth).
-- Run `/setup-matt-pocock-skills` in real work repos with the Jira adapter; in personal repos
+- Run `/set-up-dev-workflow-skills` in real work repos with the Jira adapter; in personal repos
   with the `.ai/` adapter.
 - Later: watch his in-progress writing pipeline (fragments/beats/shape) and `wizard` for a
   future re-vendor; tally will decide whether my duplicated grilling/tdd twins get retired.

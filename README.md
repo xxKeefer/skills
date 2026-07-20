@@ -25,8 +25,8 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
 | **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban | Dev-environment setup |
-| **mattpocock** | grill-with-docs, wayfinder, to-spec, to-tickets, implement, code-review, grilling, domain-modeling, prototype, research, triage, tdd, codebase-design, improve-codebase-architecture, writing-great-skills, setup-matt-pocock-skills | Verbatim vendored copy of Matt Pocock's skills (MIT, v1.1.0) |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills | Dev-environment setup |
+| **mattpocock** | grill-with-docs, wayfinder, to-spec, to-tickets, implement, code-review, grilling, domain-modeling, prototype, research, triage, tdd, codebase-design, improve-codebase-architecture, writing-great-skills | Verbatim vendored copy of Matt Pocock's skills (MIT, v1.1.0) |
 | **experimental** | lobotomize, patch-doctor | Skills on probation |
 | **deprecated** | debrief | Holding pen for skills awaiting a keep/kill decision |
 

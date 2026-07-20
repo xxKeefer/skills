@@ -18,7 +18,6 @@ and `/code-review` at the end.
 | `to-spec` | Turn an idea/conversation into a spec |
 | `to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
 | `code-review` | Review with a Fowler smell baseline |
-| `setup-matt-pocock-skills` | Per-repo config — writes `docs/agents/issue-tracker.md` + triage labels |
 
 ## Dependencies (vendored because the above compose them)
 
@@ -26,19 +25,21 @@ and `/code-review` at the end.
 
 (2026-07 migrations: `grill-with-docs`, `domain-modeling`, `codebase-design`,
 `improve-codebase-architecture`, and `prototype` moved to `developer`; `research` moved to
-`primitives`; the vendored `implement` and `tdd` were dropped in favour of developer's own.
+`primitives`; the vendored `implement` and `tdd` were dropped in favour of developer's own;
+the setup skill was adopted into `utility` as `set-up-dev-workflow-skills`, and the skills
+here had their references to it renamed in place — the one edit the vendored tree carries.
 Skills here still invoke them by name, so those domains must be enabled.)
 
 ## Tracker coupling and per-repo setup
 
 The flow skills never hardcode a tool — each reads the repo's `docs/agents/issue-tracker.md`,
-written once by `/setup-matt-pocock-skills`. `skills/` is the verbatim vendored tree;
-`adapters/` is xxkeefer-authored and safe to edit:
+written once by `/set-up-dev-workflow-skills` (now in the `utility` domain). `skills/` is the
+vendored tree; `adapters/` is xxkeefer-authored and safe to edit:
 
 - `adapters/issue-tracker-ai-local.md` — personal repos; scratch root `.ai/`, aligned with
   `/write-to-file`
 - `adapters/issue-tracker-jira.md` — work repos; Atlassian MCP, triage roles mapped to Jira
   statuses/labels, wayfinder maps as epics
 
-Per repo: run `/setup-matt-pocock-skills`, and when it asks for the tracker, hand it the
+Per repo: run `/set-up-dev-workflow-skills`, and when it asks for the tracker, hand it the
 fitting adapter file as the answer.
