@@ -15,6 +15,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/update-handoff` | Update a handoff/plan doc in place with current progress |
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
+| `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
 
 ## Installation
 

@@ -23,11 +23,11 @@ and `/code-review` at the end.
 
 ## Dependencies (vendored because the above compose them)
 
-`grilling`, `research`, `triage`, `tdd`
+`grilling`, `triage`, `tdd`
 
-(`grill-with-docs`, `domain-modeling`, `codebase-design`, `improve-codebase-architecture`, and
-`prototype` migrated to the `developer` domain, 2026-07; skills here still invoke them by name,
-so `developer` must be enabled.)
+(2026-07 migrations: `grill-with-docs`, `domain-modeling`, `codebase-design`,
+`improve-codebase-architecture`, and `prototype` moved to `developer`; `research` moved to
+`primitives`. Skills here still invoke them by name, so those domains must be enabled.)
 
 ## Tracker coupling and per-repo setup
 

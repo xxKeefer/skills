@@ -23,3 +23,4 @@ installed.
 | `/update-handoff` | Update a handoff/plan doc in place with current progress | invoked directly by the user |
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step | invoked directly by the user |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | invoked directly by the user; composes look-up, write-to-file |
+| `/research` | Background-agent research against primary sources, captured as Markdown in the repo | mattpocock:wayfinder; invoked directly by the user |
