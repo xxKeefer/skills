@@ -11,7 +11,7 @@ description: >
 
 # Spike It
 
-This is the PRD skill. It produces the specification that feeds `/to-tickets`.
+This is the PRD skill. It produces the specification that feeds `/implement`.
 
 Build a complete understanding of a problem, then create a ticket in the project's tracker that captures it.
 
@@ -94,6 +94,5 @@ Show the ticket URL/key and a brief summary of what the spike covers.
 Ask the user which (if any) they want:
 
 1. **Adjust** — revise the ticket
-2. **Create tickets** — hand off to `/to-tickets`
-3. **Plan implementation** — hand off to `/to-plan`
-4. **Done** — leave the ticket as-is
+2. **Implement** — hand off to `/implement`
+3. **Done** — leave the ticket as-is

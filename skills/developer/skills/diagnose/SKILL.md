@@ -4,7 +4,7 @@ disable-model-invocation: true
 description: >
   Track down a bug whose root cause is not obvious -- the head-scratchers that need deep code
   exploration and tracing. Critically assesses the report, hunts to a proven root cause, writes a
-  local hunt artifact to `.ai/`, then hands off to /fix or /to-plan. Use when the user says
+  local hunt artifact to `.ai/`, then hands off to /fix or /implement. Use when the user says
   "hunt it", "hunt this bug", "track this down", "find the bug", "debug this", pastes an error,
   stack trace, or bug report with no clear culprit, or wants to go from symptom to proven root
   cause. For faults in recent changes where the cause is roughly known, use /fix instead.
@@ -16,7 +16,7 @@ Go from bug report to proven root cause. Assess the report critically, trace the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.
 
 This is the investigation skill for **head-scratchers** -- bugs nobody understands yet. It
-deliberately stops at root cause: `/fix` and `/to-plan` own the fix. If the cause is already
+deliberately stops at root cause: `/fix` and `/implement` own the fix. If the cause is already
 roughly known, `/diagnose` is overkill -- route to `/fix`.
 
 > **Tracker:** "the project's tracker" means whatever issue system the repo's CLAUDE.md declares — a
@@ -110,7 +110,7 @@ Use `/write-to-file` to write `hunt_{terse-description}.md` to `.ai/` (prefer th
 the work has one, per `/write-to-file`'s naming convention — e.g. `hunt_ENG-123.md`).
 
 This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
-tracker content. Its job is to carry the investigation into `/fix` or `/to-plan` intact.
+tracker content. Its job is to carry the investigation into `/fix` or `/implement` intact.
 
 ```markdown
 # Hunt: {symptom}
@@ -142,7 +142,7 @@ What else the same root cause affects. Other instances of the faulty pattern.
 
 ## Fix Direction
 
-1-2 sentences of direction — NOT a plan. /to-plan owns decomposition; /tdd owns tests.
+1-2 sentences of direction — NOT a plan. /implement owns decomposition; /tdd owns tests.
 ```
 
 ## Step 5: Hand Off
@@ -159,7 +159,7 @@ Present a summary:
 Offer:
 
 1. **`/fix`** — the fix is now small and obvious
-2. **`/to-plan @.ai/hunt_{name}.md`** — the fix needs decomposition
+2. **`/implement @.ai/hunt_{name}.md`** — the fix needs decomposition
 3. **Ticket** — on request, create a tracker ticket (or subtask of the originating ticket) with a
    durable summary: modules, behaviours, and contracts — no file paths or line numbers. The
    shared tracker is not a dumping ground; only what survives codebase change goes in.
@@ -176,5 +176,5 @@ Offer:
   sentence or two of direction, hand off.
 - **Local by default.** Findings live in `.ai/`; the shared tracker gets a durable summary only
   when explicitly requested.
-- **The artifact is transient.** Once consumed by `/fix` or `/to-plan`, the regression test and
+- **The artifact is transient.** Once consumed by `/fix` or `/implement`, the regression test and
   the fix are the source of truth — delete the hunt doc.

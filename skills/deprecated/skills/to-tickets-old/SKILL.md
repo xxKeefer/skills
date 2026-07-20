@@ -1,5 +1,5 @@
 ---
-name: to-tickets
+name: to-tickets-old
 disable-model-invocation: true
 description: >
   Turn a /spike output into tracker tickets ready for /to-plan or /implement. Decomposes the spike
