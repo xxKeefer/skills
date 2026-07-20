@@ -7,14 +7,14 @@ software engineering principles.
 ## Dependencies
 
 Developer skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
-all must be installed. Ticket-creating skills (`research`, `spike`, `to-tickets`, `to-plan`) target
+all must be installed. Ticket-creating skills (`spike`, `to-tickets`, `to-plan`) target
 the project's tracker — GitHub via `gh` by default, or whatever the repo's CLAUDE.md declares (e.g.
 Jira via the Atlassian MCP).
 
 ## Workflow
 
 ```
-research -> spike -> to-tickets -> to-plan -> implement (uses tdd)
+spike -> to-tickets -> to-plan -> implement (uses tdd)
 
 After implementation: happy-path (manual QA checklist)
                         -> fix (broken behaviour found in QA)
@@ -32,13 +32,12 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 
 | Skill | Purpose |
 |---|---|
-| `/research` | Pre-spike research producing decision artifacts that steer spike sessions |
 | `/grill-with-docs` | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Build a throwaway prototype to answer a design question |
 | `/spike` | Deep-dive investigation of a problem (PRD process) |
 | `/to-tickets` | Decompose a spike into vertical-slice tracker tickets with HITL/AFK classification |
 | `/to-plan` | Break a task into ordered, atomic steps |
-| `/implement` | Execute a plan step-by-step via /tdd |
+| `/implement` | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Red-green-refactor loop |
 | `/tweak` | Apply small, focused edits to recently built work |
 | `/diagnose` | Trace a non-obvious bug to proven root cause, hand off to /fix or /to-plan |

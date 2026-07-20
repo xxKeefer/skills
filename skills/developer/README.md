@@ -6,13 +6,12 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/research` | Discovery | Pre-spike research producing decision artifacts |
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/spike` | Discovery | Deep-dive investigation |
 | `/to-tickets` | Discovery | Decompose spike into tickets |
 | `/to-plan` | Planning | Break task into atomic steps |
-| `/implement` | Implementation | Execute plan via /tdd |
+| `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red-green-refactor loop |
 | `/tweak` | Implementation | Small focused edits to recently built work |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix or /to-plan |

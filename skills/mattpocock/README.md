@@ -17,17 +17,17 @@ and `/code-review` at the end.
 | `wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
 | `to-spec` | Turn an idea/conversation into a spec |
 | `to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
-| `implement` | Execute a ticket (TDD-backed) |
 | `code-review` | Review with a Fowler smell baseline |
 | `setup-matt-pocock-skills` | Per-repo config — writes `docs/agents/issue-tracker.md` + triage labels |
 
 ## Dependencies (vendored because the above compose them)
 
-`grilling`, `triage`, `tdd`
+`grilling`, `triage`
 
 (2026-07 migrations: `grill-with-docs`, `domain-modeling`, `codebase-design`,
 `improve-codebase-architecture`, and `prototype` moved to `developer`; `research` moved to
-`primitives`. Skills here still invoke them by name, so those domains must be enabled.)
+`primitives`; the vendored `implement` and `tdd` were dropped in favour of developer's own.
+Skills here still invoke them by name, so those domains must be enabled.)
 
 ## Tracker coupling and per-repo setup
 
