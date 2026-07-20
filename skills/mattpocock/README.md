@@ -21,7 +21,6 @@ and `/code-review` at the end.
 | `code-review` | Review with a Fowler smell baseline |
 | `improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
 | `setup-matt-pocock-skills` | Per-repo config — writes `docs/agents/issue-tracker.md` + triage labels |
-| `writing-great-skills` | Reference on skill-authoring principles |
 | `codebase-design` | Deep-module vocabulary the architecture skills compose |
 
 ## Dependencies (vendored because the above compose them)

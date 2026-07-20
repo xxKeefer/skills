@@ -17,3 +17,4 @@ Meta skills reference `/grill` from the `primitives` plugin. Both must be instal
 | `/write-a-hook` | Scaffold a Claude Code hook holder (script, installer skill, README, config) |
 | `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
+| `/writing-great-skills` | Reference on skill-authoring principles |
