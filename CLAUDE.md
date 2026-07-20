@@ -59,3 +59,20 @@ automated rule:
 Everything-agnostic. Skills encode *how to think about problems*, not how to use specific tools.
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are cards on the `agentic-skills` Obsidian Kanban board in the vault. See
+`docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five roles as inline card tags; agent-ready is `#afk`, needs-human is `#hitl`. See
+`docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` at the repo root; ADRs go in `docs/adr/`. See
+`docs/agents/domain.md`.
