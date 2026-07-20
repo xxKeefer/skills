@@ -118,6 +118,8 @@ Then write the three docs files using the seed templates in this skill folder as
 - [issue-tracker-github.md](./issue-tracker-github.md) — GitHub issue tracker
 - [issue-tracker-gitlab.md](./issue-tracker-gitlab.md) — GitLab issue tracker
 - [issue-tracker-local.md](./issue-tracker-local.md) — local-markdown issue tracker
+- [issue-tracker-ai-local.md](./issue-tracker-ai-local.md) — local-markdown in `.ai/`, aligned with `/write-to-file` (personal repos)
+- [issue-tracker-jira.md](./issue-tracker-jira.md) — Jira via the Atlassian MCP (work repos)
 - [issue-tracker-obsidian-kanban.md](./issue-tracker-obsidian-kanban.md) — Obsidian Kanban issue tracker (per-project board in the user's vault)
 - [triage-labels.md](./triage-labels.md) — label mapping
 - [domain.md](./domain.md) — domain doc consumer rules + layout

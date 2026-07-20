@@ -18,17 +18,16 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Skills | Purpose |
 |---|---|---|
 | **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
-| **developer** | research, spike, to-tickets, to-plan, implement, tdd, tweak, diagnose, fix, happy-path, resolve-feedback, resolve-conflicts, sync-docs, explain-reasoning | Engineering lifecycle |
+| **developer** | grill-with-docs, prototype, spike, wayfinder, to-spec, to-tickets, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, explain-reasoning, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
-| **projects** | new-project, capture-goals, refine-task, schedule-goals, project-status, summarize-sprint, close-project | Long-running goal management |
+| **projects** | new-project | Long-running goal management |
 | **meta** | audit-workflow, write-a-skill, migrate-a-skill, retire-a-skill | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
 | **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills | Dev-environment setup |
-| **mattpocock** | grill-with-docs, wayfinder, to-spec, to-tickets, implement, code-review, grilling, domain-modeling, prototype, research, triage, tdd, codebase-design, improve-codebase-architecture, writing-great-skills | Verbatim vendored copy of Matt Pocock's skills (MIT, v1.1.0) |
 | **experimental** | lobotomize, patch-doctor | Skills on probation |
-| **deprecated** | debrief | Holding pen for skills awaiting a keep/kill decision |
+| **deprecated** | debrief, to-plan, to-tickets-old | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
@@ -56,7 +55,6 @@ Add to `~/.claude/settings.json`:
     "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
-    "mattpocock@xxkeefer-skills": true,
     "experimental@xxkeefer-skills": true,
     "deprecated@xxkeefer-skills": true
   }
@@ -76,9 +74,11 @@ Add to `~/.claude/settings.json`:
 This marketplace owes a lot to [Matt Pocock's skills repo](https://github.com/mattpocock/skills)
 (MIT licensed):
 
-- The **mattpocock** domain is a verbatim vendored copy of his engineering skills at tag
-  `v1.1.0`, with his LICENSE alongside. It is never edited in place -- updates come from
-  re-vendoring a newer tag.
+- The **developer** domain's `wayfinder`, `to-spec`, `to-tickets`, `triage`, and `code-review`
+  (plus the earlier-adopted `implement`, `grill-with-docs`, `domain-modeling`, `codebase-design`,
+  `improve-codebase-architecture`, and `prototype`) were adopted from his repo at tag `v1.1.0`,
+  with his LICENSE alongside as `skills/developer/LICENSE-mattpocock`. The vendored `mattpocock`
+  holding domain was retired 2026-07 once everything worth keeping had been adopted.
 - Several of my own skills carry his designs under my names: **grill** and **handoff**
   (his `grilling`/`handoff` v1.1.0 bodies), **tdd** (his reference-only design), and **spike**
   (inspired by his investigation workflows).

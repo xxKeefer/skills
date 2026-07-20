@@ -61,12 +61,6 @@
       "source": "./skills/utility"
     },
     {
-      "name": "mattpocock",
-      "description": "Verbatim vendored copy of Matt Pocock's engineering skills (MIT, v1.1.0). Spec/ticket/implement flow plus code review.",
-      "category": "development",
-      "source": "./skills/mattpocock"
-    },
-    {
       "name": "experimental",
       "description": "Personal skills on probation. Promote to a real domain once usage justifies it; demote to `deprecated` if it doesn't.",
       "category": "development",

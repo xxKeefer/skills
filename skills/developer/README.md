@@ -9,12 +9,17 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/spike` | Discovery | Deep-dive investigation |
+| `/wayfinder` | Discovery | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
+| `/to-spec` | Planning | Turn an idea or conversation into a published spec |
+| `/to-tickets` | Planning | Break a spec into tracer-bullet vertical-slice tickets |
+| `/triage` | Planning | Move issues and external PRs through the triage state machine |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red-green-refactor loop |
 | `/tweak` | Implementation | Small focused edits to recently built work |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA |
 | `/happy-path` | Closure | Manual QA test plan for the current changeset |
+| `/code-review` | Closure | Two-axis review of changes since a fixed point: standards and spec |
 | `/resolve-feedback` | Closure | Assess code review feedback |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
@@ -34,6 +39,11 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 ```
 
 Requires `primitives@xxkeefer-skills`.
+
+`/wayfinder`, `/to-spec`, `/to-tickets`, `/triage`, and `/code-review` were adopted from
+[Matt Pocock's skills](https://github.com/mattpocock/skills) v1.1.0 (MIT — see
+[LICENSE-mattpocock](LICENSE-mattpocock)). They read the repo's `docs/agents/issue-tracker.md`,
+written once by `/set-up-dev-workflow-skills` (`utility` domain).
 
 ## Permissions
 
