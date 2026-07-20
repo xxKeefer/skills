@@ -60,7 +60,7 @@ Create `{projects-dir}/{slug}/` and write each file against its format contract:
 
 - `MISSION.md` -- per [MISSION-FORMAT.md](MISSION-FORMAT.md), filled from the grill.
 - `{slug}.kanban.md` -- per [BOARD-FORMAT.md](BOARD-FORMAT.md). Seed the Backlog with any known
-  tasks; leave This Week / Doing / Done empty (Done keeps its `**Complete**` marker). Set
+  tasks; leave Next / Doing / Done empty (Done keeps its `**Complete**` marker). Set
   `new-note-folder` to `{projects-dir-from-vault-root}/{slug}/tasks` and `new-note-template` to
   `{projects-dir-from-vault-root}/{slug}/tasks/_template.md` in the `%% kanban:settings %%` block.
 - `decisions/` -- create the directory empty (records are added later as choices arise). If the

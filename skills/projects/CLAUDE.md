@@ -33,7 +33,7 @@ One directory per project under the projects directory:
 ```
 <projects-dir>/<slug>/
   MISSION.md          # why this project exists, definition of done, constraints, out-of-scope
-  <slug>.kanban.md    # obsidian-kanban board: Backlog / This Week / Doing / Done
+  <slug>.kanban.md    # obsidian-kanban board: Backlog / Next / Doing / Done
   decisions/          # ADR-style records (NNNN-slug.md) that steer next steps
   tasks/              # per-card task notes created via "New note from card" in obsidian-kanban
     _template.md      # note template used by the plugin when creating card notes

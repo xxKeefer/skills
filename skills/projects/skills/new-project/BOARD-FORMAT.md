@@ -18,7 +18,7 @@ tags: [project, kanban]
 - [ ] First task
 - [ ] Another task
 
-## This Week
+## Next
 
 - [ ] A task scoped for this week @{YYYY-MM-DD}
 
@@ -41,8 +41,8 @@ tags: [project, kanban]
 
 ## Rules
 
-- **Columns are `##` headings.** The default four: `Backlog`, `This Week`, `Doing`, `Done`. Adjust
-  per project, but keep `This Week` and `Done`.
+- **Columns are `##` headings.** The default four: `Backlog`, `Next`, `Doing`, `Done`. Adjust
+  per project, but keep `Next` and `Done`.
 - **Cards are checkboxes.** `- [ ] text` for open, `- [x] text` for complete. One card per line.
 - **Deadlines use the obsidian-kanban date tag.** Append `@{YYYY-MM-DD}` to a card.
 - **The `Done` column starts with a `**Complete**` marker line.** This is the obsidian-kanban
