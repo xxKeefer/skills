@@ -57,3 +57,7 @@ Used by `/wayfinder`. The **map** is a task note; its **child** tickets are wiki
 - **Claim**: move the card to `Doing` — the session's first write.
 - **Resolve**: append the answer under `## Answer` in the child note, move its card to `Done`,
   then append a context pointer (gist + link) to the map's Decisions-so-far.
+
+`#epic` and `#blocked` colours are defined once, in the canonical `tag-colors` palette in
+[BOARD-FORMAT.md](../../skills/projects/skills/new-project/BOARD-FORMAT.md#universal-project-tags) --
+don't redefine them here.
