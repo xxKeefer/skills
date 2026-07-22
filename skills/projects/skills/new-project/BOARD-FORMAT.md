@@ -34,10 +34,29 @@ tags: [project, kanban]
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false],"new-note-folder":"{projects-dir}/{slug}/tasks","new-note-template":"{projects-dir}/{slug}/tasks/_template.md"}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false],"new-note-folder":"{projects-dir}/{slug}/tasks","new-note-template":"{projects-dir}/{slug}/tasks/_template.md","tag-colors":[{"tagKey":"#epic","color":"rgba(255,255,255,1)","backgroundColor":"rgba(68,0,68,1)"},{"tagKey":"#urgent","color":"rgba(255,255,255,1)","backgroundColor":"rgba(204,0,0,1)"},{"tagKey":"#blocked","color":"rgba(255,255,255,1)","backgroundColor":"rgba(96,0,0,1)"},{"tagKey":"#now","color":"rgba(0,0,0,1)","backgroundColor":"rgba(255,229,0,1)"},{"tagKey":"#bug","color":"rgba(255,255,255,1)","backgroundColor":"rgba(161,62,0,1)"},{"tagKey":"#visbug","color":"rgba(255,255,255,1)","backgroundColor":"rgba(161,62,0,1)"},{"tagKey":"#afk","color":"rgba(255,255,255,1)","backgroundColor":"rgba(0,68,68,1)"},{"tagKey":"#hitl","color":"rgba(0,0,0,1)","backgroundColor":"rgba(0,205,205,1)"},{"tagKey":"#techdebt","color":"rgba(0,0,0,1)","backgroundColor":"rgba(255,255,255,1)"},{"tagKey":"#later","color":"rgba(255,255,255,1)","backgroundColor":"rgba(51,51,51,1)"}],"tag-sort":[{"tag":"#epic"},{"tag":"#urgent"},{"tag":"#blocked"},{"tag":"#now"},{"tag":"#bug"},{"tag":"#visbug"},{"tag":"#afk"},{"tag":"#hitl"},{"tag":"#techdebt"},{"tag":"#later"}]}
 ```
 %%
 ````
+
+## Universal Project Tags
+
+Every board's settings block carries a canonical `tag-colors`/`tag-sort` pair so tags render
+consistently across every project without per-board setup. Sort order below (top to bottom) is
+the intended `tag-sort` order -- `#epic` first, `#later` last.
+
+| Tag | Signal | Text (hex) | Background (hex) |
+|---|---|---|---|
+| #epic | Organisation / Sequencing | fff | 440044 |
+| #urgent | Priority 0 | fff | cc0000 |
+| #blocked | Sequencing, task will ref blockers | fff | 600000 |
+| #now | Priority 1 | 000 | ffe500 |
+| #bug | Any logic or functionality defects | fff | a13e00 |
+| #visbug | Purely visual defects | fff | a13e00 |
+| #afk | Agent to complete without human | fff | 004444 |
+| #hitl | Human to work on task with/without agent | 000 | 00cdcd |
+| #techdebt | Meta work to improve the code | 000 | fff |
+| #later | Priority negative 1 | fff | 333 |
 
 ## Rules
 
@@ -50,6 +69,9 @@ tags: [project, kanban]
 - **The `%% kanban:settings %%` block must stay at the end.** It is what tells obsidian-kanban to
   render the file as a board rather than a note. Do not drop it.
 - **Frontmatter `kanban-plugin: board` is required** for the plugin to recognise the file.
+- **The settings block always carries the canonical `tag-colors`/`tag-sort` pair** (see Universal
+  Project Tags above). Skills adding project-specific tags must append to these arrays, not
+  replace them.
 - **Cards can link to task notes.** Use the obsidian-kanban "New note from card" action to promote
   a card into a wikilink: `- [ ] [[Card Title]]`. The note lands in `tasks/` (set via
   `new-note-folder`) using `tasks/_template.md` as its starting content (set via `new-note-template`).
