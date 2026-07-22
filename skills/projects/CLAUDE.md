@@ -23,7 +23,8 @@ Skills must never hardcode the projects path. Instead:
 - **Obsidian-native**: Valid YAML frontmatter, wikilinks, and an obsidian-kanban board per project.
   Boards are plain markdown (headings + checkboxes) -- portable, no Dataview dependency.
 - **Manual card edits**: The user adds, moves, and completes Kanban cards by hand. Skills scaffold
-  -- they do not micro-manage the board.
+  and promote -- they append when invoked for that purpose, but never delete or rewrite a card
+  someone else added.
 - **Public repo**: No personal specifics in any skill or example.
 
 ## Project Workspace
@@ -54,6 +55,7 @@ Every other skill reads these as contracts -- read them before touching a worksp
 | Skill | Purpose |
 |---|---|
 | `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
+| `/promote-card` | Grill a bare card into a spec, split it into oneshotable tickets, write both as task notes |
 
 ## Dependencies
 

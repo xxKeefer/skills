@@ -19,6 +19,9 @@ instead read the repo's `docs/agents/issue-tracker.md`, written once by
 idea -> to-spec -> to-tickets -> implement (uses tdd)
   wayfinder = large-effort on-ramp; spike = deep-dive investigation feeding implement
   triage = keep the tracker's issues/PRs agent-ready
+  projects:promote-card = vault-native on-ramp for a bare board card with no code context yet --
+  grills it into the same spec/ticket shape to-spec/to-tickets publish, when the tracker is an
+  Obsidian Kanban board
 
 After implementation: code-review (standards + spec, since a fixed point)
 

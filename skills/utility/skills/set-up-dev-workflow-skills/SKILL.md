@@ -42,7 +42,7 @@ Default posture: these skills were designed for GitHub. If a `git remote` points
 - **GitHub** — issues live in the repo's GitHub Issues (uses the `gh` CLI)
 - **GitLab** — issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
 - **Local markdown** — issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
-- **Obsidian Kanban** — issues live as cards on a per-project kanban board in the user's Obsidian vault (good when the repo is one of the vault's tracked project workspaces; ask the user for the board path — never guess it)
+- **Obsidian Kanban** — issues live as cards on a per-project kanban board in the user's Obsidian vault (good when the repo is one of the vault's tracked project workspaces; ask the user for the board path — never guess it). Requires the `projects` domain, which owns the board/task-note format this option defers to.
 - **Other** (Jira, Linear, etc.) — ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
 
 If — and only if — the user picked **GitHub** or **GitLab**, ask one follow-up:

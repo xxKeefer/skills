@@ -55,5 +55,12 @@ tags: [project, kanban]
   `new-note-folder`) using `tasks/_template.md` as its starting content (set via `new-note-template`).
   Both paths in the settings block are vault-relative -- substitute actual paths when writing the
   board during `/new-project`.
-- **Card edits are mostly manual.** The user moves and checks off cards by hand. Only
-  `/new-project` writes to the board (initial structure); after that, skills only read it.
+- **Cards can carry a block ID.** obsidian-kanban's "Copy link to card" appends `^{blockid}` to a
+  card line and gives you `[[{slug}.kanban#^{blockid}]]` -- an Obsidian-generated, collision-free
+  handle for that exact card, sturdier than matching on text. Skills that rewrite a card line must
+  preserve its trailing `^{blockid}` if present; other notes may already link to it.
+- **Day-to-day card moves are manual.** The user moves and checks off cards by hand. Skills may
+  append to the board when invoked for that purpose (`/new-project` scaffolding it, `/promote-card`
+  turning a card into a spec + tickets). Appending is always fine; removing or rewriting a card
+  someone else added is not -- if a card looks obsolete or wrong, ask first, or replace it with a
+  new card that wikilinks back to the old one and states why.

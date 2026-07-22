@@ -6,6 +6,10 @@ etc. Create the directory lazily -- only when the first decision is written.
 They are the project equivalent of ADRs: they capture **why a non-obvious choice was made** so future
 sessions (and collaborators) don't relitigate it or quietly reverse it.
 
+Not the same log as `developer:domain-modeling`'s `docs/adr/` in the code repo -- that's *code*
+architecture (module boundaries, tech choices). This is *project* management (scope, sequencing,
+budget, people). A project with a linked repo can have both; they answer different questions.
+
 ## Template
 
 ```md
