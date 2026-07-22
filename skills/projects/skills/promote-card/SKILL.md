@@ -55,6 +55,11 @@ Read the card's own inline tags, if any, and the board's tag vocabulary (`tag-co
 confirm with the user if the grilled spec suggests a different or additional fit (e.g. the card had
 no tags but is clearly `#techdebt`).
 
+If the confirmed tag isn't already in the board's `tag-colors`/`tag-sort` arrays, it's a new
+project-specific tag -- ask the user for a text/background colour (or propose a sensible default)
+and append one entry to each array in the `%% kanban:settings %%` block. Append only: never reorder
+or replace the canonical entries already there (see BOARD-FORMAT.md's Universal Project Tags rule).
+
 ## Step 4: Decide the Split
 
 Judge whether the spec is already one-shot -- a scope `/implement` could run end to end without
