@@ -42,3 +42,18 @@ tags: [project, task]
 - **Context is mandatory, the rest is optional.** If you can't write a context sentence, the task
   isn't scoped well enough to start.
 - **Acceptance Criteria are the definition of done.** When all boxes are checked, move the card to Done.
+
+## Spec and Ticket Notes
+
+`/promote-card` writes two flavors of this same template:
+
+- **Spec note** -- the grilled-out version of a card too big to one-shot. Tags carry `spec` (plus
+  any matched board tags). Its Acceptance Criteria section is an index: a wikilink per ticket the
+  spec was split into, not raw checkboxes.
+- **Ticket note** -- one independently implementable slice of a spec, sized so `/implement` can run
+  it end to end without further clarification. Context opens with a wikilink back to the spec.
+  Tags carry the matched board tags -- never `spec`, since a ticket isn't the source of truth, the
+  spec is.
+
+A card that's already one-shot-sized skips the spec -- it gets promoted straight to a single ticket
+note with no spec parent.

@@ -2,6 +2,10 @@
 
 ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
 
+Not the same log as `projects:new-project`'s `decisions/` in the vault -- that's *project*
+management (scope, sequencing, budget, people). This is *code* architecture (module boundaries,
+tech choices). A project with a linked repo can have both; they answer different questions.
+
 Create the `docs/adr/` directory lazily — only when the first ADR is needed.
 
 ## Template

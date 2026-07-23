@@ -13,3 +13,7 @@ Apply exactly these strings as inline card tags; a card carries at most one stat
 
 `#afk` and `#hitl` follow this repo's glossary (see `CONTEXT.md`): AFK = away-from-keyboard
 (autonomous agent work), HITL = human-in-the-loop.
+
+Their colours are defined once, in the canonical `tag-colors` palette in
+[BOARD-FORMAT.md](../../skills/projects/skills/new-project/BOARD-FORMAT.md#universal-project-tags) --
+don't redefine them here.
