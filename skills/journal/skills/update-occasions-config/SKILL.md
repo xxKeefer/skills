@@ -2,8 +2,8 @@
 name: update-occasions-config
 description: >
   Sync occasions.md from the vault into vault_occasions.js for Templater. Reads all sections
-  (daily chores, day-specific chores, recurring events, one-off events, project milestones) and
-  generates JS with the { sym, name, type, section, test } shape. Run when occasion data changes.
+  (daily chores, day-specific chores, recurring events, one-off events) and generates JS with the
+  { sym, name, type, section, test } shape. Run when occasion data changes.
 ---
 
 # Update Occasions Config
@@ -151,25 +151,6 @@ Produces:
 
 No weekend carry-over for one-offs -- exact date only.
 
-### Projects
-
-Section heading matches `## Projects`. This section is written by the `projects` domain's
-`/schedule-goals` skill; the user does not normally hand-edit it. Same table shape as One Off Events:
-`| <emoji> <project>: <milestone> | <date-rule> | <type> | <section> |`.
-
-Project milestones are **dated, year-guarded, single-fire** like one-offs. Default Section is `tasks`
-so they render in the daily/weekly Tasks group with no template change.
-
-```
-## Projects
-| 🏗 New House: finance approved | Jul 3 | event | tasks |
-```
-
-Produces:
-```js
-{ sym: '🏗', name: 'New House: finance approved', type: 'event', section: 'tasks', test: (m) => m.year() === 2026 && m.month() === 6 && m.date() === 3 },
-```
-
 ## Step 3: Generate vault_occasions.js
 
 Write the output file to `<scripts-dir>/vault_occasions.js` with this structure:
@@ -186,9 +167,6 @@ const OCCASIONS = [
   { sym: '...', name: '...', type: 'event', section: 'chores', test: (m) => ... },
 
   // --- ONE OFF EVENTS ---
-  { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
-
-  // --- PROJECTS ---
   { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
 ];
 
@@ -211,6 +189,5 @@ Report what was generated:
 > - **Y** day-specific chores
 > - **Z** recurring events
 > - **A** one-off events
-> - **B** project milestones
 >
 > Skipped: (list any rules that couldn't be parsed, if any)
