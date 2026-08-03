@@ -8,6 +8,7 @@ Knowledge work over a corpus -- procedure capture, prose editing, and CONTEXT.md
 |---|---|
 | `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
 | `/edit-article` | Structural and prose editing for Obsidian notes |
+| `/proof-read` | Three gated editing passes: structure, ASD-STE100, Orwell's six rules |
 | `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
