@@ -18,6 +18,10 @@ where your render was kinder than the real thing.
 The lens is mechanical: surfaces, arguments, state, and failure. Point it at people instead and use
 [`/roleplay`](../roleplay/SKILL.md) — same shape, different lens.
 
+Write your own prose, in the run and in the debrief, in **Simplified Technical English**: active
+voice, one idea per sentence, short common words, no contractions, no em dash, no marketing
+adjectives. Rendered system output is exempt — it copies the real system's wording, whatever that is.
+
 ## Step 1: Read the brief
 
 Parse `$ARGUMENTS` into four things:

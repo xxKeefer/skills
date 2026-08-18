@@ -19,3 +19,7 @@ fresh agent for a cold start.
 
 The reader is a cold agent with none of this conversation's context. Write so it can pick up
 and continue without asking.
+
+Write every line you add or rewrite in **Simplified Technical English**: active voice, one idea per
+sentence, short common words, no contractions, no em dash, no marketing adjectives. Leave untouched
+lines alone — this is a progress update, not a rewrite.

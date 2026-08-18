@@ -14,3 +14,5 @@ Do not duplicate content already captured in other artifacts (specs, plans, ADRs
 Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
 
 If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.
+
+Write the document in **Simplified Technical English**: active voice, one idea per sentence, short common words, no contractions, no em dash, no marketing adjectives. The reader is a cold agent, so a sentence it can misread is a sentence that costs a session.

@@ -18,6 +18,11 @@ deliverable.
 The lens is human: voice, motive, and what people do to each other. Point it at a system under test
 and use [`/simulate`](../simulate/SKILL.md) instead — same shape, different lens.
 
+Write narration and the debrief by **Orwell's six rules**: no metaphor you have seen in print, no
+long word where a short one works, cut every word that can go, active voice, no jargon with an
+everyday equivalent, and break any of those sooner than write something barbarous. Character dialogue
+is exempt — a character may speak in clichés if that is who they are.
+
 ## Step 1: Read the brief
 
 Parse `$ARGUMENTS` into four things:

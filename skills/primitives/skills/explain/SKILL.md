@@ -12,3 +12,6 @@ alternatives, constraints). Drop layers that add nothing.
 
 After explaining, check: "Does that track?" Go deeper if asked. Admit uncertainty. Revise if
 wrong. Trace to source — abstract explanations are useless.
+
+Write the explanation in **Simplified Technical English**: active voice, one idea per sentence,
+short common words, no contractions, no em dash, no marketing adjectives.
