@@ -1,17 +1,19 @@
 ---
 name: proof-read
 description: >
-  Proof-read a document in three gated passes -- structural analysis, an ASD-STE100 pass, then
-  Orwell's six rules -- each proposing findings for y/n approval before any edit lands, ending
-  with a table of every change. Use when the user says "proof read", "proofread", or wants a
-  document hardened for a mixed technical audience.
+  Proof-read a document in four gated passes -- structural analysis, Grice's maxims, an ASD-STE100
+  pass, then Orwell's six rules -- each proposing findings for y/n approval before any edit lands,
+  ending with a table of every change. Use when the user says "proof read", "proofread", or wants
+  a document hardened for a mixed technical audience.
 ---
 
 # Proof-Read
 
-Three lenses over one document, strictly in order: **structure**, **STE**, **Orwell**. Each lens
+Four lenses over one document, strictly in order: **structure**, **Grice**, **STE**, **Orwell**.
+Structure and Grice decide what the document says. STE and Orwell decide how it says it. Each lens
 proposes findings, the human gates them, then the edits land. A later lens edits only its
-**delta** -- what earlier lenses could not see -- so nothing is reported or fixed twice.
+**delta** -- what earlier lenses could not see -- so nothing is reported or fixed twice. To run
+one lens alone, use `/grices-maxims`, `/asd-ste100`, or `/orwells-six`.
 
 Hard rules for every pass:
 
@@ -41,7 +43,31 @@ Present the analysis (thesis, section count, flow verdict, issues found), then g
 
 Apply what was approved. The pass is complete when every issue is applied or declined.
 
-## Pass 2: STE (ASD-STE100)
+## Pass 2: Grice
+
+Structure judged sections. Grice judges each claim: does the stated audience get what it needs,
+and nothing that misleads? Hunt the delta by maxim:
+
+- **Quantity** -- a claim the reader cannot act on without a missing fact, caveat, or condition.
+  Also a sentence or aside the audience does not need (section-level redundancy was Pass 1's).
+- **Quality** -- a claim stated with more certainty than its evidence supports, or two claims
+  that contradict each other.
+- **Relation** -- a sentence or paragraph that does not serve its section's contribution from
+  Pass 1.
+- **Manner** -- a referent with two candidates ("this", "it"), a sentence with two readings, or
+  steps out of the order the reader does them.
+- **Implicature** -- what the text implies but the author likely does not mean: "some" read as
+  "not all", "faster on Linux" read as "not faster elsewhere", "we did X and errors dropped" read
+  as cause.
+
+Only the author can fill a Quantity gap or supply evidence for a Quality claim. Ask for the fact;
+never invent it. For a Quality finding, offer three fixes: cite the evidence, soften the claim to
+match it, or cut it.
+
+Present findings grouped by maxim, then gate with **AskUserQuestion**: apply all, pick findings,
+or skip the pass. Complete when every finding is applied or declined.
+
+## Pass 3: STE (ASD-STE100)
 
 Audit against the STE rules and present findings grouped by rule:
 
@@ -59,14 +85,14 @@ or **strict for reference sections only** (glossaries, procedures, delivery plan
 
 Complete when every finding is applied or declined.
 
-## Pass 3: Orwell
+## Pass 4: Orwell
 
 STE already spent Orwell's rules on voice and jargon; hunt the remaining delta:
 
 - **Rule 1** -- stale figures the STE pass classed as tolerable ("lets both sides win").
 - **Rule 2** -- long words with short equivalents ("optionality" -> "the option").
-- **Rule 3** -- every word that can come out ("explicitly out of scope", "quietly queues",
-  "actual deliverable").
+- **Rule 3** -- every word that can come out of a sentence Grice kept ("explicitly out of scope",
+  "quietly queues", "actual deliverable").
 - **Rule 6** -- the guardrail: break any rule sooner than write something barbarous. Keep what a
   cut would make worse, and say which keeps you made.
 
@@ -79,5 +105,5 @@ One row per applied edit across all passes, Before/After truncated to the change
 | Pass | Location | Before | After |
 | ---- | -------- | ------ | ----- |
 
-Close with one line counting declined findings, and recommend stopping: three lenses is the full
-treatment -- a fourth pass trades voice for diminishing returns.
+Close with one line counting declined findings, and recommend stopping: four lenses is the full
+treatment -- a fifth pass trades voice for diminishing returns.
