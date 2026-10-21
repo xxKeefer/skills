@@ -8,6 +8,8 @@ Skills about skills -- writing, auditing, and lifecycle management.
 |---|---|
 | `/audit-workflow` | Audit Claude Code config and suggest optimizations |
 | `/write-a-skill` | Author a new skill from scratch with requirements gathering and review |
+| `/write-a-hook` | Scaffold a Claude Code hook holder (script, installer skill, README, config) |
+| `/write-a-rule` | Write a path-scoped rule for one directory: language, layout, patterns, invariants |
 | `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
 | `/writing-great-skills` | Reference on skill-authoring principles |
