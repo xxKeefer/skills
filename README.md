@@ -17,16 +17,16 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
+| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis, research | Foundational building blocks |
 | **developer** | grill-with-docs, prototype, spike, wayfinder, to-spec, to-tickets, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, explain-reasoning, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
-| **projects** | new-project | Long-running goal management |
-| **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill | Skills about skills |
+| **projects** | new-project, promote-card | Long-running goal management |
+| **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill, writing-great-skills | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
+| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach, proof-read | Capture vault procedures + edit notes |
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills | Dev-environment setup |
-| **experimental** | lobotomize, patch-doctor, asd-ste100, grices-maxims, orwells-six, codebase-news | Skills on probation |
+| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
+| **experimental** | lobotomize, patch-doctor, asd-ste100, grices-maxims, orwells-six, codebase-news, repro, roleplay, simulate | Skills on probation |
 | **deprecated** | debrief, to-plan, to-tickets-old | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
