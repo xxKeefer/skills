@@ -1,10 +1,7 @@
 ---
 name: write-a-hook
-description: >
-  Scaffold a Claude Code hook holder from scratch -- hook script, installer skill, README, and
-  (if config-driven) config files. Mirrors /write-a-skill but for hooks. Use when the user says
-  "write a hook", "create a hook", "new hook", or wants to author a PreToolUse/PostToolUse/Stop
-  hook holder rather than a skill.
+description: Scaffold a Claude Code hook holder -- hook script, installer skill, README, and config files.
+disable-model-invocation: true
 ---
 
 # Write a Hook

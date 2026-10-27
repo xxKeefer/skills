@@ -1,10 +1,7 @@
 ---
 name: write-a-rule
-description: >
-  Write a path-scoped Claude Code rule for one directory, so agents get that module's language,
-  layout, patterns, and invariants only when they touch it. Takes a directory path. Use when the
-  user says "write a rule", "add a rule for this dir", "rule this module", or wants progressive
-  disclosure for a folder of code.
+description: Write a path-scoped Claude Code rule for one directory. Takes a directory path.
+disable-model-invocation: true
 ---
 
 # Write a Rule
