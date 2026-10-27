@@ -1,10 +1,7 @@
 ---
 name: setup-pre-commit
-description: >
-  Detect project language and toolchain, then configure pre-commit hooks that enforce formatting,
-  type checking, and tests. Gives agents deterministic feedback loops they cannot bypass. Use when
-  user says "setup pre-commit", "setup guard rails", "add pre-commit hooks", "enforce feedback
-  loops", or wants to prevent agents from committing broken code.
+description: Detect the project toolchain and set up pre-commit hooks for format, lint, type check, and tests.
+disable-model-invocation: true
 ---
 
 # Setup Pre-Commit

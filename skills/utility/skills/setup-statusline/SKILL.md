@@ -1,10 +1,7 @@
 ---
 name: setup-statusline
-description: >
-  Install the hand-rolled, self-contained Claude Code status line from this marketplace's
-  statusline/statusline.sh to ~/.claude/ and wire it into ~/.claude/settings.json. Zero network,
-  no remote packages. Use when the user says "setup statusline", "install statusline",
-  "set up my status line", or wants the same status line on home and work machines.
+description: Install this marketplace's status line to ~/.claude/ and set it in ~/.claude/settings.json.
+disable-model-invocation: true
 ---
 
 # Setup Statusline

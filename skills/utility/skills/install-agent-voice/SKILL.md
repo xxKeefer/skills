@@ -1,11 +1,7 @@
 ---
 name: install-agent-voice
-description: >
-  Install every version-controlled output style from this marketplace's output-styles/ directory
-  to ~/.claude/output-styles/, then select one in ~/.claude/settings.json. The agent voices,
-  identical on every machine, from one committed source. Use when the user says "install agent
-  voice", "install my output styles", "set up the terse voice", or wants the same agent voices
-  everywhere.
+description: Install this marketplace's output styles to ~/.claude/output-styles/ and select one.
+disable-model-invocation: true
 ---
 
 # Install Agent Voice
