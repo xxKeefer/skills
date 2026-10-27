@@ -15,11 +15,11 @@ installed.
 | Skill | Purpose | Used by |
 |---|---|---|
 | `/grill` | Relentless questioning until shared understanding | write-a-skill, developer:diagnose |
-| `/write-to-file` | Write output files to `.ai/` for `@`-reference | scratch docs |
+| `/write-to-file` | Write output files to `.ai/`, or the user's folder for the doctype, for `@`-reference | scratch docs, handoff |
 | `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | diagnose, fix, tweak, happy-path, resolve-conflicts, add-procedure, triage-notes, tabular-analysis |
 | `/explain` | Layered what/how/why explanation of any target | nix-manager:explain |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | invoked directly by the user |
-| `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user |
+| `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user; composes write-to-file |
 | `/update-handoff` | Update a handoff/plan doc in place with current progress | invoked directly by the user |
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step | invoked directly by the user |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | invoked directly by the user; composes look-up, write-to-file |

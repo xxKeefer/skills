@@ -7,7 +7,7 @@ Foundational skills that other domains compose. Always install this domain.
 | Skill | Purpose |
 |---|---|
 | `/grill` | Relentless questioning until shared understanding is reached |
-| `/write-to-file` | Write output files to `.ai/` for later `@`-reference |
+| `/write-to-file` | Write output files to `.ai/`, or the user's folder for the doctype, for later `@`-reference |
 | `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) |
 | `/explain` | Layered what/how/why explanation of any target |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) |
