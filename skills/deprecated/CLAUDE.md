@@ -28,3 +28,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/to-spec` | Turn an idea or conversation into a published spec |
 | `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
 | `/wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
+| `/triage` | Move issues and external PRs through the triage state machine, write agent-ready briefs |

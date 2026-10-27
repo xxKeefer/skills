@@ -38,7 +38,6 @@ Environment setup (pre-commit hooks) lives in the `utility` domain.
 |---|---|
 | `/grill-with-docs` | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Build a throwaway prototype to answer a design question |
-| `/triage` | Move issues and external PRs through the triage state machine, write agent-ready briefs |
 | `/implement` | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Red-green-refactor loop |
 | `/tweak` | Apply small, focused edits to recently built work |
