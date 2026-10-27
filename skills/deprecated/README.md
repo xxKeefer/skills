@@ -4,7 +4,9 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 
 ## Skills
 
-_None yet._
+| Skill | Purpose |
+|---|---|
+| `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
 
 ## Installation
 

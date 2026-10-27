@@ -17,7 +17,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis, research | Foundational building blocks |
+| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
 | **developer** | grill-with-docs, prototype, spike, wayfinder, to-spec, to-tickets, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, explain-reasoning, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
 | **projects** | new-project, promote-card | Long-running goal management |
@@ -27,7 +27,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
 | **experimental** | lobotomize, patch-doctor, asd-ste100, grices-maxims, orwells-six, codebase-news, repro, roleplay, simulate | Skills on probation |
-| **deprecated** | _None yet._ | Holding pen for skills awaiting a keep/kill decision |
+| **deprecated** | research | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
