@@ -24,3 +24,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/explain-reasoning` | Unpack agent reasoning transparently |
 | `/edit-article` | Structural and prose editing for Obsidian notes |
 | `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
+| `/spike` | Deep-dive investigation of a problem (PRD process) |

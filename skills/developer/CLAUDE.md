@@ -38,7 +38,6 @@ Environment setup (pre-commit hooks) lives in the `utility` domain.
 |---|---|
 | `/grill-with-docs` | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Build a throwaway prototype to answer a design question |
-| `/spike` | Deep-dive investigation of a problem (PRD process) |
 | `/wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
 | `/to-spec` | Turn an idea or conversation into a published spec |
 | `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |

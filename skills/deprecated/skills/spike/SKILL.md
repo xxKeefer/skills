@@ -1,12 +1,7 @@
 ---
 name: spike
 disable-model-invocation: true
-description: >
-  Deep-dive investigation of a feature, bug, or technical problem. Accepts tracker tickets,
-  wiki pages, or a plain description — delegates to /grill for clarification until the problem is
-  fully understood, then creates a ticket in the project's tracker capturing the spike. Use when the user says "spike it",
-  "spike this", "investigate this", "flesh this out", "hydrate ticket", "improve ticket", "research
-  this", "feasibility study", or wants to fully understand a problem before committing to implementation.
+description: Investigate a feature, bug, or problem through /grill, then file a ticket in the project's tracker that captures it.
 ---
 
 # Spike It
