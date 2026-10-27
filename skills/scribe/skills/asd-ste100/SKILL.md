@@ -1,11 +1,7 @@
 ---
 name: asd-ste100
-description: >
-  Proof-read a document against ASD-STE100 Simplified Technical English -- words, verbs, sentences,
-  punctuation, structure -- proposing numbered findings for approval in a chosen mode before any
-  edit lands, ending with a table of every change. Use when the user says "ste", "asd-ste100",
-  "simplified technical english", or wants a document made hard to misread for native and
-  non-native readers.
+description: Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode.
+disable-model-invocation: true
 ---
 
 # ASD-STE100

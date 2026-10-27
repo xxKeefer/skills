@@ -6,7 +6,6 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 
 | Skill | Purpose |
 |---|---|
-| `/asd-ste100` | Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode |
 | `/codebase-news` | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 | `/grices-maxims` | Proof-read one document against Grice's maxims: what it says, leaves out, and implies |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
