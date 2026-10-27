@@ -16,6 +16,8 @@ document ready for the next run.
 Read the file. It is the only context you have — treat it as the source of truth for what's done
 and what's next. Follow any artifacts it references (plans, ADRs, issues, commits) as needed.
 
+**Done when:** you can name the next undone step and its done line.
+
 ## Step 2: Do the Next Step
 
 Identify the next undone step and delegate it to `/implement` — one step, the next vertical slice of
@@ -23,7 +25,11 @@ progress, not the whole backlog.
 
 If the next step is ambiguous or blocked, stop and say so rather than guessing.
 
+**Done when:** the step's own done line holds, or you stopped and said what blocks it.
+
 ## Step 3: Update the Handoff
 
 Invoke `/update-handoff` on the same file to fold this run's progress back in, so the next
 `/clear` + `/do-next` cold-starts cleanly.
+
+**Done when:** the handoff marks this step done and names the next one.

@@ -24,6 +24,8 @@ agent can act on it.
 3. Present the fetched content clearly, labelled by source
 4. If a resource cannot be fetched, report the failure and continue with the rest
 
+**Done when:** every link is fetched or reported as failed.
+
 ## Tracker resolution
 
 A "tracker ticket" is only meaningful relative to the project. Read the repo's CLAUDE.md to learn

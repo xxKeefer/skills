@@ -2,10 +2,9 @@
 name: tabular-analysis
 description: >
   Compare and contrast concepts in a markdown table whose columns are exactly the headers you
-  supply (pipe-delimited), one row per concept. Usage is order-flexible: tabular-analysis <topic>
-  <col|headers> OR tabular-analysis <col|headers> <topic>. The topic may be @file links or any
-  resource /look-up can resolve. Use when the user says "tabular analysis", "compare X and Y in a
-  table", "table this", or hands a topic plus pipe-split column names.
+  supply (pipe-delimited), one row per concept. The topic may be @file links or any resource
+  /look-up can resolve. Use when the user says "tabular analysis", "compare X and Y in a table",
+  "table this", or hands a topic plus pipe-split column names.
 argument-hint: "<topic> <column|headers|split|by|pipes>"
 ---
 
