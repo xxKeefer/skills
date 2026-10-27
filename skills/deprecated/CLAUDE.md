@@ -27,3 +27,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/spike` | Deep-dive investigation of a problem (PRD process) |
 | `/to-spec` | Turn an idea or conversation into a published spec |
 | `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
+| `/wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |

@@ -8,7 +8,6 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 |---|---|---|
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
-| `/wayfinder` | Discovery | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
 | `/triage` | Planning | Move issues and external PRs through the triage state machine |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red-green-refactor loop |

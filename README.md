@@ -18,7 +18,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Skills | Purpose |
 |---|---|---|
 | **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
-| **developer** | grill-with-docs, prototype, wayfinder, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
+| **developer** | grill-with-docs, prototype, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
 | **projects** | new-project, promote-card | Long-running goal management |
 | **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill, writing-great-skills | Skills about skills |
@@ -27,7 +27,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
 | **experimental** | lobotomize, asd-ste100, grices-maxims, orwells-six, codebase-news, repro, roleplay, simulate | Skills on probation |
-| **deprecated** | research, patch-doctor, explain-reasoning, edit-article, setup-git-guardrails, spike, to-spec, to-tickets | Holding pen for skills awaiting a keep/kill decision |
+| **deprecated** | research, patch-doctor, explain-reasoning, edit-article, setup-git-guardrails, spike, to-spec, to-tickets, wayfinder | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
