@@ -1,11 +1,7 @@
 ---
 name: triage-notes
-description: >
-  Triage a fleeting note out of the vault inbox: read it, decide whether it should be promoted to a
-  stable note, turned into a task, or archived, then execute the move on your approval. Takes an
-  optional note path; with no path it picks one inbox note at random. Use when the user says
-  "triage notes", "triage my inbox", "process 00-notes", "clear the inbox", or hands you a note to
-  sort.
+description: Triage one fleeting inbox note -- promote it, turn it into a task, or archive it, on your approval.
+disable-model-invocation: true
 argument-hint: "[optional path to a note; omit to pick one inbox note at random]"
 ---
 
