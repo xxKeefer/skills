@@ -1,10 +1,7 @@
 ---
 name: grices-maxims
-description: >
-  Proof-read a document against Grice's maxims -- Quantity, Quality, Relation, Manner, plus
-  unintended implicature -- proposing numbered findings for approval before any edit lands, ending
-  with a table of every change. Use when the user says "grice", "grices maxims", "what does this
-  imply", or wants a document checked for what it says, leaves out, and implies.
+description: Proof-read one document against Grice's maxims -- what it says, leaves out, and implies.
+disable-model-invocation: true
 ---
 
 # Grice's Maxims

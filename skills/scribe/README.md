@@ -9,6 +9,7 @@ Knowledge work over a corpus -- procedure capture, prose editing, and CONTEXT.md
 | `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
 | `/proof-read` | Four gated editing passes: structure, Grice's maxims, ASD-STE100, Orwell's six rules |
 | `/asd-ste100` | Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode |
+| `/grices-maxims` | Proof-read one document against Grice's maxims: what it says, leaves out, and implies |
 | `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
