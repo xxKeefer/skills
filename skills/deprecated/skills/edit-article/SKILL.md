@@ -1,10 +1,7 @@
 ---
 name: edit-article
-description: >
-  Edit and improve a written article or note. Obsidian-aware -- preserves wikilinks, frontmatter,
-  and callouts. DAG-based section ordering, 240 char paragraph cap. Use when the user says
-  "edit article", "edit this", "improve this writing", "polish this", or wants structural and
-  prose editing on a note or article.
+description: Edit the structure and prose of an article or note, and keep its Obsidian syntax.
+disable-model-invocation: true
 ---
 
 # Edit Article

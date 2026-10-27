@@ -9,6 +9,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 | `/explain-reasoning` | Unpack agent reasoning transparently |
+| `/edit-article` | Structural and prose editing for Obsidian notes |
 
 ## Installation
 
