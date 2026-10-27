@@ -21,3 +21,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 |---|---|
 | `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
+| `/explain-reasoning` | Unpack agent reasoning transparently |

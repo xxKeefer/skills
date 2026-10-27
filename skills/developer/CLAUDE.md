@@ -58,7 +58,6 @@ Environment setup (pre-commit hooks, git guardrails) lives in the `utility` doma
 | `/resolve-feedback` | Critically assess code review feedback |
 | `/resolve-conflicts` | Resolve git merge/rebase conflicts using history; HITL on complex cases, follows test/refactor links |
 | `/sync-docs` | Sync documentation to code changes |
-| `/explain-reasoning` | Unpack agent reasoning transparently |
 | `/domain-modeling` | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Deep-module vocabulary the architecture skills compose |
 | `/improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |

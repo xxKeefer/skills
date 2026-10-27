@@ -1,12 +1,7 @@
 ---
 name: explain-reasoning
 disable-model-invocation: true
-description: >
-  Explain the reasoning behind decisions, conclusions, or suggestions made in the current
-  conversation. The user points at something the AI said or did, and the AI unpacks its reasoning
-  transparently until shared understanding is reached. Use when the user says "explain it",
-  "explain that", "why did you", "walk me through", "I don't follow", "justify that", or
-  questions a decision made earlier in the conversation.
+description: Explain the reasoning behind a decision or suggestion made earlier in the conversation.
 ---
 
 # Explain It

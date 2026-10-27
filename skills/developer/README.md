@@ -24,7 +24,6 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
-| `/explain-reasoning` | Anytime | Unpack agent reasoning |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 
