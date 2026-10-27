@@ -9,7 +9,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
-| `/tdd` | Implementation | Red-green-refactor loop |
+| `/tdd` | Implementation | Red → green loop |
 | `/tweak` | Implementation | Small focused edits to recently built work |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA |
