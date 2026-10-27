@@ -26,3 +26,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
 | `/spike` | Deep-dive investigation of a problem (PRD process) |
 | `/to-spec` | Turn an idea or conversation into a published spec |
+| `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
