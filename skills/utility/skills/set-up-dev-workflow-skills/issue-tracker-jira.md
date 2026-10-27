@@ -31,22 +31,3 @@ Jira expresses triage as status transitions plus labels, not bare labels alone:
 Create the issue(s) with `createJiraIssue` in dependency order (blockers first), then wire
 blocking edges with `createIssueLink` (`Blocks` link type — check `getIssueLinkTypes` once per
 session).
-
-## Wayfinding operations
-
-Used by `/wayfinder`. The **map** is an epic; tickets are its child issues.
-
-- **Map**: an epic labelled `wayfinder-map`; its description holds Notes / Decisions-so-far / Fog
-- **Child ticket**: an issue in the epic, question in the description; ticket type recorded as a
-  label (`wf-research`/`wf-prototype`/`wf-grilling`/`wf-task`)
-- **Blocking**: native `Blocks` issue links — Jira renders the frontier visually
-- **Frontier**: JQL — `parentEpic = <MAP-KEY> AND statusCategory != Done AND assignee IS EMPTY`,
-  filtered to issues whose blocking links are all resolved
-- **Claim**: assign the issue to yourself and transition to `In Progress`
-- **Resolve**: comment the answer, transition to `Done`, then edit the epic description to append
-  the gist + issue link under Decisions-so-far
-
-## Concurrency
-
-Other sessions may be working sibling tickets — re-fetch before editing the map epic, and never
-cache frontier queries across steps.

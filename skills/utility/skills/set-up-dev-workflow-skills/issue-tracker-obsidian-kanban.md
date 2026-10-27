@@ -35,20 +35,3 @@ one -- unambiguous, per BOARD-FORMAT.md.
 Triage roles are inline tags on the card, using the role strings from `triage-labels.md`
 (defaults: `#needs-triage`, `#needs-info`, `#ready-for-agent`, `#ready-for-human`, `#wontfix`).
 Replace the old role tag when the state changes. A `#wontfix` card moves to the archive.
-
-## Wayfinding operations
-
-Used by `/wayfinder`. The **map** is a task note; its **child** tickets are wikilinked cards.
-
-- **Map**: `tasks/<effort>-map.md` — the Notes / Decisions-so-far / Fog body, listing children
-  in priority order. Its own card sits on the board tagged `#epic`.
-- **Child ticket**: a card wikilinking `tasks/<slug>.md`. The note carries a `Type:` line
-  (`research`/`prototype`/`grilling`/`task`) and the question in the body.
-- **Blocking**: a `Blocked by: [[<note>]], [[<note>]]` line near the top of the child note, plus
-  a `#blocked` tag on its card. Unblocked when every listed note's card is under `Done` — remove
-  the tag then.
-- **Frontier**: first child in map order whose card is not under `Doing`/`Done`, not `#blocked`,
-  and unclaimed.
-- **Claim**: move the card to `Doing` — the session's first write.
-- **Resolve**: append the answer under `## Answer` in the child note, move its card to `Done`,
-  then append a context pointer (gist + link) to the map's Decisions-so-far.
