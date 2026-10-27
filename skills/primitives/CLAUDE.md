@@ -14,9 +14,9 @@ installed.
 
 | Skill | Purpose | Used by |
 |---|---|---|
-| `/grill` | Relentless questioning until shared understanding | spike, write-a-skill, experimental:diagnose |
+| `/grill` | Relentless questioning until shared understanding | write-a-skill, developer:diagnose |
 | `/write-to-file` | Write output files to `.ai/` for `@`-reference | scratch docs |
-| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | spike, to-tickets |
+| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | diagnose, fix, tweak, happy-path, resolve-conflicts, add-procedure, triage-notes, tabular-analysis |
 | `/explain` | Layered what/how/why explanation of any target | nix-manager:explain |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | invoked directly by the user |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user |

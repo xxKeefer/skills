@@ -21,12 +21,8 @@ Append a `- [ ]` card to `Backlog` (or the column the user names), per BOARD-FOR
 append-only rule. If the content is more than one line, write a task note -- spec or ticket, per
 NOTE-FORMAT.md -- and make the card a wikilink to it.
 
-Two entry points feed this, depending on how much groundwork is already done:
-
-- **`/to-spec` / `/to-tickets`** -- the investigation already happened in-conversation; these just
-  publish the result.
-- **`/promote-card`** -- a rough thought jotted on the board with no code context yet; this grills
-  it into a spec first, then publishes the same way.
+`/promote-card` feeds this. It grills a rough thought jotted on the board, with no code context
+yet, into a spec, then publishes it the same way.
 
 ## When a skill says "fetch the relevant ticket"
 

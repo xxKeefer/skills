@@ -13,11 +13,8 @@ description: >
 Turn a bare card -- a dot point with no wikilink -- into a spec and the tickets that implement it.
 The card is the handle; the ticket is the oneshotable handoff `/implement` runs against.
 
-The vault-native counterpart to `developer:to-spec`/`to-tickets`: those assume the investigation
-already happened in-conversation and just publish it; this one starts from a jotted thought with no
-code context yet and grills it first. Both land in the same place -- if the project's repo has an
-Obsidian Kanban tracker configured, this writes exactly what `docs/agents/issue-tracker.md`
-describes.
+If the project's repo has an Obsidian Kanban tracker configured, this writes exactly what
+`docs/agents/issue-tracker.md` describes.
 
 ## Step 1: Locate the Card
 

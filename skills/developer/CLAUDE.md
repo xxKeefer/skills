@@ -7,21 +7,16 @@ software engineering principles.
 ## Dependencies
 
 Developer skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
-all must be installed. `spike` targets the project's tracker — GitHub via `gh` by default, or
-whatever the repo's CLAUDE.md declares (e.g. Jira via the Atlassian MCP). The skills adopted from
-Matt Pocock's set (`wayfinder`, `to-spec`, `to-tickets`, `triage`, `code-review` — MIT, v1.1.0)
-instead read the repo's `docs/agents/issue-tracker.md`, written once by
-`/set-up-dev-workflow-skills` in the `utility` domain.
+all must be installed. `code-review` (adopted from Matt Pocock's set, MIT, v1.1.0) reads the
+repo's `docs/agents/issue-tracker.md`, written once by `/set-up-dev-workflow-skills` in the
+`utility` domain.
 
 ## Workflow
 
 ```
-idea -> to-spec -> to-tickets -> implement (uses tdd)
-  wayfinder = large-effort on-ramp; spike = deep-dive investigation feeding implement
-  triage = keep the tracker's issues/PRs agent-ready
+idea -> grill -> handoff -> implement (uses tdd)
   projects:promote-card = vault-native on-ramp for a bare board card with no code context yet --
-  grills it into the same spec/ticket shape to-spec/to-tickets publish, when the tracker is an
-  Obsidian Kanban board
+  grills it into a spec and tickets, when the tracker is an Obsidian Kanban board
 
 After implementation: code-review (standards + spec, since a fixed point)
 
