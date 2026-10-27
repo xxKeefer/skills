@@ -1,13 +1,10 @@
 ---
 name: rice
 disable-model-invocation: true
-description: >
-  Customize the visual appearance of desktop components. Accepts screenshots, text descriptions,
-  repo links, or any combination. Use when user says "rice my X", "make X look like Y",
-  "I want my desktop to look like this".
+description: Customize the look of desktop components from screenshots, text descriptions, repo links, or a mix.
 ---
 
-# Rice It
+# Rice
 
 Visual customization of desktop components. The user provides a target (what to rice) and a
 goal (what it should look like) via screenshots, descriptions, repo links, or any mix.

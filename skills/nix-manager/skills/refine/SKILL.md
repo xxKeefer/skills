@@ -1,13 +1,10 @@
 ---
 name: refine
 disable-model-invocation: true
-description: >
-  Improve the NixOS config toward idiomatic best practices. Full audit or targeted at a specific
-  file or module. Use when user says "refine my config", "improve my flake", "make this more
-  idiomatic", or wants a best-practice review.
+description: Improve the NixOS config toward idiomatic best practice, as a full audit or for one file or module.
 ---
 
-# Refine It
+# Refine
 
 The zen polishing skill. Audit the config and improve it toward idiomatic nix. Every invocation
 should leave the config measurably better.

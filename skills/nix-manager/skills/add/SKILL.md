@@ -1,13 +1,10 @@
 ---
 name: add
 disable-model-invocation: true
-description: >
-  Find and add a package or capability to the NixOS config, even when the user doesn't know the
-  exact package name. Use when user says "add X", "I need X", "install X", or describes a
-  capability they want.
+description: Find and add a package or capability to the NixOS config, even without the exact package name.
 ---
 
-# Add It
+# Add
 
 Find and add a package or capability to the config. Fuzzy -- the user describes what they want,
 the skill finds the right package and wires it up idiomatically.

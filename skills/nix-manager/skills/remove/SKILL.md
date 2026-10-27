@@ -1,12 +1,10 @@
 ---
 name: remove
 disable-model-invocation: true
-description: >
-  Cleanly remove a package, module, or capability from the NixOS config. Traces all references
-  and cleans up. Use when user says "remove X", "uninstall X", "drop X", "I don't use X anymore".
+description: Remove a package, module, or capability from the NixOS config, and clean up every reference to it.
 ---
 
-# Remove It
+# Remove
 
 Cleanly remove a package or capability. Traces all references, proposes a removal plan, cleans up.
 
