@@ -48,6 +48,7 @@ plugins must be installed.
 | `/proof-read` | HITL -- four gated passes over one document (structure, Grice, STE, Orwell), ends with an edit table |
 | `/asd-ste100` | Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode |
 | `/grices-maxims` | Proof-read one document against Grice's maxims: what it says, leaves out, and implies |
+| `/orwells-six` | Proof-read one document against Orwell's six rules from "Politics and the English Language" |
 | `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |

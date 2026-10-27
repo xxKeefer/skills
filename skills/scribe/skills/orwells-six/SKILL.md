@@ -1,11 +1,7 @@
 ---
 name: orwells-six
-description: >
-  Proof-read a document against Orwell's six rules from "Politics and the English Language" --
-  stale figures, long words, cuttable words, passive voice, jargon, and the barbarism guardrail --
-  proposing numbered findings for approval before any edit lands, ending with a table of every
-  change. Use when the user says "orwell", "orwells six", "orwell's rules", or wants a document's
-  prose tightened.
+description: Proof-read one document against Orwell's six rules from "Politics and the English Language".
+disable-model-invocation: true
 ---
 
 # Orwell's Six
