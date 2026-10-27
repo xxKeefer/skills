@@ -32,7 +32,7 @@ After implementation: happy-path (manual QA checklist)
 
 Closure: resolve-feedback (review feedback), resolve-conflicts (merge/rebase conflicts)
 
-Anytime: explain-reasoning, sync-docs
+Anytime: sync-docs
 ```
 
 Environment setup (pre-commit hooks, git guardrails) lives in the `utility` domain.
