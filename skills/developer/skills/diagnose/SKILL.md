@@ -34,10 +34,12 @@ If `$ARGUMENTS` is empty, use **AskUserQuestion**:
 
 > What's the bug? Give me an error, stack trace, ticket, reproduction steps, or description.
 
+**Done when:** you have the report and every ticket it references.
+
 ## Step 2: Assess the Report
 
-Do NOT take the report at face value. Bug reports are symptoms filtered through human
-interpretation — the reporter may be wrong about what's broken, where, or why.
+Check each claim in the report against the code before you hunt. Bug reports are symptoms filtered
+through human interpretation — the reporter may be wrong about what's broken, where, or why.
 
 - **Verify the symptom is real.** Can the described behaviour actually occur from the code?
 - **Separate observation from interpretation.** The reporter says "X is broken" — is X the
@@ -69,6 +71,8 @@ Then route:
   resolved before hunting begins.
 - Otherwise → hunt.
 
+**Done when:** you have presented the assessment and picked one route.
+
 ## Step 3: Hunt
 
 Work from symptom to cause. Keep going until you can **show** the fault, not just point near it.
@@ -86,6 +90,8 @@ Work from symptom to cause. Keep going until you can **show** the fault, not jus
 Use Explore subagents for broad sweeps; targeted search for specific symbols. Record dead ends as
 you go — ruled-out causes belong in the artifact.
 
+Finish the reported bug. Record any other bug you find for a separate hunt.
+
 Present findings:
 
 ```
@@ -98,7 +104,9 @@ Present findings:
 ```
 
 If the root cause remains unproven, present the best hypothesis with supporting and contradicting
-evidence, and ask the user what they can confirm. Never dress a hypothesis up as a conclusion.
+evidence, and ask the user what they can confirm.
+
+**Done when:** a traced code path shows the root cause, or you have marked it as a hypothesis.
 
 ## Step 4: Write the Hunt Artifact
 
@@ -106,7 +114,8 @@ Use `/write-to-file` to write `hunt_{terse-description}.md` to `.ai/` (prefer th
 the work has one, per `/write-to-file`'s naming convention — e.g. `hunt_ENG-123.md`).
 
 This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
-tracker content. Its job is to carry the investigation into `/fix` or `/implement` intact.
+tracker content. Its job is to carry the investigation into `/fix` or `/implement` intact. The fix
+and its regression test replace the hunt doc, so the skill that consumes it deletes it.
 
 ```markdown
 # Hunt: {symptom}
@@ -141,6 +150,8 @@ What else the same root cause affects. Other instances of the faulty pattern.
 1-2 sentences of direction — NOT a plan. /implement owns decomposition; /tdd owns tests.
 ```
 
+**Done when:** the hunt doc exists, and each template section holds its findings or "none".
+
 ## Step 5: Hand Off
 
 Present a summary:
@@ -161,16 +172,4 @@ Offer:
    shared tracker is not a dumping ground; only what survives codebase change goes in.
 4. **Done** — leave the artifact for a future session
 
-## Guiding Principles
-
-- **Prove, don't guess.** Every root-cause claim is backed by a code path you traced. If you're
-  hypothesising, say so explicitly.
-- **Suspect the report.** Verify independently before hunting in the direction it points.
-- **One bug at a time.** If the hunt reveals multiple bugs, finish the reported one; capture the
-  others for separate hunts or tickets.
-- **Stop at root cause.** This skill investigates. The moment you're designing the fix beyond a
-  sentence or two of direction, hand off.
-- **Local by default.** Findings live in `.ai/`; the shared tracker gets a durable summary only
-  when explicitly requested.
-- **The artifact is transient.** Once consumed by `/fix` or `/implement`, the regression test and
-  the fix are the source of truth — delete the hunt doc.
+**Done when:** the user has picked one of the four options, and any ticket they asked for exists.

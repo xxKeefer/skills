@@ -25,6 +25,8 @@ Build a list of:
 - **Functions/types added, changed, or removed** — signature changes, new exports, removed APIs
 - **Behaviour changes** — anything that alters what the code does from a caller's perspective
 
+**Done when:** the list covers every file in the changeset.
+
 ## Step 2: Identify Documentation Surfaces
 
 For each change, check whether any of these surfaces need updating:
@@ -38,7 +40,7 @@ For each change, check whether any of these surfaces need updating:
 ### Code comments
 
 - **Stale comments** — comments that describe behaviour that no longer matches the code. Update or remove.
-- **Missing context** — complex logic, non-obvious decisions, or workarounds that lack explanation. Add a comment only if the code can't speak for itself.
+- **Missing context** — complex logic, non-obvious decisions, or workarounds that lack explanation.
 - **Redundant comments** — comments that restate what the code obviously does. Remove.
 
 ### Naming
@@ -46,7 +48,6 @@ For each change, check whether any of these surfaces need updating:
 - **Functions** — does the name accurately describe what it does after the change?
 - **Variables** — do names reflect their current purpose?
 - **Files/modules** — does the file name still match its contents?
-- Flag rename candidates but do NOT rename without presenting to the user first — renames have a blast radius.
 
 ### Type signatures and interfaces
 
@@ -57,6 +58,8 @@ For each change, check whether any of these surfaces need updating:
 
 - Do config files, environment variable docs, or setup guides reflect the changes?
 - Are new dependencies documented where expected?
+
+**Done when:** every change from Step 1 is checked against every surface.
 
 ## Step 3: Present Findings
 
@@ -81,6 +84,8 @@ Group findings by category and present:
 
 Wait for user approval. They may want to skip renames or certain categories.
 
+**Done when:** the user has picked the items to apply, or none.
+
 ## Step 4: Apply Changes
 
 For each approved item:
@@ -91,11 +96,11 @@ For each approved item:
 
 ### Rules
 
-- **Don't add comments to obvious code** — `i++; // increment i` is noise
-- **Don't add docstrings to every function** — only where the name and signature aren't self-explanatory
+- **Add a comment only where the code cannot show the intent**, and say why.
+- **Add a docstring only where the name and signature do not explain the function.**
 - **Prefer better names over comments** — a well-named function needs no explanation
-- **Match existing doc style** — if the project uses terse bullet READMEs, don't write prose paragraphs
-- **Comments explain WHY, not WHAT** — the code shows what, comments should capture intent, constraints, or non-obvious reasoning
+
+**Done when:** every approved item is applied, and no reference to an old name is left.
 
 ## Step 5: Verify
 
@@ -105,3 +110,5 @@ After applying changes:
 2. Run tests if renames touched source code
 3. Summarise what was updated
 4. Suggest a commit message
+
+**Done when:** the linter and typecheck pass, any tests you ran pass, and the user has the summary and the commit message.

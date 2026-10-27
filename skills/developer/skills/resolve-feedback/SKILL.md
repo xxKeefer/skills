@@ -22,7 +22,7 @@ Feedback can come from any source:
 - **Human reviewers** — treat with more trust but still assess independently; humans can be wrong about unfamiliar code
 - **Self-review notes** — the user's own observations they want a second opinion on
 
-Identify each distinct piece of feedback (a comment, suggestion, or requested change).
+**Done when:** you have listed each distinct piece of feedback (a comment, suggestion, or requested change) and its source.
 
 ## Step 2: For Each Piece of Feedback
 
@@ -32,11 +32,13 @@ Read the file and surrounding context to fully understand the code.
 
 ### 2b. Assess validity
 
-Determine if the feedback is:
+Trace each claim in the code before you accept it. Then determine if the feedback is:
 
 - **Valid** — identifies a real issue (bug, unhandled error, race condition, etc.)
 - **Partially valid** — correct observation but wrong fix, or low-impact nitpick
 - **Invalid** — misunderstands the code, suggests something worse, or is irrelevant
+
+If the fix only makes the code cleaner and changes no behaviour, call it cosmetic in the verdict. The user decides if it is worth the diff.
 
 ### 2c. Present analysis to user
 
@@ -64,11 +66,15 @@ For each item, provide a concise summary:
 
 Drop sections that add no value (e.g. skip "Alternatives" if there are none, skip "Cons" if the fix is clearly good).
 
+**Done when:** every piece of feedback has a verdict, and the user has its analysis.
+
 ## Step 3: Batch Decision
 
 After presenting all items, ask:
 
 > Apply all recommended fixes? Or pick specific items: [list numbers]
+
+**Done when:** the user has picked the fixes to apply, or none.
 
 ## Step 4: Apply Fixes (if approved)
 
@@ -80,11 +86,4 @@ For each approved fix:
 
 If multiple fixes touch the same file, apply them together to avoid conflicts.
 
-## Critical Evaluation Rules
-
-- **Do not trust the reviewer by default.** AI reviewers hallucinate, misread control flow, and suggest over-engineered fixes. Human reviewers may not have full context.
-- **Check if the "problem" actually exists.** Trace the code path — does the error scenario the reviewer warns about actually happen?
-- **Evaluate the suggested fix itself.** Even if the problem is real, the suggested fix may introduce new issues, be unnecessarily complex, or miss the better solution.
-- **Consider the context.** A fire-and-forget dispatch might be intentional. A missing null check might be guarded upstream. Read before judging.
-- **Flag when the fix is cosmetic.** If the only benefit is "cleaner code" with no behavioral change, say so — the user can decide if it's worth the diff noise.
-- **Weigh reviewer authority.** A senior teammate's architectural feedback carries more weight than an AI nitpick about variable naming. Adjust your confidence accordingly.
+**Done when:** every approved fix is made and its tests pass.
