@@ -21,4 +21,3 @@ Disable this whole domain when you don't want deprecated skills loaded.
 |---|---|
 | `/debrief` | Human-readable session debrief dropped into vault 00-notes/: done, next steps, teach-yourself |
 | `/to-plan` | Break a task into ordered, atomic steps |
-| `/to-tickets-old` | Decompose a spike into vertical-slice tracker tickets with HITL/AFK classification |

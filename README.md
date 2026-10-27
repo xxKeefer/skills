@@ -27,7 +27,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
 | **experimental** | lobotomize, patch-doctor, asd-ste100, grices-maxims, orwells-six, codebase-news, repro, roleplay, simulate | Skills on probation |
-| **deprecated** | debrief, to-plan, to-tickets-old | Holding pen for skills awaiting a keep/kill decision |
+| **deprecated** | debrief, to-plan | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
