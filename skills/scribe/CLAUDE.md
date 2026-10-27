@@ -8,7 +8,8 @@ The domain covers three jobs:
 
 - **Capture** utilitarian procedures -- terse, repeatable how-tos for chores the user wants to
   offload and forget (distinct from `02-research/` deep-dives and `00-notes/` fleeting thoughts).
-- **Edit** existing notes -- structural and prose editing that preserves Obsidian syntax.
+- **Edit** existing notes -- gated proof-reading passes over structure and prose that preserve
+  Obsidian syntax.
 - **Curate context** -- mine a corpus for its terminology and maintain a `CONTEXT.md` glossary
   (one file per context). Corpus-agnostic: code, vault, lore, or session logs.
 

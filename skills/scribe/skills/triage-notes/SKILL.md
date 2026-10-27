@@ -59,11 +59,11 @@ lands formatted to that home's conventions:
 | Note is... | Delegate to | Typical home |
 |---|---|---|
 | A repeatable how-to / solved chore | `/add-procedure` | `*reference/` |
-| Prose worth keeping as an article | `/edit-article` (after the move) | `*research/`, `*work/` |
 | Terminology around a concept | `/define-concept` or `/define-term` | a `CONTEXT.md` |
 
-If nothing fits, **extract the most valuable information** and do a plain move to the best-fit
-folder (Step 5). Folders, by intent (match against the vault's actual numbered folders, don't
+Prose worth keeping as an article gets a plain move to `*research/` or `*work/`, with
+`/proof-read` as the follow-up. If nothing fits, **extract the most valuable information** and do
+a plain move to the best-fit folder (Step 5). Folders, by intent (match against the vault's actual numbered folders, don't
 hardcode names):
 
 - learning / tutorial / course capture -> `*research/`
@@ -84,6 +84,7 @@ Present, tersely:
 > **Disposition:** {promote-note | promote-task | archive | leave} -> `<destination>`
 > **Via:** {delegated skill, or "plain move", or "extract: <the nugget>"}
 > **Why:** {one line}
+> **Follow-up:** {for an article, "run `/proof-read` on `<destination>`", else omit this line}
 
 Wait for the user. They approve, redirect (different disposition/destination), or skip. **Do not
 proceed without an explicit go.**
@@ -95,9 +96,9 @@ proceed without an explicit go.**
 On approval, carry out the move. **Standardise frontmatter every time** -- on whichever artifact
 survives (the moved note, or the file it lands in). See [FRONTMATTER.md](FRONTMATTER.md).
 
-- **Promote via delegated skill** -- invoke it (`/add-procedure`, `/edit-article`,
-  `/define-concept`, `/define-term`) with the note's content, then delete the inbox note once the
-  content has safely landed.
+- **Promote via delegated skill** -- invoke it (`/add-procedure`, `/define-concept`,
+  `/define-term`) with the note's content, then delete the inbox note once the content has safely
+  landed.
 - **Promote via plain move** -- move the file (or just the extracted nugget) to the destination
   folder. Standardise its frontmatter to the destination's convention: drop the `#raw` inbox tag,
   set real tags, keep/repair `created`, add `updated: {today}`. Respect folders that already carry
