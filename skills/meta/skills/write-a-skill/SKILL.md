@@ -3,7 +3,7 @@ name: write-a-skill
 description: >
   Create a new skill from scratch. Gathers requirements, drafts the skill, reviews with the user.
   Use when the user says "write a skill", "create a skill", "new skill", or wants to author a
-  skill from a description rather than extracting from a conversation (use /learn-it for that).
+  skill from a description.
 ---
 
 # Write a Skill
@@ -16,13 +16,16 @@ Author a new skill from scratch. Gather requirements, draft it, review with the 
 
 - **Skill name** -- what to call it
 - **Description** -- what it should do
-- **Domain** -- which domain it belongs to (developer, meta, journal, etc.)
+- **Domain** -- default to `experimental`. New skills land there and earn promotion to a stable
+  domain.
 
 If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill` to flesh
 out the skill design:
 
 - **Purpose** -- what problem does this skill solve?
-- **Trigger phrases** -- when would someone invoke it?
+- **Invocation** -- must the agent or another skill invoke it?
+- **Trigger phrases** -- ask only when the answer to Invocation is yes. One phrase per distinct
+  situation that should fire it.
 - **Inputs** -- what does it accept? (`$ARGUMENTS`, conversation context, files)
 - **Steps** -- what's the workflow? What order? What decision points?
 - **Outputs** -- what does it produce? (files, issues, commits, conversation output)
@@ -36,22 +39,33 @@ Before writing:
 
 1. **Check existing skills** in the target domain -- does this duplicate anything?
 2. **Check primitives** -- should any part of this be a primitive instead?
-3. **Naming** -- follow conventions:
-   - `*-it` suffix for HITL skills (user drives the session)
-   - Terse kebab-case for agent-only, setup, or non-HITL skills
+3. **Invocation** -- make it model-invoked only when the agent must reach it on its own, or
+   another skill must. Otherwise make it user-invoked. State the choice and why.
 
 Present findings. If there's overlap with an existing skill, discuss whether to extend the
 existing skill or create a new one.
 
 ## Step 3: Draft the Skill
 
-Write `SKILL.md` following this structure:
+Write `SKILL.md` with the frontmatter that matches the Step 2 invocation choice.
+
+Model-invoked:
 
 ```yaml
 ---
 name: {skill-name}
 description: >
-  {What the skill does. When to use it. Trigger phrases. 2-3 lines max.}
+  {What the skill does, in one line.} Use when {one trigger per branch}.
+---
+```
+
+User-invoked:
+
+```yaml
+---
+name: {skill-name}
+description: {One line for the human: what the skill does.}
+disable-model-invocation: true
 ---
 ```
 
@@ -68,14 +82,16 @@ description: >
 
 ### Quality checklist
 
-Before presenting:
+Before presenting, read `../writing-great-skills/SKILL.md` and its `GLOSSARY.md` as files. That
+rubric is user-invoked, so no skill can invoke it. Check the draft against the rubric, then
+against this list:
 
 - [ ] Each step has a clear "done when" signal
 - [ ] Inputs are documented (what `$ARGUMENTS` accepts)
 - [ ] Doesn't duplicate an existing skill's responsibility
 - [ ] No unnecessary framework or tool coupling
 - [ ] Supporting files only created when they add value
-- [ ] Follows naming convention (`*-it` for HITL, plain for non-HITL)
+- [ ] Invocation matches the rubric
 
 ## Step 4: Write Supporting Files (if needed)
 
