@@ -1,14 +1,10 @@
 ---
 name: fix
 disable-model-invocation: true
-description: >
-  Fix a functionally broken behaviour found during manual QA. Lighter than /diagnose -- no formal
-  root cause document, just find the fault and fix it. Use when user says "fix it", "this is
-  broken", "X doesn't work", describes a bug they just found while testing, or gives a specific
-  broken behaviour to resolve.
+description: Find and fix a broken behaviour from manual QA. Lighter than /diagnose, with no root-cause document.
 ---
 
-# Fix It
+# Fix
 
 Resolve a broken behaviour reported from manual QA. Find the fault, fix it, prove it.
 

@@ -1,14 +1,10 @@
 ---
 name: resolve-feedback
 disable-model-invocation: true
-description: >
-  Critically assess code review feedback before applying fixes. Accepts feedback from AI reviewers
-  (e.g. GitHub Copilot, CodeRabbit), human reviewers, or directly as arguments. Use when user says
-  "resolve it", "address feedback", "resolve feedback", pastes review comments, or wants to evaluate
-  PR suggestions. Do NOT blindly trust the reviewer — analyze validity, trade-offs, and alternatives first.
+description: Assess review feedback from AI or human reviewers, pasted or from a PR, before you apply any fix.
 ---
 
-# Resolve It
+# Resolve Feedback
 
 Evaluate code review feedback critically before acting on it.
 

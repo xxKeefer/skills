@@ -2,15 +2,11 @@
 name: diagnose
 disable-model-invocation: true
 description: >
-  Track down a bug whose root cause is not obvious -- the head-scratchers that need deep code
-  exploration and tracing. Critically assesses the report, hunts to a proven root cause, writes a
-  local hunt artifact to `.ai/`, then hands off to /fix or /implement. Use when the user says
-  "hunt it", "hunt this bug", "track this down", "find the bug", "debug this", pastes an error,
-  stack trace, or bug report with no clear culprit, or wants to go from symptom to proven root
-  cause. For faults in recent changes where the cause is roughly known, use /fix instead.
+  Trace a bug with no obvious cause to a proven root cause, written to `.ai/`. For faults in
+  recent changes where the cause is roughly known, use /fix instead.
 ---
 
-# Hunt It
+# Diagnose
 
 Go from bug report to proven root cause. Assess the report critically, trace the code until the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.

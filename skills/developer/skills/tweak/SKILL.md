@@ -1,14 +1,10 @@
 ---
 name: tweak
 disable-model-invocation: true
-description: >
-  Apply small, focused edits to recently built work. Designed for fresh-context sessions after
-  /implement. Rebuilds context from recent git changes by default, accepts resource links for
-  additional context. Use when user says "tweak it", "fix the alignment", "polish this", or
-  gives a small targeted instruction after implementation is mostly done.
+description: Make one small, focused edit to work from a recent /implement. Takes optional resource links for context.
 ---
 
-# Tweak It
+# Tweak
 
 Small, focused edits. One tweak per invocation.
 

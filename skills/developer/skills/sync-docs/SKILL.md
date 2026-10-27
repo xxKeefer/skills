@@ -1,14 +1,10 @@
 ---
 name: sync-docs
 disable-model-invocation: true
-description: >
-  Analyze current code changes and update all documentation that has fallen out of sync. Covers
-  reference docs, READMEs, code comments, function/variable naming, and any other documentation
-  surface. Use when the user says "document it", "update docs", "sync the docs", "document these
-  changes", or has finished a set of changes and wants documentation to match reality.
+description: Update every doc, README, code comment, and name that the current code changes put out of sync.
 ---
 
-# Document It
+# Sync Docs
 
 Analyze code changes, find every documentation surface that needs updating, and fix them.
 
