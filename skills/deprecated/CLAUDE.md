@@ -20,3 +20,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | Skill | Purpose |
 |---|---|
 | `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
+| `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |

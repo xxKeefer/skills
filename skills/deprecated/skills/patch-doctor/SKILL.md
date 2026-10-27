@@ -1,11 +1,7 @@
 ---
 name: patch-doctor
-description: >
-  Diagnose and fix drift between a skill's current output contract and the artifacts it already
-  produced. Call it when a skill misbehaves or its generated files look stale after a plugin update --
-  point it at the skill and/or domain and it reconciles live vault artifacts and repo example files,
-  dry-run first. Use when the user says "patch-doctor", "this skill is acting weird", "fix the drift",
-  or "the generated file is out of sync".
+description: Find and fix drift between a skill's output contract and the files it already produced, dry run first.
+disable-model-invocation: true
 ---
 
 # Patch Doctor
