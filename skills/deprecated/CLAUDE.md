@@ -23,3 +23,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 | `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
 | `/explain-reasoning` | Unpack agent reasoning transparently |
 | `/edit-article` | Structural and prose editing for Obsidian notes |
+| `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |

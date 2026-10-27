@@ -1,10 +1,7 @@
 ---
 name: setup-git-guardrails
-description: >
-  Install a Claude Code PreToolUse hook that blocks dangerous git commands (push, reset --hard,
-  clean, branch -D, checkout ., restore .). Supports project-only or global scope. Use when the
-  user says "setup git guardrails", "block dangerous git", "protect git", or wants to prevent
-  agents from running destructive git operations.
+description: Install a PreToolUse hook that blocks dangerous git commands, for one project or globally.
+disable-model-invocation: true
 ---
 
 # Setup Git Guardrails

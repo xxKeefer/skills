@@ -9,7 +9,6 @@ the setup skills are easy to find, maintain, or retire on their own.
 | Skill | Purpose |
 |---|---|
 | `/setup-pre-commit` | Detect language/toolchain and configure pre-commit hooks (format, type-check, test) |
-| `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
 | `/setup-skill-tally` | Count every skill invocation into a global JSON tally via a zero-latency hook |
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
 | `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
