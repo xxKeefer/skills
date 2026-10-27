@@ -10,13 +10,14 @@ Analyze code changes, find every documentation surface that needs updating, and 
 
 ## Step 1: Gather the Changes
 
-Determine what changed:
+Find the changeset:
 
-1. **Uncommitted changes** — `git diff` and `git diff --staged`
-2. **Recent commits** — if no uncommitted changes, use `git log --oneline main..HEAD` and `git diff main..HEAD`
-3. **`$ARGUMENTS`** — if a file path or commit range is provided, scope to that
-
-If nothing is found, use **AskUserQuestion**: "What changes should I document? Give me a file, commit range, or branch."
+1. If `$ARGUMENTS` holds a commit range or a file path, scope to it.
+2. Find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD`. It prints
+   `origin/<name>`. Fall back to `main`.
+3. Off the default branch, diff against `git merge-base HEAD <default>`.
+4. On the default branch, use the uncommitted diff, `git diff HEAD`.
+5. If that diff is empty, use **AskUserQuestion**: "What changes should I document? Give me a file, commit range, or branch."
 
 Build a list of:
 
