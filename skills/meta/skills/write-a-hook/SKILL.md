@@ -49,8 +49,8 @@ Before scaffolding:
 1. **Check existing holders** in `hooks/` -- does this duplicate an existing hook's job? tool-policy
    already covers runner-redirection and command-blocking via config; prefer adding a rule there
    over a new holder.
-2. **Check setup skills** in `utility/` -- `setup-git-guardrails`, `setup-skill-tally`, etc. are
-   lighter inline-script installers. If the hook is trivial and static, that pattern may fit better
+2. **Check setup skills** in `utility/` -- `setup-skill-tally` and its siblings are lighter
+   inline-script installers. If the hook is trivial and static, that pattern may fit better
    than a full holder.
 3. **Naming**:
    - Holder dir: `hooks/<name>/`

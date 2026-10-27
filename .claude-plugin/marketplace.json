@@ -56,7 +56,7 @@
     },
     {
       "name": "utility",
-      "description": "Dev-environment setup skills -- pre-commit hooks and git guardrails. Isolated so they're easy to maintain or retire.",
+      "description": "Dev-environment setup skills -- pre-commit hooks, skill-usage tallying, statusline install, agent-voice install, and obsidian-kanban configuration. Isolated so they're easy to maintain or retire.",
       "category": "development",
       "source": "./skills/utility"
     },

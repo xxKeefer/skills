@@ -35,7 +35,7 @@ Closure: resolve-feedback (review feedback), resolve-conflicts (merge/rebase con
 Anytime: sync-docs
 ```
 
-Environment setup (pre-commit hooks, git guardrails) lives in the `utility` domain.
+Environment setup (pre-commit hooks) lives in the `utility` domain.
 
 ## Skills
 
