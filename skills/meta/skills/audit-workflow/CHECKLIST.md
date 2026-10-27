@@ -12,10 +12,10 @@ Structured areas to examine during a workflow audit. Not every area will produce
 
 ## Skills Pipeline
 
-- [ ] Skills chain logically (spike -> to-tickets -> to-plan -> implement -> close-it)
+- [ ] Skills chain logically (`idea -> grill -> handoff -> implement (uses tdd)`)
 - [ ] No gaps: frequent manual tasks that should be skills
-- [ ] Descriptions include "Use when..." triggers with specific keywords
-- [ ] `disable-model-invocation: true` on skills with side effects
+- [ ] Model-invoked descriptions include "Use when..." triggers with specific keywords
+- [ ] Skills are user-invoked (`disable-model-invocation: true`) unless the agent or another skill must reach them
 - [ ] SKILL.md files under 100 lines; details split to reference files
 - [ ] No stale skills referencing outdated patterns
 
@@ -26,13 +26,6 @@ Structured areas to examine during a workflow audit. Not every area will produce
 - [ ] Common file paths and patterns are captured
 - [ ] No stale entries contradicting current codebase state
 - [ ] Topic files linked from MEMORY.md for detailed knowledge
-
-## Plans (last 10-20)
-
-- [ ] No recurring pattern appears in 3+ plans without being a skill or reference
-- [ ] Verification blocks are consistent
-- [ ] Plans reference existing utilities rather than reimplementing
-- [ ] No plans that were blocked by the same issue repeatedly
 
 ## Codebase Conventions
 
