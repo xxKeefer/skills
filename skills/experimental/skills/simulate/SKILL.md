@@ -1,12 +1,7 @@
 ---
 name: simulate
-description: >
-  Simulate a technical system the user cannot run yet -- tools, APIs, CLIs, consoles -- and let them
-  drive it turn by turn. Drops into the run with a single "⚙️ RUNNING! 🧪", marks every in-simulation
-  message with 🧪, renders calls and outputs the way the real system would print them, and ends on
-  `OK_STOP` with a report led by every place the render cheated. Use when the user says "simulate",
-  "pretend the tool exists", "act as if I have permission", or wants to walk a flow as a user before
-  it is built. For a human scene, use `/roleplay` instead.
+description: Stand in for a technical system the user cannot run yet, then debrief where the render cheated.
+disable-model-invocation: true
 ---
 
 # Simulate

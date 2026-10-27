@@ -1,12 +1,7 @@
 ---
 name: roleplay
-description: >
-  Roleplay a narrative scenario in character until the user calls cut, then debrief what the play
-  surfaced. Drops into the scene with a single "🎬 ACTION! 🥸", marks every in-character message with
-  🥸, holds the world and cast the user named, and ends on `OK_STOP`. Use when the user says
-  "roleplay", "pretend you are", "act as if", "play this character", or wants to rehearse a
-  conversation, walk a decision as the people in it, or live out a scene. For a technical system
-  under test, use `/simulate` instead.
+description: Play a narrative scene in character until `OK_STOP`, then debrief what the play surfaced.
+disable-model-invocation: true
 ---
 
 # Roleplay
