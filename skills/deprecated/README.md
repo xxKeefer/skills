@@ -12,6 +12,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/edit-article` | Structural and prose editing for Obsidian notes |
 | `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
 | `/spike` | Deep-dive investigation of a problem (PRD process) |
+| `/to-spec` | Turn an idea or conversation into a published spec |
 
 ## Installation
 
