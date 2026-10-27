@@ -10,7 +10,7 @@ This repo is **single-context**.
 
 ## Consumer rules
 
-- Skills that need domain language (`/improve-codebase-architecture`, `/diagnose`, `/tdd`,
-  `/triage`) read `CONTEXT.md` first and use its terms verbatim.
+- Skills that need domain language (`/improve-codebase-architecture`, `/diagnose`, `/tdd`) read
+  `CONTEXT.md` first and use its terms verbatim.
 - Respect ADRs in the area you're changing; record new decisions rather than silently
   reversing old ones.

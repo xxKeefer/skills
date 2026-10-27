@@ -29,9 +29,3 @@ yet, into a spec, then publishes it the same way.
 Find the card by name on the board; if it's a wikilink, read the task note it points to. Prefer a
 block link (`[[<board>#^<blockid>]]`, from obsidian-kanban's "Copy link to card") if the user gives
 one -- unambiguous, per BOARD-FORMAT.md.
-
-## Triage state
-
-Triage roles are inline tags on the card, using the role strings from `triage-labels.md`
-(defaults: `#needs-triage`, `#needs-info`, `#ready-for-agent`, `#ready-for-human`, `#wontfix`).
-Replace the old role tag when the state changes. A `#wontfix` card moves to the archive.

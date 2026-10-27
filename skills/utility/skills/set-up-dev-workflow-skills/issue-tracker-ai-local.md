@@ -9,8 +9,6 @@ to one place.
 - One feature per directory: `.ai/<feature-slug>/`
 - The spec/PRD is `.ai/<feature-slug>/PRD.md`
 - Implementation issues are `.ai/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
-- Triage state is a `Status:` line near the top of each issue file (role strings per
-  `triage-labels.md`)
 - Comments and conversation history append under a `## Comments` heading at the bottom
 - Standalone artifacts that predate this convention (`.ai/plan_*.md`, `.ai/spike_*.md`,
   `.ai/hunt_*.md`) stay flat — don't migrate them

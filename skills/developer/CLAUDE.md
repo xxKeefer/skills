@@ -52,10 +52,3 @@ Environment setup (pre-commit hooks) lives in the `utility` domain.
 | `/domain-modeling` | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Deep-module vocabulary the architecture skills compose |
 | `/improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
-
-## References
-
-| File | Purpose |
-|---|---|
-| `skills/triage/AGENT-BRIEF.md` | How to write durable agent briefs for AFK issues |
-| `skills/triage/OUT-OF-SCOPE.md` | How the `.ai/.out-of-scope/` knowledge base works |

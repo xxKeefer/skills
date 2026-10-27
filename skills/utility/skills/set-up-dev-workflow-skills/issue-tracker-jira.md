@@ -14,18 +14,6 @@ Confluence, linked from their Jira issues.
 - **Specs/PRDs**: a Confluence page (`createConfluencePage`, space per `confluence-conventions`),
   linked from the epic; the Jira description carries the summary and the link, not the full spec
 
-## Triage state
-
-Jira expresses triage as status transitions plus labels, not bare labels alone:
-
-| Canonical role | Jira expression |
-|---|---|
-| `needs-triage` | status `Open` + label `needs-triage` |
-| `needs-info` | label `needs-info`, comment @-mentioning the reporter |
-| `ready-for-agent` | status `To Do` + label `ready-for-agent` |
-| `ready-for-human` | status `To Do` + label `ready-for-human` |
-| `wontfix` | transition to `Closed`/`Won't Do` via `transitionJiraIssue` |
-
 ## When a skill says "publish to the issue tracker"
 
 Create the issue(s) with `createJiraIssue` in dependency order (blockers first), then wire

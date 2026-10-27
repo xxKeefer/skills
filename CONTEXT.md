@@ -1,6 +1,6 @@
 # xxkeefer-skills — Context
 
-**Last updated:** 2026-07-20
+**Last updated:** 2026-10-27
 
 Shared terminology for the xxkeefer-skills marketplace. This is the repo-wide glossary; per-domain
 concepts still live here rather than in their own `CONTEXT.md` files for now.
@@ -49,8 +49,6 @@ straight descriptive kebab-case verb, like every skill in this repo.
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |
 | **Everything-agnostic** | The north star: skills encode how to think about problems, not how to use specific frameworks, languages, or tools. |
 | **Durability** | Issue content must survive radical codebase changes -- no file paths, domain language, behavioural criteria. |
-| **Triage state** | Label-based state for GitHub issues: needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix. |
-| **Agent brief** | A structured comment on AFK issues describing current/desired behaviour, key interfaces, acceptance criteria, and scope boundaries. |
 
 ## Domain terms
 
