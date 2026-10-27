@@ -4,9 +4,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/debrief` | Human-readable session debrief dropped into vault 00-notes/: done, next steps, teach-yourself |
+_None yet._
 
 ## Installation
 
