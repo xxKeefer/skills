@@ -2,11 +2,8 @@
 name: resolve-conflicts
 description: >
   Resolve git merge/rebase conflicts in a file using its history and the in-progress operation as
-  context. Simple conflicts resolve automatically; complex ones (both sides added, or a
-  migration/refactor collided with edits) pause for the user with evidence and a justified
-  recommendation. Then follows links to conflicted test siblings and refactor parents/children.
-  Usage: resolve-conflicts <filepath>. Use when the user says "resolve conflicts", "fix the merge",
-  "resolve this conflict", or hands you a conflicted file.
+  context. Use when the user says "resolve conflicts", "fix the merge", "resolve this conflict", or
+  hands you a conflicted file.
 argument-hint: "<filepath>"
 ---
 
