@@ -20,7 +20,8 @@ Generate the monthly file. Surface context from the year and the weeks.
 
 Determine the month and file name: `YYYY-MM-mon.md` (e.g., `2026-05-may.md`).
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
+is found, ask the user where journal files live and store the path to memory.
 
 Check if the monthly file already exists. If it does, read it and update rather than overwrite.
 
@@ -109,7 +110,7 @@ Check the previous month's file for incomplete goals. Present as multi-select:
 ## Step 10: Write the Monthly File
 
 Create or update `YYYY-MM-mon.md` in the journal directory using the format in
-`journal/templates/monthly.md`.
+[templates/monthly.md](../../templates/monthly.md).
 
 If updating an existing file, preserve any content already written. Only update sections that
 need changes.

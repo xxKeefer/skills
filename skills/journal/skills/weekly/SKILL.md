@@ -20,7 +20,8 @@ Generate the weekly file. Surface context, don't apply pressure.
 
 Determine the week dates (Monday -> Sunday) and the file name: `YYYY-wkNN-week.md`.
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
+is found, ask the user where journal files live and store the path to memory.
 
 ## Step 2: Read Context
 
@@ -103,7 +104,7 @@ Check the previous week's file for incomplete goals. Present as multi-select:
 ## Step 9: Write the Weekly File
 
 Create or update `YYYY-wkNN-week.md` in the journal directory using the format in
-`journal/templates/weekly.md`.
+[templates/weekly.md](../../templates/weekly.md).
 
 ## Step 10: Done
 

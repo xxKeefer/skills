@@ -25,8 +25,10 @@ carry-forward items.
 | `year` | Current year file |
 | A file path | That specific file |
 
-Locate the journal directory per the journal domain's discovery convention, then find the target
-file. If the file doesn't exist:
+Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
+is found, ask the user where journal files live and store the path to memory. Then find
+the target file. Journal files are named `YYYY-wkNN-day.md`, `YYYY-wkNN-week.md`, `YYYY-MM-mon.md`,
+and `YYYY.md`. If the file doesn't exist:
 
 > No file found for {target}. Want me to create a minimal one?
 
@@ -67,8 +69,8 @@ One round of input, then write.
 
 ## Step 3: Write Reflection
 
-Update the target file's reflect section with the conversation output. Match the template
-format from `journal/templates/`.
+Update the target file's reflect section with the conversation output. Match the format of
+the file's template in [templates/](../../templates/).
 
 Preserve all existing content in the file. Only write to the Reflect section (and Insights
 for monthly files if applicable).

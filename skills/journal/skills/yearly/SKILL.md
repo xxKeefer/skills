@@ -20,7 +20,8 @@ Generate the yearly file. Lightest-touch skill -- a goals dump and organising st
 
 Determine the file name: `YYYY.md` (e.g., `2026.md`).
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
+is found, ask the user where journal files live and store the path to memory.
 
 Check if the yearly file already exists. If it does, read it and update rather than overwrite.
 
@@ -72,7 +73,7 @@ exist, pull a short note from their goals. Otherwise leave Notes empty.
 ## Step 7: Write the Yearly File
 
 Create or update `YYYY.md` in the journal directory using the format in
-`journal/templates/yearly.md`.
+[templates/yearly.md](../../templates/yearly.md).
 
 If updating an existing file, preserve any content already written. Only update sections that
 need changes.
