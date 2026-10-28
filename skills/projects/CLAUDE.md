@@ -55,7 +55,7 @@ Every other skill reads these as contracts -- read them before touching a worksp
 | Skill | Purpose |
 |---|---|
 | `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
-| `/promote-card` | Grill a bare card into a spec, split it into oneshotable tickets, write both as task notes |
+| `/promote-card` | Grill a bare card into one ticket note with a phased plan for /do-next |
 
 ## Dependencies
 

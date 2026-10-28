@@ -16,7 +16,7 @@ repo's `docs/agents/issue-tracker.md`, written once by `/set-up-dev-workflow-ski
 ```
 idea -> grill -> handoff -> implement (uses tdd)
   projects:promote-card = vault-native on-ramp for a bare board card with no code context yet --
-  grills it into a spec and tickets, when the tracker is an Obsidian Kanban board
+  grills it into one phased ticket, when the tracker is an Obsidian Kanban board
 
 After implementation: code-review (standards + spec, since a fixed point)
 

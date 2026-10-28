@@ -83,6 +83,6 @@ the intended `tag-sort` order -- `#epic` first, `#later` last.
   preserve its trailing `^{blockid}` if present; other notes may already link to it.
 - **Day-to-day card moves are manual.** The user moves and checks off cards by hand. Skills may
   append to the board when invoked for that purpose (`/new-project` scaffolding it, `/promote-card`
-  turning a card into a spec + tickets). Appending is always fine; removing or rewriting a card
+  turning a card into a ticket). Appending is always fine; removing or rewriting a card
   someone else added is not -- if a card looks obsolete or wrong, ask first, or replace it with a
   new card that wikilinks back to the old one and states why.
