@@ -65,9 +65,15 @@ Add to `~/.claude/settings.json`:
 
 ### Publishing a new version
 
+The setup above loads each domain in place from this repo (see
+[ADR 0001](docs/adr/0001-how-plugins-load.md)). A new session, or `/reload-plugins` in a running
+one, loads an edit. No version bump is needed for that.
+
 1. Bump the version in the relevant domain's `plugin.json` (e.g. `1.0.0` -> `1.0.1`)
 2. Commit and push to `main`
-3. Restart Claude Code on each consuming machine -- it detects the new HEAD SHA and re-caches
+
+An install that copies the plugin into its cache, such as a marketplace added from GitHub, gets an
+edit only after the `plugin.json` version changes and the user updates the plugin.
 
 ## Attribution
 
