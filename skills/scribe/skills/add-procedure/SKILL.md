@@ -16,9 +16,9 @@ fleeting thoughts.
 
 ## Step 1: Discover the Reference Directory
 
-Find the vault's reference directory per the convention in the domain `CLAUDE.md`: scan the vault
-root for a directory matching `*reference` (e.g. `03-reference/`). If none is found, ask the user
-where reference docs should live. **Never hardcode the path.**
+Find the vault's reference directory: scan the vault root for a directory matching `*reference`
+(e.g. `03-reference/`). If none is found, ask the user where reference docs should live. **Never
+hardcode the path.**
 
 **Done when:** you have the reference directory path.
 
