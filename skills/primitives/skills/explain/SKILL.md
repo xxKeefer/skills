@@ -13,5 +13,5 @@ alternatives, constraints). Drop layers that add nothing.
 After explaining, check: "Does that track?" Go deeper if asked. Trace to source — abstract
 explanations are useless.
 
-Write the explanation in **Simplified Technical English**: active voice, one idea per sentence,
-short common words, no contractions, no em dash, no marketing adjectives.
+Write the explanation in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before
+you write, and follow every rule in it.

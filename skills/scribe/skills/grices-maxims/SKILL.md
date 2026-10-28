@@ -11,12 +11,9 @@ misleads? Grice's maxims ("Logic and Conversation", 1975) describe what a reader
 cooperative writer does. Where the text breaks one, the reader infers a meaning the author may not
 intend. For all four lenses in order, use `/proof-read`.
 
-Hard rules:
+Hard rules: read [`HARD-RULES.md`](../../HARD-RULES.md) before the audit, and follow every rule in
+it. One more rule applies here:
 
-- Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
-- Never edit code blocks, tables, ASCII diagrams, or link targets.
-- Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
-- Keep every claim true: an edited sentence says the same thing as the sentence it replaces.
 - Only the author can supply a missing fact or the evidence for a claim. Ask for it; never invent
   it.
 

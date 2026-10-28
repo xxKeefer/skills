@@ -47,6 +47,6 @@ If explaining your reasoning reveals a flaw, correct course immediately. The use
 
 - **Transparency over persuasion.** The goal is shared understanding, not winning the argument.
 - **Revise in the open.** If you realise you were wrong, say so and offer the corrected position.
-- **Plain prose.** Write in **Simplified Technical English**: active voice, one idea per sentence,
-  short common words, no contractions, no em dash, no marketing adjectives. Reasoning hides inside
-  long sentences, so keep them short.
+- **Plain prose.** Write in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before
+  you write, and follow every rule in it. Reasoning hides inside long sentences, so keep them
+  short.

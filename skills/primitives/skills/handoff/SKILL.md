@@ -15,4 +15,4 @@ Redact any sensitive information, such as API keys, passwords, or personally ide
 
 If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.
 
-Write the document in **Simplified Technical English**: active voice, one idea per sentence, short common words, no contractions, no em dash, no marketing adjectives. The reader is a cold agent, so a sentence it can misread is a sentence that costs a session.
+Write the document in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before you write, and follow every rule in it. The reader is a cold agent, so a sentence it can misread is a sentence that costs a session.

@@ -10,12 +10,9 @@ One lens over one document: can every reader, native or not, read each sentence 
 ASD-STE100 is the controlled-language spec that aerospace uses for maintenance docs. For all four
 lenses in order, use `/proof-read`.
 
-Hard rules:
+Hard rules: read [`HARD-RULES.md`](../../HARD-RULES.md) before the audit, and follow every rule in
+it. One more rule applies here:
 
-- Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
-- Never edit code blocks, tables, ASCII diagrams, or link targets.
-- Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
-- Keep every claim true: an edited sentence says the same thing as the sentence it replaces.
 - A **term of art** survives: a word the document defines, or one the stated audience reads
   without friction (`idempotent`, `fail closed`). Name the survivors in the findings so the human
   can veto the exemption.

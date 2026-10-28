@@ -27,13 +27,8 @@ A procedure file is a small collection of related procedures for one area (e.g. 
 
 ### Editing
 
-Preserve Obsidian-native syntax in every edit:
-
-- **Frontmatter** (YAML between `---` fences) -- preserve exactly
-- **Wikilinks** (`[[note]]`, `[[note|alias]]`) -- preserve exactly
-- **Callouts** (`> [!type]`) -- preserve syntax
-- **Tags** (`#tag/subtag`) -- preserve exactly
-- **Embeds** (`![[file]]`) -- preserve exactly
+The rules for every edit, starting with Obsidian syntax, live in [`HARD-RULES.md`](HARD-RULES.md).
+The four proof-read skills link that file. Change a shared rule there, not in a skill.
 
 ## Dependencies
 

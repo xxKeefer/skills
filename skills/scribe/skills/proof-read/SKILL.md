@@ -15,12 +15,9 @@ proposes findings, the human gates them, then the edits land. A later lens edits
 **delta** -- what earlier lenses could not see -- so nothing is reported or fixed twice. To run
 one lens alone, use `/grices-maxims`, `/asd-ste100`, or `/orwells-six`.
 
-Hard rules for every pass:
+Hard rules for every pass: read [`HARD-RULES.md`](../../HARD-RULES.md) before Pass 1, and follow
+every rule in it. One more rule applies here:
 
-- Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
-- Never edit code blocks, tables, ASCII diagrams, or link targets.
-- Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
-- Keep every claim true: an edited sentence says the same thing as the sentence it replaces.
 - A **term of art** survives every lens: a word the document defines, or one the stated audience
   reads without friction (`idempotent`, `fail closed`). Name the survivors in each pass's
   findings so the human can veto the exemption.
