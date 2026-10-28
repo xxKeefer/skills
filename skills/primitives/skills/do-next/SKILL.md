@@ -20,8 +20,9 @@ and what's next. Follow any artifacts it references (plans, ADRs, issues, commit
 
 ## Step 2: Do the Next Step
 
-Identify the next undone step and delegate it to `/implement` — one step, the next vertical slice of
-progress, not the whole backlog.
+Do the next undone step yourself: one step, the next vertical slice of progress, not the whole
+backlog. If the handoff names a skill for the step, use that skill. If the step needs a decision
+from the user, put each decision to them with `/grill` and wait for the answers.
 
 If the next step is ambiguous or blocked, stop and say so rather than guessing.
 
