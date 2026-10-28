@@ -91,5 +91,9 @@ The new voice takes effect on the **next** session.
    tmp=$(mktemp); jq 'del(.outputStyle)' ~/.claude/settings.json > "$tmp" && mv "$tmp" ~/.claude/settings.json
    ```
 
-2. Remove the installed style files, e.g. `rm ~/.claude/output-styles/{Terse,Orwells-Six,Simplified-Technical,Proof-Read}.md`
-   — or all of them: `rm ~/.claude/output-styles/*.md` (only if none were added manually).
+2. Resolve `$srcdir` as in Step 1, then remove each style file it holds. Styles that were added by
+   hand stay:
+
+   ```sh
+   for f in "$srcdir"/*.md; do rm -f ~/.claude/output-styles/"$(basename "$f")"; done
+   ```
