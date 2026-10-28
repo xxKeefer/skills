@@ -2,8 +2,8 @@
 name: update-occasions-config
 description: >
   Sync occasions.md from the vault into vault_occasions.js for Templater. Reads all sections
-  (daily chores, day-specific chores, recurring events, one-off events) and generates JS with the
-  { sym, name, type, section, test } shape. Run when occasion data changes.
+  (daily chores, day-specific chores, recurring events, home maintenance, one-off events) and
+  generates JS with the { sym, name, type, section, test } shape. Run when occasion data changes.
 ---
 
 # Update Occasions Config
@@ -151,6 +151,32 @@ Produces:
 
 No weekend carry-over for one-offs -- exact date only.
 
+### Home Maintenance
+
+Section heading matches `## Home Maintenance`. Table rows with
+`| <emoji> <name> | <frequency> | <anchor-date> | <type> | <section> |`. Type and Section come
+from their columns. Section defaults to `chores`. The frequency picks the test:
+
+| Frequency | Anchor Date | JS test |
+|---|---|---|
+| `Weekly (<Day>)` | `--` | `m.day() === N`, as for day-specific chores |
+| `Monthly (<Nth> <Day>)` | `--` | `m.day() === N && m.date() >= low && m.date() <= high`, with the Floating Holiday Ranges |
+| `Annual` | `Mon DD` | `m.month() === M && m.date() === D`, exact date only |
+| `Quarterly` | `Mon DD` | `m.month() % 3 === M % 3 && m.date() === D` |
+| `Biannual` | `Mon DD` | `m.month() % 6 === M % 6 && m.date() === D` |
+
+Skip a row with any other frequency, and list it in the Step 4 report.
+
+```
+## Home Maintenance
+| 🧊 Clean fridge drip tray | Quarterly | Feb 15 | event | chores |
+```
+
+Produces (fires on Feb 15, May 15, Aug 15, and Nov 15):
+```js
+{ sym: '🧊', name: 'Clean fridge drip tray', type: 'event', section: 'chores', test: (m) => m.month() % 3 === 1 && m.date() === 15 },
+```
+
 ## Step 3: Generate vault_occasions.js
 
 Write the output file to `<scripts-dir>/vault_occasions.js` with this structure:
@@ -165,6 +191,9 @@ const OCCASIONS = [
 
   // --- RECURRING EVENTS ---
   { sym: '...', name: '...', type: 'event', section: 'chores', test: (m) => ... },
+
+  // --- HOME MAINTENANCE ---
+  { sym: '...', name: '...', type: '...', section: 'chores', test: (m) => ... },
 
   // --- ONE OFF EVENTS ---
   { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
@@ -188,6 +217,7 @@ Report what was generated:
 > - **X** daily chores
 > - **Y** day-specific chores
 > - **Z** recurring events
+> - **H** home maintenance
 > - **A** one-off events
 >
 > Skipped: (list any rules that couldn't be parsed, if any)
