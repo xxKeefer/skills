@@ -21,6 +21,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
+| `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 
 ## Installation
 

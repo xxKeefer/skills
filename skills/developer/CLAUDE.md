@@ -50,4 +50,5 @@ Environment setup (pre-commit hooks) lives in the `utility` domain.
 | `/sync-docs` | Sync documentation to code changes |
 | `/domain-modeling` | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Deep-module vocabulary the architecture skills compose |
+| `/codebase-news` | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 | `/improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
