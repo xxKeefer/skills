@@ -16,6 +16,7 @@ Hard rules:
 - Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
 - Never edit code blocks, tables, ASCII diagrams, or link targets.
 - Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
+- Keep every claim true: an edited sentence says the same thing as the sentence it replaces.
 - Only the author can supply a missing fact or the evidence for a claim. Ask for it; never invent
   it.
 
@@ -40,8 +41,8 @@ Number every finding and group them by maxim:
   cut it.
 - **Relation** -- a sentence or paragraph that does not serve its section's contribution.
 - **Manner** -- a term the audience does not know and the document does not define, a referent
-  with two candidates ("this", "it"), a sentence with two readings, or steps out of the order the
-  reader does them.
+  with two candidates ("this", "it"), a sentence with two readings, steps out of the order the
+  reader does them, or a paragraph that does not follow from the one before it.
 - **Implicature** -- what the text implies but the author likely does not mean: "some" read as
   "not all", "faster on Linux" read as "not faster elsewhere", "we did X and errors dropped" read
   as cause.

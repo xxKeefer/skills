@@ -15,6 +15,7 @@ Hard rules:
 - Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
 - Never edit code blocks, tables, ASCII diagrams, or link targets.
 - Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
+- Keep every claim true: an edited sentence says the same thing as the sentence it replaces.
 - A **term of art** survives: a word the document defines, or one the stated audience reads
   without friction (`idempotent`, `fail closed`). Name the survivors in the findings so the human
   can veto the exemption.
@@ -37,7 +38,8 @@ Number every finding and group them by rule:
 - **Noun clusters** -- over three words (proper names exempt).
 - **Verbs** -- passive voice with a known actor ("two alternatives were rejected" -> "we rejected
   two"), a noun doing a verb's job ("perform an analysis" -> "analyze"), stacked auxiliaries
-  ("may help to improve"), and "-ing" main verbs where a simple tense works.
+  ("may help to improve"), "-ing" main verbs where a simple tense works, and a shift between
+  present and past tense when the time of the action does not change.
 - **Sentences** -- over 25 words (20 for instructions), more than one instruction, contractions,
   missing articles, and verbless fragments ("Result: ...", "No app code.").
 - **Punctuation** -- semicolons, and em dashes as prose connectors (structural separators in
