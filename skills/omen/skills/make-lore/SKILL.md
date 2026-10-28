@@ -13,7 +13,8 @@ Promote an index entry into a standalone lore file.
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md.
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Source
 
@@ -75,10 +76,10 @@ Write a blurb -- one line capturing the essence.
 
 ### Body by type
 
-**NPC:** Expand using the NPC template from CLAUDE.md -- appearance, voice, role/faction, What
-They Want, What They Can Do, How They'll Act, What They Fear, What's Their Plan. Use existing
-content as the foundation, flesh out where the source material supports it. Don't invent details
-the campaign hasn't established.
+**NPC:** Expand using the NPC template from SETTING-FORMAT.md -- appearance, voice,
+role/faction, What They Want, What They Can Do, How They'll Act, What They Fear, What's Their
+Plan. Use existing content as the foundation, flesh out where the source material supports it.
+Don't invent details the campaign hasn't established.
 
 **Location:** Expand using the Location template -- What/Where/Who, What It Looks Like, What
 Happens Here, What Else Is Here. Same rule: flesh out from existing material, don't invent.

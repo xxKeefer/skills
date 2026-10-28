@@ -72,8 +72,8 @@ Present a full gap analysis:
 
 ## Phase 2: Structure
 
-Create all missing directories and empty standard files. Use the same templates as
-`/scaffold-setting` for file contents.
+Create all missing directories and empty standard files. Write each file from **File Templates**
+in [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md).
 
 Infer `campaign`, `group`, and tag values from existing frontmatter in the setting. If
 inconsistent, ask the DM which values to standardise on.
