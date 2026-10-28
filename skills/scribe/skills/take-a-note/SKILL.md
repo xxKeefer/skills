@@ -1,17 +1,15 @@
 ---
 name: take-a-note
 description: >
-  Capture something from the current conversation into the user's Obsidian notes. With a file
-  path, append it to the most relevant part of that note, matching the note's existing style.
-  With no path, drop a fresh note into the vault's 00-notes/ for later triage. Use when the user
-  says "take a note", "note this", "capture this", "jot this down", or "add this to my notes".
-argument-hint: "[optional path to an existing note to append to]"
+  Capture something from the current conversation as a fresh note in the vault's 00-notes/, for
+  later triage. Use when the user says "take a note", "note this", "capture this", or "jot this
+  down".
 ---
 
 # Take a Note
 
-Distill something worth keeping from the conversation and persist it. Two modes, decided by
-whether `$ARGUMENTS` contains a file path.
+Distill something worth keeping from the conversation into a raw note in the vault inbox. To add
+it to an existing note instead, use `/append-to-note`.
 
 ## Step 1: Decide What to Capture
 
@@ -25,26 +23,11 @@ Distill it into clean, note-ready markdown. Write a reference entry, not a trans
 back-and-forth, keep the durable facts. Tables, fenced code, and callouts are encouraged where
 they sharpen it.
 
-## Step 2: Pick the Mode
+**Done when:** you have one idea, distilled into note-ready markdown.
 
-- `$ARGUMENTS` contains a path to an existing note → **Append mode** (Step 3)
-- No path → **Capture mode** (Step 4)
+## Step 2: Write the Note
 
-## Step 3: Append Mode
-
-1. Read the **full** target note.
-2. Learn its conventions before writing a word: frontmatter shape, heading style (emoji
-   prefixes?), table formatting, callout types in use (e.g. `[!dont]`, `[!brain]`), list and
-   quote style.
-3. Find the **most relevant insertion point** — the section the content belongs under. If none
-   fits, add a new section at the end with a heading that matches the note's heading style.
-4. Draft the addition in the note's *exact* style. The existing note wins over any default of
-   yours.
-5. **Checkpoint** — show the user the proposed location and the rendered addition. Adjust on
-   feedback; otherwise confirm.
-6. Insert with a targeted edit. Leave all surrounding content byte-for-byte intact.
-
-## Step 4: Capture Mode (no path)
+Write without a checkpoint. A raw note waits for `/triage-notes`, so the user reviews it there.
 
 1. Locate the vault: scan the home directory for a folder containing `.obsidian/`; the first
    match is the vault root. If none is found, warn the user and stop.
@@ -63,11 +46,11 @@ they sharpen it.
    natural.
 5. Print the full path written.
 
+**Done when:** the note is in `00-notes/` with its frontmatter and `#raw` tag, and you printed its
+path.
+
 ## Principles
 
-- **Match, don't impose.** In append mode the target note's style is law.
 - **Distill, don't dump.** A note is a reference, not a conversation log.
 - **Straight quotes only** — no smart quotes or unicode bullets (vault rule). Em dashes and emojis
   are fine.
-- **Append mode confirms; capture mode just writes.** Editing a curated note is higher stakes than
-  dropping a raw note for later triage.

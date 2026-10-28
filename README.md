@@ -26,7 +26,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **scribe** | add-procedure, define-concept, define-term, define-language, take-a-note, triage-notes, teach, proof-read, asd-ste100, grices-maxims, orwells-six | Capture vault procedures + edit notes |
 | **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
-| **experimental** | lobotomize, codebase-news, repro, roleplay, simulate | Skills on probation |
+| **experimental** | lobotomize, codebase-news, repro, roleplay, simulate, append-to-note | Skills on probation |
 | **deprecated** | research, patch-doctor, explain-reasoning, edit-article, setup-git-guardrails, spike, to-spec, to-tickets, wayfinder, triage | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
