@@ -32,10 +32,8 @@ Top-level layout:
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). |
-| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails, not skills. |
+| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, and output styles, live inside their `utility` installer skill, so they ship with the plugin. |
 | `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
-| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
 | `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
 
 The root owns only the registry and shared documentation (`README.md`, `CLAUDE.md`, `CONTEXT.md`).

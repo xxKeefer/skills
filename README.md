@@ -6,11 +6,8 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins -- one directory per domain (see table below). |
-| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails. |
+| `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, and output styles, live inside their `utility` installer skill. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
-| `statusline/` | The self-contained Claude Code status line script, installed by `/setup-statusline`. |
-| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
 
 ## Domains
@@ -25,7 +22,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
 | **scribe** | add-procedure, define-concept, define-term, define-language, take-a-note, triage-notes, teach, proof-read, asd-ste100, grices-maxims, orwells-six | Capture vault procedures + edit notes |
 | **nix-manager** | nix-add, nix-remove, nix-rice, nix-refine, nix-debug, nix-explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
+| **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, setup-tool-policy, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
 | **experimental** | lobotomize, repro, roleplay, simulate, append-to-note | Skills on probation |
 | **deprecated** | research, patch-doctor, explain-reasoning, setup-git-guardrails, spike, to-spec, to-tickets, wayfinder, triage | Holding pen for skills awaiting a keep/kill decision |
 

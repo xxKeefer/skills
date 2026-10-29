@@ -4,7 +4,7 @@ Installs every version-controlled output style onto a machine and selects one in
 `~/.claude/settings.json`. The goal: identical agent voices on home and work, from one committed
 source.
 
-- **Source:** `output-styles/*.md` (marketplace root — single source of truth)
+- **Source:** `styles/*.md` in this folder (single source of truth)
 - **Installs to:** `~/.claude/output-styles/` (all files)
 - **Wires:** `.outputStyle` in `~/.claude/settings.json` → the chosen style's frontmatter `name`
 - **Dependency:** `jq` (settings JSON edit)
@@ -14,10 +14,12 @@ equivalent.
 
 ## Manual install
 
+Run from this folder:
+
 ```sh
 # 1. copy all styles out
 mkdir -p ~/.claude/output-styles
-cp output-styles/*.md ~/.claude/output-styles/
+cp styles/*.md ~/.claude/output-styles/
 
 # 2. select one by its frontmatter name, without clobbering anything else (idempotent)
 settings=~/.claude/settings.json

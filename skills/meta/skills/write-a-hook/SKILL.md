@@ -6,16 +6,17 @@ disable-model-invocation: true
 
 # Write a Hook
 
-Author a new hook holder from scratch. A holder is a self-contained directory under `hooks/<name>/`
-that ships everything needed to install and run one hook: the script, an installer skill, a README,
-and config when behaviour is data-driven. The working reference is
-[`hooks/tool-policy/`](../../../../hooks/tool-policy/) -- read it before drafting.
+Author a new hook holder from scratch. A holder is the folder of a `utility` installer skill,
+`skills/utility/skills/setup-<name>/`, and ships everything needed to install and run one hook: the
+script, the installer `SKILL.md`, a README, and config when behaviour is data-driven. Paths in this
+skill are relative to the marketplace repo root. The working reference is
+`skills/utility/skills/setup-tool-policy/` -- read it before drafting.
 
 ## Step 1: Gather Requirements
 
 `$ARGUMENTS` may contain:
 
-- **Hook name** -- kebab-case, names the holder dir (`hooks/<name>/`)
+- **Hook name** -- kebab-case, names the holder dir (`setup-<name>/`)
 - **What it does** -- the behaviour to enforce, observe, redirect, or mutate
 
 If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill` to pin the
@@ -43,22 +44,21 @@ design. A hook needs more decided up front than a skill does:
 
 Before scaffolding:
 
-1. **Check existing holders** in `hooks/` -- does this duplicate an existing hook's job? tool-policy
-   already covers runner-redirection and command-blocking via config; prefer adding a rule there
-   over a new holder.
-2. **Check setup skills** in `utility/` -- `setup-skill-tally` and its siblings are lighter
-   inline-script installers. If the hook is trivial and static, that pattern may fit better
-   than a full holder.
+1. **Check existing holders** in `skills/utility/skills/` -- does this duplicate an existing hook's
+   job? tool-policy already covers runner-redirection and command-blocking via config; prefer
+   adding a rule there over a new holder.
+2. **Check the lighter pattern** -- `setup-skill-tally` ships one static script with no config or
+   README. If the hook is trivial and static, that pattern may fit better than a full holder.
 3. **Naming**:
-   - Holder dir: `hooks/<name>/`
+   - Holder dir: `skills/utility/skills/setup-<name>/`
    - Installer skill inside it: `setup-<name>` (the SKILL.md `name`)
 
 Present findings. If there's overlap, discuss extending the existing hook vs a new holder.
 
 ## Step 3: Scaffold the Hook Holder
 
-Create `hooks/<name>/` with the files the design calls for. Minimum is the script + installer skill
-+ README; add config files only when config-driven.
+Create `skills/utility/skills/setup-<name>/` with the files the design calls for. Minimum is the
+script + installer skill + README; add config files only when config-driven.
 
 ### The hook script
 
@@ -71,7 +71,7 @@ emits its decision as JSON on **stdout**. A blocking decision uses:
 
 Observe-only hooks print nothing (or non-blocking output). Honour the fail mode from Step 1 --
 unparseable input or missing config should not false-fire on a fail-open guard. Copy the parsing
-and output shape from [`tool_policy.py`](../../../../hooks/tool-policy/tool_policy.py) rather than
+and output shape from `skills/utility/skills/setup-tool-policy/tool_policy.py` rather than
 re-deriving it.
 
 ### Config files (config-driven only)
@@ -84,7 +84,7 @@ re-deriving it.
 
 Add a companion `Write|Edit|MultiEdit` guard that denies tool edits to the runtime files, and have
 the main script reject Bash commands that name the config. See tool-policy's
-[`protect_guard.py`](../../../../hooks/tool-policy/protect_guard.py) and note the documented
+`skills/utility/skills/setup-tool-policy/protect_guard.py` and note the documented
 asymmetry between the shell and tool vectors -- state any gap you leave.
 
 **Done when:** the holder dir holds a working script (and config pair, if applicable) honouring the
@@ -92,13 +92,16 @@ contract and fail mode.
 
 ## Step 4: Write the Installer Skill
 
-Write `hooks/<name>/SKILL.md` as the `setup-<name>` installer. Mirror tool-policy's installer:
+Write the holder's `SKILL.md` as the `setup-<name>` installer. Make it user-invoked
+(`disable-model-invocation: true`) with a one-line description, like every `utility` installer.
+Mirror tool-policy's installer:
 
 1. **Choose scope** -- AskUserQuestion: **global** (`~/.claude/hooks/<name>/`, wired into
    `~/.claude/settings.json`) or **current project** (`.claude/hooks/<name>/`, wired into
    `.claude/settings.local.json`).
-2. **Copy the runtime files** -- copy the script(s), config(s), and README to the target. **Never
-   clobber a live config** if one already exists. Do **not** copy the SKILL.md or test file.
+2. **Copy the runtime files** -- copy the script(s), config(s), and README from
+   `${CLAUDE_SKILL_DIR}` to the target. **Never clobber a live config** if one already exists. Do
+   **not** copy the SKILL.md or test file.
 3. **Register the hook(s)** -- merge the `hooks.<Event>` entry into the chosen settings file. Merge,
    don't overwrite; don't duplicate existing entries.
 4. **Confirm** -- tell the user wiring is read at session start (`/hooks` to reload), and how to
@@ -120,13 +123,14 @@ Each step gets a **Done when** line.
 
 ## Step 6: Register and Review
 
-1. Add the new hook to the `hooks/` section of the root **CLAUDE.md** layout if it warrants a
-   mention, and list `/write-a-hook` itself in **meta/CLAUDE.md** the first time this skill ships.
+1. Add `/setup-<name>` to the skill tables in `skills/utility/CLAUDE.md` and
+   `skills/utility/README.md`, and to the `utility` row of the root `README.md`. Bump the minor
+   version in `skills/utility/.claude-plugin/plugin.json`.
 2. Present to the user:
 
 > **Hook: `<name>`**
 > **Event/matcher:** {event} / {matcher}
-> **Files:** {list under hooks/<name>/}
+> **Files:** {list under skills/utility/skills/setup-<name>/}
 >
 > {brief summary of what it does}
 

@@ -6,26 +6,20 @@ disable-model-invocation: true
 
 # Install Agent Voice
 
-Install every version-controlled output style in `output-styles/` at the marketplace root to
+Install every version-controlled output style in this skill's `styles/` folder to
 `~/.claude/output-styles/`, then point Claude Code's `outputStyle` setting at one of them. The goal
 is identical agent voices on every machine, installed from one committed source.
 
-The source of truth is the top-level `output-styles/` directory, **not** copies bundled in this
-skill. This install copies every `.md` file out to `~/.claude/output-styles/` and selects one by its
-frontmatter `name`.
+The `styles/` folder is the source of truth. This install copies every `.md` file out to
+`~/.claude/output-styles/` and selects one by its frontmatter `name`.
 
 ## Step 1: Locate the Source Directory
 
-The source lives at the marketplace root, four levels up from this skill
-(`skills/utility/skills/install-agent-voice/`). Resolve it relative to this `SKILL.md`'s directory so
-the install works from any cwd:
-
 ```sh
-srcdir="$(cd "$(dirname "$0")/../../../../output-styles" && pwd)"
+srcdir="${CLAUDE_SKILL_DIR}/styles"
 ```
 
-When running the steps interactively, the equivalent is the repo's `output-styles/` directory.
-Confirm it exists and contains at least one `.md` file before copying.
+Confirm `$srcdir` contains at least one `.md` file before copying.
 
 ## Step 2: Install All Styles
 

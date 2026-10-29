@@ -30,8 +30,8 @@ engine just reads the config.
 
 ## Wiring
 
-Run `/setup-tool-policy` to install automatically (it prompts for global vs
-current-project scope and wires both hooks). To do it by hand: copy the folder
+Run `/setup-tool-policy` from the `utility` plugin to install automatically (it
+prompts for global vs current-project scope and wires both hooks). To do it by hand: copy the folder
 somewhere stable (e.g. `~/.claude/hooks/tool-policy/`) and register both hooks in
 `~/.claude/settings.json` under `hooks.PreToolUse`:
 

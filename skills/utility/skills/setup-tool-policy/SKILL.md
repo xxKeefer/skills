@@ -1,17 +1,15 @@
 ---
 name: setup-tool-policy
-description: >
-  Install the tool-policy PreToolUse hook (runner redirection + command blocking) into a Claude
-  Code settings file. Prompts for global or current-project scope, copies the runtime files, and
-  wires both hooks. Use when the user says "setup tool-policy", "install tool-policy", "install
-  the tool-policy hook", or wants to wire this hook into a project or their global config.
+description: Install the tool-policy PreToolUse hook (runner redirection and command blocking), globally or for the current project.
+disable-model-invocation: true
 ---
 
 # Setup tool-policy
 
 Install this folder's hook into a Claude Code settings file. The runtime files
-(`tool_policy.py`, `protect_guard.py`, the configs) live beside this SKILL.md —
-this skill copies them to the target and registers the two `PreToolUse` hooks.
+(`tool_policy.py`, `protect_guard.py`, the configs) live beside this SKILL.md, in
+`${CLAUDE_SKILL_DIR}`. This skill copies them to the target and registers the two
+`PreToolUse` hooks.
 
 ## Step 1: Choose scope
 
@@ -26,7 +24,7 @@ Use **AskUserQuestion** to ask where to install:
 
 ## Step 2: Copy the runtime files
 
-Copy these siblings of this SKILL.md to the target hooks dir:
+Copy these files from `${CLAUDE_SKILL_DIR}` to the target hooks dir:
 `tool_policy.py`, `protect_guard.py`, `tool-policy.config.json`,
 `tool-policy.example.json`, `README.md`.
 

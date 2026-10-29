@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Setup Statusline
 
-Install the version-controlled status line (`statusline/statusline.sh` at the marketplace root) to
+Install the version-controlled status line (`statusline.sh` in this skill's folder) to
 `~/.claude/statusline.sh` and point Claude Code's `statusLine` setting at it. The script is
 self-contained -- it reads the statusLine stdin JSON and local `git` only, makes **no network calls
 and runs no remote packages**. The goal is an identical status line on every machine, installed from
@@ -22,8 +22,8 @@ It renders two lines:
 Thresholds, the delimiter, and the usage symbols are read from `statusline.config.json` (sits next
 to the script); any omitted key falls back to an in-script default.
 
-The source of truth is the top-level `statusline/statusline.sh` plus `statusline.config.json`,
-**not** a copy bundled in this skill. This install copies both out to `~/.claude/`.
+The source of truth is `statusline.sh` plus `statusline.config.json` in this skill's folder. This
+install copies both out to `~/.claude/`.
 
 ## Step 1: Check Prerequisites
 
@@ -38,17 +38,11 @@ assumed present.
 
 ## Step 2: Locate the Source Script
 
-The source lives at the marketplace root, four levels up from this skill
-(`skills/utility/skills/setup-statusline/`). Resolve it relative to this `SKILL.md`'s directory so
-the install works from any cwd:
-
 ```sh
-# from the skill directory:
-srcdir="$(cd "$(dirname "$0")/../../../../statusline" && pwd)"
+srcdir="${CLAUDE_SKILL_DIR}"
 ```
 
-When running the steps interactively, the equivalent is the repo's `statusline/` directory. Confirm
-`$srcdir/statusline.sh` exists and is non-empty before copying.
+Confirm `$srcdir/statusline.sh` exists and is non-empty before copying.
 
 ## Step 3: Install the Script and Config
 
