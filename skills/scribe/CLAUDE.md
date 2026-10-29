@@ -17,10 +17,8 @@ The domain covers three jobs:
 
 ### Procedures Directory
 
-Procedures are a kind of reference doc, so they live in the vault's reference directory. Discover it
-by scanning the vault root for a directory matching `*reference` (e.g. `03-reference/`). If none is
-found, ask the user where reference docs should live. **Never hardcode the path** -- the user may
-renumber or move it.
+Procedures are a kind of reference doc, so they live in the vault's reference directory.
+`/add-procedure` finds it with `/discover-vault-directory *reference`.
 
 A procedure file is a small collection of related procedures for one area (e.g. `git.md`,
 `nix.md`), not necessarily one procedure per file. Entry format is defined per skill.
@@ -32,8 +30,8 @@ The four proof-read skills link that file. Change a shared rule there, not in a 
 
 ## Dependencies
 
-Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics. Both
-plugins must be installed.
+Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics, and
+`/discover-vault-directory` to find vault folders. Both plugins must be installed.
 
 ## Skills
 

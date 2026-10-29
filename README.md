@@ -17,7 +17,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Domain | Skills | Purpose |
 |---|---|---|
-| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
+| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis, discover-vault-directory | Foundational building blocks |
 | **developer** | grill-with-docs, prototype, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, domain-modeling, codebase-design, improve-codebase-architecture, codebase-news | Engineering lifecycle |
 | **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
 | **projects** | new-project, promote-card | Long-running goal management |
