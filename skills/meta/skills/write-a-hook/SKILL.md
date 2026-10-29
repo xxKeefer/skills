@@ -123,9 +123,8 @@ Each step gets a **Done when** line.
 
 ## Step 6: Register and Review
 
-1. Add `/setup-<name>` to the skill tables in `skills/utility/CLAUDE.md` and
-   `skills/utility/README.md`, and to the `utility` row of the root `README.md`. Bump the minor
-   version in `skills/utility/.claude-plugin/plugin.json`.
+1. Add `/setup-<name>` to the skill table in `skills/utility/README.md`. Bump the minor version in
+   `skills/utility/.claude-plugin/plugin.json`.
 2. Present to the user:
 
 > **Hook: `<name>`**

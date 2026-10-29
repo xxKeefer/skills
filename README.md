@@ -12,19 +12,19 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 ## Domains
 
-| Domain | Skills | Purpose |
-|---|---|---|
-| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis, discover-vault-directory | Foundational building blocks |
-| **developer** | grill-with-docs, prototype, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, domain-modeling, codebase-design, improve-codebase-architecture, codebase-news | Engineering lifecycle |
-| **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
-| **projects** | new-project, promote-card | Long-running goal management |
-| **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill, writing-great-skills | Skills about skills |
-| **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **scribe** | add-procedure, define-concept, define-term, define-language, take-a-note, triage-notes, teach, proof-read, asd-ste100, grices-maxims, orwells-six | Capture vault procedures + edit notes |
-| **nix-manager** | nix-add, nix-remove, nix-rice, nix-refine, nix-debug, nix-explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, setup-tool-policy, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
-| **experimental** | lobotomize, repro, roleplay, simulate, append-to-note | Skills on probation |
-| **deprecated** | research, patch-doctor, explain-reasoning, setup-git-guardrails, spike, to-spec, to-tickets, wayfinder, triage | Holding pen for skills awaiting a keep/kill decision |
+| Domain | Purpose |
+|---|---|
+| [**primitives**](skills/primitives/README.md) | Foundational building blocks |
+| [**developer**](skills/developer/README.md) | Engineering lifecycle |
+| [**journal**](skills/journal/README.md) | Life admin + personal growth |
+| [**projects**](skills/projects/README.md) | Long-running goal management |
+| [**meta**](skills/meta/README.md) | Skills about skills |
+| [**omen**](skills/omen/README.md) | Creative -- TTRPG, worldbuilding |
+| [**scribe**](skills/scribe/README.md) | Capture vault procedures + edit notes |
+| [**nix-manager**](skills/nix-manager/README.md) | NixOS config management |
+| [**utility**](skills/utility/README.md) | Dev-environment setup |
+| [**experimental**](skills/experimental/README.md) | Skills on probation |
+| [**deprecated**](skills/deprecated/README.md) | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 

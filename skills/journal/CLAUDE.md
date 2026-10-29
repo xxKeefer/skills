@@ -83,14 +83,7 @@ the parent file's goals and the previous sibling's reflection to give a quick co
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/daily` | Generate daily file with tasks and reflection sections |
-| `/weekly` | Generate weekly file with goals, events, and daily links |
-| `/monthly` | Generate monthly file with goals and weekly overview |
-| `/yearly` | Generate yearly file with aspirations and monthly overview |
-| `/reflect` | File-agnostic reflection and link maintenance tool |
-| `/update-occasions-config` | Sync vault `occasions.md` into `vault_occasions.js` for Templater |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Templater Fallback
 

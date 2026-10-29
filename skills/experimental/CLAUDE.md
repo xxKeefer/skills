@@ -15,10 +15,4 @@ and value aren't yet decided.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/append-to-note` | Append something from the conversation to a named note, in that note's style |
-| `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
-| `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
-| `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
-| `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

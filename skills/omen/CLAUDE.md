@@ -13,19 +13,7 @@ put every rule that a skill needs at run time in the format file.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/log-session` | Log a game session to the session index |
-| `/log-cannon` | Extract canon events from a session log |
-| `/log-npcs` | Catalog NPCs from a session log |
-| `/log-place` | Catalog places from a session log |
-| `/log-progression` | Update character arcs from a session log |
-| `/make-lore` | Spin off a heading into a standalone lore file |
-| `/make-blurb` | Generate hype blurb from session planning |
-| `/make-summary` | Narrative summary from a completed session |
-| `/plan-session` | Plan a new session by game type |
-| `/scaffold-setting` | Bootstrap a new campaign setting with standard structure |
-| `/doctor-setting` | Migrate an existing campaign to the standard structure |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Dependencies
 

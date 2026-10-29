@@ -31,11 +31,4 @@ toward a clean, maintainable, well-understood system.
 
 ## Skills
 
-| Skill | Type | Purpose |
-|---|---|---|
-| `/nix-add` | HITL | Find and add packages or capabilities |
-| `/nix-remove` | HITL | Cleanly remove packages or capabilities |
-| `/nix-rice` | HITL | Visual customization from screenshots, descriptions, or repos |
-| `/nix-refine` | HITL | Best-practice audit and improvement (targeted or full) |
-| `/nix-debug` | AFK | Diagnose and fix build errors |
-| `/nix-explain` | AFK | Plain-language explanation of nix config |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

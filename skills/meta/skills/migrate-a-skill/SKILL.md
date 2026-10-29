@@ -47,23 +47,21 @@ the directory — confirm nothing the skill depends on lives outside its own fol
 
 ## Step 4: Update the docs
 
-In **both** the source and target domains, edit `README.md` **and** `CLAUDE.md`:
+Each domain's `README.md` holds its only skill table. Edit the `## Skills` table in both domains:
 
-- **Source domain** — remove the skill's row from the `## Skills` table.
-- **Target domain** — add a row `| `/<name>` | <Purpose> |` to the `## Skills` table, keeping the
-  table's existing ordering style.
+- **Source domain** — remove the skill's row.
+- **Target domain** — add a row `| `/<name>` | <Purpose> |`. Fill every column the table has, and
+  keep the table's existing ordering style.
 
 Notes:
-- If a doc has no skill table, skip that file and flag it in the summary rather than inventing one.
+- If a `README.md` has no skill table, flag it in the summary rather than inventing one.
 - A domain with no skills shows a `_None yet._` placeholder under `## Skills`. When adding the
   first row, replace the placeholder with the table; when removing the last row, restore it.
-- The root `README.md` domain table lists skills. Update the source and target rows there. Leave
-  the root `CLAUDE.md` alone.
 - If the source-domain README has migration notes (e.g. experimental's "Migrated in from…"
   blurb) that named this skill, prune the stale reference.
 
-**Done when:** no doc in the source domain still lists the skill, both target docs do, and the
-root `README.md` rows for both domains match their `skills/` directories.
+**Done when:** the source `README.md` no longer lists the skill, the target `README.md` does, and
+both tables match their `skills/` directories.
 
 ## Step 5: Bump versions
 
@@ -98,7 +96,7 @@ Message shape — scope is both domains, lower-cased imperative subject, body ex
 <new>, <target> to <new>.
 ```
 
-On confirmation, `git add` the moved directory, both domain READMEs, both CLAUDE.mds, both
-plugin.jsons, and the root `README.md`, then commit. Do not push.
+On confirmation, `git add` the moved directory, both domain READMEs, and both plugin.jsons, then
+commit. Do not push.
 
 **Done when:** a single commit captures the move, doc edits, and version bumps.

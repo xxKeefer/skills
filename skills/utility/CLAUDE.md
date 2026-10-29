@@ -6,15 +6,7 @@ the setup skills are easy to find, maintain, or retire on their own.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/setup-pre-commit` | Detect language/toolchain and configure pre-commit hooks (format, type-check, test) |
-| `/setup-skill-tally` | Count every skill invocation into a global JSON tally via a zero-latency hook |
-| `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
-| `/setup-tool-policy` | Install the tool-policy hook (runner redirection, command blocking) globally or per project |
-| `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
-| `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
-| `/set-up-dev-workflow-skills` | Per-repo config for the engineering skills — issue tracker, domain doc layout |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Design Principles
 

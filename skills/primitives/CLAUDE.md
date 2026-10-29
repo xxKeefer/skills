@@ -12,17 +12,7 @@ installed.
 
 ## Skills
 
-`Used by` lists every skill in this repo whose `SKILL.md` names the primitive as `/<name>`.
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
-| Skill | Purpose | Used by |
-|---|---|---|
-| `/grill` | Relentless questioning until shared understanding | do-next, developer:diagnose, developer:grill-with-docs, developer:improve-codebase-architecture, meta:write-a-hook, meta:write-a-skill, projects:new-project, projects:promote-card, deprecated:spike, deprecated:triage, deprecated:wayfinder |
-| `/write-to-file` | Write output files to `.ai/`, or the user's folder for the doctype, for `@`-reference | handoff, tabular-analysis, developer:codebase-news, developer:diagnose, meta:write-a-skill, utility:set-up-dev-workflow-skills |
-| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | tabular-analysis, developer:diagnose, developer:fix, developer:happy-path, developer:resolve-conflicts, developer:tweak, scribe:add-procedure, scribe:triage-notes, deprecated:spike |
-| `/explain` | Layered what/how/why explanation of any target | nix-manager:nix-explain, deprecated:explain-reasoning |
-| `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | the user only |
-| `/handoff` | Compact the conversation into a handoff doc for a fresh agent | the user only |
-| `/update-handoff` | Update a handoff/plan doc in place with current progress | do-next |
-| `/do-next` | Cold-start from a handoff/plan doc and execute the next step | projects:promote-card |
-| `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | experimental:lobotomize |
-| `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files | journal:daily, journal:monthly, journal:reflect, journal:update-occasions-config, journal:weekly, journal:yearly, omen:doctor-setting, omen:scaffold-setting, projects:new-project, scribe:add-procedure, scribe:take-a-note, scribe:triage-notes |
+A rename breaks each skill that invokes the primitive. Before you rename one, search every
+Markdown file under `skills/` for `/<name>`, and update each match.

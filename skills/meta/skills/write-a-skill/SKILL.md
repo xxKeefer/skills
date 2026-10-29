@@ -104,7 +104,15 @@ Only create supporting files when they serve a clear purpose:
 - **References** -- if the skill applies detailed principles that would bloat SKILL.md
 - **Scripts** -- if the skill runs external tooling
 
-## Step 5: Review
+## Step 5: Register
+
+Add a row `| `/<name>` | <Purpose> |` to the `## Skills` table in `skills/<domain>/README.md`, the
+domain's only skill table. Fill every column the table has. Bump the minor version in
+`skills/<domain>/.claude-plugin/plugin.json`.
+
+**Done when:** the domain `README.md` table matches its `skills/` directory.
+
+## Step 6: Review
 
 Present the complete skill to the user:
 

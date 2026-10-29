@@ -17,14 +17,4 @@ Disable this whole domain when you don't want deprecated skills loaded.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
-| `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
-| `/explain-reasoning` | Unpack agent reasoning transparently |
-| `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
-| `/spike` | Deep-dive investigation of a problem (PRD process) |
-| `/to-spec` | Turn an idea or conversation into a published spec |
-| `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
-| `/wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
-| `/triage` | Move issues and external PRs through the triage state machine, write agent-ready briefs |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

@@ -45,10 +45,7 @@ Every other skill reads these as contracts -- read them before touching a worksp
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
-| `/promote-card` | Grill a bare card into one ticket note with a phased plan for /do-next |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Dependencies
 

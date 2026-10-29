@@ -1,7 +1,7 @@
 {
   "name": "utility",
-  "description": "Dev-environment setup skills -- pre-commit hooks, skill-usage tallying, statusline install, agent-voice install, and obsidian-kanban configuration. Isolated so they're easy to maintain or retire.",
-  "version": "1.16.0",
+  "description": "Installers for the dev environment -- hooks, the status line, output styles, and repo config. Each installer ships its own assets.",
+  "version": "1.17.0",
   "author": {
     "name": "xxkeefer"
   }
