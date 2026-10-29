@@ -171,7 +171,8 @@ Present the generated indexes:
 Read every session log in `logs/`. For each completed session (has a Plot section or equivalent
 narrative content):
 
-1. Extract narratively significant events (same criteria as `/log-cannon`)
+1. Extract narratively significant events, with the criteria in Step 5 of
+   [log-cannon](../log-cannon/SKILL.md)
 2. Build a timeline entry per session
 
 Present the full canon timeline:

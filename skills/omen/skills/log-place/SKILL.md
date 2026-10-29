@@ -1,9 +1,7 @@
 ---
 name: log-place
-description: >
-  Catalog places from a session log into the campaign's location index. New places get a heading
-  with a summary. Existing places get new information appended. Use when user says "log places",
-  "update locations", "catalog places", or after logging a session.
+description: Catalog the places from a session log into the campaign's _places.md index.
+disable-model-invocation: true
 ---
 
 # Log Place

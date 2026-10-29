@@ -1,9 +1,7 @@
 ---
 name: log-progression
-description: >
-  Update player character progression files from a session log. Analyses the session for narratively
-  significant moments per character and appends to their individual files. Use when user says "log
-  progression", "update characters", "character arcs", or after logging a session.
+description: Append the significant moments of each player character from a session log to that character's progression file.
+disable-model-invocation: true
 ---
 
 # Log Progression

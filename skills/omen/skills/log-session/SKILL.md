@@ -1,9 +1,7 @@
 ---
 name: log-session
-description: >
-  Log a game session to the campaign's session index. Takes a session log file, extracts date, game
-  type, and summary, then appends a row to log.md. Use when user says "log session", "add session",
-  "update the log", or has just finished a game and wants to record it.
+description: Add a row for a session log to the campaign's log.md index, with its date, game type, and summary.
+disable-model-invocation: true
 ---
 
 # Log Session

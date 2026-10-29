@@ -1,9 +1,7 @@
 ---
 name: log-npcs
-description: >
-  Catalog NPCs from a session log into the campaign's NPC index. New NPCs get a heading with a
-  summary. Existing NPCs get new information appended. Use when user says "log npcs", "update npcs",
-  "catalog characters", or after logging a session.
+description: Catalog the NPCs from a session log into the campaign's _npcs.md index.
+disable-model-invocation: true
 ---
 
 # Log NPCs
