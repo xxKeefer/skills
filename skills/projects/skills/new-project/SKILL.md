@@ -14,9 +14,7 @@ decisions log that persist across sessions, modelled on the `teach` skill.
 
 ## Step 1: Discover the Projects Directory
 
-Find the vault's projects directory: scan the vault root for a directory matching `*projects`
-(e.g. `05-projects/`). If none is found, ask the user where projects live and store the path to
-memory. Never hardcode the path.
+Find the vault's projects directory with `/discover-vault-directory *projects`.
 
 ## Step 2: Clarify the Mission
 

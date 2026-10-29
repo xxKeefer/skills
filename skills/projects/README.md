@@ -27,7 +27,7 @@ Add to your Claude Code settings:
 }
 ```
 
-Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`).
+Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`, `/discover-vault-directory`).
 
 ## Vault Setup
 
