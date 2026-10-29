@@ -27,3 +27,5 @@ Creative skills -- TTRPG campaign logging, lore management, and session planning
   }
 }
 ```
+
+Requires `primitives@xxkeefer-skills` for `/discover-vault-directory`.

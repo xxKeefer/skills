@@ -29,4 +29,4 @@ put every rule that a skill needs at run time in the format file.
 
 ## Dependencies
 
-Omen skills are self-contained. No dependency on other domains.
+- `primitives` -- `/discover-vault-directory` to find the omen folder and each campaign.

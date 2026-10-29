@@ -17,9 +17,12 @@ structure, extract, review -- with DM approval between each.
 
 `$ARGUMENTS` may contain:
 
-- A path to a campaign directory
-- A campaign name -- search `07-omen/` for it
-- Nothing -- list directories in `07-omen/` and ask which one to doctor
+- A path to a campaign directory -- use it
+- A campaign name -- find it with `/discover-vault-directory *omen/{campaign-name}`, with the name
+  in kebab-case
+- Nothing -- find it with `/discover-vault-directory *omen/*`
+
+Pass no marker files. A setting that needs a doctor can lack them.
 
 ## Phase 1: Audit
 

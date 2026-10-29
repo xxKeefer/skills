@@ -4,12 +4,7 @@ The contract for an omen campaign setting. Omen skills read this file before the
 
 ## Campaign Discovery
 
-Never hardcode a campaign path. Instead:
-
-1. Scan `07-omen/` in the vault for directories containing setting state files (`log.md` plus a
-   `lore/` subdirectory with `_cannon.md`).
-2. If multiple campaigns found, ask the user which one.
-3. If none found, ask the user where the campaign lives.
+Find the campaign with `/discover-vault-directory *omen/* holding log.md lore/_cannon.md`.
 
 ## Setting Folder Structure
 

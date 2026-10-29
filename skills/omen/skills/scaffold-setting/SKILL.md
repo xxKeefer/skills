@@ -12,7 +12,9 @@ Bootstrap a new campaign setting with the standard omen folder structure.
 
 ## Step 1: Detect Starting Point
 
-Check `$ARGUMENTS` for a path or setting name. Then inspect the target directory:
+Check `$ARGUMENTS` for a path or setting name. A path names the target directory. Otherwise, find
+the omen folder with `/discover-vault-directory *omen`. The target directory is then
+`{omen-folder}/{setting-name}/`. Inspect the target directory:
 
 - **Empty or non-existent** -- fresh scaffold. Go to Step 1a.
 - **Contains a single `blurb.md`** (or similar seed file) -- inflate from blurb. Go to Step 1b.
@@ -68,7 +70,7 @@ Present what will be created:
 > **Scaffolding: {Setting Name}**
 >
 > ```
-> 07-omen/{setting-name}/
+> {omen-folder}/{setting-name}/
 >   index.md
 >   blurb.md
 >   log.md
@@ -86,7 +88,7 @@ Present what will be created:
 
 ## Step 3: Create the Directory Structure
 
-Create all directories under the vault's `07-omen/` path:
+Create these directories in the omen folder from Step 1:
 
 - `{setting-name}/`
 - `{setting-name}/lore/`
@@ -117,5 +119,5 @@ Wikilink everything that references each other.
 
 ## Step 7: Confirm
 
-> **{Setting Name} scaffolded.** {N} files created in `07-omen/{setting-name}/`.
+> **{Setting Name} scaffolded.** {N} files created in `{omen-folder}/{setting-name}/`.
 > Ready to run `/plan-session` or start logging.
