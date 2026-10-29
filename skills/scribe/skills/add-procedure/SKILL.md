@@ -11,7 +11,7 @@ description: >
 # Add Procedure
 
 Offload a chore into the vault: capture the steps once so the task is repeatable and the brain can
-forget it. Procedures are utilitarian -- distinct from `02-research/` deep-dives and `00-notes/`
+forget it. Procedures are utilitarian -- distinct from `*research` deep-dives and `*notes`
 fleeting thoughts.
 
 ## Step 1: Discover the Reference Directory

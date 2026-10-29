@@ -1,7 +1,7 @@
 ---
 name: take-a-note
 description: >
-  Capture something from the current conversation as a fresh note in the vault's 00-notes/, for
+  Capture something from the current conversation as a fresh note in the vault's notes inbox, for
   later triage. Use when the user says "take a note", "note this", "capture this", or "jot this
   down".
 ---
@@ -29,10 +29,9 @@ they sharpen it.
 
 Write without a checkpoint. A raw note waits for `/triage-notes`, so the user reviews it there.
 
-1. Locate the vault: scan the home directory for a folder containing `.obsidian/`; the first
-   match is the vault root. If none is found, warn the user and stop.
-2. Write to `{vault}/00-notes/{slug}-{YYYYMMDD}.md` — a short kebab-case slug plus the date,
-   matching how existing 00-notes captures are named.
+1. Find the inbox with `/discover-vault-directory *notes`.
+2. Write to `{inbox}/{slug}-{YYYYMMDD}.md` — a short kebab-case slug plus the date,
+   matching how existing inbox captures are named.
 3. Frontmatter + the `#raw` tag (vault inbox convention):
    ```yaml
    ---
@@ -46,7 +45,7 @@ Write without a checkpoint. A raw note waits for `/triage-notes`, so the user re
    natural.
 5. Print the full path written.
 
-**Done when:** the note is in `00-notes/` with its frontmatter and `#raw` tag, and you printed its
+**Done when:** the note is in the inbox with its frontmatter and `#raw` tag, and you printed its
 path.
 
 ## Principles

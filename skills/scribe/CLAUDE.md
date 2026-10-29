@@ -7,7 +7,7 @@ vault root. "Vault" = the Obsidian vault.
 The domain covers three jobs:
 
 - **Capture** utilitarian procedures -- terse, repeatable how-tos for chores the user wants to
-  offload and forget (distinct from `02-research/` deep-dives and `00-notes/` fleeting thoughts).
+  offload and forget (distinct from `*research` deep-dives and `*notes` fleeting thoughts).
 - **Edit** existing notes -- gated proof-reading passes over structure and prose that preserve
   Obsidian syntax.
 - **Curate context** -- mine a corpus for its terminology and maintain a `CONTEXT.md` glossary
@@ -46,5 +46,5 @@ Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching 
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
 | `/triage-notes` | HITL -- triage one fleeting inbox note: promote, taskify, or archive on approval |
-| `/take-a-note` | Capture something from the conversation as a fresh note in vault 00-notes/ |
+| `/take-a-note` | Capture something from the conversation as a fresh note in the vault notes inbox |
 | `/teach` | Teach a topic over multiple sessions in a stateful workspace |
