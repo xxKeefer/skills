@@ -7,8 +7,9 @@ vault root. "Vault" = the Obsidian vault.
 The domain covers three jobs:
 
 - **Capture** utilitarian procedures -- terse, repeatable how-tos for chores the user wants to
-  offload and forget (distinct from `02-research/` deep-dives and `00-notes/` fleeting thoughts).
-- **Edit** existing notes -- structural and prose editing that preserves Obsidian syntax.
+  offload and forget (distinct from `*research` deep-dives and `*notes` fleeting thoughts).
+- **Edit** existing notes -- gated proof-reading passes over structure and prose that preserve
+  Obsidian syntax.
 - **Curate context** -- mine a corpus for its terminology and maintain a `CONTEXT.md` glossary
   (one file per context). Corpus-agnostic: code, vault, lore, or session logs.
 
@@ -16,39 +17,22 @@ The domain covers three jobs:
 
 ### Procedures Directory
 
-Procedures are a kind of reference doc, so they live in the vault's reference directory. Discover it
-by scanning the vault root for a directory matching `*reference` (e.g. `03-reference/`). If none is
-found, ask the user where reference docs should live. **Never hardcode the path** -- the user may
-renumber or move it.
+Procedures are a kind of reference doc, so they live in the vault's reference directory.
+`/add-procedure` finds it with `/discover-vault-directory *reference`.
 
 A procedure file is a small collection of related procedures for one area (e.g. `git.md`,
 `nix.md`), not necessarily one procedure per file. Entry format is defined per skill.
 
 ### Editing
 
-Preserve Obsidian-native syntax in every edit:
-
-- **Frontmatter** (YAML between `---` fences) -- preserve exactly
-- **Wikilinks** (`[[note]]`, `[[note|alias]]`) -- preserve exactly
-- **Callouts** (`> [!type]`) -- preserve syntax
-- **Tags** (`#tag/subtag`) -- preserve exactly
-- **Embeds** (`![[file]]`) -- preserve exactly
+The rules for every edit, starting with Obsidian syntax, live in [`HARD-RULES.md`](HARD-RULES.md).
+The four proof-read skills link that file. Change a shared rule there, not in a skill.
 
 ## Dependencies
 
-Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics. Both
-plugins must be installed.
+Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics, and
+`/discover-vault-directory` to find vault folders. Both plugins must be installed.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
-| `/edit-article` | HITL -- structural and prose editing for Obsidian notes |
-| `/proof-read` | HITL -- four gated passes over one document (structure, Grice, STE, Orwell), ends with an edit table |
-| `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
-| `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
-| `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
-| `/triage-notes` | HITL -- triage one fleeting inbox note: promote, taskify, or archive on approval |
-| `/take-a-note` | Capture something from the conversation: append to a given note (style-matched) or drop a fresh note in vault 00-notes/ |
-| `/teach` | Teach a topic over multiple sessions in a stateful workspace |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

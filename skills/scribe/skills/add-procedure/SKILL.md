@@ -11,14 +11,12 @@ description: >
 # Add Procedure
 
 Offload a chore into the vault: capture the steps once so the task is repeatable and the brain can
-forget it. Procedures are utilitarian -- distinct from `02-research/` deep-dives and `00-notes/`
+forget it. Procedures are utilitarian -- distinct from `*research` deep-dives and `*notes`
 fleeting thoughts.
 
 ## Step 1: Discover the Reference Directory
 
-Find the vault's reference directory per the convention in the domain `CLAUDE.md`: scan the vault
-root for a directory matching `*reference` (e.g. `03-reference/`). If none is found, ask the user
-where reference docs should live. **Never hardcode the path.**
+Find the vault's reference directory with `/discover-vault-directory *reference`.
 
 **Done when:** you have the reference directory path.
 
@@ -27,14 +25,16 @@ where reference docs should live. **Never hardcode the path.**
 Get the content of the task being captured:
 
 - **Default -- mine the conversation.** If this session just solved a task, reconstruct it: the
-  goal, the ordered steps actually taken, the commands run, and any gotchas or dead-ends hit along
-  the way. Strip false starts; keep what a future run needs.
+  goal, the ordered steps actually taken, the commands run, any gotchas or dead-ends hit along
+  the way, and the links, values, and tables the steps use. Strip false starts; keep what a future
+  run needs.
 - **Fall back -- ask.** If there's no session to mine (fresh context, or the user invoked cold),
   ask them to paste or describe the procedure.
 
 Resolve any links the procedure references via `/look-up` so captured commands/URLs are accurate.
 
-**Done when:** you have the goal, the steps, and the gotchas for one procedure.
+**Done when:** you have the goal, the steps, the gotchas, and every link, value, and table the
+steps use, for one procedure.
 
 ## Step 3: Assign a File
 
@@ -54,7 +54,10 @@ new file.
 
 Format the entry per [PROCEDURE-FORMAT.md](PROCEDURE-FORMAT.md):
 
-- **Terse by default** -- title, optional one-line *when/why*, numbered steps, gotchas as callouts.
+- **Terse by default** -- title, an optional `> When/why:` quote, numbered steps, gotchas as
+  titled callouts.
+- **Reference** -- links, values, and tables the steps use go in a `### Reference` sub-section at
+  the end of the entry.
 - **Long-form** only when the capture is genuinely complex (mental model, phases, known issues,
   lessons).
 - **New file** -- add the frontmatter from the template, then the entry.

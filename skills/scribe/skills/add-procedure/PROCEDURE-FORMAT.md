@@ -24,23 +24,44 @@ source: conversation
 
 Most procedures are short. One `##` heading per procedure:
 
-```markdown
+````markdown
 ## <Title>
 
-*When/why: one line of context (optional).*
+> When/why: one sentence of context (optional).
 
-1. First step
+1. First step:
+   ```bash
+   <one command>
+   ```
 2. Second step
 3. ...
 
-> [!warning] Gotcha worth flagging (optional)
+> [!warning] Short title (optional)
+> One or two lines: what goes wrong, and what to do instead.
+
+### Reference (optional)
+
+- [<Link name>](<url>)
+
+```<value-name>
+<value>
 ```
+````
 
 Rules:
 
 - Title is a plain imperative ("Deploy a branch version", "Reset a stuck migration").
-- Steps are numbered when ordered, bullets when not. Commands in backticks/code fences.
-- Gotchas, warnings, and "don't do this" notes go in `> [!warning]` / `> [!note]` callouts.
+- Steps are numbered when ordered, bullets when not.
+- One command per code fence, so that click-to-copy copies one runnable command. An alternative
+  command gets its own fence. Indent each fence under its step so that the list numbers hold.
+- Put the explanation of a command in the step text, outside the fence, so that a copy holds only
+  the command.
+- One value per fence for credentials, hosts, and IDs. Name the value in the fence's info string,
+  for example ```` ```password ````.
+- Gotchas, warnings, and "don't do this" notes go in `> [!warning]` / `> [!note]` callouts. Give
+  each callout a short title line, then a `>` body line.
+- Links, values, tables, and connection strings that the steps use go in a `### Reference`
+  sub-section at the end of the entry, so that the material sits with the steps that use it.
 - Reference-only entries (connection strings, label tables) skip the steps and just hold the block.
 - No filler. Every line is something the user would actually re-read mid-task.
 
@@ -73,6 +94,10 @@ The one idea that makes the rest make sense.
 ### Lessons
 
 - What you'd do differently next time.
+
+### Reference
+
+- Links, values, and tables the phases use.
 ```
 
 Use long-form only when terse genuinely can't hold it. Default to terse.

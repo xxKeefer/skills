@@ -1,9 +1,7 @@
 ---
 name: log-npcs
-description: >
-  Catalog NPCs from a session log into the campaign's NPC index. New NPCs get a heading with a
-  summary. Existing NPCs get new information appended. Use when user says "log npcs", "update npcs",
-  "catalog characters", or after logging a session.
+description: Catalog the NPCs from a session log into the campaign's _npcs.md index.
+disable-model-invocation: true
 ---
 
 # Log NPCs
@@ -12,7 +10,8 @@ Extract NPCs from a session log and update the campaign's `_npcs.md` index.
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md.
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Session Log
 

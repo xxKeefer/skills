@@ -1,30 +1,28 @@
 ---
 name: audit-workflow
-description: Audit Claude Code workflow and suggest 3 optimizations. Use when user says "audit", "optimize workflow", "review setup", or wants to improve their Claude Code configuration, skills, or working patterns.
+description: Audit the Claude Code setup and suggest 3 optimizations.
+disable-model-invocation: true
 ---
 
 # Audit Workflow
 
 Examine the current Claude Code setup, recent work patterns, and best practices to produce exactly **3 prioritized suggestions** for workflow improvement.
 
-## Phase 0: Check Audit Backlog
-
-Before any exploration, read `~/.claude/reference/up-for-audit.md`. If it exists and has items, **prioritize those items** in the Phase 1 agent prompts. After all findings are implemented, remove the actioned items from the file (keep unactioned items).
-
 ## Phase 1: Gather Data (parallel)
 
-Launch up to 3 Explore subagents in a single message (incorporate Phase 0 items into agent prompts):
+Launch up to 3 Explore subagents in a single message:
 
 ### Agent 1 - Configuration & Patterns
 
 Read and analyze:
 - `~/.claude/CLAUDE.md` and any `@`-referenced files
 - All skills in `~/.claude/skills/` (read every SKILL.md)
-- Memory files in the current project's `memory/` directory
-- Recent plan files in `~/.claude/plans/` (read the 10 most recent)
+- All plugin skills. Read `~/.claude/plugins/installed_plugins.json`. Take the `installPath` of each entry with scope `user`, and of each entry whose `projectPath` is the working directory. Read every `skills/*/SKILL.md` under each path.
+- `~/.claude/skill-tally.json`, if it exists: the use count of each skill
+- Memory files in `~/.claude/projects/<project>/memory/`, where `<project>` is the folder for the working directory
 - `AGENTS.md` files in the repo root and app directories
 
-Look for: redundancy between CLAUDE.md and skills, missing memory entries, plan patterns that repeat, skill pipeline gaps, CLAUDE.md bloat (apply the "would removing this cause mistakes?" test to each line).
+Look for: redundancy between CLAUDE.md and skills, missing memory entries, skills with few or no uses in the tally, skill pipeline gaps, CLAUDE.md bloat (apply the "would removing this cause mistakes?" test to each line).
 
 ### Agent 2 - Codebase Health
 
@@ -65,7 +63,7 @@ For each finding, use this format:
 
 **Problem:** What's wrong or suboptimal (1-2 sentences).
 
-**Evidence:** Specific data - file counts, line numbers, plan references, or best practice citations.
+**Evidence:** Specific data - file counts, line numbers, use counts, or best practice citations.
 
 **Recommendation:** Concrete action to take, with file paths.
 

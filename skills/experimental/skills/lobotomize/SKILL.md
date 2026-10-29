@@ -1,10 +1,7 @@
 ---
 name: lobotomize
-description: >
-  Review the agent's persistent memories in a table and purge the ones that have outlived their
-  use. Surfaces each memory's name, age, and reason for existing, then deletes the ones the user
-  multi-selects — scrubbing the index and any backlinks so nothing dangles. Use when the user says
-  "lobotomize", "purge memories", "clean up memory", "forget stuff", or "prune what you remember".
+description: Table the agent's memories by age and purpose, then delete the ones the user selects.
+disable-model-invocation: true
 ---
 
 # Lobotomize

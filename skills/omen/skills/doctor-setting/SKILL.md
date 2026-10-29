@@ -17,9 +17,12 @@ structure, extract, review -- with DM approval between each.
 
 `$ARGUMENTS` may contain:
 
-- A path to a campaign directory
-- A campaign name -- search `07-omen/` for it
-- Nothing -- list directories in `07-omen/` and ask which one to doctor
+- A path to a campaign directory -- use it
+- A campaign name -- find it with `/discover-vault-directory *omen/{campaign-name}`, with the name
+  in kebab-case
+- Nothing -- find it with `/discover-vault-directory *omen/*`
+
+Pass no marker files. A setting that needs a doctor can lack them.
 
 ## Phase 1: Audit
 
@@ -72,8 +75,8 @@ Present a full gap analysis:
 
 ## Phase 2: Structure
 
-Create all missing directories and empty standard files. Use the same templates as
-`/scaffold-setting` for file contents.
+Create all missing directories and empty standard files. Write each file from **File Templates**
+in [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md).
 
 Infer `campaign`, `group`, and tag values from existing frontmatter in the setting. If
 inconsistent, ask the DM which values to standardise on.
@@ -168,7 +171,8 @@ Present the generated indexes:
 Read every session log in `logs/`. For each completed session (has a Plot section or equivalent
 narrative content):
 
-1. Extract narratively significant events (same criteria as `/log-cannon`)
+1. Extract narratively significant events, with the criteria in Step 5 of
+   [log-cannon](../log-cannon/SKILL.md)
 2. Build a timeline entry per session
 
 Present the full canon timeline:

@@ -1,9 +1,7 @@
 ---
 name: log-session
-description: >
-  Log a game session to the campaign's session index. Takes a session log file, extracts date, game
-  type, and summary, then appends a row to log.md. Use when user says "log session", "add session",
-  "update the log", or has just finished a game and wants to record it.
+description: Add a row for a session log to the campaign's log.md index, with its date, game type, and summary.
+disable-model-invocation: true
 ---
 
 # Log Session
@@ -12,11 +10,8 @@ Record a completed or in-progress session in the campaign's `log.md` index.
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md:
-
-1. Scan `07-omen/` in the vault for directories containing `log.md` and `lore/_cannon.md`
-2. If multiple campaigns found, ask which one
-3. If none found, ask the user where the campaign lives
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Session Log
 

@@ -18,7 +18,7 @@ workflows.
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
 | `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
-| `utility` | Dev-environment setup -- pre-commit hooks, git guardrails | No |
+| `utility` | Dev-environment setup -- pre-commit hooks, machine setup | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
 | `deprecated` | Skills awaiting a keep/kill decision before deletion | No |
 
@@ -32,10 +32,8 @@ Top-level layout:
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). |
-| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails, not skills. |
+| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill, so they ship with the plugin. |
 | `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
-| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
 | `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
 
 The root owns only the registry and shared documentation (`README.md`, `CLAUDE.md`, `CONTEXT.md`).
@@ -60,17 +58,16 @@ Everything-agnostic. Skills encode *how to think about problems*, not how to use
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
+The one exception is the rules that `/install-rules` ships. A rule is an opinionated convention for
+one file type, so it names languages, frameworks, and tools. A rule names no employer or client
+code.
+
 ## Agent skills
 
 ### Issue tracker
 
 Issues are cards on the `agentic-skills` Obsidian Kanban board in the vault. See
 `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Five roles as inline card tags; agent-ready is `#afk`, needs-human is `#hitl`. See
-`docs/agents/triage-labels.md`.
 
 ### Domain docs
 

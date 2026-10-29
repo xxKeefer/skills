@@ -1,12 +1,7 @@
 ---
 name: simulate
-description: >
-  Simulate a technical system the user cannot run yet -- tools, APIs, CLIs, consoles -- and let them
-  drive it turn by turn. Drops into the run with a single "⚙️ RUNNING! 🧪", marks every in-simulation
-  message with 🧪, renders calls and outputs the way the real system would print them, and ends on
-  `OK_STOP` with a report led by every place the render cheated. Use when the user says "simulate",
-  "pretend the tool exists", "act as if I have permission", or wants to walk a flow as a user before
-  it is built. For a human scene, use `/roleplay` instead.
+description: Stand in for a technical system the user cannot run yet, then debrief where the render cheated.
+disable-model-invocation: true
 ---
 
 # Simulate
@@ -18,9 +13,8 @@ where your render was kinder than the real thing.
 The lens is mechanical: surfaces, arguments, state, and failure. Point it at people instead and use
 [`/roleplay`](../roleplay/SKILL.md) — same shape, different lens.
 
-Write your own prose, in the run and in the debrief, in **Simplified Technical English**: active
-voice, one idea per sentence, short common words, no contractions, no em dash, no marketing
-adjectives. Rendered system output is exempt — it copies the real system's wording, whatever that is.
+Write your own prose, in the run and in the debrief, in **Simplified Technical English**. Read
+[`STE.md`](../../STE.md) before you write, and follow every rule in it. Rendered system output is exempt — it copies the real system's wording, whatever that is.
 
 ## Step 1: Read the brief
 

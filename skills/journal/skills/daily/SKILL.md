@@ -1,9 +1,7 @@
 ---
 name: daily
-description: >
-  Generate today's daily file. Assembles chores from occasions, pulls weekly goals into tasks,
-  reads yesterday's reflect for at-a-glance context. Use when user says "daily", "what's today",
-  or starts their day.
+description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks.
+disable-model-invocation: true
 ---
 
 # Daily
@@ -24,7 +22,7 @@ Generate the daily file. Quick, focused, minimal back-and-forth.
 
 Determine the day, week number, and file name: `YYYY-wkNN-day.md` (e.g., `2026-wk13-mon.md`).
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the daily file already exists. If it does, read it and update rather than overwrite.
 
@@ -51,26 +49,11 @@ See [CHECKLIST_RULES.md](CHECKLIST_RULES.md) for assembly rules.
 
 ### Pull Down Weekly Goals
 
-Read the current weekly file's Goals section. Present them:
-
-> This week's goals:
-> - [ ] Goal 1
-> - [ ] Goal 2
->
-> Pull any into today's tasks?
-
-Add selected goals to the Tasks group. Don't pressure -- if they skip, that's fine.
+Follow **Pull-down** in [CASCADE.md](../../CASCADE.md), with this week's file as the parent.
 
 ### Carry Forward
 
-Check yesterday's file for incomplete tasks (unchecked `- [ ]` items in Today section).
-Present as multi-select:
-
-> These are still open from yesterday -- select which to keep today:
-> - [ ] {item 1}
-> - [ ] {item 2}
->
-> Selected items go into today's tasks. Unselected items push up to the weekly file.
+Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the open items in yesterday's file.
 
 ### Confirm
 
@@ -81,7 +64,7 @@ One round of confirmation, then write.
 ## Step 5: Write the Daily File
 
 Create or update `YYYY-wkNN-day.md` in the journal directory using the format in
-`journal/templates/daily.md`.
+[templates/daily.md](../../templates/daily.md).
 
 If updating an existing file, preserve any content already written (checked chores, completed
 tasks, notes). Only update sections that need changes.

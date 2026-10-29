@@ -6,21 +6,13 @@ installed.
 
 ## Design Principles
 
-- **Composable**: Primitives are invoked by other skills, not typically by users directly
+- **Base layer**: Depends on no other domain
 - **Domain-agnostic**: No assumptions about what kind of work is being done
 - **Minimal**: Each primitive does one thing well
 
 ## Skills
 
-| Skill | Purpose | Used by |
-|---|---|---|
-| `/grill` | Relentless questioning until shared understanding | spike, write-a-skill, experimental:diagnose |
-| `/write-to-file` | Write output files to `.ai/` for `@`-reference | to-plan, scratch docs |
-| `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | spike, to-plan, to-tickets |
-| `/explain` | Layered what/how/why explanation of any target | developer:explain-reasoning, nix-manager:explain |
-| `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | invoked directly by the user |
-| `/handoff` | Compact the conversation into a handoff doc for a fresh agent | invoked directly by the user |
-| `/update-handoff` | Update a handoff/plan doc in place with current progress | invoked directly by the user |
-| `/do-next` | Cold-start from a handoff/plan doc and execute the next step | invoked directly by the user |
-| `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | invoked directly by the user; composes look-up, write-to-file |
-| `/research` | Background-agent research against primary sources, captured as Markdown in the repo | developer:wayfinder; invoked directly by the user |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
+
+A rename breaks each skill that invokes the primitive. Before you rename one, search every
+Markdown file under `skills/` for `/<name>`, and update each match.

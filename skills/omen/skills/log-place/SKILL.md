@@ -1,9 +1,7 @@
 ---
 name: log-place
-description: >
-  Catalog places from a session log into the campaign's location index. New places get a heading
-  with a summary. Existing places get new information appended. Use when user says "log places",
-  "update locations", "catalog places", or after logging a session.
+description: Catalog the places from a session log into the campaign's _places.md index.
+disable-model-invocation: true
 ---
 
 # Log Place
@@ -12,7 +10,8 @@ Extract locations from a session log and update the campaign's `_places.md` inde
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md.
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Session Log
 

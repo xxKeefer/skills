@@ -1,10 +1,7 @@
 ---
 name: configure-obsidian-kanban
-description: >
-  Install (if missing) and configure the obsidian-community/obsidian-kanban plugin in the user's
-  Obsidian vault so its settings line up with the projects domain board format. Use when the user
-  says "configure kanban", "set up obsidian-kanban", "install the kanban plugin", or wants project
-  boards to render and behave correctly.
+description: Install and configure the obsidian-kanban plugin so the vault's boards match the projects board format.
+disable-model-invocation: true
 ---
 
 # Configure Obsidian Kanban

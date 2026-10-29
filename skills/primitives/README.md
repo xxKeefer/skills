@@ -7,7 +7,7 @@ Foundational skills that other domains compose. Always install this domain.
 | Skill | Purpose |
 |---|---|
 | `/grill` | Relentless questioning until shared understanding is reached |
-| `/write-to-file` | Write output files to `.ai/` for later `@`-reference |
+| `/write-to-file` | Write output files to `.ai/`, or the user's folder for the doctype, for later `@`-reference |
 | `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) |
 | `/explain` | Layered what/how/why explanation of any target |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) |
@@ -15,7 +15,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/update-handoff` | Update a handoff/plan doc in place with current progress |
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
-| `/research` | Background-agent research against primary sources, captured as Markdown in the repo |
+| `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |
 
 ## Installation
 

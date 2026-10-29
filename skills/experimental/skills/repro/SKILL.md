@@ -53,7 +53,7 @@ Rules for the list:
 
 For a surface with no UI, the steps are commands and requests with real arguments.
 
-Write in **Simplified Technical English**: active voice, short common words, no contractions, no
-em dash.
+Write in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before you write, and
+follow every rule in it.
 
 **Done when:** a person with an account and no code access can follow the list end to end.

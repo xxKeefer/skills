@@ -5,14 +5,7 @@ a state that must persist across weeks or months. Where `journal` handles the cl
 handles the goal.
 
 All artifacts live in the **projects directory** within the user's Obsidian vault.
-
-## Projects Directory Discovery
-
-Skills must never hardcode the projects path. Instead:
-
-1. Scan the vault for a directory matching `*projects` at the root (e.g. `05-projects/`).
-2. If found, use that directory for all project workspaces.
-3. If not found, ask the user where projects live and store the path to memory.
+`/new-project` finds it with `/discover-vault-directory *projects`.
 
 ## Design Principles
 
@@ -52,11 +45,9 @@ Every other skill reads these as contracts -- read them before touching a worksp
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
-| `/promote-card` | Grill a bare card into a spec, split it into oneshotable tickets, write both as task notes |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Dependencies
 
-- `primitives` -- `/grill` for mission clarification, `/look-up` for resource gathering.
+- `primitives` -- `/grill` for mission clarification, `/look-up` for resource gathering,
+  `/discover-vault-directory` to find the projects directory.

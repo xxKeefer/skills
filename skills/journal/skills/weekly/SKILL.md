@@ -1,9 +1,7 @@
 ---
 name: weekly
-description: >
-  Generate weekly file. Pulls monthly goals, assembles events from occasions, creates daily links
-  table. Detects recurring themes across daily files. Use when user says "weekly", "plan my week",
-  "what's this week", or it's Monday.
+description: Generate the weekly file, with monthly goals, events from occasions, a daily links table, and recurring themes.
+disable-model-invocation: true
 ---
 
 # Weekly
@@ -20,7 +18,7 @@ Generate the weekly file. Surface context, don't apply pressure.
 
 Determine the week dates (Monday -> Sunday) and the file name: `YYYY-wkNN-week.md`.
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 ## Step 2: Read Context
 
@@ -42,15 +40,7 @@ Keep it to 2-3 sentences. Factual, no editorialising.
 
 ## Step 4: Pull Down Monthly Goals
 
-Read the current monthly file's Goals section. Present them:
-
-> This month's goals:
-> - [ ] Goal 1
-> - [ ] Goal 2
->
-> Pull any into this week?
-
-Add selected goals to the weekly Goals section. Don't pressure -- if they skip, that's fine.
+Follow **Pull-down** in [CASCADE.md](../../CASCADE.md), with this month's file as the parent.
 
 Ask:
 
@@ -92,18 +82,12 @@ If nothing recurs, skip this step silently.
 
 ## Step 8: Carry Forward
 
-Check the previous week's file for incomplete goals. Present as multi-select:
-
-> These are still open from last week -- select which to keep this week:
-> - [ ] {item 1}
-> - [ ] {item 2}
->
-> Selected items go into this week's goals. Unselected items push up to the monthly file.
+Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the open goals in last week's file.
 
 ## Step 9: Write the Weekly File
 
 Create or update `YYYY-wkNN-week.md` in the journal directory using the format in
-`journal/templates/weekly.md`.
+[templates/weekly.md](../../templates/weekly.md).
 
 ## Step 10: Done
 

@@ -1,15 +1,8 @@
 # Journal -- Personal Planner
 
 Cascading goal/reflection system for Obsidian. All artifacts live in the **journal directory**
-within the user's Obsidian vault.
-
-## Journal Directory Discovery
-
-Skills must never hardcode the journal path. Instead:
-
-1. Scan the vault for a directory containing `occasions.md`.
-2. If found, use that directory for all reads and writes.
-3. If not found, ask the user where journal files live and store the path to memory.
+within the user's Obsidian vault. Skills find it with
+`/discover-vault-directory * holding occasions.md`.
 
 ## Design Principles
 
@@ -53,19 +46,16 @@ next: "[[next-sibling]]"
 - Every file links `prev`/`next` to siblings at the same level
 - Gaps are valid -- if you skip a day, `prev`/`next` jump over the gap (maintained by `/reflect`)
 
-## Cascading Goal Pull-Down
+## Cascade
 
-The core mechanic:
+[`CASCADE.md`](CASCADE.md) holds the pull-down and carry-forward rules, and each journal skill
+that uses them links it. Claude Code does not load this `CLAUDE.md` when a skill runs, so put
+each cascade rule in that file.
 
-```
-yearly goals
-  -> prompted into monthly goals
-    -> prompted into weekly goals
-      -> prompted into daily tasks
-```
+## Invocation
 
-Each level serves as a backlog for the level below. When generating a file, the skill reads the
-parent's goals and asks: "Want to pull any of these down?" No lock-in, no forced commitments.
+Every journal skill is user-invoked: you start each one by hand. See
+`docs/adr/0007-journal-and-omen-invocation.md`.
 
 ## State Files
 
@@ -90,14 +80,7 @@ the parent file's goals and the previous sibling's reflection to give a quick co
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/daily` | Generate daily file with tasks and reflection sections |
-| `/weekly` | Generate weekly file with goals, events, and daily links |
-| `/monthly` | Generate monthly file with goals and weekly overview |
-| `/yearly` | Generate yearly file with aspirations and monthly overview |
-| `/reflect` | File-agnostic reflection and link maintenance tool |
-| `/update-occasions-config` | Sync vault `occasions.md` into `vault_occasions.js` for Templater |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Templater Fallback
 
@@ -107,6 +90,6 @@ skill contract. See `scripts/obsidian/README.md` for setup instructions.
 
 ## Dependencies
 
-Journal skills reference `/grill` from the `primitives` plugin for conversational mechanics.
-Both plugins must be installed for full functionality. Manual fallback templates in `templates/`
+Journal skills reference `/grill` from the `primitives` plugin for conversational mechanics, and
+`/discover-vault-directory` to find vault folders. Both plugins must be installed for full functionality. Manual fallback templates in `templates/`
 work without it.

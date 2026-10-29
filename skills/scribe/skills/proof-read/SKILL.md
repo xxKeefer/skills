@@ -15,11 +15,9 @@ proposes findings, the human gates them, then the edits land. A later lens edits
 **delta** -- what earlier lenses could not see -- so nothing is reported or fixed twice. To run
 one lens alone, use `/grices-maxims`, `/asd-ste100`, or `/orwells-six`.
 
-Hard rules for every pass:
+Hard rules for every pass: read [`HARD-RULES.md`](../../HARD-RULES.md) before Pass 1, and follow
+every rule in it. One more rule applies here:
 
-- Preserve Obsidian syntax: frontmatter, wikilinks (`[[note]]`), callouts, tags, embeds.
-- Never edit code blocks, tables, ASCII diagrams, or link targets.
-- Preserve the author's voice: edit for clarity, not to rewrite in your own voice.
 - A **term of art** survives every lens: a word the document defines, or one the stated audience
   reads without friction (`idempotent`, `fail closed`). Name the survivors in each pass's
   findings so the human can veto the exemption.
@@ -35,8 +33,9 @@ analysis -- every later judgement calibrates to it.
 ## Pass 1: Structure
 
 Build the model: thesis (one sentence), what each section contributes, a DAG of section
-dependencies, gaps, and redundancy -- especially the same mechanics restated in two places. A
-section must never reference a concept introduced later; propose a reorder if one does.
+dependencies, gaps (the questions a reader still has after each section), and redundancy --
+especially the same mechanics restated in two places. A section must never reference a concept
+introduced later; propose a reorder if one does.
 
 Present the analysis (thesis, section count, flow verdict, issues found), then gate with
 **AskUserQuestion**: apply all, pick issues, or skip the pass.
@@ -54,8 +53,9 @@ and nothing that misleads? Hunt the delta by maxim:
   that contradict each other.
 - **Relation** -- a sentence or paragraph that does not serve its section's contribution from
   Pass 1.
-- **Manner** -- a referent with two candidates ("this", "it"), a sentence with two readings, or
-  steps out of the order the reader does them.
+- **Manner** -- a referent with two candidates ("this", "it"), a sentence with two readings,
+  steps out of the order the reader does them, or a paragraph that does not follow from the one
+  before it.
 - **Implicature** -- what the text implies but the author likely does not mean: "some" read as
   "not all", "faster on Linux" read as "not faster elsewhere", "we did X and errors dropped" read
   as cause.
@@ -73,11 +73,13 @@ Audit against the STE rules and present findings grouped by rule:
 
 - Sentences over 25 words (20 for instructions).
 - Passive voice with a known actor ("two alternatives were rejected" -> "we rejected two").
+- A shift between present and past tense when the time of the action does not change.
 - Em dashes as prose connectors (structural separators in glossaries and tables stay).
 - Verbless fragments ("Result: ...", "No app code.").
 - Noun clusters over three words (proper names exempt).
 - Metaphor and idiom, minus the terms of art.
 - One word, one meaning (flag "ships" meaning both "delivers in v1" and "is included").
+- A paragraph with two topics or over six sentences.
 
 Gate with **AskUserQuestion** on mode, then apply: **STE-flavored** (recommended -- caps, actors,
 plain verbs, but the register survives), **strict** (every rule everywhere; reads like a spec),

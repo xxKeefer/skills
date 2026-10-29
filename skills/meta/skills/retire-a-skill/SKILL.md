@@ -16,7 +16,7 @@ gone). This skill picks the right stage automatically from where the skill curre
 
 ## Step 1: Resolve and branch
 
-Parse `<skill-name>`. Find `*/skills/<skill-name>/` under the repo root — that parent is the
+Parse `<skill-name>`. Find `skills/*/skills/<skill-name>/` under the repo root. The `*` is the
 **current domain**.
 
 - Not found → stop, report it.
@@ -31,16 +31,19 @@ Then branch on the current domain:
 
 ## Step 2: Deprecate (move to `deprecated`)
 
-This is exactly a migration into the `deprecated` domain — don't reimplement it. Delegate to
-`/migrate-a-skill <skill-name> deprecated`, which handles the `git mv`, doc-sync across both
-domains' `README.md` + `CLAUDE.md`, version bumps, and a single `chore(...)` commit.
+1. **Make it user-invoked.** In the skill's `SKILL.md` frontmatter, set
+   `disable-model-invocation: true` and cut the `description` to one human-facing line with no
+   trigger list. Keep `argument-hint`. A deprecated skill fires only by hand, so it loads no
+   description into context.
+2. **Delegate the move.** This is exactly a migration into the `deprecated` domain — don't
+   reimplement it. Run `/migrate-a-skill <skill-name> deprecated`, which handles the `git mv`,
+   the skill tables in both domains' `README.md`, version bumps, and a single `chore(...)`
+   commit. That commit adds the moved directory, so it carries
+   the frontmatter edit from item 1.
 
-One detail `migrate-a-skill` must respect when the target is `deprecated`: the deprecated docs use
-a `_None yet._` placeholder under `## Skills` when empty. When adding the first row, replace the
-placeholder line with the table; don't leave both.
-
-**Done when:** the skill lives under `deprecated/skills/`, both domains' docs and versions are
-updated, and the move is committed.
+**Done when:** the skill lives under `skills/deprecated/skills/` with
+`disable-model-invocation: true` and a one-line description, both domains' docs and versions are
+updated, and one commit holds the move and the frontmatter edit.
 
 ## Step 3: Delete (remove for good)
 
@@ -48,11 +51,10 @@ The skill is in `deprecated` — this is the irreversible stage. Git history is 
 
 1. **Hard confirmation.** Show the user what will be deleted (the directory and its files) and
    require an explicit yes before proceeding. This gate is mandatory — never skip it.
-2. **Remove** — `git rm -r deprecated/skills/<skill-name>`.
-3. **Prune docs** — remove the skill's row from `deprecated/README.md` and
-   `deprecated/CLAUDE.md`. If it was the last skill in the table, restore the `_None yet._`
-   placeholder under `## Skills`.
-4. **Bump version** — minor-bump `deprecated/.claude-plugin/plugin.json`.
+2. **Remove** — `git rm -r skills/deprecated/skills/<skill-name>`.
+3. **Prune docs** — remove the skill's row from the skill table in `skills/deprecated/README.md`.
+   If it was the last skill in the table, restore the `_None yet._` placeholder under `## Skills`.
+4. **Bump version** — minor-bump `skills/deprecated/.claude-plugin/plugin.json`.
 5. **Commit** — one commit, no push:
 
    ```

@@ -10,3 +10,5 @@ Use /tdd where possible, at pre-agreed seams.
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
 Commit your work to the current branch.
+
+**Done when:** every acceptance criterion in the spec or ticket holds, the typecheck passes, and the full test suite is green.

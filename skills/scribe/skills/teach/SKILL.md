@@ -18,6 +18,14 @@ Treat the current directory as a teaching workspace. The state of their learning
 - `./lessons/*.html`: A directory of lessons. A **lesson** is a single, self-contained HTML output that teaches one tightly-scoped thing tied to the mission. This is the primary unit of teaching in this workspace.
 - `NOTES.md`: A scratchpad for you to jot down user preferences, or working notes.
 
+## Session
+
+1. Read `MISSION.md`, `NOTES.md`, `RESOURCES.md`, and the latest learning records. **Done when:** you can state the mission and what the user learned last, or you know that neither is recorded yet.
+2. If `MISSION.md` is missing, empty, or unclear, ask the user why they want to learn the topic, and write the answer. **Done when:** `MISSION.md` states a reason.
+3. Pick one thing in the zone of proximal development. **Done when:** the user agrees to the topic.
+4. Write one lesson to `./lessons/NNNN-<name>.html`, with a citation for each claim. **Done when:** the file exists, and every claim cites a source from `RESOURCES.md`.
+5. After the user works through the lesson, write one learning record. **Done when:** `./learning-records/NNNN-<name>.md` holds what the user learned or already knew.
+
 ## Philosophy
 
 To learn at a deep level, the user needs three things:
@@ -26,7 +34,7 @@ To learn at a deep level, the user needs three things:
 - **Skills**, acquired through highly-relevant interactive lessons devised by you, based on the knowledge
 - **Wisdom**, which comes from interacting with other learners and practitioners
 
-Before the `RESOURCES.md` is well-populated, your focus should be to find high-quality resources which will help the user acquire knowledge. Never trust your parametric knowledge.
+Before the `RESOURCES.md` is well-populated, your focus should be to find high-quality resources which will help the user acquire knowledge. Ground each claim in a source that you add to `RESOURCES.md`.
 
 Some topics may require more skills than knowledge. Learning more about theoretical physics might be more knowledge-based. For yoga, more skills-based.
 

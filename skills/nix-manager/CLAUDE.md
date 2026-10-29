@@ -31,11 +31,4 @@ toward a clean, maintainable, well-understood system.
 
 ## Skills
 
-| Skill | Type | Purpose |
-|---|---|---|
-| `/add` | HITL | Find and add packages or capabilities |
-| `/remove` | HITL | Cleanly remove packages or capabilities |
-| `/rice` | HITL | Visual customization from screenshots, descriptions, or repos |
-| `/refine` | HITL | Best-practice audit and improvement (targeted or full) |
-| `/debug` | AFK | Diagnose and fix build errors |
-| `/explain` | AFK | Plain-language explanation of nix config |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

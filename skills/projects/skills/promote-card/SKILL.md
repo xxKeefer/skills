@@ -1,23 +1,19 @@
 ---
 name: promote-card
 description: >
-  Promote a bare board card into a fully-specced, implementable unit of work. Grills the card into
-  a spec, splits the spec into one-shot tickets sized for /implement, and writes both as task notes
-  the board wikilinks out to. Use when the user says "promote this card", "spec this card", "turn
-  this into tickets", or points at a dot point on a project board that needs scoping before work
+  Promote a bare board card into one fully-specced ticket note with a phased plan that /do-next
+  runs one phase at a time. Use when the user says "promote this card", "spec this card", "turn
+  this into a ticket", or points at a dot point on a project board that needs scoping before work
   starts.
 ---
 
 # Promote Card
 
-Turn a bare card -- a dot point with no wikilink -- into a spec and the tickets that implement it.
-The card is the handle; the ticket is the oneshotable handoff `/implement` runs against.
+Turn a bare card -- a dot point with no wikilink -- into one ticket note. The card is the handle.
+The ticket is the handoff that `/do-next` runs against, one phase per session.
 
-The vault-native counterpart to `developer:to-spec`/`to-tickets`: those assume the investigation
-already happened in-conversation and just publish it; this one starts from a jotted thought with no
-code context yet and grills it first. Both land in the same place -- if the project's repo has an
-Obsidian Kanban tracker configured, this writes exactly what `docs/agents/issue-tracker.md`
-describes.
+If the project's repo has an Obsidian Kanban tracker configured, this writes exactly what
+`docs/agents/issue-tracker.md` describes.
 
 ## Step 1: Locate the Card
 
@@ -41,7 +37,7 @@ the rest of the skill -- don't paraphrase it.
 
 Invoke `/grill` on the card's text to develop it into a full spec:
 
-- **What** -- the concrete change, in enough detail to slice into independent pieces.
+- **What** -- the concrete change, in enough detail to slice into phases.
 - **Why** -- how it serves the project's mission.
 - **Acceptance criteria** -- observable, checkable conditions.
 - **Constraints and out-of-scope** -- anything that bounds the approach.
@@ -60,39 +56,34 @@ project-specific tag -- ask the user for a text/background colour (or propose a 
 and append one entry to each array in the `%% kanban:settings %%` block. Append only: never reorder
 or replace the canonical entries already there (see BOARD-FORMAT.md's Universal Project Tags rule).
 
-## Step 4: Decide the Split
+## Step 4: Plan the Phases
 
-Judge whether the spec is already one-shot -- a scope `/implement` could run end to end without
-further clarification. If yes, skip the spec note: this promotes straight to a single ticket (Step
-5), no parent.
+Slice the spec into numbered phases. Each phase is one vertical slice, sized so `/implement` can
+run it end to end in one session. Give each phase a done line the agent can check. A spec that fits
+in one session gets a plan with one phase.
 
-Otherwise, split the spec into 1..N tickets, each independently implementable and self-contained.
-Don't over-split -- a spec that only needs one slice gets one ticket with a spec parent, not several
-artificial ones.
+**Done when:** each acceptance criterion is reached by a phase, and each phase has a checkable done
+line.
 
-## Step 5: Write the Notes
+## Step 5: Write the Ticket Note
 
-Per [NOTE-FORMAT.md](../new-project/NOTE-FORMAT.md):
+Write one note, `tasks/{Card Title}.md`, per [NOTE-FORMAT.md](../new-project/NOTE-FORMAT.md). Tags:
+the matched tags. Context: the grilled spec. Acceptance Criteria: the spec's criteria. Plan: the
+phases from Step 4. Progress: empty.
 
-- **Spec note** (only if Step 4 produced one) -- `tasks/{Card Title}.md`. Tags: `spec` + matched
-  tags. Context: the grilled spec. Acceptance Criteria: a wikilink per ticket, checked off as
-  tickets close.
-- **Ticket notes** -- `tasks/{Ticket Title}.md` each. Tags: matched tags (never `spec`). Context:
-  opens with a wikilink back to the spec note, if there is one, then the ticket's own scope.
-  Acceptance Criteria: that ticket's one-shot slice.
+The filename is the note's permanent handle from here on -- Obsidian resolves the wikilink by it.
 
-Each note's filename is its permanent handle from here on -- Obsidian resolves the wikilink by it.
+**Done when:** the note holds every section of the ticket format, and every phase from Step 4.
 
 ## Step 6: Update the Board
 
-Append, never delete or rewrite a card someone else added:
+Replace the original card line (the exact text matched in Step 1) with the ticket's wikilink and
+matched tags: `- [ ] [[Card Title]] #tag`. Keep a trailing `^{blockid}` if the original line had
+one -- other notes may already link to that anchor. Leave every other card as it is.
 
-- Replace the original card line (the exact text matched in Step 1) with the spec's wikilink and
-  matched tags: `- [ ] [[Card Title]] #spec #tag`. If Step 4 skipped the spec, replace it with the
-  single ticket's wikilink instead. Keep a trailing `^{blockid}` if the original line had one --
-  other notes may already link to that anchor.
-- Add one new card per ticket in the same column, each `- [ ] [[Ticket Title]] #tag`.
+**Done when:** the original card line links to the ticket note, and no other card changed.
 
 ## Step 7: Confirm
 
-Report what was written: the spec (if any), each ticket, and the board lines changed.
+Report the ticket note, its phases, the board line changed, and the `/do-next @{note path}` command
+that runs phase 1.

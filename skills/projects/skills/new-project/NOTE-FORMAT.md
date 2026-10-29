@@ -43,17 +43,29 @@ tags: [project, task]
   isn't scoped well enough to start.
 - **Acceptance Criteria are the definition of done.** When all boxes are checked, move the card to Done.
 
-## Spec and Ticket Notes
+## Ticket Notes
 
-`/promote-card` writes two flavors of this same template:
+`/promote-card` writes one ticket note per card: the template above, with a Plan and a Progress
+section between Acceptance Criteria and Notes. The ticket is a handoff. `/do-next` runs one phase
+per session, and `/update-handoff` records each run.
 
-- **Spec note** -- the grilled-out version of a card too big to one-shot. Tags carry `spec` (plus
-  any matched board tags). Its Acceptance Criteria section is an index: a wikilink per ticket the
-  spec was split into, not raw checkboxes.
-- **Ticket note** -- one independently implementable slice of a spec, sized so `/implement` can run
-  it end to end without further clarification. Context opens with a wikilink back to the spec.
-  Tags carry the matched board tags -- never `spec`, since a ticket isn't the source of truth, the
-  spec is.
+```md
+## Plan
 
-A card that's already one-shot-sized skips the spec -- it gets promoted straight to a single ticket
-note with no spec parent.
+### 1. {Phase title}
+
+**Done when:** {checkable condition}
+
+### 2. {Phase title}
+
+**Done when:** {checkable condition}
+
+## Progress
+
+- {YYYY-MM-DD}: Phase 1 is done in `{commit}`. {Facts the next run needs.}
+```
+
+- **Every ticket has a plan.** A ticket that fits in one session has a plan with one phase.
+- **Each phase is one vertical slice,** sized so `/implement` can run it end to end in one session.
+- **A finished phase ends its heading with `-- done`,** and gets a dated line in Progress.
+  `/do-next` runs the first phase that is not marked done.

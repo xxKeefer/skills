@@ -48,5 +48,5 @@ Archived notes keep their frontmatter and gain a marker:
 archived: {YYYY-MM-DD}
 ```
 
-Add it; don't strip the rest. `98-archive/` is soft-delete, so the note must stay legible for the
+Add it; don't strip the rest. The archive folder is soft-delete, so the note must stay legible for the
 monthly review.

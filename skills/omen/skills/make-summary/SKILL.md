@@ -1,9 +1,7 @@
 ---
 name: make-summary
-description: >
-  Create a narrative summary from a completed session log. Turns session notes into a 1-3 paragraph
-  story retelling and appends it to _cannon.md. Use when user says "make summary", "write the
-  story", "summarise the session", or wants a narrative recap of a completed game.
+description: Retell a completed session as a 1-3 paragraph story, and append it to the campaign's _cannon.md.
+disable-model-invocation: true
 ---
 
 # Make Summary
@@ -12,7 +10,8 @@ Turn a completed session into a short narrative retelling.
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md.
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Session Log
 

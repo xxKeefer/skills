@@ -12,7 +12,9 @@ Bootstrap a new campaign setting with the standard omen folder structure.
 
 ## Step 1: Detect Starting Point
 
-Check `$ARGUMENTS` for a path or setting name. Then inspect the target directory:
+Check `$ARGUMENTS` for a path or setting name. A path names the target directory. Otherwise, find
+the omen folder with `/discover-vault-directory *omen`. The target directory is then
+`{omen-folder}/{setting-name}/`. Inspect the target directory:
 
 - **Empty or non-existent** -- fresh scaffold. Go to Step 1a.
 - **Contains a single `blurb.md`** (or similar seed file) -- inflate from blurb. Go to Step 1b.
@@ -68,7 +70,7 @@ Present what will be created:
 > **Scaffolding: {Setting Name}**
 >
 > ```
-> 07-omen/{setting-name}/
+> {omen-folder}/{setting-name}/
 >   index.md
 >   blurb.md
 >   log.md
@@ -86,7 +88,7 @@ Present what will be created:
 
 ## Step 3: Create the Directory Structure
 
-Create all directories under the vault's `07-omen/` path:
+Create these directories in the omen folder from Step 1:
 
 - `{setting-name}/`
 - `{setting-name}/lore/`
@@ -96,138 +98,13 @@ Create all directories under the vault's `07-omen/` path:
 
 ## Step 4: Generate Files
 
-### index.md
-
-```markdown
-# {Setting Name}
-
-Map of content for the {Setting Name} campaign.
-
-## Structure
-
-| File/Folder | Purpose |
-|---|---|
-| [[index]] | This file |
-| [[log]] | Session index with summary |
-| [[blurb]] | Setting overview -- genre, tone, plot |
-| [[_cannon]] | Chronological timeline of canon events |
-| [[_npcs]] | NPC index |
-| [[_places]] | Location index |
-| [[_players]] | Player character index |
-| /assets | Images and non-text media |
-| /logs | Individual session log files |
-| /lore | Standalone lore files |
-| /characters | Player character progression files |
-```
-
-### blurb.md
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}
-campaign: {campaign-tag}
-group: {Group}
-type: blurb
----
-
-{Genre/tone description if provided, otherwise a placeholder:}
-{A tone-setting paragraph that illuminates the setting, genre, player characters, and main plot.}
-```
-
-### log.md
-
-```markdown
-| Date | Session | Type | Summary |
-|------|---------|------|---------|
-|      |         |      |         |
-```
-
-### lore/_cannon.md
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}/cannon
-campaign: {campaign-tag}
-group: {Group}
-type: cannon
----
-
-# {Setting Name} -- Canon Timeline
-```
-
-### lore/_npcs.md
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}/npc-index
-campaign: {campaign-tag}
-group: {Group}
-type: npc-index
----
-
-# NPCs
-```
-
-### lore/_places.md
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}/place-index
-campaign: {campaign-tag}
-group: {Group}
-type: place-index
----
-
-# Places
-```
-
-### lore/_players.md
-
-If player characters were provided:
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}/player-index
-campaign: {campaign-tag}
-group: {Group}
-type: player-index
----
-
-# Players
-
-| Player | Character | Main Motive |
-|--------|-----------|-------------|
-| {player} | **{character}** | {motive} |
-```
-
-If no PCs provided, generate the table with an empty row.
+Read [SETTING-FORMAT.md](SETTING-FORMAT.md). Write each standard file from its **File
+Templates**: `index.md`, `blurb.md`, `log.md`, and the four `lore/` index files.
 
 ## Step 5: Scaffold Characters (if provided)
 
-For each player character, create a file in `characters/`:
-
-```markdown
----
-tags:
-  - omen/{campaign-tag}/pc
-campaign: {campaign-tag}
-group: {Group}
-type: pc
-up: "[[_players]]"
----
-
-# {Character Name}
-
-**Player:** {player name}
-**Motive:** {main motive}
-
-## Progression
-```
+For each player character, create a file in `characters/` from the character template in
+**File Templates**.
 
 ## Step 6: Seed from Blurb (inflate mode only)
 
@@ -242,5 +119,5 @@ Wikilink everything that references each other.
 
 ## Step 7: Confirm
 
-> **{Setting Name} scaffolded.** {N} files created in `07-omen/{setting-name}/`.
+> **{Setting Name} scaffolded.** {N} files created in `{omen-folder}/{setting-name}/`.
 > Ready to run `/plan-session` or start logging.

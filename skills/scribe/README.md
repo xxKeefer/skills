@@ -7,13 +7,15 @@ Knowledge work over a corpus -- procedure capture, prose editing, and CONTEXT.md
 | Skill | Purpose |
 |---|---|
 | `/add-procedure` | Capture a just-solved task into the best-fit procedure file (or a new one) |
-| `/edit-article` | Structural and prose editing for Obsidian notes |
 | `/proof-read` | Four gated editing passes: structure, Grice's maxims, ASD-STE100, Orwell's six rules |
+| `/asd-ste100` | Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode |
+| `/grices-maxims` | Proof-read one document against Grice's maxims: what it says, leaves out, and implies |
+| `/orwells-six` | Proof-read one document against Orwell's six rules from "Politics and the English Language" |
 | `/define-concept` | Mine a corpus for one concept's terms, verify term-by-term, write a CONTEXT.md |
 | `/define-term` | Add a single term to a CONTEXT.md under a user-specified section |
 | `/define-language` | Compare a conversation against a CONTEXT.md, propose restrained edits/additions |
 | `/triage-notes` | Triage one fleeting inbox note: promote, taskify, or archive it on your approval |
-| `/take-a-note` | Capture something from the conversation: append to a given note (style-matched) or drop a fresh note in vault 00-notes/ |
+| `/take-a-note` | Capture something from the conversation as a fresh note in the vault notes inbox |
 | `/teach` | Teach a topic over multiple sessions in a stateful workspace |
 
 ## Installation

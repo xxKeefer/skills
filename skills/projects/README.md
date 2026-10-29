@@ -9,7 +9,7 @@ time box: a goal, a pile of discrete tasks, and state that persists across weeks
 | Skill | Purpose |
 |---|---|
 | `/new-project` | Scaffold a stateful project workspace with mission, Kanban board, and decisions log |
-| `/promote-card` | Grill a bare card into a spec, split it into oneshotable tickets, write both as task notes |
+| `/promote-card` | Grill a bare card into one ticket note with a phased plan for /do-next |
 
 Each project is a stateful directory in your vault's projects folder (modelled on the `teach`
 skill): a `MISSION.md`, an obsidian-kanban board, and an ADR-style `decisions/` log. Day-to-day
@@ -27,7 +27,7 @@ Add to your Claude Code settings:
 }
 ```
 
-Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`).
+Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`, `/discover-vault-directory`).
 
 ## Vault Setup
 

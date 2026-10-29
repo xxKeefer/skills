@@ -6,17 +6,11 @@ the setup skills are easy to find, maintain, or retire on their own.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/setup-pre-commit` | Detect language/toolchain and configure pre-commit hooks (format, type-check, test) |
-| `/setup-git-guardrails` | Block dangerous git commands via a Claude Code hook |
-| `/setup-skill-tally` | Count every skill invocation into a global JSON tally via a zero-latency hook |
-| `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
-| `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
-| `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
-| `/set-up-dev-workflow-skills` | Per-repo config for the engineering skills — issue tracker, triage labels, domain doc layout |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
 ## Design Principles
 
 - **One-shot, not recurring**: these run once when setting up a project, not in the daily loop.
 - **Deterministic feedback loops**: they install guard rails agents cannot bypass.
+- **Self-contained**: each installer keeps the files it installs in its own skill folder and finds
+  them with `${CLAUDE_SKILL_DIR}`, so it works from any install.

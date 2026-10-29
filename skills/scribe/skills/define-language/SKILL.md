@@ -1,10 +1,7 @@
 ---
 name: define-language
-description: >
-  Compare the current conversation against a CONTEXT.md glossary and propose additions or
-  corrections. Invokable at any point in a session. The file is the source of truth -- suggest
-  edits with restraint. Use when the user says "define language", "sync the context", "update the
-  glossary", or after a discussion that surfaced new or drifted terminology.
+description: Compare the current conversation against a CONTEXT.md glossary and propose restrained edits.
+disable-model-invocation: true
 ---
 
 # Define Language

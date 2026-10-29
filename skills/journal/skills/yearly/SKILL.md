@@ -1,9 +1,7 @@
 ---
 name: yearly
-description: >
-  Generate yearly file. Goals and aspirations dump, monthly plan table, reflection sections.
-  Lightest-touch skill -- mostly an organising structure. Use when user says "yearly",
-  "plan my year", or at the start of a new year.
+description: Generate the yearly file, with a goals dump, a monthly plan table, and reflection sections.
+disable-model-invocation: true
 ---
 
 # Yearly
@@ -20,7 +18,7 @@ Generate the yearly file. Lightest-touch skill -- a goals dump and organising st
 
 Determine the file name: `YYYY.md` (e.g., `2026.md`).
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the yearly file already exists. If it does, read it and update rather than overwrite.
 
@@ -42,12 +40,8 @@ Keep it to 2-3 sentences. Factual, no editorialising.
 
 ## Step 4: Set Goals
 
-If a previous year's file exists, surface its incomplete goals:
-
-> Last year's open goals:
-> - {item}
->
-> Carry any forward?
+If last year's file exists, follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on its open
+goals.
 
 Then ask:
 
@@ -72,7 +66,7 @@ exist, pull a short note from their goals. Otherwise leave Notes empty.
 ## Step 7: Write the Yearly File
 
 Create or update `YYYY.md` in the journal directory using the format in
-`journal/templates/yearly.md`.
+[templates/yearly.md](../../templates/yearly.md).
 
 If updating an existing file, preserve any content already written. Only update sections that
 need changes.

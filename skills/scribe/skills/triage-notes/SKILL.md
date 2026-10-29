@@ -1,27 +1,20 @@
 ---
 name: triage-notes
-description: >
-  Triage a fleeting note out of the vault inbox: read it, decide whether it should be promoted to a
-  stable note, turned into a task, or archived, then execute the move on your approval. Takes an
-  optional note path; with no path it picks one inbox note at random. Use when the user says
-  "triage notes", "triage my inbox", "process 00-notes", "clear the inbox", or hands you a note to
-  sort.
+description: Triage one fleeting inbox note -- promote it, turn it into a task, or archive it, on your approval.
+disable-model-invocation: true
 argument-hint: "[optional path to a note; omit to pick one inbox note at random]"
 ---
 
 # Triage Notes
 
-Process one note out of the inbox. The inbox (`00-notes/`) is the user's -- this skill assists
-their triage, it does not auto-promote. **Nothing moves without explicit approval at the
-checkpoint (Step 4).** One note per run by design; run it again to take the next.
+Process one note out of the inbox. The inbox (the vault's `*notes` folder) is the user's -- this
+skill assists their triage, it does not auto-promote. **Nothing moves without explicit approval
+at the checkpoint (Step 4).** One note per run by design; run it again to take the next.
 
 ## Step 1: Locate the Inbox and Resolve the Target
 
-1. Find the vault root: scan the home directory for a folder containing `.obsidian/`; first match
-   wins. If none, warn and stop.
-2. Find the inbox: the vault's fleeting-capture folder, conventionally `00-notes/`. Scan for it;
-   never hardcode. If absent, ask the user where fleeting notes live.
-3. Resolve the target:
+1. Find the inbox with `/discover-vault-directory *notes`.
+2. Resolve the target:
    - **Path given in `$ARGUMENTS`** -- triage that note.
    - **No path** -- list `*.md` in the inbox, exclude `README.md` and any index files, pick **one
      at random**, and announce which one you drew.
@@ -50,7 +43,7 @@ Pick exactly one. Routing is by what the note *is*:
 |---|---|---|
 | **Promote -- stable note** | Durable knowledge worth consulting later | best-fit folder (Step 5) |
 | **Promote -- task** | An action the user needs to do | a journal file or a project board |
-| **Archive** | Stale, superseded, or no lasting value | `98-archive/` |
+| **Archive** | Stale, superseded, or no lasting value | `*archive` |
 | **Leave** | Genuinely not ready to triage yet | stays in the inbox, untouched |
 
 For **promote -- stable note**, prefer delegating to the scribe skill that fits, so the content
@@ -59,19 +52,20 @@ lands formatted to that home's conventions:
 | Note is... | Delegate to | Typical home |
 |---|---|---|
 | A repeatable how-to / solved chore | `/add-procedure` | `*reference/` |
-| Prose worth keeping as an article | `/edit-article` (after the move) | `*research/`, `*work/` |
 | Terminology around a concept | `/define-concept` or `/define-term` | a `CONTEXT.md` |
 
-If nothing fits, **extract the most valuable information** and do a plain move to the best-fit
-folder (Step 5). Folders, by intent (match against the vault's actual numbered folders, don't
-hardcode names):
+Prose worth keeping as an article gets a plain move to `*research` or `*work`, with
+`/proof-read` as the follow-up. If nothing fits, **extract the most valuable information** and do
+a plain move to the best-fit folder (Step 5). Folders, by intent:
 
-- learning / tutorial / course capture -> `*research/`
-- distilled lookup or runbook -> `*reference/`
-- work scratch or living work doc -> `*work/`
-- structured course material -> `*lessons/{course}/`
-- TTRPG / campaign content -> `*omen/{campaign}/`
-- project-specific -> `*projects/{project}/`
+- learning / tutorial / course capture -> `*research`
+- distilled lookup or runbook -> `*reference`
+- work scratch or living work doc -> `*work`
+- structured course material -> `*lessons`, then the course subfolder
+- TTRPG / campaign content -> `*omen`, then the campaign subfolder
+- project-specific -> `*projects`, then the project subfolder
+
+For a plain move or an archive, find the destination with `/discover-vault-directory <glob>`.
 
 **Done when:** you have one disposition and a concrete destination.
 
@@ -84,6 +78,7 @@ Present, tersely:
 > **Disposition:** {promote-note | promote-task | archive | leave} -> `<destination>`
 > **Via:** {delegated skill, or "plain move", or "extract: <the nugget>"}
 > **Why:** {one line}
+> **Follow-up:** {for an article, "run `/proof-read` on `<destination>`", else omit this line}
 
 Wait for the user. They approve, redirect (different disposition/destination), or skip. **Do not
 proceed without an explicit go.**
@@ -95,9 +90,9 @@ proceed without an explicit go.**
 On approval, carry out the move. **Standardise frontmatter every time** -- on whichever artifact
 survives (the moved note, or the file it lands in). See [FRONTMATTER.md](FRONTMATTER.md).
 
-- **Promote via delegated skill** -- invoke it (`/add-procedure`, `/edit-article`,
-  `/define-concept`, `/define-term`) with the note's content, then delete the inbox note once the
-  content has safely landed.
+- **Promote via delegated skill** -- invoke it (`/add-procedure`, `/define-concept`,
+  `/define-term`) with the note's content, then delete the inbox note once the content has safely
+  landed.
 - **Promote via plain move** -- move the file (or just the extracted nugget) to the destination
   folder. Standardise its frontmatter to the destination's convention: drop the `#raw` inbox tag,
   set real tags, keep/repair `created`, add `updated: {today}`. Respect folders that already carry
@@ -105,7 +100,7 @@ survives (the moved note, or the file it lands in). See [FRONTMATTER.md](FRONTMA
 - **Promote -- task** -- append the action to the relevant journal backlog or project board,
   matching that file's exact existing format (read it first), then delete the inbox note. These
   files are normally human-owned; the user's approval at Step 4 is what authorises the write.
-- **Archive** -- move the file to `*archive/`, add `archived: {today}` to its frontmatter.
+- **Archive** -- move the file to the archive folder, add `archived: {today}` to its frontmatter.
 - **Leave** -- do nothing.
 
 Move, don't copy: a triaged note leaves the inbox (unless **Leave**). Never commit -- the vault's

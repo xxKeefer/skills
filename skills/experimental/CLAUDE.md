@@ -15,14 +15,4 @@ and value aren't yet decided.
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/asd-ste100` | Proof-read one document against ASD-STE100 Simplified Technical English, in a chosen mode |
-| `/codebase-news` | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
-| `/grices-maxims` | Proof-read one document against Grice's maxims: what it says, leaves out, and implies |
-| `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
-| `/orwells-six` | Proof-read one document against Orwell's six rules from "Politics and the English Language" |
-| `/patch-doctor` | Diagnose and fix drift between a skill's current output contract and the artifacts it already produced |
-| `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
-| `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
-| `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

@@ -1,18 +1,24 @@
 ---
 name: write-to-file
 description: >
-  Write planning, spike, or intermediary files to `.ai/` at the project root. Model-invocable --
-  other skills delegate file output here instead of managing paths themselves. Use whenever a skill
-  or workflow produces a document that needs to persist for later `@`-reference in future prompts.
+  Write planning, spike, handoff, or intermediary files to `.ai/` at the project root, or to the
+  folder that the user's instructions name for the doctype. Model-invocable -- other skills delegate
+  file output here instead of managing paths themselves. Use whenever a skill or workflow produces a
+  document that needs to persist for later `@`-reference in future prompts.
 ---
 
-Write the given content to `.ai/` in the root of the current working directory.
+Write the given content to the output folder for its doctype.
 
 ## Behaviour
 
-1. Ensure `.ai/` exists at the working directory root
-2. Write the file to `.ai/{filename}`
-3. Report the written path so the user can load it with `@.ai/{filename}`
+1. Pick the folder. If the user's instructions (CLAUDE.md, AGENTS.md) name a folder for this
+   doctype, use it, with any layout they give, such as one subfolder per ticket or topic.
+   Otherwise use `.ai/` in the root of the current working directory.
+2. Ensure the folder exists
+3. Write the file to `{folder}/{filename}`
+4. Report the written path so the user can load it with `@{path}`
+
+**Done when:** the file exists at the path you reported.
 
 ## Naming convention
 
@@ -23,6 +29,7 @@ Examples:
 | Doctype | Example filename |
 |---|---|
 | `plan` | `plan_auth-rewrite.md` |
+| `handoff` | `handoff_auth-rewrite.md` |
 | `research` | `research_bundler-comparison.md` |
 | `scratch` | `scratch_api-sketch.md` |
 

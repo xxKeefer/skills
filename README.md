@@ -6,28 +6,25 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins -- one directory per domain (see table below). |
-| `hooks/` | Claude Code hook holders (e.g. `tool-policy`) -- installable guardrails. |
+| `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
-| `statusline/` | The self-contained Claude Code status line script, installed by `/setup-statusline`. |
-| `output-styles/` | Claude Code output styles (e.g. `Terse.md`). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
 
 ## Domains
 
-| Domain | Skills | Purpose |
-|---|---|---|
-| **primitives** | grill, explain, look-up, write-to-file, caveman, handoff, update-handoff, do-next, tabular-analysis | Foundational building blocks |
-| **developer** | grill-with-docs, prototype, spike, wayfinder, to-spec, to-tickets, triage, implement, tdd, tweak, diagnose, fix, happy-path, code-review, resolve-feedback, resolve-conflicts, sync-docs, explain-reasoning, domain-modeling, codebase-design, improve-codebase-architecture | Engineering lifecycle |
-| **journal** | yearly, monthly, weekly, daily, reflect, update-occasions-config | Life admin + personal growth |
-| **projects** | new-project | Long-running goal management |
-| **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill | Skills about skills |
-| **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
-| **scribe** | add-procedure, edit-article, define-concept, define-term, define-language, take-a-note, triage-notes, teach | Capture vault procedures + edit notes |
-| **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
-| **utility** | setup-pre-commit, setup-git-guardrails, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills | Dev-environment setup |
-| **experimental** | lobotomize, patch-doctor, asd-ste100, grices-maxims, orwells-six, codebase-news | Skills on probation |
-| **deprecated** | debrief, to-plan, to-tickets-old | Holding pen for skills awaiting a keep/kill decision |
+| Domain | Purpose |
+|---|---|
+| [**primitives**](skills/primitives/README.md) | Foundational building blocks |
+| [**developer**](skills/developer/README.md) | Engineering lifecycle |
+| [**journal**](skills/journal/README.md) | Life admin + personal growth |
+| [**projects**](skills/projects/README.md) | Long-running goal management |
+| [**meta**](skills/meta/README.md) | Skills about skills |
+| [**omen**](skills/omen/README.md) | Creative -- TTRPG, worldbuilding |
+| [**scribe**](skills/scribe/README.md) | Capture vault procedures + edit notes |
+| [**nix-manager**](skills/nix-manager/README.md) | NixOS config management |
+| [**utility**](skills/utility/README.md) | Dev-environment setup |
+| [**experimental**](skills/experimental/README.md) | Skills on probation |
+| [**deprecated**](skills/deprecated/README.md) | Holding pen for skills awaiting a keep/kill decision |
 
 ## Setup
 
@@ -65,9 +62,15 @@ Add to `~/.claude/settings.json`:
 
 ### Publishing a new version
 
+The setup above loads each domain in place from this repo (see
+[ADR 0001](docs/adr/0001-how-plugins-load.md)). A new session, or `/reload-plugins` in a running
+one, loads an edit. No version bump is needed for that.
+
 1. Bump the version in the relevant domain's `plugin.json` (e.g. `1.0.0` -> `1.0.1`)
 2. Commit and push to `main`
-3. Restart Claude Code on each consuming machine -- it detects the new HEAD SHA and re-caches
+
+An install that copies the plugin into its cache, such as a marketplace added from GitHub, gets an
+edit only after the `plugin.json` version changes and the user updates the plugin.
 
 ## Attribution
 

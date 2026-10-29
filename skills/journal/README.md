@@ -38,11 +38,11 @@ Add to your Claude Code settings:
 }
 ```
 
-Requires `primitives@xxkeefer-skills` for `/grill` dependency.
+Requires `primitives@xxkeefer-skills` for `/grill` and `/discover-vault-directory`.
 
 ## Vault Setup
 
-Create a journal directory in your Obsidian vault with:
+Create a journal directory at the root of your Obsidian vault with:
 - `occasions.md` -- chores, events, reminders
 
 Templates for manual fallback are in `templates/`.

@@ -10,12 +10,4 @@ Meta skills reference `/grill` from the `primitives` plugin. Both must be instal
 
 ## Skills
 
-| Skill | Purpose |
-|---|---|
-| `/audit-workflow` | Audit Claude Code config and suggest optimizations |
-| `/write-a-skill` | Create a new skill from scratch with requirements gathering and review |
-| `/write-a-hook` | Scaffold a Claude Code hook holder (script, installer skill, README, config) |
-| `/write-a-rule` | Write a path-scoped rule for one directory: language, layout, patterns, invariants |
-| `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
-| `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
-| `/writing-great-skills` | Reference on skill-authoring principles |
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.

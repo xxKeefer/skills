@@ -1,9 +1,7 @@
 ---
 name: monthly
-description: >
-  Generate monthly file. Pulls yearly goals, links weekly files, collects insights from weekly
-  reflections, detects recurring themes. Use when user says "monthly", "plan my month", or at
-  the start of a new month.
+description: Generate the monthly file, with yearly goals, weekly links, and insights and themes from the weekly reflections.
+disable-model-invocation: true
 ---
 
 # Monthly
@@ -20,7 +18,7 @@ Generate the monthly file. Surface context from the year and the weeks.
 
 Determine the month and file name: `YYYY-MM-mon.md` (e.g., `2026-05-may.md`).
 
-Locate the journal directory per the journal domain's discovery convention.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the monthly file already exists. If it does, read it and update rather than overwrite.
 
@@ -44,15 +42,7 @@ Keep it to 2-3 sentences. Factual, no editorialising.
 
 ## Step 4: Pull Down Yearly Goals
 
-Read the current yearly file's Goals section. Present them:
-
-> This year's goals:
-> - [ ] Goal 1
-> - [ ] Goal 2
->
-> Pull any into this month?
-
-Add selected goals to the monthly Goals section. Don't pressure -- if they skip, that's fine.
+Follow **Pull-down** in [CASCADE.md](../../CASCADE.md), with this year's file as the parent.
 
 Ask:
 
@@ -98,18 +88,12 @@ If nothing recurs, skip silently.
 
 ## Step 9: Carry Forward
 
-Check the previous month's file for incomplete goals. Present as multi-select:
-
-> These are still open from last month -- select which to keep this month:
-> - [ ] {item 1}
-> - [ ] {item 2}
->
-> Selected items go into this month's goals. Unselected items push up to the yearly file.
+Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the open goals in last month's file.
 
 ## Step 10: Write the Monthly File
 
 Create or update `YYYY-MM-mon.md` in the journal directory using the format in
-`journal/templates/monthly.md`.
+[templates/monthly.md](../../templates/monthly.md).
 
 If updating an existing file, preserve any content already written. Only update sections that
 need changes.

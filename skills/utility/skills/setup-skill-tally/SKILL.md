@@ -1,10 +1,7 @@
 ---
 name: setup-skill-tally
-description: >
-  Install a zero-latency Claude Code PreToolUse hook that tallies every skill invocation into
-  ~/.claude/skill-tally.json. Use when the user says "setup skill tally", "track skill usage",
-  "count skill invocations", "which skills do I use", or wants usage data to inform promote/retire
-  decisions.
+description: Install an async hook that counts every skill invocation in ~/.claude/skill-tally.json.
+disable-model-invocation: true
 ---
 
 # Setup Skill Tally

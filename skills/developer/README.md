@@ -8,13 +8,8 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 |---|---|---|
 | `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
-| `/spike` | Discovery | Deep-dive investigation |
-| `/wayfinder` | Discovery | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
-| `/to-spec` | Planning | Turn an idea or conversation into a published spec |
-| `/to-tickets` | Planning | Break a spec into tracer-bullet vertical-slice tickets |
-| `/triage` | Planning | Move issues and external PRs through the triage state machine |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
-| `/tdd` | Implementation | Red-green-refactor loop |
+| `/tdd` | Implementation | Red → green loop |
 | `/tweak` | Implementation | Small focused edits to recently built work |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA |
@@ -24,9 +19,9 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
-| `/explain-reasoning` | Anytime | Unpack agent reasoning |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
+| `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 
 ## Installation
 

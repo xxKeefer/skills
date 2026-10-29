@@ -1,10 +1,7 @@
 ---
 name: log-cannon
-description: >
-  Extract canon events from a session log and append them to the campaign's timeline. Reads a
-  session log, identifies narratively significant events, and adds timestamped entries to _cannon.md
-  with wikilinks. Use when user says "log canon", "update the timeline", "add to cannon", or after
-  logging a session.
+description: Extract the canon events from a session log and append them to the campaign's _cannon.md timeline.
+disable-model-invocation: true
 ---
 
 # Log Cannon
@@ -14,7 +11,8 @@ timeline.
 
 ## Step 1: Discover the Campaign
 
-Follow the campaign discovery convention from the omen domain CLAUDE.md.
+Read [SETTING-FORMAT.md](../scaffold-setting/SETTING-FORMAT.md). Find the campaign per its
+**Campaign Discovery** section.
 
 ## Step 2: Identify the Session Log
 

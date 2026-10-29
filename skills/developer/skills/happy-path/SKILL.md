@@ -13,9 +13,17 @@ Produce a manual QA checklist for the current changeset.
 
 ## Step 1: Read the Changeset
 
-1. Run `git diff HEAD~3 --stat` to identify changed files
-2. Run `git diff HEAD~3` to understand what changed
-3. If `$ARGUMENTS` contains resource links, invoke `/look-up` for additional context
+Find the changeset:
+
+1. If `$ARGUMENTS` holds a commit range, use it.
+2. Find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD`. It prints
+   `origin/<name>`. Fall back to `main`.
+3. Off the default branch, diff against `git merge-base HEAD <default>`.
+4. On the default branch, use the uncommitted diff, `git diff HEAD`.
+5. If that diff is empty, ask the user for a range.
+
+Read the `--stat` of the changeset to identify changed files, then its diff to understand what
+changed. If `$ARGUMENTS` contains resource links, invoke `/look-up` for additional context.
 
 ## Step 2: Produce the Test Plan
 
@@ -39,4 +47,6 @@ Rules:
 - Happy path first, obvious edge cases only if high risk
 - No setup instructions the human already knows
 - No automated-test-level detail — this is for eyes-on-screen verification
-- Keep it under 15 items total
+- Keep it under 15 items total. To stay under the cap, merge related changes into one item.
+
+**Done when:** every user-visible change in the diff maps to a checkbox.
