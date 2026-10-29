@@ -1,7 +1,7 @@
 {
   "name": "utility",
-  "description": "Installers for the dev environment -- hooks, the status line, output styles, and repo config. Each installer ships its own assets.",
-  "version": "1.17.0",
+  "description": "Installers for the dev environment -- hooks, the status line, output styles, coding rules, and repo config. Each installer ships its own assets.",
+  "version": "1.18.0",
   "author": {
     "name": "xxkeefer"
   }

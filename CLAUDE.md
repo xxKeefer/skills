@@ -32,7 +32,7 @@ Top-level layout:
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, and output styles, live inside their `utility` installer skill, so they ship with the plugin. |
+| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill, so they ship with the plugin. |
 | `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
 | `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
 
@@ -57,6 +57,10 @@ automated rule:
 Everything-agnostic. Skills encode *how to think about problems*, not how to use specific tools.
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
+
+The one exception is the rules that `/install-rules` ships. A rule is an opinionated convention for
+one file type, so it names languages, frameworks, and tools. A rule names no employer or client
+code.
 
 ## Agent skills
 

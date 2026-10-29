@@ -11,6 +11,7 @@ Dev-environment setup skills — pre-commit hooks, skill-usage tallying, and sta
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
 | `/setup-tool-policy` | Install the tool-policy hook (runner redirection, command blocking) globally or per project |
 | `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
+| `/install-rules` | Install the coding-convention rules to `~/.claude/rules/`, each scoped by `paths:` to the files it applies to |
 | `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
 | `/set-up-dev-workflow-skills` | Per-repo config for the engineering skills — issue tracker, domain doc layout |
 

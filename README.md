@@ -6,7 +6,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 
 | Path | Holds |
 |---|---|
-| `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, and output styles, live inside their `utility` installer skill. |
+| `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
 
