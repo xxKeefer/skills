@@ -20,8 +20,7 @@ Generate the monthly file. Surface context from the year and the weeks.
 
 Determine the month and file name: `YYYY-MM-mon.md` (e.g., `2026-05-may.md`).
 
-Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
-is found, ask the user where journal files live and store the path to memory.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the monthly file already exists. If it does, read it and update rather than overwrite.
 

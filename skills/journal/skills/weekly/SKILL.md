@@ -20,8 +20,7 @@ Generate the weekly file. Surface context, don't apply pressure.
 
 Determine the week dates (Monday -> Sunday) and the file name: `YYYY-wkNN-week.md`.
 
-Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
-is found, ask the user where journal files live and store the path to memory.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 ## Step 2: Read Context
 

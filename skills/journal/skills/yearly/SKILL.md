@@ -20,8 +20,7 @@ Generate the yearly file. Lightest-touch skill -- a goals dump and organising st
 
 Determine the file name: `YYYY.md` (e.g., `2026.md`).
 
-Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
-is found, ask the user where journal files live and store the path to memory.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the yearly file already exists. If it does, read it and update rather than overwrite.
 

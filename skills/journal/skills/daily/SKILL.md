@@ -24,8 +24,7 @@ Generate the daily file. Quick, focused, minimal back-and-forth.
 
 Determine the day, week number, and file name: `YYYY-wkNN-day.md` (e.g., `2026-wk13-mon.md`).
 
-Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
-is found, ask the user where journal files live and store the path to memory.
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 
 Check if the daily file already exists. If it does, read it and update rather than overwrite.
 

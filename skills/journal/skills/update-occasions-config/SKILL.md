@@ -13,12 +13,8 @@ vault's Templater scripts directory.
 
 ## Step 1: Discover Paths
 
-Find the journal directory by scanning the vault for a directory containing `occasions.md`.
-Find the Templater scripts directory (typically `99-meta/scripts/` or `99 - Meta/scripts/`
-relative to the vault root).
-
-If either path cannot be found, ask:
-> Where is your vault's Templater scripts directory?
+Find the journal directory with `/discover-vault-directory * holding occasions.md`.
+Find the Templater scripts directory with `/discover-vault-directory *meta/scripts`.
 
 ## Step 2: Read occasions.md
 

@@ -25,4 +25,4 @@ installed.
 | `/update-handoff` | Update a handoff/plan doc in place with current progress | do-next |
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step | projects:promote-card |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each | experimental:lobotomize |
-| `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files | projects:new-project, scribe:add-procedure, scribe:take-a-note, scribe:triage-notes |
+| `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files | journal:daily, journal:monthly, journal:reflect, journal:update-occasions-config, journal:weekly, journal:yearly, projects:new-project, scribe:add-procedure, scribe:take-a-note, scribe:triage-notes |

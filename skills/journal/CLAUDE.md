@@ -1,15 +1,8 @@
 # Journal -- Personal Planner
 
 Cascading goal/reflection system for Obsidian. All artifacts live in the **journal directory**
-within the user's Obsidian vault.
-
-## Journal Directory Discovery
-
-Skills must never hardcode the journal path. Instead:
-
-1. Scan the vault for a directory containing `occasions.md`.
-2. If found, use that directory for all reads and writes.
-3. If not found, ask the user where journal files live and store the path to memory.
+within the user's Obsidian vault. Skills find it with
+`/discover-vault-directory * holding occasions.md`.
 
 ## Design Principles
 
@@ -107,6 +100,6 @@ skill contract. See `scripts/obsidian/README.md` for setup instructions.
 
 ## Dependencies
 
-Journal skills reference `/grill` from the `primitives` plugin for conversational mechanics.
-Both plugins must be installed for full functionality. Manual fallback templates in `templates/`
+Journal skills reference `/grill` from the `primitives` plugin for conversational mechanics, and
+`/discover-vault-directory` to find vault folders. Both plugins must be installed for full functionality. Manual fallback templates in `templates/`
 work without it.

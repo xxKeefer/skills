@@ -25,8 +25,7 @@ carry-forward items.
 | `year` | Current year file |
 | A file path | That specific file |
 
-Find the journal directory: scan the vault for a directory that holds `occasions.md`. If none
-is found, ask the user where journal files live and store the path to memory. Then find
+Find the journal directory with `/discover-vault-directory * holding occasions.md`. Then find
 the target file. Journal files are named `YYYY-wkNN-day.md`, `YYYY-wkNN-week.md`, `YYYY-MM-mon.md`,
 and `YYYY.md`. If the file doesn't exist:
 
