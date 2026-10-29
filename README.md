@@ -24,7 +24,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | **meta** | audit-workflow, write-a-skill, write-a-hook, write-a-rule, migrate-a-skill, retire-a-skill, writing-great-skills | Skills about skills |
 | **omen** | scaffold-setting, doctor-setting, plan-session, log-session, log-cannon, log-npcs, log-place, log-progression, make-lore, make-blurb, make-summary | Creative -- TTRPG, worldbuilding |
 | **scribe** | add-procedure, define-concept, define-term, define-language, take-a-note, triage-notes, teach, proof-read, asd-ste100, grices-maxims, orwells-six | Capture vault procedures + edit notes |
-| **nix-manager** | add, remove, rice, refine, debug, explain | NixOS config management |
+| **nix-manager** | nix-add, nix-remove, nix-rice, nix-refine, nix-debug, nix-explain | NixOS config management |
 | **utility** | setup-pre-commit, setup-skill-tally, setup-statusline, configure-obsidian-kanban, set-up-dev-workflow-skills, install-agent-voice | Dev-environment setup |
 | **experimental** | lobotomize, repro, roleplay, simulate, append-to-note | Skills on probation |
 | **deprecated** | research, patch-doctor, explain-reasoning, setup-git-guardrails, spike, to-spec, to-tickets, wayfinder, triage | Holding pen for skills awaiting a keep/kill decision |

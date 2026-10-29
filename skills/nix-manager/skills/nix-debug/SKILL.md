@@ -1,11 +1,11 @@
 ---
-name: debug
+name: nix-debug
 description: >
   Diagnose and fix nixos-rebuild failures or nix evaluation errors. Agent-invocable -- other
   skills call this when a rebuild fails. Also usable directly when the user pastes an error.
 ---
 
-# Debug
+# Nix Debug
 
 Diagnose and fix nix build errors. Called by other nix-manager skills when rebuilds fail, or
 directly when the user pastes an error.
@@ -47,7 +47,7 @@ Common causes:
 Explain the error in plain language:
 - "This failed because X."
 - "In nix, Y works like Z." (teach the concept if relevant)
-- If the error stems from a pattern that `/refine` would flag, mention that.
+- If the error stems from a pattern that `/nix-refine` would flag, mention that.
 
 **Done when:** explanation delivered.
 
@@ -69,5 +69,5 @@ If it fails again, loop back to Step 1.
 ## Principles
 
 - Always explain the error -- every failure is a teaching moment.
-- Connect to broader patterns: "this is why `/refine` recommends avoiding `with pkgs;`".
+- Connect to broader patterns: "this is why `/nix-refine` recommends avoiding `with pkgs;`".
 - If the fix is a workaround rather than a proper solution, say so and suggest the proper fix.

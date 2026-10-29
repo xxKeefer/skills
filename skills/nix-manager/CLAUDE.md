@@ -33,9 +33,9 @@ toward a clean, maintainable, well-understood system.
 
 | Skill | Type | Purpose |
 |---|---|---|
-| `/add` | HITL | Find and add packages or capabilities |
-| `/remove` | HITL | Cleanly remove packages or capabilities |
-| `/rice` | HITL | Visual customization from screenshots, descriptions, or repos |
-| `/refine` | HITL | Best-practice audit and improvement (targeted or full) |
-| `/debug` | AFK | Diagnose and fix build errors |
-| `/explain` | AFK | Plain-language explanation of nix config |
+| `/nix-add` | HITL | Find and add packages or capabilities |
+| `/nix-remove` | HITL | Cleanly remove packages or capabilities |
+| `/nix-rice` | HITL | Visual customization from screenshots, descriptions, or repos |
+| `/nix-refine` | HITL | Best-practice audit and improvement (targeted or full) |
+| `/nix-debug` | AFK | Diagnose and fix build errors |
+| `/nix-explain` | AFK | Plain-language explanation of nix config |

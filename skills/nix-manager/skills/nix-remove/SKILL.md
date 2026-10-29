@@ -1,10 +1,10 @@
 ---
-name: remove
+name: nix-remove
 disable-model-invocation: true
 description: Remove a package, module, or capability from the NixOS config, and clean up every reference to it.
 ---
 
-# Remove
+# Nix Remove
 
 Cleanly remove a package or capability. Traces all references, proposes a removal plan, cleans up.
 
@@ -69,7 +69,7 @@ Post-edit, explain:
 
 Ask: "Want me to run `nixos-rebuild test` to try it, or `nixos-rebuild switch` to apply?"
 
-If the rebuild fails, invoke `/debug` to diagnose.
+If the rebuild fails, invoke `/nix-debug` to diagnose.
 
 **Done when:** rebuild succeeds or user declines.
 

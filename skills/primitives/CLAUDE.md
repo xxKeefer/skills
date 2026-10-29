@@ -19,7 +19,7 @@ installed.
 | `/grill` | Relentless questioning until shared understanding | do-next, developer:diagnose, developer:grill-with-docs, developer:improve-codebase-architecture, meta:write-a-hook, meta:write-a-skill, projects:new-project, projects:promote-card, deprecated:spike, deprecated:triage, deprecated:wayfinder |
 | `/write-to-file` | Write output files to `.ai/`, or the user's folder for the doctype, for `@`-reference | handoff, tabular-analysis, developer:codebase-news, developer:diagnose, meta:write-a-skill, utility:set-up-dev-workflow-skills |
 | `/look-up` | Fetch and ingest resources (files, web, tracker tickets, wiki pages) | tabular-analysis, developer:diagnose, developer:fix, developer:happy-path, developer:resolve-conflicts, developer:tweak, scribe:add-procedure, scribe:triage-notes, deprecated:spike |
-| `/explain` | Layered what/how/why explanation of any target | nix-manager:explain, deprecated:explain-reasoning |
+| `/explain` | Layered what/how/why explanation of any target | nix-manager:nix-explain, deprecated:explain-reasoning |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) | the user only |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent | the user only |
 | `/update-handoff` | Update a handoff/plan doc in place with current progress | do-next |

@@ -1,10 +1,10 @@
 ---
-name: rice
+name: nix-rice
 disable-model-invocation: true
 description: Customize the look of desktop components from screenshots, text descriptions, repo links, or a mix.
 ---
 
-# Rice
+# Nix Rice
 
 Visual customization of desktop components. The user provides a target (what to rice) and a
 goal (what it should look like) via screenshots, descriptions, repo links, or any mix.

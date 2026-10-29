@@ -1,11 +1,11 @@
 ---
-name: explain
+name: nix-explain
 description: >
   Explain what a block of nix config does in plain language. Layered explanation: what, how, why.
   Agent-invocable. Other nix-manager skills call this to teach, or the user asks directly.
 ---
 
-# Explain
+# Nix Explain
 
 Plain-language explanation of nix config. Composes on the `/explain` primitive with nix-specific
 context.
@@ -35,7 +35,7 @@ nix-specific framing:
 ## Step 3: Flag Non-idiomatic Code
 
 If the code is non-idiomatic, mention what the idiomatic version would look like -- but don't
-change it. That's `/refine`'s job.
+change it. That's `/nix-refine`'s job.
 
 If the code is genuinely wrong or confusing, say so directly.
 

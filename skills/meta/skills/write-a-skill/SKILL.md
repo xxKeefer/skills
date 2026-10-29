@@ -37,9 +37,12 @@ out the skill design:
 
 Before writing:
 
-1. **Check existing skills** in the target domain -- does this duplicate anything?
-2. **Check primitives** -- should any part of this be a primitive instead?
-3. **Invocation** -- make it model-invoked only when the agent must reach it on its own, or
+1. **Check the name** -- search the skill folders of every domain in this repo, and the skills
+   this session lists, for the new name. The name must be unique. In a domain bound to one tool,
+   prefix the name with the tool name, such as `nix-add`.
+2. **Check existing skills** in the target domain -- does this duplicate anything?
+3. **Check primitives** -- should any part of this be a primitive instead?
+4. **Invocation** -- make it model-invoked only when the agent must reach it on its own, or
    another skill must. Otherwise make it user-invoked. State the choice and why.
 
 Present findings. If there's overlap with an existing skill, discuss whether to extend the

@@ -1,10 +1,10 @@
 ---
-name: add
+name: nix-add
 disable-model-invocation: true
 description: Find and add a package or capability to the NixOS config, even without the exact package name.
 ---
 
-# Add
+# Nix Add
 
 Find and add a package or capability to the config. Fuzzy -- the user describes what they want,
 the skill finds the right package and wires it up idiomatically.
@@ -80,7 +80,7 @@ Post-edit, explain in chat:
 
 Ask: "Want me to run `nixos-rebuild test` to try it, or `nixos-rebuild switch` to apply?"
 
-If the rebuild fails, invoke `/debug` to diagnose.
+If the rebuild fails, invoke `/nix-debug` to diagnose.
 
 **Done when:** rebuild succeeds or user declines.
 

@@ -1,10 +1,10 @@
 ---
-name: refine
+name: nix-refine
 disable-model-invocation: true
 description: Improve the NixOS config toward idiomatic best practice, as a full audit or for one file or module.
 ---
 
-# Refine
+# Nix Refine
 
 The zen polishing skill. Audit the config and improve it toward idiomatic nix. Every invocation
 should leave the config measurably better.
@@ -87,7 +87,7 @@ Walk through each change:
 
 Ask: "Want me to run `nixos-rebuild test` to try it, or `nixos-rebuild switch` to apply?"
 
-If the rebuild fails, invoke `/debug` to diagnose.
+If the rebuild fails, invoke `/nix-debug` to diagnose.
 
 **Done when:** rebuild succeeds or user declines.
 
