@@ -1,9 +1,7 @@
 ---
 name: reflect
-description: >
-  File-agnostic reflection and maintenance tool. Fills reflect sections, fixes prev/next links,
-  bubbles themes to parent files, surfaces carry-forward items. Use when user says "reflect",
-  "end of day", or wants to update any journal file's reflection.
+description: Fill the reflect section of any journal file, fix its prev/next links, bubble up themes, and carry forward open items.
+disable-model-invocation: true
 ---
 
 # Reflect
@@ -109,19 +107,8 @@ If nothing recurs, skip silently.
 
 ## Step 6: Carry Forward
 
-Scan the target file and its siblings for incomplete goals or tasks (unchecked `- [ ]` items
-in Goals or Today sections).
-
-If found, present as multi-select:
-
-> These are still open -- select which to carry forward:
-> - [ ] {item} (from {file})
-> - [ ] {item} (from {file})
->
-> Selected items carry into the next file at this level.
-> Unselected items push up to the parent level.
-
-No guilt, no pressure. Just surfacing information.
+Scan the target file and its siblings for open items. If you find any, follow **Carry-forward**
+in [CASCADE.md](../../CASCADE.md). Show the source file after each item: `{item} (from {file})`.
 
 ## Step 7: Done
 

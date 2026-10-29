@@ -46,19 +46,16 @@ next: "[[next-sibling]]"
 - Every file links `prev`/`next` to siblings at the same level
 - Gaps are valid -- if you skip a day, `prev`/`next` jump over the gap (maintained by `/reflect`)
 
-## Cascading Goal Pull-Down
+## Cascade
 
-The core mechanic:
+[`CASCADE.md`](CASCADE.md) holds the pull-down and carry-forward rules, and each journal skill
+that uses them links it. Claude Code does not load this `CLAUDE.md` when a skill runs, so put
+each cascade rule in that file.
 
-```
-yearly goals
-  -> prompted into monthly goals
-    -> prompted into weekly goals
-      -> prompted into daily tasks
-```
+## Invocation
 
-Each level serves as a backlog for the level below. When generating a file, the skill reads the
-parent's goals and asks: "Want to pull any of these down?" No lock-in, no forced commitments.
+Every journal skill is user-invoked: you start each one by hand. See
+`docs/adr/0007-journal-and-omen-invocation.md`.
 
 ## State Files
 

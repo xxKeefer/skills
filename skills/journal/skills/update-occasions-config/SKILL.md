@@ -1,9 +1,7 @@
 ---
 name: update-occasions-config
-description: >
-  Sync occasions.md from the vault into vault_occasions.js for Templater. Reads all sections
-  (daily chores, day-specific chores, recurring events, home maintenance, one-off events) and
-  generates JS with the { sym, name, type, section, test } shape. Run when occasion data changes.
+description: Sync the vault's occasions.md into vault_occasions.js for Templater. Run after you edit occasions.md.
+disable-model-invocation: true
 ---
 
 # Update Occasions Config

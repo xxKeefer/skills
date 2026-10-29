@@ -1,9 +1,7 @@
 ---
 name: yearly
-description: >
-  Generate yearly file. Goals and aspirations dump, monthly plan table, reflection sections.
-  Lightest-touch skill -- mostly an organising structure. Use when user says "yearly",
-  "plan my year", or at the start of a new year.
+description: Generate the yearly file, with a goals dump, a monthly plan table, and reflection sections.
+disable-model-invocation: true
 ---
 
 # Yearly
@@ -42,12 +40,8 @@ Keep it to 2-3 sentences. Factual, no editorialising.
 
 ## Step 4: Set Goals
 
-If a previous year's file exists, surface its incomplete goals:
-
-> Last year's open goals:
-> - {item}
->
-> Carry any forward?
+If last year's file exists, follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on its open
+goals.
 
 Then ask:
 
