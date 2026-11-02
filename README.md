@@ -72,6 +72,14 @@ one, loads an edit. No version bump is needed for that.
 An install that copies the plugin into its cache, such as a marketplace added from GitHub, gets an
 edit only after the `plugin.json` version changes and the user updates the plugin.
 
+## Related repos
+
+| Repo | Role |
+|---|---|
+| [nixos_config](https://github.com/xxKeefer/nixos_config) | System and home-manager config. The `nix-manager` domain manages it |
+| [dotfiles](https://github.com/xxKeefer/dotfiles) | Config kept outside nix, linked into `~/.config` |
+| [skills](https://github.com/xxKeefer/skills) | This repo. Claude Code skills |
+
 ## Attribution
 
 This marketplace owes a lot to [Matt Pocock's skills repo](https://github.com/mattpocock/skills)
