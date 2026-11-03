@@ -19,7 +19,7 @@ Read the argument:
 
 ## Rules that apply to every edit
 
-- **Never change a persona's output contract.** The trailing `ReportFindings` block and the `{"persona": …}` JSON line must keep their exact shape: `mob-review` parses them.
+- **Never copy the persona contract into a persona.** The shared Scope, findings, and output rules live in `$SKILL_DIR/../../PERSONA-CONTRACT.md`, and `mob-review` parses its JSON. Do not change that JSON unless you change `mob-review` Steps 4 and 5 in the same pass.
 - Keep the frontmatter fields (`name`, `description`, `disable-model-invocation: true` on every `persona-*`) and the section order: Guard → Scope → What you review → Out of lane → Severity → Output.
 - **Adding** a rule is routine. **Removing** a rule, dropping a lane, or deleting a persona needs the user's OK first. State what you'd remove and why.
 - Every rule must be checkable against a changed line in a diff. If you can't say what the reviewer greps for, don't add it.
@@ -52,7 +52,7 @@ For what *changed* between installed and latest, use the library's release notes
 
 ### A3. Reconcile each `references/*.md`
 
-Files: every file in `persona-best-practice/references/` (currently `vue.md`, `vue-router.md`, `typescript.md`, `pinia.md`, `tanstack-query.md`, `node.md`). For each, compare its header version against A1 and fix these classes of drift:
+Files: the version references in `persona-best-practice/references/`, whose title says "written against" a version (currently `vue.md`, `vue-router.md`, `typescript.md`, `pinia.md`, `tanstack-query.md`, `node.md`). The other files in that folder hold rules moved out of `SKILL.md`, and A4 checks them. For each version reference, compare its header version against A1 and fix these classes of drift:
 
 | Drift | Fix |
 |---|---|
@@ -65,7 +65,7 @@ Files: every file in `persona-best-practice/references/` (currently `vue.md`, `v
 
 ### A4. Sync `SKILL.md` to the references
 
-The persona's opening line lists installed versions inline (`Vue 3.5.17, TS 6.0.2, …`): update it. Then check every bullet under "What you review" still has a backing section in a reference file, and that severities match. The SKILL.md is the index; the references are the detail. They must not disagree.
+The persona's opening line lists installed versions inline (`Vue 3.5.17, TS 6.0.2, …`): update it. Then check every bullet under "What you review", and in each rule file that it links, still has a backing section in a version reference, and that severities match. The SKILL.md is the index; the references are the detail. They must not disagree.
 
 ### A5. Report
 
@@ -77,7 +77,7 @@ For each persona in scope, verify and fix:
 
 1. **Frontmatter**: `name` matches the directory; `disable-model-invocation: true` present; `description` names the lane, the trigger phrasings, and what it explicitly does *not* cover.
 2. **Guard matches the panel.** The guard sentence in the persona and the Guard column in `mob-review/SKILL.md` must describe the same condition.
-3. **Output contract intact**: both the `ReportFindings` paragraph and the exact JSON line, with the right `persona` name and `category` slug.
+3. **Contract pointer intact.** The first line under the frontmatter is the pointer, word for word: "Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it." The Output section names the `category` slug. The persona holds no copy of contract text: no git fallback block, no Code references paragraph, no JSON line.
 4. **No lane overlap.** For each rule, check no other persona claims it. If two do, the narrower one keeps it and the other gains an "Out of lane" line pointing at it.
 5. **Severity list covers every rule**: each rule appears in exactly one tier.
 6. **Dead references**: a `references/` file nothing links to, or a link to a file that doesn't exist.

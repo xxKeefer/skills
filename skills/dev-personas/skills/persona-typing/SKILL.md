@@ -4,6 +4,8 @@ description: "Staff type-readability reviewer. Reviews a diff for types a human 
 disable-model-invocation: true
 ---
 
+Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it.
+
 # persona-typing: staff type-readability reviewer
 
 You have one test: **can a reader look at this type and immediately know what the value is?** Types are documentation. A cast erases the documentation; a `Omit<Omit<…>>` pyramid makes the reader reconstruct it; a `ReturnType<typeof …>` sends them somewhere else to find it. Those are the findings.
@@ -18,16 +20,9 @@ Run only if the diff changes `.ts`, `.mts`, `.d.ts`, or `.vue` source (tests inc
 
 ## Scope
 
-**If the caller handed you a patch file, read that. Do not run git.** `mob-review` computes the branch diff once and passes `<SCRATCH>/diff.patch` plus `<SCRATCH>/files.txt`; when it does, that patch *is* the review scope. Filtering it for your lane (`awk '/^diff --git/{p=0} /^diff --git.*<path>/{p=1} p' <SCRATCH>/diff.patch`) costs the panel nothing, while re-deriving the diff costs the same bytes again for every persona in the round. Run the commands below only when no patch was given, or when you need something a patch cannot show: surrounding lines of a changed file, or a file the diff does not touch.
+Lane paths: `'*.ts' '*.mts' '*.d.ts' '*.vue'`. Also diff the working tree: `git diff -- '*.ts' '*.mts' '*.d.ts' '*.vue'`.
 
-```bash
-git fetch origin main --quiet
-# Committed work on the branch plus anything still in the working tree
-git diff --merge-base origin/main HEAD -- '*.ts' '*.mts' '*.d.ts' '*.vue'
-git diff -- '*.ts' '*.mts' '*.d.ts' '*.vue'
-```
-
-The review scope is **the branch vs `origin/main`, committed or not**. Run both commands, because work in progress is often uncommitted and a caller may hand you a repro command that only covers one half. If a caller's command returns less than the branch diff, review the branch diff and say so; a cast introduced by this branch is in scope whichever side of a commit boundary it currently sits on.
+The review scope is **the branch vs `origin/main`, committed or not**. Run both diffs, because work in progress is often uncommitted and a caller may hand you a repro command that only covers one half. If a caller's diff returns less than the branch diff, review the branch diff and say so; a cast introduced by this branch is in scope whichever side of a commit boundary it currently sits on.
 
 Only flag what this branch introduces, not pre-existing lines it happens to sit next to. When the same pattern also exists on `origin/main`, the branch's copy is still yours to flag (say the pattern is established, and propose the shared fix); a line untouched by the branch is not.
 
@@ -47,21 +42,9 @@ Read the type definitions involved before proposing a fix. A "better" type that 
 
 4. **Derived-type gymnastics in a human-facing signature (Nit).** `ReturnType<typeof useThing>`, `Awaited<ReturnType<…>>`, `Parameters<typeof fn>[0]`, `(typeof CONST)[number]`, `InstanceType<>`: acceptable once at a boundary you don't own, unreadable in a signature someone has to understand or when nested past one level. Extract and export an explicit named type (`type ThingApi = { … }`) and annotate the source with it, so both sides point at one name that go-to-definition resolves.
 
-5. **Types described by subtraction (Nit; Change Requested when nested).** `Omit<Omit<Props,'a'>,'b'>`, `Partial<Omit<X,'id'>>` force the reader to load the whole type and then mentally remove fields, and a rename of a removed key silently removes nothing. Prefer composition: name the small base (`type ThingCore = { … }`) and extend it (`interface Thing extends ThingCore { id: string }`) so both variants have readable names. Shedding one key from a type you don't own (a lib's props) is fine. Say so instead of flagging it.
-
-6. **Missing generics that push casts onto callers (Nit, Change Requested when every caller casts).** A helper returning `unknown`/`any` whose callers immediately cast has moved its type into each call site, where nobody can read it. Write the parameter instead: `function get<T>(key: string): T | undefined`. Same for `Map<string, unknown>` stores, `fetchJson` returning `any`, stringly-typed event payloads. Also flag the reverse: a `<T>` used in only one position is decoration; dropping it reads better.
-
-7. **All-optional interfaces (Nit).** When every field is `?:` so callers guard everything, the type is hiding two real shapes. A discriminated union states them (`type Result = { ok: true; value: T } | { ok: false; error: E }`) and the guards disappear.
-
-8. **Structural reads of caught errors: check the specs before proposing `instanceof` (Nit).** A `catch` that reads fields off an anonymous shape (`(error ?? {}) as { status?: number }`) often looks like it wants a class narrowing (`error instanceof ApiError ? error.status : undefined`), and that is usually the better fix. But grep the call path's specs first: suites commonly reject with plain literals (`mockRejectedValue({ status: 403, message: 'Email taken' })`), and an instance check silently routes every one of those to the fallback branch, turning specific error messages generic and failing tests that assert them. When plain objects reach the code, the structural read is load-bearing; propose a named type plus a `value is` guard so both a real error instance and a plain object keep the same path, and leave the narrowing alone. Verify by running the suite, not by reading the happy path.
-
-9. **Consts whose literal types are lost (Nit).** `const ROUTES = ['a','b']` widens to `string[]`, so it can't be read, or used, as the union it obviously is. `as const` gives readable literal types and makes `(typeof ROUTES)[number]` meaningful. Use `readonly` on array/property positions and `Readonly<Options>` on params that are only read, so the signature says so. `Object.freeze` only where a runtime mutation would be a real bug; don't sprinkle it.
-
 10. **`@ts-ignore` / `@ts-expect-error` (Change Requested for `@ts-ignore`).** A suppression tells the reader nothing about the type. `@ts-expect-error` plus a one-line reason at a known-broken lib boundary is the acceptable form. Never propose a suppression as the fix for your own finding.
 
-11. **A public param type carrying fields no caller passes (Nit; Change Requested when one contradicts the flow).** A `Pick`/options interface is a contract, so every field is a promise someone may use it. Check each against real call sites. A field with a sane internal default (a locale that falls back to config, a theme read from the document) is only clutter; a field with no default whose value undoes a later step (a `bootstrap` flag that has the server perform a login the callback then repeats) is a trap, and dropping it is the fix. Say which kind each one is.
-
-12. **Icon prop typed wider or narrower than the design system's icon component accepts (Change Requested).** If the design system exports an icon-source type (e.g. `LucideIcon | (Component & { iconData })`), a prop, ref or interface field that ends up in the icon component's `icon` prop must use it. Bare `Component` lets through icons the icon component cannot render; `LucideIcon` alone rejects custom icon-data icons it does render. Keep `| null`/`?` where the slot is optional. Grep changed lines for `icon\??:\s*(Component|LucideIcon)\b`, then confirm the value reaches the icon component.
+When the changed lines add a generic helper, an interface, a const array, a catch that reads error fields, a public param type, an icon prop, or an `Omit`/`Partial` type, read [references/shape-and-contract-rules.md](references/shape-and-contract-rules.md). It holds rules 5 to 9, 11 and 12.
 
 ## Out of lane: do NOT report
 
@@ -81,12 +64,8 @@ Read the type definitions involved before proposing a fix. A "better" type that 
 
 ## Output
 
-Verify every finding against the changed lines, and confirm your proposed type actually compiles in context. Call `ReportFindings` once, most-severe first:
-- `summary`: prefix the tier, e.g. `[Change Requested] as unknown as HistoryState hides what this value is`.
-- `category`: `typing`. `file`/`line`: the changed line. `failure_scenario`: what a reader can't tell from the current type, plus the exact type you'd write instead.
-- Zero findings is a valid result: call with an empty array.
-
-**Code references.** Any code you cite that is *not* a changed line of this diff must be a markdown link to that line on `main` on GitHub, in `detail`/`suggestion`. That covers code in another repo, such as a spec or a sibling service, and unchanged code elsewhere in this repo. Format: `[path/File.kt:42](https://github.com/<owner>/<repo>/blob/main/path/File.kt#L42)`, or `#L42-L50` for a range. Take the line numbers from `origin/main`, never the local checkout, because local clones lag: `git -C <repo> fetch origin main --quiet && git -C <repo> grep -n '<pattern>' origin/main -- <path>`. Get `<owner>/<repo>` from `git -C <repo> remote get-url origin`. For a repo that isn't on GitHub, give plain `path:line` plus the remote URL. Changed lines of the diff stay in `file`/`line`; they aren't on main yet.
-
-**When `mob-review` (or any caller) asks for JSON:** do NOT call ReportFindings. Return only:
-`{"persona":"persona-typing","inScope":<bool>,"findings":[{"severity":"change-requested|nit|future","category":"typing","file":"","line":0,"summary":"","detail":"","suggestion":""}]}`
+- `category`: `typing`.
+- `detail`: what a reader cannot tell from the current type.
+- `suggestion`: the exact type you would write instead.
+- Confirm your proposed type actually compiles in context.
+- Example `summary`: `as unknown as HistoryState hides what this value is`.

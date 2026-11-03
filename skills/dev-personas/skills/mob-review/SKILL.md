@@ -138,41 +138,25 @@ Launch **one subagent per in-scope persona, all in a single message** (multiple 
 
 Ticket context in the prompt is fine. The author's beliefs about behaviour are not facts. Pass a claim like "the old component rendered aria-hidden" only as something to verify, or leave it out, because a persona that accepts it as given skips the check its lane exists for.
 
-The persona skills ship in the same domain as this one, as sibling directories: set `PERSONAS` to the parent of this skill's base directory (shown when the skill loads) and substitute the absolute path into the prompt — a subagent cannot resolve `$SKILL_DIR` or a plugin-relative path on its own. Tell each subagent that inside its persona file `$SKILL_DIR` means `<PERSONAS>/<persona-name>`.
+The persona skills ship in the same domain as this one, as sibling directories: set `PERSONAS` to the parent of this skill's base directory (shown when the skill loads) and substitute the absolute path into the prompt — a subagent cannot resolve `$SKILL_DIR` or a plugin-relative path on its own. The shared persona contract sits at `<PERSONAS>/../PERSONA-CONTRACT.md`.
 
-Give each the same diff context and this exact contract:
+Give each the same diff context and this exact brief:
 
-> Read `<PERSONAS>/<persona-name>/SKILL.md` and follow it exactly as a code review of the diff below. **Do NOT call ReportFindings**. Instead, return your result as your final message, as raw JSON only (no prose, no code fences) matching this schema:
-> ```json
-> {
->   "persona": "<persona-name>",
->   "inScope": true,
->   "findings": [
->     { "severity": "change-requested|nit|future", "category": "<slug>", "file": "path", "line": 123, "summary": "one sentence", "detail": "why it matters / concrete failure scenario", "suggestion": "concrete fix" }
->   ]
-> }
-> ```
-> **Code references.** Any code you cite that is *not* a changed line of this diff must be a markdown link to that line on `main` on GitHub, in `detail`/`suggestion`. That covers code in another repo, such as a spec or a sibling service, and unchanged code elsewhere in this repo. Format: `[path/File.kt:42](https://github.com/<owner>/<repo>/blob/main/path/File.kt#L42)`, or `#L42-L50` for a range. Take the line numbers from `origin/main`, never the local checkout, because local clones lag: `git -C <repo> fetch origin main --quiet && git -C <repo> grep -n '<pattern>' origin/main -- <path>`. Get `<owner>/<repo>` from `git -C <repo> remote get-url origin`. For a repo that isn't on GitHub, give plain `path:line` plus the remote URL. Changed lines of the diff stay in `file`/`line`; they aren't on main yet.
+> Read `<PERSONAS>/../PERSONA-CONTRACT.md`, then `<PERSONAS>/<persona-name>/SKILL.md`. Follow both as a code review of the diff below. Inside the persona file, `$SKILL_DIR` means `<PERSONAS>/<persona-name>`, and a relative link resolves from that directory.
 >
-> `line` is the line number in the changed file on the branch (the `+` side of the hunk), never a line number within `diff.patch`.
->
-> If your guard says you are out of scope, return `{"persona":"<persona-name>","inScope":false,"findings":[]}`. Only report findings you have verified against the actual changed lines. No speculation. Stay strictly in your lane; another persona covers everything outside it.
+> Return the JSON that the contract's "When a caller asks for JSON" section gives, as your final message.
 >
 > Diff scope: branch vs `origin/main`, already computed: **do not recompute it**.
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
->
-> Read the patch from that file: whole, or one file's section at a time with `awk '/^diff --git/{p=0} /^diff --git.*<path>/{p=1} p' <SCRATCH>/diff.patch`. Re-running `git diff` costs the panel the same bytes once per persona, so only do it if you need context the patch cannot give you: surrounding lines of a changed file, or a file the diff does not touch.
 
 **Built-in `/code-review`, same message.** Alongside the personas, spawn one more `general-purpose` subagent on the **default model** (correctness misses are silent, like security's) that runs Claude's own review. This means Claude Code's built-in `code-review` skill, not `developer:code-review` from this marketplace.
 
-> Invoke the `code-review` skill via the Skill tool with args `medium <branch>` (the branch under review, compared against `origin/main`; the diff is also at `<SCRATCH>/diff.patch`). Follow it as a **review only**: no `--fix`, no `--comment`, no edits. **Do NOT call ReportFindings**: when the skill reaches its reporting step, return raw JSON only (no prose, no code fences) using the persona schema above with `"persona": "code-review"`. If the skill runs its review in the background, wait for that run to finish before returning: an empty report sent while it is still running reads as a clean result. Map severity: a correctness bug (`CONFIRMED`, or a `PLAUSIBLE` one with a concrete failure scenario) → `change-requested`; a reuse/simplification/efficiency cleanup → `nit`; drop anything else speculative. `detail` = the failure scenario, `suggestion` = the fix. Any code it cites outside the changed lines must be a markdown link to that line on `main` on GitHub, with line numbers taken from `origin/main` (same rule as the personas).
+> Invoke the `code-review` skill via the Skill tool with args `medium <branch>` (the branch under review, compared against `origin/main`; the diff is also at `<SCRATCH>/diff.patch`). Follow it as a **review only**: no `--fix`, no `--comment`, no edits. When the skill reaches its reporting step, return raw JSON only (no prose, no code fences), in the form that the "When a caller asks for JSON" section of `<PERSONAS>/../PERSONA-CONTRACT.md` gives, with `"persona": "code-review"`. If the skill runs its review in the background, wait for that run to finish before returning: an empty report sent while it is still running reads as a clean result. Map severity: a correctness bug (`CONFIRMED`, or a `PLAUSIBLE` one with a concrete failure scenario) → `change-requested`; a reuse/simplification/efficiency cleanup → `nit`; drop anything else speculative. `detail` = the failure scenario, `suggestion` = the fix. Any code it cites outside the changed lines must be a markdown link to that line on `main` on GitHub, with line numbers taken from `origin/main` (same rule as the personas).
 
 **Project rubric, same message, when the repo names one.** If the repo's `CLAUDE.md` or `AGENTS.md` names a code-review rubric skill, and the diff touches code it covers, spawn one more `general-purpose` subagent with `model: "sonnet"`. It reads a written rubric, like a persona:
 
-> Invoke the `<rubric skill name>` skill via the Skill tool. Apply it as a **review only** of the diff at `<SCRATCH>/diff.patch` (changed files in `<SCRATCH>/files.txt`): no edits, no PR comments. Only report problems on changed lines, verified against the code. Return raw JSON only (no prose, no code fences) using the persona schema above with `"persona": "<rubric skill name>"` and `category` set to the rubric section. Severity: a defect the rubric calls out as a bug or contract violation → `change-requested`; a standards deviation → `nit`; a larger refactor idea → `future`.
->
-> **Code references.** Any code you cite that is *not* a changed line of this diff must be a markdown link to that line on `main` on GitHub, in `detail`/`suggestion`. That covers code in another repo, such as a spec or a sibling service, and unchanged code elsewhere in this repo. Format: `[path/File.kt:42](https://github.com/<owner>/<repo>/blob/main/path/File.kt#L42)`, or `#L42-L50` for a range. Take the line numbers from `origin/main`, never the local checkout, because local clones lag: `git -C <repo> fetch origin main --quiet && git -C <repo> grep -n '<pattern>' origin/main -- <path>`. Get `<owner>/<repo>` from `git -C <repo> remote get-url origin`. For a repo that isn't on GitHub, give plain `path:line` plus the remote URL. Changed lines of the diff stay in `file`/`line`; they aren't on main yet.
+> Invoke the `<rubric skill name>` skill via the Skill tool. Apply it as a **review only** of the diff at `<SCRATCH>/diff.patch` (changed files in `<SCRATCH>/files.txt`): no edits, no PR comments. Only report problems on changed lines, verified against the code. Read `<PERSONAS>/../PERSONA-CONTRACT.md`, and follow its Findings and Code references sections. Return raw JSON only (no prose, no code fences), in the form that its "When a caller asks for JSON" section gives, with `"persona": "<rubric skill name>"` and `category` set to the rubric section. Severity: a defect the rubric calls out as a bug or contract violation → `change-requested`; a standards deviation → `nit`; a larger refactor idea → `future`.
 
 Medium is deliberate: at low/medium the skill keeps to fewer, high-confidence findings, which is what a panel already full of specialists wants from a generalist. Don't raise it without the user asking.
 
@@ -195,13 +179,14 @@ Rank: **change-requested → nit → future**, then group by persona within each
 
 ## Step 5: Report once
 
-Call `ReportFindings` a single time with the aggregated, ranked findings:
+Print the aggregated findings as one table, in the Step 4 order:
 
-- Order most-severe first (all change-requested, then nit, then future).
-- `summary`: prefix with the tier and persona, e.g. `[Change Requested] (a11y) icon button has no accessible name`.
-- `category`: the persona slug (so findings group by reviewer in the UI).
-- `file`, `line`: from the finding.
-- `failure_scenario`: the finding's `detail`, plus `suggestion`. Keep the personas' markdown GitHub links to `main` intact. If a finding cites out-of-diff code as a bare `path:line`, convert it to a link before reporting (resolve the line on `origin/main`).
+| Tier | Persona | File:line | Summary | Detail | Suggestion |
+|---|---|---|---|---|---|
+
+- Tier: Change Requested, Nit, or Future.
+- Persona: the name without the `persona-` prefix, such as `a11y`.
+- The other columns come from the finding. Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare `path:line`, convert it to a link first (resolve the line on `origin/main`).
 
 Then print a compact coverage table so the user sees what ran:
 
@@ -257,7 +242,7 @@ Then, for everything you applied:
    [ -s "$SCRATCH/diff.patch" ] || git show HEAD > "$SCRATCH/diff.patch"  # already committed
    ```
 
-   Give each persona the Step 3 contract plus what was already verified, so it doesn't re-report settled ground. Spawn only:
+   Give each persona the Step 3 brief plus what was already verified, so it doesn't re-report settled ground. Spawn only:
    - **Personas whose own findings you applied.** A persona that reported nothing, or whose findings you left for the user, has nothing of its own to re-check.
    - **`persona-vitest` whenever you added or changed a spec**: its Step 2 guard ran against the original diff, so a test file the panel itself introduces is never otherwise reviewed.
    - **Any persona whose guard your fixes newly satisfy** (a fix that touches a `.vue` when the diff had none → `persona-a11y`).

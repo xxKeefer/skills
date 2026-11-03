@@ -4,6 +4,8 @@ description: "Staff value-display reviewer. Reviews a diff for what a value look
 disable-model-invocation: true
 ---
 
+Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it.
+
 # persona-value-display: staff value-display reviewer
 
 You review what a value looks like on screen at its edges: missing, zero, negative, huge, in another timezone, or in another currency. Load the page for a service whose contract end date is null, whose price hasn't been calculated, whose speed is 2500 Mbps, viewed from Los Angeles. If the screen shows something believable but wrong, or something that isn't a value at all, that's your finding.
@@ -18,14 +20,9 @@ Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `l
 
 ## Scope
 
-**If the caller handed you a patch file, read that. Do not run git.** `mob-review` computes the branch diff once and passes `<SCRATCH>/diff.patch` plus `<SCRATCH>/files.txt`; when it does, that patch *is* the review scope. Filtering it for your lane (`awk '/^diff --git/{p=0} /^diff --git.*<path>/{p=1} p' <SCRATCH>/diff.patch`) costs the panel nothing, while re-deriving the diff costs the same bytes again for every persona in the round. Run the commands below only when no patch was given, or when you need something a patch cannot show: surrounding lines of a changed file, or a file the diff does not touch.
+Lane paths: `'*.ts' '*.vue' ':!*.spec.ts' ':!*.test.ts'`.
 
-```bash
-git fetch origin main --quiet
-git diff --merge-base origin/main HEAD -- '*.ts' '*.vue' ':!*.spec.ts' ':!*.test.ts'
-```
-
-Only flag added or changed lines. **Check the schema before flagging a missing value:** find the field's zod schema (the API client's models) and say whether it is optional or nullable. A null-rendering finding on a field the schema marks required needs evidence that the API omits it.
+**Check the schema before flagging a missing value:** find the field's zod schema (the API client's models) and say whether it is optional or nullable. A null-rendering finding on a field the schema marks required needs evidence that the API omits it.
 
 Canonical helpers:
 - Dates: the project's date component or formatter, with shared format constants and one empty placeholder. Values should be decoded to a date type in the API client's schema. Check any repo rule on dates.
@@ -52,19 +49,9 @@ Each finding names the value and what renders: "a service with `rateLimit: null`
 
 7. **Money formatted by hand (Change Requested).** `toFixed(2)`, a hard-coded `$`, a float sum of prices, or the currency taken from the UI locale rather than the account, instead of the project's money formatter. Watch for "-$0.00", for JPY shown with two decimals, and for a legacy formatter rendering a real $0 as `-`. (DS-D2, DS-D4, DS-D5, DS-D6, DS-D7)
 8. **Unit conversion wrong (Change Requested).** Bandwidth divided by 1024, or bits and bytes mixed (Mbps vs MB/s), so 10000 Mbps shows as "9.77 Gbps"; a conversion that shows "2.4999999 Gbps"; a value and its unit split across a line break. (DS-D9, DS-D10, DS-D11)
-9. **A ratio of zero (Change Requested).** A utilisation or percentage computed as `used / total` with no zero check, so a new service shows "NaN%" or "Infinity%"; a value already in percent multiplied by 100 again by `Intl.NumberFormat` `style: 'percent'`. (DS-D12, DS-D13)
-10. **Large numbers unreadable or unsafe (Nit).** Counts and prices in tables with no thousands separator; numbers not right-aligned or tabular (`tw:tabular-nums`) in a column; an id above `Number.MAX_SAFE_INTEGER` parsed as a number; compact notation ("1.2K") hiding a difference that matters. (DS-D1, DS-D8, DS-D14, DS-D16)
+When the diff computes a ratio or percentage, shows large numbers, or adds a copy button, read [references/ratios-large-numbers-and-copying.md](references/ratios-large-numbers-and-copying.md). It holds rules 9 to 11.
 
-**Copying**
-
-11. **Copy button copies the wrong thing (Nit).** A copy button on a formatted value that copies "$1,234.00" or "10 Gbps" where the user needs the raw value, or an id with surrounding whitespace or a hidden zero-width character; a copy with no feedback, or feedback that never resets. (DS-F1, DS-F2, DS-F3, DS-F5)
-
-**Render crashes and misleading values**
-
-12. **Nested nullable object read without a guard (Change Requested).** A template or computed reads `a.b.c` where `b` can be `null` for some records, such as `device.vendorConfig.label` on a device with `vendorConfig: null`. The render throws and the whole region stays blank. A default parameter (`x = {}`) doesn't catch `null`. Use `?.` with a display fallback. Don't flag a field the schema marks required (see Never). (DS-L1)
-13. **Sentinel shown as data (Change Requested).** A mapper uses `Number.MAX_SAFE_INTEGER` to mean unlimited, `-1` to mean untagged, or `'Unknown'` for a missing old value, and its output also reaches the template. The user sees "Max Mbps: 9007199254740991" or "Preferred VLAN -1". Model "none" as `null` or a tagged union, and map it to one label ("Unlimited", "Untagged", "Not set") in one place. Don't flag a sentinel that never reaches the screen. (DS-L3)
-14. **Unknown value passed to `Intl` or an enum-checking prop (Change Requested).** `Intl.NumberFormat` with `style: 'currency'` throws `RangeError` when given a formatted string or an empty code. A prop validator or `switch` default that throws on a new or lowercase enum value breaks the widget. Check the code (`/^[A-Z]{3}$/`) and fall back to a plain number with the code shown, and make validators warn and use a default. Don't flag a currency read from a field the schema types as an ISO 4217 enum. (DS-L4)
-15. **Unknown status shown as a reassuring state (Change Requested).** A status map or `switch` whose `default` returns a positive state, or a binary `status === 'FAILED' ? 'red' : 'green'` over a multi-value enum. A new `DECOMMISSIONING` status then shows a green "Live". Map every value, fall back to a neutral "Unknown (RAW_VALUE)", and add a `never` exhaustiveness check. A default that renders blank → rule 3. (DS-L5)
+When the diff reads a nested nullable object, maps a sentinel value, passes a value to `Intl` or an enum-checking prop, or maps a status to a state, read [references/render-crashes-and-sentinels.md](references/render-crashes-and-sentinels.md). It holds rules 12 to 15.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
@@ -90,12 +77,8 @@ Each finding names the value and what renders: "a service with `rateLimit: null`
 
 ## Output
 
-Verify every finding against the changed lines, and don't speculate. Each finding names the value and what renders. Call `ReportFindings` once, most-severe first:
-- `summary`: prefix the tier, for example `[Change Requested] null contractEndDate renders "Invalid Date" — pass it to the date component`.
-- `category`: `value-display`. `file`/`line`: the changed line. `failure_scenario`: the value (and timezone or locale if it matters), what the user sees, and the fix with the canonical helper.
-- Zero findings is a valid result: call with an empty array.
-
-**Code references.** Any code you cite that is *not* a changed line of this diff must be a markdown link to that line on `main` on GitHub, in `detail`/`suggestion`. That covers code in another repo, such as a spec or a sibling service, and unchanged code elsewhere in this repo. Format: `[path/File.kt:42](https://github.com/<owner>/<repo>/blob/main/path/File.kt#L42)`, or `#L42-L50` for a range. Take the line numbers from `origin/main`, never the local checkout, because local clones lag: `git -C <repo> fetch origin main --quiet && git -C <repo> grep -n '<pattern>' origin/main -- <path>`. Get `<owner>/<repo>` from `git -C <repo> remote get-url origin`. For a repo that isn't on GitHub, give plain `path:line` plus the remote URL. Changed lines of the diff stay in `file`/`line`; they aren't on main yet.
-
-**When `mob-review` (or any caller) asks for JSON:** do NOT call ReportFindings. Return only:
-`{"persona":"persona-value-display","inScope":<bool>,"findings":[{"severity":"change-requested|nit|future","category":"value-display","file":"","line":0,"summary":"","detail":"","suggestion":""}]}`
+- `category`: `value-display`.
+- `detail`: the value (and timezone or locale if it matters), and what the user sees.
+- `suggestion`: the fix with the canonical helper.
+- Example `summary`: `null contractEndDate renders "Invalid Date" — pass it to the date component`.
+- Each finding names the value and what renders.

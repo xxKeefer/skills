@@ -37,8 +37,19 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
 - Every `persona-*` keeps `disable-model-invocation: true`. Only `mob-review` or the user starts
   one.
 - Keep the section order: Guard, Scope, What you review, Out of lane, Severity, Output.
-- Keep the output contract unchanged: the `ReportFindings` paragraph and the
-  `{"persona": ...}` JSON line. `mob-review` parses the JSON.
+- Every persona follows [`PERSONA-CONTRACT.md`](PERSONA-CONTRACT.md). The first line under the
+  frontmatter is this pointer, word for word: "Read
+  [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in
+  it."
+- Do not copy contract text into a persona. Scope holds only the lane paths and the lane's own
+  reads. Output holds the category slug, the anchor when it is not the changed line, what `detail`
+  and `suggestion` hold, and any grouping rule.
+- `mob-review` parses the contract's JSON. A change to that JSON needs the same change to
+  `mob-review` Steps 4 and 5.
+- A persona `SKILL.md` over 10 KB is sprawl. When an edit takes it over, move what only some diffs
+  need, such as one file type, examples, or stack facts, to `references/`. Leave one line that
+  says when to read the file. A moved rule keeps its number. What every diff needs stays inline,
+  even when the file stays over 10 KB.
 - Never renumber a rule. Findings and other personas cite rules by number. Give a new rule the
   next number in its section. A removed rule leaves a gap.
 - Every rule must be checkable against a changed line in a diff.
