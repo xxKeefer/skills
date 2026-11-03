@@ -15,7 +15,7 @@ Parse `$ARGUMENTS` into **tweak request** and **resource links** (if any).
 Example: `tweak align the text left in the center card` → tweak request is the full string,
 no resource links.
 
-Example: `tweak plans/plan_ENG-123.md make the error toast dismissable` → resource link is
+Example: `tweak plans/plan_PROJ-123.md make the error toast dismissable` → resource link is
 the plan file, tweak request is the rest.
 
 ### Context sources (in order)

@@ -14,7 +14,7 @@ Parse `$ARGUMENTS` into **problem description** and **resource links** (if any).
 
 Example: `fix the dropdown doesn't close when clicking outside` → problem is the full string.
 
-Example: `fix ENG-123 submit button sends the wrong payload` → resource link is the ticket,
+Example: `fix PROJ-123 submit button sends the wrong payload` → resource link is the ticket,
 problem is the rest.
 
 ### Context sources (in order)

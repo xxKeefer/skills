@@ -111,7 +111,7 @@ evidence, and ask the user what they can confirm.
 ## Step 4: Write the Hunt Artifact
 
 Use `/write-to-file` to write `hunt_{terse-description}.md` to `.ai/` (prefer the tracker id when
-the work has one, per `/write-to-file`'s naming convention — e.g. `hunt_ENG-123.md`).
+the work has one, per `/write-to-file`'s naming convention — e.g. `hunt_PROJ-123.md`).
 
 This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
 tracker content. Its job is to carry the investigation into `/fix` or `/implement` intact. The fix

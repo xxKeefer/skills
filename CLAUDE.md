@@ -36,8 +36,10 @@ Top-level layout:
 | `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill, so they ship with the plugin. |
 | `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
 | `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
+| `.githooks/` | The scrub check: a pre-commit hook, its public pattern file, and its tests (`sh .githooks/pre-commit_test.sh`). |
 
-The root owns only the registry and shared documentation (`README.md`, `CLAUDE.md`, `CONTEXT.md`).
+The root owns only the registry, the commit hook, and shared documentation (`README.md`,
+`CLAUDE.md`, `CONTEXT.md`).
 No skills live at root -- they all live under `skills/`.
 
 ## Skill Maturity
@@ -62,6 +64,9 @@ else. No framework lock-in, no language assumptions, no tool dependencies beyond
 There are two exceptions: the rules that `/install-rules` ships, and the `dev-personas` reviewers.
 A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
 so both name languages, frameworks, and tools. Neither names employer or client code.
+
+A skill does not restate an employer's internal docs, even with the names removed. No regex
+checks this rule, so it binds whoever imports a skill. The pre-commit hook checks only the names.
 
 ## Agent skills
 

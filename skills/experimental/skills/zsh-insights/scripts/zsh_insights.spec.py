@@ -78,7 +78,7 @@ class Mask(unittest.TestCase):
         self.assertEqual(zi.mask("use Xk29fLq8Zr0pVb7Nw3Ty6Hm1Gd5Sa4Ce"), "use ***")
 
     def test_keeps_ordinary_commands(self):
-        for cmd in ["git switch feat/eng-12345-fix-the-long-branch-name-here",
+        for cmd in ["git switch feat/proj-123-fix-the-long-branch-name-here",
                     "cd /Users/danielkeefer/studio/code/xxkeefer-skills",
                     "git show 3f786850e387550fdab836ed7e6dc881de23001b"]:
             self.assertEqual(zi.mask(cmd), cmd)

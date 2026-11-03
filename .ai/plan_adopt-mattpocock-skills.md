@@ -40,7 +40,7 @@ consistent, one commit.
 
 **What:** Create `skills/mattpocock/adapters/issue-tracker-ai-local.md` (derived from his
 `issue-tracker-local.md` template, but scratch root `.ai/` and `/write-to-file` conventions) and
-`skills/mattpocock/adapters/issue-tracker-jira.md` (Atlassian MCP, Megaport project keys per
+`skills/mattpocock/adapters/issue-tracker-jira.md` (Atlassian MCP, the project keys per
 `jira-conventions`, native blocking = Jira issue links, triage labels mapped to status
 transitions/labels, wayfinding operations section). README gains a "per-repo setup" section:
 run `/set-up-dev-workflow-skills`, hand it the fitting adapter.

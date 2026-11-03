@@ -17,7 +17,7 @@ agent can act on it.
    - **Web URL** → Fetch the page content
    - **Tracker ticket** → fetch via the project's issue tracker. Which tracker (and how to reach it)
      is defined by the repo's CLAUDE.md — e.g. a GitHub issue (`#42`) via `gh`, a Jira key
-     (`ENG-12345`) via the Atlassian MCP, or whatever the project declares
+     (`PROJ-123`) via the Atlassian MCP, or whatever the project declares
    - **Wiki / doc page** → fetch via the project's documentation system (e.g. Confluence via MCP, a
      local docs tree, a wiki URL)
    - **MCP resource URI** → Read via MCP resource tools

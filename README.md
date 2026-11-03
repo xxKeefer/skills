@@ -9,6 +9,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
+| `.githooks/` | The scrub check: a pre-commit hook that blocks employer content. |
 
 ## Domains
 
@@ -61,6 +62,17 @@ Add to `~/.claude/settings.json`:
 ```
 
 `primitives` is required by all other domains. Enable whichever domains you need.
+
+### Turn on the scrub check
+
+The pre-commit hook in `.githooks/` blocks a commit when a tracked file matches a pattern for
+employer content, such as a ticket key or a custom field ID. Run these commands once per clone:
+
+1. Run `git config core.hooksPath .githooks`.
+2. To also block names that must stay private, put one pattern per line in a file outside this
+   repo. Then run `git config scrub.patterns <path-to-that-file>`.
+
+The hook checks the whole staged tree. To check a commit, run `.githooks/pre-commit <revision>`.
 
 ### Publishing a new version
 

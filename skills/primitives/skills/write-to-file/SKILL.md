@@ -38,7 +38,7 @@ repo's context defines a tracking mechanism for the work, in which case prefer t
 file is traceable back to its source of truth.
 
 - If the work has a defined tracker (a Jira/Linear key, a GitHub issue number, a changeset id,
-  whatever the project uses), use it: `plan_ENG-29019.md`, `research_gh-1421.md`.
+  whatever the project uses), use it: `plan_PROJ-123.md`, `research_gh-1421.md`.
 - Otherwise fall back to the kebab-case slug: `plan_auth-rewrite.md`.
 
 A tracking mechanism counts as "defined" when it's discoverable from context — named in the prompt,

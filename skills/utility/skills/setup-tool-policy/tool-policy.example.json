@@ -9,8 +9,8 @@
     "vue-tsc": "nx typecheck {project}",
     "vite": "nx dev {project}   (production build: nx build {project})",
     "playwright": "nx test:integration {project}   (UI: nx test:integration:ui {project})",
-    "storybook": "nx dev ui   (per-app: nx book portal / nx book cma)",
-    "start-storybook": "nx dev ui   (per-app: nx book portal / nx book cma)",
+    "storybook": "nx dev ui   (per-app: nx book {project})",
+    "start-storybook": "nx dev ui   (per-app: nx book {project})",
     "prettier": "nx affected --target=prettier:check   (or the root 'prettier' / 'prettier:check' scripts)"
   },
   "blockedCommands": [

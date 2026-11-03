@@ -75,7 +75,7 @@ Compose the ticket body using the [issue template](ISSUE_TEMPLATE.md) as a start
 - `> blockquote` for one-line section summaries
 - Tables for comparisons, checkboxes for scope items
 - Horizontal rules (`---`) between major sections
-- Reference tickets using the tracker's identifier convention (`#N` for GitHub, `ENG-123` for Jira, …)
+- Reference tickets using the tracker's identifier convention (`#N` for GitHub, `PROJ-123` for Jira, …)
 - Code snippets only to illustrate an API surface or pattern — not implementation
 - Acceptance criteria: each item = one observable, testable behaviour
 
