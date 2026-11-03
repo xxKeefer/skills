@@ -13,7 +13,10 @@ Write the given content to the output folder for its doctype.
 
 1. Pick the folder. If the user's instructions (CLAUDE.md, AGENTS.md) name a folder for this
    doctype, use it, with any layout they give, such as one subfolder per ticket or topic.
-   Otherwise use `.ai/` in the root of the current working directory.
+   Otherwise use `.ai/` in the main worktree root, so all linked worktrees of a repo share one
+   folder. The main worktree root is the parent folder of
+   `git rev-parse --path-format=absolute --git-common-dir`. Outside a git repo, use `.ai/` in the
+   current working directory.
 2. Ensure the folder exists
 3. Write the file to `{folder}/{filename}`
 4. Report the written path so the user can load it with `@{path}`

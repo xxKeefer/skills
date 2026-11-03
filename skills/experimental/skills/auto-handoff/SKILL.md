@@ -29,12 +29,13 @@ For each remaining step, in handoff order:
 1. Read the handoff again, because a subagent can add entries.
 2. If an entry under `## Pending Decisions` lists the step in its `Blocks` line, mark the step
    skipped with that entry ID. Go to the next step.
-3. Dispatch one fresh `general-purpose` subagent. Give it the handoff path, the step ID, and the
-   absolute path to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`.
+3. Record the `HEAD` SHA. Dispatch one fresh `general-purpose` subagent. Give it the handoff
+   path, the step ID, and the absolute path to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`.
 4. Wait for it to return. Run one subagent at a time, because the steps share one working tree.
-5. Check the result against the repo, not the summary. For status `done`, `git log` holds the
-   commit it names and the handoff marks the step done. For an entry ID, the handoff holds that
-   entry. For both, the tree has no modified or staged files.
+5. Check the result against the repo, not the summary. For status `done`, the handoff marks the
+   step done, and `git log` holds the commit it names. With `Commit: none`, `HEAD` is still the
+   SHA from item 3. For an entry ID, the handoff holds that entry. For both, the tree has no
+   modified or staged files.
 6. If the check fails, stop the run and go to Step 3.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
@@ -60,7 +61,8 @@ the user's answers.
 For each entry the user answers:
 
 1. Write the answer into the handoff, at the step the entry blocks, as a recorded decision.
-2. For a `B` entry, also write whether the next run resumes from the stash `auto-handoff: <step>`.
+2. For an entry with a patch on its `Work` line, also write whether the next run resumes from that
+   patch.
 3. For an `N` entry the user has done, mark its step done.
 4. Delete the entry.
 

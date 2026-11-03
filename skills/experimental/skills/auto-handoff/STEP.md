@@ -4,15 +4,18 @@ You run one step of a handoff, from a cold start. The parent gives you the hando
 step ID. The handoff is your only context.
 
 Keep all work local. Commit to the current branch and push nothing. Edit only files inside this
-repo and the handoff file.
+repo, the handoff file, and the step's patch file (see Save the work).
 
 ## 1. Cold start
 
 1. Read the handoff and every artifact the step references.
-2. If the handoff says to resume from the stash `auto-handoff: <step>`, apply that stash.
+2. If the handoff says to resume from a patch file, run `git apply <patch>`. Then delete the patch
+   file.
 3. If the step needs a decision that the handoff does not record, write a `D` entry and return.
+   A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
+   yourself.
 4. If the step pushes, opens a PR, edits a ticket, deploys, or writes to any outside service, write
-   an `N` entry with the exact action and return.
+   an `N` entry and return.
 
 **Done when:** you can name the step's done line and its workflow.
 
@@ -27,8 +30,7 @@ Use the first row that matches the step:
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
 | Anything else: docs, config, CI | `done line` | Make the change. |
 
-If you find an unrecorded decision partway through, stash your changes as `auto-handoff: <step>`,
-write a `D` entry, and return.
+If you find an unrecorded decision partway through, save the work, write a `D` entry, and return.
 
 **Done when:** the step's done line holds.
 
@@ -38,10 +40,7 @@ Run the gates that the handoff or the repo guidance names. Use the test scope th
 guidance sets.
 
 If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
-red, stash your changes, write a `B` entry, and return.
-
-To stash, include new files and name only the paths this step changed:
-`git stash push --include-untracked -m "auto-handoff: <step>" -- <paths>`.
+red, save the work, write a `B` entry, and return.
 
 **Done when:** every gate is green.
 
@@ -51,7 +50,11 @@ To stash, include new files and name only the paths this step changed:
 2. Commit with the repo's commit convention.
 3. Invoke `/update-handoff` on the handoff to mark the step done.
 
-**Done when:** the commit exists and the handoff marks the step done.
+If the step changed no file except the handoff, make no commit. A review step that only adds fix
+steps is an example. Return `Commit: none`.
+
+**Done when:** the handoff marks the step done, and the commit exists or the step changed no file
+except the handoff.
 
 ## 5. Return
 
@@ -65,6 +68,22 @@ Tests: <the test count the runner reported, or none>
 Note: <one sentence>
 ```
 
+## Save the work
+
+Save the step's changes as a patch file in the handoff's folder, then clean the tree. Name only
+the paths this step changed, new files too. The patch name is `<handoff name>.step-<id>.patch`,
+such as `plan_auth.step-4.patch`.
+
+1. `git add -- <paths>`
+2. `git diff --cached --binary -- <paths> > <patch>`
+3. `git restore --source=HEAD --staged --worktree -- <paths>`
+
+Write the patch path on the `Work` line of the entry.
+
+During a merge or a rebase, save no patch. Run `git merge --abort` or `git rebase --abort`. In the
+entry, record each conflicting hunk: the file, both sides, and the evidence for each side. The next
+run merges again and uses the answer.
+
 ## Entries
 
 Write each entry under `## Pending Decisions` at the end of the handoff. Create the section if it
@@ -73,21 +92,25 @@ does not exist. Number each entry type in sequence across the file: `D1`, `D2`, 
 In the `Blocks` line, list this step and every later step that depends on it. Use the handoff's own
 dependency notes. If you are not sure that a step is independent, list it.
 
+In an `N` entry, when the outside action is the whole step, the Action line is
+`/do-next @<handoff path>`. The user then runs the step with its skills, not a bare command.
+
 ```
 ### D1: <question> (found in step <id>)
 - A: <option>
 - B: <option> (recommended: <reason>)
 - C: <option>
+- Work: <patch path, or none>
 - Blocks: <step IDs>
 
 ### B1: step <id>, <gate> stays red
 - Failure: <first lines of the failing output>
 - Tried: <attempt 1>, <attempt 2>, <attempt 3>
-- Work: stash "auto-handoff: <step>"
+- Work: <patch path>
 - Blocks: <step IDs>
 
 ### N1: <action> (step <id>)
-- Action: <the exact command, URL, or change for the user to make>
+- Action: <the /do-next line, or the exact command, URL, or change for the user to make>
 - Blocks: <step IDs>
 ```
 

@@ -16,7 +16,13 @@ document ready for the next run.
 Read the file. It is the only context you have — treat it as the source of truth for what's done
 and what's next. Follow any artifacts it references (plans, ADRs, issues, commits) as needed.
 
-**Done when:** you can name the next undone step and its done line.
+If the handoff names the branch for its work, compare it with `git branch --show-current`. On
+another branch, stop the run before Step 2. Name the worktree that has the handoff's branch: the
+path the handoff records, else the match in `git worktree list`. If no worktree has the branch, say
+so.
+
+**Done when:** you are on the handoff's branch, or the handoff names no branch, and you can name
+the next undone step and its done line. Or you stopped and named the correct worktree.
 
 ## Step 2: Do the Next Step
 
