@@ -35,9 +35,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 
 Requires `primitives@xxkeefer-skills`.
 
-`/wayfinder`, `/to-spec`, `/to-tickets`, `/triage`, and `/code-review` were adopted from
-[Matt Pocock's skills](https://github.com/mattpocock/skills) v1.1.0 (MIT — see
-[LICENSE-mattpocock](LICENSE-mattpocock)). They read the repo's `docs/agents/issue-tracker.md`,
+`/wayfinder`, `/to-spec`, `/to-tickets`, `/triage`, and `/code-review` read the repo's `docs/agents/issue-tracker.md`,
 written once by `/set-up-dev-workflow-skills` (`utility` domain).
 
 ## Permissions

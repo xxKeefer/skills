@@ -7,7 +7,7 @@ software engineering principles.
 ## Dependencies
 
 Developer skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
-all must be installed. `code-review` (adopted from Matt Pocock's set, MIT, v1.1.0) reads the
+all must be installed. `code-review` reads the
 repo's `docs/agents/issue-tracker.md`, written once by `/set-up-dev-workflow-skills` in the
 `utility` domain.
 

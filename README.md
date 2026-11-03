@@ -81,19 +81,3 @@ edit only after the `plugin.json` version changes and the user updates the plugi
 | [nixos_config](https://github.com/xxKeefer/nixos_config) | System and home-manager config. The `nix-manager` domain manages it |
 | [dotfiles](https://github.com/xxKeefer/dotfiles) | Config kept outside nix, linked into `~/.config` |
 | [skills](https://github.com/xxKeefer/skills) | This repo. Claude Code skills |
-
-## Attribution
-
-This marketplace owes a lot to [Matt Pocock's skills repo](https://github.com/mattpocock/skills)
-(MIT licensed):
-
-- The **developer** domain's `wayfinder`, `to-spec`, `to-tickets`, `triage`, and `code-review`
-  (plus the earlier-adopted `implement`, `grill-with-docs`, `domain-modeling`, `codebase-design`,
-  `improve-codebase-architecture`, and `prototype`) were adopted from his repo at tag `v1.1.0`,
-  with his LICENSE alongside as `skills/developer/LICENSE-mattpocock`. The vendored `mattpocock`
-  holding domain was retired 2026-07 once everything worth keeping had been adopted.
-- Several of my own skills carry his designs under my names: **grill** and **handoff**
-  (his `grilling`/`handoff` v1.1.0 bodies), **tdd** (his reference-only design), and **spike**
-  (inspired by his investigation workflows).
-
-Thanks Matt for sharing these publicly.
