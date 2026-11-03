@@ -22,10 +22,9 @@ Lane paths: none. Read the whole diff.
 
 Then gather, cheaply, in this order:
 
-1. **The test approach in the plan or ticket**, if one exists. It gives you the author's agreed risks, conditions, variation matrix and *Not testing* list.
+1. **The Test approach section** of the handoff or spec file the caller gives, else of the plan or ticket, if one exists. It gives you the author's agreed risks, conditions, variation matrix and *Not testing* list.
 2. **The PR body**, if a PR exists. When it has an AC table, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md).
 3. **Existing tests for the changed code on `main`**, not just the diff. A condition is covered if a test on main already proves it: `git grep -n '<symbol>' origin/main -- '*.spec.ts' '*.test.ts' '*Test.kt' '*IT.kt' '*Test.java' '*IT.java'`, plus the spec beside the source file.
-
 4. **The defect hotspots**: `git log --oneline -i -E --grep 'fix|bug' -- <file>` on the changed files. A file with a history of fixes raises that behaviour's likelihood one step, and the past fixes are the best evidence for which condition is missing.
 
 Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and the PR's AC table already carry the ACs you need. With neither, work from the diff alone.
@@ -66,7 +65,7 @@ Severity comes from the **risk of the behaviour**, not from the rule. The same m
 
 ## You are read-only
 
-Never edit source or test files. Reason the mutation through rather than applying it. If you genuinely must run one to be sure, revert it in the same turn, leave the working tree exactly as you found it, and note in `detail` that you verified by mutation. Never leave a weakened guard or validation behind.
+Reason the mutation through rather than applying it. If you genuinely must run one to be sure, revert it in the same turn, leave the working tree exactly as you found it, and note in `detail` that you verified by mutation. Never leave a weakened guard or validation behind.
 
 ## Output
 

@@ -1,6 +1,6 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then applies the small clear-cut fixes when the branch is your own (report-only on someone else's). Takes an optional handoff or spec path for the AC check. Use when the user says "mob review", "mob-review", "review this PR", "run the panel", "full review", or wants a broad multi-lens review of the current branch or a given PR.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then asks once which small clear-cut fixes to apply when the branch is your own (report-only on someone else's). In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "review this PR", "run the panel", "full review", or wants a broad multi-lens review of the current branch or a given PR.
 ---
 
 # Mob Review: staff-engineer review panel
@@ -52,17 +52,15 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 0: Run the panel in a clean thread
 
-**The panel is cheap; the thread it runs in is not.** Reviewing a diff needs the diff, the ticket and the repo. Not the conversation that produced the change. Run at the tail of an implementation session, the panel pays for that whole history on every one of its hundreds of orchestration turns: spawns, every persona report, fixes, verification, re-review. Measured: the persona subagents are a fifth of a review's cost, the orchestrator's own turns are the rest, purely from running at ~320K context instead of ~45K.
+**The panel is cheap; the thread it runs in is not.** Reviewing a diff needs the diff, the ticket and the repo. Not the conversation that produced the change. Run at the tail of an implementation session, the panel pays for that whole history on every one of its hundreds of orchestration turns: spawns, every persona report, fixes, verification. Measured: the persona subagents are a fifth of a review's cost, the orchestrator's own turns are the rest, purely from running at ~320K context instead of ~45K.
 
 - **Arriving from a session that just wrote the code** → the implementation is committed, so the branch is the whole handoff. Ask the user to `/clear` and re-run `mob-review`; nothing is lost, since the branch carries the state.
 - **Already in a fresh or short thread** (a session opened to review) → straight to Step 1.
 - **User declines** → run anyway. Say once that it will cost several times more, then drop it.
 
-Step 6.3's re-review round is the most expensive part of a panel for the same reason. It lands at the deepest context. A short thread is what makes it affordable.
-
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` as the source of the acceptance criteria.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 adds fix steps to it.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
@@ -71,7 +69,7 @@ git fetch origin main --quiet
 ```
 
 - **No arg / branch:** review the current (or named) branch vs `origin/main`.
-- **Stacked PR** (`gh pr view --json baseRefName` is not `main`): review vs `origin/<baseRefName>` instead, in every `git diff` below and in what the personas are told. The base branch's commits are its own PR's to review.
+- **Stacked PR** (`gh pr view --json baseRefName` is not `main`): review vs `origin/<baseRefName>` instead, in every git command below and in what the personas are told. The base branch's commits are its own PR's to review.
 - **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `origin/main`.
 
 Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
@@ -85,15 +83,22 @@ git diff --stat --merge-base origin/main HEAD | tail -1
 cat "$SCRATCH/files.txt"
 ```
 
-The path is keyed by branch **and sha**, so a re-review round after a fix commit computes its own patch and can never read a stale one.
+The path is keyed by branch **and sha**, so a later run after a fix commit computes its own patch and can never read a stale one.
 
 **Uncommitted work.** If the branch has no commits ahead of `origin/main` but the working tree is dirty, the change hasn't been committed yet. Review the working tree instead: drop `HEAD` from the three `git diff` commands (`git diff --merge-base origin/main` includes staged and unstaged changes), and suffix `SCRATCH` with `-wt`. Step 6 then can't make a separate fix commit, so leave the fixes in the working tree.
 
 If `files.txt` is empty, report "no changes vs origin/main" and stop.
 
+Record the two SHAs the panel reads. Step 5 prints them, so a later push step can compare the branch with what the panel read:
+
+```bash
+git rev-parse --short "$(git merge-base origin/main HEAD)"   # base
+git rev-parse --short HEAD                                   # head
+```
+
 **Branch behind `main`.** A merge-base diff still carries commits that already landed on `main` by squash merge (a sibling ticket's PR, or an earlier slice of a stack), so the panel would review code that is not this PR's change. When `git rev-list --count HEAD..origin/main` is non-zero, compare `git diff --stat --merge-base origin/main HEAD` against the diff a merge would leave: `git diff --stat origin/main $(git merge-tree --write-tree origin/main HEAD | head -1)`. If the second is clearly smaller, stop and offer to merge `origin/main` first (own code) or tell the author (someone else's), then recompute the scope. Conflicts reported by `merge-tree` are part of the offer.
 
-**Never print the patch body into this thread.** The orchestrator needs the file list (Step 2 guards) and the `--stat` line (size); the personas need the diff, and they read it from `diff.patch` themselves. A diff pasted here is re-sent on every remaining turn of the review. Every persona report, the fixes, the verification and the re-review round all sit behind it.
+**Never print the patch body into this thread.** The orchestrator needs the file list (Step 2 guards) and the `--stat` line (size); the personas need the diff, and they read it from `diff.patch` themselves. A diff pasted here is re-sent on every remaining turn of the review. Every persona report, the fixes and the verification all sit behind it.
 
 Also record **whose code this is**. It decides whether Step 6 may apply fixes:
 
@@ -151,7 +156,7 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` brief: `Acceptance criteria: <absolute path>`.
+When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Handoff or spec: <absolute path>`.
 
 **Project rubric, same message, when the repo has one.** The rubric is a review rubric skill that the repo's `CLAUDE.md` or `AGENTS.md` names. With no such skill, it is the repo's `CODING_STANDARDS.md` or `CONTRIBUTING.md`. If the diff touches code the rubric covers, spawn one more `general-purpose` subagent with `model: "sonnet"`. It reads a written rubric, like a persona:
 
@@ -173,6 +178,8 @@ These known persona pairs can land on the same line. Resolve them the same way e
 Hold the `persona-ac-check` findings apart for Step 5's Spec section. Rank the rest: **change-requested → nit → future**, then group by persona within each tier.
 
 ## Step 5: Report once
+
+Start with the two SHAs from Step 1: `Reviewed: base <base>, head <head>`. For uncommitted work, add `+ working tree` after the head.
 
 If `persona-ac-check` ran, print its findings first, under a **Spec** heading that names the source of the acceptance criteria (the file path or the ticket key). Use the table below without the Persona column. A PR can pass every lane and still build the wrong thing, so spec gaps do not compete in the lane ranking.
 
@@ -201,54 +208,11 @@ Counts are after the Copilot filter. When it dropped anything, add one line unde
 
 If every persona is clean, say so plainly. A clean panel is a valid result.
 
-## Step 6: Apply the simple findings (own code only)
-
-**On your own code** (per the Step 1 ownership check), don't stop at reporting. Fix what is small and clear-cut, then report what you fixed. Waiting to be asked wastes a turn on changes the user would always approve.
+## Step 6: Pick the fixes (own code only)
 
 **On someone else's code, apply nothing.** Report and stop. Editing another person's branch is theirs to invite, and the findings are the deliverable. Say in one line that fixes were withheld because the branch isn't yours.
 
-Judge each finding on **size and certainty**, not on its severity tier. A `change-requested` can be a one-liner and a `nit` can be a redesign:
-
-**Apply** when the fix is mechanical or local, and there is one obvious right answer:
-- Deleting a redundant wrapper, duplicated mapping, or vacuous assertion
-- Extracting a shared helper or test fixture already duplicated verbatim
-- Adding a test case for an uncovered branch that the existing harness already supports
-- Renames, missing `readonly`/`as const`, tightening a loose type, i18n key extraction
-
-**Leave for the user**. Report with a recommendation instead:
-- Anything that changes public API, a component contract, or an exported type
-- Anything touching behaviour the tests don't pin down, or needing a product/design call
-- Refactors spanning several files, or that would restructure a module
-- Anything where two reasonable fixes exist and picking one is a judgment call the author should make
-- Anything a persona itself flagged as `future` and framed as its own ticket
-
-Then, for everything you applied:
-
-1. **Prove each fix.** For an added test, mutate the source it targets, confirm the new test goes red, and restore. A test that passes either way covers nothing. For a refactor, the existing specs must stay green.
-2. Run the repo's typecheck, lint, format check, and the affected tests, at the smallest scope that proves the change, per the repo's `CLAUDE.md` / `AGENTS.md`.
-3. **Re-review your own fixes: narrowly.** The panel read the original diff; your fix commit went in unreviewed, and a fix is where a fresh defect lands (a moved symbol, a weakened assertion, a rename that missed a caller). But this round is the most expensive thing the panel does: it fires at the deepest context of the session, so it is scoped to where a fix can actually go wrong, not re-run across the board.
-
-   **Skip the round entirely when every applied fix was a nit**. A redundant comment removed, a `readonly` added, an i18n key extracted, a rename. Nits are mechanical by definition; if a fix needed judgement it was not a nit and does not qualify for the skip. Say in the report that the round was skipped and why.
-
-   Otherwise spawn it over **the fixes alone**, never the whole branch diff again, from their own scratch patch. This runs before step 4, so the fixes are normally still uncommitted:
-
-   ```bash
-   SCRATCH="${TMPDIR:-/tmp}/mob-fix-$(git rev-parse --short HEAD)-$(date +%s)"
-   mkdir -p "$SCRATCH"
-   git diff HEAD > "$SCRATCH/diff.patch"                                  # uncommitted fixes
-   [ -s "$SCRATCH/diff.patch" ] || git show HEAD > "$SCRATCH/diff.patch"  # already committed
-   ```
-
-   Give each persona the Step 3 brief plus what was already verified, so it doesn't re-report settled ground. Spawn only:
-   - **Personas whose own findings you applied.** A persona that reported nothing, or whose findings you left for the user, has nothing of its own to re-check.
-   - **`persona-vitest` whenever you added or changed a spec**: its Step 2 guard ran against the original diff, so a test file the panel itself introduces is never otherwise reviewed.
-   - **Any persona whose guard your fixes newly satisfy** (a fix that touches a `.vue` when the diff had none → `persona-a11y`).
-
-   A persona whose lane a fix merely passed through, without that persona having asked for the fix, is **not** in this round. The original panel already read those files, and the fix is bounded and verified.
-
-   **One round, hard cap.** Drop its findings Copilot already raised (Step 4's filter), apply the same size-and-certainty judgement to the rest, then report whatever remains rather than spawning a third round.
-4. Commit as one commit per the repo's commit convention, body listing what changed and why. Push if the branch already has a PR.
-5. In the final summary, mark every finding `applied` / `left for you`, so the report stays a complete account of the panel's output.
+**On your own code** (per the Step 1 ownership check), read [references/apply-fixes.md](references/apply-fixes.md) and follow it. It asks once which small findings to apply. With a handoff from Step 1, it adds the picks as fix steps and fixes nothing. Without one, it applies the picks. It never pushes.
 
 ## Step 7: Persona calibration (apply confident refinements)
 
@@ -272,6 +236,6 @@ For each signal: name the persona, the observed behaviour, and the SKILL.md chan
 
 ## Notes
 
-- The personas themselves are read-only: they review, they never edit. Applying fixes is this orchestrator's job in Step 6, and only on your own code.
+- The personas themselves are read-only: they review, they never edit. The fixes are this orchestrator's job in Step 6, and only on your own code.
 - Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
 - Scale is bounded by the diff: a small PR launches few personas; a broad one launches many. That's intended.

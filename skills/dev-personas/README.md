@@ -8,7 +8,7 @@ merges the findings into one report ranked Change Requested, then Nit, then Futu
 
 | Skill | Purpose |
 |---|---|
-| `/mob-review` | Run every in-scope persona over a branch or PR, rank the findings, and fix the clear-cut ones on your own branch |
+| `/mob-review` | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
 | `/update-personas` | Refresh `persona-best-practice` against installed and current versions, and lint any persona's structure |
 
 ### Personas
