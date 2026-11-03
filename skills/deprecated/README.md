@@ -15,6 +15,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/to-tickets` | Break a spec into tracer-bullet vertical-slice tickets |
 | `/wayfinder` | Decision-mapping for large-scale work (fog-of-war, HITL/AFK tickets) |
 | `/triage` | Move issues and external PRs through the triage state machine, write agent-ready briefs |
+| `/code-review` | Two-axis review of changes since a fixed point: standards and spec |
 
 ## Installation
 

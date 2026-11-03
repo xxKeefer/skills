@@ -1,6 +1,7 @@
 ---
 name: code-review
-description: Review the changes since a fixed point (commit, branch, tag, or merge-base) against the repo's coding standards and the originating spec. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to "review since X".
+description: Two-axis review of the changes since a fixed point, against the repo's standards and the spec. Replaced by /mob-review.
+disable-model-invocation: true
 ---
 
 Two-axis review of the diff between `HEAD` and a fixed point the user supplies:

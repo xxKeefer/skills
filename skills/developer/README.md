@@ -14,7 +14,6 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA |
 | `/happy-path` | Closure | Manual QA test plan for the current changeset |
-| `/code-review` | Closure | Two-axis review of changes since a fixed point: standards and spec |
 | `/resolve-feedback` | Closure | Assess code review feedback |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
@@ -35,7 +34,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 
 Requires `primitives@xxkeefer-skills`.
 
-`/wayfinder`, `/to-spec`, `/to-tickets`, `/triage`, and `/code-review` read the repo's `docs/agents/issue-tracker.md`,
+`/wayfinder`, `/to-spec`, `/to-tickets`, and `/triage` read the repo's `docs/agents/issue-tracker.md`,
 written once by `/set-up-dev-workflow-skills` (`utility` domain).
 
 ## Permissions
