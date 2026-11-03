@@ -15,12 +15,15 @@ depend on it. The user answers every entry in one batch at the end.
 ## Step 1: Pre-flight
 
 1. Read the @-tagged handoff. List the remaining steps in handoff order.
-2. If the working tree has modified or staged files, stop and ask the user about them. Those files
+2. If the handoff names the branch for its work, compare it with `git branch --show-current`. On
+   another branch, stop the run. Name the worktree that has the handoff's branch: the path the
+   handoff records, else the match in `git worktree list`. If no worktree has the branch, say so.
+3. If the working tree has modified or staged files, stop and ask the user about them. Those files
    are their in-flight work.
-3. If the current branch is the default branch, ask the user once whether to commit there.
+4. If the current branch is the default branch, ask the user once whether to commit there.
 
-**Done when:** the step list exists, the tree has no modified or staged files, and the user accepts
-the branch.
+**Done when:** the step list exists, the current branch is the handoff's branch or the handoff
+names no branch, the tree has no modified or staged files, and the user accepts the branch.
 
 ## Step 2: Run each step
 

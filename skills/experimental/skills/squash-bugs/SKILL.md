@@ -17,18 +17,31 @@ nothing and writes nothing to the tracker.
 
 1. Read the arguments: the tickets, and `--max N`. The default for `N` is 3.
 2. Read each ticket with `/look-up`.
-3. Fetch the default branch from the remote.
+3. Fetch from the remote.
 4. Name a branch for each ticket. Use the repo's convention for a fix branch. If there is none, use
    `fix/<ticket>`.
 5. Name a worktree path for each ticket. Use the layout that the user's or the repo's guidance
    names. If there is none, use the sibling folder `<repo>.<branch>`, with each `/` changed to `-`.
-6. Show this table, then wait for the user to say go:
+6. Find the existing work for each ticket: each worktree or branch whose name holds the ticket key
+   in any case, with no digit after it. Read it from `wt list --format=json --branches --remotes`.
+   Without `wt`, read `git worktree list` and `git branch --all`, and treat each worktree as
+   unmarked. Use the first line of this table that fits, and ask nothing:
+
+   | Existing work | Do | Note |
+   | ------------- | -- | ---- |
+   | A worktree whose `symbols` hold 🤖 or 💬 | Skip | a session may be live |
+   | A worktree | Skip | work exists at `<path>`, continue with `/claim` |
+   | A branch | Skip | branch exists, continue with `/claim` |
+   | A file or folder at the worktree path | Skip | the path exists |
+   | None | Create it in Step 2 | |
+
+7. Show this table, then wait for the user to say go:
 
    | Ticket | Title | Branch | Worktree | Note |
    | ------ | ----- | ------ | -------- | ---- |
 
-   In Note, mark a ticket that you cannot read, a ticket that is not a bug report, and a branch or
-   a worktree path that already exists. Skip each ticket whose branch or path already exists.
+   In Note, mark a ticket that you cannot read, a ticket that is not a bug report, and the note
+   from item 6.
 
 **Done when:** every ticket has a row, and the user said go.
 
@@ -36,14 +49,17 @@ nothing and writes nothing to the tracker.
 
 For each ticket that is not skipped, one at a time:
 
-1. Create its worktree at its path, on a new branch from the remote default branch. Use the tool or
+1. Find its existing work again, as in Step 1 item 6. If the result changed since the user said
+   go, skip the ticket, and report the change in Step 4.
+2. Create its worktree at its path, on a new branch from the remote default branch. Use the tool or
    the skill that the user's or the repo's guidance names. If there is none, use
    `git worktree add -b <branch> <path> <remote>/<default>`.
-2. Do the setup that the guidance names, such as copying ignored files or installing dependencies.
+3. Do the setup that the guidance names, such as copying ignored files or installing dependencies.
    Skip the setup that the tool already did.
-3. If a step fails, stop the run. Report the failure, and start no subagents.
+4. If item 2 or item 3 fails, stop the run. Report the failure, and start no subagents.
 
-**Done when:** every worktree exists with its setup done, or the run stopped on a failure.
+**Done when:** each ticket that is not skipped has its worktree with its setup done, or the run
+stopped on a failure.
 
 ## Step 3: Dispatch
 
@@ -73,8 +89,8 @@ Give one table, with a row for each ticket from Step 1:
 | Ticket | Branch | Status | Root cause | Files changed | Tests |
 | ------ | ------ | ------ | ---------- | ------------- | ----- |
 
-Status is the verdict, `skipped`, or the failed check. Take Root cause, Files changed, and Tests
-from the subagent's return.
+Status is the verdict, `skipped` with its Step 1 note or its Step 2 change, or the failed check.
+Take Root cause, Files changed, and Tests from the subagent's return.
 
 Below the table, give each ticket that is not `fixed` or `trivial`, with its hunt doc path:
 
