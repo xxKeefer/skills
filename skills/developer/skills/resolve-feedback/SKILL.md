@@ -80,9 +80,13 @@ After presenting all items, ask:
 
 For each approved fix:
 
-1. Make the change
-2. Run relevant tests
-3. Report results
+1. Write a failing test that captures the behaviour the fix asks for.
+2. Make the smallest change that passes the test.
+3. Run the affected tests.
+4. Report the results.
+
+If the fix changes no behaviour, such as a rename, a comment, or a type, skip the test and make the
+change.
 
 If multiple fixes touch the same file, apply them together to avoid conflicts.
 
