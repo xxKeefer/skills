@@ -1,6 +1,6 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size) plus Claude's built-in code-review at medium effort, plus the project's own code-review rubric skill when the repo names one, in parallel against the diff, aggregates their findings into one ranked report, then applies the small clear-cut fixes when the branch is your own (report-only on someone else's). Use when the user says "mob review", "mob-review", "review this PR", "run the panel", "full review", or wants a broad multi-lens review of the current branch or a given PR.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then applies the small clear-cut fixes when the branch is your own (report-only on someone else's). Takes an optional handoff or spec path for the AC check. Use when the user says "mob review", "mob-review", "review this PR", "run the panel", "full review", or wants a broad multi-lens review of the current branch or a given PR.
 ---
 
 # Mob Review: staff-engineer review panel
@@ -20,7 +20,8 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 | `persona-vitest` | unit-test quality, selectors, builders, flakiness | `*.spec.ts` / `*.test.ts` changed (a standalone browser E2E suite's Playwright specs → `persona-browser-e2e`; `tests/integration/**` → `persona-integration-test`) |
 | `persona-comments` | needless/stale/what-not-why comments, over-long comments, comments reaching outside their codebase, dead code | added or changed comment lines in frontend source (`//`, `/* */`, JSDoc, `<!-- -->` in `.vue`) |
 | `persona-naming` | file/folder/export/variable naming + units | new files added, or files renamed, or exported/declared identifiers changed, in `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` |
-| `persona-code-quality` | extraction, dedup (including a duplicate speed/money/date formatter), misplaced code, vueuse/es-toolkit, Python stdlib reuse | **non-test** `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` source changed, or **non-test** `.py` source changed |
+| `persona-code-quality` | extraction, dedup (including a duplicate speed/money/date formatter), misplaced code, vueuse/es-toolkit, Python stdlib reuse, the Fowler smells that no other lane owns (any language) | **non-test** source in any language changed (`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, and files under `tests/` do not count) |
+| `persona-correctness` | logic errors that give a wrong result or a crash: wrong conditions, off-by-one boundaries, crashes on a reachable input, missed cases, wrong values, lost or early results, broken callers, coercion and equality. Every finding carries a counterexample | any diff that adds or changes executable code in any language: source, scripts, build and CI logic, and code in a fenced block that a skill or doc tells someone to run. Not a diff of only prose, locale strings, lockfiles, generated files, or tests |
 | `persona-error-handling` | swallowed failures (empty catch, catch-that-only-logs), `console.*` instead of the error reporter/toast, local catch duplicating the global query error handler, context-free `throw`, errors off the app's error taxonomy, reported `CanceledError`, `fetch` without `response.ok`, floating promises | the **changed lines** touch a failure path (`catch`, `finally`, `throw`, `.catch(`, `.then(`, `reject`, `onError`, `captureException`, `console.`, `fetch(`, `response.ok`, `Promise.`, a `*Error` type) in **non-test** `.ts`/`.vue`. Judge the hunks, not the file. Bare `async`/`await` is **not** a trigger on its own, and matches inside test files never count: counting those spawns the persona on diffs with no failure path in them |
 | `persona-async-state` | races and stale async state: out-of-order responses, in-flight writes into reset state (logout, company switch, revert), reactive route/context re-read after an `await`, conflicting writes left enabled, `initialData` faking a loaded query, last good data kept after a failure | the **changed lines** touch async state: `await`, `.then(`, an async `watch`/`watchEffect`, `useMutation`/`mutate`/`mutateAsync`, `isPending`/`isFetching`/`isError`, `initialData`/`placeholderData`, `AbortController`/`signal`, `onWatcherCleanup`, a `$reset`/logout/company-switch handler, or a `route.params`/`route.query` read inside an async callback. Non-test `.ts`/`.vue` only. Judge the hunks, not the file. Changing which function an event binding or import points at (`@logout="…"`, a swapped composable source) doesn't count. The handler's own body has to change |
 | `persona-form-behaviour` | what Enter, Escape, and submit do (`@keydown.enter` on the design system's input, IME Enter, raw buttons with no type, Enter in a combobox/modal), missing or self-contradictory min/max/length bounds, number inputs for identifiers or empty numbers sent as `''`, stale hidden-field values and errors, cross-field rules not re-run, typed dates past the picker's limits, and failed submits losing input | **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch a form: a form control (the design system's input, `<input`, `<textarea`, `<select`, a date picker, a combobox), its bounds (`min`/`max`/`maxlength`/`step`, `type="number"`, `v-model.number`), its schema (zod/yup `.min(`/`.max(`/`.length(`/`.refine(`/`.superRefine(`/`.when(`/`.required(`/`.optional(`, `z.coerce.`), its registration (`useField`, `<Field :name`, `initialValues`), its keyboard and submit wiring (`@keydown`, `@keyup`, `@submit`, the design system's form component, `useForm`, `handleSubmit`, a `<button>` inside a form, a dialog's dismiss props), or a wizard step's routing (`beforeEnter`, a step route). Judge the hunks, not the file. A hunk that sits only inside `definePage({...})`/route `meta`, or only swaps an import, doesn't count. |
@@ -42,13 +43,12 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 | `persona-browser-e2e` | a standalone browser E2E suite (real backend, no MSW) | a standalone browser E2E suite's specs, page objects, fixtures, API helpers or `playwright.config.ts` changed. Frontend only: never spawn it on a Kotlin/Java diff |
 | `persona-api-integrity` | frontend call ↔ backend, cross-repo: request/response vs the spec and the handler (params, body, Zod strictness vs nullability/enums, envelope, status codes), frontend permission/context gate vs the handler's authorization check and the roles granted the permission, unmerged-backend dependencies, missing server-side checks, the spec's visibility marker versus the handler's authorisation, replaced or removed endpoints left behind | the **changed lines** of non-test `.ts`/`.vue` add or change an API call (a path constant/builder or DTO schema in the project's API client, a `queryOptions`/`mutationOptions`/`useQuery`/`useMutation` or the project's query/mutation wrapper whose fn, path, params or body changed, a legacy API-client method, or a raw `fetch(`/axios call to an API path), **or** the gate in front of an existing call (`definePage` `meta.permissions`, an argument to the project's permission helper, an account-type/partner/flag condition) on a page or component that calls an endpoint. Judge the hunks, not the file. Backend-only diffs → `persona-api-spec` |
 | `persona-test-design` | what *should* be tested: risk-rated behaviours (likelihood × impact), conditions from partitions/boundaries, decision tables, state transitions, pairwise across product/role/account/flag/state, interruption heuristics; high-risk gaps, wrong test level, PR "Tested by"/Conditions claims no test backs, plan-time test-approach conditions dropped without a Gaps entry. Capped at five findings | **non-test behavioural source** changed (`.ts`/`.vue`/`.mjs`/`.js` under `apps/*/src` or `libs/*/src`, `.kt`/`.java` under `src/main/**`, or non-test `.py`), **whether or not the diff touches a test**. Type-only, style-only, `definePage`/route-`meta`-only, locale JSON, Storybook-only, docs, CI and lockfile hunks don't count, and a test-only diff doesn't either |
-| `persona-ac-check` | PR (code + description) ↔ ticket acceptance-criteria coverage; recommends update-ticket vs update-PR | a ticket (a key or issue number per the repo's `docs/agents/issue-tracker.md`) resolvable from the argument, branch or PR title, and the tracker is reachable from this session |
+| `persona-ac-check` | PR (code + description) ↔ acceptance-criteria coverage, from a handoff, a spec, or the ticket; recommends update-ticket vs update-PR | Step 1 has a handoff or spec path, or a ticket (a key or issue number per the repo's `docs/agents/issue-tracker.md`) is resolvable from the argument, branch or PR title, and the tracker is reachable from this session |
 | `persona-pr-size` | PR too big / splittable; proposes the `gh stack` split layout | diff is large by **changed-line count** (~≥400) or obviously bundles unrelated concerns. File count on its own is not a split signal. A shared-lib change plus one small config edit per consuming app is one coherent change however many files it spans |
 | `persona-production-protector` | production blast radius: missing/leaking/fail-open feature gates, flipped defaults, in-place shared-lib changes, global-scope edits, delete-before-proven, one-way changes, tightened contracts, rollback story | shipped non-test source changed under `apps/**` or `libs/**` (`.ts`/`.vue`/`.css`, app config/bootstrap) (skip test-/docs-/CI-only diffs; a Storybook-only file under `src/**` imported only by `*.stories.ts`/`.storybook/**` is not shipped and counts as test-only; **except** a test/e2e diff that provisions privileged accounts, grants roles, or mutates a shared environment) |
 | `persona-bundle-size` | shipped bytes and load timing: heavy/rare components statically imported behind `v-if`/flag/modal (should be `defineAsyncComponent`), static routes, top-level heavy imports for handler-only use, eager globs, whole-locale imports, dev code on prod paths, non-tree-shakable imports, `sideEffects`, new/duplicate heavy deps, deps inlined into a lib `dist`, chunk/compile-flag config | the **changed lines** of non-test `.vue`/`.ts`/`.js`/`.mjs` under `apps/**` or `libs/**` add/change an `import`, `import()`, `defineAsyncComponent`, `import.meta.glob`, a route definition, or a `v-if`/`v-show`/`<component :is>` around a component; **or** a `package.json` deps/`sideEffects`/`exports` field changed; **or** a `vite.config.*`/build config changed. Judge the hunks, not the file |
 | `persona-analytics` | product event tracking both ways: over-tracking (backend-measurable events, hot-path volume, duplicates of page views, free-text/high-cardinality props, identity/PII passed around the consent gate, untyped `posthog.*` calls, off-vocabulary events) and event-name conventions (literal snake_case domain-first names, no variable segments, suffix meanings, renames that split a metric, duplicates of live PostHog events) and under-tracking (new flow/wizard/experiment with no milestone, broken flow start/complete/abandon lifecycle, missing exposure or entry-point attribution), plus changes to the analytics consent gate | the **changed lines** touch the project's analytics wrapper or `posthog.`; **or** they add a user-facing flow in an app that activates the analytics lib. A new page, a wizard/stepper, a confirm dialog that fires a mutation, a new order/checkout/signup/billing entry point, or a flag-gated alternate experience. Judge the hunks, not the file |
-| project rubric (a code-review rubric skill the repo's `CLAUDE.md` or `AGENTS.md` names; not a persona) | the project's own code standards, as that skill defines them | the repo's `CLAUDE.md` or `AGENTS.md` names a code-review rubric skill, and the diff touches code the rubric covers. See Step 3 |
-| `code-review` (built-in skill, not a persona) | general correctness bugs: logic errors, broken edge cases, wrong conditions, crashes (the cross-cutting catch-all no single lane owns) | always (any non-empty diff), at `medium` effort. See Step 3 |
+| project rubric (a review rubric skill the repo's `CLAUDE.md` or `AGENTS.md` names, else the repo's `CODING_STANDARDS.md` or `CONTRIBUTING.md`; not a persona) | the project's own code standards, as that skill or file defines them | the repo names a rubric skill or has one of those files, and the diff touches code the rubric covers. See Step 3 |
 
 ## Step 0: Run the panel in a clean thread
 
@@ -62,7 +62,7 @@ Step 6.3's re-review round is the most expensive part of a panel for the same re
 
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional argument: a PR number/URL, a branch name, or nothing.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` as the source of the acceptance criteria.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
@@ -71,7 +71,7 @@ git fetch origin main --quiet
 ```
 
 - **No arg / branch:** review the current (or named) branch vs `origin/main`.
-- **Stacked PR** (`gh pr view --json baseRefName` is not `main`): review vs `origin/<baseRefName>` instead, in every `git diff` below and in what the personas and `code-review` are told. The base branch's commits are its own PR's to review.
+- **Stacked PR** (`gh pr view --json baseRefName` is not `main`): review vs `origin/<baseRefName>` instead, in every `git diff` below and in what the personas are told. The base branch's commits are its own PR's to review.
 - **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `origin/main`.
 
 Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
@@ -125,7 +125,7 @@ Match the changed-file list against the guard column above. Only launch personas
 
 ## Step 3: Spawn the in-scope personas in parallel
 
-Launch **one subagent per in-scope persona, all in a single message** (multiple `Agent` tool calls) so they run concurrently. Use the `general-purpose` agent type. The harness runs at most 20 subagents at once and refuses the rest; when the panel plus `code-review` exceeds that, launch the overflow as the first reports come back.
+Launch **one subagent per in-scope persona, all in a single message** (multiple `Agent` tool calls) so they run concurrently. Use the `general-purpose` agent type. The harness runs at most 20 subagents at once and refuses the rest; when the panel exceeds that, launch the overflow as the first reports come back.
 
 **Model per persona.** A persona reads a bounded diff and answers against a written rubric, so pass `model: "sonnet"` on the `Agent` call for every persona *except* the following, which stay on the default model because their misses are silent and expensive:
 
@@ -135,6 +135,7 @@ Launch **one subagent per in-scope persona, all in a single message** (multiple 
 - `persona-skills` (its defects are relational: it has to read across files to find them)
 - `persona-api-integrity` (cross-repo and relational: it has to trace a frontend call to a spec, a handler, its service and a permission changeset)
 - `persona-test-design` (a missing test is invisible in the diff: it has to reason from the source to conditions nobody wrote, and rate risk)
+- `persona-correctness` (the lane for logic bugs: a miss ships a wrong result, and no step after the panel looks for it)
 
 Ticket context in the prompt is fine. The author's beliefs about behaviour are not facts. Pass a claim like "the old component rendered aria-hidden" only as something to verify, or leave it out, because a persona that accepts it as given skips the check its lane exists for.
 
@@ -150,36 +151,32 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-**Built-in `/code-review`, same message.** Alongside the personas, spawn one more `general-purpose` subagent on the **default model** (correctness misses are silent, like security's) that runs Claude's own review. This means Claude Code's built-in `code-review` skill, not `developer:code-review` from this marketplace.
+When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` brief: `Acceptance criteria: <absolute path>`.
 
-> Invoke the `code-review` skill via the Skill tool with args `medium <branch>` (the branch under review, compared against `origin/main`; the diff is also at `<SCRATCH>/diff.patch`). Follow it as a **review only**: no `--fix`, no `--comment`, no edits. When the skill reaches its reporting step, return raw JSON only (no prose, no code fences), in the form that the "When a caller asks for JSON" section of `<PERSONAS>/../PERSONA-CONTRACT.md` gives, with `"persona": "code-review"`. If the skill runs its review in the background, wait for that run to finish before returning: an empty report sent while it is still running reads as a clean result. Map severity: a correctness bug (`CONFIRMED`, or a `PLAUSIBLE` one with a concrete failure scenario) → `change-requested`; a reuse/simplification/efficiency cleanup → `nit`; drop anything else speculative. `detail` = the failure scenario, `suggestion` = the fix. Any code it cites outside the changed lines must be a markdown link to that line on `main` on GitHub, with line numbers taken from `origin/main` (same rule as the personas).
+**Project rubric, same message, when the repo has one.** The rubric is a review rubric skill that the repo's `CLAUDE.md` or `AGENTS.md` names. With no such skill, it is the repo's `CODING_STANDARDS.md` or `CONTRIBUTING.md`. If the diff touches code the rubric covers, spawn one more `general-purpose` subagent with `model: "sonnet"`. It reads a written rubric, like a persona:
 
-**Project rubric, same message, when the repo names one.** If the repo's `CLAUDE.md` or `AGENTS.md` names a code-review rubric skill, and the diff touches code it covers, spawn one more `general-purpose` subagent with `model: "sonnet"`. It reads a written rubric, like a persona:
-
-> Invoke the `<rubric skill name>` skill via the Skill tool. Apply it as a **review only** of the diff at `<SCRATCH>/diff.patch` (changed files in `<SCRATCH>/files.txt`): no edits, no PR comments. Only report problems on changed lines, verified against the code. Read `<PERSONAS>/../PERSONA-CONTRACT.md`, and follow its Findings and Code references sections. Return raw JSON only (no prose, no code fences), in the form that its "When a caller asks for JSON" section gives, with `"persona": "<rubric skill name>"` and `category` set to the rubric section. Severity: a defect the rubric calls out as a bug or contract violation → `change-requested`; a standards deviation → `nit`; a larger refactor idea → `future`.
-
-Medium is deliberate: at low/medium the skill keeps to fewer, high-confidence findings, which is what a panel already full of specialists wants from a generalist. Don't raise it without the user asking.
+> Invoke the `<rubric skill name>` skill via the Skill tool, or read `<absolute path to the rubric file>`. If the file states no rule about how to write code, return `{"persona":"<rubric>","inScope":false,"findings":[]}`. Apply the rubric as a **review only** of the diff at `<SCRATCH>/diff.patch` (changed files in `<SCRATCH>/files.txt`): no edits, no PR comments. Only report problems on changed lines, verified against the code. Read `<PERSONAS>/../PERSONA-CONTRACT.md`, and follow its Findings and Code references sections. Return raw JSON only (no prose, no code fences), in the form that its "When a caller asks for JSON" section gives, with `"persona"` set to the skill name or the file name, and `category` set to the rubric section. Skip a rule that the repo's tooling already enforces. Severity: a defect the rubric calls out as a bug or contract violation → `change-requested`; a standards deviation → `nit`; a larger refactor idea → `future`.
 
 ## Step 4: Aggregate
 
 Collect each persona's JSON (`.filter(Boolean)` any that failed). Combine all `findings`. Do not re-litigate or merge across personas: lanes don't overlap by design, so duplicates indicate a persona strayed; drop the out-of-lane one.
-
-`code-review` has no lane, so it will overlap. When one of its findings names the same file/line and the same problem as a persona finding, keep the persona's (it carries the lane's rubric) and drop the `code-review` copy. Its cleanup nits that sit squarely in `persona-code-quality`'s lane go the same way when that persona ran. So does a `code-review` finding that an in-lane persona's SKILL.md lists as an explicit exception (e.g. deleting a retired key from every locale file, which `persona-i18n` allows), even when that persona reported nothing.
 
 The project rubric overlaps the personas by design. When one of its findings names the same file, line, and problem as a persona finding, keep the persona's. Its remaining findings stand.
 
 These known persona pairs can land on the same line. Resolve them the same way every time:
 
 - **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
-- **`persona-test-design` versus a `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
+- **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
 
 **Drop anything Copilot already raised.** If Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, compare every remaining finding against it and drop the ones Copilot already covered: same file, within a few lines (or cited in a review body), and the same underlying problem, however differently worded. Severity doesn't matter. A `change-requested` that Copilot flagged as a passing remark still goes. A finding on the same line but about a different problem stays. When unsure whether it's the same problem, drop it. Keep a count of drops per persona for the Step 5 table.
 
-Rank: **change-requested → nit → future**, then group by persona within each tier.
+Hold the `persona-ac-check` findings apart for Step 5's Spec section. Rank the rest: **change-requested → nit → future**, then group by persona within each tier.
 
 ## Step 5: Report once
 
-Print the aggregated findings as one table, in the Step 4 order:
+If `persona-ac-check` ran, print its findings first, under a **Spec** heading that names the source of the acceptance criteria (the file path or the ticket key). Use the table below without the Persona column. A PR can pass every lane and still build the wrong thing, so spec gaps do not compete in the lane ranking.
+
+Then print the findings of every other lane as one table, in the Step 4 order:
 
 | Tier | Persona | File:line | Summary | Detail | Suggestion |
 |---|---|---|---|---|---|
@@ -197,7 +194,7 @@ i18n                0    0       0   ran (clean)
 vue-reactivity      —    —       —   skipped (no .vue/composable changes)
 ...
 project rubric      0    1       0   ran (rubric covers changed files)
-code-review         1    0       0   ran (medium)
+correctness         1    0       0   ran
 ```
 
 Counts are after the Copilot filter. When it dropped anything, add one line under the table: `Dropped N findings Copilot already raised (<persona>: n, …).` Don't list them.
@@ -246,7 +243,6 @@ Then, for everything you applied:
    - **Personas whose own findings you applied.** A persona that reported nothing, or whose findings you left for the user, has nothing of its own to re-check.
    - **`persona-vitest` whenever you added or changed a spec**: its Step 2 guard ran against the original diff, so a test file the panel itself introduces is never otherwise reviewed.
    - **Any persona whose guard your fixes newly satisfy** (a fix that touches a `.vue` when the diff had none → `persona-a11y`).
-   - **`code-review` at `low`, only when you applied one of its `change-requested` findings**: a bug fix is the likeliest place for a new bug. Point it at the fix scratch patch, not the branch.
 
    A persona whose lane a fix merely passed through, without that persona having asked for the fix, is **not** in this round. The original panel already read those files, and the fix is bounded and verified.
 

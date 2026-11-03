@@ -46,7 +46,7 @@ Lane paths: `'**/SKILL.md' '**/skills/**' '**/agents/*.md' '**/commands/*.md' '.
 
 ## Out of lane: do NOT report
 
-- Correctness of shell, jq, Python or other code inside fenced blocks → `persona-shell` (standalone scripts) / `code-review`.
+- Correctness of shell, jq, Python or other code inside fenced blocks → `persona-shell` (standalone scripts) / `persona-correctness`.
 - Prose quality, tone, AI-writing tells → the `humanizer` skill, not a review finding.
 - Whether a skill's *policy* is right (e.g. "always open drafts"). Only whether it is followable and consistent.
 - Secrets in committed files → `persona-security`.

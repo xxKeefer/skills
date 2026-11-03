@@ -10,4 +10,4 @@
 6. **Resource cleanup (Change Requested).** Files, sockets, or temp dirs opened without `with` (or `tempfile.TemporaryDirectory()`), so an exception leaks the handle or leaves junk on disk.
 7. **Boolean flag parameters (Nit).** Split into separate functions or use an `Enum`/`Literal[...]`.
 
-Python correctness defects (a wrong date boundary, an unchecked subprocess failure silently caching an empty result) belong to a general code review unless they are a direct consequence of one of the structure rules above.
+Python correctness defects (a wrong date boundary, an unchecked subprocess failure silently caching an empty result) belong to `persona-correctness` unless they are a direct consequence of one of the structure rules above.

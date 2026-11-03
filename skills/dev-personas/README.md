@@ -18,7 +18,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/m
 | Persona | Reviews |
 |---|---|
 | `persona-a11y` | Semantic HTML, ARIA, labels, focus, keyboard |
-| `persona-ac-check` | PR coverage of the ticket's acceptance criteria |
+| `persona-ac-check` | PR coverage of the acceptance criteria in a handoff, a spec, or the ticket |
 | `persona-analytics` | Product event tracking: over-tracking, naming, and missing milestones |
 | `persona-api-integrity` | Frontend calls against the backend spec, handler, and permission checks |
 | `persona-api-spec` | OpenAPI spec and code drift |
@@ -28,8 +28,9 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/m
 | `persona-browser-e2e` | A standalone browser E2E suite that runs against a real backend |
 | `persona-bundle-size` | Shipped bytes and load timing |
 | `persona-charts` | Chart data edge cases: empty, gappy, time zones, axes, tooltips |
-| `persona-code-quality` | Extraction, duplication, misplaced code, library reuse |
+| `persona-code-quality` | Extraction, duplication, misplaced code, library reuse, and code smells in any language |
 | `persona-comments` | Needless, stale, and what-not-why comments, and dead code |
+| `persona-correctness` | Logic errors that give a wrong result or a crash, each with a counterexample |
 | `persona-decisions-log` | Conformance with the project's recorded design decisions |
 | `persona-design-system` | Design tokens, reinvented components, CSS hygiene, long-value layout |
 | `persona-error-handling` | Swallowed failures, context-free throws, duplicate error handlers |

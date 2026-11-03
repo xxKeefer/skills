@@ -1,6 +1,6 @@
 ---
 name: persona-ac-check
-description: "Staff \"acceptance-criteria coverage\" reviewer. Cross-checks the PR (its code changes AND its description) against the tracker ticket's acceptance criteria: flags ACs the PR does not appear to satisfy, and material PR behaviour that no AC covers, then recommends whether the ticket or the PR should be updated to close the gap. Deliberately loose: it flags material mismatches, not wording nits. Applies identically to backend (Kotlin/Java/Spring) PRs. Use when the user asks to check the PR matches the ticket / ACs, \"does this satisfy the ticket\", \"AC check\", or invoke via mob-review. Reviews AC↔PR alignment only, not code quality, naming, tests, or styling."
+description: "Staff \"acceptance-criteria coverage\" reviewer. Cross-checks the PR (its code changes AND its description) against the acceptance criteria of a handoff or spec file the caller gives, else of the tracker ticket: flags ACs the PR does not appear to satisfy, and material PR behaviour that no AC covers, then recommends whether the ticket or the PR should be updated to close the gap. Deliberately loose: it flags material mismatches, not wording nits. Applies identically to backend (Kotlin/Java/Spring) PRs. Use when the user asks to check the PR matches the ticket / ACs, \"does this satisfy the ticket\", \"AC check\", or invoke via mob-review. Reviews AC↔PR alignment only, not code quality, naming, tests, or styling."
 disable-model-invocation: true
 ---
 
@@ -20,9 +20,10 @@ You output gaps and, for each, a recommendation: **update the ticket** (the PR i
 
 ## Guard
 
-Run only if you can resolve **both** a ticket and a PR (or branch diff), and the repo's tracker is reachable.
+Run only if you can resolve **both** a set of acceptance criteria and a PR (or branch diff). Take the criteria from the first source that has them:
 
-Read `docs/agents/issue-tracker.md` to learn the repo's tracker and its key pattern. If the file is missing, tell the caller to run `/set-up-dev-workflow-skills`, return zero findings and stop. Resolve the ticket ID from, in order: the caller's argument, the branch name, or the PR title, using the tracker's key pattern (for example a Jira key such as `ABC-123`, with the project key from the repo's `CLAUDE.md`, or a GitHub issue number such as `#123` or `123-` in the branch name). If no ticket is resolvable, or the tracker's tools (`gh`, the Atlassian MCP) are not available to fetch it, return zero findings and stop: there is nothing to check against.
+1. **A handoff or spec file that the caller gives.** Read its acceptance criteria, and its Goal for intent. Do not fetch the ticket. In the rules below, "the ticket" means this file.
+2. **The tracker ticket.** Read `docs/agents/issue-tracker.md` to learn the repo's tracker and its key pattern. If the file is missing, tell the caller to run `/set-up-dev-workflow-skills`, return zero findings and stop. Resolve the ticket ID from, in order: the caller's argument, the branch name, or the PR title, using the tracker's key pattern (for example a Jira key such as `ABC-123`, with the project key from the repo's `CLAUDE.md`, or a GitHub issue number such as `#123` or `123-` in the branch name). If no ticket is resolvable, or the tracker's tools (`gh`, the Atlassian MCP) are not available to fetch it, return zero findings and stop: there is nothing to check against.
 
 This check is language-agnostic: it applies to backend (Kotlin/Java/Spring) PRs identically. The code-vs-AC read covers backend source (controllers/services/repositories/migrations) as well as `.ts`/`.vue`.
 
@@ -36,7 +37,7 @@ Ticket ID from the branch:
 git rev-parse --abbrev-ref HEAD
 ```
 
-Ticket AC: fetch the ticket the way `docs/agents/issue-tracker.md` says (`gh issue view` for GitHub issues, the Atlassian MCP `getJiraIssue` for Jira). If the tracker's tool is not available, say so and stop. Do not fall back to another tool. Read the description's acceptance criteria, and its Background/Goal for intent.
+Ticket AC, when the caller gives no file with acceptance criteria: fetch the ticket the way `docs/agents/issue-tracker.md` says (`gh issue view` for GitHub issues, the Atlassian MCP `getJiraIssue` for Jira). If the tracker's tool is not available, say so and stop. Do not fall back to another tool. Read the description's acceptance criteria, and its Background/Goal for intent.
 
 PR description + title:
 
@@ -79,4 +80,4 @@ Verify every finding against the actual AC text and changed lines. State the **d
 - `suggestion`: the recommended direction (update ticket vs update PR) with a one-line why.
 - Do not manufacture gaps to look thorough.
 
-If no ticket is resolvable or the tracker is unreachable, return `{"persona":"persona-ac-check","inScope":false,"findings":[]}`.
+If neither source gives acceptance criteria, return `{"persona":"persona-ac-check","inScope":false,"findings":[]}`.

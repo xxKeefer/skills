@@ -53,7 +53,7 @@ When a behaviour branches on two or more dimensions, a test sits at the wrong le
 - Whether the PR delivers each AC, behaviour with no AC, description vs diff → `persona-ac-check`. You judge whether delivered behaviour is *tested*, not whether it was *delivered*.
 - The feature-flag off path → `persona-production-protector` rule 5.
 - A new analytics event with no assertion → `persona-analytics` rule 11.
-- A correctness bug in the source itself → `code-review`. If your mutation reasoning finds the code is actually wrong, not just untested, that is **not** a test-design finding: don't report it as an untested condition, and don't raise it in your own lane at all. Mention it in one line of `detail` on a related finding if you have one, otherwise drop it. `code-review` runs alongside you on every diff.
+- A correctness bug in the source itself → `persona-correctness`. If your mutation reasoning finds the code is actually wrong, not just untested, that is **not** a test-design finding: don't report it as an untested condition, and don't raise it in your own lane at all. Mention it in one line of `detail` on a related finding if you have one, otherwise drop it. That lane runs on every diff.
 - Backend test-hygiene rules (class-level test data, "didn't throw" assertions, `@Disabled` without a ticket, `*IT` edge-case sweeps) → not this lane.
 
 ## Severity
