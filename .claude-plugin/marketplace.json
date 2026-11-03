@@ -19,6 +19,12 @@
       "source": "./skills/developer"
     },
     {
+      "name": "dev-personas",
+      "description": "Persona code reviewers, one narrow lane each, plus the mob-review panel that runs them in parallel over a diff and update-personas that keeps them accurate.",
+      "category": "development",
+      "source": "./skills/dev-personas"
+    },
+    {
       "name": "journal",
       "description": "Personal planner -- cascading goal/reflection system for Obsidian.",
       "category": "productivity",

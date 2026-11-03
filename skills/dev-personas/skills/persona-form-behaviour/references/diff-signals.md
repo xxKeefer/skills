@@ -1,0 +1,118 @@
+# persona-form-behaviour diff signals
+
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. Lines marked `(rule N)` are already covered by that rule. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
+
+## [persona-form-behaviour catalogue](catalogue.md)
+
+- FM-A1: A `<form>` with no `@submit.prevent`, or search/filter inputs wrapped in `<form>` only for layout, so Enter reloads or submits → `<form @submit.prevent="onSubmit" novalidate>`, or `<div role="search">` [default: nit] (rule 4)
+- FM-A2: `<button @click>` with no `type` inside a form; a `Button.vue` not defaulting `type="button"`; Reka `*Trigger` `as-child` onto a native button → `type="button"` on every non-submit button [default: change-requested] (rule 3)
+- FM-A3: Footer markup with the secondary or destructive button first, or `row-reverse`/`order` on a button group, so Enter clicks it → Only the primary action is `type="submit"` [default: change-requested] (rule 3)
+- FM-A4: `@keydown.enter="select(highlighted)"` with no `.prevent`; hand-rolled dropdown or Reka `ComboboxInput` in a `<form>` with nothing highlighted → `@keydown.enter.prevent` while the list is open [default: change-requested] (rule 4)
+- FM-A5: `@keydown.enter` on a `<form>` or wrapper `<div>` that catches Enter from a textarea; `@keyup.enter` after the newline lands → Scope Enter to the input; Ctrl/Cmd+Enter calls `requestSubmit()` [default: nit]
+- FM-A7: A `<form>` inside a component placed inside another `<form>`; `DialogPortal` missing or disabled; dialog buttons with no `type` → Teleport the dialog and give it its own form [default: change-requested] (rule 4)
+- FM-A8: `@keyup.enter` or `@keyup.space` handlers on buttons; `autofocus` on a destructive confirm button → Use `click`; autofocus the least destructive control [default: nit]
+- FM-A9: `useDebounceFn` validator with `isValid` taken from the last resolved result and no `await validate()` in `onSubmit` → Flush the debounce and await validators on submit [default: change-requested]
+- FM-A10: Keyboard shortcut handler such as `@keydown.meta.enter` calling `mutate` directly, skipping the validate-then-submit path → Shortcut calls `formEl.requestSubmit()` or the same `onSubmit` [default: change-requested]
+- FM-A11: `formRef.value.submit()` called in code, which fires no `submit` event and skips validation → Use `requestSubmit()` [default: change-requested]
+- FM-B1: `<DialogContent>` wrapping form fields with no `@escape-key-down`/`@interact-outside` dirty check; `v-model:open` bound to a bare ref → `preventDefault` when dirty and ask "Discard changes?" [default: nit] (rule 5)
+- FM-B2: `document.addEventListener('keydown')` in a dropdown, a third-party picker inside `DialogContent`, or two `reka-ui` versions in the lockfile → Build overlays from Reka; stop Esc propagating while child open [default: nit] (rule 5)
+- FM-B3: An Escape branch in a combobox or autocomplete that clears the query and closes the list in one step → Escape closes the list first; only a second Escape clears the text [default: nit]
+- FM-B4: `@escape-key-down` or `key === 'Escape'` handler in a dialog with text inputs and no `isComposing` / `keyCode === 229` return → Return early while composing so Esc cancels the IME [default: nit]
+- FM-B5: The action called inside `onClose`, `@update:open` or `watch(open)`; a `useConfirm()` result checked with `!== false` → Act only on the confirm button; resolve `false` on dismissal [default: change-requested]
+- FM-B6: Dialog form guards Escape or outside click on dirty, but no `onBeforeRouteLeave` covers that dirty state → Guard the dialog's dirty state in `onBeforeRouteLeave` [default: nit]
+- FM-C4: `:disabled="!meta.valid"` or `:disabled="!isFormValid"` on Submit with no visible errors → Keep Submit enabled and show errors on submit [default: nit]
+- FM-C5: `router.push` in hook-level `useMutation({ onSuccess })` or after `await mutateAsync()`, with no current-route check → Navigate from per-call `mutate(..., { onSuccess })` [default: nit]
+- FM-C6: `form.reset()` called straight after `mutate()` rather than in `onSuccess`, or an optimistic write with no rollback → Reset in `onSuccess`; roll back in `onError` [default: change-requested] (rule 13)
+- FM-D1: `<input type="number" v-model.number>` with no handling for `''` or invalid text; validation checks only `typeof x === 'number'` → `type="text" inputmode="decimal"`, parse strictly, validate [default: change-requested] (rule 8)
+- FM-D2: `ref<number>(0)` bound with `v-model.number`, `if (!form.vlan)`, or form state spread straight into an API payload → Type `number | null`; normalise `''` to `null` [default: change-requested] (rule 8)
+- FM-D5: `<input type="number">` in a long scrolling form, or `NumberField` with no wheel option set → `type="text" inputmode`, or turn off wheel change [default: nit] (rule 9)
+- FM-D6: `type="number"` on an ID, ASN, VLAN, phone number, postcode or card number → `type="text" inputmode="numeric"`, keep the value a string [default: change-requested] (rule 8)
+- FM-D7: `parseFloat(input)` or `Number(input)` on user-typed decimals, so `1,5` parses wrong; `.toFixed()` in templates → Locale-aware parser; format with `$n`/`Intl.NumberFormat` [default: change-requested]
+- FM-D8: `watch(model, v => model.value = round(v))`, `:value="Number(x)"`, or formatting inside `@input` → Keep the raw string while focused; format on blur [default: change-requested] (rule 8)
+- FM-D9: Numeric type or `Number(id)` for a 64-bit ID, so `JSON.parse` loses precision past 2^53-1 → Keep IDs as strings; check `Number.isSafeInteger` [default: change-requested] (rule 8)
+- FM-D11: `type="number"` with `min` set but no `step`, and no `novalidate`, so decimals are blocked → Set `step` on purpose; `novalidate` plus app validation [default: change-requested]
+- FM-D12: Relying on `:min`/`:max` with no validator, or clamping code that changes the value with no message → Validate with a visible message; tell the user when clamping [default: change-requested] (rule 6)
+- FM-D14: `<` versus `<=` in a validator, `.max()` versus `.lt()`, or an i18n range message that disagrees with the rule → Define bounds once; build the message from them [default: change-requested] (rule 7)
+- FM-D15: `z.number()` with `.min`/`.max` but no `.int()` on a quantity, VLAN, ASN or term field → Add `.int()` (or `Number.isInteger`) and `step="1"` [default: change-requested] (rule 8)
+- FM-D16: `/^\d+$/`, `/^[0-9]+$/` or `replace(/[^0-9]/g, '')` on typed text with no `normalize('NFKC')` first → Normalise with `normalize('NFKC')` first, or show a message naming the expected digits [default: nit]
+- FM-D17: Computed value doing arithmetic on form fields, such as price per Mbps, with no `Number.isFinite` guard → Guard with `Number.isFinite` and show a placeholder [default: change-requested] (rule 8)
+- FM-D18: `Number(v)`, `parseInt(v)` or `z.coerce.number()` on typed text with no strip of spaces, separators or units → Strip spaces and separators before parsing, or state the format [default: nit]
+- FM-E1: `maxlength="..."` literal, or a Zod `.max()` that differs from the spec's `maxLength` → One constant, generated from the OpenAPI spec [default: change-requested] (rule 6)
+- FM-E3: Length limited only by the `maxlength` attribute while values are set from the API or by script → Validate length in the schema too [default: nit]
+- FM-E4: `v-model.lazy` with a character counter, or a counter in `aria-live` updating on every keystroke → Bind live, debounce the announcement, count newlines like the server [default: nit]
+- FM-F1: `validateOnMount: true`, `watch(field, validate, { immediate: true })`, or errors shown without a `touched || submitAttempted` gate → Show errors after blur or on submit [default: nit]
+- FM-F2: `validateOnInput: false` with no re-validate once in error, or server errors stored apart and never cleared on edit → Validate on input after the first error; clear server errors [default: change-requested] (rule 11)
+- FM-F3: `.refine()` with `path: ['end']` and no trigger when the other field changes, or a per-field validator reading another field → Re-validate dependent fields when either side changes [default: change-requested] (rule 11)
+- FM-F6: Generic error copy (`'Invalid input'`, bare `t('error')`) or a toast showing raw `error.message` → Name the field, the problem and the fix; interpolate bounds [default: nit]
+- FM-F7: `onError: () => toast.error(t('generic'))` with no `setErrors` or `setFieldError` mapping API error paths → Map API error paths to fields; focus the first [default: nit]
+- FM-F9: `<FormLabel required>` hard-coded next to a schema field marked `.optional()`, or the reverse → Derive the required marker from the schema [default: nit]
+- FM-F10: `<form>` without `novalidate` while inputs carry `required`, `pattern`, `min` or `type="email"` → Add `novalidate`; rely on app validation [default: nit]
+- FM-F11: `useForm()` in the parent of a dialog holding its fields, with no `resetForm()` on open → Create the form inside the dialog content, or reset on open [default: nit]
+- FM-F12: Error summary built from a separate array, or summary links whose `href` misses the input `id` → Derive the summary from `errors`; link each to the input `id` [default: nit]
+- FM-F13: A static schema covering conditional sections, or `v-show` on whole sections, so hidden fields still validate → Discriminated or conditional schema; validate the active branch [default: change-requested] (rule 10)
+- FM-F14: Async availability validator with no `AbortController`, `onCleanup` or current-value check on the response → Cancel the previous call, or drop stale responses [default: nit]
+- FM-F15: Submit-failure banner rendered with `v-if` and no `role="alert"` or `aria-live` → Add `role="alert"` (or a status region), or use `FormFieldMessage` [default: nit]
+- FM-F16: `toast.success(...)` next to `mutate()` rather than in `onSuccess`, or an `onMutate` optimistic write with no message in `onError` → Show success only in `onSuccess`; say so on rollback [default: nit]
+- FM-F17: Stricter rule (lower `.max()`, new `.regex()`) on an edit form that loads existing records → Skip the rule for unchanged legacy values, or migrate first [default: nit]
+- FM-G1: `new FormData(form)` building the payload, or a PUT built from enabled fields only, so disabled values are dropped → Build the payload from the model; use `readonly` [default: change-requested] (rule 14)
+- FM-G2: `disabled` on an input showing a UID, key or ID the user may need to copy → Use `readonly`, or plain text with a copy button [default: nit] (rule 14)
+- FM-G3: Payload built from the whole form object with `v-show` branches, and no watcher clearing fields when the discriminator changes → Build the payload per branch, or clear dependent fields [default: change-requested] (rule 10)
+- FM-G4: Watcher on a toggle or parent field that resets a whole sub-section on every change → Keep values while editing, drop them at submit [default: change-requested]
+- FM-G5: Child select options computed from a parent field, with no clear or `.refine` when the parent changes → Clear the child when it leaves the new options [default: change-requested] (rule 10)
+- FM-G7: `:aria-disabled` control whose click or key handler has no `if (disabled) return` → Check the disabled state in every activation handler [default: nit]
+- FM-H1: Page tracks dirty state but has no `onBeforeRouteLeave` / `beforeunload` (or `useSaveBarLeaveGuard`) → Confirm on route leave when dirty; add `beforeunload` with `preventDefault()` [default: nit]
+- FM-H2: `router.push` in `onSuccess` before `resetForm({ values: saved })`, or a leave guard reading `isDirty` with no `submitted` flag → Reset the baseline before navigating [default: nit]
+- FM-H3: Dirty check via `JSON.stringify(a) !== JSON.stringify(b)` or reference equality, or defaults applied by a watcher after init → Normalise both sides through one mapper; compare deeply [default: nit]
+- FM-H4: `initial = form` with no clone, or a `reactive` baseline shared with the model, so edits never count as dirty → `structuredClone(toRaw(form))` the baseline; compare deeply [default: nit]
+- FM-H5: `isDirty.value = true` set from an input handler or deep watcher instead of comparing to the baseline → Derive dirty as a `computed` comparing current values with the baseline [default: nit]
+- FM-H6: Create `onSuccess` with no `resetForm()`, or edit-form `resetForm()` with no saved `values` → Reset in `onSuccess`, using the server response as the new baseline [default: change-requested] (rule 13)
+- FM-H7: Form init only in `setup` or `onMounted` with no watch on `route.params.id`, and no `:key` on `<RouterView>` → `watch(() => route.params.id, init, { immediate: true })` [default: change-requested] (rule 13)
+- FM-H9: `autofocus` on a field mounted after page load, or `focus()` after a `v-if` flag with no `await nextTick()` → Focus after `nextTick`, or through Reka `@open-auto-focus` [default: nit]
+- FM-H10: Step data in local `ref`s or `useForm()` inside step components that unmount on step change → Keep wizard state in a parent or store [default: nit]
+- FM-H11: `resetForm()` or a form `:key` bump in `onSettled`, `onError` or `finally` → Reset only in `onSuccess`; keep the user's entries on failure [default: change-requested] (rule 13)
+- FM-I1: `<select v-model>` with no disabled placeholder option, or `options[0]` set as a silent default → Explicit "Select…" placeholder plus a required rule [default: change-requested]
+- FM-I2: Optional or nullable field in a select or radio group with no "None" item or clear action → Add a "None" item mapped to `null`, or a clear button [default: nit]
+- FM-I3: `:value="String(id)"` against a numeric model, or object `:value` with no `by` compare key on Reka Select/Combobox → Primitive IDs as values, or `by="id"` [default: nit]
+- FM-I4: Edit-form options filtered to current or active items, with nothing adding the saved value back → Show the saved value as a disabled option, with a warning [default: change-requested]
+- FM-I6: Select-all checkbox with no `'indeterminate'` state, or an indeterminate flag kept in a `ref` → Compute checked, indeterminate and unchecked from the children [default: nit]
+- FM-I7: `selected` IDs beside a list query with no prune on data change or clear after a bulk action → Prune the selection on data change; clear after the bulk action [default: nit]
+- FM-I8: Checkbox group `v-model="form.tags"` where `tags` starts as `null` or `''`, so Vue binds a boolean → Initialise the model as `[]` [default: change-requested]
+- FM-J1: `new Date('2024-03-10')` on a date-only string, `.toISOString().split('T')[0]`, or date-only values stored as `Date` → Keep `CalendarDate` or `YYYY-MM-DD` strings [default: change-requested]
+- FM-J2: `toDate(` calls on a Reka `CalendarDate`, mixing `getLocalTimeZone()` and `'UTC'` for one field → One documented zone convention per field [default: change-requested]
+- FM-J3: `new Date(y, m - 1, d)` or non-strict `dayjs(str, fmt)` on a typed date with no round-trip check → Parse strictly; check day, month and year match the input [default: change-requested] (rule 12)
+- FM-J4: Start and end dates with no object-level `.refine` and no end `:min-value` from the start → Cross-field rule re-run on both; bind end `min` to start [default: change-requested] (rule 11)
+- FM-J5: Picker `:min-value` / `:max-value` with no matching bound in the schema → Enforce the same bound in the schema [default: change-requested] (rule 12)
+- FM-J6: `today(getLocalTimeZone())` or `new Date()` as a start-date bound where the rule is in another zone → Compute today in the business time zone; validate on the server [default: nit]
+- FM-J8: `setMonth(getMonth() + n)` or `setDate` arithmetic on term or contract dates → Use `@internationalized/date` `add({ months })`, which clamps to the month end [default: nit]
+- FM-J10: Hand-written 12h/24h conversion (`% 12`, `+ 12`) or a time regex allowing `24` → Store 24h; end of day is exclusive next-day midnight [default: nit]
+- FM-J11: `type="date"` input used instead of the shared date picker, checked only with `required` → Use the shared date picker; post-edit `''` means incomplete [default: nit]
+- FM-K3: Confirm dialog whose first focusable element is the destructive button, with no `@open-auto-focus` → Focus the first field or the least destructive control through `@open-auto-focus` [default: nit]
+- FM-K9: `window.addEventListener('keydown')` or `onKeyStroke` shortcut with no `isEditable(e.target)` check → Ignore events from editable targets or with modifiers [default: nit]
+- FM-M1: `z.coerce.number()` in a form schema bound to a text or number input, so `''` becomes 0 → `z.preprocess` `''` to `undefined`, then `z.number()` [default: change-requested] (rule 15)
+- FM-M2: `.optional()` on `email`/`url`/`regex`/`min` string formats bound to a text input, with no `.or(z.literal(''))` or preprocess → `z.union([z.literal(''), z.string().email()])` or preprocess [default: change-requested] (rule 16)
+- FM-M3: A new edit or rename component with a fresh inline schema instead of importing the shared field schema → One schema per attribute, shared by every write path [default: change-requested]
+- FM-M4: Two pickers fed by the same query with no filter on the other's value, and no `.refine` comparing them → Exclude the chosen item; add a cross-field refine [default: change-requested]
+- FM-M5: Price-affecting field with a schema but no warning computed from the size of the change → Non-blocking warning plus old-versus-new confirm step [default: nit]
+- FM-M6: `useField(() => props.name)` or `<Field :name="dynamicName">` where the name can be `undefined` or `''`; rules calling string methods on `undefined` → Mount only with a known name; guard rules against `undefined` [default: change-requested] (rule 17)
+- FM-M7: `date.getMonth()` in a URL or query with no `+ 1`, `new Date().toISOString().slice(0, 10)` for a local date, or mixed UTC getters → Build API dates with `@internationalized/date` in the API's zone [default: change-requested]
+- FM-N1: `useMutation().mutate` in a Switch or Checkbox `@update:modelValue` inside a `<form>` with its own submit → One save model per surface; move instant-save out [default: nit]
+- FM-N2: `v-model` on `query.data.value.*` or `props.item.*`, `reactive(props.x)`, or `initialValues: data.value` with no clone → Clone into form state; write back through the mutation [default: change-requested] (rule 18)
+- FM-N4: Module-level `new Date()`, `today()` or `now()` used as a picker `min` or a default value → Compute at use time, or when the picker opens [default: nit]
+- FM-N5: Custom highlight `ref<number>` kept across `options` changes, or options rebuilt with new object identities on each fetch → Track the highlight by item key; re-find on change [default: change-requested]
+- FM-N6: `v-if="data"` block rendered above action buttons with no same-height skeleton; destructive and primary actions side by side → Reserve space; put late content below the actions [default: nit]
+- FM-N8: `@keydown.space.prevent` or `@keydown.enter.prevent` on a container holding inputs, with no editable-target check → Return early when the target is editable [default: change-requested] (rule 19)
+- FM-O1: Wizard step routes with no `beforeEnter` or `beforeEach` check, or a review step reading store values without checking they exist → Guard redirects to the first incomplete step [default: change-requested] (rule 20)
+- FM-O2: `useForm()` inside each step component, steps rendered with `v-if` and no shared state, or a watcher resetting later steps → Keep one form state above the steps [default: nit]
+- FM-O3: Hard-coded `steps` array and `totalSteps` constant, with completion set on navigation rather than validation → Derive steps from answers; mark complete on validation [default: nit]
+- FM-O5: `ref(props.x)` or `ref(compute(...))` where `computed` was meant; summary written to a store on step enter; price `queryKey` missing an input → `computed` from one source; every price input in the key [default: change-requested]
+- FM-O6: "Change" links on a review page with no `?returnTo=review`, and a Next handler that always goes to `step + 1` → "Change" returns to the review page after saving [default: nit]
+- FM-O7: `:disabled="!meta.valid"` on the Order button with no check on the quote query state; payload reads `quote.value?.price` → Block submit until the quote matches current inputs [default: change-requested]
+- FM-O8: Permission or eligibility query used only in the last wizard step, or a 4xx on create as the only check → Check prerequisites and permission on wizard entry [default: change-requested]
+
+## [persona-text-input catalogue](../../persona-text-input/references/catalogue.md)
+
+- IN-A1: `@keydown.enter`, `@keyup.enter` or `e.key === 'Enter'` on a text input, textarea, tag input or combobox with no `isComposing` guard → Return early on `e.isComposing || e.keyCode === 229` [default: change-requested] (rule 2)
+- IN-A2: An Enter guard on `e.isComposing` alone with no `keyCode === 229` fallback, or a `composing` ref cleared inside `compositionend` → Check both; clear the ref on the next tick [default: change-requested] (rule 2)
+- IN-A6: `@escape-key-down`, `onKeyStroke`, `useMagicKeys` or a global `keydown` listener that acts with no `isComposing` check → Bail out when `e.isComposing || e.keyCode === 229` [default: nit]
+- IN-E1: `type="number"` or `v-model.number` on an ID, postcode, account code, phone or card number → `type="text" inputmode="numeric"`, keep the value a string [default: change-requested] (rule 8)
+- IN-K4: VLAN schema bounds of `min(0)` or `max(4095)`/`max(4096)`; `vlan || '-'`; an untagged sentinel (`0`, `-1`) with no display mapping → Range 1 to 4094; untagged as an explicit boolean [default: change-requested]
