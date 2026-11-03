@@ -51,7 +51,17 @@ If the spec changed, run the repo's linter and **attribute the result**:
 redocly lint --config openapi/linter/redocly_config.yaml openapi/spec/openapi.yaml
 ```
 
-Many repos carry pre-existing violations behind an ignore file. Before reporting a lint failure, re-run against the merge base (`git stash` or a worktree) and compare counts. Report only what **this diff** introduced. A finding that blames the PR for a pre-existing error is a false positive and costs the reader's trust.
+Many repos carry pre-existing violations behind an ignore file. Before reporting a lint failure, run the linter again on the merge base and compare counts. Export the base copy to a temporary folder, so the clone does not change:
+
+```bash
+BASE=$(git merge-base origin/main HEAD)
+TMP=$(mktemp -d)
+git archive "$BASE" openapi | tar -x -C "$TMP"
+redocly lint --config "$TMP/openapi/linter/redocly_config.yaml" "$TMP/openapi/spec/openapi.yaml"
+rm -r "$TMP"
+```
+
+Report only what **this diff** introduced. A finding that blames the PR for a pre-existing error is a false positive and costs the reader's trust.
 
 ## How to verify a claim
 

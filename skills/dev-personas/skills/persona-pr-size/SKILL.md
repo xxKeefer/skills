@@ -1,6 +1,6 @@
 ---
 name: persona-pr-size
-description: "Staff \"PR size & splittability\" reviewer. Judges whether a PR/branch diff is too big to review well, whether it decomposes into independent or sequential slices, and, when it does, proposes the concrete stack layout (branch names bottom→top, what lives in each layer, the dependency order) to build with gh stack. Deliberately loose: a large but atomic diff (a mechanical codemod, one generated file) is NOT a split candidate; only flags when there are slices that genuinely review better apart. Also sizes Kotlin/Java (Spring Boot) backend diffs. Use when the user asks \"is this PR too big\", \"can this be split\", \"should this be a stack\", \"PR size review\", or invoke via mob-review. Reviews size/decomposition only, not code correctness, naming, or style."
+description: "Staff \"PR size & splittability\" reviewer. Judges whether a PR/branch diff is too big to review well, whether it decomposes into independent or sequential slices, and, when it does, proposes the concrete stack layout (branch names bottom→top, what each slice holds, the dependency order) to build with gh stack. Deliberately loose: a large but atomic diff (a mechanical codemod, one generated file) is NOT a split candidate; only flags when there are slices that genuinely review better apart. Sizes diffs in any language, backend or frontend. Use when the user asks \"is this PR too big\", \"can this be split\", \"should this be a stack\", \"PR size review\", or invoke via mob-review. Reviews size/decomposition only, not code correctness, naming, or style."
 disable-model-invocation: true
 ---
 
@@ -20,7 +20,7 @@ Run only if there is a diff to size up. Skip (return zero findings) unless the d
 
 File count on its own is not a split signal. A shared-lib change plus one small config edit per consuming app is a single coherent change however many files it spans: ~200 lines across 15 files is not splittable, because each app slice would be a near-empty PR that cannot ship before the lib slice. Weigh file count only as a tiebreaker once the line count is already near the threshold.
 
-Language-agnostic: the size heuristics and the stack-split recommendation apply regardless of stack: measure size on `.kt`/`.java` and backend resource files the same way as `.ts`/`.vue`. For a Kotlin/Java (Spring Boot) backend a "feature" is typically controller + service + repository + tests; a groundwork-then-payload stack works the same way (shared types/entities/migrations at the bottom, endpoint/behaviour on top).
+Language-agnostic: measure size the same way in every language, backend or frontend. A backend slice still holds every layer its behaviour needs, such as the migration, the repository, the service, and the endpoint.
 
 ## Scope
 
@@ -43,16 +43,18 @@ Weigh these together: no single one decides it:
 - **Volume:** large net line count AND many files. Generated files, lockfiles, snapshots, and mechanical mass-renames **don't count** toward reviewer load: subtract them first.
 - **Concern count:** the diff mixes unrelated concerns: a refactor *and* a feature, two unrelated features, prod change *and* a big test overhaul, a dependency bump *and* app changes. Each concern a reviewer has to context-switch into is a split candidate.
 - **Independence:** are there changes that touch disjoint areas with no shared code, that could each merge on their own? → separate slices.
-- **Sequence:** is there a natural "groundwork then payload" order: a shared util/type/refactor that later changes build on? → a stack (lower layer first).
-- **Blast radius asymmetry:** a small, safe, obviously-correct slice (e.g. a pure refactor or a new util with tests) trapped in the same PR as a risky behavioural change slows the safe part down. Splitting lets the safe slice merge fast.
+- **Sequence:** does the change grow in steps, where the first slice is the narrowest path a user can exercise end to end, and each later slice widens it? → a stack (narrowest slice first).
+- **Blast radius asymmetry:** a small, safe, obviously-correct slice (such as a pure refactor of code that already ships) trapped in the same PR as a risky behavioural change slows the safe part down. Splitting lets the safe slice merge fast.
 
 If none of these fire, it's one cohesive change: **do not flag**.
 
 ### Split shape: stack vs siblings
 
-- **Sequential / dependent → a stack.** Slice B imports or builds on slice A. Order bottom→top: groundwork (types, utils, refactors, renames) at the bottom, feature/behaviour on top. This is the `gh stack` case.
+- **Sequential / dependent → a stack.** Slice B imports or builds on slice A. Order bottom→top: the narrowest end-to-end path at the bottom, and each slice above widens it. A pure refactor or rename of code that already ships can sit below them. This is the `gh stack` case.
 - **Independent → separate PRs (not a stack).** Slices share nothing and can each target `main`. Say so explicitly. Don't force a stack where a stack adds false ordering.
-- **Mixed:** a bottom groundwork layer shared by two independent features on top → a stack with two tips, or one stack + one sibling PR. Describe what you see; don't over-engineer.
+- **Mixed:** two independent features that share new code → the first feature carries the shared code, and the second stacks on it or waits for it to merge. Describe what you see; don't over-engineer.
+
+Every slice you propose passes the vertical test: once it merges, a user can exercise it end to end. A pure refactor or rename of code that already ships also passes, because it changes no behaviour and the app still works. New code that nothing calls yet, such as a type, a util, or a schema with no reader, is never a slice of its own. Put it in the first slice that uses it.
 
 ### The proposed stack layout
 
@@ -67,9 +69,9 @@ Close with the `gh stack` shape, e.g.:
 
 ```
 main
- └─ feat/1234-shared-types        (types + util, ~120 LOC)         → base
-     └─ refactor/1234-adopt-types (migrate callers, ~200 LOC)      → depends ↑
-         └─ feat/1234-new-panel   (the actual feature, ~300 LOC)   → depends ↑
+ └─ feat/1234-create-item         (types + util + form + list, ~250 LOC) → base
+     └─ feat/1234-edit-item       (edit form + save, ~150 LOC)           → depends ↑
+         └─ feat/1234-bulk-delete (select + delete, ~200 LOC)            → depends ↑
 ```
 
 The author can build this with `gh stack init/add/submit`.
@@ -83,7 +85,7 @@ The author can build this with `gh stack init/add/submit`.
 ## Severity
 
 - **Change Requested:** the diff bundles clearly separable concerns AND you can hand back a clean split plan where each slice stands alone. (Still advisory: the author decides, but it's a real reviewability problem.)
-- **Nit:** borderline; a split is defensible but optional (e.g. one slightly-large but mostly-cohesive change with one extractable groundwork commit).
+- **Nit:** borderline; a split is defensible but optional (such as one slightly-large but mostly-cohesive change with one extractable pure refactor).
 - **Future:** the PR is huge but *not* cleanly splittable now because the code isn't factored for it: note the future refactor that would make the next change splittable, don't demand a split of this one.
 
 ## Output
@@ -93,7 +95,7 @@ Verify the split is real against the actual diff: every proposed slice must map 
 - `file` and `line`: a representative file of the largest separable slice. Use line 0 for the PR as a whole.
 - `detail`: why the current size hurts review.
 - `suggestion`: the full bottom→top stack layout (the list above).
-- Example `summary`: `PR bundles a shared-types refactor + a new panel; split into a 3-layer stack`.
+- Example `summary`: `PR bundles create, edit, and bulk delete; split into a 3-slice stack`.
 
 `inScope` reports whether you *looked*, not whether you found anything:
 - Diff under the size guard, so you did not assess it → `{"persona":"persona-pr-size","inScope":false,"findings":[]}`.

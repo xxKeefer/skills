@@ -81,7 +81,7 @@ For each persona in scope, verify and fix:
 4. **No lane overlap.** For each rule, check no other persona claims it. If two do, the narrower one keeps it and the other gains an "Out of lane" line pointing at it.
 5. **Severity list covers every rule**: each rule appears in exactly one tier.
 6. **Dead references**: a `references/` file nothing links to, or a link to a file that doesn't exist.
-7. **Calibration backlog.** `mob-review` Step 7 proposes persona edits from real runs. If the user has approved any and they were never applied, apply them now.
+7. **Calibration backlog.** `mob-review` Step 7 records edits from real runs in `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/calibration-backlog.md`. Apply each entry with `Status: approved`, then delete that entry from the backlog. Leave `open` and `rejected` entries as they are.
 8. **Scrub check clean.** Stage the persona changes, then run `.githooks/pre-commit` from the root of the marketplace checkout. It must print nothing.
 
 ## Finish

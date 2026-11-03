@@ -214,25 +214,39 @@ If every persona is clean, say so plainly. A clean panel is a valid result.
 
 **On your own code** (per the Step 1 ownership check), read [references/apply-fixes.md](references/apply-fixes.md) and follow it. It asks once which small findings to apply. With a handoff from Step 1, it adds the picks as fix steps and fixes nothing. Without one, it applies the picks. It never pushes.
 
-## Step 7: Persona calibration (apply confident refinements)
+## Step 7: Record calibration signals (never edit)
 
-The panel improves by watching itself. After reporting, scan **this run** for persona-quality signals and draft fixes to the relevant `persona-*/SKILL.md` (or this skill, when the signal is about orchestration).
+The panel improves by watching itself. After the report, scan **this run** for signs that a persona, or this skill, got something wrong. Record each sign in the calibration backlog. **Change no persona and no part of this skill here.** `/self-improve` puts the backlog to the user, and `update-personas` applies the entries the user approves.
 
-Edit the persona in the marketplace checkout, under `skills/dev-personas/skills/`. When the domain loads from a directory source, the parent of this skill's base directory is that checkout. If the base directory sits under `~/.claude/plugins/cache`, it is an installed copy that an update overwrites: ask for the checkout path. Do not commit unasked.
+The backlog sits outside every repo:
 
-- **Confident** (the evidence from this run clearly shows the persona got it wrong, and there is one obvious edit) → **draft the edit** in the checkout, then list it in the summary with the persona, the evidence, and the line changed.
-- **50/50** (a reasonable reviewer could side with the persona, or the fix could go more than one way) → **don't edit**. Propose the change and let the user decide.
-
-Keep edits surgical: add an exception, tighten a guard or "Out of lane" entry, or adjust a severity. No rewrites of a persona's structure. Write the rule as it stands, with no ticket ids, run history or history notes. The evidence goes in this run's summary, not in the persona.
+```bash
+BACKLOG="${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/calibration-backlog.md"
+mkdir -p "$(dirname "$BACKLOG")"
+```
 
 Signals to look for:
 
-- **Convention conflict → false positive.** A finding contradicts a documented convention (`CLAUDE.md`, `AGENTS.md`, or a recalled memory). The persona is missing that exception. → Propose adding the exception to its "What you review". *(Example: persona-naming flags a project's API-client composables for CRUD-verb names until that exception is added.)*
-- **Lane stray.** A persona reported something another lane owns (a finding you dropped in Step 4). → Propose tightening its "Out of lane" list.
-- **Mis-guard.** A persona was spawned but returned `inScope:false` (guard too loose), or a clearly-relevant persona got skipped (guard too tight). → Propose a guard-column tweak.
-- **Systematic noise / miss.** A persona that keeps firing the same low-value nit, or misses a pattern its lane explicitly claims. → Propose a severity or scope adjustment.
+- **Convention conflict → false positive.** A finding contradicts a documented convention (`CLAUDE.md`, `AGENTS.md`, the lint config, or a recalled memory). The persona is missing that exception. → An exception in its "What you review". *(Example: persona-naming flags a project's API-client composables for CRUD-verb names until that exception is added.)*
+- **Lane stray.** A persona reported something another lane owns (a finding you dropped in Step 4). → A tighter "Out of lane" list.
+- **Mis-guard.** A persona was spawned but returned `inScope:false` (guard too loose), or a clearly-relevant persona got skipped (guard too tight). → A guard change, in the persona and in the panel table.
+- **Repeated noise or miss.** A persona keeps firing the same low-value nit, or misses a pattern its lane claims. → A severity or scope change.
+- **Contract slip.** A persona broke [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md): a wrong `persona` name, a `file:line` from the patch instead of the branch file, or JSON that does not parse. → A check in Step 4 of this skill, or a clearer contract line.
 
-For each signal: name the persona, the observed behaviour, and the SKILL.md change, marked `applied` or `proposed (50/50)`. Back every change with evidence from this run. No speculative rewrites. If nothing surfaced, say "no persona changes."
+Read the backlog before you add an entry. If an `open` entry names the same target and the same problem, add this run's evidence to it. If a `rejected` entry covers it, add nothing. Otherwise append:
+
+```markdown
+## <persona-name or mob-review>: <the problem in a few words>
+
+- Signal: <one of the five signals above>
+- Evidence: <YYYY-MM-DD>, <repo> at <head>: <what happened, with file:line>
+- Edit: <one line: the change to make>
+- Status: open
+```
+
+Write the Edit line in general words, with no names, paths, keys, URLs, or counts, because it becomes rule text in a shared repo. The Evidence line holds the specifics. Back each entry with evidence from this run. No speculative rewrites.
+
+End the summary with the entries this run added or extended. If nothing surfaced, say "no calibration signals."
 
 ## Notes
 
