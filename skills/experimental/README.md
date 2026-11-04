@@ -12,6 +12,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
+| `/scope-ticket` | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate |
 | `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
 | `/squash-bugs` | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
 | `/triage-dir` | Sort a cluttered directory into category folders, then report each folder in `triage.html` with a keep, archive, or delete suggestion |
