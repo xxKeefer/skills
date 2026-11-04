@@ -17,6 +17,7 @@ Knowledge work over a corpus -- procedure capture, prose editing, and CONTEXT.md
 | `/triage-notes` | Triage one fleeting inbox note: promote, taskify, or archive it on your approval |
 | `/take-a-note` | Capture something from the conversation as a fresh note in the vault notes inbox |
 | `/teach` | Teach a topic over multiple sessions in a stateful workspace |
+| `/append-to-note` | Append something from the conversation to a named note, in that note's style |
 
 ## Installation
 

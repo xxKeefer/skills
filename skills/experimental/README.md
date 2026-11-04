@@ -6,7 +6,6 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 
 | Skill | Purpose |
 |---|---|
-| `/append-to-note` | Append something from the conversation to a named note, in that note's style |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
