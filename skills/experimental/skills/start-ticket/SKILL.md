@@ -130,13 +130,14 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
   - Done: <the tests that it adds, and what a user can do now>.
 - [ ] **<n>. Review.** Depends on every earlier step. Review the branch with this handoff: `<handoff path>`. This step changes no code.
   - Done: each fix that the user picks is a step before the push step.
-- [ ] **<n+1>. Push.** Push the branch and open a draft PR.
+- [ ] **<n+1>. Push.** Push the branch and open a draft PR with `/create-pr @<handoff path>`.
 
 ## Suggested skills
 
 - `/do-next @<handoff path>`: one step per session, from the worktree.
 - `/tdd`: each step that changes behaviour.
 - `/mob-review`: the review step.
+- `/create-pr`: the push step.
 ````
 
 - The `Worktree:` line is the line after the title. `/claim` and `/do-next` read it.

@@ -9,6 +9,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/append-to-note` | Append something from the conversation to a named note, in that note's style |
 | `/auto-handoff` | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user |
 | `/claim` | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
+| `/create-pr` | Check the review for drift, fill the repo's PR template with an AC table and its gaps, then push and open a draft PR after one yes |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
