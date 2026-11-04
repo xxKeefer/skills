@@ -1,14 +1,15 @@
 ---
 name: self-improve
-description: Mine a repo's fix commits and the calibration backlog, put every proposal to you in one table, apply the approved persona edits through update-personas, and write a report.
+description: Mine a repo's fix commits, review threads, failed CI runs, and the calibration backlog, put every proposal to you in one table, apply the approved persona edits through update-personas, and write a report.
 disable-model-invocation: true
-argument-hint: "[--since <YYYY-MM-DD>]"
+argument-hint: "[--since <YYYY-MM-DD>] [--until <YYYY-MM-DD>]"
 ---
 
 # self-improve: learn from history, then sharpen the reviewers
 
-The review panel learns from two records: the defects that the repo's fixes corrected, and the
-signals that `mob-review` Step 7 wrote to the calibration backlog. This skill mines both, puts each
+The review panel learns from four records: the defects that the repo's fixes corrected, what its
+reviewers keep asking for, what its CI keeps catching, and the signals that `mob-review` Step 7
+wrote to the calibration backlog. This skill mines each record that the repo has, puts each
 proposal to you in one table, and changes only what you approve. It never commits.
 
 Run it from inside the repo to mine. `$SKILL_DIR/..` is this domain's `skills/` folder.
@@ -28,6 +29,10 @@ REPO_DIR="$STATE_ROOT/<repo key>"
 "never run". The backlog sits in the state root, because the personas serve every repo. Its entry
 format is in `$SKILL_DIR/../mob-review/SKILL.md` Step 7.
 
+`$CACHE` is `$REPO_DIR/cache/<window start>--<window end>`. It holds the review and CI data of one
+window. `$REPO_DIR/themes.json` holds the review and CI themes of the last run, so the next run can
+compare its rates with them.
+
 ## Step 1: Resolve the repo and the window
 
 1. Find the repo root with `git rev-parse --show-toplevel`. Outside a git repo, stop.
@@ -35,8 +40,8 @@ format is in `$SKILL_DIR/../mob-review/SKILL.md` Step 7.
    `<owner>--<repo>`. With no `origin`, use `local--<folder name of the repo root>`.
 3. Decide whether the repo is yours. It is yours when it has no `origin`, or when `<owner>` matches
    `gh api user --jq .login`. Without `gh`, ask.
-4. Set the window. The end is now. The start is `--since` from `$ARGUMENTS`, else `lastRunAt` from
-   `state.json`, else 90 days before now.
+4. Set the window. The end is `--until` from `$ARGUMENTS`, else now. The start is `--since`, else
+   `lastRunAt` from `state.json`, else 90 days before the end.
 5. Print the repo key, whether the repo is yours, and the window.
 
 **Done when:** you printed the repo key, the owner result, and the window.
@@ -49,14 +54,19 @@ the reason. The report lists both.
 | Source | Runs when | How |
 |---|---|---|
 | Fix commits | 5 or more commits in the window match the fix grep | [`references/defect-mining.md`](references/defect-mining.md), section Fix commits |
+| Review threads | 20 or more review threads on the PRs merged in the window | [`references/review-mining.md`](references/review-mining.md): fetch, then mine the chunks |
+| Failed CI runs | 5 or more failed runs in the window | The same file: fetch, then draft the CI themes |
 | Calibration backlog | `$BACKLOG` has an entry with `Status: open` | Each `open` entry is a Step 4 row as it is |
+
+The two GitHub sources share one fetch. Both end with the rating command in `review-mining.md`.
 
 **Done when:** each source has a result: themes, open entries, or a skip reason.
 
 ## Step 3: Route each theme
 
-A theme is two or more real fixes of one kind of defect. Give each theme one route. Find the lane
-that owns a check in the panel table of `$SKILL_DIR/../mob-review/SKILL.md`.
+A fix-commit theme is two or more real fixes of one kind of defect. A review or CI theme is one
+that the rating marks `floor: true`. Give each theme one route. Find the lane that owns a check in
+the panel table of `$SKILL_DIR/../mob-review/SKILL.md`.
 
 | Theme | Route | On yes |
 |---|---|---|
@@ -64,6 +74,8 @@ that owns a check in the panel table of `$SKILL_DIR/../mob-review/SKILL.md`.
 | General, and no changed line shows it | A rule in the `install-rules` sources | Report only: the rule text |
 | Specific to this codebase or team | The repo's `CLAUDE.md`, `AGENTS.md`, or lint config | Your repo: Step 5 makes the edit. Another repo: report only |
 | Checkable on a changed line, and no lane owns it | Candidate new lane | Report only |
+| A bot theme that is mostly ignored | Narrow or remove the persona rule that checks the same thing. With no such rule, report only | The backlog entry goes to `approved`, and Step 5 applies it |
+| A flaky CI theme | The job and the step that flake | Report only |
 
 Before you route a theme to the lint config, read that config. If a rule there covers the theme,
 propose only to turn that rule on.
@@ -72,8 +84,9 @@ Then write each persona-rule theme into the backlog:
 
 - A `rejected` entry names the same target and problem: drop the theme.
 - Another entry names the same target and problem: add this run's Evidence line to it.
-- No entry names them: append an entry in the `mob-review` Step 7 format, with
-  `Signal: fix commits` and `Status: open`. The Evidence line names the repo key and the commits.
+- No entry names them: append an entry in the `mob-review` Step 7 format, with `Status: open`
+  and the source as the Signal (`fix commits`, `review threads`, or `CI runs`). The Evidence line
+  names the repo key and the commits, threads, or runs.
 
 Write the Edit line in general words, with no names, paths, keys, URLs, or counts, because it
 becomes rule text in a shared repo. The specifics stay in the Evidence line and the report.
@@ -87,10 +100,11 @@ Print one table, with one row for each open backlog entry and each theme, number
 | # | Source | Target | Route | Proposal | Evidence |
 |---|---|---|---|---|---|
 
-- Source: `backlog` or `fix commits`.
+- Source: `backlog`, `fix commits`, `review threads`, or `CI runs`.
 - Target: a persona, `mob-review`, `install-rules`, a repo file, or `new lane`.
 - Proposal: the Edit line, or the rule text.
-- Evidence: the count of commits or runs, and one short example.
+- Evidence: the count of items and one short example. For a review theme, add how many threads
+  changed. For a review or CI theme, add the trend.
 
 Then ask once: "Name the rows to approve and the rows to reject. A row that you do not name stays
 open." For a report-only row, the report records your answer and nothing else changes.
@@ -119,19 +133,24 @@ that the user's instructions name.
 
 The body, in this order:
 
-1. **Summary**, five lines or fewer: the top themes, the rows still open, and the skipped sources.
+1. **Summary**, five lines or fewer: the top themes, the rising and declining themes, the rows
+   still open, and the skipped sources.
 2. **Proposals**: the Step 4 table with each answer, and what Step 5 changed.
-3. **Themes**: each theme with its route and its commits (short SHA and subject).
-4. **Single fixes**: each real fix that is in no theme, one line each.
+3. **Themes**: each theme with its route, its trend, and its items: commits (short SHA and
+   subject), thread links, or run links. Then the dropped themes.
+4. **Below the floor**: each real fix that is in no theme, and each review or CI theme under the
+   floor, one line each.
 
-The report can name the repo, its files, and its commits, because it stays out of the shared repo.
+The report can name the repo, its files, its commits, and its PRs, because it stays out of the
+shared repo.
 
 **Done when:** the note exists at the path that `/write-to-file` reported.
 
 ## Step 7: Save the state and return
 
-Write `$REPO_DIR/state.json` with `lastRunAt` set to the window end, the window, and the sources.
-Write it last, so that a run that stops early mines the same window again.
+If a GitHub source ran, copy `$CACHE/themes.json` to `$REPO_DIR/themes.json`. Then write
+`$REPO_DIR/state.json` with `lastRunAt` set to the window end, the window, and the sources. Write
+it last, so that a run that stops early mines the same window again.
 
 Print the report path, the count of rows approved, rejected, and open, and the files that changed in
 each checkout.
