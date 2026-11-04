@@ -11,7 +11,7 @@ turns the test data of the edge-case personas into a manual QA checklist.
 |---|---|
 | `/mob-review` | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
 | `/sad-path` | Write a manual QA checklist that tries to break the changed forms and fields. Each item cites a catalogue ID |
-| `/self-improve` | Mine a repo's fix commits, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report |
+| `/self-improve` | Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report and the repo's defect hotspots |
 | `/update-personas` | Refresh `persona-best-practice` against installed and current versions, lint any persona's structure, and apply the approved calibration backlog |
 
 ### Personas

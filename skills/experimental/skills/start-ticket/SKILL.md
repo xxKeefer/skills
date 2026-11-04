@@ -81,6 +81,13 @@ The plan holds:
   Use its section format, with the `ID` column. When a flag gates the change, the flag-off path is
   a condition.
 
+Before you rate the ACs, read the defect hotspots of this repo, if `/self-improve` wrote them:
+`${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/<repo key>/defect-hotspots.md`. The repo key is
+`<owner>--<repo>` from the `origin` URL, else `local--<main worktree folder name>`. A file that the
+plan changes, in or under one of its Hotspots areas, is a hotspot. Raise its likelihood one step,
+only once, and name the area in the Why column. Derive the conditions for the area's Usually missed
+escape types first.
+
 For each `—` row, ask whether the ticket needs an AC for that behaviour. A yes adds the AC with the
 next free letter, and the row takes that letter. A no keeps the `—` row.
 

@@ -3,8 +3,9 @@
 A panel of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
 naming, accessibility, or query caching. `mob-review` runs every persona whose guard matches the
 diff, in parallel, and merges their findings into one ranked report. `update-personas` keeps the
-personas accurate. `self-improve` mines a repo's fixes, review threads, CI failures, and the
-calibration backlog for persona edits, and `update-personas` applies the ones you approve.
+personas accurate. `self-improve` mines a repo's fixes, tracker bugs, review threads, CI failures,
+and the calibration backlog for persona edits, and `update-personas` applies the ones you approve.
+It also writes the repo's defect hotspots, which `persona-test-design` reads.
 `sad-path` turns the test data of the edge-case personas into a manual QA checklist.
 
 ## Skills
