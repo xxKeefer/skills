@@ -1,4 +1,4 @@
-# Dev Personas
+# Improve Code
 
 A panel of staff-engineer code reviewers. Each persona reviews one narrow lane of a diff and stays
 out of the others. `/mob-review` runs every persona whose guard matches the diff, in parallel, and
@@ -63,7 +63,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/m
 ```json
 {
   "enabledPlugins": {
-    "dev-personas@xxkeefer-skills": true
+    "improve-code@xxkeefer-skills": true
   }
 }
 ```

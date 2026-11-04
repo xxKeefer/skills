@@ -19,10 +19,10 @@
       "source": "./skills/implement-code"
     },
     {
-      "name": "dev-personas",
+      "name": "improve-code",
       "description": "Persona code reviewers, one narrow lane each, plus the mob-review panel that runs them in parallel over a diff, update-personas and self-improve that keep them accurate, and sad-path, which turns their edge cases into a manual QA checklist.",
       "category": "development",
-      "source": "./skills/dev-personas"
+      "source": "./skills/improve-code"
     },
     {
       "name": "journal",

@@ -7,7 +7,7 @@ description: Refresh the persona-* reviewer skills so they stay accurate. Re-che
 
 Personas rot in two ways: **version rot** (`persona-best-practice` recommends an API that is now legacy, or flags one that is now the default) and **structural drift**: a broken output contract, a lane that overlaps another, a guard that no longer matches the panel table.
 
-Edit the personas in the marketplace checkout, under `skills/dev-personas/skills/`. When the domain loads from a directory source, `${CLAUDE_SKILL_DIR}/..` is that folder. If `${CLAUDE_SKILL_DIR}` sits under `~/.claude/plugins/cache`, it is an installed copy that an update overwrites: ask for the checkout path. Stop and ask if the checkout has uncommitted work. Below, `$SKILL_DIR/..` means that folder, and the panel that spawns the personas is `$SKILL_DIR/../mob-review/SKILL.md`.
+Edit the personas in the marketplace checkout, under `skills/improve-code/skills/`. When the domain loads from a directory source, `${CLAUDE_SKILL_DIR}/..` is that folder. If `${CLAUDE_SKILL_DIR}` sits under `~/.claude/plugins/cache`, it is an installed copy that an update overwrites: ask for the checkout path. Stop and ask if the checkout has uncommitted work. Below, `$SKILL_DIR/..` means that folder, and the panel that spawns the personas is `$SKILL_DIR/../mob-review/SKILL.md`.
 
 ## Modes
 

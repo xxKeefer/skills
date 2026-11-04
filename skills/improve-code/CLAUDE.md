@@ -1,4 +1,4 @@
-# Dev Personas
+# Improve Code
 
 A panel of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
 naming, accessibility, or query caching. `mob-review` runs every persona whose guard matches the

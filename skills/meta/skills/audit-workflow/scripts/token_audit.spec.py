@@ -175,13 +175,13 @@ class Sessions(Workspace):
     def test_attributes_cost_to_the_skill_and_its_subagents(self):
         self.session([
             request("r1", ts(1), out=1000),
-            request("r2", ts(1, 1), skill="dev-personas:mob-review", out=1000, tools=[("t1", "Agent", {})]),
+            request("r2", ts(1, 1), skill="improve-code:mob-review", out=1000, tools=[("t1", "Agent", {})]),
         ])
         self.subagent("a1", "t1", [request("s1", ts(1, 2), sidechain=True, out=1000, tools=[("t2", "Agent", {})])])
         self.subagent("a0", "t2", [request("s2", ts(1, 3), sidechain=True, out=1000)], depth=2)
         skills = {row["skill"]: row for row in self.run_audit()["skills"]}
-        self.assertEqual(skills["dev-personas:mob-review"]["requests"], 3)
-        self.assertAlmostEqual(skills["dev-personas:mob-review"]["cost"], 0.06)
+        self.assertEqual(skills["improve-code:mob-review"]["requests"], 3)
+        self.assertAlmostEqual(skills["improve-code:mob-review"]["cost"], 0.06)
         self.assertEqual(skills["(none)"]["requests"], 1)
 
 
