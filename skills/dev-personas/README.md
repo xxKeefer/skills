@@ -2,13 +2,15 @@
 
 A panel of staff-engineer code reviewers. Each persona reviews one narrow lane of a diff and stays
 out of the others. `/mob-review` runs every persona whose guard matches the diff, in parallel, and
-merges the findings into one report ranked Change Requested, then Nit, then Future.
+merges the findings into one report ranked Change Requested, then Nit, then Future. `/sad-path`
+turns the test data of the edge-case personas into a manual QA checklist.
 
 ## Skills
 
 | Skill | Purpose |
 |---|---|
 | `/mob-review` | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
+| `/sad-path` | Write a manual QA checklist that tries to break the changed forms and fields. Each item cites a catalogue ID |
 | `/update-personas` | Refresh `persona-best-practice` against installed and current versions, and lint any persona's structure |
 
 ### Personas

@@ -3,7 +3,8 @@
 A panel of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
 naming, accessibility, or query caching. `mob-review` runs every persona whose guard matches the
 diff, in parallel, and merges their findings into one ranked report. `update-personas` keeps the
-personas accurate.
+personas accurate. `sad-path` turns the test data of the edge-case personas into a manual QA
+checklist.
 
 ## Skills
 
@@ -54,6 +55,9 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
   next number in its section. A removed rule leaves a gap.
 - Every rule must be checkable against a changed line in a diff.
 - A guard change needs the same change to the persona's Guard column in `mob-review`.
+- `sad-path` reads the Guard of each lane it lists, and links that persona's
+  `references/fixtures.md` and `references/catalogue.md`. A move or rename of those files needs
+  the same change in `sad-path`.
 - Inside a persona, `$SKILL_DIR` means that persona's own directory. `mob-review` tells each
   subagent the absolute path.
 

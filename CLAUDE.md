@@ -12,7 +12,7 @@ workflows.
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
 | `developer` | Engineering workflows -- investigation to closure | No |
-| `dev-personas` | Persona code reviewers, the `mob-review` panel that runs them, and `update-personas` | No |
+| `dev-personas` | Persona code reviewers, the `mob-review` panel that runs them, `update-personas`, and the `sad-path` checklist | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
