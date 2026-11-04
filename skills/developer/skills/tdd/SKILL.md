@@ -21,9 +21,12 @@ See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking g
 
 A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.
 
-**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything — agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
+**Test only at pre-agreed seams.** Agreement on the seams puts the test effort on the critical paths and the complex logic, not on every edge case.
 
-Ask: "What's the public interface, and which seams should we test?"
+- A seam that the handoff step names is agreed. Test at it, and ask nothing about it. Test the conditions whose IDs the step names.
+- Confirm each other seam with the user before you write a test at it. Ask: "What is the public interface, and which seams do we test?"
+
+To rate the risk, derive the test conditions, and pick the level of each test, use [risk-and-technique.md](risk-and-technique.md).
 
 ## Anti-patterns
 
@@ -34,5 +37,6 @@ Ask: "What's the public interface, and which seams should we test?"
 ## Rules of the loop
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
+- **A test that was never red is a smell.** When a new test passes on its first run, test the same fact in another way that goes red first. Else, break the code that the test covers, see the test go red, and restore the code. If the test does not go red, delete it.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Refactoring is not part of the loop.** It belongs to the review stage, not the red → green implementation cycle.
