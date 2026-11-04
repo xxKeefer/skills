@@ -76,7 +76,7 @@ The plan holds:
   the IDs of its test conditions. Its done line names the tests that it adds.
 - **The production gate.** Name the flag, permission, or setting that gates the change, and what a
   user without it sees. If nothing gates it, say why that is safe.
-- **The Test approach.** Read [`references/risk-and-technique.md`](references/risk-and-technique.md)
+- **The Test approach.** Read [`../tdd/risk-and-technique.md`](../tdd/risk-and-technique.md)
   and follow it: rate each AC, derive the conditions, and give each condition the cheapest level.
   Use its section format, with the `ID` column. When a flag gates the change, the flag-off path is
   a condition.
@@ -129,7 +129,7 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 
 ## Test approach
 
-<The section in the format of references/risk-and-technique.md.>
+<The section in the format of ../tdd/risk-and-technique.md.>
 
 ## Steps
 
