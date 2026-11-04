@@ -21,7 +21,7 @@ Run if the diff changes any of:
 - a `package.json` `dependencies`/`devDependencies`/`peerDependencies`/`sideEffects`/`exports` field under `apps/**`, `libs/**` or the root,
 - a `vite.config.*` / build config (chunking, `define`, `vue({ features })`, `assetsInlineLimit`, `build.*`).
 
-Judge the hunks, not the file. Return zero findings for test/story/mock/docs/CI-only diffs, and for backend (`.kt`/`.java`) diffs.
+Judge the hunks, not the file. Return zero findings for test/story/mock/docs/CI-only diffs, and for backend-only diffs.
 
 ## Scope
 

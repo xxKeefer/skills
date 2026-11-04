@@ -1,6 +1,6 @@
 ---
 name: persona-ac-check
-description: "Staff \"acceptance-criteria coverage\" reviewer. Cross-checks the PR (its code changes AND its description) against the acceptance criteria of a handoff or spec file the caller gives, else of the tracker ticket: flags ACs the PR does not appear to satisfy, and material PR behaviour that no AC covers, then recommends whether the ticket or the PR should be updated to close the gap. Deliberately loose: it flags material mismatches, not wording nits. Applies identically to backend (Kotlin/Java/Spring) PRs. Use when the user asks to check the PR matches the ticket / ACs, \"does this satisfy the ticket\", \"AC check\", or invoke via mob-review. Reviews AC↔PR alignment only, not code quality, naming, tests, or styling."
+description: "Staff \"acceptance-criteria coverage\" reviewer. Cross-checks the PR (its code changes AND its description) against the acceptance criteria of a handoff or spec file the caller gives, else of the tracker ticket: flags ACs the PR does not appear to satisfy, and material PR behaviour that no AC covers, then recommends whether the ticket or the PR should be updated to close the gap. Deliberately loose: it flags material mismatches, not wording nits. Applies identically to backend PRs. Use when the user asks to check the PR matches the ticket / ACs, \"does this satisfy the ticket\", \"AC check\", or invoke via mob-review. Reviews AC↔PR alignment only, not code quality, naming, tests, or styling."
 disable-model-invocation: true
 ---
 
@@ -25,7 +25,7 @@ Run only if you can resolve **both** a set of acceptance criteria and a PR (or b
 1. **A handoff or spec file that the caller gives.** Read its acceptance criteria, and its Goal for intent. Do not fetch the ticket. In the rules below, "the ticket" means this file.
 2. **The tracker ticket.** Read `docs/agents/issue-tracker.md` to learn the repo's tracker and its key pattern. If the file is missing, tell the caller to run `/set-up-dev-workflow-skills`, return zero findings and stop. Resolve the ticket ID from, in order: the caller's argument, the branch name, or the PR title, using the tracker's key pattern (for example a Jira key such as `ABC-123`, with the project key from the repo's `CLAUDE.md`, or a GitHub issue number such as `#123` or `123-` in the branch name). If no ticket is resolvable, or the tracker's tools (`gh`, the Atlassian MCP) are not available to fetch it, return zero findings and stop: there is nothing to check against.
 
-This check is language-agnostic: it applies to backend (Kotlin/Java/Spring) PRs identically. The code-vs-AC read covers backend source (controllers/services/repositories/migrations) as well as `.ts`/`.vue`.
+This check is language-agnostic: it applies to backend PRs identically. The code-vs-AC read covers backend source (controllers/services/repositories/migrations) as well as `.ts`/`.vue`.
 
 ## Scope: what to gather
 

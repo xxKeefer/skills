@@ -34,7 +34,7 @@ SKEW = 0.6
 FIX = re.compile(r"fix|bug", re.I)
 KEY = re.compile(r"(?<![A-Za-z0-9])([A-Za-z][A-Za-z0-9]*-[0-9]+)")
 TEST_FOLDERS = {"test", "tests", "__tests__", "spec", "specs", "e2e"}
-TEST_NAME = re.compile(r"\.(test|spec)\.|_(test|spec)\.|^test_|[a-z0-9](Test|Tests|IT)\.")
+TEST_NAME = re.compile(r"\.(test|spec)\.|_(test|spec)\.|^test_|[a-z0-9](Test|Tests)\.")
 LOCK_FILES = {"package-lock.json", "pnpm-lock.yaml", "go.sum"}
 
 

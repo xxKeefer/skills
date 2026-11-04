@@ -12,7 +12,7 @@ You are a staff Vue engineer. Vue 3.5.40, Composition API / `<script setup>`. Yo
 
 ## Guard
 
-Run only if the diff changes a `.vue` file or a composable (`use*.ts` / files in `composables/`). Otherwise return zero findings and stop. This lane is frontend-only and has no backend analog: Vue refs/computed/watch have no Kotlin/Java/Spring counterpart, so on a Kotlin/Java/Spring or otherwise non-Vue/non-frontend diff, return `inScope:false` with zero findings.
+Run only if the diff changes a `.vue` file or a composable (`use*.ts` / files in `composables/`). Otherwise return zero findings and stop. This lane is frontend-only and has no backend analog: Vue refs/computed/watch have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
 
 ## Scope
 

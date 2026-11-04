@@ -14,7 +14,7 @@ Your method is risk-based testing (ISTQB Foundation v4.0): risk decides how deep
 
 ## Guard
 
-Run only if the diff changes **non-test behavioural source**: `.ts`/`.vue`/`.mjs`/`.js` under `apps/*/src` or `libs/*/src`, `.kt`/`.java` under `src/main/**`, or `.py` outside tests. Not counted on their own: type-only files (`*.d.ts`, a file whose hunks only change types), styles, `definePage`/route-`meta`-only hunks, locale JSON, Storybook-only files, docs, CI, lockfiles. A test-only diff is out of scope (test hygiene belongs to the other test personas). Otherwise return zero findings and stop.
+Run only if the diff changes **non-test behavioural source** in any language: frontend, backend, library or script code that runs. Test files (`*.spec.*`, `*.test.*`, `*_test.*`, `test_*.py`, files under `test/` or `tests/`) are not source. Not counted on their own: type-only files (`*.d.ts`, a file whose hunks only change types), styles, `definePage`/route-`meta`-only hunks, locale JSON, Storybook-only files, docs, CI, lockfiles. A test-only diff is out of scope (test hygiene belongs to the other test personas). Otherwise return zero findings and stop.
 
 ## Scope
 
@@ -24,7 +24,7 @@ Then gather, cheaply, in this order:
 
 1. **The Test approach section** of the handoff or spec file the caller gives, else of the plan or ticket, if one exists. It gives you the author's agreed risks, conditions, variation matrix and *Not testing* list.
 2. **The PR body**, if a PR exists. When it has an AC table, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md).
-3. **Existing tests for the changed code on `main`**, not just the diff. A condition is covered if a test on main already proves it: `git grep -n '<symbol>' origin/main -- '*.spec.ts' '*.test.ts' '*Test.kt' '*IT.kt' '*Test.java' '*IT.java'`, plus the spec beside the source file.
+3. **Existing tests for the changed code on `main`**, not just the diff. A condition is covered if a test on main already proves it: `git grep -n '<symbol>' origin/main -- <the repo's test globs>` (such as `'*.spec.*' '*.test.*' '*_test.*' 'test_*.py'`), plus the test beside the source file.
 4. **The defect hotspots**: `git log --oneline -i -E --grep 'fix|bug' -- <file>` on the changed files. A file with a history of fixes raises that behaviour's likelihood one step, and the past fixes are the best evidence for which condition is missing. When `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/` exists, read [references/defect-hotspots.md](references/defect-hotspots.md).
 
 Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and the PR's AC table already carry the ACs you need. With neither, work from the diff alone.
@@ -43,7 +43,7 @@ Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and t
 1. **High-risk condition with no test (Change Requested).** An H behaviour whose invalid partition, boundary, permission-denied, error or invalid-transition condition has no test anywhere, and isn't listed under the PR's **Gaps** or the plan's *Not testing*. Name the condition, the technique that produced it, the surviving mutation if you found one, and the cheapest level that would prove it.
 2. **Medium-risk condition with no test (Nit).** Same as 1 for an M behaviour, limited to its happy path and most likely failure. Don't ask for M boundaries.
 When the PR has an AC table, the plan has a test approach, or a rating looks low, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md). It holds rules 3, 4 and 5.
-When a behaviour branches on two or more dimensions, a test sits at the wrong level, the source has an encode/decode pair or a new flag, or the diff changes `.kt`/`.java` service code, read [references/combinations-test-level-and-reverse-paths.md](references/combinations-test-level-and-reverse-paths.md). It holds rules 6, 7, 8 and 9.
+When a behaviour branches on two or more dimensions, a test sits at the wrong level, the source has an encode/decode pair or a new flag, or the diff changes backend service code, read [references/combinations-test-level-and-reverse-paths.md](references/combinations-test-level-and-reverse-paths.md). It holds rules 6, 7, 8 and 9.
 
 ## Out of lane: do NOT report
 

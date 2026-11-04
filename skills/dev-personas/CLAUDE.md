@@ -15,8 +15,8 @@ It also writes the repo's defect hotspots, which `persona-test-design` reads.
 ## The agnostic bar
 
 The repo's North Star is everything-agnostic. A persona is a review lane for one kind of code, so
-it can name languages, frameworks, libraries, and public tools (Vue, TanStack Query, Spring Boot,
-Liquibase, Playwright, Sentry, PostHog, GitHub Actions). A persona names no employer or client
+it can name languages, frameworks, libraries, and public tools (Vue, TanStack Query, Express,
+Prisma, Playwright, Sentry, PostHog, GitHub Actions). A persona names no employer or client
 code:
 
 - no company, product, team, or person names

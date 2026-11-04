@@ -16,7 +16,7 @@ Run only if the **changed lines** (not merely the changed files) touch `@tanstac
 
 A file that uses the query cache *elsewhere* is not in scope when the diff's own hunks leave that code untouched, e.g. a five-line edit to an auth store's logout branch, in a file that also seeds a session query. Read the hunks before deciding.
 
-This lane is frontend-only and has no backend analog: TanStack Query and JS API clients have no Kotlin/Java/Spring counterpart, so on a Kotlin/Java/Spring or otherwise non-Vue/non-frontend diff, return `inScope:false` with zero findings.
+This lane is frontend-only and has no backend analog: TanStack Query and JS API clients have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
 
 ## Scope
 

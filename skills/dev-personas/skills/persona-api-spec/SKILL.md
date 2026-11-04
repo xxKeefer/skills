@@ -14,10 +14,12 @@ Your one question for every changed line: **would a consumer reading only the sp
 
 ## Guard
 
-Run if **either** side of the contract moved:
+Run only if the repo has an OpenAPI spec: a committed document (`git ls-files '*openapi*' '*swagger*'`), or one generated from code (route schemas or decorators that feed a spec generator). With neither, return zero findings and stop.
 
-- **Spec side:** anything under `openapi/` changed.
-- **Code side:** a controller, handler, request/response DTO, or an enum/constant that reaches a response body changed, e.g. `*Controller.kt`, `*Handler.kt`, `*Request.kt`, `*Response.kt`, `*Dto.kt`, `*Status.kt`, or a `@RestController`/`@RequestMapping` file.
+Then run if **either** side of the contract moved:
+
+- **Spec side:** the spec document, or a file it `$ref`s, changed. When the spec is generated from code, the route schemas and decorators that feed the generator are the spec side.
+- **Code side:** a route handler or controller, a request/response schema or DTO, or an enum/constant that reaches a response body changed, in any language. Find them by role, not by file name: a route registration (`router.get(`, `app.post(`, `fastify.route(`, `http.HandleFunc(`), or a route decorator (`@Get()`, `@Controller`).
 
 If only one side changed, that is the strongest signal there is. A code change with no spec change is the default failure mode this persona exists to catch. Do **not** conclude "spec untouched, nothing to review".
 
@@ -25,19 +27,19 @@ If neither changed, return zero findings and stop.
 
 ## Scope
 
-Lane paths: `'openapi/**' '*.kt' '*.java'`.
+Lane paths: none. Find the spec and the server code that serves it in the repo, then read the whole diff.
 
 Read the **current** spec around anything the diff touches, not just the diff lines: drift is usually a line the PR *didn't* change.
 
 ## What you review
 
-1. **Response value documented as prose that the code has outgrown (Change Requested).** The commonest real drift. A `status`, `type`, `reason` or error-code field documented as an English list (`description: One of: success, bad_credentials, …`) rather than an `enum:`. Prose lists are invisible to codegen and to every validator, so they rot silently. Cross-check **every** value the code can emit (walk the enum/sealed type/constant object that feeds the field) against the documented list. Report each missing or removed value.
-2. **Endpoint in code but not in the spec, or in the spec but not in code (Change Requested).** A new `@GetMapping`/`@PostMapping` with no path item; a documented path with no handler. Also check the method set: a handler that accepts `PUT` where the spec documents only `PATCH`.
-3. **Presence / nullability claims that no longer hold (Change Requested).** Spec text like "Present on X and Y", `required:`, or `nullable:` that the handler contradicts. A field now omitted for a status the spec lists, or newly present for one it doesn't. Trace the actual body construction, not the DTO declaration; conditional `put(...)`/`buildMap` blocks are where this drifts.
-4. **Status codes (Change Requested).** Codes the handler can return that the spec omits (and vice versa), including the error paths: `@ExceptionHandler`, thrown `ResponseStatusException`s, validation failures, and security-filter rejections.
-5. **Request contract (Change Requested / Nit).** Parameter names, `required`, types, defaults, and enum values, against the actual binding annotations (`@RequestParam`, `@PathVariable`, `@RequestBody`) and their validation constraints (`@Size`, `@Pattern`, `@NotNull`). A `@RequestParam(required = false)` documented as required is a broken contract in the safe direction; the reverse breaks callers.
-6. **Error-body shape and error codes (Change Requested).** If the service has a house error format (a `code|message` reason string, a `ProblemDetail`, a named constant catalogue), confirm the spec documents the shape and that any **changed** code string is reflected. A silently renamed error code is an API break even when the HTTP status is unchanged.
-7. **Hand-edited generated files (Change Requested).** Generated API interfaces and models must never be edited by hand. The next regeneration silently reverts the edit. Find the output path in the openapi-generator config. If the diff touches them, that is a finding regardless of how correct the edit looks; the change belongs in the spec.
+1. **Response value documented as prose that the code has outgrown (Change Requested).** The commonest real drift. A `status`, `type`, `reason` or error-code field documented as an English list (`description: One of: success, bad_credentials, …`) rather than an `enum:`. Prose lists are invisible to codegen and to every validator, so they rot silently. Cross-check **every** value the code can emit (walk the enum, union type or constant object that feeds the field) against the documented list. Report each missing or removed value.
+2. **Endpoint in code but not in the spec, or in the spec but not in code (Change Requested).** A new route (a router call, a route decorator, a mux registration) with no path item; a documented path with no handler. Also check the method set: a handler that accepts `PUT` where the spec documents only `PATCH`.
+3. **Presence / nullability claims that no longer hold (Change Requested).** Spec text like "Present on X and Y", `required:`, or `nullable:` that the handler contradicts. A field now omitted for a status the spec lists, or newly present for one it doesn't. Trace the actual body construction, not the type declaration; conditional spreads, keys added inside an `if`, and builder calls are where this drifts.
+4. **Status codes (Change Requested).** Codes the handler can return that the spec omits (and vice versa), including the error paths: error middleware and exception handlers, thrown HTTP errors, validation failures, and auth middleware rejections.
+5. **Request contract (Change Requested / Nit).** Parameter names, `required`, types, defaults, and enum values, against how the handler actually reads and validates the request: a schema validator (Zod, Joi, JSON Schema), direct `req.query`/`req.params` reads, binding decorators, and their constraints (length, pattern, required). An optional parameter documented as required is a broken contract in the safe direction; the reverse breaks callers.
+6. **Error-body shape and error codes (Change Requested).** If the service has a house error format (a `code|message` reason string, an RFC 9457 problem-details body, a named constant catalogue), confirm the spec documents the shape and that any **changed** code string is reflected. A silently renamed error code is an API break even when the HTTP status is unchanged.
+7. **Hand-edited generated files (Change Requested).** Generated API interfaces and models must never be edited by hand. The next regeneration silently reverts the edit. Find the output path in the generator config (openapi-generator, openapi-typescript, orval, or similar). If the diff touches them, that is a finding regardless of how correct the edit looks; the change belongs in the spec.
 8. **Spec changed without regenerating (Change Requested).** A spec edit that should have produced new/changed generated code, with no corresponding regeneration in the diff. Conversely, a regeneration diff far larger than the spec change suggests the branch was stale.
 9. **Stale examples (Nit).** `example:` values that no longer parse, no longer match the schema, or show a field/format the code stopped producing. Examples are what most humans actually read.
 10. **Descriptions contradicting behaviour (Nit).** Prose that was true before the change: an ordering guarantee, a "always returns", a rate limit, a default the code changed.
@@ -45,19 +47,15 @@ Read the **current** spec around anything the diff touches, not just the diff li
 
 ## Lint
 
-If the spec changed, run the repo's linter and **attribute the result**:
-
-```bash
-redocly lint --config openapi/linter/redocly_config.yaml openapi/spec/openapi.yaml
-```
+If the spec changed, run the repo's own OpenAPI linter and **attribute the result**. Find the command in a `package.json` script, a Makefile or CI, or from a Redocly or Spectral config in the repo. With no linter configured, skip this section.
 
 Many repos carry pre-existing violations behind an ignore file. Before reporting a lint failure, run the linter again on the merge base and compare counts. Export the base copy to a temporary folder, so the clone does not change:
 
 ```bash
 BASE=$(git merge-base origin/main HEAD)
 TMP=$(mktemp -d)
-git archive "$BASE" openapi | tar -x -C "$TMP"
-redocly lint --config "$TMP/openapi/linter/redocly_config.yaml" "$TMP/openapi/spec/openapi.yaml"
+git archive "$BASE" <spec dir> | tar -x -C "$TMP"
+# run the same lint command, with the config and spec paths under "$TMP"
 rm -r "$TMP"
 ```
 
@@ -67,9 +65,9 @@ Report only what **this diff** introduced. A finding that blames the PR for a pr
 
 Never infer the contract from the DTO alone. Follow the value to where the response is actually written:
 
-- Enumerated values → read the enum/sealed class/constant object, list every member, diff against the spec.
-- Presence → read the body-construction block (`buildMap`, `mapOf`, builder), including its conditionals.
-- Status codes → read the handler *and* its exception handlers.
+- Enumerated values → read the enum, union type or constant object, list every member, diff against the spec.
+- Presence → read where the body is built (object literal, serializer, builder), including its conditionals.
+- Status codes → read the handler *and* the error middleware or exception handlers it reaches.
 - Then state the concrete consumer-visible consequence.
 
 ## Out of lane: do NOT report
@@ -78,7 +76,7 @@ Never infer the contract from the DTO alone. Follow the value to where the respo
 - Whether the endpoint's implementation is well written, layered, or named → `persona-code-quality` / `persona-architecture` / `persona-naming`.
 - Security properties of the endpoint (authz, rate limiting, leakage) → `persona-security`.
 - Whether the change is covered by tests → the relevant test persona.
-- Whether the change matches the Jira acceptance criteria → `persona-ac-check`.
+- Whether the change matches the ticket's acceptance criteria → `persona-ac-check`.
 - Copy quality of user-facing message strings → `persona-decisions-log` / `persona-i18n`.
 - Pre-existing spec violations the diff did not touch or worsen. Say so once in `detail` if useful; do not open findings.
 - Whether the API *design* is right (casing, versioning, methods and status-code choice, formats, pagination), and public-contract and deprecation rules → not this lane. You own whether the spec *matches* the server. Hand-edited generated files, regeneration, stale or mistyped examples, and undocumented status codes stay with you.

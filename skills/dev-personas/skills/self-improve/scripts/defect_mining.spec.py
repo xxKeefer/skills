@@ -185,7 +185,7 @@ class TraceChunks(Trace):
 class TestFiles(unittest.TestCase):
     def test_knows_a_test_file_by_its_folder_or_its_name(self):
         for path in ("src/a.test.ts", "src/a.spec.js", "pkg/a_test.go", "tests/test_a.py", "a/__tests__/b.ts",
-                     "src/test/kotlin/CartTest.kt", "src/CartIT.java", "spec/a_spec.rb", "e2e/flow.ts"):
+                     "src/CartTest.php", "spec/a_spec.rb", "e2e/flow.ts"):
             self.assertTrue(dm.is_test(path), path)
 
     def test_does_not_mistake_a_source_file_for_a_test_file(self):
