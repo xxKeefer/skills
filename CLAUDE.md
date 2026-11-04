@@ -18,7 +18,7 @@ workflows.
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
 | `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
-| `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
+| `nix-manager` | NixOS config management -- add, remove, refine, debug, explain | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, machine setup | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
 | `deprecated` | Skills awaiting a keep/kill decision before deletion | No |

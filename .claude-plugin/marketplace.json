@@ -56,7 +56,7 @@
     },
     {
       "name": "nix-manager",
-      "description": "NixOS config management -- add, remove, rice, refine, debug, and explain.",
+      "description": "NixOS config management -- add, remove, refine, debug, and explain.",
       "category": "development",
       "source": "./skills/nix-manager"
     },
