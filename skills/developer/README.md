@@ -33,26 +33,3 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 ```
 
 Requires `primitives@xxkeefer-skills`.
-
-`/wayfinder`, `/to-spec`, `/to-tickets`, and `/triage` read the repo's `docs/agents/issue-tracker.md`,
-written once by `/set-up-dev-workflow-skills` (`utility` domain).
-
-## Permissions
-
-Ticket-creating skills target the project's tracker — GitHub via `gh` by default, or whatever the
-repo's CLAUDE.md declares (e.g. Jira via the Atlassian MCP). For the GitHub default, add these to
-your Claude Code permissions:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(gh issue create:*)",
-      "Bash(gh issue edit:*)",
-      "Bash(gh issue view:*)",
-      "Bash(gh issue list:*)",
-      "Bash(gh issue close:*)"
-    ]
-  }
-}
-```

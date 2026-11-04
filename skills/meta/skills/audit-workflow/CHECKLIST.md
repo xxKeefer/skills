@@ -16,7 +16,7 @@ Structured areas to examine during a workflow audit. Not every area will produce
 - [ ] No gaps: frequent manual tasks that should be skills
 - [ ] Model-invoked descriptions include "Use when..." triggers with specific keywords
 - [ ] Skills are user-invoked (`disable-model-invocation: true`) unless the agent or another skill must reach them
-- [ ] SKILL.md files under 100 lines; details split to reference files
+- [ ] SKILL.md files under 10 KB (10,000 bytes); details split to reference files
 - [ ] No stale skills referencing outdated patterns
 
 ## Memory
