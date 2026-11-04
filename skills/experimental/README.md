@@ -11,6 +11,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/claim` | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
 | `/create-pr` | Check the review for drift, fill the repo's PR template with an AC table and its gaps, then push and open a draft PR after one yes |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
+| `/pickup` | Confirm an open PR, claim its worktree, sync it by fast-forward only, then triage its review threads into a handoff |
 | `/repro` | Give the numbered steps to reproduce an issue, from a cold start to the trigger |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
 | `/scope-ticket` | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate |
