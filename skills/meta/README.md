@@ -13,6 +13,7 @@ Skills about skills -- writing, auditing, and lifecycle management.
 | `/migrate-a-skill` | Move a skill between domains, syncing docs, versions, and git history |
 | `/retire-a-skill` | Deprecate a skill, or delete it for good if already deprecated |
 | `/writing-great-skills` | Reference on skill-authoring principles |
+| `/zsh-insights` | Mine the zsh history for aliases, functions, and scripts, show them in an HTML report, then write the picks to `~/.config/zsh/` |
 
 ## Installation
 
