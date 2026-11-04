@@ -7,8 +7,9 @@ personas accurate. `self-improve` mines a repo's fixes, tracker bugs, review thr
 and the calibration backlog for persona edits, and `update-personas` applies the ones you approve.
 It also writes the repo's defect hotspots, which `persona-test-design` reads.
 `sad-path` turns the test data of the edge-case personas into a manual QA checklist.
-`resolve-feedback`, `diagnose`, `fix`, `happy-path`, and `improve-codebase-architecture` are not
-personas, so the persona rules below do not bind them.
+`review-pr`, `post-review-comments`, `resolve-feedback`, `diagnose`, `fix`, `squash-bugs`,
+`happy-path`, and `improve-codebase-architecture` are not personas, so the persona rules below do
+not bind them.
 
 ## Skills
 

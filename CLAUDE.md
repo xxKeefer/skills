@@ -12,7 +12,7 @@ workflows.
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
 | `implement-code` | Engineering workflows -- ticket to PR | No |
-| `improve-code` | Persona code reviewers, the `mob-review` panel that runs them, `update-personas`, `self-improve`, and the `sad-path` checklist | No |
+| `improve-code` | Review, debug, and QA -- the persona reviewers, the `mob-review` panel, PR review, feedback, fixes | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |

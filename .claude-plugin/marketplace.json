@@ -20,7 +20,7 @@
     },
     {
       "name": "improve-code",
-      "description": "Persona code reviewers, one narrow lane each, plus the mob-review panel that runs them in parallel over a diff, update-personas and self-improve that keep them accurate, and sad-path, which turns their edge cases into a manual QA checklist.",
+      "description": "Review, debug, and QA. Persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, debugging and fixes, and manual QA plans.",
       "category": "development",
       "source": "./skills/improve-code"
     },

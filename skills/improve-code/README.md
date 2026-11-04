@@ -3,7 +3,7 @@
 Review, debug, and QA work that already exists. The core is a panel of staff-engineer code reviewers. Each persona reviews one narrow lane of a diff and stays
 out of the others. `/mob-review` runs every persona whose guard matches the diff, in parallel, and
 merges the findings into one report ranked Change Requested, then Nit, then Future. `/sad-path`
-turns the test data of the edge-case personas into a manual QA checklist. The other skills act on review feedback, debug, fix, and plan manual QA.
+turns the test data of the edge-case personas into a manual QA checklist. The other skills review a PR, act on review feedback, debug, fix, and plan manual QA.
 
 ## Skills
 
@@ -14,9 +14,12 @@ turns the test data of the edge-case personas into a manual QA checklist. The ot
 | `/happy-path` | Manual QA test plan for the current changeset |
 | `/improve-codebase-architecture` | Scan for deepening opportunities, HTML report, grill through picks |
 | `/mob-review` | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
+| `/post-review-comments` | Post the review findings you tick to the PR: show each draft, then post the approved ones as one comment review. Five or more picks go to a handoff |
 | `/resolve-feedback` | Assess code review feedback |
+| `/review-pr` | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/mob-review` there, then offer `/post-review-comments` |
 | `/sad-path` | Write a manual QA checklist that tries to break the changed forms and fields. Each item cites a catalogue ID |
 | `/self-improve` | Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report and the repo's defect hotspots |
+| `/squash-bugs` | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
 | `/update-personas` | Refresh `persona-best-practice` against installed and current versions, lint any persona's structure, and apply the approved calibration backlog |
 
 ### Personas
