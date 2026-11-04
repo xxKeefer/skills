@@ -10,7 +10,7 @@ and value aren't yet decided.
 
 - **Entry**: any freshly-authored personal skill lands here first.
 - **Promotion**: once a skill proves its worth in real use (a manual call — see root CLAUDE.md),
-  move it into the appropriate stable domain (`primitives`, `developer`, `meta`, …).
+  move it into the appropriate stable domain (`primitives`, `implement-code`, `meta`, …).
 - **Demotion**: if a skill stops being used or proves low-value, move it to `deprecated`.
 
 ## Skills

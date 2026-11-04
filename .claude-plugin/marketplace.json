@@ -13,10 +13,10 @@
       "source": "./skills/primitives"
     },
     {
-      "name": "developer",
-      "description": "Opinionated engineering workflows -- investigation, planning, implementation, closure.",
+      "name": "implement-code",
+      "description": "Engineering workflows from ticket to PR -- scope, plan, build test-first, and open the PR.",
       "category": "development",
-      "source": "./skills/developer"
+      "source": "./skills/implement-code"
     },
     {
       "name": "dev-personas",

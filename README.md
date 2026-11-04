@@ -16,7 +16,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Purpose |
 |---|---|
 | [**primitives**](skills/primitives/README.md) | Foundational building blocks |
-| [**developer**](skills/developer/README.md) | Engineering lifecycle |
+| [**implement-code**](skills/implement-code/README.md) | Ticket to PR |
 | [**dev-personas**](skills/dev-personas/README.md) | Persona code reviewers and the panel that runs them |
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |
 | [**projects**](skills/projects/README.md) | Long-running goal management |
@@ -46,7 +46,7 @@ Add to `~/.claude/settings.json`:
   },
   "enabledPlugins": {
     "primitives@xxkeefer-skills": true,
-    "developer@xxkeefer-skills": true,
+    "implement-code@xxkeefer-skills": true,
     "dev-personas@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
     "projects@xxkeefer-skills": true,

@@ -11,7 +11,7 @@ workflows.
 | Domain | Purpose | Always required? |
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Engineering workflows -- investigation to closure | No |
+| `implement-code` | Engineering workflows -- ticket to PR | No |
 | `dev-personas` | Persona code reviewers, the `mob-review` panel that runs them, `update-personas`, `self-improve`, and the `sad-path` checklist | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |

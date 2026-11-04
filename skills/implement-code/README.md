@@ -1,6 +1,6 @@
-# Developer
+# Implement Code
 
-Opinionated engineering workflows for Claude Code. Framework-agnostic, language-agnostic.
+Engineering workflows from ticket to PR: scope, plan, build, and open the PR. Framework-agnostic, language-agnostic.
 
 ## Skills
 
@@ -27,7 +27,7 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 ```json
 {
   "enabledPlugins": {
-    "developer@xxkeefer-skills": true
+    "implement-code@xxkeefer-skills": true
   }
 }
 ```
