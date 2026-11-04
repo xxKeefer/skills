@@ -6,7 +6,7 @@ Skills about skills -- writing, auditing, and lifecycle management.
 
 | Skill | Purpose |
 |---|---|
-| `/audit-workflow` | Audit Claude Code config and suggest optimizations |
+| `/audit-workflow` | Audit Claude Code config and the token spend of recent sessions, suggest 3 optimizations ranked by saving, and save a report |
 | `/write-a-skill` | Author a new skill from scratch with requirements gathering and review |
 | `/write-a-hook` | Scaffold a Claude Code hook holder (script, installer skill, README, config) |
 | `/write-a-rule` | Write a path-scoped rule for one directory: language, layout, patterns, invariants |
