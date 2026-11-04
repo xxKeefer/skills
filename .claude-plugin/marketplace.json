@@ -13,16 +13,10 @@
       "source": "./skills/primitives"
     },
     {
-      "name": "implement-code",
-      "description": "Engineering workflows from ticket to PR -- scope, plan, build test-first, and open the PR.",
+      "name": "developer",
+      "description": "Engineering workflows from ticket to PR, then review, debugging, and QA -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, fixes, and manual QA plans.",
       "category": "development",
-      "source": "./skills/implement-code"
-    },
-    {
-      "name": "improve-code",
-      "description": "Review, debug, and QA. Persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, debugging and fixes, and manual QA plans.",
-      "category": "development",
-      "source": "./skills/improve-code"
+      "source": "./skills/developer"
     },
     {
       "name": "journal",

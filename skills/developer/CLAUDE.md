@@ -1,21 +1,30 @@
-# Improve Code
+# Developer
 
-Review, debug, and QA work that already exists. The core is a panel of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
+Engineering workflows from ticket to PR: scoping, planning, implementation, and opening the PR,
+then review, debugging, and QA. Framework-agnostic, language-agnostic -- pure best-practice
+software engineering principles.
+
+## Dependencies
+
+Developer skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
+all must be installed.
+
+## Skills
+
+[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
+
+## Personas
+
+The review panel is a set of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
 naming, accessibility, or query caching. `mob-review` runs every persona whose guard matches the
 diff, in parallel, and merges their findings into one ranked report. `update-personas` keeps the
 personas accurate. `self-improve` mines a repo's fixes, tracker bugs, review threads, CI failures,
 and the calibration backlog for persona edits, and `update-personas` applies the ones you approve.
 It also writes the repo's defect hotspots, which `persona-test-design` reads.
 `sad-path` turns the test data of the edge-case personas into a manual QA checklist.
-`review-pr`, `post-review-comments`, `resolve-feedback`, `diagnose`, `fix`, `squash-bugs`,
-`happy-path`, and `improve-codebase-architecture` are not personas, so the persona rules below do
-not bind them.
+The rules below bind the `persona-*` skills only.
 
-## Skills
-
-[`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
-
-## The agnostic bar
+### The agnostic bar
 
 The repo's North Star is everything-agnostic. A persona is a review lane for one kind of code, so
 it can name languages, frameworks, libraries, and public tools (Vue, TanStack Query, Express,
@@ -37,7 +46,7 @@ own name in the repo (`CLAUDE.md`, `AGENTS.md`, `package.json`, the code).
 The repo's pre-commit hook checks the name rules on every commit. The root `README.md` tells you
 how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo root.
 
-## Rules for editing personas
+### Rules for editing personas
 
 - A persona's directory name must match its `name:` and its row in the `mob-review` panel table.
 - Every `persona-*` keeps `disable-model-invocation: true`. Only `mob-review` or the user starts
