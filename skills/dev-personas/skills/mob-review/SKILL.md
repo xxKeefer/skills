@@ -1,6 +1,6 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then asks once which small clear-cut fixes to apply when the branch is your own (report-only on someone else's). In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "review this PR", "run the panel", "full review", or wants a broad multi-lens review of the current branch or a given PR.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then asks once which small clear-cut fixes to apply when the branch is your own (report-only on someone else's). In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
 ---
 
 # Mob Review: staff-engineer review panel
@@ -63,6 +63,8 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 adds fix steps to it.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
+
+A caller can name the repo folder, such as the worktree that `/review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
 
 ```bash
 git fetch origin main --quiet
