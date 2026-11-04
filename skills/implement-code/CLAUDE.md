@@ -1,6 +1,7 @@
 # Implement Code
 
-Engineering workflows from ticket to PR: scoping, planning, implementation, and opening the PR. Framework-agnostic, language-agnostic -- pure best-practice
+Engineering workflows from ticket to PR: scoping, planning, implementation, and opening the PR.
+Review, debugging, and QA live in `improve-code`. Framework-agnostic, language-agnostic -- pure best-practice
 software engineering principles.
 
 ## Dependencies

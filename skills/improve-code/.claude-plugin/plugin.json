@@ -1,7 +1,7 @@
 {
   "name": "improve-code",
   "description": "Persona code reviewers, one narrow lane each, plus the mob-review panel that runs them in parallel over a diff, update-personas that keeps them accurate, self-improve that learns from a repo's fixes, bugs, reviews, and CI, and sad-path, a manual QA checklist from their edge-case test data. Requires primitives.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "xxkeefer"
   }
