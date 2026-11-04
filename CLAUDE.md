@@ -16,7 +16,6 @@ workflows.
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
-| `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
 | `nix-manager` | NixOS config management -- add, remove, refine, debug, explain | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, machine setup | No |

@@ -43,12 +43,6 @@
       "source": "./skills/meta"
     },
     {
-      "name": "omen",
-      "description": "Creative skills -- TTRPG, worldbuilding, narrative design.",
-      "category": "productivity",
-      "source": "./skills/omen"
-    },
-    {
       "name": "scribe",
       "description": "Knowledge work over a corpus -- procedure capture, prose editing, glossary curation, and stateful teaching.",
       "category": "productivity",

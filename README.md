@@ -21,7 +21,6 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |
 | [**projects**](skills/projects/README.md) | Long-running goal management |
 | [**meta**](skills/meta/README.md) | Skills about skills |
-| [**omen**](skills/omen/README.md) | Creative -- TTRPG, worldbuilding |
 | [**scribe**](skills/scribe/README.md) | Capture vault procedures + edit notes |
 | [**nix-manager**](skills/nix-manager/README.md) | NixOS config management |
 | [**utility**](skills/utility/README.md) | Dev-environment setup |
@@ -51,7 +50,6 @@ Add to `~/.claude/settings.json`:
     "journal@xxkeefer-skills": true,
     "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
-    "omen@xxkeefer-skills": true,
     "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
