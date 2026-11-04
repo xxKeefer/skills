@@ -16,6 +16,8 @@ Read the argument:
 - *(none)* or `all`: run **Part A** (best-practice), then **Part C** (structural lint) over every persona.
 - `best-practice`: Part A only.
 - `persona-<name>`: Part C for that persona only.
+- `backlog`: Part C item 7 for every approved entry, then items 1 to 6 for each persona that item 7
+  changed, then item 8. `/self-improve` runs this mode.
 
 ## Rules that apply to every edit
 
