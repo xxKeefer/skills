@@ -174,24 +174,25 @@ estimate in Step 6.
 1. Find the points field by its name, such as "Story Points". Fetch all the fields of the ticket's
    type, not only the required ones. Hold no field ID. If the tracker has no points field, show the
    estimate and write nothing.
-2. Use the first row that fits:
+2. The estimate is the ticket's points. On SPLIT path 2, it is slice 1's points, because the
+   ticket keeps slice 1. Each new ticket gets its estimate when it is scoped at start.
+3. Use the first row that fits:
 
    | Case | Do |
    |---|---|
    | CLARIFY | Write nothing. No size is the finding. |
-   | SPLIT, path 2 | Write nothing. Each ticket gets its estimate when it is scoped at start. |
    | The field has the same value | Write nothing. |
    | The field has another value | Show both, such as `ticket says 1, probes say 5`. Write nothing. |
    | The field is blank | Show the estimate and ask once. Write it after a yes. |
 
-3. Say in one line what you wrote and what the field held before, or that you wrote nothing.
+4. Say in one line what you wrote and what the field held before, or that you wrote nothing.
 
 **Done when:** the field holds the estimate after a yes, or you said why you wrote nothing.
 
 ## Step 7: Return
 
-Return the verdict, the points, and the one-sentence goal. For SPLIT, also return the slices and
-the path. A calling skill continues from here. With no caller, stop.
+Return the verdict, the Step 6 estimate, and the one-sentence goal. For SPLIT, also return the
+slices and the path. A calling skill continues from here. With no caller, stop.
 
 For CLARIFY, ask the questions. When the user answers, run Steps 2 to 4 again with the answers.
 

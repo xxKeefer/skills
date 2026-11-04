@@ -15,6 +15,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/scope-ticket` | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate |
 | `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
 | `/squash-bugs` | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
+| `/start-ticket` | Scope a ticket, claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve |
 | `/triage-dir` | Sort a cluttered directory into category folders, then report each folder in `triage.html` with a keep, archive, or delete suggestion |
 | `/zsh-insights` | Mine the zsh history for aliases, functions, and scripts, show them in an HTML report, then write the picks to `~/.config/zsh/` |
 
