@@ -15,7 +15,7 @@ language-agnostic, except the persona reviewers, which each review one kind of c
 | `/tdd` | Implementation | Red → green loop |
 | `/auto-handoff` | Implementation | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
-| `/fix` | Implementation | Fix a broken behaviour found during manual QA |
+| `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/mob-review` there, then offer `/post-review-comments` |

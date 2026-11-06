@@ -70,8 +70,9 @@ step again.
 
 ## 6. Write the hunt doc
 
-Write `hunt_<ticket>.md` with `/write-to-file`. On a rerun, update the hunt doc that the parent gave
-you.
+Write `hunt_<ticket>.md` with `/write-to-file`, doctype `hunt`. When the user's instructions give
+one folder per ticket, use the ticket key for it. On a rerun, update the hunt doc that the parent
+gave you.
 
 ```markdown
 # Hunt: <ticket> <symptom>

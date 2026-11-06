@@ -7,7 +7,7 @@ domains call these skills by name.
 
 Review skills call `/write-to-file`, `/write-report`, `/look-up`, and `/do-next` from the
 `primitives` plugin, and `/claim` from the `developer` plugin. `review-pr` and `pickup` call
-`/claim`, so install both domains.
+`/claim`, and the `sad-path` report builds a `/developer:fix` prompt, so install both domains.
 
 ## Skills
 
@@ -30,7 +30,7 @@ diff, in parallel, and merges their findings into one ranked HTML report. `updat
 personas accurate. `self-improve` mines a repo's fixes, tracker bugs, review threads, CI failures,
 and the calibration backlog for persona edits, and `update-personas` applies the ones you approve.
 It also writes the repo's defect hotspots, which `persona-test-design` reads.
-`sad-path` turns the test data of the edge-case personas into a manual QA checklist.
+`sad-path` turns the test data of the edge-case personas into a manual QA checklist in HTML.
 The rules below bind the `persona-*` skills only.
 
 ### The agnostic bar

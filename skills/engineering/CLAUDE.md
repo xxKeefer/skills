@@ -7,7 +7,9 @@ software engineering principles.
 ## Dependencies
 
 Engineering skills reference `/grill`, `/write-to-file`, `/write-report`, and `/look-up` from the
-`primitives` plugin, and `/review:mob-review` from the `review` plugin. Install both domains.
+`primitives` plugin, and `/review:mob-review` from the `review` plugin. The `happy-path` report
+builds a `/developer:fix` prompt, and review also requires `developer`. Install all three
+domains.
 
 Name a review skill with its `review:` prefix, such as `/review:mob-review`. `developer` holds
 skills with the same names.

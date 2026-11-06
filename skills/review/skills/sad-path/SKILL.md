@@ -3,15 +3,15 @@ name: sad-path
 description: >
   Generate a manual QA checklist that tries to break the current changeset, built from the test
   data of the edge-case personas. Each item names the exact input or key and cites a catalogue ID.
-  Use when the user says "sad path", asks which edge cases to try by hand, or wants to break a
-  form before closing out.
+  It writes an HTML report, whose fail ticks build a /developer:fix prompt. Use when the user says
+  "sad path", asks which edge cases to try by hand, or wants to break a form before closing out.
 ---
 
 # Sad Path
 
-Produce a manual QA checklist of the inputs and keys that break the changed screens. It is the
-other half of `/happy-path`. The test data lives with the personas, so the review panel and this
-checklist share one copy.
+Write a manual QA checklist of the inputs and keys that break the changed screens, as an HTML
+report. It is the other half of `/happy-path`. The test data lives with the personas, so the
+review panel and this checklist share one copy.
 
 ## Lanes
 
@@ -70,19 +70,22 @@ For each lane that runs:
 **Done when:** each kept item names a field, an input or key, an expected result, and one
 catalogue ID, and no lane has more than 8 items.
 
-## Step 4: Print the Checklist
+## Step 4: Write the Checklist
 
-Format:
+Write the checklist with `/write-report`. Give it these:
 
-```
-## Sad path: {short description of changeset}
-
-Lanes run: {lane (signal)}. Skipped: {lane}. Cut by the cap: {lane: items past 8}, or none.
-
-### {lane}: {form or area}
-- [ ] {do X} → {expect Y} ({catalogue ID})
-- [ ] {do A} → {expect B} ({catalogue ID})
-```
+- `kind`: `qa`. A `/happy-path` run on the same branch writes to the same file.
+- `title`: `QA: {short description of changeset}`.
+- `skill`: `/developer:fix`.
+- The run title: `Sad path`.
+- `meta`: `Lanes run` (each lane and its signal), `Skipped` (each lane), and `Cut by the cap`
+  (each lane and its items past 8, or `none`).
+- `answer`: one sentence on what the items try to break. Then: "Tick each item that fails, write
+  what happened in its note, then copy the prompt."
+- `columns`: `lane`, `area` (the form or area), `step` (the action), `expect` (the expected
+  result), and `catalogue` (mono, the catalogue ID).
+- `rows`: one row for each item, lane by lane, in the Step 3 rank order. Each row has
+  `ticks: ["fail"]`.
 
 Rules:
 
@@ -92,5 +95,8 @@ Rules:
   tester copies it from the fixtures file.
 - No setup instructions the user already knows.
 
-**Done when:** each lane that ran has its items under its own heading, and each item ends with a
-catalogue ID.
+In chat, give the report path, the item count, and the lanes that ran. Do not print the
+checklist.
+
+**Done when:** each item that Step 3 kept is one row with a catalogue ID, and the chat shows the
+report path and no checklist.
