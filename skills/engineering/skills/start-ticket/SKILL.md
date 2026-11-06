@@ -1,9 +1,10 @@
 ---
 name: start-ticket
 description: >
-  Start work on a ticket: refine it when it is vague, scope it, claim its worktree, and write the
-  plan handoff that /do-next runs, with lettered ACs and a test approach for the user to approve.
-  Use when the user asks to start or pick up a ticket.
+  Start work on a ticket: refine it when it is vague, scope it, split a big one into sub-tasks with
+  /split-ticket, claim its worktree, and write the plan handoff that /do-next runs, with lettered
+  ACs and a test approach for the user to approve. Use when the user asks to start or pick up a
+  ticket or a sub-task.
 argument-hint: "<ticket key>"
 ---
 
@@ -17,7 +18,8 @@ read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the tic
      → plan gate → write the handoff
 ```
 
-Scope comes before the claim. When a ticket splits, the worktree belongs to slice 1.
+Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
+`/split-ticket`, and each sub-task gets its own `/start-ticket` run.
 
 ## Step 1: Read the ticket
 
@@ -52,18 +54,21 @@ Run `/scope-ticket` with the key, and give it the Step 1 context, so it reads no
 |---|---|
 | SCOPED | Plan the whole ticket. |
 | SPLIT, path 1 | Plan the whole ticket. Each slice is a phase of the plan, in slice order. |
-| SPLIT, path 2 | Plan only slice 1. Its ACs are the plan's ACs. The board owner makes the other tickets. |
+| SPLIT, path 2 | Run `/split-ticket` with the key, the slices, and the ticket text. Then stop. Return its report path, its sub-task keys, and its wave 1 commands. |
 | CLARIFY | Wait. `/scope-ticket` gives its questions to `/refine-ticket` and runs again. Use the new verdict. Use the refined ACs in place of the Step 1 ACs, and note whether `/refine-ticket` wrote them (Step 8). If the verdict is still CLARIFY, stop and return the open questions. |
 
-**Done when:** the verdict is SCOPED or SPLIT, and you know the scope of the plan.
+**Done when:** the verdict is SCOPED or SPLIT path 1, and you know the scope of the plan. On SPLIT
+path 2, `/split-ticket` returned and you stopped.
 
 ## Step 3: Claim the worktree
 
 Run `/claim` with the key. It returns the worktree path, the branch, and a handoff path or `none`.
 
 - `none`: continue.
-- A handoff: the work may have started. Show the path. Ask whether to continue that handoff or to
-  write a new plan. To continue it, go to Step 9 with that handoff.
+- A split stub: `/split-ticket` wrote it for this sub-task. It has a `Merge:` line and no
+  `## Steps` section. Ask no question. Continue, and draft the plan into the stub (Step 7).
+- Another handoff: the work may have started. Show the path. Ask whether to continue that handoff
+  or to write a new plan. To continue it, go to Step 9 with that handoff.
 
 If `/claim` stops to ask a question, put the question to the user, and continue with the answer.
 
@@ -116,19 +121,30 @@ size that the plan shows and the points that it should have had. Then ask whethe
 ticket whole or to take one of the two SPLIT paths. Write no points, because an estimate never
 overwrites a value.
 
-**Done when:** the user approved the plan.
+On SPLIT path 2, the plan steps become the slices:
+
+1. Write each step as a slice in the format of
+   [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md) Step 4. Give it its files, its parent
+   ACs, its size, its points, and the slices that it builds on.
+2. Run `/split-ticket` with the key, the slices, and the ticket text.
+3. Write no plan, and stop. Return the `/split-ticket` result. Say that the worktree from Step 3
+   has no use, and give its path.
+
+**Done when:** the user approved the plan. On SPLIT path 2, `/split-ticket` returned and you
+stopped.
 
 ## Step 7: Write the handoff
 
-Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. Write it
-in Simplified Technical English. Read [`STE.md`](../../STE.md) before you write, and follow every
-rule in it.
+Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. For a
+split stub from Step 3, write the plan over the stub at its path, not into a new file. The stub is
+in the folder of the parent ticket. Write in Simplified Technical English. Read
+[`STE.md`](../../STE.md) before you write, and follow every rule in it.
 
 ````markdown
 # Plan: <KEY> <ticket title>
 Worktree: <path>. Branch: <branch>.
 
-Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SPLIT path 2 slice 1 of n>. Estimate: <points>.
+Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Estimate: <points>.
 
 ## Acceptance criteria
 
@@ -160,6 +176,9 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 ````
 
 - The `Worktree:` line is the line after the title. `/claim` and `/do-next` read it.
+- For a split stub, keep its `Ticket:`, `Builds on:`, and `Merge:` lines as they are, in place of
+  the `Ticket:` line above. `/create-pr` reads the `Merge:` line. Keep the stub's Context lines, and
+  add yours under them.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
   order. The review and push steps come after the last phase.
 - Name `/review:mob-review` only if this session has it.
@@ -170,7 +189,6 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 
 Skip this step in these cases:
 
-- SPLIT path 2, because the board owner rewrites the ticket from the proposal.
 - The user said no to the last `/refine-ticket` run. The ticket does not hold the plan's ACs, so
   the letters have nothing to go on.
 - The ticket holds its letters, and Step 5 added no AC. ACs that `/refine-ticket` wrote are in the

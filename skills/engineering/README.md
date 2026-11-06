@@ -9,8 +9,9 @@ language-agnostic. Code review comes from the [`review`](../review/README.md) do
 |---|---|---|
 | `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
 | `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
-| `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again |
-| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve |
+| `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
+| `/split-ticket` | Discovery | Split a ticket that is too big into pieces of 3 points or less, grouped into waves with a merge order. Write the split report, then create one sub-task and one stub handoff per piece after one yes |
+| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub handoff |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red → green loop |
@@ -18,7 +19,7 @@ language-agnostic. Code review comes from the [`review`](../review/README.md) do
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
-| `/create-pr` | Closure | Check the review for drift, fill the repo's PR template with an AC table and its gaps, then push and open a draft PR after one yes |
+| `/create-pr` | Closure | Check the review for drift, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR after one yes |
 | `/happy-path` | Closure | Manual QA test plan for the current changeset |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |

@@ -6,8 +6,8 @@ software engineering principles.
 
 ## Dependencies
 
-Engineering skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin,
-and `/review:mob-review` from the `review` plugin. Install both domains.
+Engineering skills reference `/grill`, `/write-to-file`, `/write-report`, and `/look-up` from the
+`primitives` plugin, and `/review:mob-review` from the `review` plugin. Install both domains.
 
 Name a review skill with its `review:` prefix, such as `/review:mob-review`. `developer` holds
 skills with the same names.

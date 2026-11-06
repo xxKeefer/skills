@@ -28,21 +28,29 @@ read → review check → AC table → title and body → gate → push and writ
 2. Find the base. It is the default branch. If the head branch of another open PR is an ancestor
    of `HEAD` (`git merge-base --is-ancestor origin/<head> HEAD`), the branch stacks on that PR, and
    the base is its head branch.
-3. Find the handoff. Use the path in `$ARGUMENTS`. Else find the handoff folder the way
-   `/write-to-file` picks it, and use the file whose `Worktree:` line names this branch. Else there
-   is no handoff.
+3. Find the handoff:
+   - Use the path in `$ARGUMENTS`.
+   - Else take the folder that the user's instructions name for handoffs or plans, with no ticket
+     subfolder. With no such folder, take `.ai/` in the root that `/write-to-file` uses.
+   - Search that folder and its subfolders for the file whose `Worktree:` line names this branch.
+     A sub-task plan is in the folder of its parent ticket, so search each subfolder.
+   - Two or more files: ask which one. No file: there is no handoff.
 4. From the handoff, read the `## Acceptance criteria` section, the `## Test approach` section, the
-   done line of each step, and the two SHAs in the done line of the review step: the reviewed
-   base and the reviewed head.
-5. With no handoff, read the ticket whose key is in the branch name with `/look-up`, and take its
+   `Merge:` line, the done line of each step, and the two SHAs in the done line of the review
+   step: the reviewed base and the reviewed head.
+5. If the `Merge:` line names sub-task keys, find the PR of each key:
+   - Read the `Worktree:` line of `plan_<SUBKEY>.md` in the folder of the handoff.
+   - Run `gh pr list --head <its branch> --state all --json number`.
+   - With no stub, no `Worktree:` line, or no PR, use the key.
+6. With no handoff, read the ticket whose key is in the branch name with `/look-up`, and take its
    ACs. With no key or no ticket, there are no ACs.
-6. List the test files that `git diff --merge-base origin/<base> HEAD --name-only` names, and the
+7. List the test files that `git diff --merge-base origin/<base> HEAD --name-only` names, and the
    test names that the diff adds or changes in them.
-7. Read the PR conventions: the repo's PR template (`.github/`, `docs/`, or the root, in any case),
+8. Read the PR conventions: the repo's PR template (`.github/`, `docs/`, or the root, in any case),
    the repo's contribution docs, and each git or GitHub convention skill that this session has.
 
 **Done when:** you have the branch, the base, the open PR or none, the handoff or none, the ACs or
-none, and the test names.
+none, the merge order or none, and the test names.
 
 ## Step 2: Check the review
 
@@ -117,14 +125,18 @@ Put the table in a collapsed block. Keep a blank line after `<summary>` and befo
    - Put the Step 3 block at the end of the testing or verification section, else at the end.
 3. With no template, write one to three bullets on what changes and for whom, then the Step 3
    block.
-4. For an open PR, start from its current body. Keep each part that this skill did not write, such
+4. If the handoff has a `Merge:` line, make the merge line the first line of the body:
+   - `Merge: alone` gives `Merges alone.`
+   - `Merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else
+     its sub-task key, such as `Merge after #12 and <SUBKEY>.`
+5. For an open PR, start from its current body. Keep each part that this skill did not write, such
    as images or links that a person added. Rewrite each part that is out of date.
-5. Apply the PR rules:
+6. Apply the PR rules:
    - Describe the change, not how you made it. After feedback or a red build, rewrite the affected
      section so it reads as always correct.
    - Cut anything that would not change a reviewer's decision.
    - Name no personal skill, agent, or review tool. Add no AI attribution.
-6. Scan the title and the body, and fix each hit:
+7. Scan the title and the body, and fix each hit:
    - An em dash or an en dash used as a connector. The `—` row marker in the AC table stays.
    - `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
    - A prose word spelled outside the locale that the user's instructions name. Identifiers, API

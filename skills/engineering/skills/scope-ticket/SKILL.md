@@ -2,9 +2,9 @@
 name: scope-ticket
 description: >
   Scope a ticket before work starts: size the change with cheap probes, then give one verdict,
-  SCOPED, SPLIT, or CLARIFY, with a points estimate. Use when the user asks to scope a ticket or
-  asks whether a ticket is too big to land in one PR, or when another skill needs a scope check
-  before work starts.
+  SCOPED, SPLIT, or CLARIFY, with a points estimate. A direct run on the split path hands off to
+  /split-ticket. Use when the user asks to scope a ticket or asks whether a ticket is too big to
+  land in one PR, or when another skill needs a scope check before work starts.
 argument-hint: "<ticket key>"
 ---
 
@@ -156,31 +156,28 @@ AC is in exactly one slice.
 
 ## Step 5: Pick the path (SPLIT only)
 
-One ticket gets one branch and one PR. Ask the user which path to take:
+One ticket gets one branch and one PR. If the caller says that the user chose to split, take path
+2 and ask no question. Else ask the user which path to take:
 
 1. **Keep one ticket.** The slices become the phases of the plan, in order, on one branch and one
    PR. This is the path when the user does not own the ticket.
-2. **Split the ticket.** The slice table is the proposal for the owner of the board. The original
-   ticket keeps slice 1. Each new ticket gets its own branch and PR. A ticket stacks on the branch
-   of the ticket that it builds on.
+2. **Split into sub-tasks.** `/split-ticket` cuts the pieces and creates the sub-tasks after a yes.
+   Each sub-task gets its own branch and PR. The parent ticket gets none.
 
-The board owner makes the new tickets. This skill writes nothing to the tracker except the
-estimate in Step 6.
-
-**Done when:** the user picked a path.
+**Done when:** the user picked a path, or the caller said that the user chose to split.
 
 ## Step 6: Offer the estimate
 
 1. Find the points field by its name, such as "Story Points". Fetch all the fields of the ticket's
    type, not only the required ones. Hold no field ID. If the tracker has no points field, show the
    estimate and write nothing.
-2. The estimate is the ticket's points. On SPLIT path 2, it is slice 1's points, because the
-   ticket keeps slice 1. Each new ticket gets its estimate when it is scoped at start.
+2. The estimate is the ticket's points.
 3. Use the first row that fits:
 
    | Case | Do |
    |---|---|
    | CLARIFY | Write nothing. No size is the finding. |
+   | SPLIT, path 2 | Write nothing. `/split-ticket` writes the points of each sub-task. |
    | The field has the same value | Write nothing. |
    | The field has another value | Show both, such as `ticket says 1, probes say 5`. Write nothing. |
    | The field is blank | Show the estimate and ask once. Write it after a yes. |
@@ -201,9 +198,14 @@ For CLARIFY, refine the ticket before you return:
 
 Return the verdict, the Step 6 estimate, and the one-sentence goal. For SPLIT, also return the
 slices and the path. If `/refine-ticket` ran, also return its summary, its ACs, and whether it
-wrote them. A calling skill continues from here. With no caller, stop.
+wrote them. A calling skill continues from here. With a caller, this skill does not run
+`/split-ticket`.
 
-**Done when:** the caller or the user has the verdict.
+With no caller, SPLIT path 2 runs `/split-ticket`. Give it the key, the slices, and the ticket text
+that you read, so it runs no second scope check. Then stop. On any other result, stop.
+
+**Done when:** the caller or the user has the verdict. With no caller on SPLIT path 2,
+`/split-ticket` returned.
 
 ## Rules
 
