@@ -21,6 +21,10 @@ engineering loads", says how.
 
 [`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
+[`TEST-APPROACH.md`](TEST-APPROACH.md) holds the risk and technique method. `start-ticket` and
+`create-pr` read it. Developer's `tdd` holds the same text in `risk-and-technique.md`. A change to
+one file needs the same change to the other.
+
 The marketplace loads this domain in place from the repo
 ([ADR 0001](../../docs/adr/0001-how-plugins-load.md)). An edit is live at the next session start,
 or after `/reload-plugins`. The entry in `installed_plugins.json` is a record. It does not decide

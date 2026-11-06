@@ -1,7 +1,7 @@
 {
   "name": "developer",
   "description": "Engineering workflows from a plan to working code: worktrees, prototypes, test-first implementation, debugging, fixes, and manual QA. Code review comes from the review domain. Requires primitives.",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "author": {
     "name": "xxkeefer"
   }
