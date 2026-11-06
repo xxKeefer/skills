@@ -38,6 +38,39 @@ Options not chosen:
   copied install (ADR 0001).
 - The personas at the repo root. A path above a plugin root also breaks in a copied install.
 
+## How engineering loads
+
+`developer` and `review` load in every session, from `enabledPlugins` in the user settings.
+`engineering` loads in work sessions only. The user settings do not list it. Instead, the main
+checkout of each work repo turns it on in its `.claude/settings.local.json`:
+
+```json
+"enabledPlugins": { "engineering@xxkeefer-skills": true }
+```
+
+Git ignores that file, so the entry stays on one machine and changes no team file. These facts
+support the choice. The docs and tests on 2026-11-06, with Claude Code 2.1.319, showed them:
+
+- `enabledPlugins` merges key by key. For each plugin, the most specific source that names it
+  wins, so a local file can turn on a plugin that the user settings do not list
+  (https://code.claude.com/docs/en/plugins/loading.md, "Find where a plugin is enabled").
+- Claude Code reads `.claude/settings.local.json` at the git root of the session. A session in a
+  worktree reads the file in the main checkout. In a test, a worktree with no local file loaded
+  `engineering` from the main checkout's file. So each worktree gets `engineering` with no setup.
+- Claude Code reads no settings from a parent folder. In a test, a session in a child git repo,
+  and one in a plain subfolder, did not load `engineering` from the parent's local file.
+- A relative-path plugin needs no install record (loading.md). In a test, a local settings entry
+  alone loaded `engineering`, so `claude plugin install` is not necessary.
+
+Options not chosen:
+
+- `engineering` on in the user settings. Each home session then loads the ticket and PR skills.
+- One local file in the parent folder that holds the work repos. It does not reach the repos.
+- A shell function that adds `--settings` in the work folder. It applies only to the terminal,
+  and not to the desktop app or an IDE.
+- No setting turns a plugin on by path or glob. `--settings` and `--plugin-dir` apply to one
+  session only.
+
 ## Consequences
 
 - `engineering` lost 45 skills and now holds 18.
@@ -50,3 +83,6 @@ Options not chosen:
   it builds. The prefix stays valid after the absorb plan.
 - A skill that moves into or out of `review` must not leave a path read across the plugin
   boundary. Change each such read into a call by name.
+- Each new work repo needs the `engineering` entry once, in its main checkout. A work session
+  started in a folder that is not a git repo reads that folder's own `.claude/settings.local.json`,
+  so that folder needs the entry too.
