@@ -31,6 +31,7 @@ column names, or change each caller in the same commit.
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `review:sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
+| `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the handoff step names is agreed" and "Test the conditions whose IDs the step names" |
 
 ## Loading
 
