@@ -6,13 +6,16 @@ software engineering principles.
 
 ## Dependencies
 
-Engineering skills reference `/grill`, `/write-to-file`, `/write-report`, and `/look-up` from the
-`primitives` plugin, and `/review:mob-review` from the `review` plugin. The `happy-path` report
-builds a `/developer:fix` prompt, and review also requires `developer`. Install all three
+Requires primitives, developer, and review. Engineering skills reference `/grill`,
+`/write-to-file`, `/write-report`, and `/look-up` from `primitives`, `/claim` and the
+`/developer:fix` prompt from `developer`, and `/review:mob-review` from `review`. Install all four
 domains.
 
-Name a review skill with its `review:` prefix, such as `/review:mob-review`. `developer` holds
-skills with the same names.
+Name a review skill with its `review:` prefix, such as `/review:mob-review`. Each skill name lives
+in one domain. Developer's `CLAUDE.md` lists what each developer skill keeps for its callers.
+
+Engineering loads in work sessions only. [ADR 0009](../../docs/adr/0009-review-domain.md), "How
+engineering loads", says how.
 
 ## Skills
 

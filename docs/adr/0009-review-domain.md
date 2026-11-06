@@ -28,7 +28,7 @@ Each file that a review skill reads by path is in the `review` plugin. `develope
 `/review:mob-review`. A call by name can cross plugins. A path cannot.
 
 `review` requires `primitives` and `developer`, because `review-pr` and `pickup` call `/claim`.
-`engineering` requires `primitives` and `review`.
+`engineering` requires `primitives`, `developer`, and `review`.
 
 Options not chosen:
 
@@ -83,6 +83,8 @@ Options not chosen:
   it builds. The prefix stays valid after the absorb plan.
 - A skill that moves into or out of `review` must not leave a path read across the plugin
   boundary. Change each such read into a call by name.
+- A home session loads `developer` and `review`. A work session loads all three domains. See "How
+  engineering loads". Each skill name lives in one domain, so no session lists a name twice.
 - Each new work repo needs the `engineering` entry once, in its main checkout. A work session
   started in a folder that is not a git repo reads that folder's own `.claude/settings.local.json`,
   so that folder needs the entry too.

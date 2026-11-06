@@ -29,4 +29,6 @@ language-agnostic. Code review comes from the [`review`](../review/README.md) do
 }
 ```
 
-Requires `primitives@xxkeefer-skills` and `review@xxkeefer-skills`.
+Requires primitives, developer, and review: `primitives@xxkeefer-skills`,
+`developer@xxkeefer-skills`, and `review@xxkeefer-skills`. Turn engineering on in work sessions
+only, as [ADR 0009](../../docs/adr/0009-review-domain.md) "How engineering loads" says.
