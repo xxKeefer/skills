@@ -12,7 +12,7 @@ workflows.
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
 | `developer` | Plan to working code -- worktrees, test-first builds, debugging, and manual QA. Code review comes from `review` | No |
-| `engineering` | Work at an employer -- ticket to PR, then review, debugging, and QA. Code review comes from `review` | No |
+| `engineering` | Work at an employer -- ticket to PR. Builds, debugging, and QA come from `developer`, and code review from `review` | No |
 | `review` | Persona reviewers, the review panel, and PR review -- `developer` and `engineering` call it | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |

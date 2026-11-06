@@ -1,8 +1,9 @@
 # Engineering
 
-Engineering workflows from ticket to PR: scoping, planning, implementation, and opening the PR,
-then review, debugging, and QA. Framework-agnostic, language-agnostic -- pure best-practice
-software engineering principles.
+Engineering workflows from ticket to PR: refine, scope, split, and plan a ticket, fix a batch of QA
+bugs, and open the PR. Builds, debugging, and manual QA come from `developer`, and code review from
+`review`. Framework-agnostic, language-agnostic -- pure best-practice software engineering
+principles.
 
 ## Dependencies
 

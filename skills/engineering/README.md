@@ -1,7 +1,9 @@
 # Engineering
 
-Engineering workflows from ticket to PR, then review, debugging, and QA. Framework-agnostic and
-language-agnostic. Code review comes from the [`review`](../review/README.md) domain.
+Engineering workflows from ticket to PR: refine, scope, split, and plan a ticket, fix a batch of QA
+bugs, and open the PR. Framework-agnostic and language-agnostic. Builds, debugging, and manual QA
+come from the [`developer`](../developer/README.md) domain, and code review from the
+[`review`](../review/README.md) domain.
 
 ## Skills
 
