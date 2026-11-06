@@ -1,6 +1,6 @@
 # 0002 The domain map
 
-**Status:** Accepted, 2026-10-28
+**Status:** Accepted, 2026-10-28. ADR 0008 replaces the `developer` row.
 
 ## Context
 

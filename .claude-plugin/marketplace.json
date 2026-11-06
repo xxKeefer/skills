@@ -19,6 +19,12 @@
       "source": "./skills/developer"
     },
     {
+      "name": "engineering",
+      "description": "Engineering workflows from ticket to PR, then review, debugging, and QA -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, fixes, and manual QA plans.",
+      "category": "development",
+      "source": "./skills/engineering"
+    },
+    {
       "name": "journal",
       "description": "Personal planner -- cascading goal/reflection system for Obsidian.",
       "category": "productivity",

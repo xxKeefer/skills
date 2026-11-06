@@ -1,0 +1,89 @@
+# persona-url-state diff signals
+
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. Lines marked `(rule N)` are already covered by that rule. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
+
+## [persona-url-state catalogue](catalogue.md)
+
+- NV-A1: `ref(1)`, `ref('')` or a Pinia store holding page, search, filter or active tab on a list page, with no `route.query` read or write → Derive from `route.query` through a typed query composable [default: nit] (rule 1)
+- NV-A2: `ref(route.query.x)` or `ref(route.params.x)` with no watcher, or `onMounted(() => { filters.value = route.query })` → `computed` get from `route.query`, set through `router.replace` [default: nit] (rule 2)
+- NV-A3: `router.push` or `router.replace` with `query: { page }` (or any single key) and no `...route.query` spread → Merge: `{ ...route.query, key }` in one shared helper [default: nit] (rule 3)
+- NV-A4: Two query setters called back to back in one handler, such as `status.value = x; page.value = 1` → Write both keys in one `router.replace` call [default: nit] (rule 3)
+- NV-A5: `onMounted(() => router.push({ query: { page: 1, ... } }))`, or a query serialiser that writes keys equal to their defaults → Omit default keys; normalise with `replace` [default: nit] (rule 5)
+- NV-A6: `query: { ...route.query, q: search.value }` with no `|| undefined`, or `q: null` written to the query → Map empty or whitespace values to `undefined` [default: nit] (rule 5)
+- NV-A7: Query key or URL built straight from the `route.query` object, with key order set by whichever control changed last → Fixed key order; key from the parsed filter object [default: nit] (rule 5)
+- NV-A9: Paired watchers in both directions: `watch(filters, () => router.replace(...))` plus `watch(() => route.query, ...)`, or `{ deep: true }` on `route.query` → One source (the URL); compare serialised strings before writing [default: change-requested]
+- NV-B1: `watch(search, v => router.push({ query: { ...route.query, q: v } }))`: a `push` per keystroke or per debounced value → `replace` while typing; one `push` on commit [default: nit] (rule 6)
+- NV-B2: URL write inside `@input` or `@update:modelValue` of a slider or text field with no throttle or debounce → Throttle URL writes, or write on `change` [default: nit]
+- NV-B3: A URL helper that uses `replace` for every param, or one page mixing `push` and `replace` for the same kind of filter → Choose `push` or `replace` per param, consistently [default: nit]
+- NV-B4: `onMounted(() => router.push(...))` for a default, or `if (!route.query.tab) router.push({ query: { tab: 'x' } })` → Use `router.replace` or a route-level `redirect` [default: change-requested] (rule 6)
+- NV-B5: `await mutate(); router.push({ name: 'detail' })` from a create route, or wizard state in Pinia not cleared on success → `router.replace` to the result page; reset the form store [default: change-requested]
+- NV-B6: `const step = ref(1)` driving a multi-step wizard, with the step absent from the route → Step in the query or params, `push` per step [default: nit]
+- NV-B8: Any `router.push` inside a `watch(() => route.query)` or other route-change handler → Never push on a route change; `replace` to normalise [default: nit] (rule 6)
+- NV-B9: `@click="router.back()"` or `history.go(-1)` on a page that can be opened from a link or new tab → Check `window.history.state?.back`, else push a named route [default: nit] (rule 7)
+- NV-C1: `scrollBehavior() { return { top: 0 } }`, a list fetched in `onMounted` with no cached data, or `gcTime: 0` on the list query → Return `savedPosition`; wait for data before restoring [default: nit] (rule 8)
+- NV-C2: Layout with `h-screen overflow-hidden` around an inner `overflow-y-auto` scroller on a routed list page → Let the document scroll, or save the container scroll [default: nit] (rule 8)
+- NV-C3: `scrollBehavior` returning `savedPosition` with no `{ top: 0 }` fallback, or `createRouter` with no `scrollBehavior` → `return savedPosition ?? { top: 0 }`; reset inner scrollers on push [default: nit] (rule 8)
+- NV-C4: `scrollBehavior` returning `{ top: 0 }` with no `to.path === from.path` branch for query-only changes → Keep scroll on same-path query changes; scroll in the pager [default: nit] (rule 8)
+- NV-C5: `scrollBehavior` with no `to.hash` branch, `el: to.hash` with no offset, or `:id` built from data used as a hash target → `{ el: to.hash, top: headerHeight }` or `scroll-margin-top`; wait for the target [default: nit]
+- NV-C6: `useInfiniteQuery` with `gcTime: 0`, or a "Load more" handler appending pages to a local `ref([])` → Keep the infinite query cached, or the loaded count in the URL [default: nit] (rule 8)
+- NV-D1: `const id = route.params.id` as a plain const used in a query key or fetch, or `onMounted(fetch)` on a param route → `computed(() => route.params.id)` in the query key [default: nit] (rule 2)
+- NV-D2: Edit-mode, tab or form `ref` on a `/:id` page with no `watch(() => route.params.id)`, `onBeforeRouteUpdate` or `:key` → Reset local state when the id changes, or key the view [default: change-requested] (rule 2)
+- NV-D4: `router.push({ path: '/x', params: { id } })`, or params not declared in the route's path used to pass state → Use `name` with params, or query or history state [default: nit]
+- NV-D5: `route.params.id as number`, or `Number(route.params.id)` with no `NaN` check → Parse and validate the param [default: nit] (rule 4)
+- NV-D7: `route.path === '/services'`, or `startsWith` on `route.path` for active nav or logic → Compare `route.name`; pick one canonical path [default: nit]
+- NV-E1: `redirect: to.path` in an auth guard, or `` `/login?redirect=${to.fullPath}` `` built without encoding → Store `to.fullPath` through `query: { redirect }` [default: nit] (rule 9)
+- NV-E3: Guard returning a redirect to a route that the same guard also rejects, with no `to.name` exemption, or `next()` called twice → Exempt the target route; return a location instead of calling `next` [default: change-requested]
+- NV-E4: `document.title =` set in `onMounted` or once in setup, or a detail route with only a static `meta.title` → `useTitle` with a computed that includes the entity name [default: nit]
+- NV-F3: Row `@click`/`@row-click` that navigates, with an inner checkbox, menu or copy button lacking `@click.stop` → `@click.stop` on inner controls, or link only the primary cell [default: nit]
+- NV-F5: "Back to list" `:to="{ name: 'list' }"` with no stored list query → Carry the list query stashed on leave, or use real history Back [default: nit] (rule 9)
+- NV-G1: a drawer or full-screen dialog with a form opened from a local `ref(false)`, with no query param or popstate close → Push a query entry on open; close on Back [default: nit] (rule 8)
+- NV-G2: Modal opened with `router.push({ query: { ...route.query, modal } })` and closed with another `router.push` → Close with `router.back()` when we pushed the entry, else `replace` [default: nit] (rule 8)
+- NV-G3: Dialog `open` computed from `route.query.modal`/`id` with no validation and no loading or not-found branch → Validate the URL value; handle loading and not-found in the dialog [default: nit] (rule 4)
+- NV-G4: Reka `DialogRoot` with `v-model:open` in a layout-level component, or a manual `document.body.style.overflow` lock → Close overlays on route change; own them in the routed view [default: change-requested]
+- NV-H1: `route.query.status as string[]` or `as string`, or `.includes` on a query value that can be a string or an array → Normalise to an array, or take the first string [default: change-requested] (rule 4)
+- NV-H2: `.split(',')` or `.join(',')` on query values holding user-defined names or tags → Repeated keys or per-item encoding; comma only for enums [default: nit]
+- NV-H3: `route.query.page as unknown as number`, or arithmetic on a raw query value → `Number.parseInt` with `Number.isInteger` check and default [default: nit] (rule 4)
+- NV-H4: `if (route.query.archived)` or `Boolean(route.query.x)` on a query flag → Compare `=== 'true'`, or omit the key when false [default: nit] (rule 4)
+- NV-H5: Query values passed straight into an API call, or a sort field put into a request with no allow-list → Schema per page: enum allow-lists, clamped numbers, `replace` to correct [default: change-requested] (rule 4)
+- NV-H6: URL `page` used with no clamp against `totalPages`, or a delete on a paginated list with no step back → `replace` to the last page when `page > totalPages > 0` [default: nit] (rule 10)
+- NV-H9: Changed key string in `queryParam`, `searchQueryParam`, `useRouteQuery` or a codec in the project's URL-filter composable, with no legacy read → Map the old name on read and `replace` it [default: nit]
+- NV-I1: A query key bound straight to the `v-model` value of a search input, with no debounced value between them → Debounce the value feeding the query key [default: nit]
+- NV-I2: `refDebounced`/`useDebounceFn` above 500 ms on a search, with no submit or blur flush → Flush on Enter; show pending while `debounced !== raw` or `isFetching` [default: nit]
+- NV-I6: `term.length < n` guard or `enabled` length check on a search with no hint shown → Tell the user the minimum ("type at least 2 characters") [default: nit]
+- NV-I12: `computed(() => data.value.items.filter(...))` over a server-paginated response → Send the term to the server [default: nit]
+- NV-I13: Search `v-model` on `ref(route.query.q)` with no route watch, or a clear handler that never writes the URL → Mirror the URL value on route change; clearing writes `undefined` [default: nit] (rule 2)
+- NV-J1: Filter, search or sort setters that leave `page` untouched → Reset `page` to `undefined` in the same write [default: nit] (rule 10)
+- NV-J2: `(page - 1) * size + 1` with no empty-case guard, `Math.ceil(total / size)` giving 0, or a 0-based API page beside a 1-based URL → One range helper covering the empty and last-page cases [default: nit]
+- NV-J5: `Number(route.query.size)` or a URL page size sent to the API with no allow-list → Allow-list page sizes; `replace` to the default [default: nit] (rule 4)
+- NV-J7: `hasNext = items.length === pageSize`, or Next `:disabled` from the returned row count → Disable from `hasMore` or `totalPages` [default: nit] (rule 10)
+- NV-K1: `v-if="!items.length"` empty state with no check of `isError`, `isPending`, or active filters → Separate loading, error, no data and no-match states [default: nit] (rule 12)
+- NV-K2: Clear handler that resets refs or chips with no URL write, or `router.replace({ query: {} })` that also drops the tab → One write setting each filter key to `undefined` [default: nit] (rule 12)
+- NV-K3: Filters inside a collapsed `Collapsible`, `Popover` or drawer with no active count or chips outside it → Always show active-filter chips or a count [default: nit] (rule 12)
+- NV-K4: Filter options built from loaded rows: `unique(items.map(i => i.status))` → Take options from the enum or a metadata endpoint [default: nit]
+- NV-L1: Row selection with no reset on filter, search or page change, read in full by a bulk action → Clear selection on filter or page change, or show the hidden count [default: change-requested] (rule 10)
+- NV-L2: `toggleAllRowsSelected(true)` on a paginated or filtered table, or page-only select beside an "all" label → Select the page, then offer "Select all N matching" [default: change-requested]
+- NV-L3: Row selection held as `Set<number>` of row indices → Key selection by stable id [default: nit]
+- NV-L4: Header checkbox `:checked` from `selected.size > 0` or `=== rows.length` with no `indeterminate` → Compute from visible ids; set `indeterminate` [default: nit]
+- NV-L5: Bulk mutation `onSuccess` with no `clear()`, `resetRowSelection()` or prune of the ids → Clear or prune the selection on success [default: nit]
+- NV-M1: `.sort()` with no compareFn on numbers, or `a.speed.localeCompare(b.speed)` on numeric strings → Numeric compare, or `Intl.Collator` with `numeric: true` [default: nit] (rule 11)
+- NV-M2: String sort with `a < b ? -1 : 1` or a bare `.sort()` on names → One shared `Intl.Collator` [default: nit]
+- NV-M3: `a.x.localeCompare(b.x)` on an optional field, or `a.x - b.x` on a nullable number → Explicit nulls-last in both directions [default: change-requested] (rule 11)
+- NV-M4: Sort key is the displayed, formatted value (formatted date, price or speed string) → Sort on the raw value in base units [default: nit] (rule 11)
+- NV-M5: `.sort((a, b) => a > b)`: a comparator returning a boolean → Return a negative, zero or positive number [default: nit] (rule 11)
+- NV-M6: `data.value.sort(...)` inside a computed, on query data or props → `toSorted()` or `[...arr].sort()` [default: nit] (rule 11)
+- NV-M7: `.sort`, `.toSorted` or client table sorting on rows from an endpoint paged by `page`/`size` → Send the sort to the server [default: nit] (rule 11)
+- NV-M8: Sort arrow or `aria-sort` bound to a local `ref` while the data sort reads `route.query` → Derive the indicator from the parsed URL value [default: nit]
+- NV-N1: `TabsRoot` `v-model` on a local `ref` on a routed page → Tab in the query or a child route through a URL-backed computed [default: nit] (rule 1)
+- NV-N2: `route.query.tab` bound to `TabsRoot` with no check against the visible tabs → Validate against visible tabs; `replace` to the default [default: nit] (rule 4)
+- NV-N3: Lists in two tabs sharing a `queryParam`, `searchQueryParam` or `page` key, with no reset on tab change → Namespace the keys per tab, or reset on tab change [default: nit]
+- NV-N4: `TabsContent` with `force-mount`, or every tab's query called in the parent → Lazy mount panels; let the query cache keep data [default: nit]
+- NV-P1: Breadcrumb `to: { name: 'list' }` or a bare path with no stored list query → Carry the list query, as for Back to list [default: nit] (rule 9)
+- NV-P2: `route.path === item.path` for active nav, or misused `exact-active-class` → RouterLink `isActive`, or route `meta` [default: nit]
+- NV-P4: Nav item behind `v-if` permission or flag while its route has no `meta` check or `beforeEnter` → Guard the route, not only the menu [default: change-requested]
+- NV-Q1: `v-if="can('order')"` on an action users expect to see, or `:disabled` with no tooltip or helper text → Show it with `aria-disabled` and a stated reason [default: nit]
+- NV-Q2: A route guard that sends every failure to `/404`, or an edit page that renders its form whatever the permission → Access page saying what the user can't do [default: nit] (rule 16)
+- NV-Q3: Inline `user.role === 'admin'` in a template, or the same permission rule written differently in two components → One central `can(action, subject)` helper [default: nit]
+- NV-Q4: `computed(() => !profile.value || profile.value.canEdit)`, or a permission check that defaults to `true` → Treat pending as not allowed [default: change-requested] (rule 15)
+- NV-R1: Toolbar or bulk action button with no `:disabled` tied to `rows.length`, `selected.size`, or status → Disable with a reason, or hide when it doesn't apply [default: nit]
+- NV-R2: A list call with a hard-coded `limit` or `size` and no loop over `next` or `page`, shown as the full set → Follow pagination, show the total, state any cap [default: nit] (rule 13)
+- NV-R3: `window.open(apiUrl)` or `<a :href="`${baseUrl}/.../csv`" download>` for an API endpoint, bypassing the shared API client → Fetch through the API client; save from a Blob URL [default: change-requested] (rule 14)

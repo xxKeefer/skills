@@ -11,7 +11,8 @@ workflows.
 | Domain | Purpose | Always required? |
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Engineering workflows -- ticket to PR, then review, debugging, and QA, with the persona reviewers | No |
+| `developer` | Personal side projects -- ticket to PR, then review, debugging, and QA, with the persona reviewers | No |
+| `engineering` | Work at an employer -- ticket to PR, then review, debugging, and QA, with the persona reviewers | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
@@ -59,7 +60,8 @@ Everything-agnostic. Skills encode *how to think about problems*, not how to use
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
-There are two exceptions: the rules that `/install-rules` ships, and the `developer` personas.
+There are two exceptions: the rules that `/install-rules` ships, and the `developer` and
+`engineering` personas.
 A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
 so both name languages, frameworks, and tools. Neither names employer or client code.
 

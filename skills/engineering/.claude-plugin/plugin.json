@@ -1,0 +1,8 @@
+{
+  "name": "engineering",
+  "description": "Engineering workflows from ticket to PR, then review, debugging, and QA, with the persona reviewers and the mob-review panel. Requires primitives.",
+  "version": "1.0.0",
+  "author": {
+    "name": "xxkeefer"
+  }
+}
