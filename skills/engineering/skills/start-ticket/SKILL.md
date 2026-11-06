@@ -136,7 +136,7 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 - [ ] **1. <slice goal>.** Seam: `<seam>`. Conditions: C1, C2.
   - Done: <the tests that it adds, and what a user can do now>.
 - [ ] **<n>. Review.** Depends on every earlier step. Review the branch with this handoff: `<handoff path>`. This step changes no code.
-  - Done: each fix that the user picks is a step before the push step.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **<n+1>. Push.** Push the branch and open a draft PR with `/create-pr @<handoff path>`.
 
 ## Suggested skills

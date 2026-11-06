@@ -1,93 +1,163 @@
 ---
 name: resolve-feedback
 disable-model-invocation: true
-description: Assess review feedback from AI or human reviewers, pasted or from a PR, before you apply any fix.
+description: >
+  Assess review feedback from AI or human reviewers, pasted or from the open threads of a PR. Write
+  a verdict, a recommendation, and a draft reply for each item to a review report, whose ticks
+  build the /review:apply-review prompt. Applies no fix.
+argument-hint: "<PR number or URL | pasted feedback>"
 ---
 
 # Resolve Feedback
 
-Evaluate code review feedback critically before acting on it.
+Assess each piece of review feedback before anyone acts on it. The verdicts go to a review report,
+not to the chat. The user ticks the rows to act on, and the prompt of the report runs
+`/review:apply-review`. This skill applies no fix, posts no reply, and asks no batch question.
 
-## Step 1: Parse Input
+```
+parse → assess each item → write the report → return
+```
 
-`$ARGUMENTS` may contain:
+## Step 1: Parse the input
 
-- **Inline feedback** — review comments pasted or typed directly
-- **PR URL or number** — fetch comments from the PR
-- **Nothing** — use **AskUserQuestion**: "Paste the feedback, or give me a PR URL/number."
+`$ARGUMENTS` can hold:
+
+- **Pasted feedback**: review comments that the user pasted or typed.
+- **A PR number or URL**: read the open review threads of the PR.
+- **Nothing**: ask "Paste the feedback, or give me a PR number or URL."
 
 Feedback can come from any source:
 
-- **AI reviewers** (GitHub Copilot, CodeRabbit, etc.) — treat with healthy skepticism; they hallucinate, misread control flow, and over-engineer
-- **Human reviewers** — treat with more trust but still assess independently; humans can be wrong about unfamiliar code
-- **Self-review notes** — the user's own observations they want a second opinion on
+- **AI reviewers** (GitHub Copilot, CodeRabbit, and others). Treat them with doubt. They invent
+  facts, misread control flow, and over-engineer.
+- **Human reviewers**. Trust them more, but still assess each claim. A human can be wrong about
+  code they do not know.
+- **Self-review notes**. The user wants a second opinion on their own notes.
 
-**Done when:** you have listed each distinct piece of feedback (a comment, suggestion, or requested change) and its source.
+A caller can name the repo folder, such as a worktree. Then read the code and run each git command
+in that folder, with `git -C <path>`. Else use the current folder.
 
-## Step 2: For Each Piece of Feedback
+For a PR:
 
-### 2a. Read the source file
+1. Run `gh pr view <n> --json number,url,headRefName,baseRefName`.
+2. If the branch of the folder is not `headRefName`, stop. Name `/review:pickup`, which claims the
+   worktree of the PR and syncs it.
+3. List the threads with the query in
+   [`threads.md` section 1](../apply-review/references/threads.md#1-list-the-threads). Keep each
+   thread whose `isResolved` is `false`.
+4. Each open thread is one item. Read every comment in it, because a later comment can narrow or
+   drop the ask. The source is the `author` of the first comment.
+5. If no thread is open, say so and stop. Write no report.
 
-Read the file and surrounding context to fully understand the code.
+For pasted feedback, each distinct comment, suggestion, or requested change is one item. A pasted
+item has no thread. Read the PR of the branch with `gh pr view --json number,url,baseRefName`. A
+branch with no PR is fine.
 
-### 2b. Assess validity
+**Done when:** you have listed each item, its source, and the URL of its thread when it has one.
 
-Trace each claim in the code before you accept it. Then determine if the feedback is:
+## Step 2: Assess each item
 
-- **Valid** — identifies a real issue (bug, unhandled error, race condition, etc.)
-- **Partially valid** — correct observation but wrong fix, or low-impact nitpick
-- **Invalid** — misunderstands the code, suggests something worse, or is irrelevant
+`/review:apply-review` reads the cells and the ticks of each row. A change to them needs the same
+change there.
 
-If the fix only makes the code cleaner and changes no behaviour, call it cosmetic in the verdict. The user decides if it is worth the diff.
+### 2a. Read the code
 
-### 2c. Present analysis to user
+Read the file that the item names, and the code around it.
 
-For each item, provide a concise summary:
+### 2b. Give the verdict
 
-```
-## Feedback: <one-line summary>
+Trace each claim in the code before you accept it. Then give one verdict:
 
-**Source:** <reviewer name or "AI reviewer" or "self">
-**Verdict:** Valid | Partially valid | Invalid
+- **Valid**: the item finds a real issue, such as a bug, an unhandled error, or a race condition.
+- **Partially valid**: the observation is correct but the fix is wrong, or the item is a nitpick
+  with low impact.
+- **Invalid**: the item misreads the code, asks for something worse, or does not apply.
 
-**Why:** <1-2 sentences explaining the reasoning>
+When the fix only makes the code cleaner and changes no behaviour, the fix is cosmetic. The user
+decides if it is worth the diff.
 
-**Pros of fixing:**
-- <bullet>
+### 2c. Write the row
 
-**Cons of fixing:**
-- <bullet>
+Give each item one row with these cells:
 
-**Alternatives:**
-- <alternative approach if any>
+| Key | Label | Holds |
+|---|---|---|
+| `verdict` | Verdict | `Valid`, `Partially valid`, or `Invalid`. Add `, cosmetic` when the fix changes no behaviour |
+| `source` | Source | the reviewer's login or name, `AI reviewer`, or `self`. Add ` (bot)` when `bot` is `true` |
+| `where` | File:line | the `file:line` that the item names. Set `mono` |
+| `issue` | Issue | the feedback in one line, a blank line, then why the verdict holds, in one or two sentences. For a behaviour bug, give the counterexample: the input and the wrong result |
+| `recommendation` | Recommendation | the sort, then what to do and why |
+| `draft` | Draft reply | the reply to the reviewer. A thread row only. Set `fold` |
+| `thread` | Thread | the `url` of the first comment of the thread. A thread row only |
 
-**Recommendation:** <what you'd do and why>
-```
+**The recommendation.** Start with the sort from
+[`mob-review` Step 5](../mob-review/SKILL.md#step-5-write-the-report): `Small.` or
+`You decide: <reason>.` For an Invalid verdict, start with `No fix.` Then say what to do and why.
+When a better fix than the reviewer's exists, name it. When two fixes are reasonable, name both.
 
-Drop sections that add no value (e.g. skip "Alternatives" if there are none, skip "Cons" if the fix is clearly good).
+**The draft reply.** Write it as the PR author, in one to three sentences:
 
-**Done when:** every piece of feedback has a verdict, and the user has its analysis.
+- Valid or Partially valid: say what the fix changes. For Partially valid, say which part you take
+  and why you leave the rest. Write no commit hash. `/review:apply-review` ends the reply with
+  `Fixed in <short hash>.` when it fixes the row.
+- Invalid: say why the code is correct, from the trace. Cite the line as `` `path:line` ``.
+- A question: answer it.
+- Write no praise and no apology.
+- The draft must pass the scan in
+  [`post-review-comments` Step 3](../post-review-comments/SKILL.md#step-3-prepare-each-draft),
+  item 4.
 
-## Step 3: Batch Decision
+**The ticks.** A thread row gets `fix`, `reply`, and `resolve`. A pasted row gets `fix` only,
+because it has no thread to reply on.
 
-After presenting all items, ask:
+**The order.** Put the Valid rows first, then Partially valid, then Invalid. Inside each verdict,
+put a human's item before a bot's.
 
-> Apply all recommended fixes? Or pick specific items: [list numbers]
+**Done when:** each item has a row with a verdict, an issue, and a recommendation, and each thread
+row has a draft and a thread URL.
 
-**Done when:** the user has picked the fixes to apply, or none.
+## Step 3: Write the report
 
-## Step 4: Apply Fixes (if approved)
+Write the rows with `/write-report`. A panel run of `/review:mob-review` on the same branch uses
+the same key, so both runs go to one file.
 
-For each approved fix:
+1. Fetch the base, and read the base SHA:
 
-1. Write a failing test that captures the behaviour the fix asks for.
-2. Make the smallest change that passes the test.
-3. Run the affected tests.
-4. Report the results.
+   ```bash
+   git fetch origin <base> --quiet
+   git rev-parse --short "$(git merge-base origin/<base> HEAD)"
+   ```
 
-If the fix changes no behaviour, such as a rename, a comment, or a type, skip the test and make the
-change.
+   `<base>` is the `baseRefName` of the PR. Without a PR, it is the default branch of the remote.
+2. Give `/write-report` these inputs:
+   - `kind`: `review`.
+   - `key`: the ticket key from the branch name or the PR title. Else `pr-<n>` when the branch has
+     a PR. Else the branch name with each `/` changed to `-`.
+   - `title`: `Review of PR #<n>`, else `Review of <branch>`.
+   - `skill`: `/review:apply-review`.
+   - The run:
+     - `title`: `Threads at <short head>` when the items are PR threads, else
+       `Feedback at <short head>`.
+     - `head`: `git rev-parse --short HEAD`.
+     - `meta`: `Base` (the base branch and the base SHA), `PR` (the PR URL, when the branch has a
+       PR), and `Folder` (the absolute path of the repo folder). `/review:apply-review` reads all
+       three.
+     - `answer`: the count of each verdict. Then tell the user to tick the rows to act on and
+       paste the prompt.
+     - `columns` and `rows`: from Step 2. When no row has a thread, leave out `draft` and
+       `thread`.
 
-If multiple fixes touch the same file, apply them together to avoid conflicts.
+**Done when:** the report holds the new run, and its JSON block parses.
 
-**Done when:** every approved fix is made and its tests pass.
+## Step 4: Return
+
+Print only these in the chat. Print no row.
+
+1. The count of each verdict.
+2. The report path.
+3. One line: tick the rows in the report, then paste its prompt. The prompt runs
+   `/review:apply-review`, which fixes test-first and commits once. When the branch has an open
+   PR, it pushes once, then replies on and resolves the ticked threads.
+
+**Done when:** the user has the report path, and this skill applied no fix and asked no batch
+question.

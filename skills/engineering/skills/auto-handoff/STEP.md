@@ -50,8 +50,8 @@ red, save the work, write a `B` entry, and return.
 2. Commit with the repo's commit convention.
 3. Invoke `/update-handoff` on the handoff to mark the step done.
 
-If the step changed no file except the handoff, make no commit. A review step that only adds fix
-steps is an example. Return `Commit: none`.
+If the step changed no file except the handoff, make no commit. A review step that only records its
+report is an example. Return `Commit: none`.
 
 **Done when:** the handoff marks the step done, and the commit exists or the step changed no file
 except the handoff.

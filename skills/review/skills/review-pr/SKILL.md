@@ -90,7 +90,8 @@ of the panel runs in the worktree. Do not give it the PR number, because its PR 
 `gh pr checkout`.
 
 `mob-review` finds the PR from the branch, decides whose code it is, writes the report, and
-prints the report path. On the user's own code, its Step 6 asks which small fixes to apply.
+prints the report path. On the user's own code, its Step 6 points to the `/review:apply-review`
+prompt that the report builds.
 
 **Done when:** the panel wrote its report and printed the report path.
 

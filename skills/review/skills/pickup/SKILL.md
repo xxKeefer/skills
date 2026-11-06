@@ -2,19 +2,20 @@
 name: pickup
 description: >
   Pick up an open PR from its number, URL, branch, or ticket key: confirm the PR, claim its
-  worktree, sync the branch by fast-forward only, then triage its open review threads into the
-  handoff that /do-next runs. Use when the user asks to pick up a PR or a branch.
+  worktree, sync the branch by fast-forward only, then assess its open review threads into a review
+  report, whose ticks build the /review:apply-review prompt. Use when the user asks to pick up a PR
+  or a branch.
 argument-hint: "<PR number or URL | branch | ticket key>"
 ---
 
 # Pickup
 
-Get onto an open PR with no lost work, and turn its review threads into a handoff. The next session
-works the handoff with `/do-next`, so this skill ends at the handoff. It never pushes, and it never
-discards a change.
+Get onto an open PR with no lost work, and assess its open review threads into a review report.
+The user ticks the rows to act on, and the prompt of the report runs `/review:apply-review`. This
+skill ends at the report. It never pushes, never posts, and never discards a change.
 
 ```
-resolve → confirm → /claim → sync → /triage-feedback → return
+resolve → confirm → /claim → sync → assess the threads → return
 ```
 
 ## Step 1: Resolve the PR
@@ -69,10 +70,10 @@ Run `/claim` with the PR number. It returns the worktree path, the branch, and a
 `none`. If `/claim` stops to ask a question, put the question to the user, and continue with the
 answer.
 
-If `/claim` returns a handoff, the work can have a plan or earlier feedback tasks. Show the path.
-Ask whether to continue that handoff or to triage the threads into a new handoff.
+If `/claim` returns a handoff, the work can have a plan. Show the path. The threads still go to the
+report in Step 5, so the handoff and the report do not compete.
 
-**Done when:** you have the worktree path, and you know whether to triage.
+**Done when:** you have the worktree path, and the handoff path or `none`.
 
 ## Step 4: Sync the branch
 
@@ -89,29 +90,28 @@ Make the worktree match the PR head with no lost commit. Run each git command in
    |---|---|---|
    | 0 | 0 | The branch matches the PR. Continue. |
    | 1 or more | 0 | Run `git merge --ff-only <headRefOid>`. Then check that `git rev-parse HEAD` prints `<headRefOid>`. |
-   | 0 | 1 or more | Stop. Show the local commits with `git log --oneline <headRefOid>..HEAD`. Ask whether to keep them. The push task of the handoff sends them. Continue after a yes. |
+   | 0 | 1 or more | Stop. Show the local commits with `git log --oneline <headRefOid>..HEAD`. Ask whether to keep them. The next push sends them. Continue after a yes. |
    | 1 or more | 1 or more | Stop. Show both lists of commits. Say that the branch and the PR diverged, so a fast-forward cannot sync them. Change nothing. |
 
 **Done when:** the worktree holds the PR head and no commit is lost, or you stopped and changed
 nothing.
 
-## Step 5: Triage the threads
+## Step 5: Assess the threads
 
-Skip this step when the user chose to continue the `/claim` handoff in Step 3.
+Read [`resolve-feedback`](../resolve-feedback/SKILL.md), and follow its Steps 1 to 3 for PR `<n>`.
+The repo folder is the worktree. Read the code and run each git command there, not in the current
+folder.
 
-Run `/triage-feedback <n>` if this session has it. Give it two inputs:
+- Step 1 lists the open threads of the PR with the shared query. With no open thread, it writes
+  no report.
+- Step 2 gives each thread one row: a verdict, a recommendation, a draft reply, and the `thread`
+  URL, with the ticks `fix`, `reply`, and `resolve`.
+- Step 3 adds a `Threads at <short head>` run to `review_<KEY>.html`. A panel run of
+  `/review:mob-review` on the same branch uses the same key, so both runs go to one file.
 
-- Read the code that each thread names in the worktree, not in the current folder.
-- Propose the handoff as `handoff_pr-<n>.md` in the folder that `/write-to-file` picks, because
-  `/claim` finds handoffs there.
+Do not follow its Step 4. Step 6 below returns.
 
-When the handoff exists, write `Worktree: <path>. Branch: <branch>.` on the line after its title.
-`/do-next` reads this line to check the branch.
-
-With no open thread, `/triage-feedback` writes no handoff. Without `/triage-feedback` in this
-session, write no handoff. Say which case applies in Step 6.
-
-**Done when:** the handoff has its `Worktree:` line, or you know why no handoff exists.
+**Done when:** the report holds the threads run, or Step 1 found no open thread.
 
 ## Step 6: Return
 
@@ -120,11 +120,14 @@ Give:
 1. The PR link, the branch, and the worktree path.
 2. The sync result: the branch matched, the fast-forward took `<n>` commits, or the user kept `<n>`
    local commits.
-3. The handoff path, or why no handoff exists.
-4. The next command. The user starts a new session in the worktree, and runs
-   `/do-next @<handoff path>`.
+3. The count of each verdict and the report path, or that the PR has no open thread.
+4. The next action. Tick the rows in the report, then paste its prompt. The prompt runs
+   `/review:apply-review`, which fixes test-first, commits once, and pushes once. Then it replies
+   on and resolves the ticked threads.
+5. To add a panel run to the same report, run `/review:mob-review` in the worktree.
+6. When `/claim` returned a handoff, its path. The user continues it with
+   `/do-next @<handoff path>` in a session in the worktree.
 
-The handoff merges a stale base in its first task and watches CI in its last task, so this skill
-does neither.
+Neither this skill nor `/review:apply-review` merges the base or watches CI.
 
-**Done when:** the user has the worktree path, and the next command or the reason for no handoff.
+**Done when:** the user has the worktree path, and the report path or the reason for no report.

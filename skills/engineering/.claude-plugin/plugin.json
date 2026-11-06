@@ -1,7 +1,7 @@
 {
   "name": "engineering",
   "description": "Engineering workflows from ticket to PR, then debugging and QA. Code review comes from the review domain. Requires primitives and review.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "xxkeefer"
   }

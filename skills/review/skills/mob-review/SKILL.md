@@ -1,6 +1,6 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, it then asks once which small clear-cut fixes to apply. On someone else's, each finding gets a draft reply, and the ticks in the report build a /review:post-review-comments prompt. In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, the ticks in the report build a /review:apply-review prompt. On someone else's, each finding gets a draft reply, and the ticks build a /review:post-review-comments prompt. In a handoff, it records the report in the review step. It applies no fix and never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
 ---
 
 # Mob Review: staff-engineer review panel
@@ -60,7 +60,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 adds fix steps to it.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 records the report in its review step.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
@@ -87,7 +87,7 @@ cat "$SCRATCH/files.txt"
 
 The path is keyed by branch **and sha**, so a later run after a fix commit computes its own patch and can never read a stale one.
 
-**Uncommitted work.** If the branch has no commits ahead of `origin/main` but the working tree is dirty, the change hasn't been committed yet. Review the working tree instead: drop `HEAD` from the three `git diff` commands (`git diff --merge-base origin/main` includes staged and unstaged changes), and suffix `SCRATCH` with `-wt`. Step 6 then can't make a separate fix commit, so leave the fixes in the working tree.
+**Uncommitted work.** If the branch has no commits ahead of `origin/main` but the working tree is dirty, the change hasn't been committed yet. Review the working tree instead: drop `HEAD` from the three `git diff` commands (`git diff --merge-base origin/main` includes staged and unstaged changes), and suffix `SCRATCH` with `-wt`. `/review:apply-review` then leaves its fixes in the working tree.
 
 If `files.txt` is empty, report "no changes vs origin/main" and stop.
 
@@ -102,7 +102,7 @@ git rev-parse --short HEAD                                   # head
 
 **Never print the patch body into this thread.** The orchestrator needs the file list (Step 2 guards) and the `--stat` line (size); the personas need the diff, and they read it from `diff.patch` themselves. A diff pasted here is re-sent on every remaining turn of the review. Every persona report, the fixes and the verification all sit behind it.
 
-Also record **whose code this is**. It decides whether Step 6 may apply fixes:
+Also record **whose code this is**. It decides the ticks and the prompt of the report in Step 5:
 
 ```bash
 git config user.email                                          # you
@@ -202,8 +202,8 @@ Give `/write-report` these inputs:
 - `key`: the ticket key from the handoff, the branch name, or the PR title. Else `pr-<n>` when the
   branch has a PR. Else the branch name with each `/` changed to `-`.
 - `title`: `Review of PR #<n>`, else `Review of <branch>`.
-- `skill`: `/review:post-review-comments` on someone else's code. On your own code, give no
-  skill, because Step 6 picks the fixes in the chat.
+- `skill`: `/review:post-review-comments` on someone else's code, and `/review:apply-review` on
+  your own code.
 - The run:
   - `title`: `Panel run`.
   - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
@@ -228,7 +228,7 @@ every other lane follow, in the Step 4 order.
 | `persona` | Persona | the name without the `persona-` prefix, such as `a11y` |
 | `where` | File:line | the `file:line` of the finding. Set `mono` |
 | `issue` | Issue | the summary, a blank line, then the detail |
-| `recommendation` | Recommendation | the suggestion |
+| `recommendation` | Recommendation | the suggestion. On your own code, the sort comes first |
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
 - Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
@@ -237,7 +237,22 @@ every other lane follow, in the Step 4 order.
   [`post-review-comments`](../post-review-comments/SKILL.md#the-comment-layout), and follow the
   rules under that layout. `/review:post-review-comments` checks the anchor and scans the draft
   before it posts.
-- On someone else's code, give each row the tick `reply`. On your own code, give no tick.
+- On someone else's code, give each row the tick `reply`. On your own code, give each row the
+  tick `fix`.
+
+**The sort, on your own code.** Start each recommendation with `Small.` or with
+`You decide: <reason>.`, so the user knows which rows to tick. Judge the size and the certainty of
+the fix, not its tier. A `change-requested` can be a one-liner, and a `nit` can be a redesign.
+
+- `Small.` The fix is mechanical or local, and it has one obvious right answer. Examples: delete a
+  redundant wrapper, a duplicate mapping, or a vacuous assertion. Extract a helper or a test
+  fixture that is already duplicated word for word. Add a test case for an uncovered branch that
+  the existing harness supports. Rename, add a missing `readonly` or `as const`, make a loose type
+  tight, or extract an i18n key.
+- `You decide: <reason>.` The fix changes a public API, a component contract, or an exported
+  type. Or it changes behaviour that no test pins down, or it needs a product or design decision.
+  Or it spans several files, or restructures a module. Or two reasonable fixes exist, and the
+  choice is the author's. Or the persona marked it `future` and framed it as a ticket of its own.
 
 Then print only these in the chat. Print no finding.
 
@@ -254,7 +269,21 @@ and the findings are the deliverable. Say in one line that the panel applied no 
 branch is not yours. Tell the user to tick the rows to reply to in the report, then paste the
 prompt that the report builds. The prompt runs `/review:post-review-comments` on the ticked rows.
 
-**On your own code** (per the Step 1 ownership check), read [references/apply-fixes.md](references/apply-fixes.md) and follow it. It asks once which small findings to apply. With a handoff from Step 1, it adds the picks as fix steps and fixes nothing. Without one, it applies the picks. It never pushes.
+**On your own code** (per the Step 1 ownership check), also apply nothing here. Tell the user to
+tick the rows to fix in the report, then paste the prompt that the report builds. The prompt runs
+`/review:apply-review` on the ticked rows. It fixes test-first and commits once. It pushes only
+when the branch has an open PR.
+
+**In a handoff from Step 1**, on your own code, the review step writes the report and stops:
+
+1. Tick the review step. Write the report path, and the base and head SHAs from Step 1, into its
+   done line. `/create-pr` reads the two SHAs.
+2. Under `/auto-handoff` (you follow its `STEP.md`), the user cannot tick the report during the
+   run. Write a `D` entry in the `STEP.md` form. It names the report path. Its options are to
+   tick the rows and run the prompt, or to fix nothing. Its `Blocks` line lists the push step, the
+   step that pushes or opens a PR.
+3. Stop. The user runs the prompt before the push step. The fix commit comes after the reviewed
+   head, so the push step shows it as drift.
 
 ## Step 7: Record calibration signals (never edit)
 
@@ -292,6 +321,6 @@ End the summary with the entries this run added or extended. If nothing surfaced
 
 ## Notes
 
-- The personas themselves are read-only: they review, they never edit. The fixes are this orchestrator's job in Step 6, and only on your own code.
+- The personas themselves are read-only: they review, they never edit. The fixes are the job of `/review:apply-review`, and only on your own code.
 - Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
 - Scale is bounded by the diff: a small PR launches few personas; a broad one launches many. That's intended.

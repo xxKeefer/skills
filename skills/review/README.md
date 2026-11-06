@@ -8,12 +8,13 @@ reviewers, which each review one kind of code.
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On someone else's branch, its ticks build the `/review:post-review-comments` prompt. On your own branch, it asks which clear-cut fixes to apply. In a handoff, it adds them as fix steps |
+| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On someone else's branch, its ticks build the `/review:post-review-comments` prompt. On your own branch, its ticks build the `/review:apply-review` prompt. In a handoff, it records the report in the review step |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/review:mob-review` there, then give the report path, whose ticks build the `/review:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
+| `/apply-review` | Review | Apply the rows you tick in a review report of your own branch: fix test-first, run the gates, commit once, push once, then reply on and resolve the ticked threads. Adds a result run to the report |
 | `/sad-path` | Closure | Write a manual QA checklist that tries to break the changed forms and fields. Each item cites a catalogue ID |
-| `/pickup` | Closure | Confirm an open PR, claim its worktree, sync it by fast-forward only, then triage its review threads into a handoff |
-| `/resolve-feedback` | Closure | Assess code review feedback |
+| `/pickup` | Closure | Confirm an open PR, claim its worktree, sync it by fast-forward only, then assess its open review threads into the review report, whose ticks build the `/review:apply-review` prompt |
+| `/resolve-feedback` | Closure | Assess review feedback, pasted or from the open threads of a PR, and write a verdict, a recommendation, and a draft reply for each item to a review report. Its ticks build the `/review:apply-review` prompt. Applies no fix |
 | `/self-improve` | Maintenance | Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report and the repo's defect hotspots |
 | `/update-personas` | Maintenance | Refresh `persona-best-practice` against installed and current versions, lint any persona's structure, and apply the approved calibration backlog |
 
