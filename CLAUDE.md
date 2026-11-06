@@ -11,7 +11,7 @@ workflows.
 | Domain | Purpose | Always required? |
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Personal side projects -- ticket to PR, then review, debugging, and QA, with the persona reviewers | No |
+| `developer` | Plan to working code -- worktrees, test-first builds, debugging, and manual QA. Code review comes from `review` | No |
 | `engineering` | Work at an employer -- ticket to PR, then review, debugging, and QA. Code review comes from `review` | No |
 | `review` | Persona reviewers, the review panel, and PR review -- `developer` and `engineering` call it | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
@@ -62,7 +62,6 @@ A skill should work equally well whether you're writing Rust, TypeScript, Python
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
 There are two exceptions: the rules that `/install-rules` ships, and the `review` personas.
-`developer` still holds its own copies of the personas, and the same exception covers them.
 A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
 so both name languages, frameworks, and tools. Neither names employer or client code.
 

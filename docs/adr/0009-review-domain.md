@@ -43,9 +43,9 @@ Options not chosen:
 - `engineering` lost 45 skills and now holds 18.
 - The North Star exception for personas names `review`. The agnostic bar and the rules for
   editing personas moved to the `review` `CLAUDE.md`.
-- Until the absorb plan deletes them, `developer` keeps its own copies of the 8 review skills, the
-  personas, and the contract. A session with `developer` and `review` on loads each review skill
-  name twice.
+- On 2026-11-06, the absorb plan deleted the copies that `developer` held of the 8 review skills,
+  the personas, and the contract. Before that, a session with `developer` and `review` on loaded
+  each review skill name twice.
 - A skill names a review skill with the `review:` prefix, in its own text and in each prompt that
   it builds. The prefix stays valid after the absorb plan.
 - A skill that moves into or out of `review` must not leave a path read across the plugin

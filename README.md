@@ -16,7 +16,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Purpose |
 |---|---|
 | [**primitives**](skills/primitives/README.md) | Foundational building blocks |
-| [**developer**](skills/developer/README.md) | Ticket to PR, then review, debugging, and QA, for personal side projects |
+| [**developer**](skills/developer/README.md) | Plan to working code: worktrees, test-first builds, debugging, and manual QA |
 | [**engineering**](skills/engineering/README.md) | Ticket to PR, then review, debugging, and QA, for work at an employer |
 | [**review**](skills/review/README.md) | Persona reviewers, the review panel, and PR review, for developer and engineering |
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |

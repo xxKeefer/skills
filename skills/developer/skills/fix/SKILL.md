@@ -21,7 +21,7 @@ problem is the rest.
 
 ### QA report
 
-`/happy-path` and `/sad-path` write a QA report. Its fail ticks build a prompt of this form:
+`/happy-path` and `/review:sad-path` write a QA report. Its fail ticks build a prompt of this form:
 
 ```text
 /developer:fix @/abs/path/to/qa_<KEY>.html r1.2 r2.4

@@ -1,5 +1,0 @@
-# Direction isolation, IME, and masks (rules 8 to 10)
-
-8. **User text dropped into a sentence or cell with no direction isolation (Nit).** A company or service name interpolated into a message or table cell with no `<bdi>` or `dir="auto"`: an Arabic or Hebrew name, or a U+202E override, reorders the text around it. (IN-C9, IN-C10)
-9. **IME composition firing search or validation (Nit).** A custom `:model-value` + `@update:model-value` binding (Reka combobox, a filter input) that searches or validates on every composition step, so Japanese or Chinese input sends a request for every half-composed string. Native `v-model` waits for `compositionend`; hand-rolled bindings must too. Enter during composition → `persona-form-behaviour`. (IN-A3, IN-A4, IN-A5)
-10. **Masks and filters that break typing or paste (Nit).** A `@keydown` handler that blocks characters (so paste, autofill, and IME skip it, or paste is blocked outright); a formatter that rewrites the model on each keystroke and jumps the caret to the end; `maxlength` silently cutting a pasted value with no message. Validate the value, not the keys. (IN-D3, IN-D6, IN-J3)

@@ -1,8 +1,0 @@
-# Bounds rules (6 to 9)
-
-**Bounds**
-
-6. **No bound where the domain has one (Change Requested).** A number field or schema with no `min`/`max` when the value is a quantity, speed, count, or size; a text field with no max. Users can type `999999999` and see an overflowed price, or save a name the backend rejects. If the bound must match the API, name the spec limit; whether FE and BE agree is `persona-api-integrity`'s. (FM-D12, FM-E1)
-7. **Bound, message and constant disagree (Change Requested).** The message says "maximum 255" and the rule enforces 57; create and edit validate the same field with different constants; a `<` where the copy says "at most"; `maxlength` on the input but a different `.max()` in the schema. Walk min-1, min, min+1, max-1, max, and max+1, and say which one is wrong. (FM-D14, FM-E1, FM-E4)
-8. **Number input for something that isn't a number, or an empty number sent as-is (Change Requested).** `type="number"`, `Number(…)` or `v-model.number` on an identifier, code, account number, or OTP: leading zeros vanish and long values round. Use `type="text" inputmode="numeric"` with a pattern. Separately, a `v-model.number` value sent to the API without handling `''` (empty field) or `NaN` (`.number` turns `12abc` into 12 and leaves `abc` as a string). (FM-D2, FM-D8, FM-D9, FM-D15, FM-D17, IN-E1)
-9. **Scroll wheel or arrow keys change a value nobody meant to change (Nit).** A focused `type="number"` speed or quantity field inside a scrolling form, so scrolling the page changes the value; arrow keys stepping an identifier. Blur on wheel, or use a text input for identifiers. (FM-D5, FM-D6)

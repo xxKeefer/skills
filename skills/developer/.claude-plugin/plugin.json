@@ -1,7 +1,7 @@
 {
   "name": "developer",
-  "description": "Engineering workflows from ticket to PR, then review, debugging, and QA, with the persona reviewers and the mob-review panel. Requires primitives.",
-  "version": "6.1.0",
+  "description": "Engineering workflows from a plan to working code: worktrees, prototypes, test-first implementation, debugging, fixes, and manual QA. Code review comes from the review domain. Requires primitives.",
+  "version": "7.0.0",
   "author": {
     "name": "xxkeefer"
   }
