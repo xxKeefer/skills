@@ -7,9 +7,9 @@ software engineering principles.
 ## Dependencies
 
 Requires primitives, developer, and review. Engineering skills reference `/grill`,
-`/write-to-file`, `/write-report`, and `/look-up` from `primitives`, `/claim` and the
-`/developer:fix` prompt from `developer`, and `/review:mob-review` from `review`. Install all four
-domains.
+`/write-to-file`, `/write-report`, `/look-up`, and `/do-next` from `primitives`, `/claim` and
+`/tdd` from `developer`, and `/review:mob-review` and `/review:self-improve` from `review`. Install
+all four domains.
 
 Name a review skill with its `review:` prefix, such as `/review:mob-review`. Each skill name lives
 in one domain. Developer's `CLAUDE.md` lists what each developer skill keeps for its callers.

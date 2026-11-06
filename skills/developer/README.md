@@ -15,7 +15,7 @@ review comes from the [`review`](../review/README.md) domain.
 | `/auto-handoff` | Implementation | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
-| `/happy-path` | Closure | Manual QA test plan for the current changeset |
+| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report. Its fail ticks build a `/developer:fix` prompt |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/sync-docs` | Maintenance | Sync docs to code |
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |

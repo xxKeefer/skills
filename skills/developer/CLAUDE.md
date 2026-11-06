@@ -6,8 +6,8 @@ best-practice software engineering principles.
 
 ## Dependencies
 
-Developer skills reference `/grill`, `/write-to-file`, and `/look-up` from the `primitives` plugin;
-all must be installed.
+Developer skills reference `/grill`, `/write-to-file`, `/write-report`, `/look-up`, `/do-next`, and
+`/update-handoff` from the `primitives` plugin; all must be installed.
 
 ## Skills
 
@@ -21,8 +21,9 @@ file in that domain.
 
 ## Composed by other domains
 
-`engineering` and `review` call these skills by name. Before you change one, keep what the last
-column names, or change each caller in the same commit.
+Skills in `engineering`, `review`, and `utility`, and some developer skills, call these skills by
+name. Before you change one, keep what the last column names, or change each caller in the same
+commit.
 
 | Skill | Called by | Must keep |
 |---|---|---|
@@ -32,6 +33,8 @@ column names, or change each caller in the same commit.
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `review:sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
 | `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the handoff step names is agreed" and "Test the conditions whose IDs the step names" |
+| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `hunt_<KEY>.md`, written with `/write-to-file`, doctype `hunt` |
+| `happy-path` | `review:sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## Loading
 
