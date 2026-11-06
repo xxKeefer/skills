@@ -1,7 +1,7 @@
 {
   "name": "review",
-  "description": "Persona reviewers, the mob-review panel, and the PR review skills: review a branch or a PR, post and resolve review comments, and keep the personas accurate. Requires primitives and developer.",
-  "version": "1.2.0",
+  "description": "Persona reviewers, the mob-review panel and its light set of seven lanes, and the PR review skills: review a branch or a PR, post and resolve review comments, and keep the personas accurate. Requires primitives and developer.",
+  "version": "1.3.0",
   "author": {
     "name": "xxkeefer"
   }

@@ -26,7 +26,7 @@
     },
     {
       "name": "review",
-      "description": "Code review -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, and persona upkeep. Developer and engineering call it.",
+      "description": "Code review -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, a light panel of seven lanes, PR review and posting, feedback triage, and persona upkeep. Developer and engineering call it.",
       "category": "development",
       "source": "./skills/review"
     },

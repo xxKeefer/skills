@@ -124,7 +124,8 @@ Give:
 4. The next action. Tick the rows in the report, then paste its prompt. The prompt runs
    `/review:apply-review`, which fixes test-first, commits once, and pushes once. Then it replies
    on and resolves the ticked threads.
-5. To add a panel run to the same report, run `/review:mob-review` in the worktree.
+5. To add a panel run to the same report, run `/review:mob-review` in the worktree. For the
+   essential lanes only, run `/review:light-review`.
 6. When `/claim` returned a handoff, its path. The user continues it with
    `/do-next @<handoff path>` in a session in the worktree.
 

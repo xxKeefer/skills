@@ -9,6 +9,7 @@ reviewers, which each review one kind of code.
 | Skill | Phase | Purpose |
 |---|---|---|
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On someone else's branch, its ticks build the `/review:post-review-comments` prompt. On your own branch, its ticks build the `/review:apply-review` prompt. In a handoff, it records the report in the review step |
+| `/light-review` | Review | Run the seven essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, and architecture) and write the findings to the same report as `/review:mob-review`, with the same ticks and prompts |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/review:mob-review` there, then give the report path, whose ticks build the `/review:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
 | `/apply-review` | Review | Apply the rows you tick in a review report of your own branch: fix test-first, run the gates, commit once, push once, then reply on and resolve the ticked threads. Adds a result run to the report |

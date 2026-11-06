@@ -13,6 +13,15 @@ Review skills call `/write-to-file`, `/write-report`, `/look-up`, and `/do-next`
 
 [`README.md`](README.md) holds the only skill table for this domain. Edit a skill row there.
 
+### light-review
+
+`light-review` has no steps of its own. It follows the `mob-review` steps with a list of seven
+lanes.
+
+- A change to a `mob-review` step also changes `light-review`. Check each change that
+  `light-review` makes to that step.
+- A persona rename also changes the lane list in `light-review`.
+
 ## Personas
 
 The review panel is a set of code reviewers. Each `persona-*` skill reviews one narrow lane of a diff, such as
