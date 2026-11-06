@@ -12,7 +12,7 @@ Go from bug report to proven root cause. Assess the report critically, trace the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.
 
 This is the investigation skill for **head-scratchers** -- bugs nobody understands yet. It
-deliberately stops at root cause: `/fix` and `/start-ticket` own the fix. If the cause is already
+deliberately stops at root cause: the skills in Step 5 own the fix. If the cause is already
 roughly known, `/diagnose` is overkill -- route to `/fix`.
 
 > **Tracker:** "the project's tracker" means whatever issue system the repo's CLAUDE.md declares — a
@@ -116,8 +116,8 @@ kebab-case slug of the symptom. When the user's instructions give one folder per
 `<KEY>` for it. Step 5 names the path that `/write-to-file` reports.
 
 This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
-tracker content. Its job is to carry the investigation into `/fix` or `/start-ticket` intact. The
-fix and its regression test replace the hunt doc, so the skill that consumes it deletes it.
+tracker content. Its job is to carry the investigation intact into the skill that makes the fix.
+The fix and its regression test replace the hunt doc, so the skill that consumes it deletes it.
 
 ```markdown
 # Hunt: {symptom}
@@ -149,7 +149,7 @@ What else the same root cause affects. Other instances of the faulty pattern.
 
 ## Fix Direction
 
-1-2 sentences of direction — NOT a plan. /start-ticket owns the plan, and /tdd owns the tests.
+1-2 sentences of direction — NOT a plan. The skill that makes the fix owns the plan and the tests.
 ```
 
 **Done when:** the hunt doc exists, and each template section holds its findings or "none".
@@ -168,8 +168,9 @@ Present a summary:
 Offer:
 
 1. **`/fix`** — the fix is now small and obvious
-2. **`/start-ticket <ticket key>`** — the fix needs more than one step. With no ticket, create one
-   first (option 3).
+2. **`/start-ticket <ticket key>`** if this session has it, else **`/tdd @{hunt doc path}`** —
+   the fix needs more than one step. The first needs a ticket. With no ticket, create one first
+   (option 3).
 3. **Ticket** — on request, create a tracker ticket (or subtask of the originating ticket) with a
    durable summary: modules, behaviours, and contracts — no file paths or line numbers. The
    shared tracker is not a dumping ground; only what survives codebase change goes in.
