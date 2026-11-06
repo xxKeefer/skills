@@ -23,9 +23,9 @@ read → head check → pick → draft → gate (or handoff) → post → read b
    reviewed head, and the base from the handoff, and each draft under `## Drafts`.
 2. Else find the last `mob-review` report in this session. Read its
    `Reviewed: base <sha>, head <sha>` line, its Spec findings, and its findings table. With no
-   report, stop and say to run `/review-pr` first. Never review again here.
-3. Run each git command in the folder that the review ran in, with `git -C <path>`. `/review-pr`
-   names its worktree. Give each `gh` command `-R <owner>/<repo>`.
+   report, stop and say to run `/review:review-pr` first. Never review again here.
+3. Run each git command in the folder that the review ran in, with `git -C <path>`.
+   `/review:review-pr` names its worktree. Give each `gh` command `-R <owner>/<repo>`.
 4. Number the findings in the report's order: the Spec findings first, then the table.
 
 **Done when:** you have the PR, the reviewed head, and the numbered findings or the drafts.
@@ -37,7 +37,7 @@ Run `gh pr view <n> -R <owner>/<repo> --json state,headRefOid,baseRefName`.
 - If `state` is not `OPEN`, stop and give the state.
 - If `headRefOid` starts with the reviewed head, continue.
 - Else the author pushed after the review. Ask: map the findings to the new head, or review again
-  with `/review-pr`.
+  with `/review:review-pr`.
 
 To map, run `git fetch origin pull/<n>/head`. Read each file at the new head with
 `git show "<new head>:<path>"`, find the code of each finding or draft, and take its new line.
@@ -131,8 +131,8 @@ Edit or delete any draft. Keep the `Anchor:` line of each draft that stays.
 
 ## Steps
 
-- [ ] **1. Post the drafts.** Run `/post-review-comments @<this file>`. Done when the review is
-  on the PR, and its read-back matches the drafts.
+- [ ] **1. Post the drafts.** Run `/review:post-review-comments @<this file>`. Done when the review
+  is on the PR, and its read-back matches the drafts.
 
 ## Drafts
 

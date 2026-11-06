@@ -2,20 +2,20 @@
 name: review-pr
 description: >
   Review an open PR from its number, URL, branch, or ticket key: resolve the PR, claim its
-  worktree, sync it by fast-forward only, run /mob-review there, then offer /post-review-comments
-  on someone else's code. Use when the user asks to review a PR from its number, URL, branch, or
-  ticket key.
+  worktree, sync it by fast-forward only, run /review:mob-review there, then offer
+  /review:post-review-comments on someone else's code. Use when the user asks to review a PR from
+  its number, URL, branch, or ticket key.
 argument-hint: "<PR number or URL | branch | ticket key>"
 ---
 
 # Review PR
 
 Put an open PR in its own worktree and run the review panel on it. The user's current folder and
-branch do not change. This skill posts nothing. `/post-review-comments` posts only the findings
-that the user picks.
+branch do not change. This skill posts nothing. `/review:post-review-comments` posts only the
+findings that the user picks.
 
 ```
-resolve → show → /claim → sync → /mob-review → offer the post → return
+resolve → show → /claim → sync → /review:mob-review → offer the post → return
 ```
 
 ## Step 1: Resolve the PR
@@ -82,10 +82,10 @@ Make the worktree hold the PR head with no lost commit. Run each git command in 
 
 ## Step 5: Run the panel
 
-If this session does not have `/mob-review`, stop here, and give the worktree path.
+If this session does not have `/review:mob-review`, stop here, and give the worktree path.
 
-Run `/mob-review` with no target, and name the worktree as its repo folder. Every command of the
-panel runs in the worktree. Do not give it the PR number, because its PR path runs
+Run `/review:mob-review` with no target, and name the worktree as its repo folder. Every command
+of the panel runs in the worktree. Do not give it the PR number, because its PR path runs
 `gh pr checkout`.
 
 `mob-review` finds the PR from the branch, decides whose code it is, and prints the report. On
@@ -98,9 +98,10 @@ the user's own code, its Step 6 asks which small fixes to apply.
 Skip this step on the user's own code, and when the report has no finding.
 
 On someone else's code, ask once whether to post any of the findings to the PR. After a yes, run
-`/post-review-comments`. It asks which findings to post, and it shows each draft before it posts.
+`/review:post-review-comments`. It asks which findings to post, and it shows each draft before it
+posts.
 
-**Done when:** the user said no, or `/post-review-comments` returned.
+**Done when:** the user said no, or `/review:post-review-comments` returned.
 
 ## Step 7: Return
 

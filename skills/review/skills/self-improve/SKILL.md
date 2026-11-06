@@ -123,8 +123,8 @@ open." For a report-only row, the report records your answer and nothing else ch
 ## Step 5: Apply your answers
 
 1. In `$BACKLOG`, set the Status of each named backlog row to `approved` or `rejected`.
-2. If any entry is now `approved`, invoke `/update-personas backlog`. It applies each approved
-   entry, lints each persona that it changed, and runs the scrub check.
+2. If any entry is now `approved`, invoke `/review:update-personas backlog`. It applies each
+   approved entry, lints each persona that it changed, and runs the scrub check.
 3. For each approved row whose target is a file in your repo, make the edit, then show the diff.
 4. Leave every change uncommitted.
 

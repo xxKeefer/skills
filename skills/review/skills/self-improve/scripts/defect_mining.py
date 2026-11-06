@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Trace a repo's bugs and fix commits for /self-improve, and write its defect hotspots.
+"""Trace a repo's bugs and fix commits for /review:self-improve, and write its defect hotspots.
 
   trace     Reads the first-parent line of the default branch and the tracker bugs. Writes
             defects.jsonl, the miner chunks of the items that need a class, and trace.json to the
@@ -166,7 +166,7 @@ def render(meta, defects):
     source = (f"the tracker bugs resolved {since}..{until}" if meta["tracker"]
               else f"the fix commits of {since}..{until}")
     tested = sum(d["tested"] for d in defects)
-    lines = ["# Defect hotspots", "", "Written by `/self-improve`. Do not edit.", "",
+    lines = ["# Defect hotspots", "", "Written by `/review:self-improve`. Do not edit.", "",
              f"- Source: {source}. Defects: {len(defects)}."]
     if meta["tracker"] and meta["bugs"]:
         share = meta["traced"] / meta["bugs"]
@@ -251,7 +251,7 @@ def hotspots(cache, state):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Defect mining for /self-improve.")
+    parser = argparse.ArgumentParser(description="Defect mining for /review:self-improve.")
     commands = parser.add_subparsers(dest="command", required=True)
     run = commands.add_parser("trace", help="Join the bugs to their commits, and chunk the items to classify.")
     run.add_argument("--repo-root", required=True)

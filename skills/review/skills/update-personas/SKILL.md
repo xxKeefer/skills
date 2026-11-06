@@ -7,7 +7,7 @@ description: Refresh the persona-* reviewer skills so they stay accurate. Re-che
 
 Personas rot in two ways: **version rot** (`persona-best-practice` recommends an API that is now legacy, or flags one that is now the default) and **structural drift**: a broken output contract, a lane that overlaps another, a guard that no longer matches the panel table.
 
-Edit the personas in the marketplace checkout, under `skills/engineering/skills/`. When the domain loads from a directory source, `${CLAUDE_SKILL_DIR}/..` is that folder. If `${CLAUDE_SKILL_DIR}` sits under `~/.claude/plugins/cache`, it is an installed copy that an update overwrites: ask for the checkout path. Stop and ask if the checkout has uncommitted work. Below, `$SKILL_DIR/..` means that folder, and the panel that spawns the personas is `$SKILL_DIR/../mob-review/SKILL.md`.
+Edit the personas in the marketplace checkout, under `skills/review/skills/`. When the domain loads from a directory source, `${CLAUDE_SKILL_DIR}/..` is that folder. If `${CLAUDE_SKILL_DIR}` sits under `~/.claude/plugins/cache`, it is an installed copy that an update overwrites: ask for the checkout path. Stop and ask if the checkout has uncommitted work. Below, `$SKILL_DIR/..` means that folder, and the panel that spawns the personas is `$SKILL_DIR/../mob-review/SKILL.md`.
 
 ## Modes
 
@@ -17,7 +17,7 @@ Read the argument:
 - `best-practice`: Part A only.
 - `persona-<name>`: Part C for that persona only.
 - `backlog`: Part C item 7 for every approved entry, then items 1 to 6 for each persona that item 7
-  changed, then item 8. `/self-improve` runs this mode.
+  changed, then item 8. `/review:self-improve` runs this mode.
 
 ## Rules that apply to every edit
 

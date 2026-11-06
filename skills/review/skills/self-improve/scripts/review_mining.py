@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Get the review threads and failed CI runs of a window for /self-improve, and rate the themes.
+"""Get the review threads and failed CI runs of a window for /review:self-improve, and rate the themes.
 
   fetch   Writes threads.jsonl, runs.jsonl, the miner chunks, and meta.json to the cache folder.
           When meta.json is there, it makes no call and prints meta.json.
@@ -310,7 +310,7 @@ def load(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Review and CI mining for /self-improve.")
+    parser = argparse.ArgumentParser(description="Review and CI mining for /review:self-improve.")
     commands = parser.add_subparsers(dest="command", required=True)
     get = commands.add_parser("fetch", help="Get the threads and failed runs of a window.")
     get.add_argument("--repo", required=True, help="owner/repo")

@@ -64,7 +64,7 @@ Accept an optional target: a PR number/URL, a branch name, or nothing. Also acce
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
-A caller can name the repo folder, such as the worktree that `/review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
+A caller can name the repo folder, such as the worktree that `/review:review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
 
 ```bash
 git fetch origin main --quiet
@@ -218,7 +218,7 @@ If every persona is clean, say so plainly. A clean panel is a valid result.
 
 ## Step 7: Record calibration signals (never edit)
 
-The panel improves by watching itself. After the report, scan **this run** for signs that a persona, or this skill, got something wrong. Record each sign in the calibration backlog. **Change no persona and no part of this skill here.** `/self-improve` puts the backlog to the user, and `update-personas` applies the entries the user approves.
+The panel improves by watching itself. After the report, scan **this run** for signs that a persona, or this skill, got something wrong. Record each sign in the calibration backlog. **Change no persona and no part of this skill here.** `/review:self-improve` puts the backlog to the user, and `update-personas` applies the entries the user approves.
 
 The backlog sits outside every repo:
 

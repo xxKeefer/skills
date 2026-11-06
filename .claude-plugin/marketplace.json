@@ -20,9 +20,15 @@
     },
     {
       "name": "engineering",
-      "description": "Engineering workflows from ticket to PR, then review, debugging, and QA -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, fixes, and manual QA plans.",
+      "description": "Engineering workflows from ticket to PR, then debugging and QA -- scoping, planning, TDD, fixes, and manual QA plans. Code review comes from the review domain.",
       "category": "development",
       "source": "./skills/engineering"
+    },
+    {
+      "name": "review",
+      "description": "Code review -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, PR review and posting, feedback triage, and persona upkeep. Developer and engineering call it.",
+      "category": "development",
+      "source": "./skills/review"
     },
     {
       "name": "journal",

@@ -86,7 +86,7 @@ Lanes run: {lane (signal)}. Skipped: {lane}. Cut by the cap: {lane: items past 8
 
 Rules:
 
-- Each item is an action in the running app. A check of the code belongs to `/mob-review`.
+- Each item is an action in the running app. A check of the code belongs to `/review:mob-review`.
 - Quote each input byte-exact from the fixtures. When an input holds invisible characters, also
   name the fixture row and each invisible character, such as "T4 (zero-width space)", so the
   tester copies it from the fixtures file.

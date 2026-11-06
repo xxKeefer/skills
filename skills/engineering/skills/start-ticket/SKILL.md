@@ -81,7 +81,7 @@ The plan holds:
   Use its section format, with the `ID` column. When a flag gates the change, the flag-off path is
   a condition.
 
-Before you rate the ACs, read the defect hotspots of this repo, if `/self-improve` wrote them:
+Before you rate the ACs, read the defect hotspots of this repo, if `/review:self-improve` wrote them:
 `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/<repo key>/defect-hotspots.md`. The repo key is
 `<owner>--<repo>` from the `origin` URL, else `local--<main worktree folder name>`. A file that the
 plan changes, in or under one of its Hotspots areas, is a hotspot. Raise its likelihood one step,
@@ -143,14 +143,14 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 
 - `/do-next @<handoff path>`: one step per session, from the worktree.
 - `/tdd`: each step that changes behaviour.
-- `/mob-review`: the review step.
+- `/review:mob-review`: the review step.
 - `/create-pr`: the push step.
 ````
 
 - The `Worktree:` line is the line after the title. `/claim` and `/do-next` read it.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
   order. The review and push steps come after the last phase.
-- Name `/mob-review` only if this session has it.
+- Name `/review:mob-review` only if this session has it.
 
 **Done when:** the file exists, and its second line is the `Worktree:` line.
 
