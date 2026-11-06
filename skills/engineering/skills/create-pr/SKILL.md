@@ -78,7 +78,7 @@ blocks.
 With no ACs, write no table and no Gaps line, and go to Step 4.
 
 If the handoff has no Test approach section, derive one from the ACs and the diff. Read
-[`../tdd/risk-and-technique.md`](../tdd/risk-and-technique.md)
+[`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)
 and follow its Steps 1 to 3. Step 8 tells the user. The body does not say it.
 
 | AC | Risk | Tested by | Conditions |

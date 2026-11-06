@@ -106,7 +106,7 @@ example condition. The brief:
 > | `regression` | It worked before, and a later change broke it |
 > | `other` | None of the types above |
 
-The tokens match `engineering/skills/tdd/risk-and-technique.md`. A change to one list needs the same
+The tokens match engineering's `TEST-APPROACH.md`. A change to one list needs the same
 change to the other.
 
 ## 5. Build the hotspots
