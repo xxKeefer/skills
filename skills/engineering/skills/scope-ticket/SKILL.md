@@ -91,7 +91,7 @@ One table sets the points and the split thresholds, so the points and the verdic
 | 2 | ~150 to 400 | up to ~10 | 1 | A clear approach, and a few call sites to carry along. |
 | 3 | ~400 to 600 | up to ~20 | up to 2 | A clear approach with real breadth. The most that one reviewable PR holds. |
 | 5 | over 600, or over 20 files | | up to 2 | On the split line. It stays whole only with a one-line reason, such as an atomic codemod. |
-| 8 | over two thresholds | | over 2 | It cannot start as one piece of work. Split it, or ask to clarify. |
+| 8 | over two thresholds | | over 2 | It cannot start as one piece of work. Split it, or give CLARIFY. |
 
 More than about 15 call sites to move, or more than one unrelated concern, also crosses a
 threshold.
@@ -191,10 +191,17 @@ estimate in Step 6.
 
 ## Step 7: Return
 
-Return the verdict, the Step 6 estimate, and the one-sentence goal. For SPLIT, also return the
-slices and the path. A calling skill continues from here. With no caller, stop.
+For CLARIFY, refine the ticket before you return:
 
-For CLARIFY, ask the questions. When the user answers, run Steps 2 to 4 again with the answers.
+1. Run `/refine-ticket` with the key and the ticket text that you read.
+2. Give it each Step 4 question as a caller question, with your guess as the proposed answer.
+3. When it returns, go back to Step 2 with its summary and ACs. Use them even if it wrote nothing.
+4. If that run gives CLARIFY again, return CLARIFY with the open questions. Do not run
+   `/refine-ticket` again.
+
+Return the verdict, the Step 6 estimate, and the one-sentence goal. For SPLIT, also return the
+slices and the path. If `/refine-ticket` ran, also return its summary, its ACs, and whether it
+wrote them. A calling skill continues from here. With no caller, stop.
 
 **Done when:** the caller or the user has the verdict.
 

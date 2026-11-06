@@ -1,9 +1,9 @@
 ---
 name: start-ticket
 description: >
-  Start work on a ticket: scope it, claim its worktree, and write the plan handoff that /do-next
-  runs, with lettered ACs and a test approach for the user to approve. Use when the user asks to
-  start or pick up a ticket.
+  Start work on a ticket: refine it when it is vague, scope it, claim its worktree, and write the
+  plan handoff that /do-next runs, with lettered ACs and a test approach for the user to approve.
+  Use when the user asks to start or pick up a ticket.
 argument-hint: "<ticket key>"
 ---
 
@@ -13,7 +13,8 @@ Turn a ticket into a worktree and an approved plan handoff. The next session bui
 `/do-next`, so this skill ends at the plan.
 
 ```
-read → /scope-ticket → /claim → move the ticket → draft the plan → plan gate → write the handoff
+read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the ticket → draft the plan
+     → plan gate → write the handoff
 ```
 
 Scope comes before the claim. When a ticket splits, the worktree belongs to slice 1.
@@ -25,23 +26,34 @@ Scope comes before the claim. When a ticket splits, the worktree belongs to slic
    decisions, related work, and constraints. Note each attachment or design link for the plan, and
    fetch no external URL.
 3. Note the goal, the ACs, the issue type, the state, and the comments.
-4. Letter the ACs. An AC has the form `- [ ] **A.** <action> → <expected>`, and a sub-check is
-   `A.1`. Keep the letters that the ticket has. If its ACs have no letters, letter them in order,
-   and note that the ticket needs the letters (Step 8).
+4. Check the ticket. Run `/refine-ticket` when one of these holds:
+   - The ticket does not say who gains, what changes, and why (the user story).
+   - The ticket has no ACs.
+   - An AC holds a vague scope word from [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md)
+     Step 2.
 
-**Done when:** you have the goal and every AC with a letter.
+   Give it the key and the text from item 2, so it reads nothing again. From here on, use its ACs
+   in place of the ticket's ACs, even if it wrote nothing. Take the goal from its summary. Note
+   whether it wrote them (Step 8).
+5. Letter the ACs. An AC has the form `- [ ] **A.** <action> → <expected>`, and a sub-check is
+   `A.1`. Keep the letters that the ticket or `/refine-ticket` gave. If the ACs have no letters,
+   letter them in order, and note that the ticket needs the letters (Step 8).
+
+**Done when:** you have the goal and every AC with a letter. If `/refine-ticket` ran, you know
+whether it wrote the ACs.
 
 ## Step 2: Scope the ticket
 
-Run `/scope-ticket` with the key, and give it the Step 1 context, so it reads nothing again. Use
-its verdict as given. The verdict is a hard gate:
+Run `/scope-ticket` with the key, and give it the Step 1 context, so it reads nothing again. If
+`/refine-ticket` said that the answers show more than one goal, give that too. Use the
+`/scope-ticket` verdict as given. The verdict is a hard gate:
 
 | Verdict | Do |
 |---|---|
 | SCOPED | Plan the whole ticket. |
 | SPLIT, path 1 | Plan the whole ticket. Each slice is a phase of the plan, in slice order. |
 | SPLIT, path 2 | Plan only slice 1. Its ACs are the plan's ACs. The board owner makes the other tickets. |
-| CLARIFY | Wait. `/scope-ticket` asks its questions and runs again with the answers. Use the new verdict. |
+| CLARIFY | Wait. `/scope-ticket` gives its questions to `/refine-ticket` and runs again. Use the new verdict. Use the refined ACs in place of the Step 1 ACs, and note whether `/refine-ticket` wrote them (Step 8). If the verdict is still CLARIFY, stop and return the open questions. |
 
 **Done when:** the verdict is SCOPED or SPLIT, and you know the scope of the plan.
 
@@ -156,8 +168,13 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1, or SP
 
 ## Step 8: Write the letters back
 
-Skip this step on SPLIT path 2, because the board owner rewrites the ticket from the proposal.
-Also skip it when the ticket had its letters and Step 5 added no AC.
+Skip this step in these cases:
+
+- SPLIT path 2, because the board owner rewrites the ticket from the proposal.
+- The user said no to the last `/refine-ticket` run. The ticket does not hold the plan's ACs, so
+  the letters have nothing to go on.
+- The ticket holds its letters, and Step 5 added no AC. ACs that `/refine-ticket` wrote are in the
+  ticket with their letters.
 
 1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
    plain words that every reader of the ticket understands. Change no other text.

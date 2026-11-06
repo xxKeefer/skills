@@ -8,8 +8,9 @@ language-agnostic. Code review comes from the [`review`](../review/README.md) do
 | Skill | Phase | Purpose |
 |---|---|---|
 | `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
-| `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate |
-| `/start-ticket` | Discovery | Scope a ticket, claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve |
+| `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
+| `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again |
+| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red → green loop |
