@@ -19,6 +19,19 @@ The [`review`](../review/README.md) domain holds the persona reviewers, the revi
 PR review skills. A developer skill names a review skill with the `review:` prefix, and reads no
 file in that domain.
 
+## Composed by other domains
+
+`engineering` and `review` call these skills by name. Before you change one, keep what the last
+column names, or change each caller in the same commit.
+
+| Skill | Called by | Must keep |
+|---|---|---|
+| `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review:review-pr`, `review:pickup` | Its return (path, branch, handoff), the `Worktree:` line that `/do-next` reads, and the search for a handoff whose file name holds the key |
+| `auto-handoff` | `review:mob-review` | The `D` and `N` entry format in `STEP.md` |
+| `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
+| `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
+| `fix` | `diagnose`, the QA checklists of `happy-path` and `review:sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
+
 ## Loading
 
 The marketplace loads this domain in place from the repo
