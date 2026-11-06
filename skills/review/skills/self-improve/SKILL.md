@@ -22,7 +22,7 @@ Machine files live outside every repo:
 
 ```bash
 STATE_ROOT="${XDG_STATE_HOME:-$HOME/.local/state}/self-improve"
-BACKLOG="$STATE_ROOT/calibration-backlog.md"
+BACKLOG="$STATE_ROOT/improve-personas.md"
 REPO_DIR="$STATE_ROOT/<repo key>"
 ```
 

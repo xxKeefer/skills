@@ -1,11 +1,11 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, aggregates their findings into one ranked report, then asks once which small clear-cut fixes to apply when the branch is your own (report-only on someone else's). In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, it then asks once which small clear-cut fixes to apply. On someone else's, each finding gets a draft reply, and the ticks in the report build a /review:post-review-comments prompt. In a handoff, it adds the picks as fix steps and fixes nothing. It never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
 ---
 
 # Mob Review: staff-engineer review panel
 
-Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked report. Each persona is a narrow, non-overlapping specialist; this skill is the orchestrator.
+Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report. Each persona is a narrow, non-overlapping specialist; this skill is the orchestrator.
 
 ## The panel
 
@@ -175,26 +175,16 @@ These known persona pairs can land on the same line. Resolve them the same way e
 - **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
 - **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
 
-**Drop anything Copilot already raised.** If Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, compare every remaining finding against it and drop the ones Copilot already covered: same file, within a few lines (or cited in a review body), and the same underlying problem, however differently worded. Severity doesn't matter. A `change-requested` that Copilot flagged as a passing remark still goes. A finding on the same line but about a different problem stays. When unsure whether it's the same problem, drop it. Keep a count of drops per persona for the Step 5 table.
+**Drop anything Copilot already raised.** If Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, compare every remaining finding against it and drop the ones Copilot already covered: same file, within a few lines (or cited in a review body), and the same underlying problem, however differently worded. Severity doesn't matter. A `change-requested` that Copilot flagged as a passing remark still goes. A finding on the same line but about a different problem stays. When unsure whether it's the same problem, drop it. Keep a count of drops per persona for the Step 5 coverage table.
 
-Hold the `persona-ac-check` findings apart for Step 5's Spec section. Rank the rest: **change-requested → nit → future**, then group by persona within each tier.
+Hold the `persona-ac-check` findings apart. Step 5 puts them first. Rank the rest: **change-requested → nit → future**, then group by persona within each tier.
 
-## Step 5: Report once
+## Step 5: Write the report
 
-Start with the two SHAs from Step 1: `Reviewed: base <base>, head <head>`. For uncommitted work, add `+ working tree` after the head.
+The findings go to an HTML report, not to the chat. Write the report with `/write-report`. A
+second run on a new head then adds a run to the same file.
 
-If `persona-ac-check` ran, print its findings first, under a **Spec** heading that names the source of the acceptance criteria (the file path or the ticket key). Use the table below without the Persona column. A PR can pass every lane and still build the wrong thing, so spec gaps do not compete in the lane ranking.
-
-Then print the findings of every other lane as one table, in the Step 4 order:
-
-| Tier | Persona | File:line | Summary | Detail | Suggestion |
-|---|---|---|---|---|---|
-
-- Tier: Change Requested, Nit, or Future.
-- Persona: the name without the `persona-` prefix, such as `a11y`.
-- The other columns come from the finding. Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare `path:line`, convert it to a link first (resolve the line on `origin/main`).
-
-Then print a compact coverage table so the user sees what ran:
+The coverage table shows the user what ran. Counts are after the Copilot filter:
 
 ```
 Persona            CR  Nit  Future   Status
@@ -206,13 +196,63 @@ project rubric      0    1       0   ran (rubric covers changed files)
 correctness         1    0       0   ran
 ```
 
-Counts are after the Copilot filter. When it dropped anything, add one line under the table: `Dropped N findings Copilot already raised (<persona>: n, …).` Don't list them.
+Give `/write-report` these inputs:
 
-If every persona is clean, say so plainly. A clean panel is a valid result.
+- `kind`: `review`.
+- `key`: the ticket key from the handoff, the branch name, or the PR title. Else `pr-<n>` when the
+  branch has a PR. Else the branch name with each `/` changed to `-`.
+- `title`: `Review of PR #<n>`, else `Review of <branch>`.
+- `skill`: `/review:post-review-comments` on someone else's code. On your own code, give no
+  skill, because Step 6 picks the fixes in the chat.
+- The run:
+  - `title`: `Panel run`.
+  - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
+  - `meta`: `Base` (the base branch and the base SHA), `PR` (the PR URL from
+    `gh pr view --json url -q .url`, when the branch has a PR), `Folder` (the absolute path of the
+    repo folder), `Spec` (the source of the acceptance criteria, when `persona-ac-check` ran), and
+    `Copilot` (`dropped N (<persona>: n, …)`, when the filter dropped a finding).
+    `/review:post-review-comments` reads `PR`, `Base`, and `Folder`.
+  - `answer`: the count in each tier, and what the user does next. If every persona is clean,
+    say so plainly. A clean panel is a valid result.
+  - `visuals`: one `table` with the question "Which lanes ran, and what did each find?". It holds
+    the coverage table, one row for each lane. Set `fold`, so the findings start after the answer.
+  - `columns` and `rows`: below.
 
-## Step 6: Pick the fixes (own code only)
+Give each finding one row. The `persona-ac-check` findings come first. A PR can pass every lane
+and still build the wrong thing, so spec gaps do not compete in the lane ranking. The findings of
+every other lane follow, in the Step 4 order.
 
-**On someone else's code, apply nothing.** Report and stop. Editing another person's branch is theirs to invite, and the findings are the deliverable. Say in one line that fixes were withheld because the branch isn't yours.
+| Key | Label | Holds |
+|---|---|---|
+| `tier` | Tier | Change Requested, Nit, or Future |
+| `persona` | Persona | the name without the `persona-` prefix, such as `a11y` |
+| `where` | File:line | the `file:line` of the finding. Set `mono` |
+| `issue` | Issue | the summary, a blank line, then the detail |
+| `recommendation` | Recommendation | the suggestion |
+| `draft` | Draft reply | on someone else's code only. Set `fold` |
+
+- Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
+  `path:line`, convert it to a link first (resolve the line on `origin/main`).
+- Write each draft reply in the comment layout of
+  [`post-review-comments`](../post-review-comments/SKILL.md#the-comment-layout), and follow the
+  rules under that layout. `/review:post-review-comments` checks the anchor and scans the draft
+  before it posts.
+- On someone else's code, give each row the tick `reply`. On your own code, give no tick.
+
+Then print only these in the chat. Print no finding.
+
+1. `Reviewed: base <base>, head <head>`, with the two SHAs from Step 1. For uncommitted work, add
+   `+ working tree` after the head.
+2. The coverage table. When the Copilot filter dropped a finding, add one line under the table:
+   `Dropped N findings Copilot already raised (<persona>: n, …).` Don't list them.
+3. The report path.
+
+## Step 6: Pick what to act on
+
+**On someone else's code, apply nothing.** Editing another person's branch is theirs to invite,
+and the findings are the deliverable. Say in one line that the panel applied no fix because the
+branch is not yours. Tell the user to tick the rows to reply to in the report, then paste the
+prompt that the report builds. The prompt runs `/review:post-review-comments` on the ticked rows.
 
 **On your own code** (per the Step 1 ownership check), read [references/apply-fixes.md](references/apply-fixes.md) and follow it. It asks once which small findings to apply. With a handoff from Step 1, it adds the picks as fix steps and fixes nothing. Without one, it applies the picks. It never pushes.
 
@@ -223,7 +263,7 @@ The panel improves by watching itself. After the report, scan **this run** for s
 The backlog sits outside every repo:
 
 ```bash
-BACKLOG="${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/calibration-backlog.md"
+BACKLOG="${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/improve-personas.md"
 mkdir -p "$(dirname "$BACKLOG")"
 ```
 

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+      await mermaid.run({ querySelector: ".mermaid" });
+    </script>
+    <style>
+      .cell { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans">
+    <main class="max-w-6xl mx-auto px-6 pt-12 space-y-10">
+      <header id="report-head" class="space-y-1"></header>
+      <div id="report-runs" class="space-y-16"></div>
+      <section id="prompt-box" hidden class="sticky bottom-0 bg-stone-50 border-t border-slate-300 pt-3 pb-4">
+        <textarea id="prompt" readonly class="w-full h-36 font-mono text-sm p-3 border border-slate-900 rounded-lg bg-white"></textarea>
+        <div class="flex items-center gap-3 mt-2">
+          <button id="copy" type="button" class="text-sm px-3 py-1.5 rounded-md bg-slate-900 text-white">Copy prompt</button>
+          <span id="copied" class="text-sm text-emerald-700"></span>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="runs">
+{"title": "Report", "path": "", "skill": "", "runs": []}
+    </script>
+
+    <script>
+      // The page builds itself from the runs block. Change the data, not this script.
+      const data = JSON.parse(document.getElementById("runs").textContent);
+      const tickCount = new Map();
+
+      const make = (tag, cls, text) => {
+        const node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      const table = (labels, bodyRows) => {
+        const t = make("table", "w-full text-sm bg-white border border-slate-200");
+        const headRow = t.appendChild(make("thead")).appendChild(make("tr", "bg-slate-100 text-left"));
+        for (const label of labels) {
+          headRow.append(make("th", "px-3 py-2 text-xs uppercase tracking-wider text-slate-500", label));
+        }
+        const body = t.appendChild(make("tbody"));
+        for (const cells of bodyRows) {
+          const tr = body.appendChild(make("tr", "border-t border-slate-200"));
+          tr.append(...cells);
+        }
+        return t;
+      };
+
+      const td = (child, cls = "") => {
+        const cell = make("td", `px-3 py-2 align-top ${cls}`);
+        if (child) cell.append(child);
+        return cell;
+      };
+
+      const visual = (v) => {
+        const fig = make(v.fold ? "details" : "figure", "space-y-2");
+        fig.append(make(v.fold ? "summary" : "figcaption", `text-sm font-semibold text-slate-600${v.fold ? " cursor-pointer" : ""}`, v.question));
+        if (v.mermaid) {
+          fig.append(make("pre", "mermaid rounded-lg border border-slate-200 bg-white p-4", v.mermaid));
+        }
+        if (v.bars) {
+          const max = Math.max(1, ...v.bars.map(([, count]) => count));
+          const list = fig.appendChild(make("div", "space-y-1 rounded-lg border border-slate-200 bg-white p-4"));
+          for (const [label, count] of v.bars) {
+            const line = list.appendChild(make("div", "grid grid-cols-[14rem_1fr] items-center gap-3 text-sm"));
+            line.append(make("span", "truncate", label));
+            const bar = line.appendChild(make("span", "block h-5 rounded bg-indigo-600 px-2 text-xs leading-5 text-white", String(count)));
+            bar.style.width = `max(2rem, ${(count / max) * 100}%)`;
+          }
+        }
+        if (v.table) {
+          fig.append(table(v.table.columns, v.table.rows.map((row) => row.map((text) => td(make("div", "cell", text))))));
+        }
+        if (v.html) {
+          const box = fig.appendChild(make("div"));
+          box.innerHTML = v.html;
+        }
+        return fig;
+      };
+
+      const rowCell = (col, text) => {
+        if (col.fold && text) {
+          const fold = make("details");
+          fold.append(make("summary", "cursor-pointer text-slate-500", "Open"), make("div", "cell mt-1", text));
+          return td(fold);
+        }
+        return td(make("div", col.mono ? "cell font-mono text-xs" : "cell", text));
+      };
+
+      const tickCells = (row) => {
+        const ticks = row.ticks || [];
+        tickCount.set(row.id, ticks.length);
+        const boxes = make("div", "space-y-1");
+        for (const kind of ticks) {
+          const label = boxes.appendChild(make("label", "flex items-center gap-1"));
+          const box = make("input");
+          box.type = "checkbox";
+          box.dataset.id = row.id;
+          box.dataset.tick = kind;
+          label.append(box, kind);
+        }
+        let note = null;
+        if (ticks.length) {
+          note = make("input", "w-full min-w-[10rem] rounded border border-slate-300 px-2 py-1 text-xs");
+          note.type = "text";
+          note.placeholder = "Note";
+          note.dataset.note = row.id;
+        }
+        return [td(boxes, "whitespace-nowrap"), td(note)];
+      };
+
+      const rowsTable = (run) => {
+        const withTicks = Boolean(data.skill) && run.rows.some((row) => (row.ticks || []).length);
+        const labels = ["ID", ...run.columns.map((col) => col.label), ...(withTicks ? ["Tick", "Note"] : [])];
+        return table(labels, run.rows.map((row) => [
+          td(make("span", "font-mono", row.id)),
+          ...run.columns.map((col) => rowCell(col, row.cells[col.key] ?? "")),
+          ...(withTicks ? tickCells(row) : []),
+        ]));
+      };
+
+      document.title = data.title;
+      const head = document.getElementById("report-head");
+      head.append(make("h1", "text-3xl font-serif font-semibold", data.title), make("p", "text-xs font-mono text-slate-500", data.path));
+
+      const view = document.getElementById("report-runs");
+      for (const run of data.runs) {
+        const section = view.appendChild(make("section", "space-y-6"));
+        section.append(make("h2", "text-xl font-semibold", `Run ${run.run}: ${run.title} · ${run.head || "no commit"} · ${run.date}`));
+        const meta = Object.entries(run.meta || {}).map(([label, value]) => `${label}: ${value}`).join(" · ");
+        if (meta) section.append(make("p", "text-sm text-slate-500", meta));
+        section.append(make("p", "rounded-lg border-l-4 border-slate-900 bg-white px-4 py-3", run.answer));
+        for (const v of run.visuals || []) section.append(visual(v));
+        if ((run.rows || []).length) section.append(rowsTable(run));
+      }
+
+      const promptBox = document.getElementById("prompt");
+      const buildPrompt = () => {
+        const picked = new Map();
+        for (const box of document.querySelectorAll("input[data-tick]:checked")) {
+          picked.set(box.dataset.id, [...(picked.get(box.dataset.id) || []), box.dataset.tick]);
+        }
+        if (!picked.size) {
+          promptBox.value = "Tick a row to build the prompt.";
+          return;
+        }
+        const ids = [...picked].map(([id, kinds]) => (tickCount.get(id) > 1 ? `${id}:${kinds.join("+")}` : id));
+        const notes = [...picked.keys()]
+          .map((id) => [id, document.querySelector(`input[data-note="${id}"]`).value.trim()])
+          .filter(([, note]) => note);
+        const lines = [`${data.skill} @${data.path} ${ids.join(" ")}`];
+        if (notes.length) lines.push("Notes:", ...notes.map(([id, note]) => `- ${id}: ${note}`));
+        promptBox.value = lines.join("\n");
+      };
+
+      if (data.skill && tickCount.size) {
+        document.getElementById("prompt-box").hidden = false;
+        document.addEventListener("change", buildPrompt);
+        document.addEventListener("input", buildPrompt);
+        document.getElementById("copy").onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(promptBox.value);
+          } catch {
+            promptBox.select();
+            document.execCommand("copy");
+          }
+          const copied = document.getElementById("copied");
+          copied.textContent = "Copied.";
+          setTimeout(() => (copied.textContent = ""), 2000);
+        };
+        buildPrompt();
+      }
+    </script>
+  </body>
+</html>

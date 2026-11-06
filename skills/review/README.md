@@ -8,9 +8,9 @@ reviewers, which each review one kind of code.
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/mob-review` | Review | Run every in-scope persona over a branch or PR, rank the findings, and ask which clear-cut fixes to apply on your own branch. In a handoff, it adds them as fix steps |
-| `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/review:mob-review` there, then offer `/review:post-review-comments` |
-| `/post-review-comments` | Review | Post the review findings you tick to the PR: show each draft, then post the approved ones as one comment review. Five or more picks go to a handoff |
+| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On someone else's branch, its ticks build the `/review:post-review-comments` prompt. On your own branch, it asks which clear-cut fixes to apply. In a handoff, it adds them as fix steps |
+| `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/review:mob-review` there, then give the report path, whose ticks build the `/review:post-review-comments` prompt |
+| `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
 | `/sad-path` | Closure | Write a manual QA checklist that tries to break the changed forms and fields. Each item cites a catalogue ID |
 | `/pickup` | Closure | Confirm an open PR, claim its worktree, sync it by fast-forward only, then triage its review threads into a handoff |
 | `/resolve-feedback` | Closure | Assess code review feedback |
