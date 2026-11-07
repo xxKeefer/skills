@@ -17,7 +17,7 @@ prompt, so install both domains.
 
 ### light-review
 
-`light-review` has no steps of its own. It follows the `mob-review` steps with a list of seven
+`light-review` has no steps of its own. It follows the `mob-review` steps with a list of eight
 lanes.
 
 - A change to a `mob-review` step also changes `light-review`. Check each change that

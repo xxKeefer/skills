@@ -9,7 +9,7 @@ reviewers, which each review one kind of code.
 | Skill | Phase | Purpose |
 |---|---|---|
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On someone else's branch, its ticks build the `/code-review:post-review-comments` prompt. On your own branch, its ticks build the `/code-review:apply-review` prompt, or in a handoff the `/developer:run-wave` prompt for another fix round. In a handoff, it records the report in the review step |
-| `/light-review` | Review | Run the seven essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, and architecture) and write the findings to the same report as `/code-review:mob-review`, with the same ticks and prompts |
+| `/light-review` | Review | Run the eight essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, and architecture) and write the findings to the same report as `/code-review:mob-review`, with the same ticks and prompts |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/code-review:mob-review` there, then give the report path, whose ticks build the `/code-review:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
 | `/apply-review` | Review | Apply the rows you tick in a review report of your own branch: fix test-first, run the gates, commit once, push once, then reply on and resolve the ticked threads. Adds a result run to the report |
@@ -57,6 +57,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/c
 | `persona-skills` | Agent-instruction correctness in skills, agents, and `CLAUDE.md` |
 | `persona-tanstack` | Query keys, invalidation, and caching |
 | `persona-test-design` | What should be tested, rated by risk |
+| `persona-test-quality` | How tests are built, in any language: coupling, mocks, and false passes |
 | `persona-text-input` | What happens to the characters a user types or pastes |
 | `persona-typing` | Casts, type gymnastics, and missing `readonly` |
 | `persona-url-state` | What refresh, a shared link, Back, and Forward do |

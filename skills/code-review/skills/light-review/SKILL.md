@@ -2,19 +2,19 @@
 name: light-review
 description: >
   Run the essential lanes of the review panel over a PR or branch: correctness, security,
-  error-handling, code-quality, naming, test-design, and architecture. Follows the mob-review
-  steps, and writes the findings to the same HTML report through /write-report. On your own
-  branch, the ticks build a /code-review:apply-review prompt, or a /developer:run-wave prompt in a
-  handoff. On someone else's, they build a
-  /code-review:post-review-comments prompt. It applies no fix and never pushes. Takes an optional
-  handoff or spec path for the test-design check. Use when the user says "light review", "quick
-  review", or wants a review with fewer lanes than /code-review:mob-review.
+  error-handling, code-quality, naming, test-design, test-quality, and architecture. Follows the
+  mob-review steps, and writes the findings to the same HTML report through /write-report. On your
+  own branch, the ticks build a /code-review:apply-review prompt, or a /developer:run-wave prompt
+  in a handoff. On someone else's, they build a /code-review:post-review-comments prompt. It
+  applies no fix and never pushes. Takes an optional handoff or spec path for the test-design
+  check. Use when the user says "light review", "quick review", or wants a review with fewer
+  lanes than /code-review:mob-review.
 argument-hint: "[PR number or URL | branch] [handoff or spec path]"
 ---
 
 # Light Review: the essential lanes of the panel
 
-Run seven persona lanes over one diff, not the full panel. The steps, the guards, and the report
+Run eight persona lanes over one diff, not the full panel. The steps, the guards, and the report
 are those of `mob-review`. The other lanes do not run, so a clean light run is not a clean full
 panel.
 
@@ -26,6 +26,7 @@ panel.
 - `persona-code-quality`
 - `persona-naming`
 - `persona-test-design`
+- `persona-test-quality`
 - `persona-architecture`
 
 ## Steps
