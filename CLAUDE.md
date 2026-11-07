@@ -6,40 +6,18 @@ A marketplace of personal skills for working with AI agents. Every skill is fram
 language-agnostic, and tool-agnostic -- pure best-practice principles expressed as markdown
 workflows.
 
-## Domains
-
-| Domain | Purpose | Always required? |
-|---|---|---|
-| `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Implementing code -- ticket to PR: plan, worktrees, test-first builds, debugging, manual QA, and the PR. Code review comes from `code-review` | No |
-| `code-review` | Persona reviewers, the review panel, and PR review -- improving code. `developer` calls it | No |
-| `journal` | Personal planner -- cascading goal/reflection system | No |
-| `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
-| `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
-| `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
-| `nix-manager` | NixOS config management -- add, remove, refine, debug, explain | No |
-| `utility` | Dev-environment setup -- pre-commit hooks, machine setup | No |
-| `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
-| `deprecated` | Skills awaiting a keep/kill decision before deletion | No |
-
 ## Architecture
 
 Each domain is an independent plugin in the `xxkeefer-skills` marketplace. Domains are versioned
 separately and can be enabled/disabled independently. The `primitives` domain is a prerequisite
 for all others -- it provides foundational skills (like `/grill`) that other domains compose.
 
-Top-level layout:
+Installable assets, such as hooks, the status line, output styles, and rules, live inside their
+`utility` installer skill, so they ship with the plugin. The root owns only the registry, the commit
+hook, and shared documentation. No skills live at root -- they all live under `skills/`.
 
-| Path | Holds |
-|---|---|
-| `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill, so they ship with the plugin. |
-| `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
-| `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
-| `.githooks/` | The scrub check: a pre-commit hook, its public pattern file, and its tests (`sh .githooks/pre-commit_test.sh`). |
-
-The root owns only the registry, the commit hook, and shared documentation (`README.md`,
-`CLAUDE.md`, `CONTEXT.md`).
-No skills live at root -- they all live under `skills/`.
+`.githooks/` holds the scrub check: a pre-commit hook, its public pattern file, and its tests
+(`sh .githooks/pre-commit_test.sh`).
 
 ## Skill Maturity
 

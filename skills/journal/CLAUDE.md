@@ -18,29 +18,9 @@ within the user's Obsidian vault. Skills find it with
   for each file type. Skills must read and write against these templates.
 - **Flat file structure**: All organisation via file naming. No nested directories.
 
-## File Naming
+## Links
 
-| Level | Pattern | Example |
-|---|---|---|
-| Daily | `YYYY-wkNN-day.md` | `2026-wk22-sat.md` |
-| Weekly | `YYYY-wkNN-week.md` | `2026-wk22-week.md` |
-| Monthly | `YYYY-MM-mon.md` | `2026-05-may.md` |
-| Yearly | `YYYY.md` | `2026.md` |
-
-## Frontmatter
-
-All journal files use this shape:
-
-```yaml
----
-type: journal/<daily|weekly|monthly|yearly>
-date: YYYY-MM-DD
-tags: [journal, journal/<type>]
-up: "[[parent-file]]"
-prev: "[[previous-sibling]]"
-next: "[[next-sibling]]"
----
-```
+File names and frontmatter come from `templates/`.
 
 - Every file links `up` to its parent (daily -> weekly, weekly -> monthly, monthly -> yearly)
 - Every file links `prev`/`next` to siblings at the same level
