@@ -88,4 +88,4 @@ For each persona in scope, verify and fix:
 
 ## Finish
 
-Print one table (persona | changed? | what changed) and list anything you deliberately left for the user to decide (removals, version majors not yet installed). Don't commit unasked: leave the changes in the marketplace checkout and offer to commit.
+Print one table (persona | changed? | what changed) and list anything you deliberately left for the user to decide (removals, version majors not yet installed). Commit the changes in the marketplace checkout before you print the table.

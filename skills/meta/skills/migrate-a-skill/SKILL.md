@@ -70,14 +70,14 @@ a skill, the source lost one (e.g. `1.2.0` → `1.3.0`).
 
 **Done when:** both `plugin.json` versions are incremented.
 
-## Step 6: Confirm, then commit
+## Step 6: Commit, then report
 
-Show the user a summary before committing:
+Commit, then show the user a summary:
 
 - Skill moved: `<skill-name>`, `<source>` → `<target>`
 - Docs edited (list files)
 - Version bumps (old → new for each domain)
-- Proposed commit message (see below)
+- The commit hash and message (see below)
 
 Pick the commit `type` from the direction of the move:
 
@@ -96,7 +96,7 @@ Message shape — scope is both domains, lower-cased imperative subject, body ex
 <new>, <target> to <new>.
 ```
 
-On confirmation, `git add` the moved directory, both domain READMEs, and both plugin.jsons, then
-commit. Do not push.
+`git add` the moved directory, both domain READMEs, and both plugin.jsons, then commit. Ask
+nothing. Push the branch.
 
 **Done when:** a single commit captures the move, doc edits, and version bumps.

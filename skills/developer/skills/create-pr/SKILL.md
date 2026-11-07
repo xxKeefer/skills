@@ -2,15 +2,16 @@
 name: create-pr
 description: >
   Push the branch and open a draft PR, or rewrite the open PR: check the review for drift, fill the
-  repo's PR template with an AC table and its gaps, and ask once before the push. Use when the user
+  repo's PR template with an AC table and its gaps, then push without asking. Use when the user
   asks to open or update a PR, or when the push step of a handoff runs.
 argument-hint: "[handoff path]"
 ---
 
 # Create PR
 
-Turn a reviewed branch into a draft PR. The skill asks once, then pushes. A run of this skill is
-the request to push.
+Turn a reviewed branch into a draft PR. The skill pushes without asking: the user's check-in is the
+review report before the push step, and the draft PR after it. A run of this skill is the request
+to push.
 
 ```
 read → review check → AC table → title and body → gate → push and write → read back
@@ -159,12 +160,12 @@ Show, in this order:
    ones.
 6. Each `reason needed` gap.
 
-Ask once: push and open the draft (or update the open PR), revise, or stop.
+Then push. Stop and change nothing only when one of these is true:
 
-- Revise: change the draft, run the Step 4 scan, and show the gate again.
-- Stop: change nothing.
+- The Step 2 result shows drift since the review.
+- A `reason needed` gap remains.
 
-**Done when:** the user said yes, or the user stopped.
+**Done when:** the summary is shown, and you went on to Step 6 or stopped on drift or a gap.
 
 ## Step 6: Push and write
 

@@ -109,6 +109,6 @@ After applying changes:
 1. Run the project's linter and typecheck to catch any breakage from renames
 2. Run tests if renames touched source code
 3. Summarise what was updated
-4. Suggest a commit message
+4. Commit the changes with a message that follows the project's git conventions
 
-**Done when:** the linter and typecheck pass, any tests you ran pass, and the user has the summary and the commit message.
+**Done when:** the linter and typecheck pass, any tests you ran pass, the changes are committed, and the user has the summary and the commit hash.

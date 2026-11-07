@@ -10,8 +10,8 @@ disable-model-invocation: true
 Fix a batch of QA bug tickets with one user checkpoint at the start and one at the end. Each ticket
 gets its own branch, its own worktree, and one fresh subagent that follows [`BUG.md`](BUG.md). Each
 subagent writes a hunt doc for its ticket. A ticket that needs the user ends with a verdict in its
-hunt doc, and the user answers all of them in one batch. All work stays local: the skill pushes
-nothing and writes nothing to the tracker.
+hunt doc, and the user answers all of them in one batch. The skill pushes each fixed branch, and
+writes nothing to the tracker.
 
 ## Step 1: Pre-flight
 
@@ -80,7 +80,11 @@ When a subagent returns, check its worktree, not its summary:
 
 If a check fails, the ticket's status is the failed check.
 
-**Done when:** every subagent returned, and you checked every return.
+For each `fixed` or `trivial` ticket that passed its check, run `git push -u origin <branch>` from
+its worktree. Never force. If the push fails, the ticket's status is the push error.
+
+**Done when:** every subagent returned, you checked every return, and you pushed every branch that
+passed.
 
 ## Step 4: Report
 

@@ -114,6 +114,9 @@ visited so you don't loop.
 
 ## Step 8: Summarise
 
+When every conflict is resolved and the affected tests pass, stage the files and run
+`git rebase --continue`, `git merge --continue`, or `git cherry-pick --continue`. If a conflict is
+still open or a test fails, commit nothing.
+
 Report: every file touched, each conflict and how it was resolved (auto vs user-decided), files
-followed via links, and what's still outstanding (e.g. "rebase still in progress — run
-`git rebase --continue` when ready"). Do not commit on the user's behalf.
+followed via links, the commit made, and what's still outstanding.

@@ -20,10 +20,12 @@ depend on it. The user answers every entry in one batch at the end.
    handoff records, else the match in `git worktree list`. If no worktree has the branch, say so.
 3. If the working tree has modified or staged files, stop and ask the user about them. Those files
    are their in-flight work.
-4. If the current branch is the default branch, ask the user once whether to commit there.
+4. If the current branch is the default branch, make a branch named from the handoff and switch to
+   it. Ask nothing.
 
 **Done when:** the step list exists, the current branch is the handoff's branch or the handoff
-names no branch, the tree has no modified or staged files, and the user accepts the branch.
+names no branch, the tree has no modified or staged files, and the branch is not the default
+branch.
 
 ## Step 2: Run each step
 

@@ -23,7 +23,7 @@ Framework-agnostic and language-agnostic. Code review comes from the
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
 | `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report. Its fail ticks build a `/developer:fix` prompt |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
-| `/create-pr` | Closure | Check the review for drift, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR after one yes |
+| `/create-pr` | Closure | Check the review for drift, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR without asking |
 | `/sync-docs` | Maintenance | Sync docs to code |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
