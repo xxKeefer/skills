@@ -13,7 +13,7 @@ repo, the handoff file, and the step's patch file (see Save the work).
    file.
 3. If the step needs a decision that the handoff does not record, write a `D` entry and return.
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
-   yourself.
+   yourself. A review fix step needs no seam: the report row is its spec.
 4. If the step pushes, opens a PR, edits a ticket, deploys, or writes to any outside service, write
    an `N` entry and return.
 
@@ -26,6 +26,7 @@ Use the first row that matches the step:
 | Step | Workflow | What to do |
 | ---- | -------- | ---------- |
 | Names a skill | `skill: /<name>` | Run that skill. |
+| Review fix | `review fix` | Read the row in the report that the step names. Make the change that the done line names. If the row names a missing test, write it first and see it go red. Keep every other test green. |
 | Changes behaviour | `TDD` | Write a failing test at the step's seam and see it go red. Write the minimum code to go green. Then do a mutation check: break the new code, see the test go red, and restore the code. |
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
 | Anything else: docs, config, CI | `done line` | Make the change. |

@@ -4,7 +4,8 @@ description: >
   Run the essential lanes of the review panel over a PR or branch: correctness, security,
   error-handling, code-quality, naming, test-design, and architecture. Follows the mob-review
   steps, and writes the findings to the same HTML report through /write-report. On your own
-  branch, the ticks build a /code-review:apply-review prompt. On someone else's, they build a
+  branch, the ticks build a /code-review:apply-review prompt, or a /developer:run-wave prompt in a
+  handoff. On someone else's, they build a
   /code-review:post-review-comments prompt. It applies no fix and never pushes. Takes an optional
   handoff or spec path for the test-design check. Use when the user says "light review", "quick
   review", or wants a review with fewer lanes than /code-review:mob-review.

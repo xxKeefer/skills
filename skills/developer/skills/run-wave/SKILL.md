@@ -1,7 +1,7 @@
 ---
 name: run-wave
-description: Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user.
-argument-hint: "@path/to/handoff-or-plan.md"
+description: Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user. Also takes the prompt of a review report, and adds a fix round to the handoff first.
+argument-hint: "@path/to/handoff-or-plan.md | @<review report> <row IDs>"
 disable-model-invocation: true
 ---
 
@@ -12,20 +12,34 @@ cold-starts from the handoff, as one `/clear` + `/do-next` run would. A step tha
 becomes an entry under `## Pending Decisions`, and the run continues with the steps that do not
 depend on it. The user answers every entry in one batch at the end.
 
+Run it again on each review report to loop: `run-wave` → review → the user ticks rows → `run-wave`
+on the report's prompt → review, until the user is satisfied. Then the push step.
+
 ## Step 1: Pre-flight
 
-1. Read the @-tagged handoff. List the remaining steps in handoff order.
-2. If the handoff names the branch for its work, compare it with `git branch --show-current`. On
+1. If the arguments hold a review report and row IDs, add a fix round first:
+   1. Parse the JSON in the `<script type="application/json" id="runs">` block of the report. Find
+      each ticked row in its run. Read the handoff path from the `Handoff` key of the run's
+      `meta`. With no `Handoff` key, stop, and name `/code-review:apply-review`.
+   2. Before the push step, add one step for each ticked row:
+      `**<n>. Review fix <row ID>.** <issue> at <where>. Report: <report path>.` Its done line is
+      the row's recommendation, with the row's note when it has one.
+   3. After the fix steps, add a new review step. Copy the text of the last review step.
+   4. Delete the `D` entry that names this report. The ticks are its answer.
+   5. Write the changes with `/update-handoff`.
+2. Read the handoff: the @-tagged one, or the one from item 1. List the remaining steps in handoff
+   order.
+3. If the handoff names the branch for its work, compare it with `git branch --show-current`. On
    another branch, stop the run. Name the worktree that has the handoff's branch: the path the
    handoff records, else the match in `git worktree list`. If no worktree has the branch, say so.
-3. If the working tree has modified or staged files, stop and ask the user about them. Those files
+4. If the working tree has modified or staged files, stop and ask the user about them. Those files
    are their in-flight work.
-4. If the current branch is the default branch, make a branch named from the handoff and switch to
+5. If the current branch is the default branch, make a branch named from the handoff and switch to
    it. Ask nothing.
 
-**Done when:** the step list exists, the current branch is the handoff's branch or the handoff
-names no branch, the tree has no modified or staged files, and the branch is not the default
-branch.
+**Done when:** for a report, the handoff holds a fix step for each ticked row and a new review
+step. The step list exists, the current branch is the handoff's branch or the handoff names no
+branch, the tree has no modified or staged files, and the branch is not the default branch.
 
 ## Step 2: Run each step
 

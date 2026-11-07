@@ -1,7 +1,7 @@
 {
   "name": "developer",
   "description": "Implementing code, broadly, from ticket to PR: refine, scope, split, and plan a ticket, claim a worktree, prototype, implement test-first, debug, fix, run manual QA, and open the PR. Code review comes from code-review. Requires primitives and code-review.",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "author": {
     "name": "xxkeefer"
   }

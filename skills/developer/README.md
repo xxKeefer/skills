@@ -17,7 +17,7 @@ Framework-agnostic and language-agnostic. Code review comes from the
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red → green loop |
-| `/run-wave` | Implementation | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user |
+| `/run-wave` | Implementation | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user. Pass it a review report's prompt to add a fix round and a new review |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |

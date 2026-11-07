@@ -204,8 +204,8 @@ Give `/write-report` these inputs:
 - `key`: the ticket key from the handoff, the branch name, or the PR title. Else `pr-<n>` when the
   branch has a PR. Else the branch name with each `/` changed to `-`.
 - `title`: `Review of PR #<n>`, else `Review of <branch>`.
-- `skill`: `/code-review:post-review-comments` on someone else's code, and `/code-review:apply-review` on
-  your own code.
+- `skill`: `/code-review:post-review-comments` on someone else's code. On your own code,
+  `/developer:run-wave` when Step 1 has a handoff, else `/code-review:apply-review`.
 - The run:
   - `title`: `Panel run`.
   - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
@@ -213,7 +213,8 @@ Give `/write-report` these inputs:
     `gh pr view --json url -q .url`, when the branch has a PR), `Folder` (the absolute path of the
     repo folder), `Spec` (the source of the acceptance criteria, when `persona-ac-check` ran), and
     `Copilot` (`dropped N (<persona>: n, …)`, when the filter dropped a finding).
-    `/code-review:post-review-comments` reads `PR`, `Base`, and `Folder`.
+    `/code-review:post-review-comments` reads `PR`, `Base`, and `Folder`. Add `Handoff` (the
+    absolute handoff path) when Step 1 has a handoff. `/developer:run-wave` reads it.
   - `answer`: the count in each tier, and what the user does next. If every persona is clean,
     say so plainly. A clean panel is a valid result.
   - `visuals`: one `table` with the question "Which lanes ran, and what did each find?". It holds
@@ -276,7 +277,10 @@ tick the rows to fix in the report, then paste the prompt that the report builds
 `/code-review:apply-review` on the ticked rows. It fixes test-first and commits once. It pushes only
 when the branch has an open PR.
 
-**In a handoff from Step 1**, on your own code, the review step writes the report and stops:
+**In a handoff from Step 1**, on your own code, the review step writes the report and stops. The
+prompt that the report builds runs `/developer:run-wave`, not `/code-review:apply-review`. It adds a
+fix step for each ticked row and a new review step to the handoff, then runs them. The user reads
+each new report, and passes it back to `run-wave` until satisfied:
 
 1. Tick the review step. Write the report path, and the base and head SHAs from Step 1, into its
    done line. `/create-pr` reads the two SHAs.
@@ -284,8 +288,8 @@ when the branch has an open PR.
    run. Write a `D` entry in the `STEP.md` form. It names the report path. Its options are to
    tick the rows and run the prompt, or to fix nothing. Its `Blocks` line lists the push step, the
    step that pushes or opens a PR.
-3. Stop. The user runs the prompt before the push step. The fix commit comes after the reviewed
-   head, so the push step shows it as drift.
+3. Stop. The user runs the prompt before the push step, or ticks nothing and answers the `D`
+   entry to go on to the push step.
 
 ## Step 7: Record calibration signals (never edit)
 
