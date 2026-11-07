@@ -33,8 +33,7 @@ step 6.
 
 ## 3. Fix
 
-Trace the red spec to the root cause. Fix the cause at the most general layer that owns it: the
-shared provider, not each component that shows the symptom.
+Trace the red spec to the root cause, and fix the cause.
 
 If the fix needs a choice that the ticket and the hunt doc do not settle, the verdict is
 `decision`. Leave the red spec uncommitted, and go to step 6.
