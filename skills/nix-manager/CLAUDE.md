@@ -1,6 +1,6 @@
 # Nix Manager
 
-NixOS config management skills -- add, remove, rice, refine, debug, and explain. Designed for
+NixOS config management skills -- add, remove, refine, debug, and explain. Designed for
 incremental improvement of a flake-based NixOS config with home-manager.
 
 ## Dependencies

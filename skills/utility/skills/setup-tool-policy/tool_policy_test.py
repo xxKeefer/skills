@@ -3,6 +3,7 @@
 import json
 import pathlib
 import sys
+import tempfile
 
 import tool_policy
 
@@ -10,11 +11,16 @@ import tool_policy
 # tool-policy.config.json is intentionally empty. Self-protection cases below
 # still assert against the runtime config name, which is hardcoded in the hook.
 CONFIG = json.loads((pathlib.Path(__file__).parent / "tool-policy.example.json").read_text())
+NO_MARKER = {k: v for k, v in CONFIG.items() if k != "runnerMarker"}
 
-
-def blocked(cmd):
-    return tool_policy.evaluate(cmd, CONFIG)
-
+# The example config applies the runner rules only under a folder that holds nx.json.
+ROOT = pathlib.Path(tempfile.mkdtemp())
+NX_REPO = ROOT / "nx-repo"
+NX_SUBDIR = NX_REPO / "apps" / "portal"
+PLAIN_REPO = ROOT / "plain-repo"
+NX_SUBDIR.mkdir(parents=True)
+PLAIN_REPO.mkdir()
+(NX_REPO / "nx.json").write_text("{}")
 
 CASES = [
     # (command, should_block, substring expected in reason or None)
@@ -61,22 +67,32 @@ CASES = [
     ("cat tool-policy.config.json", True, "human-managed"),
 ]
 
+MARKER_CASES = [
+    # (command, cwd, config, should_block, substring expected in reason or None)
+    ("pnpm exec vitest run foo.spec.ts", PLAIN_REPO, CONFIG, False, None),
+    ("pnpm exec vitest run foo.spec.ts", NX_SUBDIR, CONFIG, True, str(NX_REPO / "nx.json")),
+    ("git stash", PLAIN_REPO, CONFIG, True, "clean state"),
+    # no runnerMarker key: the runner rules apply everywhere, as before
+    ("pnpm exec vitest run foo.spec.ts", PLAIN_REPO, NO_MARKER, True, "test:unit"),
+]
+
 
 def main():
     failures = []
-    for cmd, should_block, needle in CASES:
-        reason = blocked(cmd)
+    runs = [(cmd, NX_REPO, CONFIG, b, n) for cmd, b, n in CASES] + MARKER_CASES
+    for cmd, cwd, config, should_block, needle in runs:
+        reason = tool_policy.evaluate(cmd, config, cwd)
         is_blocked = reason is not None
         if is_blocked != should_block:
-            failures.append(f"  {cmd!r}: expected block={should_block}, got block={is_blocked} ({reason!r})")
+            failures.append(f"  {cmd!r} in {cwd}: expected block={should_block}, got block={is_blocked} ({reason!r})")
         elif should_block and needle and needle not in reason:
-            failures.append(f"  {cmd!r}: reason missing {needle!r}: {reason!r}")
+            failures.append(f"  {cmd!r} in {cwd}: reason missing {needle!r}: {reason!r}")
 
     if failures:
-        print(f"FAIL ({len(failures)}/{len(CASES)}):")
+        print(f"FAIL ({len(failures)}/{len(runs)}):")
         print("\n".join(failures))
         sys.exit(1)
-    print(f"OK ({len(CASES)} cases)")
+    print(f"OK ({len(runs)} cases)")
 
 
 if __name__ == "__main__":

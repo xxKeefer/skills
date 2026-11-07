@@ -9,7 +9,7 @@ Confluence, linked from their Jira issues.
 - **Project key**: per the repo's CLAUDE.md or the `jira-conventions` skill — never guess one
 - **Issue creation**: `createJiraIssue`; epics hold features, stories hold tracer-bullet slices,
   subtasks hold progress-tracking steps
-- **Fetch**: `getJiraIssue` by key (e.g. `ENG-1234`); search with `searchJiraIssuesUsingJql`
+- **Fetch**: `getJiraIssue` by key (e.g. `PROJ-123`); search with `searchJiraIssuesUsingJql`
 - **Comments**: `addCommentToJiraIssue` — the equivalent of "comment on the issue"
 - **Specs/PRDs**: a Confluence page (`createConfluencePage`, space per `confluence-conventions`),
   linked from the epic; the Jira description carries the summary and the link, not the full spec

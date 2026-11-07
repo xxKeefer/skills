@@ -1,0 +1,9 @@
+# Validation state rules (10 to 14)
+
+**Validation state**
+
+10. **Hidden or toggled fields keep stale state (Change Requested).** A hidden field whose value is still submitted: `v-show` keeps it, and so does `v-if` when the model is a plain `ref`/`reactive` or the form sets `keepValuesOnUnmount` (vee-validate drops an unmounted `useField` value by default). Or its rule still validates and blocks submit with an error the user can't see. Toggling an option on and off leaves its error behind. Clear the value, or drop it from the schema when hidden. (FM-G3, FM-F13, FM-G5)
+11. **Cross-field rule doesn't re-run, or an error doesn't clear (Change Requested).** Start/end dates, a min/max pair, or a confirm field validated only when its own field changes, so fixing the *other* field leaves the error up, or a now-invalid pair passes. End equal to start not decided either way. Validate the pair together (a zod `.refine` on the object, or re-validate the sibling). (FM-F2, FM-F3, FM-J4)
+12. **Typed input bypasses the picker's limits (Change Requested).** A date picker with `min`/`max` (or disabled dates) whose text field accepts any typed date, including a date in the past. Reka `DateField` still writes an out-of-range typed date to the model and only sets `isInvalid`/`data-invalid`, so it gets submitted unless the schema rejects it. Enforce the limit in the schema. (FM-J3, FM-J5)
+13. **A failed or repeated submit loses the user's work (Change Requested).** The form resets before the request succeeds, so a 500 wipes everything; a component reused across `/services/:id` keeps the previous record's form values; the form isn't reset after a successful create, so the next create starts with old values. (FM-H6, FM-H7, FM-H11)
+14. **Disabled where readonly was meant (Nit).** A field rendered `disabled` to look locked, whose value then drops out of a native submit or can't be selected and copied. Use `readonly` for "visible but not editable". (FM-G1, FM-G2)

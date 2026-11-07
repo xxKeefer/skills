@@ -81,7 +81,6 @@ disable-model-invocation: true
 - **User checkpoints** -- mark where the skill pauses for confirmation
 - **Terse** -- every line earns its place
 - **Link, don't inline** -- reference supporting files rather than embedding large blocks
-- **Under 500 lines** -- move detailed references to separate files
 
 ### Quality checklist
 
@@ -95,6 +94,7 @@ against this list:
 - [ ] No unnecessary framework or tool coupling
 - [ ] Supporting files only created when they add value
 - [ ] Invocation matches the rubric
+- [ ] Each subagent brief follows the rubric's Subagent models rule
 
 ## Step 4: Write Supporting Files (if needed)
 
@@ -114,11 +114,15 @@ domain's only skill table. Fill every column the table has. Bump the minor versi
 
 ## Step 6: Review
 
-Present the complete skill to the user:
+Measure `SKILL.md` in bytes. If it is over the limit in the rubric's **Sprawl** entry, apply that
+entry's cure, then measure again.
+
+Present the complete skill to the user, with its size:
 
 > **Skill: `{name}`**
 > **Domain:** {domain}
 > **Files:** {list of files created}
+> **Size:** {`SKILL.md` bytes}
 >
 > {brief summary of what it does}
 
@@ -134,4 +138,4 @@ If during review the skill feels too large, consider splitting when:
 
 - Two distinct user intents are served (should be two skills)
 - A reusable step appears that other skills would benefit from (extract to primitive)
-- The SKILL.md exceeds 500 lines despite linking references
+- `SKILL.md` is still over the Sprawl limit after disclosure

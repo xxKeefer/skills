@@ -10,8 +10,10 @@ paths:
 
 1. **Composable owns all TanStack Query concerns** — consumers never see `useMutation`, `useQuery`, `mutateAsync`, or query keys
 2. **Namespace-style API** — return object reads like a resource: `filters.create(data)`, `filters.remove(id)`
-3. **Toast notifications live inside the composable** — success/error feedback is not the consumer's job
+3. **Toast notifications live inside the composable** — success/error feedback is not the consumer's job. Only one layer toasts a mutation error. If the app's `QueryClient` toasts in a global `MutationCache.onError`, leave out the `onError` toasts here, because both handlers fire for one failure.
 4. **Query invalidation is automatic** — mutations invalidate the list query on success
+5. **Each `queryFn` reads its inputs from its own `queryKey`** — never from a ref. If a ref changes and an inactive query then refetches (`refetchQueries`, or `refetchType: 'all'`), a `queryFn` that reads the ref caches another parent's data under the old key. Type the key as a tuple with `as const`. Give the destructured key parts new names, so that they do not shadow the factory parameters (`no-shadow`).
+6. **Factories take `MaybeRef`, not `MaybeRefOrGetter`** — Vue Query unwraps a ref in the key type, but not a getter. The composable accepts `MaybeRefOrGetter` and calls `toRef` once to make a getter into a ref.
 
 ## Return Shape
 
@@ -31,8 +33,8 @@ return { all, byId, create, update, remove, isSaving }
 ## Internal Structure
 
 ```ts
-import { computed, toValue } from 'vue'
-import type { MaybeRefOrGetter } from 'vue'
+import { computed, toRef } from 'vue'
+import type { MaybeRef, MaybeRefOrGetter } from 'vue'
 import { queryOptions, useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { showToast } from '@/ui/toast'
@@ -41,17 +43,17 @@ import type { ThingRequest } from '@/api/schemas/thing'
 
 // --- Query option factories (NOT exported) ---
 
-const thingsQuery = (parentId: MaybeRefOrGetter<string>) =>
+const thingsQuery = (parentId: MaybeRef<string>) =>
   queryOptions({
-    queryKey: ['things', parentId],
-    queryFn: () => api.things(toValue(parentId)).list(),
+    queryKey: ['things', parentId] as const,
+    queryFn: ({ queryKey: [, parent] }) => api.things(parent).list(),
     staleTime: 1000 * 60 * 5,
   })
 
-const thingQuery = (parentId: MaybeRefOrGetter<string>, thingId: MaybeRefOrGetter<number>) =>
+const thingQuery = (parentId: MaybeRef<string>, thingId: MaybeRef<number>) =>
   queryOptions({
-    queryKey: ['thing', parentId, thingId],
-    queryFn: () => api.things(toValue(parentId)).get(toValue(thingId)),
+    queryKey: ['thing', parentId, thingId] as const,
+    queryFn: ({ queryKey: [, parent, id] }) => api.things(parent).get(id),
     staleTime: 1000 * 60 * 5,
   })
 
@@ -60,15 +62,16 @@ const thingQuery = (parentId: MaybeRefOrGetter<string>, thingId: MaybeRefOrGette
 export function useThings(parentId: MaybeRefOrGetter<string>) {
   const queryClient = useQueryClient()
   const { t } = useI18n({ useScope: 'global' })
-  const listQueryKey = ['things', parentId]
+  const parent = toRef(parentId)
+  const listQueryKey = ['things', parent]
 
   // List query
-  const { data: all } = useQuery(thingsQuery(parentId))
+  const { data: all } = useQuery(thingsQuery(parent))
 
   // Mutations (internal only)
   const createMutation = useMutation({
     mutationFn: (data: ThingRequest) =>
-      api.things(toValue(parentId)).create(data),
+      api.things(parent.value).create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: listQueryKey })
       showToast({ heading: t('general.success-creating', { thing: t('things.thing') }), variant: 'success' })
@@ -78,7 +81,7 @@ export function useThings(parentId: MaybeRefOrGetter<string>) {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: ThingRequest }) =>
-      api.things(toValue(parentId)).update(id, data),
+      api.things(parent.value).update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: listQueryKey })
       showToast({ heading: t('general.success-updating', { thing: t('things.thing') }), variant: 'success' })
@@ -87,7 +90,7 @@ export function useThings(parentId: MaybeRefOrGetter<string>) {
   })
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => api.things(toValue(parentId)).delete(id),
+    mutationFn: (id: number) => api.things(parent.value).delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: listQueryKey })
       showToast({ heading: t('general.success-deleting', { thing: t('things.thing') }), variant: 'success' })
@@ -96,7 +99,7 @@ export function useThings(parentId: MaybeRefOrGetter<string>) {
   })
 
   // Public API — plain async functions, no mutation objects leak
-  const byId = (id: number) => queryClient.fetchQuery(thingQuery(parentId, id))
+  const byId = (id: number) => queryClient.fetchQuery(thingQuery(parent, id))
   const create = (data: ThingRequest) => createMutation.mutateAsync(data)
   const update = (id: number, data: ThingRequest) => updateMutation.mutateAsync({ id, data })
   const remove = (id: number) => deleteMutation.mutateAsync(id)
@@ -105,6 +108,8 @@ export function useThings(parentId: MaybeRefOrGetter<string>) {
   return { all, byId, create, update, remove, isSaving }
 }
 ```
+
+`byId` returns cached data while it is fresh (5 minutes in the example). For a read that must reach the server, such as a check before a save, pass `staleTime: 0`: `queryClient.fetchQuery({ ...thingQuery(parent, id), staleTime: 0 })`.
 
 ## Consumer Usage
 

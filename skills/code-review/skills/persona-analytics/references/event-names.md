@@ -1,0 +1,27 @@
+# Event names
+
+### E. Event names
+
+An event name is a permanent public key: every insight, funnel, cohort and Action in PostHog filters on the exact string, and nothing warns when a new one appears. Check every added or changed name against the project's own convention, or against this one:
+
+- **Grammar:** `<domain>_<object>[_<action>]_<suffix-or-past-verb>`. Lowercase `snake_case`, `[a-z0-9_]` only. No leading `$` (PostHog reserves it).
+- **Domain first**, so a domain's events sort together. Reuse the prefix the area already has. A synonym of an existing domain is not a new domain.
+- **Closed set.** Every name is a literal known at compile time. Product type, provider, button, step, mode, experience, surface: anything that varies is a property, never a name segment.
+- **Intent, not widget.** Name what the user did or what happened. No `button`, `modal`, `dialog`, `drawer`, `link`, `next`, `back`, `finish`, `click` in a new name.
+- **No versions.** An additive property is not a new event. A change of meaning is a new name.
+- **Suffixes, one meaning each:** `_progress` is one milestone of a flow funnel; `_settled` is one request settling, discriminated on `outcome`, with `reason` only on failure; a past-tense verb (`_started`, `_created`, `_failed`) is one discrete fact; `_set` is a filter or setting the user chose (the which, never the typed value); `_view` is exposure to a variant; `_toggle` is a switch between variants (`from`, `to`); `_click` is reserved for the wrapper's navigation click event.
+- **Synonyms not to use beside these:** `_completed`/`_finished`/`_resolved`/`_done` (use `_settled`, or flow `complete()`), `_added`/`_made` (use `_created`), `_changed`/`_applied`/`_selected` for a filter (use `_set`), `_opened`/`_shown`/`_seen` for exposure (use `_view`), `_abandoned`/`_cancelled` as an event (use flow `abandon(reason)`). Present tense and `-ing` forms are off-grammar.
+- **Declaration:** non-milestone names live in a per-domain constants map; call sites use the constant, never the string. Milestone names are typed keys of the event map.
+- **Failure modes seen in practice:** hundreds of names minted from dynamic segments (product x provider x step x button), an undefined segment leaking into a name, separator drift inside one product, a rename that stops every chart at the deploy, a foreign-convention twin of an existing event, and junk names such as `test`. Cite the matching one when a diff repeats it.
+
+If the PostHog MCP is loaded, `read-data-schema {"query":{"kind":"events"}}` lists the live names. Use it to check a new name does not collide with or duplicate an existing one.
+
+18. **Variable segment in a name (Change Requested).** A template literal, concatenation or lookup that builds the name (`` `services.${resourceType}.${button}.click` ``, `` `${prefix}_saved` ``, `EVENTS[mode]`). Each value mints a new event. Make one literal name and move the varying part into a typed property (`resource_type`, `provider`, `step`).
+19. **Wrong charset or reserved prefix (Change Requested).** Anything outside lowercase `[a-z0-9_]`: dots, hyphens, colons, camelCase, spaces, a `:v1` suffix, or a leading `$` (PostHog reserves it). Also a placeholder name (`test`, `foo`, `debug_*`) in shipped code.
+20. **Rename or retype of an existing name (Change Requested).** Changing the string of a shipped event, a milestone key, or the meaning of its payload splits every chart at the deploy (`nav_interaction` renamed to `nav_click`, with both still in PostHog). Keep the name and add a property. If the rename is unavoidable, the PR must name the insights and dashboards to re-point, or the PostHog Action that joins old and new. Migrating a *legacy dotted* name to the typed map is the same split: ask for the Action, not for the migration to stop.
+21. **Suffix misuse (Change Requested / Nit).**
+    - **Change Requested:** a milestone-event key not ending `_progress`, or a `_progress` name that is not a milestone event. A `_settled` event not discriminated on `outcome`. A new `*_click` event: clicks go through `navigation_click` with `source` and `item`, so they rank on one chart.
+    - **Nit:** a synonym of an established suffix (`_completed`, `_finished`, `_resolved`, `_added`, `_changed`, `_applied`, `_opened`, `_shown`), present tense (`project_create`), an `-ing` form, or a widget word in the name (`button`, `modal`, `dialog`, `next`, `back`, `finish`).
+22. **Domain prefix off (Nit).** The name doesn't start with its area's existing prefix (`renewal_submit_settled` beside `subscription_management_*`), or it coins a synonym of an existing domain. Events of one area must sort together.
+23. **Duplicate of an existing fact under another name (Change Requested).** A new name for what an existing event already records, typed or legacy: `services_bulk_renewed` beside `subscription_management_renew_submit_settled`, or a snake_case twin of a live dotted name with no plan to join them. `rg` the event map and vocabulary files, and when the PostHog MCP is loaded, check the live taxonomy (`read-data-schema {"query":{"kind":"events"}}`).
+24. **Name not declared the house way (Nit).** A non-milestone name used as a string at the call site instead of a per-domain constant, a constant key that doesn't mirror the name (`PROJECT_EVENT.FAILED = 'project_create_failed'`), or a new event-map entry with no one-line comment saying what **one** event is, where that isn't obvious.

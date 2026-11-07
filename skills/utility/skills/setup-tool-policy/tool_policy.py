@@ -5,7 +5,9 @@ Two jobs, both driven by tool-policy.config.json beside this file:
 
   1. Redirect — intercept runner shims (npx / pnpm exec / dlx / ...) and steer the
      tool they run toward a canonical command. Block-all + allowlist: anything
-     intercepted that is not allowlisted is denied.
+     intercepted that is not allowlisted is denied. If the config sets `runnerMarker`
+     (for example `nx.json`), these rules apply only when the session folder or a
+     parent holds that file.
   2. Block — deny specific command prefixes outright (e.g. `git stash`), with a
      custom reason.
 
@@ -104,6 +106,15 @@ def _allowed(tool, sub, allowlist):
     return sub is not None and f"{tool}:{sub}" in allowlist
 
 
+def _find_marker(cwd, marker):
+    """Returns the marker path in cwd or the nearest parent that holds it, else None."""
+    folder = pathlib.Path(cwd)
+    for candidate in (folder, *folder.parents):
+        if (candidate / marker).exists():
+            return candidate / marker
+    return None
+
+
 def _blocked_specs(config):
     """[(['git','stash'], 'git stash', reason), ...] from config.blockedCommands."""
     specs = []
@@ -120,7 +131,7 @@ def _blocked_specs(config):
     return specs
 
 
-def evaluate(command, config):
+def evaluate(command, config, cwd):
     """Return a block reason string, or None to allow the command."""
     # Self-protection: the config is human-managed. Any command that so much as
     # names the config file is rejected — the agent must never touch its own guard.
@@ -140,6 +151,12 @@ def evaluate(command, config):
         label, reason = hit
         return f"Blocked `{label}` — {reason}"
 
+    marker = config.get("runnerMarker")
+    found = _find_marker(cwd, marker) if marker else None
+    if marker and found is None:
+        return None
+    because = f"\nThe runner rules apply here because `{found}` exists." if found else ""
+
     allowlist = set(config.get("allowlist", []))
     redirects = config.get("redirects", {})
 
@@ -150,6 +167,7 @@ def evaluate(command, config):
             return (
                 f"Don't run `{tool}` via `{label}` in this project.\n"
                 f"Use the canonical command instead:  {redirects[tool]}"
+                f"{because}"
             )
         return (
             f"Blocked `{label} {tool}` — this project routes tooling through canonical commands, "
@@ -157,6 +175,7 @@ def evaluate(command, config):
             f"• If there's a canonical target for it, use that instead.\n"
             f"• If `{tool}` is a legitimate one-off with no equivalent, do NOT edit the config "
             f"yourself — stop and ask the human to allowlist it in {CONFIG_PATH.name}."
+            f"{because}"
         )
     return None
 
@@ -174,7 +193,7 @@ def main():
     except (OSError, ValueError):
         return  # no/broken config: do nothing rather than blocking everything
 
-    reason = evaluate(command, config)
+    reason = evaluate(command, config, payload.get("cwd") or pathlib.Path.cwd())
     if reason:
         print(json.dumps({
             "hookSpecificOutput": {

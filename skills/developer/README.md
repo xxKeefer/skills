@@ -1,27 +1,33 @@
 # Developer
 
-Opinionated engineering workflows for Claude Code. Framework-agnostic, language-agnostic.
+Implementing code, broadly: from a ticket to a PR. Refine, scope, split, and plan a ticket, then
+claim a worktree, prototype, implement test-first, debug, fix, run manual QA, and open the PR.
+Framework-agnostic and language-agnostic. Code review comes from the
+[`code-review`](../code-review/README.md) domain.
 
 ## Skills
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/grill-with-docs` | Discovery | Grill-led requirements gathering, doc-anchored |
+| `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
+| `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
+| `/split-ticket` | Discovery | Split a ticket that is too big into pieces of 3 points or less, grouped into waves with a merge order. Write the split report, then create one sub-task and one stub handoff per piece after one yes |
+| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub handoff |
+| `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red → green loop |
-| `/tweak` | Implementation | Small focused edits to recently built work |
+| `/run-wave` | Implementation | Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user. Pass it a review report's prompt to add a fix round and a new review |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
-| `/fix` | Implementation | Fix a broken behaviour found during manual QA |
-| `/happy-path` | Closure | Manual QA test plan for the current changeset |
-| `/code-review` | Closure | Two-axis review of changes since a fixed point: standards and spec |
-| `/resolve-feedback` | Closure | Assess code review feedback |
+| `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
+| `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
+| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report. Its fail ticks build a `/developer:fix` prompt |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
+| `/create-pr` | Closure | Check the review for drift, lead with a visual summary, evidence, and the merge danger, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR without asking |
 | `/sync-docs` | Maintenance | Sync docs to code |
-| `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
-| `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
+| `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 
 ## Installation
 
@@ -33,29 +39,4 @@ Opinionated engineering workflows for Claude Code. Framework-agnostic, language-
 }
 ```
 
-Requires `primitives@xxkeefer-skills`.
-
-`/wayfinder`, `/to-spec`, `/to-tickets`, `/triage`, and `/code-review` were adopted from
-[Matt Pocock's skills](https://github.com/mattpocock/skills) v1.1.0 (MIT — see
-[LICENSE-mattpocock](LICENSE-mattpocock)). They read the repo's `docs/agents/issue-tracker.md`,
-written once by `/set-up-dev-workflow-skills` (`utility` domain).
-
-## Permissions
-
-Ticket-creating skills target the project's tracker — GitHub via `gh` by default, or whatever the
-repo's CLAUDE.md declares (e.g. Jira via the Atlassian MCP). For the GitHub default, add these to
-your Claude Code permissions:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(gh issue create:*)",
-      "Bash(gh issue edit:*)",
-      "Bash(gh issue view:*)",
-      "Bash(gh issue list:*)",
-      "Bash(gh issue close:*)"
-    ]
-  }
-}
-```
+Requires `primitives@xxkeefer-skills` and `code-review@xxkeefer-skills`.

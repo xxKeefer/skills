@@ -55,7 +55,7 @@ The skill is in `deprecated` — this is the irreversible stage. Git history is 
 3. **Prune docs** — remove the skill's row from the skill table in `skills/deprecated/README.md`.
    If it was the last skill in the table, restore the `_None yet._` placeholder under `## Skills`.
 4. **Bump version** — minor-bump `skills/deprecated/.claude-plugin/plugin.json`.
-5. **Commit** — one commit, no push:
+5. **Commit** — one commit, then push:
 
    ```
    chore(deprecated): delete <skill-name>

@@ -1,0 +1,11 @@
+# Fetching, exports, downloads, and permission-gated UI (rules 13 to 16)
+
+**Fetching, exports and downloads**
+
+13. **A list or export silently capped (Change Requested).** A list call with a hard-coded `limit` or `size` and no loop over `next` or `page`, shown as the full set, or an export that stops at the endpoint's row cap and says nothing. Rows past the first page vanish, and client-side filters give wrong results. Follow pagination to the end (or page in the UI), show the total, and say when a cap applies ("Showing the first 2000 of 5,312 rows"). Don't flag a server-paginated list that shows its total. Pagination turned off on the design system's data table → rule 10. (NV-R2)
+14. **API download opened with `<a href>` or `window.open` (Change Requested).** An anchor or `window.open` can't send the headers the API client adds, such as `X-Call-Context`. In a managed account the CSV or PDF then comes from the wrong account, or fails, while the page shows the right data. Fetch the file through the API client and save it from a Blob URL, or use a signed URL that already carries the context. Don't flag a static file or a public link. `noopener` on `window.open` → `persona-security`. (NV-R3)
+
+**Permission-gated UI**
+
+15. **Permission check that allows while loading (Change Requested).** A gate such as `computed(() => !profile.value || profile.value.canEdit)`, or any check that returns `true` while the permissions or profile query is pending. Admin actions flash on for a read-only user, and a click during the flash goes through. Treat pending as not allowed, and render the control only after the check resolves. Whether the gate matches the backend → `persona-api-integrity`. (NV-Q4)
+16. **Forbidden deep link shows the page or "not found" (Nit).** A route guard that sends every failure to `/404`, or an edit, order, or admin page that renders its form whatever the permission state. A viewer who opens `/services/123/edit` sees an empty form, or a "not found" that suggests the service was deleted. Show an access page that says what the user can't do and links to the view page. Don't flag a route with no permission requirement. A blank page for an unknown id → `persona-error-handling`. (NV-Q2)

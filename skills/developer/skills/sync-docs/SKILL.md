@@ -1,7 +1,7 @@
 ---
 name: sync-docs
 disable-model-invocation: true
-description: Update every doc, README, code comment, and name that the current code changes put out of sync.
+description: Update every doc, README, type, and config that the current code changes put out of sync.
 ---
 
 # Sync Docs
@@ -37,18 +37,6 @@ For each change, check whether any of these surfaces need updating:
 - Search for references to changed functions, types, endpoints, or concepts
 - Check if examples in docs still reflect reality
 
-### Code comments
-
-- **Stale comments** — comments that describe behaviour that no longer matches the code. Update or remove.
-- **Missing context** — complex logic, non-obvious decisions, or workarounds that lack explanation.
-- **Redundant comments** — comments that restate what the code obviously does. Remove.
-
-### Naming
-
-- **Functions** — does the name accurately describe what it does after the change?
-- **Variables** — do names reflect their current purpose?
-- **Files/modules** — does the file name still match its contents?
-
 ### Type signatures and interfaces
 
 - Do exported type definitions match the actual shape of the data?
@@ -70,19 +58,12 @@ Group findings by category and present:
 > **Reference docs** ({N} updates)
 > - `path/to/README.md` — {what needs changing}
 >
-> **Comments** ({N} updates)
-> - `path/to/file:L42` — stale comment, behaviour changed
-> - `path/to/file:L87` — missing context for non-obvious logic
->
-> **Naming** ({N} candidates)
-> - `oldName` → `suggestedName` in `path/to/file` — {why}
->
 > **Types** ({N} updates)
 > - `TypeName` in `path/to/file` — field added/removed but type not updated
 >
 > Apply all, or pick specific items?
 
-Wait for user approval. They may want to skip renames or certain categories.
+Wait for user approval. They may want to skip certain categories.
 
 **Done when:** the user has picked the items to apply, or none.
 
@@ -91,24 +72,16 @@ Wait for user approval. They may want to skip renames or certain categories.
 For each approved item:
 
 1. Make the change
-2. If renaming, update all references across the codebase
-3. If updating docs, preserve the existing style and voice
+2. If updating docs, preserve the existing style and voice
 
-### Rules
-
-- **Add a comment only where the code cannot show the intent**, and say why.
-- **Add a docstring only where the name and signature do not explain the function.**
-- **Prefer better names over comments** — a well-named function needs no explanation
-
-**Done when:** every approved item is applied, and no reference to an old name is left.
+**Done when:** every approved item is applied.
 
 ## Step 5: Verify
 
 After applying changes:
 
-1. Run the project's linter and typecheck to catch any breakage from renames
-2. Run tests if renames touched source code
-3. Summarise what was updated
-4. Suggest a commit message
+1. Run the project's linter and typecheck
+2. Summarise what was updated
+3. Commit the changes with a message that follows the project's git conventions
 
-**Done when:** the linter and typecheck pass, any tests you ran pass, and the user has the summary and the commit message.
+**Done when:** the linter and typecheck pass, the changes are committed, and the user has the summary and the commit hash.

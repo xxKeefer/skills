@@ -11,13 +11,13 @@ workflows.
 | Domain | Purpose | Always required? |
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Engineering workflows -- investigation to closure | No |
+| `developer` | Implementing code -- ticket to PR: plan, worktrees, test-first builds, debugging, manual QA, and the PR. Code review comes from `code-review` | No |
+| `code-review` | Persona reviewers, the review panel, and PR review -- improving code. `developer` calls it | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
-| `omen` | Creative -- TTRPG, worldbuilding, narrative | No |
 | `scribe` | Capture procedures, edit notes, curate glossaries, teach topics | No |
-| `nix-manager` | NixOS config management -- add, remove, rice, refine | No |
+| `nix-manager` | NixOS config management -- add, remove, refine, debug, explain | No |
 | `utility` | Dev-environment setup -- pre-commit hooks, machine setup | No |
 | `experimental` | Skills on probation -- promote when usage justifies, else demote | No |
 | `deprecated` | Skills awaiting a keep/kill decision before deletion | No |
@@ -35,8 +35,10 @@ Top-level layout:
 | `skills/` | The domain plugins (one directory per domain). Sources in `marketplace.json` point here (`./skills/<domain>`). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill, so they ship with the plugin. |
 | `scripts/` | Supporting tooling a skill depends on but doesn't ship inline (e.g. `obsidian/` -- the journal's Templater scripts and templates). |
 | `.claude-plugin/` | The marketplace registry (`marketplace.json`). |
+| `.githooks/` | The scrub check: a pre-commit hook, its public pattern file, and its tests (`sh .githooks/pre-commit_test.sh`). |
 
-The root owns only the registry and shared documentation (`README.md`, `CLAUDE.md`, `CONTEXT.md`).
+The root owns only the registry, the commit hook, and shared documentation (`README.md`,
+`CLAUDE.md`, `CONTEXT.md`).
 No skills live at root -- they all live under `skills/`.
 
 ## Skill Maturity
@@ -58,9 +60,12 @@ Everything-agnostic. Skills encode *how to think about problems*, not how to use
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
-The one exception is the rules that `/install-rules` ships. A rule is an opinionated convention for
-one file type, so it names languages, frameworks, and tools. A rule names no employer or client
-code.
+There are two exceptions: the rules that `/install-rules` ships, and the `code-review` personas.
+A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
+so both name languages, frameworks, and tools. Neither names employer or client code.
+
+A skill does not restate an employer's internal docs, even with the names removed. No regex
+checks this rule, so it binds whoever imports a skill. The pre-commit hook checks only the names.
 
 ## Agent skills
 

@@ -9,17 +9,18 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | `skills/` | The domain plugins -- one directory per domain (see table below). Installable assets, such as hooks, the status line, output styles, and rules, live inside their `utility` installer skill. |
 | `scripts/` | Supporting tooling skills depend on (e.g. `obsidian/` -- journal Templater scripts). |
 | `.claude-plugin/` | Marketplace registry (`marketplace.json`). |
+| `.githooks/` | The scrub check: a pre-commit hook that blocks employer content. |
 
 ## Domains
 
 | Domain | Purpose |
 |---|---|
 | [**primitives**](skills/primitives/README.md) | Foundational building blocks |
-| [**developer**](skills/developer/README.md) | Engineering lifecycle |
+| [**developer**](skills/developer/README.md) | Implementing code: ticket to PR -- plan, build test-first, debug, QA, open the PR |
+| [**code-review**](skills/code-review/README.md) | Persona reviewers, the review panel, and PR review -- improving code |
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |
 | [**projects**](skills/projects/README.md) | Long-running goal management |
 | [**meta**](skills/meta/README.md) | Skills about skills |
-| [**omen**](skills/omen/README.md) | Creative -- TTRPG, worldbuilding |
 | [**scribe**](skills/scribe/README.md) | Capture vault procedures + edit notes |
 | [**nix-manager**](skills/nix-manager/README.md) | NixOS config management |
 | [**utility**](skills/utility/README.md) | Dev-environment setup |
@@ -45,10 +46,10 @@ Add to `~/.claude/settings.json`:
   "enabledPlugins": {
     "primitives@xxkeefer-skills": true,
     "developer@xxkeefer-skills": true,
+    "code-review@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
     "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
-    "omen@xxkeefer-skills": true,
     "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
@@ -59,6 +60,17 @@ Add to `~/.claude/settings.json`:
 ```
 
 `primitives` is required by all other domains. Enable whichever domains you need.
+
+### Turn on the scrub check
+
+The pre-commit hook in `.githooks/` blocks a commit when a tracked file matches a pattern for
+employer content, such as a ticket key or a custom field ID. Run these commands once per clone:
+
+1. Run `git config core.hooksPath .githooks`.
+2. To also block names that must stay private, put one pattern per line in a file outside this
+   repo. Then run `git config scrub.patterns <path-to-that-file>`.
+
+The hook checks the whole staged tree. To check a commit, run `.githooks/pre-commit <revision>`.
 
 ### Publishing a new version
 
@@ -79,19 +91,3 @@ edit only after the `plugin.json` version changes and the user updates the plugi
 | [nixos_config](https://github.com/xxKeefer/nixos_config) | System and home-manager config. The `nix-manager` domain manages it |
 | [dotfiles](https://github.com/xxKeefer/dotfiles) | Config kept outside nix, linked into `~/.config` |
 | [skills](https://github.com/xxKeefer/skills) | This repo. Claude Code skills |
-
-## Attribution
-
-This marketplace owes a lot to [Matt Pocock's skills repo](https://github.com/mattpocock/skills)
-(MIT licensed):
-
-- The **developer** domain's `wayfinder`, `to-spec`, `to-tickets`, `triage`, and `code-review`
-  (plus the earlier-adopted `implement`, `grill-with-docs`, `domain-modeling`, `codebase-design`,
-  `improve-codebase-architecture`, and `prototype`) were adopted from his repo at tag `v1.1.0`,
-  with his LICENSE alongside as `skills/developer/LICENSE-mattpocock`. The vendored `mattpocock`
-  holding domain was retired 2026-07 once everything worth keeping had been adopted.
-- Several of my own skills carry his designs under my names: **grill** and **handoff**
-  (his `grilling`/`handoff` v1.1.0 bodies), **tdd** (his reference-only design), and **spike**
-  (inspired by his investigation workflows).
-
-Thanks Matt for sharing these publicly.

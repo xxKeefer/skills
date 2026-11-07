@@ -1,0 +1,21 @@
+#!/bin/sh
+# Scrub check. Fail when a tracked file matches an employer pattern.
+# With no argument, check the staged tree. With a revision, check the tree of that revision.
+# The git config key scrub.patterns names a private pattern file to add to the public list.
+set -u
+
+dir=$(cd "$(dirname "$0")" && pwd)
+cd "$(git rev-parse --show-toplevel)" || exit 1
+target=${1:---cached}
+
+private=$(git config --type=path --get scrub.patterns)
+if [ -n "$private" ] && [ ! -f "$private" ]; then
+  echo "scrub check: scrub.patterns names a missing file: $private" >&2
+  exit 1
+fi
+
+git grep -n -I -i -P -f "$dir/scrub-patterns.txt" ${private:+-f "$private"} "$target" -- . ':!.githooks/'
+status=$?
+[ "$status" -eq 1 ] && exit 0
+[ "$status" -eq 0 ] && echo "scrub check: remove the matches above." >&2
+exit 1

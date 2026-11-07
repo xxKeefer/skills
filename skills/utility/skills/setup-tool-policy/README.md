@@ -78,6 +78,7 @@ ignored.
 
 ```jsonc
 {
+  "runnerMarker": "nx.json",
   "runners":   ["npx", "pnpm exec", "pnpm dlx", "yarn exec", "yarn dlx"],
   "allowlist": ["nx", "syncpack", "playwright:install", "tsx"],
   "redirects": { "vitest": "nx test:unit {project} -- <file>", "...": "..." },
@@ -87,6 +88,12 @@ ignored.
 }
 ```
 
+- **`runnerMarker`** — optional. A file name, such as `nx.json`. The runner
+  rules (`runners`, `allowlist`, `redirects`) apply only when the hook input's
+  `cwd` or a parent folder holds that file. `blockedCommands` apply everywhere.
+  With no `runnerMarker`, the runner rules also apply everywhere. Use it for a
+  global install, so a repo without nx does not get the nx redirects. Each runner
+  deny message names the marker file it found.
 - **`runners`** — command prefixes to intercept.
 - **`allowlist`** — tools that pass through. `"tool"` allows any subcommand;
   `"tool:sub"` allows only that subcommand (e.g. `playwright:install` passes
@@ -97,8 +104,8 @@ ignored.
   matched as a **prefix** in command position, so `"git stash"` blocks `git
   stash`, `git stash push`, and `git stash list`. `reason` is shown to the agent.
 
-Resolution order: self-protection → blocked commands → runner allowlist →
-runner redirect → runner block-all.
+Resolution order: self-protection → blocked commands → runner marker → runner
+allowlist → runner redirect → runner block-all.
 
 ## Adding a rule
 
