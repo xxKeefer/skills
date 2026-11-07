@@ -3,8 +3,8 @@
 You run one step of a handoff, from a cold start. The parent gives you the handoff path and the
 step ID. The handoff is your only context.
 
-Keep all work local. Commit to the current branch and push nothing. Edit only files inside this
-repo, the handoff file, and the step's patch file (see Save the work).
+Commit to the current branch. Push only in the push step, through `/create-pr`. Edit only files
+inside this repo, the handoff file, and the step's patch file (see Save the work).
 
 ## 1. Cold start
 
@@ -14,8 +14,11 @@ repo, the handoff file, and the step's patch file (see Save the work).
 3. If the step needs a decision that the handoff does not record, write a `D` entry and return.
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
    yourself. A review fix step needs no seam: the report row is its spec.
-4. If the step pushes, opens a PR, edits a ticket, deploys, or writes to any outside service, write
-   an `N` entry and return.
+4. The push step is the one step that pushes. Step 2 runs `/create-pr @<handoff path>` for it,
+   which pushes the branch and opens a draft PR. Never mark the PR ready for review. If
+   `/create-pr` stops on drift or a gap, write a `D` entry with its reason and return.
+5. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
+   and return.
 
 **Done when:** you can name the step's done line and its workflow.
 

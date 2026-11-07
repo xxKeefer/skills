@@ -13,7 +13,8 @@ becomes an entry under `## Pending Decisions`, and the run continues with the st
 depend on it. The user answers every entry in one batch at the end.
 
 Run it again on each review report to loop: `run-wave` → review → the user ticks rows → `run-wave`
-on the report's prompt → review, until the user is satisfied. Then the push step.
+on the report's prompt → review, until the user is satisfied. Then the user ticks nothing and
+answers the review entry, and `run-wave` goes on to the push step and opens a draft PR.
 
 ## Step 1: Pre-flight
 
