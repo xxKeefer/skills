@@ -9,6 +9,7 @@ Dev-environment setup skills — pre-commit hooks, skill-usage tallying, and sta
 | `/setup-pre-commit` | Detect language/toolchain and configure pre-commit hooks (format, type-check, test) |
 | `/setup-skill-tally` | Tally every skill invocation into `~/.claude/skill-tally.json` via a zero-latency hook |
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
+| `/setup-no-ai-attribution` | Install a hook that denies a git commit whose message credits an AI tool, globally or per project |
 | `/setup-tool-policy` | Install the tool-policy hook (runner redirection, command blocking) globally or per project |
 | `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
 | `/install-rules` | Install the coding-convention rules to `~/.claude/rules/`, each scoped by `paths:` to the files it applies to |
