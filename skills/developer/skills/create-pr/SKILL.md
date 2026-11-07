@@ -1,8 +1,9 @@
 ---
 name: create-pr
 description: >
-  Push the branch and open a draft PR, or rewrite the open PR: check the review for drift, fill the
-  repo's PR template with an AC table and its gaps, then push without asking. Use when the user
+  Push the branch and open a draft PR, or rewrite the open PR: check the review for drift, lead the
+  body with a visual summary, evidence, and the merge danger, fill the repo's PR template with an
+  AC table and its gaps, then push without asking. Use when the user
   asks to open or update a PR, or when the push step of a handoff runs.
 argument-hint: "[handoff path]"
 ---
@@ -14,7 +15,7 @@ review report before the push step, and the draft PR after it. A run of this ski
 to push.
 
 ```
-read → review check → AC table → title and body → gate → push and write → read back
+read → review check → AC table → top sections → title and body → gate → push and write → read back
 ```
 
 ## Step 1: Read the work
@@ -80,7 +81,7 @@ With no ACs, write no table and no Gaps line, and go to Step 4.
 
 If the handoff has no Test approach section, derive one from the ACs and the diff. Read
 [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)
-and follow its Steps 1 to 3. Step 8 tells the user. The body does not say it.
+and follow its Steps 1 to 3. Step 9 tells the user. The body does not say it.
 
 | AC | Risk | Tested by | Conditions |
 | --- | --- | --- | --- |
@@ -114,7 +115,53 @@ Put the table in a collapsed block. Keep a blank line after `<summary>` and befo
 
 **Done when:** each AC letter and each `—` row has a row, and each untested condition is a gap.
 
-## Step 4: Write the title and the body
+## Step 4: Write the top sections
+
+These sections lead the body, so a reviewer sees what changes and how much care the review needs
+before reading the diff. Keep prose brief. Use the terms in the repo's `CONTEXT.md` glossary, if
+it has one.
+
+```markdown
+## Summary
+
+<one sentence>
+
+<visual>
+
+## Evidence
+
+**Before:** <failing test, output, or screenshot>
+**After:** <passing test, output, or screenshot>
+
+## Merge danger
+
+**Door:** <one-way | two-way>. <why, when not obvious>
+**Blast radius:** <one word, such as localised, module, app, or consumers>. <what can break>
+```
+
+1. **Summary.** Run `/show-me` on the diff from `git diff --merge-base origin/<base> HEAD`. Use
+   a text view or Mermaid. Take no HTML file. One view is usual; use two only when one hides the
+   point.
+2. **Evidence.** Show that the change works, before and after:
+   - A screenshot is best, when the change is visual and the environment can take one.
+   - Else name the test that failed before the change and passes after it, as pseudocode or as
+     the test name, or show the command output.
+   - With no evidence, remove the section. Do not invent output.
+3. **Merge danger.** A two-way door is cheap to roll back: revert and redeploy. A one-way door is
+   not. Each of these makes a one-way door, even in a small diff:
+   - A schema or data migration, or a delete or rewrite of stored data.
+   - A message that leaves the system, such as an email, a notification, or a webhook.
+   - A change to a published contract, such as a public API, an event shape, or a released
+     package.
+   - A change to a secret, a permission, or billing.
+
+   The blast radius is what a bad merge can break, and for whom. Think about each consumer of
+   the changed code: callers, other apps, layout and mobile, and stored data.
+
+**Done when:** the Summary has a visual, the Evidence shows proof or is removed, and the Merge
+danger names a door and a blast radius.
+
+## Step 5: Write the title and the body
 
 1. Write the title in the form that the Step 1 conventions give. Else use the form of the branch's
    commit messages.
@@ -124,20 +171,22 @@ Put the table in a collapsed block. Keep a blank line after `<summary>` and befo
      the author's own action, such as a self-review, for the user.
    - Remove a section that has nothing to say, such as screenshots when there are none.
    - Put the Step 3 block at the end of the testing or verification section, else at the end.
+   - Drop a template section that repeats a Step 4 section, such as a summary.
 3. With no template, write one to three bullets on what changes and for whom, then the Step 3
    block.
-4. If the handoff has a `Merge:` line, make the merge line the first line of the body:
+4. Put the Step 4 sections above the template content.
+5. If the handoff has a `Merge:` line, make the merge line the first line of the body:
    - `Merge: alone` gives `Merges alone.`
    - `Merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else
      its sub-task key, such as `Merge after #12 and <SUBKEY>.`
-5. For an open PR, start from its current body. Keep each part that this skill did not write, such
+6. For an open PR, start from its current body. Keep each part that this skill did not write, such
    as images or links that a person added. Rewrite each part that is out of date.
-6. Apply the PR rules:
+7. Apply the PR rules:
    - Describe the change, not how you made it. After feedback or a red build, rewrite the affected
      section so it reads as always correct.
    - Cut anything that would not change a reviewer's decision.
    - Name no personal skill, agent, or review tool. Add no AI attribution.
-7. Scan the title and the body, and fix each hit:
+8. Scan the title and the body, and fix each hit:
    - An em dash or an en dash used as a connector. The `—` row marker in the AC table stays.
    - `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
    - A prose word spelled outside the locale that the user's instructions name. Identifiers, API
@@ -148,7 +197,7 @@ Put the table in a collapsed block. Keep a blank line after `<summary>` and befo
 
 **Done when:** the scan finds nothing.
 
-## Step 5: The gate
+## Step 6: The gate
 
 Show, in this order:
 
@@ -159,15 +208,16 @@ Show, in this order:
 5. The title and the body. For an open PR, show the current title and body first, then the new
    ones.
 6. Each `reason needed` gap.
+7. The door. Mark a one-way door in bold, so the user reads it before the PR goes out.
 
 Then push. Stop and change nothing only when one of these is true:
 
 - The Step 2 result shows drift since the review.
 - A `reason needed` gap remains.
 
-**Done when:** the summary is shown, and you went on to Step 6 or stopped on drift or a gap.
+**Done when:** the summary is shown, and you went on to Step 7 or stopped on drift or a gap.
 
-## Step 6: Push and write
+## Step 7: Push and write
 
 1. Run `git push -u origin <branch>`. If the push fails, show the error and stop. Never force the
    push.
@@ -187,14 +237,14 @@ Then push. Stop and change nothing only when one of these is true:
 
 **Done when:** the branch is on the remote, and the PR has the title and the body.
 
-## Step 7: Read back
+## Step 8: Read back
 
 Run `gh pr view <number> --json url,isDraft,title,body`. Compare its words with the title and the
 body that you sent. Show the user each difference.
 
 **Done when:** the PR holds the words that you sent, or the user has seen each difference.
 
-## Step 8: Return
+## Step 9: Return
 
 Give the PR link, whether it is a draft, and the result of the bot review request. If Step 3
 derived the Test approach, say that no plan-time test approach existed.
