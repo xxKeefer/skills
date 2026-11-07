@@ -11,9 +11,8 @@ workflows.
 | Domain | Purpose | Always required? |
 |---|---|---|
 | `primitives` | Foundational skills other domains compose | Yes |
-| `developer` | Plan to working code -- worktrees, test-first builds, debugging, and manual QA. Code review comes from `review` | No |
-| `engineering` | Work at an employer -- ticket to PR. Builds, debugging, and QA come from `developer`, and code review from `review` | No |
-| `review` | Persona reviewers, the review panel, and PR review -- `developer` and `engineering` call it | No |
+| `developer` | Implementing code -- ticket to PR: plan, worktrees, test-first builds, debugging, manual QA, and the PR. Code review comes from `code-review` | No |
+| `code-review` | Persona reviewers, the review panel, and PR review -- improving code. `developer` calls it | No |
 | `journal` | Personal planner -- cascading goal/reflection system | No |
 | `projects` | Long-running, goal-oriented project management -- workspaces, Kanban, journal bridge | No |
 | `meta` | Skills about skills -- writing, auditing, lifecycle management | No |
@@ -61,7 +60,7 @@ Everything-agnostic. Skills encode *how to think about problems*, not how to use
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
-There are two exceptions: the rules that `/install-rules` ships, and the `review` personas.
+There are two exceptions: the rules that `/install-rules` ships, and the `code-review` personas.
 A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
 so both name languages, frameworks, and tools. Neither names employer or client code.
 

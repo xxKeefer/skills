@@ -42,7 +42,7 @@ Rules:
 
 Write the checklist with `/write-report`. Give it these:
 
-- `kind`: `qa`. A `/review:sad-path` run on the same branch adds its run to the same file.
+- `kind`: `qa`. A `/code-review:sad-path` run on the same branch adds its run to the same file.
 - `title`: `QA: {short description of changeset}`.
 - `skill`: `/developer:fix`.
 - The run title: `Happy path`.

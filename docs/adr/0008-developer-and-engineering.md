@@ -1,6 +1,6 @@
 # 0008 Developer and engineering
 
-**Status:** Accepted, 2026-11-06. ADR 0009 moves the personas and the review skills to `review`.
+**Status:** Superseded by ADR 0010, 2026-11-07. ADR 0009 moves the personas and the review skills to `review`.
 
 ## Context
 

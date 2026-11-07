@@ -23,7 +23,7 @@ The caller gives these:
 - `key`: optional. Without it, Step 1 finds it.
 - `title`: the report title.
 - `skill`: the skill that the prompt runs, with its plugin prefix, such as
-  `/review:post-review-comments`. Without it, the report has no ticks and no prompt.
+  `/code-review:post-review-comments`. Without it, the report has no ticks and no prompt.
 - The run: its title, `head`, `meta`, `answer`, `visuals`, `columns`, and `rows`.
 
 ## Step 1: Find the path
@@ -45,7 +45,7 @@ The data has this shape:
 {
   "title": "Review of PR #456",
   "path": "/abs/path/to/review_pr-456.html",
-  "skill": "/review:post-review-comments",
+  "skill": "/code-review:post-review-comments",
   "runs": [
     {
       "run": 2,
@@ -135,7 +135,7 @@ A box at the bottom of the page holds the prompt that the ticks build, with a co
 report saves no tick, because the prompt is the output. The prompt has this form:
 
 ```text
-/review:post-review-comments @/abs/path/to/review_pr-456.html r2.1 r2.3:fix+reply
+/code-review:post-review-comments @/abs/path/to/review_pr-456.html r2.1 r2.3:fix+reply
 Notes:
 - r2.3: Keep the old name.
 ```

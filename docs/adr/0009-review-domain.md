@@ -1,6 +1,6 @@
 # 0009 The review domain
 
-**Status:** Accepted, 2026-11-06
+**Status:** Accepted, 2026-11-06. Renamed `code-review` on 2026-11-07, so the `review:` prefix below is now `code-review:`. ADR 0010 merges `engineering` into `developer` and supersedes "How engineering loads".
 
 ## Context
 
@@ -25,7 +25,7 @@ Make a `review` domain. It holds the 37 personas, `PERSONA-CONTRACT.md`, and the
 
 Each file that a review skill reads by path is in the `review` plugin. `developer` and
 `engineering` call the review skills by name, with the plugin prefix, such as
-`/review:mob-review`. A call by name can cross plugins. A path cannot.
+`/code-review:mob-review`. A call by name can cross plugins. A path cannot.
 
 `review` requires `primitives` and `developer`, because `review-pr` and `pickup` call `/claim`.
 `engineering` requires `primitives`, `developer`, and `review`.

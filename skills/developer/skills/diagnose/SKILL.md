@@ -168,9 +168,8 @@ Present a summary:
 Offer:
 
 1. **`/fix`** — the fix is now small and obvious
-2. **`/start-ticket <ticket key>`** if this session has it, else **`/tdd @{hunt doc path}`** —
-   the fix needs more than one step. The first needs a ticket. With no ticket, create one first
-   (option 3).
+2. **`/start-ticket <ticket key>`** — the fix needs more than one step. With no ticket, create
+   one first (option 3), or run **`/tdd @{hunt doc path}`**.
 3. **Ticket** — on request, create a tracker ticket (or subtask of the originating ticket) with a
    durable summary: modules, behaviours, and contracts — no file paths or line numbers. The
    shared tracker is not a dumping ground; only what survives codebase change goes in.
