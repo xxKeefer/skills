@@ -35,7 +35,7 @@ commit.
 | Skill | Called by | Must keep |
 |---|---|---|
 | `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `code-review:review-pr`, `code-review:pickup` | Its return (path, branch, handoff), the `Worktree:` line that `/do-next` reads, and the search for a handoff whose file name holds the key |
-| `auto-handoff` | `code-review:mob-review` | The `D` and `N` entry format in `STEP.md` |
+| `run-wave` | `code-review:mob-review` | The `D` and `N` entry format in `STEP.md` |
 | `codebase-design` | `code-review:improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `code-review:improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `code-review:sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |

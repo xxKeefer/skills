@@ -1,11 +1,11 @@
 ---
-name: auto-handoff
+name: run-wave
 description: Run every remaining step of a handoff, one fresh subagent per step, then batch the open decisions for the user.
 argument-hint: "@path/to/handoff-or-plan.md"
 disable-model-invocation: true
 ---
 
-# Auto Handoff
+# Run Wave
 
 Run a handoff to the end with no user input between steps. Each step runs in a fresh subagent that
 cold-starts from the handoff, as one `/clear` + `/do-next` run would. A step that needs the user

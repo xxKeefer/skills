@@ -18,7 +18,7 @@ push step runs after that without another yes.
 
 - `/create-pr` pushes without asking. It stops only on drift since the review or on a
   `reason needed` gap.
-- `/auto-handoff` makes a branch named from the handoff when it starts on the default branch.
+- `/run-wave` makes a branch named from the handoff when it starts on the default branch.
 - `/resolve-conflicts` runs `--continue` once each conflict is resolved and the tests pass.
 - `/sync-docs`, `/self-improve`, `/update-personas`, and `/migrate-a-skill` commit.
 - `/squash-bugs`, `/migrate-a-skill`, and `/retire-a-skill` push.
@@ -26,7 +26,7 @@ push step runs after that without another yes.
 These gates stay, because they guard against lost work, not against a commit or a push:
 
 - the yes before `/retire-a-skill` deletes a skill
-- the stop on a dirty tree in `/auto-handoff`
+- the stop on a dirty tree in `/run-wave`
 - the question about local commits in `/pickup` and `/review-pr`
 - the check in `/apply-review`, which runs only when the user asks for it
 
