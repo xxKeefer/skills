@@ -15,9 +15,11 @@ one committed source.
 It renders two lines:
 
 - Line 1: git branch, then fish-style abbreviated cwd.
-- Line 2: context battery, context tokens (%), then ◀ session (5h) usage (reset) and ▶ weekly
-  (7d) usage (reset). The session/weekly widgets come from stdin `rate_limits` and are dropped
-  cleanly when absent (API-key auth, or before the first API response).
+- Line 2: context battery, context tokens (%), then ◀ session (5h) usage (reset), ▶ weekly
+  (7d) usage (reset), and ● model//effort. The session/weekly widgets come from stdin
+  `rate_limits` and are dropped cleanly when absent (API-key auth, or before the first API
+  response). The weekly % is coloured by pace: green when behind the share of the week elapsed,
+  yellow within 2 points of it, red when more than 2 points ahead.
 
 Thresholds, the delimiter, and the usage symbols are read from `statusline.config.json` (sits next
 to the script); any omitted key falls back to an in-script default.

@@ -3,7 +3,7 @@
 # stdin and local git only -- no network, no npx, no third-party packages.
 #
 # Line 1: git branch · fish-style abbreviated cwd.
-# Line 2: |battery| context-tokens (%) · ◀ session % (reset) · ▶ weekly % (reset)
+# Line 2: |battery| context-tokens (%) · ◀ session % (reset) · ▶ weekly % (reset) · ● model//effort
 #
 # Session/weekly widgets read stdin .rate_limits (Claude Code >= v2.1.80, Pro/Max only).
 # When .rate_limits is absent (API-key auth, or before the first API response) the
@@ -78,6 +78,17 @@ pct_colour() {
   elif [ "$1" -lt "$PCT_YELLOW" ]; then printf '%s' "$YELLOW"
   elif [ "$1" -lt "$PCT_AMBER" ];  then printf '%s' "$AMBER"
   else                                  printf '%s' "$RED"
+  fi
+}
+
+# Weekly pace: compare % used to % of the 7-day window elapsed. Within 2 points = on pace.
+pace_colour() {
+  local used="$1" resets_at="$2" diff
+  # (used% - elapsed%) scaled by 604800 to avoid integer rounding
+  diff=$(( used * 604800 - (604800 - (resets_at - $(date +%s))) * 100 ))
+  if   [ "$diff" -lt -1209600 ]; then printf '%s' "$GREEN"
+  elif [ "$diff" -le 1209600 ];  then printf '%s' "$YELLOW"
+  else                                printf '%s' "$RED"
   fi
 }
 
@@ -156,11 +167,15 @@ fmt_reset() {
 
 # --- usage widget: colour the percentage by severity, append reset timer ---
 usage_widget() {
-  local label="$1" used="$2" resets_at="$3"
+  local label="$1" used="$2" resets_at="$3" mode="${4:-}"
   local used_int colour reset
   used_int=${used%.*}
   [ -z "$used_int" ] && used_int=0
-  colour=$(pct_colour "$used_int")
+  if [ "$mode" = pace ] && [ -n "$resets_at" ] && [ "$resets_at" != "null" ]; then
+    colour=$(pace_colour "$used_int" "$resets_at")
+  else
+    colour=$(pct_colour "$used_int")
+  fi
   reset=""
   if [ -n "$resets_at" ] && [ "$resets_at" != "null" ]; then
     reset=" ${DIM}($(fmt_reset "$resets_at"))${RESET}"
@@ -172,6 +187,8 @@ session_used=$(jq -r '.rate_limits.five_hour.used_percentage // empty' <<<"$inpu
 session_reset=$(jq -r '.rate_limits.five_hour.resets_at // empty' <<<"$input")
 weekly_used=$(jq -r '.rate_limits.seven_day.used_percentage // empty' <<<"$input")
 weekly_reset=$(jq -r '.rate_limits.seven_day.resets_at // empty' <<<"$input")
+model_name=$(jq -r '.model.display_name // "" | ascii_downcase | gsub(" "; "-")' <<<"$input")
+effort=$(jq -r '.effort.level // empty' <<<"$input")
 
 # --- assemble ---
 sep=" ${DIM}${DELIM}${RESET} "
@@ -182,6 +199,10 @@ line1+="${DIM}$(fish_cwd "$cwd")${RESET}"
 tok_col=$(token_colour "$tokens")
 line2="$(battery "$tokens") ${BOLD}${tok_col}${tokens_fmt}${RESET} ${DIM}(${pct}%)${RESET}"
 [ -n "$session_used" ] && line2+="${sep}$(usage_widget "$SESSION_EMOJI" "$session_used" "$session_reset")"
-[ -n "$weekly_used" ]  && line2+="${sep}$(usage_widget "$WEEKLY_EMOJI" "$weekly_used" "$weekly_reset")"
+[ -n "$weekly_used" ]  && line2+="${sep}$(usage_widget "$WEEKLY_EMOJI" "$weekly_used" "$weekly_reset" pace)"
+if [ -n "$model_name" ]; then
+  line2+="${sep}● ${model_name}"
+  [ -n "$effort" ] && line2+="${DIM}//${RESET}${effort}"
+fi
 
 printf '%s\n%s' "$line1" "$line2"

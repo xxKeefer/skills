@@ -40,7 +40,7 @@ Restart the session (or wait for a status-line refresh) for it to take effect.
 ## What it shows
 
 - **Line 1:** git branch · fish-style abbreviated cwd
-- **Line 2:** context battery · context tokens (%) · ◀ 5h usage % (reset) · ▶ 7d usage % (reset)
+- **Line 2:** context battery · context tokens (%) · ◀ 5h usage % (reset) · ▶ 7d usage % (reset) · ● model//effort
 
 | Element | Source |
 |---|---|
@@ -49,10 +49,12 @@ Restart the session (or wait for a status-line refresh) for it to take effect.
 | Context battery | `████ <80k → ███▒ <100k → ██▒▒ <110k → █▒▒▒` on context tokens, cells coloured to match |
 | Context tokens + % | last `.message.usage` summed from the `transcript_path` JSONL; `ctx_max` 1M vs 200k from `model.id` |
 | ◀ / ▶ usage + reset | stdin `rate_limits.{five_hour,seven_day}.{used_percentage,resets_at}` |
+| ● model//effort | stdin `model.display_name` (lowercased, spaces to hyphens) and `effort.level` |
 
 Two colour ladders signal severity: context tokens go green → yellow → amber → red across the
-`80k / 100k / 110k` zone thresholds, usage percentages go green `<60` → yellow `<75` → amber `<90`
-→ red. The ◀/▶ widgets read stdin `rate_limits` (Claude Code ≥ v2.1.80, Pro/Max only) and are
+`80k / 100k / 110k` zone thresholds, session usage goes green `<60` → yellow `<75` → amber `<90`
+→ red. Weekly usage is coloured by pace against the share of the 7-day window elapsed: green when
+more than 2 points behind, yellow within 2 points, red when more than 2 points ahead. The ◀/▶ widgets read stdin `rate_limits` (Claude Code ≥ v2.1.80, Pro/Max only) and are
 dropped cleanly when absent. Usage is shown as a percentage — stdin exposes `used_percentage`, not
 raw tokens.
 
@@ -80,7 +82,7 @@ in the script.
 |---|---|
 | `delimiter` | separator drawn between segments |
 | `smart_zone.token_count.{smart,good,poor}` | context-token thresholds for the battery and colour ladder |
-| `usage.pct_{green,yellow,amber}_max` | upper bound of each usage-percentage colour band |
+| `usage.pct_{green,yellow,amber}_max` | upper bound of each session-usage colour band |
 | `usage.symbol.{session,weekly}` | the 5h / 7d widget symbols |
 
 The rest is tuned in `statusline.sh`: `ctx_max` (1,000,000 for `*1m*` model ids, else 200,000) and
