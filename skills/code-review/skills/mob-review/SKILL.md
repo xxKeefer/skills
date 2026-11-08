@@ -285,11 +285,13 @@ each new report, and passes it back to `run-wave` until satisfied:
 
 1. Tick the review step. Write the report path, and the base and head SHAs from Step 1, into its
    done line. `/create-pr` reads the two SHAs.
-2. Under `/run-wave` (you follow its `STEP.md`), the user cannot tick the report during the
+2. If the report has no rows, write no `D` entry, and stop. Nothing blocks the push step, so
+   `/run-wave` goes on to it.
+3. Under `/run-wave` (you follow its `STEP.md`), the user cannot tick the report during the
    run. Write a `D` entry in the `STEP.md` form. It names the report path. Its options are to
    tick the rows and run the prompt, or to fix nothing. Its `Blocks` line lists the push step, the
    step that pushes or opens a PR.
-3. Stop. The user runs the prompt before the push step, or ticks nothing and answers the `D`
+4. Stop. The user runs the prompt before the push step, or ticks nothing and answers the `D`
    entry to go on to the push step.
 
 ## Step 7: Record calibration signals (never edit)

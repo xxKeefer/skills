@@ -14,7 +14,8 @@ depend on it. The user answers every entry in one batch at the end.
 
 Run it again on each review report to loop: `run-wave` → review → the user ticks rows → `run-wave`
 on the report's prompt → review, until the user is satisfied. Then the user ticks nothing and
-answers the review entry, and `run-wave` goes on to the push step and opens a draft PR.
+answers the review entry, and `run-wave` goes on to the push step and opens a draft PR. A review
+report with no rows writes no entry, so the run goes on to the push step with no stop.
 
 ## Step 1: Pre-flight
 
