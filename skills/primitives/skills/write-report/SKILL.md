@@ -124,9 +124,20 @@ Follow these rules:
    writes the whole file again from the current template.
 4. Read the JSON block back and parse it. If the parse fails, fix the JSON and write the file
    again.
-5. Return the path.
+5. Write `reports.js` in the same folder. It lists the name of each `.html` file in the folder,
+   this report included, newest first, in this form:
 
-**Done when:** the file holds every earlier run and the new run, and its JSON block parses.
+   ```js
+   window.REPORTS = ["review_pr-456.html", "qa_pr-456.html"];
+   ```
+
+   Write it again each time, because other skills add files to the folder. The page shows the
+   other names as links in a fold at the top. A browser cannot list a local folder, so the page
+   reads this file instead. A file that you delete stays in the list until the next write.
+6. Return the path.
+
+**Done when:** the file holds every earlier run and the new run, its JSON block parses, and
+`reports.js` lists every `.html` file in the folder.
 
 ## The prompt
 

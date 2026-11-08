@@ -14,8 +14,12 @@
     </style>
   </head>
   <body class="bg-stone-50 text-slate-900 font-sans">
-    <main class="max-w-6xl mx-auto px-6 pt-12 space-y-10">
+    <main class="px-4 pt-6 space-y-10">
       <header id="report-head" class="space-y-1"></header>
+      <details id="other-reports" hidden class="text-sm">
+        <summary class="cursor-pointer font-semibold text-slate-600"></summary>
+        <ul class="mt-2 space-y-1 font-mono text-xs"></ul>
+      </details>
       <div id="report-runs" class="space-y-16"></div>
       <section id="prompt-box" hidden class="sticky bottom-0 bg-stone-50 border-t border-slate-300 pt-3 pb-4">
         <textarea id="prompt" readonly class="w-full h-36 font-mono text-sm p-3 border border-slate-900 rounded-lg bg-white"></textarea>
@@ -30,6 +34,8 @@
 {"title": "Report", "path": "", "skill": "", "runs": []}
     </script>
 
+    <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
+    <script src="reports.js"></script>
     <script>
       // The page builds itself from the runs block. Change the data, not this script.
       const data = JSON.parse(document.getElementById("runs").textContent);
@@ -132,6 +138,19 @@
       document.title = data.title;
       const head = document.getElementById("report-head");
       head.append(make("h1", "text-3xl font-serif font-semibold", data.title), make("p", "text-xs font-mono text-slate-500", data.path));
+
+      const here = decodeURIComponent(location.pathname.split("/").pop());
+      const others = (window.REPORTS || []).filter((name) => name !== here);
+      if (others.length) {
+        const fold = document.getElementById("other-reports");
+        fold.hidden = false;
+        fold.querySelector("summary").textContent = `Other reports in this folder (${others.length})`;
+        const list = fold.querySelector("ul");
+        for (const name of others) {
+          const link = list.appendChild(make("li")).appendChild(make("a", "text-indigo-700 underline", name));
+          link.href = encodeURIComponent(name);
+        }
+      }
 
       const view = document.getElementById("report-runs");
       for (const run of data.runs) {
