@@ -24,7 +24,9 @@ Before reading the file, understand the operation in progress — it sets the me
 - Identify both sides in human terms — branch names and the commit subjects each side carries —
   not just "ours/theirs". State which real branch/change each side maps to.
 - Confirm `<filepath>` actually contains conflict markers. If git reports it conflicted but there
-  are none, it's a delete/rename conflict — handle that as a complex case (Step 4).
+  are none, run `git rerere diff`. If it shows the file, `rerere` used an earlier resolution. Show
+  that diff, and check it fits this change before you stage the file. Else it is a delete/rename
+  conflict — handle that as a complex case (Step 4).
 
 **Done when:** you can name what each side represents and how they relate to this file.
 
