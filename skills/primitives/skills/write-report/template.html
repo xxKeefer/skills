@@ -11,9 +11,10 @@
       tailwind.config = {
         theme: {
           extend: {
-            colors: { ink: "#0d0d0d", slab: "#181818", paper: "#f1ede4", mag: "#ff2d95" },
+            // The colours of the CMYK dark theme for Zed.
+            colors: { ink: "#0a0a0f", slab: "#17111f", paper: "#e8e0f0", muted: "#b0a8c0", line: "#352240", hover: "#251830", mag: "#ff2e97" },
             fontFamily: { sans: ["Archivo", "sans-serif"], mono: ['"JetBrains Mono"', "monospace"] },
-            boxShadow: { hard: "6px 6px 0 #ff2d95", "hard-paper": "5px 5px 0 #f1ede4" },
+            boxShadow: { hard: "6px 6px 0 #ff2e97", "hard-paper": "5px 5px 0 #e8e0f0" },
           },
         },
       };
@@ -26,8 +27,8 @@
     <style>
       .cell { white-space: pre-wrap; }
       .display { font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; }
-      input[type="checkbox"] { accent-color: #ff2d95; width: 1rem; height: 1rem; }
-      ::selection { background: #ff2d95; color: #0d0d0d; }
+      input[type="checkbox"] { accent-color: #ff2e97; width: 1rem; height: 1rem; }
+      ::selection { background: #ff2e97; color: #0a0a0f; }
     </style>
   </head>
   <body class="bg-ink text-paper font-sans">
@@ -73,7 +74,7 @@
         }
         const body = t.appendChild(make("tbody"));
         for (const cells of bodyRows) {
-          const tr = body.appendChild(make("tr", "border-t border-paper/20 hover:bg-paper/5"));
+          const tr = body.appendChild(make("tr", "border-t border-line hover:bg-hover"));
           tr.append(...cells);
         }
         return t;
@@ -137,7 +138,7 @@
         }
         let note = null;
         if (ticks.length) {
-          note = make("input", "w-full min-w-[10rem] border border-paper/40 bg-ink px-2 py-1 text-xs text-paper placeholder:text-paper/40 focus:outline-none focus:border-mag");
+          note = make("input", "w-full min-w-[10rem] border border-muted bg-ink px-2 py-1 text-xs text-paper placeholder:text-muted focus:outline-none focus:border-mag");
           note.type = "text";
           note.placeholder = "Note";
           note.dataset.note = row.id;
@@ -177,9 +178,9 @@
         const section = view.appendChild(make("section", "space-y-6"));
         const title = make("h2", "display text-3xl leading-none");
         title.append(make("span", "text-mag", `Run ${run.run}: `), run.title);
-        section.append(title, make("p", "font-mono text-xs uppercase tracking-widest text-paper/60", `${run.head || "no commit"} · ${run.date}`));
+        section.append(title, make("p", "font-mono text-xs uppercase tracking-widest text-muted", `${run.head || "no commit"} · ${run.date}`));
         const meta = Object.entries(run.meta || {}).map(([label, value]) => `${label}: ${value}`).join(" · ");
-        if (meta) section.append(make("p", "font-mono text-xs text-paper/60", meta));
+        if (meta) section.append(make("p", "font-mono text-xs text-muted", meta));
         section.append(make("p", "border-2 border-paper bg-slab px-5 py-4 text-lg leading-relaxed shadow-hard", run.answer));
         for (const v of run.visuals || []) section.append(visual(v));
         if ((run.rows || []).length) section.append(rowsTable(run));
