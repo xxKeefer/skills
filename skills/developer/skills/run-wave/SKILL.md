@@ -26,9 +26,13 @@ report with no rows writes no entry, so the run goes on to the push step with no
    2. Before the push step, add one step for each ticked row:
       `**<n>. Review fix <row ID>.** <issue> at <where>. Report: <report path>.` Its done line is
       the row's recommendation, with the row's note when it has one.
-   3. After the fix steps, add a new review step. Copy the text of the last review step.
-   4. Delete the `D` entry that names this report. The ticks are its answer.
-   5. Write the changes with `/update-handoff`.
+   3. After the fix steps, add a new review step. Copy the text of the last review step. Add the
+      row IDs of the run that the user did not tick. Tell the panel not to raise those rows again,
+      and not to raise any row that only repeats them.
+   4. Write the unticked row IDs of the run into the handoff, at the new review step, as a
+      recorded decision. Add the reason for each row when the report gives one.
+   5. Delete the `D` entry that names this report. The ticks are its answer.
+   6. Write the changes with `/update-handoff`.
 2. Read the handoff: the @-tagged one, or the one from item 1. List the remaining steps in handoff
    order.
 3. If the handoff names the branch for its work, compare it with `git branch --show-current`. On
@@ -40,7 +44,7 @@ report with no rows writes no entry, so the run goes on to the push step with no
    it. Ask nothing.
 
 **Done when:** for a report, the handoff holds a fix step for each ticked row and a new review
-step. The step list exists, the current branch is the handoff's branch or the handoff names no
+step that names the unticked rows. The step list exists, the current branch is the handoff's branch or the handoff names no
 branch, the tree has no modified or staged files, and the branch is not the default branch.
 
 ## Step 2: Run each step
