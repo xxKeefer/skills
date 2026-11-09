@@ -103,16 +103,19 @@
         return td(make("div", col.mono ? "cell font-mono text-xs" : "cell", text));
       };
 
+      // A tick named in data.track only marks the row. It adds nothing to the prompt.
+      const track = new Set(data.track || []);
       const tickCells = (row) => {
         const ticks = row.ticks || [];
-        tickCount.set(row.id, ticks.length);
+        tickCount.set(row.id, ticks.filter((kind) => !track.has(kind)).length);
         const boxes = make("div", "space-y-1");
         for (const kind of ticks) {
           const label = boxes.appendChild(make("label", "flex items-center gap-1"));
           const box = make("input");
           box.type = "checkbox";
           box.dataset.id = row.id;
-          box.dataset.tick = kind;
+          if (track.has(kind)) box.dataset.track = kind;
+          else box.dataset.tick = kind;
           label.append(box, kind);
         }
         let note = null;

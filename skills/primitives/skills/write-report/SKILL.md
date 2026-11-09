@@ -24,6 +24,7 @@ The caller gives these:
 - `title`: the report title.
 - `skill`: the skill that the prompt runs, with its plugin prefix, such as
   `/code-review:post-review-comments`. Without it, the report has no ticks and no prompt.
+- `track`: optional. The ticks that only mark a row, such as `["pass"]`.
 - The run: its title, `head`, `meta`, `answer`, `visuals`, `columns`, and `rows`.
 
 ## Step 1: Find the path
@@ -112,6 +113,8 @@ Follow these rules:
   each column key to plain text.
 - **Ticks.** `ticks` lists the actions that the user can tick for the row, such as `["reply"]`
   or `["fix", "reply", "resolve"]`. A row with no ticks gets no checkbox and no note field.
+- **Track.** The top-level `track` lists the ticks that only mark a row for the user, such as
+  `["pass"]`. A tick in `track` shows a checkbox, but it adds nothing to the prompt.
 
 **Done when:** the data holds the new run first and every earlier run unchanged.
 
@@ -154,7 +157,7 @@ Notes:
 - r2.3: Keep the old name.
 ```
 
-- An ID stands alone when its row has one tick. Else a colon follows the ID, then the ticked
+- An ID stands alone when its row has one tick that is not in `track`. Else a colon follows the ID, then the ticked
   actions joined with `+`.
 - The Notes list holds each ticked row that has a note.
 
