@@ -21,7 +21,7 @@ Framework-agnostic and language-agnostic. Code review comes from the
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
-| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report. Its fail ticks build a `/developer:fix` prompt |
+| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report, with a setup table first. Its fail ticks build a `/developer:fix` prompt |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/create-pr` | Closure | Check the review for drift, lead with a visual summary, evidence, and the merge danger, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR without asking |
 | `/sync-docs` | Maintenance | Sync docs to code |
