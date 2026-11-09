@@ -43,6 +43,9 @@ If you find an unrecorded decision partway through, save the work, write a `D` e
 Run the gates that the handoff or the repo guidance names. Use the test scope that the repo
 guidance sets.
 
+Run the gates in every step. Run them also in a step that changes no file, such as a review step.
+In the push step, run them before you push.
+
 If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
 red, save the work, write a `B` entry, and return.
 
