@@ -103,7 +103,8 @@ Follow these rules:
   - `mermaid` for graphs and flows.
   - `bars` for counts, as `[label, count]` pairs.
   - `table` for a small table of plain text.
-  - `html` for inline SVG or hand-made CSS, when no other type fits. Tailwind classes work.
+  - `html` for inline SVG or hand-made CSS, when no other type fits. Tailwind classes work. The
+    page is dark: use `text-paper` for text, `bg-slab` for a panel, and `mag` for the accent.
 - **Fold.** Set `fold` on a visual that the user checks only sometimes, such as a long table.
   The page then shows only its question, and a click opens it. Do not fold a `mermaid` visual,
   because Mermaid can draw a closed graph at the wrong size.

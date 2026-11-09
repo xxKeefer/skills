@@ -3,29 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <title>Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { ink: "#0d0d0d", slab: "#181818", paper: "#f1ede4", mag: "#ff2d95" },
+            fontFamily: { sans: ["Archivo", "sans-serif"], mono: ['"JetBrains Mono"', "monospace"] },
+            boxShadow: { hard: "6px 6px 0 #ff2d95", "hard-paper": "5px 5px 0 #f1ede4" },
+          },
+        },
+      };
+    </script>
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-      mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+      mermaid.initialize({ startOnLoad: false, theme: "dark", securityLevel: "loose" });
       await mermaid.run({ querySelector: ".mermaid" });
     </script>
     <style>
       .cell { white-space: pre-wrap; }
+      .display { font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; }
+      input[type="checkbox"] { accent-color: #ff2d95; width: 1rem; height: 1rem; }
+      ::selection { background: #ff2d95; color: #0d0d0d; }
     </style>
   </head>
-  <body class="bg-stone-50 text-slate-900 font-sans">
-    <main class="px-4 pt-6 space-y-10">
-      <header id="report-head" class="space-y-1"></header>
+  <body class="bg-ink text-paper font-sans">
+    <main class="px-6 pt-8 space-y-12">
+      <header id="report-head" class="space-y-4 border-b-4 border-paper pb-6"></header>
       <details id="other-reports" hidden class="text-sm">
-        <summary class="cursor-pointer font-semibold text-slate-600"></summary>
-        <ul class="mt-2 space-y-1 font-mono text-xs"></ul>
+        <summary class="cursor-pointer font-mono text-xs uppercase tracking-widest text-mag"></summary>
+        <ul class="mt-3 space-y-1 font-mono text-xs"></ul>
       </details>
-      <div id="report-runs" class="space-y-16"></div>
-      <section id="prompt-box" hidden class="sticky bottom-0 bg-stone-50 border-t border-slate-300 pt-3 pb-4">
-        <textarea id="prompt" readonly class="w-full h-36 font-mono text-sm p-3 border border-slate-900 rounded-lg bg-white"></textarea>
-        <div class="flex items-center gap-3 mt-2">
-          <button id="copy" type="button" class="text-sm px-3 py-1.5 rounded-md bg-slate-900 text-white">Copy prompt</button>
-          <span id="copied" class="text-sm text-emerald-700"></span>
+      <div id="report-runs" class="space-y-20"></div>
+      <section id="prompt-box" hidden class="sticky bottom-0 bg-ink border-t-4 border-mag pt-4 pb-5">
+        <textarea id="prompt" readonly class="w-full h-36 font-mono text-sm p-3 border-2 border-paper bg-slab text-paper focus:outline-none focus:border-mag"></textarea>
+        <div class="flex items-center gap-4 mt-3">
+          <button id="copy" type="button" class="display text-sm px-5 py-2 bg-mag text-ink shadow-hard-paper active:translate-x-1 active:translate-y-1 active:shadow-none">Copy prompt</button>
+          <span id="copied" class="font-mono text-xs uppercase tracking-widest text-mag"></span>
         </div>
       </section>
     </main>
@@ -49,14 +66,14 @@
       };
 
       const table = (labels, bodyRows) => {
-        const t = make("table", "w-full text-sm bg-white border border-slate-200");
-        const headRow = t.appendChild(make("thead")).appendChild(make("tr", "bg-slate-100 text-left"));
+        const t = make("table", "w-full text-sm bg-slab border-2 border-paper");
+        const headRow = t.appendChild(make("thead")).appendChild(make("tr", "bg-paper text-ink text-left"));
         for (const label of labels) {
-          headRow.append(make("th", "px-3 py-2 text-xs uppercase tracking-wider text-slate-500", label));
+          headRow.append(make("th", "display px-3 py-2 text-xs", label));
         }
         const body = t.appendChild(make("tbody"));
         for (const cells of bodyRows) {
-          const tr = body.appendChild(make("tr", "border-t border-slate-200"));
+          const tr = body.appendChild(make("tr", "border-t border-paper/20 hover:bg-paper/5"));
           tr.append(...cells);
         }
         return t;
@@ -70,17 +87,17 @@
 
       const visual = (v) => {
         const fig = make(v.fold ? "details" : "figure", "space-y-2");
-        fig.append(make(v.fold ? "summary" : "figcaption", `text-sm font-semibold text-slate-600${v.fold ? " cursor-pointer" : ""}`, v.question));
+        fig.append(make(v.fold ? "summary" : "figcaption", `font-mono text-xs uppercase tracking-widest text-mag${v.fold ? " cursor-pointer" : ""}`, v.question));
         if (v.mermaid) {
-          fig.append(make("pre", "mermaid rounded-lg border border-slate-200 bg-white p-4", v.mermaid));
+          fig.append(make("pre", "mermaid border-2 border-paper bg-slab p-4", v.mermaid));
         }
         if (v.bars) {
           const max = Math.max(1, ...v.bars.map(([, count]) => count));
-          const list = fig.appendChild(make("div", "space-y-1 rounded-lg border border-slate-200 bg-white p-4"));
+          const list = fig.appendChild(make("div", "space-y-1 border-2 border-paper bg-slab p-4"));
           for (const [label, count] of v.bars) {
             const line = list.appendChild(make("div", "grid grid-cols-[14rem_1fr] items-center gap-3 text-sm"));
             line.append(make("span", "truncate", label));
-            const bar = line.appendChild(make("span", "block h-5 rounded bg-indigo-600 px-2 text-xs leading-5 text-white", String(count)));
+            const bar = line.appendChild(make("span", "block h-5 bg-mag px-2 font-mono text-xs font-bold leading-5 text-ink", String(count)));
             bar.style.width = `max(2rem, ${(count / max) * 100}%)`;
           }
         }
@@ -97,7 +114,7 @@
       const rowCell = (col, text) => {
         if (col.fold && text) {
           const fold = make("details");
-          fold.append(make("summary", "cursor-pointer text-slate-500", "Open"), make("div", "cell mt-1", text));
+          fold.append(make("summary", "cursor-pointer font-mono text-xs uppercase tracking-widest text-mag", "Open"), make("div", "cell mt-1", text));
           return td(fold);
         }
         return td(make("div", col.mono ? "cell font-mono text-xs" : "cell", text));
@@ -110,7 +127,7 @@
         tickCount.set(row.id, ticks.filter((kind) => !track.has(kind)).length);
         const boxes = make("div", "space-y-1");
         for (const kind of ticks) {
-          const label = boxes.appendChild(make("label", "flex items-center gap-1"));
+          const label = boxes.appendChild(make("label", "flex items-center gap-2 font-mono text-xs uppercase tracking-wider"));
           const box = make("input");
           box.type = "checkbox";
           box.dataset.id = row.id;
@@ -120,7 +137,7 @@
         }
         let note = null;
         if (ticks.length) {
-          note = make("input", "w-full min-w-[10rem] rounded border border-slate-300 px-2 py-1 text-xs");
+          note = make("input", "w-full min-w-[10rem] border border-paper/40 bg-ink px-2 py-1 text-xs text-paper placeholder:text-paper/40 focus:outline-none focus:border-mag");
           note.type = "text";
           note.placeholder = "Note";
           note.dataset.note = row.id;
@@ -132,7 +149,7 @@
         const withTicks = Boolean(data.skill) && run.rows.some((row) => (row.ticks || []).length);
         const labels = ["ID", ...run.columns.map((col) => col.label), ...(withTicks ? ["Tick", "Note"] : [])];
         return table(labels, run.rows.map((row) => [
-          td(make("span", "font-mono", row.id)),
+          td(make("span", "font-mono text-xs text-mag", row.id)),
           ...run.columns.map((col) => rowCell(col, row.cells[col.key] ?? "")),
           ...(withTicks ? tickCells(row) : []),
         ]));
@@ -140,7 +157,7 @@
 
       document.title = data.title;
       const head = document.getElementById("report-head");
-      head.append(make("h1", "text-3xl font-serif font-semibold", data.title), make("p", "text-xs font-mono text-slate-500", data.path));
+      head.append(make("h1", "display text-5xl leading-none", data.title), make("p", "inline-block border-2 border-mag px-3 py-1 font-mono text-xs tracking-wider text-mag", data.path));
 
       const here = decodeURIComponent(location.pathname.split("/").pop());
       const others = (window.REPORTS || []).filter((name) => name !== here);
@@ -150,7 +167,7 @@
         fold.querySelector("summary").textContent = `Other reports in this folder (${others.length})`;
         const list = fold.querySelector("ul");
         for (const name of others) {
-          const link = list.appendChild(make("li")).appendChild(make("a", "text-indigo-700 underline", name));
+          const link = list.appendChild(make("li")).appendChild(make("a", "text-paper underline decoration-mag decoration-2 underline-offset-4 hover:text-mag", name));
           link.href = encodeURIComponent(name);
         }
       }
@@ -158,10 +175,12 @@
       const view = document.getElementById("report-runs");
       for (const run of data.runs) {
         const section = view.appendChild(make("section", "space-y-6"));
-        section.append(make("h2", "text-xl font-semibold", `Run ${run.run}: ${run.title} · ${run.head || "no commit"} · ${run.date}`));
+        const title = make("h2", "display text-3xl leading-none");
+        title.append(make("span", "text-mag", `Run ${run.run}: `), run.title);
+        section.append(title, make("p", "font-mono text-xs uppercase tracking-widest text-paper/60", `${run.head || "no commit"} · ${run.date}`));
         const meta = Object.entries(run.meta || {}).map(([label, value]) => `${label}: ${value}`).join(" · ");
-        if (meta) section.append(make("p", "text-sm text-slate-500", meta));
-        section.append(make("p", "rounded-lg border-l-4 border-slate-900 bg-white px-4 py-3", run.answer));
+        if (meta) section.append(make("p", "font-mono text-xs text-paper/60", meta));
+        section.append(make("p", "border-2 border-paper bg-slab px-5 py-4 text-lg leading-relaxed shadow-hard", run.answer));
         for (const v of run.visuals || []) section.append(visual(v));
         if ((run.rows || []).length) section.append(rowsTable(run));
       }
