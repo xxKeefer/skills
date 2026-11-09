@@ -64,11 +64,16 @@ For each remaining step, in handoff order:
    skipped with that entry ID. Go to the next step.
 3. Record the `HEAD` SHA. Dispatch one fresh `general-purpose` subagent. Give it the handoff
    path, the step ID, and the absolute path to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`.
+   To save subagents, give one subagent a batch: a run of consecutive review fix steps from the
+   same round, at most four. Pick steps that are small or that touch the same files. Give it the
+   list of step IDs in place of one ID. Any other step gets its own subagent.
 4. Wait for it to return. Run one subagent at a time, because the steps share one working tree.
-5. Check the result against the repo, not the summary. For status `done`, the handoff marks the
-   step done, and `git log` holds the commit it names. With `Commit: none`, `HEAD` is still the
-   SHA from item 3. For an entry ID, the handoff holds that entry. For both, the tree has no
-   modified or staged files.
+5. Check the result against the repo, not the summary. For a batch, check each step on its own,
+   in order. For status `done`, the handoff marks the step done, and `git log` holds the commit it
+   names. With `Commit: none`, `HEAD` is still the SHA from before that step. For an entry ID,
+   the handoff holds that entry. For both, the tree has no modified or staged files. A batch
+   stops at the first step that writes an entry. Mark each later step of the batch `not run`,
+   and dispatch it again in a later pass.
 6. If the check fails, stop the run and go to Step 3.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
@@ -81,7 +86,8 @@ Give one table with a row for each step from the Step 1 list:
 | Step | Workflow | Commit | Tests | Status |
 | ---- | -------- | ------ | ----- | ------ |
 
-Take Workflow, Commit, and Tests from the subagent's return. Status is `done`, the entry ID the
+Give each step of a batch its own row. Take Workflow, Commit, and Tests from the subagent's
+return for that step. Status is `done`, the entry ID the
 subagent wrote, `skipped (<entry ID>)`, the failed check, or `not run`.
 
 Below the table, give every entry under `## Pending Decisions` in full, in ID order. Then wait for

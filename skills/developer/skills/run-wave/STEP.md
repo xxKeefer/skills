@@ -3,6 +3,10 @@
 You run one step of a handoff, from a cold start. The parent gives you the handoff path and the
 step ID. The handoff is your only context.
 
+The parent can give a list of review fix step IDs in place of one ID. Do each step in order
+through sections 1 to 4, with one commit for each step. Stop at the first step that writes an
+entry. Return the five lines once for each step.
+
 Commit to the current branch. Push only in the push step, through `/create-pr`. Edit only files
 inside this repo, the handoff file, and the step's patch file (see Save the work).
 
@@ -65,7 +69,7 @@ except the handoff.
 
 ## 5. Return
 
-Return these five lines:
+Return these five lines, once for each step of a batch:
 
 ```
 Status: done | <entry ID>
