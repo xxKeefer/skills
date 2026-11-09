@@ -88,18 +88,19 @@ Write the checklist with `/write-report`. Give it these:
 - `kind`: `qa`. A `/happy-path` run on the same branch writes to the same file.
 - `title`: `QA: {short description of changeset}`.
 - `skill`: `/developer:fix`.
+- `track`: `["pass"]`. The user ticks pass to mark the items that they have done.
 - The run title: `Sad path`.
 - `meta`: `Lanes run` (each lane and its signal), `Skipped` (each lane), and `Cut by the cap`
   (each lane and its items past 8, or `none`).
 - `answer`: one sentence on what the items try to break. Then: "Set up the state in the first
-  table, then run the items in order. Tick each item that fails, write what happened in its note,
-  then copy the prompt."
+  table, then run the items in order. Tick pass or fail on each item. For a fail, write what
+  happened in its note, then copy the prompt."
 - `visuals`: one `table` with the question "What must be in place before you start?", the columns
   `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
 - `columns`: `lane`, `area` (the form or area), `step` (the action), `expect` (the expected
   result), and `catalogue` (mono, the catalogue ID).
 - `rows`: one row for each item, lane by lane, in the Step 3 rank order. Each row has
-  `ticks: ["fail"]`.
+  `ticks: ["pass", "fail"]`.
 
 Rules:
 

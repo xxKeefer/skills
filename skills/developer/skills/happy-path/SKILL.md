@@ -55,15 +55,16 @@ Write the checklist with `/write-report`. Give it these:
 - `kind`: `qa`. A `/code-review:sad-path` run on the same branch adds its run to the same file.
 - `title`: `QA: {short description of changeset}`.
 - `skill`: `/developer:fix`.
+- `track`: `["pass"]`. The user ticks pass to mark the items that they have done.
 - The run title: `Happy path`.
 - `meta`: `Range`, the changeset from Step 1, such as `main...HEAD` or `uncommitted`.
 - `answer`: one sentence on what changed. Then: "Set up the state in the first table, then run the
-  items in order. Tick each item that fails, write what happened in its note, then copy the
-  prompt."
+  items in order. Tick pass or fail on each item. For a fail, write what happened in its note,
+  then copy the prompt."
 - `visuals`: one `table` with the question "What must be in place before you start?", the columns
   `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
 - `columns`: `area`, `step` (the action), and `expect` (the expected result).
-- `rows`: one row for each item, area by area. Each row has `ticks: ["fail"]`.
+- `rows`: one row for each item, area by area. Each row has `ticks: ["pass", "fail"]`.
 
 In chat, give the report path and the item count. Do not print the checklist.
 
