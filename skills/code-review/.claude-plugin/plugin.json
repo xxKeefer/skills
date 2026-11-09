@@ -1,7 +1,7 @@
 {
   "name": "code-review",
   "description": "Persona reviewers, the mob-review panel and its light set of seven lanes, and the PR review skills: review a branch or a PR, post and resolve review comments, keep the personas accurate, and scan a codebase for architecture improvements. Requires primitives and developer.",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "author": {
     "name": "xxkeefer"
   }
