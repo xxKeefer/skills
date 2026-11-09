@@ -134,10 +134,13 @@ Follow these rules:
    Write it again each time, because other skills add files to the folder. The page shows the
    other names as links in a fold at the top. A browser cannot list a local folder, so the page
    reads this file instead. A file that you delete stays in the list until the next write.
-6. Return the path.
+6. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
+   on Linux. If the command fails, go on.
+7. Return a `file://` URL of the absolute path, not a bare path. A caller shows this URL to the
+   user, because an editor opens a bare path.
 
-**Done when:** the file holds every earlier run and the new run, its JSON block parses, and
-`reports.js` lists every `.html` file in the folder.
+**Done when:** the file holds every earlier run and the new run, its JSON block parses,
+`reports.js` lists every `.html` file in the folder, and you return the `file://` URL.
 
 ## The prompt
 
