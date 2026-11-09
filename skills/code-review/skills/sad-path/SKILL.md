@@ -67,8 +67,19 @@ For each lane that runs:
 6. Rank the items: data saved wrong or work lost, then a wrong action, then a cosmetic fault.
    Keep the first 8. Merge items that send the same class of input to one field.
 
+Then build the setup block: the state that the tester needs before item 1. Give one row for each
+part of that state that applies:
+
+- How to run the change: the command, and each flag or environment variable that the items need.
+- How to reach each changed form: the route or the clicks from the start page.
+- Each account, role, or permission, and the items that use it.
+- The data that must exist before the start, such as a record to edit.
+- Where to copy each fixture input, when an input holds invisible characters.
+- The cleanup after the test, so that the system goes back to its first state.
+
 **Done when:** each kept item names a field, an input or key, an expected result, and one
-catalogue ID, and no lane has more than 8 items.
+catalogue ID, no lane has more than 8 items, and the setup block names all the state that the
+items need.
 
 ## Step 4: Write the Checklist
 
@@ -77,15 +88,19 @@ Write the checklist with `/write-report`. Give it these:
 - `kind`: `qa`. A `/happy-path` run on the same branch writes to the same file.
 - `title`: `QA: {short description of changeset}`.
 - `skill`: `/developer:fix`.
+- `track`: `["pass"]`. The user ticks pass to mark the items that they have done.
 - The run title: `Sad path`.
 - `meta`: `Lanes run` (each lane and its signal), `Skipped` (each lane), and `Cut by the cap`
   (each lane and its items past 8, or `none`).
-- `answer`: one sentence on what the items try to break. Then: "Tick each item that fails, write
-  what happened in its note, then copy the prompt."
+- `answer`: one sentence on what the items try to break. Then: "Set up the state in the first
+  table, then run the items in order. Tick pass or fail on each item. For a fail, write what
+  happened in its note, then copy the prompt."
+- `visuals`: one `table` with the question "What must be in place before you start?", the columns
+  `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
 - `columns`: `lane`, `area` (the form or area), `step` (the action), `expect` (the expected
   result), and `catalogue` (mono, the catalogue ID).
 - `rows`: one row for each item, lane by lane, in the Step 3 rank order. Each row has
-  `ticks: ["fail"]`.
+  `ticks: ["pass", "fail"]`.
 
 Rules:
 
@@ -93,10 +108,10 @@ Rules:
 - Quote each input byte-exact from the fixtures. When an input holds invisible characters, also
   name the fixture row and each invisible character, such as "T4 (zero-width space)", so the
   tester copies it from the fixtures file.
-- No setup instructions the user already knows.
+- No general steps in the setup table, such as how to install the tools or clone the repo.
 
 In chat, give the report path, the item count, and the lanes that ran. Do not print the
 checklist.
 
-**Done when:** each item that Step 3 kept is one row with a catalogue ID, and the chat shows the
-report path and no checklist.
+**Done when:** the new run has the setup table, each item that Step 3 kept is one row with a
+catalogue ID, and the chat shows the report path and no checklist.
