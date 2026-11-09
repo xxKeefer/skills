@@ -13,8 +13,9 @@ becomes an entry under `## Pending Decisions`, and the run continues with the st
 depend on it. The user answers every entry in one batch at the end.
 
 Run it again on each review report to loop: `run-wave` → review → the user ticks rows → `run-wave`
-on the report's prompt → review, until the user is satisfied. Then the user ticks nothing and
-answers the review entry, and `run-wave` goes on to the push step and opens a draft PR. A review
+on the report's prompt → review, until the user is satisfied. A fix round adds a new review step
+only when the round can change behaviour. A small round goes to the push step. When the user ticks
+nothing and answers the review entry, `run-wave` goes on to the push step and opens a draft PR. A review
 report with no rows writes no entry, so the run goes on to the push step with no stop.
 
 ## Step 1: Pre-flight
@@ -26,11 +27,17 @@ report with no rows writes no entry, so the run goes on to the push step with no
    2. Before the push step, add one step for each ticked row:
       `**<n>. Review fix <row ID>.** <issue> at <where>. Report: <report path>.` Its done line is
       the row's recommendation, with the row's note when it has one.
-   3. After the fix steps, add a new review step. Copy the text of the last review step. Add the
-      row IDs of the run that the user did not tick. Tell the panel not to raise those rows again,
-      and not to raise any row that only repeats them.
-   4. Write the unticked row IDs of the run into the handoff, at the new review step, as a
-      recorded decision. Add the reason for each row when the report gives one.
+   3. After the fix steps, decide if the round needs a new review step. It needs one when a
+      ticked row changes runtime behaviour, or when the round has more than three fix steps. A row
+      that changes only tests, comments, names, or file locations does not change behaviour. If the
+      round needs one, add a new review step. Copy the text of the last review step. Add the row IDs
+      of the run that the user did not tick. Tell the panel not to raise those rows again, and not
+      to raise any row that only repeats them. If the round does not need one, add no review step.
+      Write that choice into the handoff as a recorded decision, and let the run go on to the push
+      step.
+   4. Write the unticked row IDs of the run into the handoff as a recorded decision, at the new
+      review step. With no new review step, write them at the first step after the fix steps. Add
+      the reason for each row when the report gives one.
    5. Delete the `D` entry that names this report. The ticks are its answer.
    6. Write the changes with `/update-handoff`.
 2. Read the handoff: the @-tagged one, or the one from item 1. List the remaining steps in handoff
@@ -43,8 +50,9 @@ report with no rows writes no entry, so the run goes on to the push step with no
 5. If the current branch is the default branch, make a branch named from the handoff and switch to
    it. Ask nothing.
 
-**Done when:** for a report, the handoff holds a fix step for each ticked row and a new review
-step that names the unticked rows. The step list exists, the current branch is the handoff's branch or the handoff names no
+**Done when:** for a report, the handoff holds a fix step for each ticked row. It also holds either
+a new review step that names the unticked rows, or the choice to add no review step. The step list
+exists, the current branch is the handoff's branch or the handoff names no
 branch, the tree has no modified or staged files, and the branch is not the default branch.
 
 ## Step 2: Run each step
