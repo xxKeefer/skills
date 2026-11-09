@@ -29,7 +29,7 @@ Use the first row that matches the step:
 | Step | Workflow | What to do |
 | ---- | -------- | ---------- |
 | Names a skill | `skill: /<name>` | Run that skill. |
-| Review fix | `review fix` | Read the row in the report that the step names. Make the change that the done line names. If the row names a missing test, write it first and see it go red. Keep every other test green. |
+| Review fix | `review fix` | Read the row in the report that the step names. Find the code by its content, not by the line number in the row, because earlier fixes can move the code. Make the change that the done line names. If the row names a missing test, write it first and see it go red. Keep every other test green. |
 | Changes behaviour | `TDD` | Write a failing test at the step's seam and see it go red. Write the minimum code to go green. Then do a mutation check: break the new code, see the test go red, and restore the code. |
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
 | Anything else: docs, config, CI | `done line` | Make the change. |
