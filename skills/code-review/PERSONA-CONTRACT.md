@@ -43,7 +43,8 @@ line why the lane does not apply. When a caller asks for JSON, return `inScope: 
   line number in the patch file. Use line 0 for a finding about the whole diff.
 - `summary` is one sentence. The tier has its own field, so the summary does not repeat it.
 - `detail` says why the finding matters: the concrete failure.
-- `suggestion` gives the concrete fix.
+- `suggestion` gives one concrete fix. When two fixes work, pick one and say why in one clause. Do
+  not offer a choice.
 - Zero findings is a valid result. Do not invent a finding to look thorough.
 
 ### Code references

@@ -12,11 +12,10 @@ cold-starts from the handoff, as one `/clear` + `/do-next` run would. A step tha
 becomes an entry under `## Pending Decisions`, and the run continues with the steps that do not
 depend on it. The user answers every entry in one batch at the end.
 
-Run it again on each review report to loop: `run-wave` → review → the user ticks rows → `run-wave`
-on the report's prompt → review, until the user is satisfied. A fix round adds a new review step
-only when the round can change behaviour. A small round goes to the push step. When the user ticks
-nothing and answers the review entry, `run-wave` goes on to the push step and opens a draft PR. A review
-report with no rows writes no entry, so the run goes on to the push step with no stop.
+A review step fixes the findings that have a fix, writes the report, and writes no entry, so the
+run goes on to the push step with no stop. The rows that stay open wait for QA. To fix them, the
+user ticks them and runs `run-wave` on the report's prompt. A fix round adds a new review step
+only when the round can change behaviour. A small round goes to the push step.
 
 ## Step 1: Pre-flight
 
