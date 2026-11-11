@@ -1,10 +1,9 @@
 ---
 name: prune-worktrees
 description: >
-  Prune stale git worktrees: remove the worktree and branch of each merged PR, remove the worktree
-  of a branch that a stack in another worktree holds, and remove the worktree of an old branch with
-  no PR. Then point each handoff at the worktree that still holds its branch. Use when the user
-  says "prune worktrees", "clean up worktrees", or "remove the stale worktrees".
+  Prune stale git worktrees: remove the worktree and branch of each merged PR, and remove the
+  worktree of an old branch with no PR. Use when the user says "prune worktrees", "clean up
+  worktrees", or "remove the stale worktrees".
 argument-hint: "[--stale-days N]"
 ---
 
@@ -32,7 +31,7 @@ action:
 | Action | When |
 | --- | --- |
 | `remove-branch` | Its PR is merged, and every local commit is in the merged PR |
-| `remove-worktree` | A branch in another worktree builds on it (`held_by` names that worktree), or it has no open PR and no commit for `--stale-days` days (default 7) |
+| `remove-worktree` | It has no open PR and no commit for `--stale-days` days (default 7) |
 | `keep` | It has uncommitted changes, an open PR, recent commits, commits after its merge, or a detached HEAD |
 
 **Done when:** the plan file holds one row for each worktree other than the main and current ones.
@@ -58,19 +57,8 @@ worktree with untracked files, and the script reports that too.
 
 **Done when:** the script printed each removal, and you have each failure.
 
-## Step 4: Fix the handoffs
+## Step 4: Report
 
-Find the handoff folder as `/write-to-file` does. Find each `Worktree:` line that names a removed
-path.
-
-- A row with `held_by`: change the path in the line to the `held_by` path. Keep the branch.
-- Any other row: leave the line. The work is merged or idle.
-
-**Done when:** no `Worktree:` line of a live branch names a removed path.
-
-## Step 5: Report
-
-List the worktrees removed, the branches deleted, the branches kept, the handoffs changed, and each
-failure. Then list the worktrees that remain.
+List the worktrees removed, the branches deleted, the branches kept, and each failure. Then list the worktrees that remain.
 
 **Done when:** the user has the lists.

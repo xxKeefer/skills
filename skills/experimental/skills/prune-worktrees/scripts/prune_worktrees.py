@@ -56,54 +56,41 @@ def in_merged_pr(branch, pr):
     return ok("merge-base", "--is-ancestor", branch, head)
 
 
-def default_base():
-    out = git("symbolic-ref", "--short", "refs/remotes/origin/HEAD", check=False)
-    return out.stdout.strip() if out.returncode == 0 else None
-
-
-def classify(tree, others, base, stale_days):
-    """Returns the action and reason for one worktree, and the path of the worktree that holds its stack."""
+def classify(tree, stale_days):
+    """Returns the action and reason for one worktree."""
     branch, path = tree["branch"], tree["path"]
     if branch is None:
-        return "keep", "HEAD is detached", None
+        return "keep", "HEAD is detached"
     if dirty(path):
-        return "keep", "uncommitted changes", None
+        return "keep", "uncommitted changes"
 
     prs = pull_requests(branch)
     merged = next((p for p in prs if p["state"] == "MERGED"), None)
     if merged:
         if in_merged_pr(branch, merged):
-            return "remove-branch", f"PR #{merged['number']} is merged", None
-        return "keep", f"PR #{merged['number']} is merged, but the branch has later commits", None
-
-    on_base = base is not None and ok("merge-base", "--is-ancestor", branch, base)
-    if not on_base:
-        for other in others:
-            if other["branch"] and other["branch"] != branch and ok("merge-base", "--is-ancestor", branch, other["branch"]):
-                return "remove-worktree", f"the stack in {other['path']} holds this branch", other["path"]
+            return "remove-branch", f"PR #{merged['number']} is merged"
+        return "keep", f"PR #{merged['number']} is merged, but the branch has later commits"
 
     open_pr = next((p for p in prs if p["state"] == "OPEN"), None)
     if open_pr:
-        return "keep", f"PR #{open_pr['number']} is open", None
+        return "keep", f"PR #{open_pr['number']} is open"
 
     last = int(git("log", "-1", "--format=%ct", branch).stdout.strip())
     days = int((time.time() - last) // 86400)
     if days >= stale_days:
-        return "remove-worktree", f"no PR, and no commit for {days} days", None
-    return "keep", f"no PR, last commit {days} days ago", None
+        return "remove-worktree", f"no PR, and no commit for {days} days"
+    return "keep", f"no PR, last commit {days} days ago"
 
 
 def plan(stale_days):
     trees = worktrees()
     here = os.path.realpath(git("rev-parse", "--show-toplevel").stdout.strip())
-    base = default_base()
     rows = []
     for tree in trees[1:]:
         if os.path.realpath(tree["path"]) == here:
             continue
-        others = [t for t in trees[1:] if t is not tree]
-        action, reason, held_by = classify(tree, others, base, stale_days)
-        rows.append({**tree, "action": action, "reason": reason, "held_by": held_by})
+        action, reason = classify(tree, stale_days)
+        rows.append({**tree, "action": action, "reason": reason})
     return rows
 
 

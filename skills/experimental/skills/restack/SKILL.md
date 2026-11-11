@@ -1,68 +1,66 @@
 ---
 name: restack
 description: >
-  Restack a stack of branches: move every branch onto the latest default branch in one rebase,
-  drop the commits of each squash-merged branch, push the open branches, and delete the merged
-  ones. Use when the user says "restack", asks to rebase a stack, or merged the bottom PR of a
-  stack.
+  Restack a stack of branches with `gh stack`: rebase every branch onto the latest default branch,
+  across the worktrees that hold them, push the open branches, and remove the merged ones. Use when
+  the user says "restack", asks to rebase a stack, or merged the bottom PR of a stack.
 ---
 
 # Restack
 
-A stack is a chain of branches in one worktree, each built on the one below it. The bottom PR
-targets the default branch. Each higher PR targets the branch below it. New work goes on the top
-branch. When the bottom PR merges, a restack moves the rest of the stack onto the default branch.
+A stack is a chain of branches, each built on the one below it. Each branch has its own `wt`
+worktree. `gh stack` records the stack for the whole clone, so any worktree of the stack can run
+it. It rebases each branch in the worktree that holds that branch.
 
-Squash merge puts new commits on the default branch, so git cannot see that a merged branch is
-already there. The script finds each merged branch from its PR, and cuts the stack above it.
+`wt` owns the worktrees. `gh stack` owns the order of the branches, the rebase, and the PRs. Never
+use `gh stack` to create or remove a worktree, and never use `wt` to rebase.
 
-```sh
-script="${CLAUDE_SKILL_DIR}/scripts/restack.py"
-```
+## Step 1: Check the stack
 
-## Step 1: Go to the top branch
+1. Run `gh stack view`. If the branch is in no stack, ask the user for the branches, bottom first.
+   Then run `gh stack init <branch> <branch> ...`.
+2. Run `wt list`. Each worktree of the stack must be clean. A dirty or busy worktree stops the
+   rebase. Ask the user to commit in it, then check again.
 
-Run the script from the top branch of the stack, in the worktree that holds the stack. If the user
-is on a lower branch, the script names the branches above it. Switch to the top one.
+**Done when:** `gh stack view` shows the stack, and each of its worktrees is clean.
 
-**Done when:** `HEAD` is the top branch.
+## Step 2: Sync
 
-## Step 2: Run the script
+Run `gh stack sync`. It fetches, rebases each branch onto the one below it, and pushes with
+`--force-with-lease`. When a squash merge deletes the bottom branch, sync moves the stack onto the
+default branch.
 
-```sh
-python3 -I "$script"
-```
-
-Pass `--base <ref>` only when `origin/HEAD` is not set.
-
-The script stops with a message, and changes nothing, in these cases:
-
-| Message | Do |
+| Result | Do |
 | --- | --- |
-| The working tree has changes | Ask the user to commit or stash them. Run again. |
-| Run restack from the top branch | Switch to the branch that it names. Run again. |
-| Another worktree has checked out a branch | Show the paths. Ask the user to remove those worktrees, then run again. Git does not move a branch that another worktree holds. |
-| A branch is merged, but a branch below it is not | Tell the user. The stack merges from the bottom. Stop. |
+| `Stack synced` or `Branches synced` | Go to Step 4. |
+| A rebase conflict | Sync puts each branch back as it was. Go to Step 3. |
+| It asks to use the remote, delete the stack, or cancel | Show the choice to the user. Do what the user picks. |
+| It asks to accept a base change | Show the commits that it names. Pass `--accept-base-change` only after a yes. |
 
-**Done when:** the script exits 0, or it stopped on a conflict.
+**Done when:** sync printed a synced message, or it stopped on a conflict.
 
 ## Step 3: Resolve conflicts
 
-A conflict leaves the rebase in progress. `rerere` can resolve a file from an earlier fix, so a
-file in the conflict list can have no markers. Check each file before you stage it.
+1. Run `gh stack rebase`. It stops at the first conflict and names the worktree.
+2. In that worktree, resolve each file with `/resolve-conflicts`. `rerere` can resolve a file from
+   an earlier fix, so check each file before you stage it.
+3. Run `gh stack rebase --continue`. Repeat steps 2 and 3 until the rebase ends.
+4. Run `gh stack sync` to push.
 
-1. Resolve the conflicts with `/resolve-conflicts`.
-2. Run `git rebase --continue`. Repeat until the rebase ends.
-3. Run the script again. The second run pushes the branches and deletes the merged ones.
+To stop, run `gh stack rebase --abort`. It puts every branch back as it was.
 
-**Done when:** the script exits 0.
+**Done when:** sync printed a synced message.
 
-## Step 4: Report
+## Step 4: Remove the merged branches
 
-Give the three lines that the script printed: the branches it moved, the branches it pushed, and
-the merged branches it deleted. Say that a branch that was not on origin stays local.
+If a PR of the stack merged, run `/prune-worktrees`. It removes the worktree and the branch of each
+merged PR with `wt`.
 
-GitHub changes the base of a PR to the default branch when its base branch is deleted on merge. If
-a PR still targets a merged branch, say so, and give its number.
+**Done when:** no worktree holds a merged branch of the stack.
 
-**Done when:** the user has the three lines and any PR with a stale base.
+## Step 5: Report
+
+Run `gh stack view` and show its output. Say which branches merged, and which worktrees
+`/prune-worktrees` removed.
+
+**Done when:** the user has the stack and the removed worktrees.

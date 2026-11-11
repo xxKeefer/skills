@@ -116,15 +116,12 @@ class Plan(Repo):
         self.assertEqual(row["action"], "keep")
         self.assertIn("uncommitted", row["reason"])
 
-    def test_removes_only_the_worktree_of_a_branch_that_another_worktree_stacks_on(self):
+    def test_keeps_the_worktree_of_a_branch_that_another_worktree_stacks_on(self):
         self.worktree("lower")
-        top = self.worktree("upper", base="lower")
+        self.worktree("upper", base="lower")
         self.pr("lower", 2, "OPEN")
 
-        row = self.plan()["repo.lower"]
-
-        self.assertEqual(row["action"], "remove-worktree")
-        self.assertEqual(row["held_by"], top)
+        self.assertEqual(self.plan()["repo.lower"]["action"], "keep")
 
     def test_keeps_the_top_branch_of_a_stack(self):
         self.worktree("lower")

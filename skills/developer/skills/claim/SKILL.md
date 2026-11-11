@@ -53,17 +53,20 @@ and 💬 while the session waits for its user. A session that crashed leaves its
 worktree's `path` and `symbols`, then ask whether a session is live there. Continue there only when
 the user says that no session is live. Otherwise stop.
 
-**Stack.** A stack lives in one worktree, so `/restack` can move all its branches in one rebase.
-Find the stub as Step 3 does. Its `Builds on:` line names the parent keys.
+**Stack.** A stacked branch gets its own worktree, as any branch does. `gh stack` records which
+branch it builds on, so `/restack` can rebase the stack. Find the stub as Step 3 does. Its
+`Builds on:` line names the parent keys.
 
 1. Find the parent branch: the branch of the parent's worktree from Step 2's rows, else the
    `Worktree:` line of `plan_<PARENT>.md`. With two or more parent keys, use the one whose branch
    holds the others. With no parent branch, or two parents that are not in one stack, ask the user.
 2. Name the branch as in Create step 1.
-3. In the parent's worktree, check the marker as above. Then run
-   `git -C <path> switch -c <branch> <parent branch>`. The worktree now holds the new top branch.
-4. Tell the user that a fix on the parent branch now starts with `git switch <parent branch>` in
-   this worktree, and ends with a switch back to the top branch and `/restack`.
+3. Run `wt switch --create <branch> --base <parent branch> --no-cd`.
+4. Run `gh stack view` in the parent's worktree. If the parent is the top of a stack, run
+   `gh stack add <branch>` there. If the parent is in no stack, run
+   `gh stack init <parent branch> <branch>` there. If the parent is lower in a stack, ask the user.
+5. Tell the user that a fix on the parent branch goes in the parent's worktree, and ends with
+   `/restack`.
 
 **Create.**
 

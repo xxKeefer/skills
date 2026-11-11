@@ -13,7 +13,7 @@ Framework-agnostic and language-agnostic. Code review comes from the
 | `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
 | `/split-ticket` | Discovery | Split a ticket that is too big into pieces of 3 points or less, grouped into waves with a merge order. Write the split report, then create one sub-task and one stub handoff per piece after one yes |
 | `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub handoff |
-| `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. A stacked sub-task joins the worktree of the branch it builds on. Needs worktrunk (`wt`) |
+| `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. A stacked sub-task gets its own worktree, and `gh stack` puts it on top of the branch it builds on. Needs worktrunk (`wt`), and `gh stack` for a stack |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
 | `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
 | `/tdd` | Implementation | Red → green loop |
