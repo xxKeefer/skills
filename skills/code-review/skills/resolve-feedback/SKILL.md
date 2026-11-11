@@ -90,9 +90,10 @@ Give each item one row with these cells:
 | `draft` | Draft reply | the reply to the reviewer. A thread row only. Set `fold` |
 | `thread` | Thread | the `url` of the first comment of the thread. A thread row only |
 
-**The recommendation.** Start with the sort from
-[`mob-review` Step 5](../mob-review/SKILL.md#step-5-write-the-report): `Small.` or
-`You decide: <reason>.` For an Invalid verdict, start with `No fix.` Then say what to do and why.
+**The recommendation.** Start with the sort. `Small.` means the fix is mechanical or local, with
+one obvious right answer. `You decide: <reason>.` means the fix changes a public contract or
+untested behaviour, needs a product decision, or has two reasonable answers. For an Invalid
+verdict, start with `No fix.` Then say what to do and why.
 When a better fix than the reviewer's exists, name it. When two fixes are reasonable, name both.
 
 **The draft reply.** Write it as the PR author, in one to three sentences:

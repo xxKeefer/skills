@@ -1,6 +1,6 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, test-quality, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, the ticks in the report build a /code-review:apply-review prompt. On someone else's, each finding gets a draft reply, and the ticks build a /code-review:post-review-comments prompt. In a handoff, it records the report in the review step. It applies no fix and never pushes. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
+description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, test-quality, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, it fixes each finding that has a fix, commits once, and reports what it fixed and what stays open. On someone else's, it drops the nits, each finding gets a draft reply, and the ticks build a /code-review:post-review-comments prompt. In a handoff, it records the report in the review step. It never pushes and never asks you to choose a fix. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
 ---
 
 # Mob Review: staff-engineer review panel
@@ -180,14 +180,37 @@ These known persona pairs can land on the same line. Resolve them the same way e
 
 **Drop anything Copilot already raised.** If Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, compare every remaining finding against it and drop the ones Copilot already covered: same file, within a few lines (or cited in a review body), and the same underlying problem, however differently worded. Severity doesn't matter. A `change-requested` that Copilot flagged as a passing remark still goes. A finding on the same line but about a different problem stays. When unsure whether it's the same problem, drop it. Keep a count of drops per persona for the Step 5 coverage table.
 
+**On someone else's code, drop every nit.** Keep the count for the coverage table.
+
 Hold the `persona-ac-check` findings apart. Step 5 puts them first. Rank the rest: **change-requested → nit → future**, then group by persona within each tier.
 
-## Step 5: Write the report
+## Step 5: Fix your own code, then write the report
+
+**On your own code, fix first.** The report is for QA, not for decisions, so the panel makes each
+fix that a finding names and never asks the user to choose. Skip this part on someone else's code.
+
+1. Sort each finding. A finding is **open** when the persona marked it `future`, or when its fix
+   needs a product or design answer that the code and the spec do not give. Every other finding
+   is **fixable**, nits included.
+2. When a suggestion names two fixes, take the one the persona recommends. With no
+   recommendation, take the smaller fix that removes the defect. Do not ask.
+3. If the working tree has changes and Step 1 did not review the working tree, fix nothing. A fix
+   commit would take in those changes. Mark each finding open, with that reason.
+4. Apply each fixable finding as [`apply-review`](../apply-review/SKILL.md) Step 3 says, in the
+   Step 4 order. Where that step asks the user, use item 2 of this list.
+5. Run the gates as `apply-review` Step 4 says. When a fix fails a gate, or its test cannot go red
+   and then green, revert that fix. Mark the finding open, with the reason.
+6. Make one commit in the repo's commit convention. The body lists each fix and its finding. For
+   a working-tree run, leave the fixes in the working tree. Never push.
+
+The fix commit is the new **reviewed head**. The panel read the head from Step 1, and this step
+made the fixes under the gates, so the push step finds no drift from the fix commit.
 
 The findings go to an HTML report, not to the chat. Write the report with `/write-report`. A
 second run on a new head then adds a run to the same file.
 
-The coverage table shows the user what ran. Counts are after the Copilot filter:
+The coverage table shows the user what ran. Counts are after the Copilot filter. On someone
+else's code, the Nit column counts the nits that Step 4 dropped:
 
 ```
 Persona            CR  Nit  Future   Status
@@ -210,21 +233,25 @@ Give `/write-report` these inputs:
 - The run:
   - `title`: `Panel run`.
   - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
+  - On your own code, add `Fixed in` to `meta`: the short hash of the fix commit, or
+    `working tree` for a working-tree run. Leave it out when nothing was fixed.
   - `meta`: `Base` (the base branch and the base SHA), `PR` (the PR URL from
     `gh pr view --json url -q .url`, when the branch has a PR), `Folder` (the absolute path of the
     repo folder), `Spec` (the source of the acceptance criteria, when `persona-ac-check` ran), and
     `Copilot` (`dropped N (<persona>: n, …)`, when the filter dropped a finding).
     `/code-review:post-review-comments` reads `PR`, `Base`, and `Folder`. Add `Handoff` (the
     absolute handoff path) when Step 1 has a handoff. `/developer:run-wave` reads it.
-  - `answer`: the count in each tier, and what the user does next. If every persona is clean,
-    say so plainly. A clean panel is a valid result.
+  - `answer`: on someone else's code, the count in each tier, and what the user does next. On
+    your own code, the count of fixed and open findings, and the fix commit. Ask no question. If
+    every persona is clean, say so plainly. A clean panel is a valid result.
   - `visuals`: one `table` with the question "Which lanes ran, and what did each find?". It holds
     the coverage table, one row for each lane. Set `fold`, so the findings start after the answer.
   - `columns` and `rows`: below.
 
 Give each finding one row. The `persona-ac-check` findings come first. A PR can pass every lane
 and still build the wrong thing, so spec gaps do not compete in the lane ranking. The findings of
-every other lane follow, in the Step 4 order.
+every other lane follow, in the Step 4 order. On your own code, the open rows come before the
+fixed rows in each group.
 
 | Key | Label | Holds |
 |---|---|---|
@@ -232,7 +259,8 @@ every other lane follow, in the Step 4 order.
 | `persona` | Persona | the name without the `persona-` prefix, such as `a11y` |
 | `where` | File:line | the `file:line` of the finding. Set `mono` |
 | `issue` | Issue | the summary, a blank line, then the detail |
-| `recommendation` | Recommendation | the suggestion. On your own code, the sort comes first |
+| `recommendation` | Recommendation | on someone else's code, the one fix that the draft asks for. On your own code, the fix that the panel made, or for an open row, the fix to make later |
+| `result` | Result | on your own code only. `Fixed` or `Open: <reason>` |
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
 - Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
@@ -241,58 +269,41 @@ every other lane follow, in the Step 4 order.
   [`post-review-comments`](../post-review-comments/SKILL.md#the-comment-layout), and follow the
   rules under that layout. `/code-review:post-review-comments` checks the anchor and scans the draft
   before it posts.
-- On someone else's code, give each row the tick `reply`. On your own code, give each row the
-  tick `fix`.
-
-**The sort, on your own code.** Start each recommendation with `Small.` or with
-`You decide: <reason>.`, so the user knows which rows to tick. Judge the size and the certainty of
-the fix, not its tier. A `change-requested` can be a one-liner, and a `nit` can be a redesign.
-
-- `Small.` The fix is mechanical or local, and it has one obvious right answer. Examples: delete a
-  redundant wrapper, a duplicate mapping, or a vacuous assertion. Extract a helper or a test
-  fixture that is already duplicated word for word. Add a test case for an uncovered branch that
-  the existing harness supports. Rename, add a missing `readonly` or `as const`, make a loose type
-  tight, or extract an i18n key.
-- `You decide: <reason>.` The fix changes a public API, a component contract, or an exported
-  type. Or it changes behaviour that no test pins down, or it needs a product or design decision.
-  Or it spans several files, or restructures a module. Or two reasonable fixes exist, and the
-  choice is the author's. Or the persona marked it `future` and framed it as a ticket of its own.
+- Each recommendation and each draft names one fix. When a suggestion names two, pick one as
+  Step 5 item 2 says.
+- On someone else's code, give each row the tick `reply`. On your own code, give each open row the
+  tick `fix`, so the user can act on it after QA. A fixed row has no tick.
 
 Then print only these in the chat. Print no finding.
 
-1. `Reviewed: base <base>, head <head>`, with the two SHAs from Step 1. For uncommitted work, add
-   `+ working tree` after the head.
+1. `Reviewed: base <base>, head <head>`. The base is the base SHA from Step 1. The head is the
+   reviewed head: the fix commit, else the head SHA from Step 1. For uncommitted work, add
+   `+ working tree` after the head. When the panel fixed something, add
+   `(panel read <Step 1 head>)` after the line.
 2. The coverage table. When the Copilot filter dropped a finding, add one line under the table:
    `Dropped N findings Copilot already raised (<persona>: n, …).` Don't list them.
 3. The report path.
 
-## Step 6: Pick what to act on
+## Step 6: Hand over
 
 **On someone else's code, apply nothing.** Editing another person's branch is theirs to invite,
 and the findings are the deliverable. Say in one line that the panel applied no fix because the
 branch is not yours. Tell the user to tick the rows to reply to in the report, then paste the
 prompt that the report builds. The prompt runs `/code-review:post-review-comments` on the ticked rows.
 
-**On your own code** (per the Step 1 ownership check), also apply nothing here. Tell the user to
-tick the rows to fix in the report, then paste the prompt that the report builds. The prompt runs
-`/code-review:apply-review` on the ticked rows. It fixes test-first and commits once. It pushes only
-when the branch has an open PR.
+**On your own code** (per the Step 1 ownership check), Step 5 already made the fixes. Say in one
+line how many findings the fix commit holds and how many stay open. Ask nothing. The user meets
+the open rows at QA. To fix one later, they tick it and paste the prompt that the report builds,
+which runs `/code-review:apply-review`.
 
-**In a handoff from Step 1**, on your own code, the review step writes the report and stops. The
-prompt that the report builds runs `/developer:run-wave`, not `/code-review:apply-review`. It adds a
-fix step for each ticked row and a new review step to the handoff, then runs them. The user reads
-each new report, and passes it back to `run-wave` until satisfied:
+**In a handoff from Step 1**, on your own code, the review step fixes, writes the report, and
+goes on. It never blocks the push step:
 
-1. Tick the review step. Write the report path, and the base and head SHAs from Step 1, into its
-   done line. `/create-pr` reads the two SHAs.
-2. If the report has no rows, write no `D` entry, and stop. Nothing blocks the push step, so
-   `/run-wave` goes on to it.
-3. Under `/run-wave` (you follow its `STEP.md`), the user cannot tick the report during the
-   run. Write a `D` entry in the `STEP.md` form. It names the report path. Its options are to
-   tick the rows and run the prompt, or to fix nothing. Its `Blocks` line lists the push step, the
-   step that pushes or opens a PR.
-4. Stop. The user runs the prompt before the push step, or ticks nothing and answers the `D`
-   entry to go on to the push step.
+1. Tick the review step. Write the report path, the base SHA, and the reviewed head into its done
+   line. `/create-pr` reads the two SHAs.
+2. Write no `D` entry. The open rows wait in the report for QA. The prompt that the report builds
+   runs `/developer:run-wave`, which adds a fix round for the rows that the user ticks.
+3. Stop.
 
 ## Step 7: Record calibration signals (never edit)
 
@@ -330,6 +341,6 @@ End the summary with the entries this run added or extended. If nothing surfaced
 
 ## Notes
 
-- The personas themselves are read-only: they review, they never edit. The fixes are the job of `/code-review:apply-review`, and only on your own code.
+- The personas themselves are read-only: they review, they never edit. The panel fixes in Step 5, and `/code-review:apply-review` fixes the open rows that the user ticks later, only on your own code.
 - Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
 - Scale is bounded by the diff: a small PR launches few personas; a broad one launches many. That's intended.
