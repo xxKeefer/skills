@@ -62,7 +62,7 @@ branch it builds on, so `/restack` can rebase the stack. Find the stub as Step 3
    holds the others. With no parent branch, or two parents that are not in one stack, ask the user.
 2. Name the branch as in Create step 1.
 3. Run `wt switch --create <branch> --base <parent branch> --no-cd`.
-4. Run `gh stack view` in the parent's worktree. If the parent is the top of a stack, run
+4. Run `gh stack view --json` in the parent's worktree. A bare `view` opens a TUI. If the parent is the top of a stack, run
    `gh stack add <branch>` there. If the parent is in no stack, run
    `gh stack init <parent branch> <branch>` there. If the parent is lower in a stack, ask the user.
 5. Tell the user that a fix on the parent branch goes in the parent's worktree, and ends with
