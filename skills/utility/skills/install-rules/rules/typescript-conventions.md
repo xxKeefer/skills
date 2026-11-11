@@ -64,19 +64,25 @@ export const ORDER_STATUS = Object.freeze({
 });
 ```
 
-prefer — `as const`, and derive the value type from it:
+prefer — `as const`, a plural name for the object and a singular name for the type, and derive the type with `ObjectValues`:
 
 ```ts
-export const ORDER_STATUS = {
-  PENDING: "PENDING",
-  PAID: "PAID",
-  SHIPPED: "SHIPPED",
-  DELIVERED: "DELIVERED",
-  CANCELLED: "CANCELLED",
+export type ObjectValues<T> = T[keyof T];
+
+export const OrderStatuses = {
+  Pending: "PENDING",
+  Paid: "PAID",
+  Shipped: "SHIPPED",
+  Delivered: "DELIVERED",
+  Cancelled: "CANCELLED",
 } as const;
 
-export type OrderStatus = (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS];
+export type OrderStatus = ObjectValues<typeof OrderStatuses>;
 ```
+
+Define `ObjectValues` once per codebase, in a shared types file, and import it.
+
+A lookup with a key from outside (a URL, user input, an API) needs a guard. `OrderStatuses["toString"]` finds the inherited function, not `undefined`. Check the key against `Object.values(...)` first.
 
 #### Bang Operators
 
