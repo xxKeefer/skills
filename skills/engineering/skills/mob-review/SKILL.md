@@ -7,7 +7,7 @@ description: Run the full staff-engineer review panel over a PR or branch. Spawn
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report. Each persona is a narrow, non-overlapping specialist; this skill is the orchestrator.
 
-`light-review` follows Steps 0 to 7 of this skill with seven lanes only, so a change to a step here also changes `light-review`.
+`light-review` follows Steps 0 to 7 of this skill with eight lanes only, so a change to a step here also changes `light-review`.
 
 ## The panel
 
