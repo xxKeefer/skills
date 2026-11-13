@@ -85,7 +85,7 @@ Give each candidate one route:
 
 A review miss goes to the backlog at
 `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/improve-personas.md`, in the entry format of
-`$SKILLS_ROOT/skills/engineering/skills/mob-review/SKILL.md` Step 7. Read the backlog first. If an
+`$SKILLS_ROOT/skills/engineering/skills/mob-review/CALIBRATION.md`. Read the backlog first. If an
 `open` entry names the same target and problem, add this session's Evidence line to it. If a
 `rejected` entry covers it, drop the candidate.
 
