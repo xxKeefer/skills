@@ -12,7 +12,7 @@ command adds the gate before it.
 
 ## Step 1: Gather
 
-1. Find the plan handoff as `/build` Step 1 does. A branch with no handoff is fine.
+1. Find the plan handoff as `/implement` Step 1 does. A branch with no handoff is fine.
 2. Find the latest review report for the branch, from the handoff's review step, or in the folder
    that `/write-to-file` uses for doctype `report`.
 
@@ -26,7 +26,7 @@ Check each item, and note pass, fail, or not found:
 |---|---|
 | Plan | Each build step in the handoff is done, and `## Pending Decisions` is empty. |
 | Tests | The project's test command passes on the branch head. Run it. |
-| Review | A review report exists for the branch head, and none of its rows at the top severity is open. |
+| Review | A review report exists for the branch head, and none of its rows at the top severity is open. A report of an earlier head also passes when each later commit is a review fix step that the handoff records. |
 | Constraints | `/constraints` finds nothing, when `CONSTRAINTS.md` exists. |
 | Tree | The working tree is clean. |
 

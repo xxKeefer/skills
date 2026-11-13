@@ -18,7 +18,7 @@ Review code before it merges. The review skills do the work. This command picks 
 | Empty | `/light-review` on the current branch. |
 
 Pass the plan handoff path to the review skill when one exists, for the AC and test-design checks.
-Find it as `/build` Step 1 does.
+Find it as `/implement` Step 1 does.
 
 **Done when:** one review skill ran and wrote its report.
 

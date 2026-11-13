@@ -28,8 +28,9 @@ The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `we
   not a command has no ★.
 - A command picks a skill and runs it by name. It holds no step that a skill below it already holds.
   When a skill changes its input or its return, check each command that runs it.
-- `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill below them
-  does the work.
+- `build`, `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill
+  below them does the work. `build` runs the steps of a handoff in subagents through `STEP.md`, and
+  loops test and review. `implement` is the skill for one step.
 
 ## Tool roles
 
@@ -53,7 +54,7 @@ commit.
 | Skill | Called by | Must keep |
 |---|---|---|
 | `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, handoff), the `Worktree:` line that `/do-next` reads, and the search for a handoff whose file name holds the key |
-| `run-wave` | `mob-review`, and the prompt of its report in a handoff | The `D` and `N` entry format in `STEP.md`, and the `Handoff` meta key that it reads from the report |
+| `build` | `mob-review`, and the prompt of its report in a handoff | The `D` and `N` entry format in `STEP.md`, and the `Handoff` meta key that it reads from the report |
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |

@@ -7,8 +7,9 @@ The parent can give a list of review fix step IDs in place of one ID. Do each st
 through sections 1 to 4, with one commit for each step. Stop at the first step that writes an
 entry. Return the five lines once for each step.
 
-Commit to the current branch. Push only in the push step, through `/create-pr`. Edit only files
-inside this repo, the handoff file, and the step's patch file (see Save the work).
+Commit to the current branch. Never push. `/build` never gives you the push step, and `/ship`
+pushes. Edit only files inside this repo, the handoff file, and the step's patch file (see Save the
+work).
 
 ## 1. Cold start
 
@@ -18,10 +19,7 @@ inside this repo, the handoff file, and the step's patch file (see Save the work
 3. If the step needs a decision that the handoff does not record, write a `D` entry and return.
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
    yourself. A review fix step needs no seam: the report row is its spec.
-4. The push step is the one step that pushes. Step 2 runs `/create-pr @<handoff path>` for it,
-   which pushes the branch and opens a draft PR. Never mark the PR ready for review. If
-   `/create-pr` stops on drift or a gap, write a `D` entry with its reason and return.
-5. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
+4. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
    and return.
 
 **Done when:** you can name the step's done line and its workflow.
@@ -33,6 +31,7 @@ Use the first row that matches the step:
 | Step | Workflow | What to do |
 | ---- | -------- | ---------- |
 | Names a skill | `skill: /<name>` | Run that skill. |
+| Test | `test` | Run the project's test suite. For each behaviour that the branch changes and no test covers, write a test at the seam that the handoff names. The code already works, so the test cannot go red first. Break the code under test, see the test go red, and restore the code. If the handoff names no seam for a behaviour, write a `D` entry that asks for it. |
 | Review fix | `review fix` | Read the row in the report that the step names. Find the code by its content, not by the line number in the row, because earlier fixes can move the code. Make the change that the done line names. If the row names a missing test, write it first and see it go red. If the new test covers code that already works, it cannot go red first. Break the code under test, see the test go red, and restore the code. Keep every other test green. |
 | Changes behaviour | `TDD` | Write a failing test at the step's seam and see it go red. Write the minimum code to go green. Then do a mutation check: break the new code, see the test go red, and restore the code. |
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
@@ -48,7 +47,6 @@ Run the gates that the handoff or the repo guidance names. Use the test scope th
 guidance sets.
 
 Run the gates in every step. Run them also in a step that changes no file, such as a review step.
-In the push step, run them before you push.
 
 If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
 red, save the work, write a `B` entry, and return.

@@ -229,7 +229,7 @@ Give `/write-report` these inputs:
   branch has a PR. Else the branch name with each `/` changed to `-`.
 - `title`: `Review of PR #<n>`, else `Review of <branch>`.
 - `skill`: `/engineering:post-review-comments` on someone else's code. On your own code,
-  `/engineering:run-wave` when Step 1 has a handoff, else `/engineering:apply-review`.
+  `/engineering:build` when Step 1 has a handoff, else `/engineering:apply-review`.
 - The run:
   - `title`: `Panel run`.
   - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
@@ -240,7 +240,7 @@ Give `/write-report` these inputs:
     repo folder), `Spec` (the source of the acceptance criteria, when `persona-ac-check` ran), and
     `Copilot` (`dropped N (<persona>: n, …)`, when the filter dropped a finding).
     `/engineering:post-review-comments` reads `PR`, `Base`, and `Folder`. Add `Handoff` (the
-    absolute handoff path) when Step 1 has a handoff. `/engineering:run-wave` reads it.
+    absolute handoff path) when Step 1 has a handoff. `/engineering:build` reads it.
   - `answer`: on someone else's code, the count in each tier, and what the user does next. On
     your own code, the count of fixed and open findings, and the fix commit. Ask no question. If
     every persona is clean, say so plainly. A clean panel is a valid result.
@@ -302,7 +302,7 @@ goes on. It never blocks the push step:
 1. Tick the review step. Write the report path, the base SHA, and the reviewed head into its done
    line. `/create-pr` reads the two SHAs.
 2. Write no `D` entry. The open rows wait in the report for QA. The prompt that the report builds
-   runs `/engineering:run-wave`, which adds a fix round for the rows that the user ticks.
+   runs `/engineering:build`, which adds a fix round for the rows that the user ticks.
 3. Stop.
 
 ## Step 7: Record calibration signals (never edit)

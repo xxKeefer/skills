@@ -33,8 +33,9 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 ```
 
 Each command picks and runs the skills below it, and each description starts with ★. Three commands
-sit outside the line: `/constraints`, `/webperf`, and `/code-simplify`. `/build` runs one step.
-`/run-wave` runs every remaining step. `/review` and `/plan` share a name with built-in commands.
+sit outside the line: `/constraints`, `/webperf`, and `/code-simplify`. `/build` runs every step
+of the plan, then loops a test step and a review step until the branch is ready for `/ship`.
+`/implement` runs one step. `/review` and `/plan` share a name with built-in commands.
 When the bare name opens the built-in, type `/engineering:review` or `/engineering:plan`. The
 [engineering README](skills/engineering/README.md) holds the full table of commands and skills.
 

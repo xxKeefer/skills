@@ -1,6 +1,7 @@
 # 0013 One engineering domain, with lifecycle commands
 
-**Status:** Accepted, 2026-11-13. Supersedes ADR 0009 and ADR 0010.
+**Status:** Accepted, 2026-11-13. Supersedes ADR 0009 and ADR 0010. ADR 0015 replaces its `build`
+line.
 
 ## Context
 

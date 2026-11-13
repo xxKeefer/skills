@@ -169,7 +169,8 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Esti
 
 ## Suggested skills
 
-- `/do-next @<handoff path>`: one step per session, from the worktree.
+- `/build @<handoff path>`: every step, then the test and review loop, from the worktree.
+- `/implement @<handoff path>`: one step per session, from the worktree.
 - `/tdd`: each step that changes behaviour.
 - `/engineering:mob-review`: the review step.
 - `/create-pr`: the push step.

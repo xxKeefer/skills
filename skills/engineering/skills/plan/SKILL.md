@@ -26,6 +26,7 @@ This command picks its input.
 ## Step 2: Hand on
 
 Return what `/start-ticket` returns. When it wrote a plan handoff, give the next command:
-`/build @<handoff path>`. When it split the ticket, give its wave 1 commands.
+`/build @<handoff path>`, or `/implement @<handoff path>` for one step. When it split the ticket,
+give its wave 1 commands.
 
 **Done when:** the user has the next command.

@@ -17,7 +17,7 @@ Each command has `disable-model-invocation: true`, and its description starts wi
 |---|---|---|
 | `/spec` | Define | `/refine-ticket` for a ticket key. For an idea: an interview to an explicit yes, then a spec with lettered ACs |
 | `/plan` | Plan | `/start-ticket` with a ticket key or a spec |
-| `/build` | Build | `/do-next` on the plan handoff, one step. `/run-wave` runs every remaining step |
+| `/build` | Build | Every remaining step of the plan handoff, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/sad-path`. Open decisions wait in one batch. A review report's prompt adds a fix round |
 | `/test` | Verify | `/tdd` for a bug or an untested seam, else `/happy-path`, then `/sad-path` when its guard matches |
 | `/constraints` | Verify | Write `CONSTRAINTS.md` with a command behind each rule, then check each branch for a lowered bar |
 | `/review` | Review | `/light-review` on the branch, `/mob-review` with `full`, or `/review-pr` for a PR |
@@ -36,9 +36,8 @@ Each command has `disable-model-invocation: true`, and its description starts wi
 | `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub handoff |
 | `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
-| `/implement` | Implementation | Implement a spec or tickets via /tdd at pre-agreed seams |
+| `/implement` | Implementation | `/do-next` on the plan handoff, one step. With no handoff, implement a spec or tickets with `/tdd` at agreed seams |
 | `/tdd` | Implementation | Red → green loop |
-| `/run-wave` | Implementation | Run every remaining step of a handoff, one fresh subagent per step (or per run of small fix steps), then batch the open decisions for the user. Pass it a review report's prompt to add a fix round, and a new review when the round can change behaviour |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
@@ -51,7 +50,7 @@ Each command has `disable-model-invocation: true`, and its description starts wi
 | `/pr-news` | Anytime | Table what happened over a time period on your open PRs and your review requests, one table per repo |
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
-| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a handoff the `/engineering:run-wave` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a handoff, it records the report in the review step |
+| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a handoff the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a handoff, it records the report in the review step |
 | `/light-review` | Review | Run the eight essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, and architecture) and fix and report as `/engineering:mob-review` does, with the same ticks and prompts |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/engineering:mob-review` there, then give the report path, whose ticks build the `/engineering:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
