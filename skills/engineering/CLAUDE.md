@@ -14,9 +14,9 @@ Engineering skills call `/grill`, `/write-to-file`, `/write-report`, `/look-up`,
 
 [`README.md`](README.md) holds the only skill table for this domain. Edit a row there.
 
-[`TEST-APPROACH.md`](TEST-APPROACH.md) holds the risk and technique method. `start-ticket` and
-`create-pr` read it. `tdd` holds the same text in `risk-and-technique.md`, and `self-improve` uses
-the same defect tokens. A change to one file needs the same change to the others.
+[`TEST-APPROACH.md`](TEST-APPROACH.md) holds the risk and technique method. `start-ticket`,
+`create-pr`, and `tdd` read it. `self-improve` uses the same defect tokens, so a change to a token
+needs the same change there.
 
 ## Commands
 
