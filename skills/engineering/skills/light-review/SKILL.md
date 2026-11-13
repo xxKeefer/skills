@@ -32,7 +32,7 @@ panel.
 ## Steps
 
 Read [`mob-review`](../mob-review/SKILL.md), and follow its Steps 0 to 7 with the changes below.
-Each other line of those steps applies as written. The panel table of `mob-review` holds the guard
+Each other line of those steps applies as written. The panel table of `mob-review`, in its `PANEL.md`, holds the guard
 of each lane, and its Step 3 sets the model of each lane.
 
 1. **Step 0.** Ask the user to `/clear` and run `/engineering:light-review` again, not `mob-review`.

@@ -25,7 +25,7 @@ Read the argument:
 - Keep the frontmatter fields (`name`, `description`, `disable-model-invocation: true` on every `persona-*`) and the section order: Guard → Scope → What you review → Out of lane → Severity → Output.
 - **Adding** a rule is routine. **Removing** a rule, dropping a lane, or deleting a persona needs the user's OK first. State what you'd remove and why.
 - Every rule must be checkable against a changed line in a diff. If you can't say what the reviewer greps for, don't add it.
-- When a persona's `description`, guard, or existence changes, update the matching row (and the description list) in `mob-review/SKILL.md` in the same pass.
+- When a persona's `description`, guard, or existence changes, update the matching row in `mob-review/PANEL.md` in the same pass.
 
 ## Part A: `persona-best-practice` version refresh
 
@@ -78,7 +78,7 @@ Show a table: package | installed | latest | reference updated? | rules added/ch
 For each persona in scope, verify and fix:
 
 1. **Frontmatter**: `name` matches the directory; `disable-model-invocation: true` present; `description` names the lane, the trigger phrasings, and what it explicitly does *not* cover.
-2. **Guard matches the panel.** The guard sentence in the persona and the Guard column in `mob-review/SKILL.md` must describe the same condition.
+2. **Guard matches the panel.** The guard sentence in the persona and the Guard column in `mob-review/PANEL.md` must describe the same condition.
 3. **Contract pointer intact.** The first line under the frontmatter is the pointer, word for word: "Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it." The Output section names the `category` slug. The persona holds no copy of contract text: no git fallback block, no Code references paragraph, no JSON line.
 4. **No lane overlap.** For each rule, check no other persona claims it. If two do, the narrower one keeps it and the other gains an "Out of lane" line pointing at it.
 5. **Severity list covers every rule**: each rule appears in exactly one tier.
