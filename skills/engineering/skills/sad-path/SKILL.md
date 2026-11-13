@@ -1,10 +1,9 @@
 ---
 name: sad-path
 description: >
-  Generate a manual QA checklist that tries to break the current changeset, built from the test
-  data of the edge-case personas. Each item names the exact input or key and cites a catalogue ID.
-  It writes an HTML report, whose fail ticks build a /engineering:fix prompt. Use when the user says
-  "sad path", asks which edge cases to try by hand, or wants to break a form before closing out.
+  Write a manual QA checklist that tries to break the current changeset, from the test data of the
+  edge-case personas. Use when the user says "sad path", asks which edge cases to try by hand, or
+  wants to break a form.
 ---
 
 # Sad Path

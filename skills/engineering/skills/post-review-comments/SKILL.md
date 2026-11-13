@@ -1,10 +1,8 @@
 ---
 name: post-review-comments
 description: >
-  Post the rows that the user ticked in a review report to the PR: read each draft and note from
-  the report, check each anchor, show the drafts, then post them as one comment review and read
-  them back. Use when the user pastes the prompt that a review report builds, or asks to post the
-  ticked review findings to the PR.
+  Post the rows ticked in a review report to the PR as one review. Use when the user pastes the
+  prompt that a review report builds, or asks to post the ticked findings.
 argument-hint: "@<report path> <row IDs>"
 ---
 

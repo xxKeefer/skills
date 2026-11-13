@@ -1,11 +1,8 @@
 ---
 name: review-pr
 description: >
-  Review an open PR from its number, URL, branch, or ticket key: resolve the PR, claim its
-  worktree, sync it by fast-forward only, then run /engineering:mob-review there, which writes an HTML
-  report. On someone else's code, give the report path, so the user ticks the rows to post and
-  pastes the prompt that the report builds. Use when the user asks to review a PR from its number,
-  URL, branch, or ticket key.
+  Review an open PR in its own worktree: claim the worktree, sync it, and run /engineering:mob-
+  review there. Use when the user asks to review a PR from its number, URL, branch, or ticket key.
 argument-hint: "<PR number or URL | branch | ticket key>"
 ---
 

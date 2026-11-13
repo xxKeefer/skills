@@ -1,6 +1,9 @@
 ---
 name: update-personas
-description: Refresh the persona-* reviewer skills so they stay accurate. Re-check persona-best-practice against the versions actually installed in the target repo (and what has since shipped upstream), and run the shared structural lint over any other persona. Use when the user says "update personas", "refresh the personas", "the personas are stale", "check the best-practice versions", or after a big dependency bump.
+description: >
+  Refresh the persona-* reviewers: check persona-best-practice against the installed versions, and
+  lint the other personas. Use when the user says "update personas" or the personas are stale, or
+  after a big dependency bump.
 ---
 
 # update-personas: keep the review panel accurate

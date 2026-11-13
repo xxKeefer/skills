@@ -1,10 +1,8 @@
 ---
 name: pickup
 description: >
-  Pick up an open PR from its number, URL, branch, or ticket key: confirm the PR, claim its
-  worktree, sync the branch by fast-forward only, then assess its open review threads into a review
-  report, whose ticks build the /engineering:apply-review prompt. Use when the user asks to pick up a PR
-  or a branch.
+  Pick up an open PR: claim its worktree, sync it, and assess its open review threads into a
+  report. Use when the user asks to pick up a PR from its number, URL, branch, or ticket key.
 argument-hint: "<PR number or URL | branch | ticket key>"
 ---
 

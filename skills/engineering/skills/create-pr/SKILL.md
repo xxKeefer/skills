@@ -1,10 +1,8 @@
 ---
 name: create-pr
 description: >
-  Push the branch and open a draft PR, or rewrite the open PR: check the review for drift, lead the
-  body with a visual summary, evidence, and the merge danger, fill the repo's PR template with an
-  AC table and its gaps, then push without asking. Use when the user
-  asks to open or update a PR, or when the push step of a handoff runs.
+  Push the branch and open a draft PR, or rewrite the body of the open PR. Use when the user asks
+  to open or update a PR, or when the push step of a handoff runs.
 argument-hint: "[handoff path]"
 ---
 

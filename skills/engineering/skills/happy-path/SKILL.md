@@ -1,10 +1,8 @@
 ---
 name: happy-path
 description: >
-  Generate a manual QA test plan for the current changeset. Reads recent git changes to understand
-  what was built, then writes a concise checklist as an HTML report, whose fail ticks build a
-  /engineering:fix prompt. Use when user says "happy path", "qa plan", "test plan", "what should I
-  test", or wants to manually verify before closing out.
+  Write a manual QA checklist for the current changeset as an HTML report. Use when the user says
+  "happy path" or "test plan", or asks what to test by hand before closing out.
 ---
 
 # Happy Path

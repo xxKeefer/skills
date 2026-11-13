@@ -1,10 +1,9 @@
 ---
 name: codebase-news
 description: >
-  Summarise the notable changes in the current repo over a time period as a table with the columns
-  app/lib, topic and summary. Reads the changelogs first and the commit history where they fall
-  short. Use when the user says "codebase news", "what changed while I was away", "catch me up on
-  the repo", or is back from leave.
+  Summarise the notable changes in the current repo over a time period, from the changelogs and
+  the commits. Use when the user says "codebase news" or "what changed while I was away", or is
+  back from leave.
 argument-hint: "[time-period, default last 24 hours]"
 ---
 

@@ -1,14 +1,9 @@
 ---
 name: light-review
 description: >
-  Run the essential lanes of the review panel over a PR or branch: correctness, security,
-  error-handling, code-quality, naming, test-design, test-quality, and architecture. Follows the
-  mob-review steps, and writes the findings to the same HTML report through /write-report. On your
-  own branch, it fixes each finding that has a fix, commits once, and reports what stays open. On
-  someone else's, it drops the nits, and the ticks build a /engineering:post-review-comments
-  prompt. It never pushes. Takes an optional handoff or spec path for the test-design
-  check. Use when the user says "light review", "quick review", or wants a review with fewer
-  lanes than /engineering:mob-review.
+  Run the eight essential lanes of the review panel over a PR or branch, into the same report as
+  /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
+  lanes than the full panel.
 argument-hint: "[PR number or URL | branch] [handoff or spec path]"
 ---
 

@@ -1,10 +1,9 @@
 ---
 name: refine-ticket
 description: >
-  Refine a ticket before work starts: grill out each ambiguity, derive lettered ACs from the user
-  story, and write a plain summary, then write both back to the ticket after one yes. Use when the
-  user asks to refine a ticket, or when another skill finds a ticket with no user story, no ACs,
-  or vague scope words.
+  Refine a ticket before work starts into lettered ACs and a plain summary, written back after one
+  yes. Use when the user asks to refine a ticket, or when another skill finds a ticket with no
+  user story, no ACs, or vague scope words.
 argument-hint: "<ticket key>"
 ---
 

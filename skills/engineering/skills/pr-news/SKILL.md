@@ -1,10 +1,9 @@
 ---
 name: pr-news
 description: >
-  Summarise what happened over a time period on your open PRs and on the PRs you are asked to
-  review, as one table per repo: your own PRs first, then your review requests. Reads each PR's
-  commits, reviews, comments, checks and merge state through `gh`. Use when the user says "pr news",
-  "what happened on my PRs", "catch me up on my reviews", or is back from leave.
+  Summarise what happened on your open PRs and your review requests over a time period, one table
+  per repo. Use when the user says "pr news" or "catch me up on my reviews", or is back from
+  leave.
 argument-hint: "[time-period, default last 24 hours]"
 ---
 

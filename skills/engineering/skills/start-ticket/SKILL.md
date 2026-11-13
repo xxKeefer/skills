@@ -1,10 +1,8 @@
 ---
 name: start-ticket
 description: >
-  Start work on a ticket: refine it when it is vague, scope it, split a big one into sub-tasks with
-  /split-ticket, claim its worktree, and write the plan handoff that /do-next runs, with lettered
-  ACs and a test approach for the user to approve. Use when the user asks to start or pick up a
-  ticket or a sub-task.
+  Start work on a ticket: refine, scope, or split it as needed, claim its worktree, and write the
+  plan handoff. Use when the user asks to start or pick up a ticket or a sub-task.
 argument-hint: "<ticket key>"
 ---
 

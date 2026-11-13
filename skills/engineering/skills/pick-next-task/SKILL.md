@@ -1,10 +1,8 @@
 ---
 name: pick-next-task
 description: >
-  Rank the open work in your team's backlog by focus, priority, iteration, and effort. You pick up
-  to three tickets, then each one is assigned to you, moved to in progress, and given its /plan
-  command. Use when the user says "pick next task", "what should I work on next", or "backlog
-  priority", or wants help to choose work.
+  Rank the open work in your team's backlog, then assign the tickets that you pick. Use when the
+  user says "pick next task" or asks what to work on next.
 ---
 
 # Pick Next Task
