@@ -1,14 +1,9 @@
 ---
 name: light-review
 description: >
-  Run the essential lanes of the review panel over a PR or branch: correctness, security,
-  error-handling, code-quality, naming, test-design, test-quality, and architecture. Follows the
-  mob-review steps, and writes the findings to the same HTML report through /write-report. On your
-  own branch, it fixes each finding that has a fix, commits once, and reports what stays open. On
-  someone else's, it drops the nits, and the ticks build a /engineering:post-review-comments
-  prompt. It never pushes. Takes an optional handoff or spec path for the test-design
-  check. Use when the user says "light review", "quick review", or wants a review with fewer
-  lanes than /engineering:mob-review.
+  Run the eight essential lanes of the review panel over a PR or branch, into the same report as
+  /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
+  lanes than the full panel.
 argument-hint: "[PR number or URL | branch] [handoff or spec path]"
 ---
 
@@ -32,8 +27,8 @@ panel.
 ## Steps
 
 Read [`mob-review`](../mob-review/SKILL.md), and follow its Steps 0 to 7 with the changes below.
-Each other line of those steps applies as written. The panel table of `mob-review` holds the guard
-of each lane, and its Step 3 sets the model of each lane.
+Each other line of those steps applies as written. `mob-review/PANEL.md` holds the guard and the model of each
+lane.
 
 1. **Step 0.** Ask the user to `/clear` and run `/engineering:light-review` again, not `mob-review`.
 2. **Step 2.** Match the changed files against the guards of the essential lanes only. Spawn no

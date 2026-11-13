@@ -1,10 +1,8 @@
 ---
 name: post-review-comments
 description: >
-  Post the rows that the user ticked in a review report to the PR: read each draft and note from
-  the report, check each anchor, show the drafts, then post them as one comment review and read
-  them back. Use when the user pastes the prompt that a review report builds, or asks to post the
-  ticked review findings to the PR.
+  Post the rows ticked in a review report to the PR as one review. Use when the user pastes the
+  prompt that a review report builds, or asks to post the ticked findings.
 argument-hint: "@<report path> <row IDs>"
 ---
 
@@ -74,13 +72,7 @@ head. From here on, the PR head is the head.
    `git diff --merge-base origin/<base> <head> -- <path> | grep '^@@'`. A hunk `+<start>,<count>`
    holds the lines `<start>` to `<start> + <count> - 1`. A row outside every hunk, or on line 0,
    goes in the review body, as `` `<path>:<line>` `` and then its comment.
-4. Scan each draft, and fix each hit:
-   - An em dash or an en dash used as a connector.
-   - `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
-   - A prose word spelled outside the locale that the user's instructions name. Identifiers, API
-     fields, config keys, and quoted UI strings keep their spelling.
-   - A list of three or more items with no Oxford comma.
-   - The name of a personal skill, an agent, or a review tool. The prefix line stays.
+4. Scan each draft as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says. The prefix line stays.
 5. Write each draft to `c<n>.md` in a folder from `mktemp -d`, with `<n>` from 1 in the order of
    the IDs. Use a quoted heredoc (`<<'EOF'`), so that backticks and `$` stay as written.
 

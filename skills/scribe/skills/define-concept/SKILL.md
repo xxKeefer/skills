@@ -1,10 +1,9 @@
 ---
 name: define-concept
 description: >
-  Mine a corpus -- code, vault notes, lore, session logs, docs -- for all terminology around a
-  single concept and write it into a CONTEXT.md glossary as a self-contained context file. Every
-  proposed term is verified by the human one at a time. Use when the user says "define concept",
-  "document the concept of X", "mine terms for X", or wants to capture the language of one concept.
+  Mine a corpus for the terms around one concept, and write them into a CONTEXT.md glossary after
+  the user checks each one. Use when the user says "define concept" or wants to capture the
+  language of one concept.
 ---
 
 # Define Concept

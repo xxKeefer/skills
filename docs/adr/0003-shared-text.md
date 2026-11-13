@@ -1,6 +1,7 @@
 # 0003 One home for shared text
 
-**Status:** Accepted, 2026-10-29
+**Status:** Accepted, 2026-10-29. Updated 2026-11-13: the copies now live in `primitives`,
+`experimental`, and `engineering`. The `deprecated` plugin holds no skill, so it has no copy.
 
 ## Context
 
@@ -43,7 +44,7 @@ links it and keeps its own fifth rule: the term-of-art exemption, or the ban on 
 
 ## Consequences
 
-- To change the STE rule, edit all three `STE.md` files. To change a shared hard rule, edit
+- To change the STE rule, edit every `STE.md` file (`ls skills/*/STE.md`). To change a shared hard rule, edit
   `HARD-RULES.md` only.
 - A new skill in another plugin that needs the STE rule adds an `STE.md` to that plugin.
 - The skills link both files by a relative path (`../../STE.md`, `../../HARD-RULES.md`). The path

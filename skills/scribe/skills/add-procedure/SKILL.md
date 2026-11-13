@@ -1,11 +1,9 @@
 ---
 name: add-procedure
 description: >
-  Capture a just-solved task into the vault's reference directory as a terse, repeatable how-to.
-  Mines the current conversation for the steps, picks the best-fit procedure file (or starts a new
-  one), and writes a consistent entry. Use when the user says "add procedure", "record this",
-  "save this how-to", "runbook this", "I'll need to do this again", or just solved a fiddly task
-  worth capturing.
+  Capture a just-solved task as a terse, repeatable how-to in the vault's reference directory. Use
+  when the user says "add procedure" or "runbook this", or just solved a fiddly task worth
+  keeping.
 ---
 
 # Add Procedure

@@ -1,10 +1,9 @@
 ---
 name: sad-path
 description: >
-  Generate a manual QA checklist that tries to break the current changeset, built from the test
-  data of the edge-case personas. Each item names the exact input or key and cites a catalogue ID.
-  It writes an HTML report, whose fail ticks build a /engineering:fix prompt. Use when the user says
-  "sad path", asks which edge cases to try by hand, or wants to break a form before closing out.
+  Write a manual QA checklist that tries to break the current changeset, from the test data of the
+  edge-case personas. Use when the user says "sad path", asks which edge cases to try by hand, or
+  wants to break a form.
 ---
 
 # Sad Path
@@ -22,14 +21,7 @@ review panel and this checklist share one copy.
 
 ## Step 1: Read the Changeset
 
-Find the changeset:
-
-1. If `$ARGUMENTS` holds a commit range, use it.
-2. Find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD`. It prints
-   `origin/<name>`. Fall back to `main`.
-3. Off the default branch, diff against `git merge-base HEAD <default>`.
-4. On the default branch, use the uncommitted diff, `git diff HEAD`.
-5. If that diff is empty, ask the user for a range.
+Find the changeset as [`CHANGESET.md`](../../CHANGESET.md) says.
 
 Read the `--stat`, then the diff of the non-test source files. If `$ARGUMENTS` holds resource
 links, invoke `/look-up` for them.

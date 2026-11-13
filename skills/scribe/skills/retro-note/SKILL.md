@@ -1,10 +1,9 @@
 ---
 name: retro-note
 description: >
-  Append a thought from the current conversation to the user's rolling retro log in their Obsidian
-  vault, as a dated bullet, so it surfaces at the next retro. Use when the user says "retro note",
-  "note for retro", "log this for retro", "add to retro", or wants to park an observation for the
-  next retrospective.
+  Append a thought from the conversation to the user's retro log in the vault, as a dated bullet.
+  Use when the user says "retro note" or "log this for retro", or wants to park an observation for
+  the next retro.
 ---
 
 # Retro Note

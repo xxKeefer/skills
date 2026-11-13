@@ -1,10 +1,8 @@
 ---
 name: create-pr
 description: >
-  Push the branch and open a draft PR, or rewrite the open PR: check the review for drift, lead the
-  body with a visual summary, evidence, and the merge danger, fill the repo's PR template with an
-  AC table and its gaps, then push without asking. Use when the user
-  asks to open or update a PR, or when the push step of a handoff runs.
+  Push the branch and open a draft PR, or rewrite the body of the open PR. Use when the user asks
+  to open or update a PR, or when the push step of a handoff runs.
 argument-hint: "[handoff path]"
 ---
 
@@ -186,13 +184,8 @@ danger names a door and a blast radius.
      section so it reads as always correct.
    - Cut anything that would not change a reviewer's decision.
    - Name no personal skill, agent, or review tool. Add no AI attribution.
-8. Scan the title and the body, and fix each hit:
-   - An em dash or an en dash used as a connector. The `—` row marker in the AC table stays.
-   - `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
-   - A prose word spelled outside the locale that the user's instructions name. Identifiers, API
-     fields, config keys, and quoted UI strings keep their spelling.
-   - A list of three or more items with no Oxford comma.
-   - The name of a personal skill, an agent, or a review tool.
+8. Scan the title and the body as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says. The `—` row
+   marker in the AC table stays.
    - A placeholder or an instruction from the template, except `reason needed`.
 
 **Done when:** the scan finds nothing.

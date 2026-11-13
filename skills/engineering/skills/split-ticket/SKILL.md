@@ -1,10 +1,9 @@
 ---
 name: split-ticket
 description: >
-  Split a ticket that is too big for one PR into sub-tasks: cut the pieces, group them into waves
-  with a merge order, write the split report, then create the sub-tasks and a stub handoff for each
-  after one yes. Use when the user asks to split a ticket, or when /scope-ticket or the
-  /start-ticket plan gate gives SPLIT and the user picks the split path.
+  Split a ticket that is too big for one PR into sub-tasks in waves, with a stub handoff for each.
+  Use when the user asks to split a ticket, or when a scope check gives SPLIT and the user picks
+  the split path.
 argument-hint: "<ticket key>"
 ---
 

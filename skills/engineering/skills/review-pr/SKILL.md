@@ -1,11 +1,8 @@
 ---
 name: review-pr
 description: >
-  Review an open PR from its number, URL, branch, or ticket key: resolve the PR, claim its
-  worktree, sync it by fast-forward only, then run /engineering:mob-review there, which writes an HTML
-  report. On someone else's code, give the report path, so the user ticks the rows to post and
-  pastes the prompt that the report builds. Use when the user asks to review a PR from its number,
-  URL, branch, or ticket key.
+  Review an open PR in its own worktree: claim the worktree, sync it, and run /engineering:mob-
+  review there. Use when the user asks to review a PR from its number, URL, branch, or ticket key.
 argument-hint: "<PR number or URL | branch | ticket key>"
 ---
 
@@ -21,25 +18,9 @@ resolve → show → /claim → sync → /engineering:mob-review → point to th
 
 ## Step 1: Resolve the PR
 
-1. Read the handle from `$ARGUMENTS`. If it is not there, ask for it. Run `gh` from the current
-   folder, so that it reads this repo.
-2. Find the open PR by the kind of handle:
-
-   | Handle | Do |
-   |---|---|
-   | A PR URL | Take `<n>` from `github.com/<owner>/<repo>/pull/<n>`. If `<owner>/<repo>` is not this repo, stop, and say to run `review-pr` from a clone of that repo. |
-   | A PR number, or `#<n>` | Take `<n>`. |
-   | Only a ticket key, such as `PROJ-123` | `gh pr list --state open --search "<key>" --json number,headRefName,title,url` |
-   | Anything else | It is a branch: `gh pr list --state open --head "<branch>" --json number,headRefName,title,url` |
-
-3. Use the result of a search:
-   - One PR: continue with it.
-   - Two or more: list them, and continue with the one that the user picks.
-   - None: stop. Say that the handle has no open PR.
-4. Run `gh pr view <n> --json number,title,url,state,isDraft,author,headRefName,headRefOid,baseRefName`.
-5. If `state` is not `OPEN`, stop and give the state.
-
-The branch is the `headRefName` of the PR. Never guess the branch from a ticket key.
+1. Follow "Resolve the PR" in [`PR-HANDLE.md`](../../PR-HANDLE.md).
+2. Run `gh pr view <n> --json number,title,url,state,isDraft,author,headRefName,headRefOid,baseRefName`.
+3. If `state` is not `OPEN`, stop and give the state.
 
 **Done when:** you have one open PR with its branch and its head SHA, or you stopped and said why.
 
@@ -66,18 +47,8 @@ answer.
 
 ## Step 4: Sync the worktree
 
-Make the worktree hold the PR head with no lost commit. Run each git command in the worktree, with
-`git -C <path>`. Never run `reset --hard`.
-
-1. Run `git status --porcelain`. If it prints a line, stop. Show the files, and change nothing.
-2. If `git cat-file -e <headRefOid>` fails, get the PR head with `git fetch origin pull/<n>/head`.
-3. Compare `HEAD` with `<headRefOid>`:
-   - The same commit: continue.
-   - `HEAD` is an ancestor of `<headRefOid>` (`git merge-base --is-ancestor HEAD <headRefOid>`):
-     run `git merge --ff-only <headRefOid>`. Then check that `git rev-parse HEAD` prints
-     `<headRefOid>`.
-   - Else: stop. Show `git log --oneline <headRefOid>..HEAD`, the local commits that the PR does
-     not have. Say that the panel would review commits that are not in the PR. Change nothing.
+Follow "Sync the worktree" in [`PR-HANDLE.md`](../../PR-HANDLE.md). With local commits, stop. Say
+that the panel would review commits that are not in the PR. Change nothing.
 
 **Done when:** the worktree holds the PR head, or you stopped and changed nothing.
 

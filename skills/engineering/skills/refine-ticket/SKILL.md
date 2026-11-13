@@ -1,10 +1,9 @@
 ---
 name: refine-ticket
 description: >
-  Refine a ticket before work starts: grill out each ambiguity, derive lettered ACs from the user
-  story, and write a plain summary, then write both back to the ticket after one yes. Use when the
-  user asks to refine a ticket, or when another skill finds a ticket with no user story, no ACs,
-  or vague scope words.
+  Refine a ticket before work starts into lettered ACs and a plain summary, written back after one
+  yes. Use when the user asks to refine a ticket, or when another skill finds a ticket with no
+  user story, no ACs, or vague scope words.
 argument-hint: "<ticket key>"
 ---
 
@@ -75,14 +74,7 @@ the product, such as a label on a screen. Write each part as if it was always ri
 of what changed. Write in Simplified Technical English. Read [`STE.md`](../../STE.md) first, and
 follow every rule in it.
 
-**Scan.** Fix each hit in the summary and the ACs:
-
-- An em dash or an en dash used as a connector.
-- `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
-- A prose word spelled outside the locale that the user's instructions name. A name from the
-  product keeps its spelling.
-- A list of three or more items with no Oxford comma.
-- The name of a skill, an agent, or a review tool.
+**Scan.** Scan the summary and the ACs as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says.
 
 **Done when:** each gap from Step 2 is closed in an AC or the summary, and the scan finds nothing.
 

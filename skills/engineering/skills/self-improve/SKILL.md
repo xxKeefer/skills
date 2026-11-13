@@ -29,7 +29,7 @@ REPO_DIR="$STATE_ROOT/<repo key>"
 `$REPO_DIR/state.json` holds `lastRunAt` (ISO 8601, UTC), `window` (`<start>..<end>`), `sources`
 (each source name, with `ran` or `skipped: <reason>`), and `tracker` (the tracker and its query, or
 `"none"`). A missing or unparseable file means "never run". The backlog sits in the state root, because the personas serve every repo. Its entry
-format is in `$SKILL_DIR/../mob-review/SKILL.md` Step 7.
+format is in `$SKILL_DIR/../mob-review/CALIBRATION.md`.
 
 `$CACHE` is `$REPO_DIR/cache/<window start>--<window end>`. It holds the defect, review, and CI
 data of one window. `$REPO_DIR/themes.json` holds the review and CI themes of the last run, so the
@@ -75,7 +75,7 @@ fetch, and each ends with the rating command in `review-mining.md`.
 
 A defect theme is two or more real fixes of one kind of defect (`defect-mining.md` section 6). A
 review or CI theme is one that the rating marks `floor: true`. Give each theme one route. Find the
-lane that owns a check in the panel table of `$SKILL_DIR/../mob-review/SKILL.md`.
+lane that owns a check in the panel table of `$SKILL_DIR/../mob-review/PANEL.md`.
 
 | Theme | Route | On yes |
 |---|---|---|

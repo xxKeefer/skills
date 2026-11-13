@@ -1,10 +1,8 @@
 ---
 name: define-term
 description: >
-  Add a single term to a CONTEXT.md glossary under a concept the user specifies. Lightweight
-  alternative to /define-concept -- one term, corpus-evidence lookup, human verification, insert.
-  Use when the user says "define term", "add X to the context", "glossary this", or wants to
-  capture one term without a full concept mining pass.
+  Add one term to a CONTEXT.md glossary, from corpus evidence, after the user checks it. Use when
+  the user says "define term" or "glossary this", or wants one term without a full concept pass.
 ---
 
 # Define Term

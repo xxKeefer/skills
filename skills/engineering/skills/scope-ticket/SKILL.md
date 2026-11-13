@@ -1,10 +1,9 @@
 ---
 name: scope-ticket
 description: >
-  Scope a ticket before work starts: size the change with cheap probes, then give one verdict,
-  SCOPED, SPLIT, or CLARIFY, with a points estimate. A direct run on the split path hands off to
-  /split-ticket. Use when the user asks to scope a ticket or asks whether a ticket is too big to
-  land in one PR, or when another skill needs a scope check before work starts.
+  Scope a ticket before work starts, with one verdict (SCOPED, SPLIT, or CLARIFY) and a points
+  estimate. Use when the user asks to scope a ticket or if it fits one PR, or when another skill
+  needs a scope check.
 argument-hint: "<ticket key>"
 ---
 
