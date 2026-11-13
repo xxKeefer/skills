@@ -1,10 +1,8 @@
 ---
 name: write-report
 description: >
-  Write an HTML report through /write-to-file: the answer first, then the visuals, then rows with
-  ticks that build a prompt to copy. A re-run adds a run to the same file and keeps every earlier
-  run. Model-invocable -- other skills call it for each report that the user reads and ticks. Use
-  when a skill or the user needs an HTML report.
+  Write an HTML report: the answer first, then visuals, then rows whose ticks build a prompt. A
+  re-run adds a run to the same file. Use when a skill or the user needs an HTML report.
 ---
 
 # Write Report

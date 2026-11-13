@@ -1,10 +1,9 @@
 ---
 name: show-me
 description: >
-  Show the current topic, or a diff, as the smallest visual that makes the point: pseudocode, a
-  call tree, a component tree, a file tree, Mermaid, a shaped diff, or one focused HTML file.
-  Model-invocable -- other skills call it to show a change instead of describing it. Use when the
-  user says "show me", "draw it", or "diagram this".
+  Show the current topic or a diff as the smallest visual that makes the point: pseudocode, a
+  tree, Mermaid, a shaped diff, or one HTML file. Use when the user says "show me", "draw it", or
+  "diagram this", or when another skill must show a change.
 ---
 
 Show the target visually. Skip the preamble and keep prose brief. Pick the smallest view that

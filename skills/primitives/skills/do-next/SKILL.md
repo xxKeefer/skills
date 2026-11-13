@@ -1,10 +1,8 @@
 ---
 name: do-next
 description: >
-  Cold-start from a handoff/plan document and execute the next step, then update the document so
-  the next run can pick up where this one left off. Takes one argument: the @-tagged file. Built
-  to be run repeatedly — /clear, /do-next @file, repeat. Use when the user says "do next",
-  "do the next step", or hands you a handoff to continue.
+  Cold-start from a handoff or plan, run its next step, and update the document for the next run.
+  Use when the user says "do next" or hands you a handoff to continue.
 argument-hint: "@path/to/handoff-or-plan.md"
 ---
 

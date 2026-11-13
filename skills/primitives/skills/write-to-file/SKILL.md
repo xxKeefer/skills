@@ -1,10 +1,9 @@
 ---
 name: write-to-file
 description: >
-  Write planning, spike, handoff, or intermediary files to `.ai/` at the project root, or to the
-  folder that the user's instructions name for the doctype. Model-invocable -- other skills delegate
-  file output here instead of managing paths themselves. Use whenever a skill or workflow produces a
-  document that needs to persist for later `@`-reference in future prompts.
+  Write a plan, spike, handoff, or other working file to `.ai/`, or to the folder that the user's
+  instructions name for its doctype. Use whenever a skill or workflow makes a document to
+  `@`-reference later.
 ---
 
 Write the given content to the output folder for its doctype.
