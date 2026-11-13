@@ -1,6 +1,6 @@
 # 0010 One developer domain
 
-**Status:** Accepted, 2026-11-07. Supersedes ADR 0008. Supersedes "How engineering loads" in ADR
+**Status:** Superseded by ADR 0013, 2026-11-13. Accepted 2026-11-07. Supersedes ADR 0008. Supersedes "How engineering loads" in ADR
 0009.
 
 ## Context

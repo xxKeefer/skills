@@ -1,6 +1,6 @@
 # xxkeefer-skills — Context
 
-**Last updated:** 2026-10-28
+**Last updated:** 2026-11-13
 
 Shared terminology for the xxkeefer-skills marketplace. This is the repo-wide glossary; per-domain
 concepts still live here rather than in their own `CONTEXT.md` files for now.
@@ -48,6 +48,7 @@ straight descriptive kebab-case verb, like every skill in this repo.
 | **Vertical slice** | A unit of work that cuts through all layers end-to-end and is demo-able or verifiable on its own. |
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |
 | **Everything-agnostic** | The north star: skills encode how to think about problems, not how to use specific frameworks, languages, or tools. |
+| **Tool role** | A kind of tool that a skill needs, such as the tracker, the code host, or the browser. A skill names the role, and the repo's `## Agent skills` block or the machine's `## Tools on this machine` block names the product. |
 | **Durability** | Issue content must survive radical codebase changes -- no file paths, domain language, behavioural criteria. |
 
 ## Domain terms

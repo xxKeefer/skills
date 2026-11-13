@@ -16,8 +16,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Purpose |
 |---|---|
 | [**primitives**](skills/primitives/README.md) | Foundational building blocks |
-| [**developer**](skills/developer/README.md) | Implementing code: ticket to PR -- plan, build test-first, debug, QA, open the PR |
-| [**code-review**](skills/code-review/README.md) | Persona reviewers, the review panel, and PR review -- improving code |
+| [**engineering**](skills/engineering/README.md) | Idea to PR -- nine lifecycle commands over the plan, build, test, review, and PR skills |
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |
 | [**projects**](skills/projects/README.md) | Long-running goal management |
 | [**meta**](skills/meta/README.md) | Skills about skills |
@@ -26,6 +25,18 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | [**utility**](skills/utility/README.md) | Dev-environment setup |
 | [**experimental**](skills/experimental/README.md) | Skills on probation |
 | [**deprecated**](skills/deprecated/README.md) | Holding pen for skills awaiting a keep/kill decision |
+
+## The engineering flow
+
+```
+/spec → /plan → /build → /test → /review → /ship
+```
+
+Each command picks and runs the skills below it, and each description starts with ★. Three commands
+sit outside the line: `/constraints`, `/webperf`, and `/code-simplify`. `/build` runs one step.
+`/run-wave` runs every remaining step. `/review` and `/plan` share a name with built-in commands.
+When the bare name opens the built-in, type `/engineering:review` or `/engineering:plan`. The
+[engineering README](skills/engineering/README.md) holds the full table of commands and skills.
 
 ## Setup
 
@@ -45,8 +56,7 @@ Add to `~/.claude/settings.json`:
   },
   "enabledPlugins": {
     "primitives@xxkeefer-skills": true,
-    "developer@xxkeefer-skills": true,
-    "code-review@xxkeefer-skills": true,
+    "engineering@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
     "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,
@@ -61,14 +71,53 @@ Add to `~/.claude/settings.json`:
 
 `primitives` is required by all other domains. Enable whichever domains you need.
 
+### Configure the tools on each machine
+
+A skill names a tool by its role: the tracker, the code host, or the browser. It never names a
+product. A skill finds the tool in this order:
+
+1. The repo's `## Agent skills` block. [`/set-up-dev-workflow-skills`](skills/utility/skills/set-up-dev-workflow-skills/SKILL.md)
+   writes it for each repo.
+2. The `## Tools on this machine` block in your global instructions, for example `~/.claude/AGENTS.md`.
+3. If neither block names the tool, the skill asks you.
+
+Put one table in the machine block, with the columns Role, Tool, and Notes. A work machine can
+look like this:
+
+```markdown
+## Tools on this machine
+
+| Role      | Tool                            | Notes                        |
+| --------- | ------------------------------- | ---------------------------- |
+| Tracker   | Jira, through the Atlassian MCP | `~/.claude/tools/tracker.md` |
+| Code host | GitHub, through `gh`            | none                         |
+| Browser   | Claude in Chrome                | `~/.claude/tools/browser.md` |
+```
+
+A home machine can use GitHub Issues as its tracker:
+
+```markdown
+## Tools on this machine
+
+| Role      | Tool                        | Notes |
+| --------- | --------------------------- | ----- |
+| Tracker   | GitHub Issues, through `gh` | none  |
+| Code host | GitHub, through `gh`        | none  |
+| Browser   | none                        | none  |
+```
+
+- The Notes column points to a file outside any repo. Put employer detail, such as project keys,
+  field IDs, and team names, only in that file.
+- If a role has no tool on a machine, a skill skips the step that needs it and says so.
+
 ### Turn on the scrub check
 
 The pre-commit hook in `.githooks/` blocks a commit when a tracked file matches a pattern for
 employer content, such as a ticket key or a custom field ID. Run these commands once per clone:
 
 1. Run `git config core.hooksPath .githooks`.
-2. To also block names that must stay private, put one pattern per line in a file outside this
-   repo. Then run `git config scrub.patterns <path-to-that-file>`.
+2. To also block names that must stay private, put one pattern per line in a file outside any
+   repo, for example `~/.claude/scrub-patterns.txt`. Then run `git config scrub.patterns <path-to-that-file>`.
 
 The hook checks the whole staged tree. To check a commit, run `.githooks/pre-commit <revision>`.
 
