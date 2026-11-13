@@ -74,20 +74,7 @@ git log --format='%ae' $(git merge-base origin/main HEAD)..HEAD | sort -u   # br
 
 **Own code** = every commit on the branch is authored by the current git user. Anything else (a commit by another author, or a PR you checked out from someone else) is **someone else's code**. When in doubt, treat it as someone else's.
 
-**What Copilot already said.** The panel never re-reports an issue Copilot has already raised on the PR. The author has seen it there, and a second copy is noise. If the branch has a PR (`gh pr view --json number -q .number`; none, or uncommitted work → skip this), save every Copilot comment to the scratch dir, resolved and outdated ones included:
-
-```bash
-PR=$(gh pr view --json number -q .number)
-{
-  gh api --paginate "repos/{owner}/{repo}/pulls/$PR/comments" \
-    --jq '.[] | select(.user.login | test("copilot"; "i")) | {path, line: (.line // .original_line), body}'
-  gh api --paginate "repos/{owner}/{repo}/pulls/$PR/reviews" \
-    --jq '.[] | select(.user.login | test("copilot"; "i")) | select(.body != "") | {path: null, line: null, body}'
-} > "$SCRATCH/copilot.jsonl"
-wc -l < "$SCRATCH/copilot.jsonl"
-```
-
-Review bodies count too: Copilot lists its low-confidence comments there with a file and line instead of posting them inline. Don't print the file here; Step 4 reads it.
+**What Copilot already said.** When the branch has a PR, read [`COPILOT.md`](COPILOT.md) and follow its Step 1. With no PR, or for uncommitted work, skip it.
 
 ## Step 2: Select in-scope personas
 
@@ -138,7 +125,7 @@ These known persona pairs can land on the same line. Resolve them the same way e
 - **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
 - **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
 
-**Drop anything Copilot already raised.** If Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, compare every remaining finding against it and drop the ones Copilot already covered: same file, within a few lines (or cited in a review body), and the same underlying problem, however differently worded. Severity doesn't matter. A `change-requested` that Copilot flagged as a passing remark still goes. A finding on the same line but about a different problem stays. When unsure whether it's the same problem, drop it. Keep a count of drops per persona for the Step 5 coverage table.
+**Drop anything Copilot already raised.** When Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, follow Step 4 of [`COPILOT.md`](COPILOT.md).
 
 **On someone else's code, drop every nit.** Keep the count for the coverage table.
 
