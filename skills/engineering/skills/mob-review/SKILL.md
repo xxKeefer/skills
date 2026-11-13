@@ -1,6 +1,10 @@
 ---
 name: mob-review
-description: Run the full staff-engineer review panel over a PR or branch. Spawns every in-scope persona reviewer (a11y, i18n, reactivity, design-system, decisions-log, tanstack, vitest, test-quality, comments, naming, code-quality, correctness, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, typing, best-practice, architecture, security, shell, skills, github-actions, api-spec, production-protector, bundle-size, analytics, integration-test, browser-e2e, test-design, api-integrity, ac-check, pr-size), plus the project's own rubric when the repo names a rubric skill or has a CODING_STANDARDS.md or CONTRIBUTING.md, in parallel against the diff, and writes their findings to one ranked HTML report through /write-report. On your own branch, it fixes each finding that has a fix, commits once, and reports what it fixed and what stays open. On someone else's, it drops the nits, each finding gets a draft reply, and the ticks build a /engineering:post-review-comments prompt. In a handoff, it records the report in the review step. It never pushes and never asks you to choose a fix. Takes an optional handoff or spec path for the AC and test-design checks. Use when the user says "mob review", "mob-review", "run the panel", "full review", or wants a broad multi-lens review of the current branch.
+description: >
+  Run the full review panel: every in-scope persona lane, plus the project's own rubric, in
+  parallel over a PR or branch diff, into one ranked HTML report. Fixes your own branch, or drafts
+  replies on someone else's. Takes an optional handoff or spec path. Use when the user says "mob
+  review", "run the panel", or "full review".
 ---
 
 # Mob Review: staff-engineer review panel
@@ -15,7 +19,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 0: Run the panel in a clean thread
 
-**The panel is cheap; the thread it runs in is not.** Reviewing a diff needs the diff, the ticket and the repo. Not the conversation that produced the change. Run at the tail of an implementation session, the panel pays for that whole history on every one of its hundreds of orchestration turns: spawns, every persona report, fixes, verification. Measured: the persona subagents are a fifth of a review's cost, the orchestrator's own turns are the rest, purely from running at ~320K context instead of ~45K.
+**The panel is cheap. The thread it runs in is not.** A review needs the diff, the ticket, and the repo, not the conversation that made the change. At the end of a long session, each orchestration turn pays for that whole history. One measured run: the persona subagents cost a fifth of the review, and the orchestrator at ~320K context cost the rest.
 
 - **Arriving from a session that just wrote the code** → the implementation is committed, so the branch is the whole handoff. Ask the user to `/clear` and re-run `mob-review`; nothing is lost, since the branch carries the state.
 - **Already in a fresh or short thread** (a session opened to review) → straight to Step 1.
@@ -34,8 +38,13 @@ git fetch origin main --quiet
 ```
 
 - **No arg / branch:** review the current (or named) branch vs `origin/main`.
-- **Stacked PR** (`gh pr view --json baseRefName` is not `main`): review vs `origin/<baseRefName>` instead, in every git command below and in what the personas are told. The base branch's commits are its own PR's to review.
 - **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `origin/main`.
+
+Read [`SCOPE-CASES.md`](SCOPE-CASES.md) before you compute the diff when one of these is true:
+
+- The PR's base (`gh pr view --json baseRefName`) is not `main`.
+- The branch has no commits ahead of `origin/main`, and the working tree has changes.
+- `git rev-list --count HEAD..origin/main` is not zero.
 
 Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
 
@@ -50,8 +59,6 @@ cat "$SCRATCH/files.txt"
 
 The path is keyed by branch **and sha**, so a later run after a fix commit computes its own patch and can never read a stale one.
 
-**Uncommitted work.** If the branch has no commits ahead of `origin/main` but the working tree is dirty, the change hasn't been committed yet. Review the working tree instead: drop `HEAD` from the three `git diff` commands (`git diff --merge-base origin/main` includes staged and unstaged changes), and suffix `SCRATCH` with `-wt`. `/engineering:apply-review` then leaves its fixes in the working tree.
-
 If `files.txt` is empty, report "no changes vs origin/main" and stop.
 
 Record the two SHAs the panel reads. Step 5 prints them, so a later push step can compare the branch with what the panel read:
@@ -60,8 +67,6 @@ Record the two SHAs the panel reads. Step 5 prints them, so a later push step ca
 git rev-parse --short "$(git merge-base origin/main HEAD)"   # base
 git rev-parse --short HEAD                                   # head
 ```
-
-**Branch behind `main`.** A merge-base diff still carries commits that already landed on `main` by squash merge (a sibling ticket's PR, or an earlier slice of a stack), so the panel would review code that is not this PR's change. When `git rev-list --count HEAD..origin/main` is non-zero, compare `git diff --stat --merge-base origin/main HEAD` against the diff a merge would leave: `git diff --stat origin/main $(git merge-tree --write-tree origin/main HEAD | head -1)`. If the second is clearly smaller, stop and offer to merge `origin/main` first (own code) or tell the author (someone else's), then recompute the scope. Conflicts reported by `merge-tree` are part of the offer.
 
 **Never print the patch body into this thread.** The orchestrator needs the file list (Step 2 guards) and the `--stat` line (size); the personas need the diff, and they read it from `diff.patch` themselves. A diff pasted here is re-sent on every remaining turn of the review. Every persona report, the fixes and the verification all sit behind it.
 
@@ -78,21 +83,13 @@ git log --format='%ae' $(git merge-base origin/main HEAD)..HEAD | sort -u   # br
 
 ## Step 2: Select in-scope personas
 
-Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. This is a coarse pre-filter to avoid spawning obviously-irrelevant reviewers. Each persona also self-guards as a backstop and returns zero findings if truly out of scope. Note which personas you skipped and why (shown in the final table).
+Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. Note which personas you skipped and why (shown in the final table).
 
 ## Step 3: Spawn the in-scope personas in parallel
 
 Launch **one subagent per in-scope persona, all in a single message** (multiple `Agent` tool calls) so they run concurrently. Use the `general-purpose` agent type. The harness runs at most 20 subagents at once and refuses the rest; when the panel exceeds that, launch the overflow as the first reports come back.
 
-**Model per persona.** A persona reads a bounded diff and answers against a written rubric, so pass `model: "sonnet"` on the `Agent` call for every persona *except* the following, which stay on the default model because their misses are silent and expensive:
-
-- `persona-security`
-- `persona-production-protector`
-- `persona-architecture`
-- `persona-skills` (its defects are relational: it has to read across files to find them)
-- `persona-api-integrity` (cross-repo and relational: it has to trace a frontend call to a spec, a handler, its service and a permission changeset)
-- `persona-test-design` (a missing test is invisible in the diff: it has to reason from the source to conditions nobody wrote, and rate risk)
-- `persona-correctness` (the lane for logic bugs: a miss ships a wrong result, and no step after the panel looks for it)
+**Model per persona.** Set the `model` of each `Agent` call as the Model section of [`PANEL.md`](PANEL.md) says.
 
 Ticket context in the prompt is fine. The author's beliefs about behaviour are not facts. Pass a claim like "the old component rendered aria-hidden" only as something to verify, or leave it out, because a persona that accepts it as given skips the check its lane exists for.
 
@@ -118,10 +115,7 @@ Collect each persona's JSON (`.filter(Boolean)` any that failed). Combine all `f
 
 When the rubric ran, follow Step 4 of [`RUBRIC.md`](RUBRIC.md).
 
-These known persona pairs can land on the same line. Resolve them the same way every time:
-
-- **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
-- **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
+Some persona pairs can land on the same line. Resolve each pair as the Known overlaps section of [`PANEL.md`](PANEL.md) says.
 
 **Drop anything Copilot already raised.** When Step 1 saved a non-empty `$SCRATCH/copilot.jsonl`, follow Step 4 of [`COPILOT.md`](COPILOT.md).
 
@@ -178,6 +172,6 @@ calibration signals."
 
 ## Notes
 
-- The personas themselves are read-only: they review, they never edit. The panel fixes in Step 5, and `/engineering:apply-review` fixes the open rows that the user ticks later, only on your own code.
+- The panel fixes in Step 5, and `/engineering:apply-review` fixes the open rows that the user ticks later, only on your own code.
 - Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
 - Scale is bounded by the diff: a small PR launches few personas; a broad one launches many. That's intended.

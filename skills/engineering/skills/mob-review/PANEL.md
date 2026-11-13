@@ -44,3 +44,22 @@ describe the same condition.
 | `persona-bundle-size` | shipped bytes and load timing: heavy/rare components statically imported behind `v-if`/flag/modal (should be `defineAsyncComponent`), static routes, top-level heavy imports for handler-only use, eager globs, whole-locale imports, dev code on prod paths, non-tree-shakable imports, `sideEffects`, new/duplicate heavy deps, deps inlined into a lib `dist`, chunk/compile-flag config | the **changed lines** of non-test `.vue`/`.ts`/`.js`/`.mjs` under `apps/**` or `libs/**` add/change an `import`, `import()`, `defineAsyncComponent`, `import.meta.glob`, a route definition, or a `v-if`/`v-show`/`<component :is>` around a component; **or** a `package.json` deps/`sideEffects`/`exports` field changed; **or** a `vite.config.*`/build config changed. Judge the hunks, not the file |
 | `persona-analytics` | product event tracking both ways: over-tracking (backend-measurable events, hot-path volume, duplicates of page views, free-text/high-cardinality props, identity/PII passed around the consent gate, untyped `posthog.*` calls, off-vocabulary events) and event-name conventions (literal snake_case domain-first names, no variable segments, suffix meanings, renames that split a metric, duplicates of live PostHog events) and under-tracking (new flow/wizard/experiment with no milestone, broken flow start/complete/abandon lifecycle, missing exposure or entry-point attribution), plus changes to the analytics consent gate | the **changed lines** touch the project's analytics wrapper or `posthog.`; **or** they add a user-facing flow in an app that activates the analytics lib. A new page, a wizard/stepper, a confirm dialog that fires a mutation, a new order/checkout/signup/billing entry point, or a flag-gated alternate experience. Judge the hunks, not the file |
 | project rubric (a review rubric skill the repo's `CLAUDE.md` or `AGENTS.md` names, else the repo's `CODING_STANDARDS.md` or `CONTRIBUTING.md`; not a persona) | the project's own code standards, as that skill or file defines them | the repo names a rubric skill or has one of those files, and the diff touches code the rubric covers. See Step 3 |
+
+## Model
+
+A persona reads a bounded diff and answers against a written rubric, so pass `model: "sonnet"` on the `Agent` call for every persona *except* the following, which stay on the default model because their misses are silent and expensive:
+
+- `persona-security`
+- `persona-production-protector`
+- `persona-architecture`
+- `persona-skills` (its defects are relational: it has to read across files to find them)
+- `persona-api-integrity` (cross-repo and relational: it has to trace a frontend call to a spec, a handler, its service and a permission changeset)
+- `persona-test-design` (a missing test is invisible in the diff: it has to reason from the source to conditions nobody wrote, and rate risk)
+- `persona-correctness` (the lane for logic bugs: a miss ships a wrong result, and no step after the panel looks for it)
+
+## Known overlaps
+
+These known persona pairs can land on the same line. Resolve them the same way every time:
+
+- **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
+- **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
