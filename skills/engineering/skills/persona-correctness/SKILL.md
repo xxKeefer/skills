@@ -1,6 +1,7 @@
 ---
 name: persona-correctness
-description: Staff correctness reviewer for any language. Reviews a diff for logic errors that give a wrong result or a crash: wrong conditions, off-by-one boundaries, crashes on a reachable input, missed cases, the wrong variable or argument order, discarded results and values read too early, callers that the change breaks, and coercion or equality bugs. Every finding carries a counterexample. Use when the user asks for a correctness / logic / "is this right" / bug-hunt review, or invoke via mob-review. Does not cover structure and smells (persona-code-quality), UI races (persona-async-state), error routing (persona-error-handling), shell exit statuses (persona-shell), or whether a test covers the case (persona-test-design).
+description: >-
+  Staff correctness reviewer for any language. Reviews a diff for logic errors that give a wrong result or a crash: wrong conditions, off-by-one boundaries, crashes on a reachable input, missed cases, the wrong variable or argument order, discarded results and values read too early, callers that the change breaks, and coercion or equality bugs. Every finding carries a counterexample. Use when the user asks for a correctness / logic / "is this right" / bug-hunt review, or invoke via mob-review. Does not cover structure and smells (persona-code-quality), UI races (persona-async-state), error routing (persona-error-handling), shell exit statuses (persona-shell), or whether a test covers the case (persona-test-design).
 disable-model-invocation: true
 ---
 
