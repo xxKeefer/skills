@@ -116,8 +116,8 @@ The pre-commit hook in `.githooks/` blocks a commit when a tracked file matches 
 employer content, such as a ticket key or a custom field ID. Run these commands once per clone:
 
 1. Run `git config core.hooksPath .githooks`.
-2. To also block names that must stay private, put one pattern per line in a file outside this
-   repo. Then run `git config scrub.patterns <path-to-that-file>`.
+2. To also block names that must stay private, put one pattern per line in a file outside any
+   repo, for example `~/.claude/scrub-patterns.txt`. Then run `git config scrub.patterns <path-to-that-file>`.
 
 The hook checks the whole staged tree. To check a commit, run `.githooks/pre-commit <revision>`.
 
