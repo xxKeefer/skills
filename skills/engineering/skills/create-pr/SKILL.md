@@ -27,7 +27,8 @@ read → review check → AC table → top sections → title and body → gate 
    - `gh pr list --state open --json headRefName`
 2. Find the base. It is the default branch. If the head branch of another open PR is an ancestor
    of `HEAD` (`git merge-base --is-ancestor origin/<head> HEAD`), the branch stacks on that PR, and
-   the base is its head branch.
+   the base is its head branch. If `gh stack view` succeeds, the branch is in a **gh stack**, and
+   the base is the branch below it in that view. Step 7 then uses `gh stack` commands.
 3. Find the handoff:
    - Use the path in `$ARGUMENTS`.
    - Else take the folder that the user's instructions name for handoffs or plans, with no ticket
@@ -177,6 +178,9 @@ danger names a door and a blast radius.
    - `Merge: alone` gives `Merges alone.`
    - `Merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else
      its sub-task key, such as `Merge after #12 and <SUBKEY>.`
+   - In a gh stack with a base other than the default branch, add: `Merge after #<base PR>. After it
+     merges, run gh stack sync, then merge this PR.` A squash merge of the lower PR leaves its old commits
+     in this branch, and the sync drops them.
 6. For an open PR, start from its current body. Keep each part that this skill did not write, such
    as images or links that a person added. Rewrite each part that is out of date.
 7. Apply the PR rules:
@@ -212,10 +216,13 @@ Then push. Stop and change nothing only when one of these is true:
 
 ## Step 7: Push and write
 
-1. Run `git push -u origin <branch>`. If the push fails, show the error and stop. Never force the
-   push.
+1. Run `git push -u origin <branch>`. In a gh stack, run `gh stack push`. It force-pushes each
+   branch with a lease, which a rebased stack needs. If the push fails, show the error and stop.
+   Never force a push with `git push --force`.
 2. Write the body to a file from `mktemp`.
-3. With no open PR, open the draft, then request the bot review:
+3. With no open PR, open the draft, then request the bot review. In a gh stack, open it with
+   `gh stack submit --auto`, which opens drafts and links the stack on GitHub. Then set the title
+   and the body with `gh pr edit`, as item 4 does. Else:
 
    ```bash
    gh pr create --draft --base <base> --head <branch> --title "<title>" --body-file <file>
