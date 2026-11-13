@@ -1,10 +1,9 @@
 ---
 name: stand-up
 description: >
-  Show your day as one table per epic, from your open tickets, your open PRs, the PRs you are
-  asked to review, and your local branches, then write a short news bulletin about the day. Each
-  row has a type: PR, REVIEW, IN DEV, or PLANNED. Use when the user says "stand-up", "standup",
-  "what is on today", "brief me on my day", or "morning bulletin".
+  Show your day as one table per epic, from your tickets, PRs, review requests, and local
+  branches, then write a short bulletin. Use when the user says "stand-up", "what is on today", or
+  "morning bulletin".
 ---
 
 # Stand-up

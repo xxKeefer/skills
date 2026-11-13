@@ -1,10 +1,8 @@
 ---
 name: new-project
 description: >
-  Scaffold a stateful project workspace for long-running, goal-oriented work in Obsidian. Grills for
-  the mission, then creates the directory with a MISSION file, an obsidian-kanban board, and a
-  decisions log. Use when the user says "new project", "start a project", "scaffold a project", or
-  wants to begin tracking a long-running goal.
+  Scaffold a stateful project workspace in Obsidian: a MISSION file, a Kanban board, and a
+  decisions log. Use when the user says "new project" or wants to track a long-running goal.
 ---
 
 # New Project

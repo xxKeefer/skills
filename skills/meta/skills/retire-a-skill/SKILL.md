@@ -1,10 +1,8 @@
 ---
 name: retire-a-skill
 description: >
-  Retire a skill from a skills marketplace repo. If it lives in a normal domain, deprecate it
-  (move to the `deprecated` domain). If it's already deprecated, delete it for good. Usage:
-  retire-a-skill <skill-name>. Use when the user says "retire a skill", "deprecate this skill",
-  "kill <skill>", or "delete <skill>".
+  Retire a skill from a skills marketplace: move it to `deprecated`, or delete it when it is
+  already there. Use when the user says "retire", "deprecate", "kill", or "delete" a skill.
 argument-hint: "<skill-name>"
 ---
 
