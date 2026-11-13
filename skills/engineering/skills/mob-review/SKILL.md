@@ -9,13 +9,9 @@ description: >
 
 # Mob Review: staff-engineer review panel
 
-Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report. Each persona is a narrow, non-overlapping specialist; this skill is the orchestrator.
+Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
 `light-review` follows Steps 0 to 7 of this skill with eight lanes only, so a change to a step here also changes `light-review`.
-
-## The panel
-
-[`PANEL.md`](PANEL.md) lists each persona, what it reviews, and its guard. Step 2 reads it.
 
 ## Step 0: Run the panel in a clean thread
 
@@ -57,7 +53,7 @@ git diff --stat --merge-base origin/main HEAD | tail -1
 cat "$SCRATCH/files.txt"
 ```
 
-The path is keyed by branch **and sha**, so a later run after a fix commit computes its own patch and can never read a stale one.
+The path holds the branch and the SHA, so a run after a fix commit never reads a stale patch.
 
 If `files.txt` is empty, report "no changes vs origin/main" and stop.
 
@@ -68,7 +64,7 @@ git rev-parse --short "$(git merge-base origin/main HEAD)"   # base
 git rev-parse --short HEAD                                   # head
 ```
 
-**Never print the patch body into this thread.** The orchestrator needs the file list (Step 2 guards) and the `--stat` line (size); the personas need the diff, and they read it from `diff.patch` themselves. A diff pasted here is re-sent on every remaining turn of the review. Every persona report, the fixes and the verification all sit behind it.
+**Never print the patch body into this thread.** The personas read `diff.patch` themselves. A diff in this thread is sent again on every later turn.
 
 Also record **whose code this is**. It decides the ticks and the prompt of the report in Step 5:
 
@@ -91,9 +87,9 @@ Launch **one subagent per in-scope persona, all in a single message** (multiple 
 
 **Model per persona.** Set the `model` of each `Agent` call as the Model section of [`PANEL.md`](PANEL.md) says.
 
-Ticket context in the prompt is fine. The author's beliefs about behaviour are not facts. Pass a claim like "the old component rendered aria-hidden" only as something to verify, or leave it out, because a persona that accepts it as given skips the check its lane exists for.
+Ticket context in the brief is fine. Pass an author's claim about behaviour only as something to verify, or leave it out. A persona that takes it as fact skips its check.
 
-The persona skills ship in the same domain as this one, as sibling directories: set `PERSONAS` to the parent of this skill's base directory (shown when the skill loads) and substitute the absolute path into the prompt — a subagent cannot resolve `$SKILL_DIR` or a plugin-relative path on its own. The shared persona contract sits at `<PERSONAS>/../PERSONA-CONTRACT.md`.
+Set `PERSONAS` to the absolute parent of this skill's base directory. A subagent cannot resolve `$SKILL_DIR` or a plugin-relative path.
 
 Give each the same diff context and this exact brief:
 
@@ -111,7 +107,7 @@ When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` a
 
 ## Step 4: Aggregate
 
-Collect each persona's JSON (`.filter(Boolean)` any that failed). Combine all `findings`. Do not re-litigate or merge across personas: lanes don't overlap by design, so duplicates indicate a persona strayed; drop the out-of-lane one.
+Collect each persona's JSON, skip any that failed, and combine all `findings`. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
 
 When the rubric ran, follow Step 4 of [`RUBRIC.md`](RUBRIC.md).
 
@@ -143,9 +139,8 @@ Then print only these in the chat. Print no finding.
 
 ## Step 6: Hand over
 
-**On someone else's code, apply nothing.** Editing another person's branch is theirs to invite,
-and the findings are the deliverable. Say in one line that the panel applied no fix because the
-branch is not yours. Tell the user to tick the rows to reply to in the report, then paste the
+**On someone else's code, apply nothing.** Say in one line that the panel applied no fix because
+the branch is not yours. Tell the user to tick the rows to reply to in the report, then paste the
 prompt that the report builds. The prompt runs `/engineering:post-review-comments` on the ticked rows.
 
 **On your own code** (per the Step 1 ownership check), Step 5 already made the fixes. Say in one
@@ -172,6 +167,4 @@ calibration signals."
 
 ## Notes
 
-- The panel fixes in Step 5, and `/engineering:apply-review` fixes the open rows that the user ticks later, only on your own code.
 - Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
-- Scale is bounded by the diff: a small PR launches few personas; a broad one launches many. That's intended.
