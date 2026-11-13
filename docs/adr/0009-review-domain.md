@@ -1,6 +1,6 @@
 # 0009 The review domain
 
-**Status:** Accepted, 2026-11-06. Renamed `code-review` on 2026-11-07, so the `review:` prefix below is now `code-review:`. ADR 0010 merges `engineering` into `developer` and supersedes "How engineering loads".
+**Status:** Superseded by ADR 0013, 2026-11-13. Accepted 2026-11-06. Renamed `code-review` on 2026-11-07, so the `review:` prefix below is now `code-review:`. ADR 0010 merges `engineering` into `developer` and supersedes "How engineering loads".
 
 ## Context
 

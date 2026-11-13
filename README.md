@@ -16,8 +16,7 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | Domain | Purpose |
 |---|---|
 | [**primitives**](skills/primitives/README.md) | Foundational building blocks |
-| [**developer**](skills/developer/README.md) | Implementing code: ticket to PR -- plan, build test-first, debug, QA, open the PR |
-| [**code-review**](skills/code-review/README.md) | Persona reviewers, the review panel, and PR review -- improving code |
+| [**engineering**](skills/engineering/README.md) | Idea to PR -- nine lifecycle commands over the plan, build, test, review, and PR skills |
 | [**journal**](skills/journal/README.md) | Life admin + personal growth |
 | [**projects**](skills/projects/README.md) | Long-running goal management |
 | [**meta**](skills/meta/README.md) | Skills about skills |
@@ -45,8 +44,7 @@ Add to `~/.claude/settings.json`:
   },
   "enabledPlugins": {
     "primitives@xxkeefer-skills": true,
-    "developer@xxkeefer-skills": true,
-    "code-review@xxkeefer-skills": true,
+    "engineering@xxkeefer-skills": true,
     "journal@xxkeefer-skills": true,
     "projects@xxkeefer-skills": true,
     "meta@xxkeefer-skills": true,

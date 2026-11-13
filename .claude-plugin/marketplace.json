@@ -13,16 +13,10 @@
       "source": "./skills/primitives"
     },
     {
-      "name": "developer",
-      "description": "Implementing code, broadly, from ticket to PR: refine, scope, split, and plan a ticket, claim a worktree, prototype, implement test-first, debug, fix, run manual QA, and open the PR. Code review comes from code-review.",
+      "name": "engineering",
+      "description": "Software engineering from idea to PR. Nine lifecycle commands (spec, plan, build, test, constraints, review, webperf, code-simplify, ship) run the skills below them: ticket refine, scope, split, and plan, worktrees, test-first builds, debug, manual QA, persona review panels, PR review, and the PR itself.",
       "category": "development",
-      "source": "./skills/developer"
-    },
-    {
-      "name": "code-review",
-      "description": "Code review -- persona code reviewers, one narrow lane each, the mob-review panel that runs them, a light panel of seven lanes, PR review and posting, feedback triage, persona upkeep, and architecture scans. Developer calls it.",
-      "category": "development",
-      "source": "./skills/code-review"
+      "source": "./skills/engineering"
     },
     {
       "name": "journal",

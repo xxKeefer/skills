@@ -38,7 +38,7 @@ Everything-agnostic. Skills encode *how to think about problems*, not how to use
 A skill should work equally well whether you're writing Rust, TypeScript, Python, or anything
 else. No framework lock-in, no language assumptions, no tool dependencies beyond the agent itself.
 
-There are two exceptions: the rules that `/install-rules` ships, and the `code-review` personas.
+There are two exceptions: the rules that `/install-rules` ships, and the `engineering` personas.
 A rule is an opinionated convention for one file type, and a persona reviews one lane of a diff,
 so both name languages, frameworks, and tools. Neither names employer or client code.
 
