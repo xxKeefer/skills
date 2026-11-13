@@ -18,6 +18,17 @@ Engineering skills call `/grill`, `/write-to-file`, `/write-report`, `/look-up`,
 `create-pr`, and `tdd` read it. `self-improve` uses the same defect tokens, so a change to a token
 needs the same change there.
 
+## Shared files
+
+Each file below holds steps that more than one skill uses. A change to a file changes every skill
+that reads it.
+
+| File | Read by |
+|---|---|
+| [`CHANGESET.md`](CHANGESET.md) | `happy-path`, `sad-path`, `fix`, `sync-docs` |
+| [`DRAFT-SCAN.md`](DRAFT-SCAN.md) | `create-pr`, `refine-ticket`, `post-review-comments` |
+| [`PR-HANDLE.md`](PR-HANDLE.md) | `review-pr`, `pickup` |
+
 ## Commands
 
 The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `webperf`,
