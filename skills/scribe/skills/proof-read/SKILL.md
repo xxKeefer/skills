@@ -1,10 +1,9 @@
 ---
 name: proof-read
 description: >
-  Proof-read a document in four gated passes -- structural analysis, Grice's maxims, an ASD-STE100
-  pass, then Orwell's six rules -- each proposing findings for y/n approval before any edit lands,
-  ending with a table of every change. Use when the user says "proof read", "proofread", or wants
-  a document hardened for a mixed technical audience.
+  Proof-read a document in four gated passes: structure, Grice, STE, then Orwell. Use when the
+  user says "proof read" or "proofread", or wants a document hardened for a mixed technical
+  audience.
 ---
 
 # Proof-Read
