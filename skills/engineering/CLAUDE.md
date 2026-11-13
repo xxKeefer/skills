@@ -31,6 +31,20 @@ The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `we
 - `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill below them
   does the work.
 
+## Tool roles
+
+A skill names a tool by its role, never by product: the tracker, the code host, the browser. It
+finds the tool in this order:
+
+1. The repo's `## Agent skills` block, which `/set-up-dev-workflow-skills` writes.
+2. The `## Tools on this machine` block in the user's global instructions. A row there can point to
+   a notes file on the machine that holds the queries, field names, and statuses.
+3. Ask the user.
+
+Employer detail, such as project keys, custom field IDs, and team names, goes in the machine notes
+file. It never goes in a skill. When a role has no tool on a machine, a skill skips the step that
+needs it and says so.
+
 ## Composed by other skills
 
 Skills in `utility`, and other engineering skills, call these skills by name. Before you change one, keep what the last column names, or change each caller in the same
