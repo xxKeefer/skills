@@ -71,6 +71,45 @@ Add to `~/.claude/settings.json`:
 
 `primitives` is required by all other domains. Enable whichever domains you need.
 
+### Configure the tools on each machine
+
+A skill names a tool by its role: the tracker, the code host, or the browser. It never names a
+product. A skill finds the tool in this order:
+
+1. The repo's `## Agent skills` block. [`/set-up-dev-workflow-skills`](skills/utility/skills/set-up-dev-workflow-skills/SKILL.md)
+   writes it for each repo.
+2. The `## Tools on this machine` block in your global instructions, for example `~/.claude/AGENTS.md`.
+3. If neither block names the tool, the skill asks you.
+
+Put one table in the machine block, with the columns Role, Tool, and Notes. A work machine can
+look like this:
+
+```markdown
+## Tools on this machine
+
+| Role      | Tool                       | Notes                        |
+| --------- | -------------------------- | ---------------------------- |
+| Tracker   | Jira, through the Atlassian MCP | `~/.claude/tools/tracker.md` |
+| Code host | GitHub, through `gh`       | none                         |
+| Browser   | Claude in Chrome           | `~/.claude/tools/browser.md` |
+```
+
+A home machine can use GitHub Issues as its tracker:
+
+```markdown
+## Tools on this machine
+
+| Role      | Tool                   | Notes |
+| --------- | ---------------------- | ----- |
+| Tracker   | GitHub Issues, through `gh` | none  |
+| Code host | GitHub, through `gh`   | none  |
+| Browser   | none                   | none  |
+```
+
+- The Notes column points to a file outside any repo. Put employer detail, such as project keys,
+  field IDs, and team names, only in that file.
+- If a role has no tool on a machine, a skill skips the step that needs it and says so.
+
 ### Turn on the scrub check
 
 The pre-commit hook in `.githooks/` blocks a commit when a tracked file matches a pattern for
