@@ -186,13 +186,8 @@ danger names a door and a blast radius.
      section so it reads as always correct.
    - Cut anything that would not change a reviewer's decision.
    - Name no personal skill, agent, or review tool. Add no AI attribution.
-8. Scan the title and the body, and fix each hit:
-   - An em dash or an en dash used as a connector. The `—` row marker in the AC table stays.
-   - `e.g.`, `i.e.`, `etc.`, `vs.`, or `via`.
-   - A prose word spelled outside the locale that the user's instructions name. Identifiers, API
-     fields, config keys, and quoted UI strings keep their spelling.
-   - A list of three or more items with no Oxford comma.
-   - The name of a personal skill, an agent, or a review tool.
+8. Scan the title and the body as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says. The `—` row
+   marker in the AC table stays.
    - A placeholder or an instruction from the template, except `reason needed`.
 
 **Done when:** the scan finds nothing.
