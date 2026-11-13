@@ -35,11 +35,11 @@ Run these four searches. They do not depend on each other, so run them in parall
 ## Step 2: Read each PR
 
 For each PR from Step 1, get the review decision, the merge state, the base branch, the head
-branch, the check results, and the reviews. With GitHub:
+branch, the check results, the reviews, the review requests, and the changed files. With GitHub:
 
 ```sh
 gh pr view <number> -R <owner/repo> --json \
-  reviewDecision,mergeStateStatus,baseRefName,headRefName,statusCheckRollup,reviews
+  reviewDecision,mergeStateStatus,baseRefName,headRefName,statusCheckRollup,reviews,reviewRequests,files
 ```
 
 - Name each check that failed.
@@ -48,8 +48,15 @@ gh pr view <number> -R <owner/repo> --json \
   branch to get the order.
 - For each local branch with no open PR from the user, find its PR in any state. A merged PR means
   that the user can remove the worktree.
+- Drop a review request from the view when another reviewer owns it:
+  - It requests a staff or senior team.
+  - It is in the user's focus area and requests a person other than the user. The tracker notes
+    name the focus area. Without one, use the paths in the changed files.
 
-**Done when:** each PR has its state, its failed checks, and its place in a stack, if it has one.
+  Keep each dropped PR, with its reason, for a note under the tables.
+
+**Done when:** each PR has its state, its failed checks, and its place in a stack, if it has one,
+and each dropped review request has its reason.
 
 ## Step 3: Fill in the tickets
 
@@ -115,8 +122,9 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 ## Step 6: Present
 
 1. Show the tables.
-2. Below the tables, write at most four notes: worktrees that the user can remove, tickets that the
-   tracker search left out, and each source that had no tool.
+2. Below the tables, write at most five notes: worktrees that the user can remove, tickets that the
+   tracker search left out, the review requests that Step 2 dropped, each with its link and its
+   reason, and each source that had no tool.
 3. Write the bulletin. Give it a dated headline. Then write one short paragraph for each group
    with an action today, the most urgent first: a stack that one merge unblocks, a failed check on
    the user's PR, a dismissed approval, reviews that wait on the user, then housekeeping. Refer to
