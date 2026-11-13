@@ -87,11 +87,11 @@ look like this:
 ```markdown
 ## Tools on this machine
 
-| Role      | Tool                       | Notes                        |
-| --------- | -------------------------- | ---------------------------- |
+| Role      | Tool                            | Notes                        |
+| --------- | ------------------------------- | ---------------------------- |
 | Tracker   | Jira, through the Atlassian MCP | `~/.claude/tools/tracker.md` |
-| Code host | GitHub, through `gh`       | none                         |
-| Browser   | Claude in Chrome           | `~/.claude/tools/browser.md` |
+| Code host | GitHub, through `gh`            | none                         |
+| Browser   | Claude in Chrome                | `~/.claude/tools/browser.md` |
 ```
 
 A home machine can use GitHub Issues as its tracker:
@@ -99,11 +99,11 @@ A home machine can use GitHub Issues as its tracker:
 ```markdown
 ## Tools on this machine
 
-| Role      | Tool                   | Notes |
-| --------- | ---------------------- | ----- |
+| Role      | Tool                        | Notes |
+| --------- | --------------------------- | ----- |
 | Tracker   | GitHub Issues, through `gh` | none  |
-| Code host | GitHub, through `gh`   | none  |
-| Browser   | none                   | none  |
+| Code host | GitHub, through `gh`        | none  |
+| Browser   | none                        | none  |
 ```
 
 - The Notes column points to a file outside any repo. Put employer detail, such as project keys,
