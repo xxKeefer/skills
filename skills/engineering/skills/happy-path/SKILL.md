@@ -26,6 +26,11 @@ Rules:
 - No general steps, such as how to install the tools or clone the repo
 - No automated-test-level detail — this is for eyes-on-screen verification
 - Keep it under 15 items total. To stay under the cap, merge related changes into one item.
+- Give each item a runner. `agent`: a command shows the result, such as a push, a CI status, log
+  text, or an API reply. `you`: the result needs eyes on a UI or a dashboard.
+- On a branch in a stack (`gh stack view` succeeds), write each push as `gh stack push` and each
+  rebase as `gh stack rebase`. A step that drops a commit resets the branch, then runs
+  `gh stack push`. That command force-pushes with a lease and keeps the stack in order.
 
 Then build the setup block: the state that the tester needs before item 1. Give one row for each
 part of that state that applies:
@@ -50,11 +55,13 @@ Write the checklist with `/write-report`. Give it these:
 - The run title: `Happy path`.
 - `meta`: `Range`, the changeset from Step 1, such as `main...HEAD` or `uncommitted`.
 - `answer`: one sentence on what changed. Then: "Set up the state in the first table, then run the
-  items in order. Tick pass or fail on each item. For a fail, write what happened in its note,
-  then copy the prompt."
+  items in order. The agent runs the `agent` items and reports each result. You run the `you`
+  items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy
+  the prompt."
 - `visuals`: one `table` with the question "What must be in place before you start?", the columns
   `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
-- `columns`: `area`, `step` (the action), and `expect` (the expected result).
+- `columns`: `area`, `by` (`agent` or `you`), `step` (the action), and `expect` (the expected
+  result).
 - `rows`: one row for each item, area by area. Each row has `ticks: ["pass", "fail"]`.
 
 In chat, give the report path and the item count. Do not print the checklist.
