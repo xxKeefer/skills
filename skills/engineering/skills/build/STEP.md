@@ -12,6 +12,10 @@ Commit to the current branch. Never push, except when
 needs a PR or a CI run can push the work branch and open a draft PR. `/build` never gives you the push step, and `/ship` pushes. Edit only files inside this repo, the handoff file, and the step's patch file (see Save the
 work).
 
+Never rebase, sync, or reset the branch, and never change another branch of a stack. Other
+worktrees can hold the branches below this one. If the base moved, write it in the step's `Note`
+line.
+
 ## 1. Cold start
 
 1. Read the handoff and every artifact the step references.

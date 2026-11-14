@@ -27,6 +27,7 @@ Check each item, and note pass, fail, or not found:
 | Plan | Each build step in the handoff is done, and `## Pending Decisions` is empty. |
 | Tests | The project's test command passes on the branch head. Run it. |
 | Review | A review report exists for the branch head, and none of its rows at the top severity is open. A report of an earlier head also passes when each later commit is a review fix step that the handoff records, or when `git range-diff` shows each reviewed commit unchanged (`=`) after a rebase. |
+| Stack | The branch is in no gh stack. Else, after `git fetch origin`, each lower branch is at the SHA of its remote, and `gh stack view` shows no branch that needs a rebase. On a fail, show each lower branch commit that this branch does not have. The fix is: pull the lower branch, run `gh stack rebase --upstack` from it, and check again. If a lower branch holds temporary commits, such as a test that is in progress, wait until its PR removes them. |
 | Constraints | `/constraints` finds nothing, when `CONSTRAINTS.md` exists. |
 | Tree | The working tree is clean. |
 
