@@ -7,8 +7,9 @@ The parent can give a list of review fix step IDs in place of one ID. Do each st
 through sections 1 to 4, with one commit for each step. Stop at the first step that writes an
 entry. Return the five lines once for each step.
 
-Commit to the current branch. Never push. `/build` never gives you the push step, and `/ship`
-pushes. Edit only files inside this repo, the handoff file, and the step's patch file (see Save the
+Commit to the current branch. Never push, except when
+[`CHECK-INS.md`](../../CHECK-INS.md) says the change needs no gate: then a step whose done line
+needs a PR or a CI run can push the work branch and open a draft PR. `/build` never gives you the push step, and `/ship` pushes. Edit only files inside this repo, the handoff file, and the step's patch file (see Save the
 work).
 
 ## 1. Cold start
@@ -20,7 +21,8 @@ work).
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
    yourself. A review fix step needs no seam: the report row is its spec.
 4. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
-   and return.
+   and return. When the change needs no gate, a push to the work branch, a draft PR, and CI runs on
+   that branch are not outside writes.
 
 **Done when:** you can name the step's done line and its workflow.
 

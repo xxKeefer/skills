@@ -113,10 +113,12 @@ failed check, and the loop stopped.
 Skip this step when the run stopped on a failed check, or `## Pending Decisions` holds an entry.
 
 Dispatch one fresh `general-purpose` subagent. Tell it to run `/happy-path`, then `/sad-path` when
-its guard matches the diff, as `/test` Step 2 says. Both write to one QA report. Tell it to return
-the report path.
+its guard matches the diff, as `/test` Step 2 says. Both write to one QA report. Then tell it to
+run each `agent` row with `gh`, git, or the test command. A CI run from an earlier step that shows
+the result counts, so cite its ID and push no new commit for it. Tell it to return the report path,
+and pass or fail with evidence for each `agent` row.
 
-**Done when:** the QA report exists, or the step is skipped.
+**Done when:** the QA report exists and each `agent` row has a result, or the step is skipped.
 
 ## Step 4: Report
 
@@ -136,7 +138,8 @@ Below the table, give the next command:
   the user's answers.
 - The loop stopped at the third review step: the open rows and the report path. Say to run
   `/review`, or `/build` on the report's prompt.
-- Else: the QA report path. QA items that fail build a `/fix` prompt. When every item passes, run
+- Else: the QA report path, the result of each `agent` row, and only the `you` rows for the
+  user. QA items that fail build a `/fix` prompt. When every item passes, run
   `/ship`.
 
 **Done when:** every step has a row, and the user has every entry or the next command.
