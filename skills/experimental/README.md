@@ -11,6 +11,7 @@ Personal skills on probation. Promote once usage justifies it; demote to `deprec
 | `/retro` | Read a session, find what in the skills, hooks, rules, and steering slowed or misled the agent, then apply and commit the fixes the user picks |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
 | `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
+| `/tidy-up` | Delete the local working state of finished work in one repo, and fix the lines in open handoffs that finished work made stale |
 
 ## Installation
 
