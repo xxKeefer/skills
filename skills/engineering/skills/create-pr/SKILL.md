@@ -71,8 +71,11 @@ blocks.
    The command skips merge commits. For each merge in
    `git rev-list --merges <reviewed head>..HEAD`, run `git show --remerge-diff --format= <sha>`.
    No output means a clean merge. Output is a conflict that a person resolved, so show it.
+4. If each line of the range-diff is `=` and no merge shows a conflict, the branch only moved to a
+   new base. The result is "Each reviewed commit is unchanged (`=`) after a rebase onto
+   `<base>`." This result is not drift.
 
-**Done when:** you have the result: no review, no change, or the drift.
+**Done when:** you have the result: no review, no change, a rebase only, or the drift.
 
 ## Step 3: Build the AC table
 
@@ -222,7 +225,8 @@ Then push. Stop and change nothing only when one of these is true:
 2. Write the body to a file from `mktemp`.
 3. With no open PR, open the draft, then request the bot review. In a gh stack, open it with
    `gh stack submit --auto`, which opens drafts and links the stack on GitHub. Then set the title
-   and the body with `gh pr edit`, as item 4 does. Else:
+   and the body with `gh pr edit`, as item 4 does, and request the bot review with the `gh api`
+   call below. Else:
 
    ```bash
    gh pr create --draft --base <base> --head <branch> --title "<title>" --body-file <file>

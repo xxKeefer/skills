@@ -142,6 +142,10 @@ Below the table, give the next command:
   user. QA items that fail build a `/fix` prompt. When every item passes, run
   `/ship`.
 
+`/ship` is user-invoked, so the agent cannot run it. If the user asks the agent to ship, tell the
+user to type `/ship`. Do not run the push step or `/create-pr` in its place, because that skips
+the `/ship` checks.
+
 **Done when:** every step has a row, and the user has every entry or the next command.
 
 ## Step 5: Record the answers
