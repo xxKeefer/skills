@@ -19,6 +19,12 @@ read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the tic
 Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
 `/split-ticket`, and each sub-task gets its own `/start-ticket` run.
 
+**No questions.** When the user says to ask no questions, a gate that asks for a yes takes its
+default and continues. Write the AC letters (Step 8), move the ticket (Step 4), and write the plan
+without the approval (Step 6). Put `Approval: none, the user waived questions.` under the `Ticket:`
+line, and list each assumption in Context. A SPLIT or CLARIFY verdict still stops, because the
+user picks the path. Name each skipped gate in the Step 9 return.
+
 ## Step 1: Read the ticket
 
 1. Read the key from `$ARGUMENTS`. If it is not there, ask for it.
@@ -31,6 +37,8 @@ Scope comes before the claim. When a ticket splits into sub-tasks, the run stops
    - The ticket has no ACs.
    - An AC holds a vague scope word from [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md)
      Step 2.
+   - An AC contradicts the domain glossary, if the repo has one, such as a rule that the glossary
+     forbids. The glossary can be out of date, so give the contradiction as a question.
 
    Give it the key and the text from item 2, so it reads nothing again. From here on, use its ACs
    in place of the ticket's ACs, even if it wrote nothing. Take the goal from its summary. Note
@@ -74,8 +82,9 @@ If `/claim` stops to ask a question, put the question to the user, and continue 
 
 ## Step 4: Move the ticket
 
-If the ticket is in a to-do state, move it to the tracker's in-progress state. Leave a ticket that
-is further along. Say in one line what you did.
+Read the states from the repo's issue tracker doc, if its steering files name one. A label can be
+a state. If the ticket is in a to-do state, move it to the tracker's in-progress state. Leave a
+ticket that is further along. Say in one line what you did.
 
 **Done when:** the ticket is in progress or further along.
 
@@ -178,6 +187,9 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Esti
 - For a split stub, keep its `Ticket:`, `Builds on:`, and `Merge:` lines as they are, in place of
   the `Ticket:` line above. `/create-pr` reads the `Merge:` line. Keep the stub's Context lines, and
   add yours under them.
+- Write no stack order into the handoff, because it goes stale when a lower layer merges. When the
+  ticket builds on another, add `Builds on: <key>` under the `Ticket:` line. The stack tool holds
+  the order.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
   order. The review and push steps come after the last phase.
 - Name `/engineering:mob-review` only if this session has it.
@@ -195,7 +207,7 @@ Skip this step in these cases:
 
 1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
    plain words that every reader of the ticket understands. Change no other text.
-2. Ask once. Write after a yes.
+2. Ask once. Write after a yes, or at once when the user waived questions.
 3. Read the ticket back. Check that only the letters and the new ACs changed. Show any other
    difference.
 
