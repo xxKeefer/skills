@@ -64,7 +64,18 @@ available -- they're more idiomatic and configurable.
 
 Add inline comments only for non-obvious *why* choices.
 
-**Done when:** config is written.
+If the package replaces an install of the same app from another source (nixpkgs, flatpak,
+AppImage), the swap is a **carry-over**: the user keeps working as before. In the same change:
+
+- **Desktop file id** -- find the new id. Point every `xdg.mimeApps` default and every launcher
+  or keybind at it.
+- **Sandbox access** -- give a sandboxed app the paths it used before, such as a flatpak
+  `--filesystem=home` override.
+- **Profile** -- find the old and the new profile dirs. Copy the old profile into the new path
+  before the first launch. Sync restores only part of a profile.
+
+**Done when:** config is written, and for a carry-over, each item above is handled in the config
+or listed for the user with the exact command.
 
 ## Step 6: Explain
 
