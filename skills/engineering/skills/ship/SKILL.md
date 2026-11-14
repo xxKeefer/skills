@@ -1,6 +1,6 @@
 ---
 name: ship
-description: "★ Ship: check that the branch is ready (plan steps, tests, review, constraints), give a go or no-go, open or update the PR through /create-pr, and in solo mode merge it."
+description: "★ Ship: check that the branch is ready (plan steps, tests, review, constraints), give a go or no-go, open or update the PR through /create-pr, and merge it when it needs no gate."
 argument-hint: "[@handoff path]"
 disable-model-invocation: true
 ---
@@ -49,7 +49,8 @@ On go, run `/create-pr`. It checks the review for drift, writes the body, and pu
 
 ## Step 5: Land
 
-Skip this step in team mode, as [`SOLO.md`](../../SOLO.md) says. Then the user merges.
+Skip this step when the change needs a gate, as [`CHECK-INS.md`](../../CHECK-INS.md) says, or when
+`/create-pr` marked the door one-way. Then the user merges.
 
 1. Mark the PR ready with `gh pr ready <number>`.
 2. Wait for the PR checks with `gh pr checks <number> --watch`. If a check fails, stop and show it.
