@@ -27,8 +27,7 @@ read → review check → AC table → top sections → title and body → gate 
    - `gh pr list --state open --json headRefName`
 2. Find the base. It is the default branch. If the head branch of another open PR is an ancestor
    of `HEAD` (`git merge-base --is-ancestor origin/<head> HEAD`), the branch stacks on that PR, and
-   the base is its head branch. If `gh stack view` succeeds, the branch is in a **gh stack**, and
-   the base is the branch below it in that view. Step 7 then uses `gh stack` commands.
+   the base is its head branch. If `gh stack view` succeeds, the branch is in a **gh stack**.
 3. Find the plan:
    - Use the path in `$ARGUMENTS`.
    - Else take the folder that the user's instructions name for plans or plans, with no ticket
@@ -40,11 +39,8 @@ read → review check → AC table → top sections → title and body → gate 
    `goal` and `merge` keys of the YAML header, the done line of each step, and the two SHAs in the
    done line of the review step: the reviewed base and the reviewed head. If the header has a
    `spec` key, read the `## Intent` section of that spec with `/look-up`.
-5. If the `merge` key names sub-task keys, find the PR of each key:
-   - Find `plan_<SUBKEY>.md` in the folder that item 3 searches, and its subfolders. Read the
-     `branch` key of its YAML header.
-   - Run `gh pr list --head <its branch> --state all --json number`.
-   - With no plan, no `branch` key, or no PR, use the key.
+5. In a gh stack, or with a `merge` key, read [`references/stack.md`](references/stack.md). It
+   gives the stack skill, the base in a stack, and the PR of each `merge` key.
 6. With no plan, read the ticket whose key is in the branch name with `/look-up`, and take its
    ACs. With no key or no ticket, there are no ACs.
 7. List the test files that `git diff --merge-base origin/<base> HEAD --name-only` names, and the
@@ -87,35 +83,7 @@ If the plan has no Test approach section, derive one from the ACs and the diff. 
 [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)
 and follow its Steps 1 to 3. Step 9 tells the user. The body does not say it.
 
-| AC | Risk | Tested by | Conditions |
-| --- | --- | --- | --- |
-| **A.** <AC, short> | H | Unit: `<test file>` › <test name> | C1 quantity 1 and 99 · C2 0 and 100 |
-| — | <behaviour that no AC covers> | … | … |
-
-- One row for each AC letter. A sub-check gets its own row only when a different test proves it.
-  A struck-through AC gets no row.
-- One `—` row for each `—` row of the Test approach.
-- **Risk** comes from the Risks table.
-- **Tested by** is the level, the test file, and the test name, from the step done lines and the
-  Step 1 test names. Use `Manual: <why>` only when no test can prove the AC.
-- **Conditions** lists the condition IDs that a test in the diff covers, each with a few words.
-- **Gaps** lists each planned condition with no test in the diff, and each Not testing item. Each
-  gap has a reason or a follow-up. If the plan gives no reason, write `reason needed`, and the
-  gate asks for it. Write `**Gaps:** None` only when that is true.
-
-Put the table in a collapsed block. Keep a blank line after `<summary>` and before `</details>`:
-
-```markdown
-**Gaps:** <None | n>
-- <condition>: <reason or follow-up>
-
-<details>
-<summary>Acceptance criteria: <n>, <n> high risk, <all tested | n not tested (B, C)></summary>
-
-<the table>
-
-</details>
-```
+Fill the AC block of [`templates/body.md`](templates/body.md), as its rules say.
 
 **Done when:** each AC letter and each `—` row has a row, and each untested condition is a gap.
 
@@ -125,27 +93,7 @@ These sections lead the body, so a reviewer sees what changes and how much care 
 before reading the diff. Keep prose brief. Use the terms in the repo's `CONTEXT.md` glossary, if
 it has one.
 
-```markdown
-## Why
-
-<the goal, as one or two sentences>
-
-## Summary
-
-<one sentence>
-
-<visual>
-
-## Evidence
-
-**Before:** <failing test, output, or screenshot>
-**After:** <passing test, output, or screenshot>
-
-## Merge danger
-
-**Door:** <one-way | two-way>. <why, when not obvious>
-**Blast radius:** <one word, such as localised, module, app, or consumers>. <what can break>
-```
+Use the top sections of [`templates/body.md`](templates/body.md).
 
 1. **Why.** Write the reason for the change from the plan's `goal`. With a spec, add the
    Intent's `User` and `Why now` lines, in the reader's words. With no plan, take the reason from
@@ -158,19 +106,10 @@ it has one.
    - Else name the test that failed before the change and passes after it, as pseudocode or as
      the test name, or show the command output.
    - With no evidence, remove the section. Do not invent output.
-4. **Merge danger.** A two-way door is cheap to roll back: revert and redeploy. A one-way door is
-   not. Each of these makes a one-way door, even in a small diff:
-   - A schema or data migration, or a delete or rewrite of stored data.
-   - A message that leaves the system, such as an email, a notification, or a webhook.
-   - A change to a published contract, such as a public API, an event shape, or a released
-     package.
-   - A change to a secret, a permission, or billing.
+4. **Merge danger.** Name the door and the blast radius, as the rules in the template say.
 
-   The blast radius is what a bad merge can break, and for whom. Think about each consumer of
-   the changed code: callers, other apps, layout and mobile, and stored data.
-
-**Done when:** the Why gives the goal or is removed, the Summary has a visual, the Evidence shows proof or is removed, and the Merge
-danger names a door and a blast radius.
+**Done when:** the Why gives the goal or is removed, the Summary has a visual, the Evidence shows
+proof or is removed, and the Merge danger names a door and a blast radius.
 
 ## Step 5: Write the title and the body
 
@@ -186,13 +125,7 @@ danger names a door and a blast radius.
 3. With no template, write one to three bullets on what changes and for whom, then the Step 3
    block.
 4. Put the Step 4 sections above the template content.
-5. If the plan header has a `merge` key, make the merge line the first line of the body:
-   - `merge: alone` gives `Merges alone.`
-   - `merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else
-     its sub-task key, such as `Merge after #12 and <SUBKEY>.`
-   - In a gh stack with a base other than the default branch, add: `Merge after #<base PR>. After it
-     merges, run gh stack sync, then merge this PR.` A squash merge of the lower PR leaves its old commits
-     in this branch, and the sync drops them.
+5. With a `merge` key or in a gh stack, write the merge line as `references/stack.md` says.
 6. For an open PR, start from its current body. Keep each part that this skill did not write, such
    as images or links that a person added. Rewrite each part that is out of date.
 7. Apply the PR rules:
@@ -228,14 +161,12 @@ Then push. Stop and change nothing only when one of these is true:
 
 ## Step 7: Push and write
 
-1. Run `git push -u origin <branch>`. In a gh stack, run `gh stack push`. It force-pushes each
-   branch with a lease, which a rebased stack needs. If the push fails, show the error and stop.
-   Never force a push with `git push --force`.
+In a gh stack, push and open the PR as `references/stack.md` says.
+
+1. Run `git push -u origin <branch>`. If the push fails, show the error and stop. Never force a
+   push with `git push --force`.
 2. Write the body to a file from `mktemp`.
-3. With no open PR, open the draft, then request the bot review. In a gh stack, open it with
-   `gh stack submit --auto`, which opens drafts and links the stack on GitHub. Then set the title
-   and the body with `gh pr edit`, as item 4 does, and request the bot review with the `gh api`
-   call below. Else:
+3. With no open PR, open the draft, then request the bot review:
 
    ```bash
    gh pr create --draft --base <base> --head <branch> --title "<title>" --body-file <file>
