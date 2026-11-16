@@ -12,7 +12,8 @@ reviewers, which each review one kind of code.
 ## Commands
 
 Each command description starts with ★. The user, the agent, or another skill can start a command.
-The agent stops only before an action on the pause list, such as a merge or a ready-for-review PR.
+Between commands the agent does not stop. Inside a command it stops where that skill asks for a
+yes, and it stops before each action on the pause list, such as a merge or a ready-for-review PR.
 
 | Command | Phase | Runs |
 |---|---|---|
@@ -118,4 +119,6 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 }
 ```
 
-Requires `primitives@xxkeefer-skills`.
+Requires `primitives@xxkeefer-skills`. Install `utility@xxkeefer-skills` and run `/install-rules`
+too, so the `pause-list.md` rule stops the agent before a merge, a ready-for-review PR, or a posted
+comment.
