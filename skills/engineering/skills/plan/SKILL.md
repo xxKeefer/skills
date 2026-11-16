@@ -4,7 +4,7 @@ description: >
   ★ Plan: turn a ticket or a spec into a claimed worktree and an approved plan in vertical
   slices, through /start-ticket. Use when the user says "plan", or asks to plan a ticket key or a
   spec after /spec.
-argument-hint: "<ticket key> | @<spec path>"
+argument-hint: "<ticket key> | @<spec path> [map path, plan name, branch name]"
 ---
 
 # Plan
@@ -34,6 +34,15 @@ This command picks its input.
     header.
   - Claim the current branch, or ask for a branch name when the current branch is the default
     branch.
+- `$ARGUMENTS` is a spec file, and the caller also gives a map path, a plan name, and a branch
+  name: this is a map unit. `/work-on` gives these. Run the spec route above, with these changes:
+  - Name the plan with the plan name from the caller.
+  - Claim no branch and no worktree. Set `worktree` to the current worktree, and `branch` to the
+    branch name from the caller. The caller makes the branch before the build.
+  - Put the map path and the last AC, which is the unit's `Done:` line, in the plan's Context.
+  - Skip the plan gate of `/start-ticket`. Write the plan with `status: draft`, and put
+    `Approval: the caller's H2 stop.` in Context. The caller asks for the yes for each plan of its
+    batch at one time.
 - `$ARGUMENTS` is empty: ask for a ticket key or a spec path.
 
 **Done when:** `/start-ticket` ran with a ticket or a spec.
