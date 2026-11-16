@@ -37,8 +37,9 @@ read → review check → AC table → top sections → title and body → gate 
      branch>`. A sub-task plan can be in the folder of its parent ticket, so search each subfolder.
    - Two or more files: ask which one. No file: there is no plan.
 4. From the plan, read the `## Acceptance criteria` section, the `## Test approach` section, the
-   `merge` key of the YAML header, the done line of each step, and the two SHAs in the done line of
-   the review step: the reviewed base and the reviewed head.
+   `goal` and `merge` keys of the YAML header, the done line of each step, and the two SHAs in the
+   done line of the review step: the reviewed base and the reviewed head. If the header has a
+   `spec` key, read the `## Intent` section of that spec with `/look-up`.
 5. If the `merge` key names sub-task keys, find the PR of each key:
    - Find `plan_<SUBKEY>.md` in the folder that item 3 searches, and its subfolders. Read the
      `branch` key of its YAML header.
@@ -51,8 +52,8 @@ read → review check → AC table → top sections → title and body → gate 
 8. Read the PR conventions: the repo's PR template (`.github/`, `docs/`, or the root, in any case),
    the repo's contribution docs, and each git or GitHub convention skill that this session has.
 
-**Done when:** you have the branch, the base, the open PR or none, the plan or none, the ACs or
-none, the merge order or none, and the test names.
+**Done when:** you have the branch, the base, the open PR or none, the plan or none, the goal or
+none, the Intent or none, the ACs or none, the merge order or none, and the test names.
 
 ## Step 2: Check the review
 
@@ -125,6 +126,10 @@ before reading the diff. Keep prose brief. Use the terms in the repo's `CONTEXT.
 it has one.
 
 ```markdown
+## Why
+
+<the goal, as one or two sentences>
+
 ## Summary
 
 <one sentence>
@@ -142,15 +147,18 @@ it has one.
 **Blast radius:** <one word, such as localised, module, app, or consumers>. <what can break>
 ```
 
-1. **Summary.** Run `/show-me` on the diff from `git diff --merge-base origin/<base> HEAD`. Use
+1. **Why.** Write the reason for the change from the plan's `goal`. With a spec, add the
+   Intent's `User` and `Why now` lines, in the reader's words. With no plan, take the reason from
+   the ticket. With no goal and no ticket, remove the section. Do not invent a reason.
+2. **Summary.** Run `/show-me` on the diff from `git diff --merge-base origin/<base> HEAD`. Use
    a text view or Mermaid. Take no HTML file. One view is usual; use two only when one hides the
    point.
-2. **Evidence.** Show that the change works, before and after:
+3. **Evidence.** Show that the change works, before and after:
    - A screenshot is best, when the change is visual and the environment can take one.
    - Else name the test that failed before the change and passes after it, as pseudocode or as
      the test name, or show the command output.
    - With no evidence, remove the section. Do not invent output.
-3. **Merge danger.** A two-way door is cheap to roll back: revert and redeploy. A one-way door is
+4. **Merge danger.** A two-way door is cheap to roll back: revert and redeploy. A one-way door is
    not. Each of these makes a one-way door, even in a small diff:
    - A schema or data migration, or a delete or rewrite of stored data.
    - A message that leaves the system, such as an email, a notification, or a webhook.
@@ -161,7 +169,7 @@ it has one.
    The blast radius is what a bad merge can break, and for whom. Think about each consumer of
    the changed code: callers, other apps, layout and mobile, and stored data.
 
-**Done when:** the Summary has a visual, the Evidence shows proof or is removed, and the Merge
+**Done when:** the Why gives the goal or is removed, the Summary has a visual, the Evidence shows proof or is removed, and the Merge
 danger names a door and a blast radius.
 
 ## Step 5: Write the title and the body

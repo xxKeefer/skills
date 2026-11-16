@@ -1,7 +1,10 @@
 # Step Brief
 
-You run one step of a plan, from a cold start. The parent gives you the plan path and the
-step ID. The plan is your only context.
+You run one step of a plan, from a cold start. The parent gives you the plan path, the step
+ID, and the plan's goal. The plan is your only context.
+
+The goal is the `goal` key of the plan's YAML header. It is the reason for the step. When the done
+line allows two changes, make the change that serves the goal.
 
 The parent can give a list of review fix step IDs in place of one ID. Do each step in order
 through sections 1 to 4, with one commit for each step. Stop at the first step that writes an
@@ -28,7 +31,7 @@ line.
    and return. When the change needs no gate, a push to the work branch, a draft PR, and CI runs on
    that branch are not outside writes.
 
-**Done when:** you can name the step's done line and its workflow.
+**Done when:** you can name the plan's goal, the step's done line, and its workflow.
 
 ## 2. Do the step
 
