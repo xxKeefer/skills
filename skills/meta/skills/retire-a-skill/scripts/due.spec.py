@@ -80,6 +80,15 @@ class Due(unittest.TestCase):
         )
         self.assertEqual(r.stdout, "dated\t2026-10-01\t91\t0\n")
 
+    def test_skill_with_bad_deprecated_date_is_an_error_line(self):
+        path = self.skill("tbd", "TBD")
+        self.skill("dated", "2026-10-01")
+        self.write_tally({})
+        r = run(self.root, self.tally)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stderr, f"error: {path}: bad deprecated: date 'TBD'\n")
+        self.assertEqual(r.stdout, "dated\t2026-10-01\t91\t0\n")
+
     # C4
     def test_missing_tally_file_gives_zero_counts(self):
         self.skill("gone", "2026-10-01")
