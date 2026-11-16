@@ -31,6 +31,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 
 | Skill | Phase | Purpose |
 |---|---|---|
+| `/work-on` | Router | Run a playbook of the commands from a ticket, an idea, or a map to draft PRs. It stops only at the stops H0 to H5: the map, the spec, the plan, an open decision, an action on the pause list, and the `/retro` picks. User-only |
 | `/pick-next-task` | Discovery | Rank your team's open tickets by focus, priority, iteration, and effort. You pick up to three, then each is assigned, moved to in progress, and given its `/plan` command |
 | `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
 | `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
