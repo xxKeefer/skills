@@ -43,9 +43,9 @@ The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `we
 - `build`, `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill
   below them does the work. `build` runs the steps of a plan in subagents through `STEP.md`, and
   loops test and review. `implement` is the skill for one step.
-- `work-on` is not a command, because it runs the commands. It has `disable-model-invocation:
-  true`, and no ★. It picks a playbook from `work-on/playbooks/` and calls the commands in order.
-  When a command changes its input, its return, or where it stops, check each playbook.
+- `work-on` is not a command, because it runs the commands. It has no ★. It picks a playbook from
+  `work-on/playbooks/` and calls the commands in order. When a command changes its input, its
+  return, or where it stops, check each playbook.
 
 ## Tool roles
 

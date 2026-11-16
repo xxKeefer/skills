@@ -4,7 +4,6 @@ description: >
   Take a ticket, an idea, or the next units of a map to draft PRs, through a playbook of ★
   commands, and stop only at the stops H0 to H5. Use when the user says "work on" with a ticket
   key, an idea, a map, or a plan to continue.
-disable-model-invocation: true
 argument-hint: "<ticket key> | <idea in a sentence> | @<map path> | @<plan path>"
 ---
 
