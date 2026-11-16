@@ -7,8 +7,7 @@ A skill can call a workflow skill with no stop. The stop is on the action, not o
 
 ### Pause List
 
-When another person reads the output, stop and get a yes from the user before each of these
-actions:
+Stop and get a yes from the user before each of these actions:
 
 - Mark a PR ready for review.
 - Merge.
