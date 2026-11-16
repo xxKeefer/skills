@@ -4,8 +4,8 @@
 A skill is due when its `deprecated:` date is more than 30 days before today.
 Output: one line per due skill, `<name>\t<deprecated date>\t<days>\t<count>`,
 oldest first. The count comes from the skill tally (0 when the skill or the
-tally file is missing). A deprecated skill with no `deprecated:` key gives an
-error line on stderr and exit 1.
+tally file is missing). A deprecated skill with no `deprecated:` key, or with a
+value that is not a YYYY-MM-DD date, gives an error line on stderr and exit 1.
 
 Usage: due.py [--root <repo>] [--tally <file>] [--today YYYY-MM-DD]
 """
@@ -43,7 +43,7 @@ def deprecated_date(skill_md):
             return None
         key, _, value = line.partition(":")
         if key.strip() == "deprecated" and value.strip():
-            return datetime.date.fromisoformat(value.strip().strip("'\""))
+            return value.strip().strip("'\"")
     return None
 
 
@@ -59,12 +59,18 @@ def main():
     due = []
     failed = False
     for skill_md in sorted(glob.glob(pattern)):
-        date = deprecated_date(skill_md)
-        if date is None:
+        value = deprecated_date(skill_md)
+        if value is None:
             print(
                 f"error: {skill_md}: no deprecated: key. Fix: add deprecated: YYYY-MM-DD to the frontmatter.",
                 file=sys.stderr,
             )
+            failed = True
+            continue
+        try:
+            date = datetime.date.fromisoformat(value)
+        except ValueError:
+            print(f"error: {skill_md}: bad deprecated: date '{value}'", file=sys.stderr)
             failed = True
             continue
         days = (args.today - date).days
