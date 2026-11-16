@@ -2,18 +2,18 @@
 name: start-ticket
 description: >
   Start work on a ticket: refine, scope, or split it as needed, claim its worktree, and write the
-  plan handoff. Use when the user asks to start or pick up a ticket or a sub-task.
+  plan. Use when the user asks to start or pick up a ticket or a sub-task.
 argument-hint: "<ticket key>"
 ---
 
 # Start Ticket
 
-Turn a ticket into a worktree and an approved plan handoff. The next session builds the plan with
+Turn a ticket into a worktree and an approved plan. The next session builds the plan with
 `/do-next`, so this skill ends at the plan.
 
 ```
 read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the ticket → draft the plan
-     → plan gate → write the handoff
+     → plan gate → write the plan
 ```
 
 Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
@@ -68,13 +68,13 @@ path 2, `/split-ticket` returned and you stopped.
 
 ## Step 3: Claim the worktree
 
-Run `/claim` with the key. It returns the worktree path, the branch, and a handoff path or `none`.
+Run `/claim` with the key. It returns the worktree path, the branch, and a plan path or `none`.
 
 - `none`: continue.
 - A split stub: `/split-ticket` wrote it for this sub-task. It has a `Merge:` line and no
   `## Steps` section. Ask no question. Continue, and draft the plan into the stub (Step 7).
-- Another handoff: the work may have started. Show the path. Ask whether to continue that handoff
-  or to write a new plan. To continue it, go to Step 9 with that handoff.
+- Another plan: the work may have started. Show the path. Ask whether to continue that plan
+  or to write a new plan. To continue it, go to Step 9 with that plan.
 
 If `/claim` stops to ask a question, put the question to the user, and continue with the answer.
 
@@ -120,7 +120,7 @@ the Conditions list of a step or under Not testing.
 
 ## Step 6: Plan gate
 
-Show the draft handoff in the Step 7 format. Revise it with the user until they approve it. The
+Show the draft plan in the Step 7 format. Revise it with the user until they approve it. The
 user approves the steps and the Test approach together.
 
 If the plan is much bigger than the `/scope-ticket` estimate, say so before the approval. Give the
@@ -140,7 +140,7 @@ On SPLIT path 2, the plan steps become the slices:
 **Done when:** the user approved the plan. On SPLIT path 2, `/split-ticket` returned and you
 stopped.
 
-## Step 7: Write the handoff
+## Step 7: Write the plan
 
 Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. For a
 split stub from Step 3, write the plan over the stub at its path, not into a new file. The stub is
@@ -170,14 +170,14 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Esti
 
 - [ ] **1. <slice goal>.** Seam: `<seam>`. Conditions: C1, C2.
   - Done: <the tests that it adds, and what a user can do now>.
-- [ ] **<n>. Review.** Depends on every earlier step. Review the branch with this handoff: `<handoff path>`. This step changes no code.
+- [ ] **<n>. Review.** Depends on every earlier step. Review the branch with this plan: `<plan path>`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
-- [ ] **<n+1>. Push.** Push the branch and open a draft PR with `/create-pr @<handoff path>`.
+- [ ] **<n+1>. Push.** Push the branch and open a draft PR with `/create-pr @<plan path>`.
 
 ## Suggested skills
 
-- `/build @<handoff path>`: every step, then the test and review loop, from the worktree.
-- `/implement @<handoff path>`: one step per session, from the worktree.
+- `/build @<plan path>`: every step, then the test and review loop, from the worktree.
+- `/implement @<plan path>`: one step per session, from the worktree.
 - `/tdd`: each step that changes behaviour.
 - `/engineering:mob-review`: the review step.
 - `/create-pr`: the push step.
@@ -187,7 +187,7 @@ Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Esti
 - For a split stub, keep its `Ticket:`, `Builds on:`, and `Merge:` lines as they are, in place of
   the `Ticket:` line above. `/create-pr` reads the `Merge:` line. Keep the stub's Context lines, and
   add yours under them.
-- Write no stack order into the handoff, because it goes stale when a lower layer merges. When the
+- Write no stack order into the plan, because it goes stale when a lower layer merges. When the
   ticket builds on another, add `Builds on: <key>` under the `Ticket:` line. The stack tool holds
   the order.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
@@ -215,7 +215,7 @@ Skip this step in these cases:
 
 ## Step 9: Return
 
-Give the worktree path, the branch, the handoff path, and the next command. The user starts a new
-session in the worktree and runs `/do-next @<handoff path>`.
+Give the worktree path, the branch, the plan path, and the next command. The user starts a new
+session in the worktree and runs `/do-next @<plan path>`.
 
 **Done when:** the user has the worktree path and the command.

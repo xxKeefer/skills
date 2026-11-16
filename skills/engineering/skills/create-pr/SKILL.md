@@ -2,8 +2,8 @@
 name: create-pr
 description: >
   Push the branch and open a draft PR, or rewrite the body of the open PR. Use when the user asks
-  to open or update a PR, or when the push step of a handoff runs.
-argument-hint: "[handoff path]"
+  to open or update a PR, or when the push step of a plan runs.
+argument-hint: "[plan path]"
 ---
 
 # Create PR
@@ -29,28 +29,28 @@ read → review check → AC table → top sections → title and body → gate 
    of `HEAD` (`git merge-base --is-ancestor origin/<head> HEAD`), the branch stacks on that PR, and
    the base is its head branch. If `gh stack view` succeeds, the branch is in a **gh stack**, and
    the base is the branch below it in that view. Step 7 then uses `gh stack` commands.
-3. Find the handoff:
+3. Find the plan:
    - Use the path in `$ARGUMENTS`.
-   - Else take the folder that the user's instructions name for handoffs or plans, with no ticket
+   - Else take the folder that the user's instructions name for the `plan` or `handoff` doctype, with no ticket
      subfolder. With no such folder, take `.ai/` in the root that `/write-to-file` uses.
    - Search that folder and its subfolders for the file whose `Worktree:` line names this branch.
      A sub-task plan is in the folder of its parent ticket, so search each subfolder.
-   - Two or more files: ask which one. No file: there is no handoff.
-4. From the handoff, read the `## Acceptance criteria` section, the `## Test approach` section, the
+   - Two or more files: ask which one. No file: there is no plan.
+4. From the plan, read the `## Acceptance criteria` section, the `## Test approach` section, the
    `Merge:` line, the done line of each step, and the two SHAs in the done line of the review
    step: the reviewed base and the reviewed head.
 5. If the `Merge:` line names sub-task keys, find the PR of each key:
-   - Read the `Worktree:` line of `plan_<SUBKEY>.md` in the folder of the handoff.
+   - Read the `Worktree:` line of `plan_<SUBKEY>.md` in the folder of the plan.
    - Run `gh pr list --head <its branch> --state all --json number`.
    - With no stub, no `Worktree:` line, or no PR, use the key.
-6. With no handoff, read the ticket whose key is in the branch name with `/look-up`, and take its
+6. With no plan, read the ticket whose key is in the branch name with `/look-up`, and take its
    ACs. With no key or no ticket, there are no ACs.
 7. List the test files that `git diff --merge-base origin/<base> HEAD --name-only` names, and the
    test names that the diff adds or changes in them.
 8. Read the PR conventions: the repo's PR template (`.github/`, `docs/`, or the root, in any case),
    the repo's contribution docs, and each git or GitHub convention skill that this session has.
 
-**Done when:** you have the branch, the base, the open PR or none, the handoff or none, the ACs or
+**Done when:** you have the branch, the base, the open PR or none, the plan or none, the ACs or
 none, the merge order or none, and the test names.
 
 ## Step 2: Check the review
@@ -81,7 +81,7 @@ blocks.
 
 With no ACs, write no table and no Gaps line, and go to Step 4.
 
-If the handoff has no Test approach section, derive one from the ACs and the diff. Read
+If the plan has no Test approach section, derive one from the ACs and the diff. Read
 [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)
 and follow its Steps 1 to 3. Step 9 tells the user. The body does not say it.
 
@@ -98,7 +98,7 @@ and follow its Steps 1 to 3. Step 9 tells the user. The body does not say it.
   Step 1 test names. Use `Manual: <why>` only when no test can prove the AC.
 - **Conditions** lists the condition IDs that a test in the diff covers, each with a few words.
 - **Gaps** lists each planned condition with no test in the diff, and each Not testing item. Each
-  gap has a reason or a follow-up. If the handoff gives no reason, write `reason needed`, and the
+  gap has a reason or a follow-up. If the plan gives no reason, write `reason needed`, and the
   gate asks for it. Write `**Gaps:** None` only when that is true.
 
 Put the table in a collapsed block. Keep a blank line after `<summary>` and before `</details>`:
@@ -177,7 +177,7 @@ danger names a door and a blast radius.
 3. With no template, write one to three bullets on what changes and for whom, then the Step 3
    block.
 4. Put the Step 4 sections above the template content.
-5. If the handoff has a `Merge:` line, make the merge line the first line of the body:
+5. If the plan has a `Merge:` line, make the merge line the first line of the body:
    - `Merge: alone` gives `Merges alone.`
    - `Merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else
      its sub-task key, such as `Merge after #12 and <SUBKEY>.`

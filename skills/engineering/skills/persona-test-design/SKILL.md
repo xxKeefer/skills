@@ -22,7 +22,7 @@ Lane paths: none. Read the whole diff.
 
 Then gather, cheaply, in this order:
 
-1. **The Test approach section** of the handoff or spec file the caller gives, else of the plan or ticket, if one exists. It gives you the author's agreed risks, conditions, variation matrix and *Not testing* list.
+1. **The Test approach section** of the plan or spec file the caller gives, else of a plan or the ticket, if one exists. It gives you the author's agreed risks, conditions, variation matrix and *Not testing* list.
 2. **The PR body**, if a PR exists. When it has an AC table, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md).
 3. **Existing tests for the changed code on `main`**, not just the diff. A condition is covered if a test on main already proves it: `git grep -n '<symbol>' origin/main -- <the repo's test globs>` (such as `'*.spec.*' '*.test.*' '*_test.*' 'test_*.py'`), plus the test beside the source file.
 4. **The defect hotspots**: `git log --oneline -i -E --grep 'fix|bug' -- <file>` on the changed files. A file with a history of fixes raises that behaviour's likelihood one step, and the past fixes are the best evidence for which condition is missing. When `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/` exists, read [references/defect-hotspots.md](references/defect-hotspots.md).

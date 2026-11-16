@@ -3,7 +3,7 @@ name: mob-review
 description: >
   Run the full review panel: every in-scope persona lane, plus the project's own rubric, in
   parallel over a PR or branch diff, into one ranked HTML report. Fixes your own branch, or drafts
-  replies on someone else's. Takes an optional handoff or spec path. Use when the user says "mob
+  replies on someone else's. Takes an optional plan or spec path. Use when the user says "mob
   review", "run the panel", or "full review".
 ---
 
@@ -23,7 +23,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 records the report in its review step.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional plan or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A plan has steps for `/do-next` to run, and a spec has none. With a plan, Step 6 records the report in its review step.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
@@ -101,7 +101,7 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Handoff or spec: <absolute path>`.
+When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`.
 
 **Project rubric, same message, when the repo has one.** Read [`RUBRIC.md`](RUBRIC.md), and follow its Step 3.
 
@@ -148,7 +148,7 @@ line how many findings the fix commit holds and how many stay open. Ask nothing.
 the open rows at QA. To fix one later, they tick it and paste the prompt that the report builds,
 which runs `/engineering:apply-review`.
 
-**In a handoff from Step 1**, on your own code, the review step fixes, writes the report, and
+**In a plan from Step 1**, on your own code, the review step fixes, writes the report, and
 goes on. It never blocks the push step:
 
 1. Tick the review step. Write the report path, the base SHA, and the reviewed head into its done

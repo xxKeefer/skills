@@ -19,7 +19,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 |---|---|---|
 | `/spec` | Define | `/refine-ticket` for a ticket key. For an idea: an interview to an explicit yes, then a spec with lettered ACs |
 | `/plan` | Plan | `/start-ticket` with a ticket key or a spec |
-| `/build` | Build | Every remaining step of the plan handoff, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/sad-path`. Open decisions wait in one batch. A review report's prompt adds a fix round |
+| `/build` | Build | Every remaining step of the plan, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/sad-path`. Open decisions wait in one batch. A review report's prompt adds a fix round |
 | `/test` | Verify | `/tdd` for a bug or an untested seam, else `/happy-path`, then `/sad-path` when its guard matches |
 | `/constraints` | Verify | Write `CONSTRAINTS.md` with a command behind each rule, then check each branch for a lowered bar |
 | `/review` | Review | `/light-review` on the branch, `/mob-review` with `full`, or `/review-pr` for a PR |
@@ -34,11 +34,11 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/pick-next-task` | Discovery | Rank your team's open tickets by focus, priority, iteration, and effort. You pick up to three, then each is assigned, moved to in progress, and given its `/plan` command |
 | `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
 | `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
-| `/split-ticket` | Discovery | Split a ticket that is too big into pieces of 3 points or less, grouped into waves with a merge order. Write the split report, then create one sub-task and one stub handoff per piece after one yes |
-| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan handoff with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub handoff |
-| `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the handoff. Needs worktrunk (`wt`) |
+| `/split-ticket` | Discovery | Split a ticket that is too big into pieces of 3 points or less, grouped into waves with a merge order. Write the split report, then create one sub-task and one stub plan per piece after one yes |
+| `/start-ticket` | Discovery | Refine a vague ticket with `/refine-ticket`, scope it, and split a big one with `/split-ticket`. Else claim its worktree, then write the plan with lettered ACs and a test approach for you to approve. On a sub-task, the plan fills its stub |
+| `/claim` | Discovery | Find or create the worktree for a ticket, a PR, or a branch, then record it in the plan. Needs worktrunk (`wt`) |
 | `/prototype` | Discovery | Build a throwaway prototype to answer a design question |
-| `/implement` | Implementation | `/do-next` on the plan handoff, one step. With no handoff, implement a spec or tickets with `/tdd` at agreed seams |
+| `/implement` | Implementation | `/do-next` on the plan, one step. With no plan, implement a spec or tickets with `/tdd` at agreed seams |
 | `/tdd` | Implementation | Red → green loop |
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
@@ -53,7 +53,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 | `/stand-up` | Anytime | Show your day as one table per epic, from your tickets, PRs, review requests, and branches, then write a news bulletin about the day |
-| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a handoff the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a handoff, it records the report in the review step |
+| `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a plan the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a plan, it records the report in the review step |
 | `/light-review` | Review | Run the eight essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, and architecture) and fix and report as `/engineering:mob-review` does, with the same ticks and prompts |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/engineering:mob-review` there, then give the report path, whose ticks build the `/engineering:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
@@ -65,7 +65,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/self-improve` | Maintenance | Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report and the repo's defect hotspots |
 | `/update-personas` | Maintenance | Refresh `persona-best-practice` against installed and current versions, lint any persona's structure, and apply the approved calibration backlog |
 | `/retro` | Maintenance | Read a session, find what in the skills, hooks, rules, and steering slowed or misled the agent, then apply and commit the fixes the user picks |
-| `/tidy-up` | Maintenance | Delete the local working state of finished work in one repo, and fix the lines in open handoffs that finished work made stale |
+| `/tidy-up` | Maintenance | Delete the local working state of finished work in one repo, and fix the lines in open plans that finished work made stale |
 
 ### Personas
 
@@ -74,7 +74,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 | Persona | Reviews |
 |---|---|
 | `persona-a11y` | Semantic HTML, ARIA, labels, focus, keyboard |
-| `persona-ac-check` | PR coverage of the acceptance criteria in a handoff, a spec, or the ticket |
+| `persona-ac-check` | PR coverage of the acceptance criteria in a plan, a spec, or the ticket |
 | `persona-analytics` | Product event tracking: over-tracking, naming, and missing milestones |
 | `persona-api-integrity` | Frontend calls against the backend spec, handler, and permission checks |
 | `persona-api-spec` | OpenAPI spec and code drift |

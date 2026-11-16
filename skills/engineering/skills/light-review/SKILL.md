@@ -4,7 +4,7 @@ description: >
   Run the eight essential lanes of the review panel over a PR or branch, into the same report as
   /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
   lanes than the full panel.
-argument-hint: "[PR number or URL | branch] [handoff or spec path]"
+argument-hint: "[PR number or URL | branch] [plan or spec path]"
 ---
 
 # Light Review: the essential lanes of the panel
@@ -34,7 +34,7 @@ lane.
 2. **Step 2.** Match the changed files against the guards of the essential lanes only. Spawn no
    other persona and no project rubric. In the coverage table, list every other lane and the
    project rubric with the status `skipped (not in the light set)`.
-3. **Step 3.** `persona-ac-check` does not run. So the `Handoff or spec:` line goes to the
+3. **Step 3.** `persona-ac-check` does not run. So the `Plan or spec:` line goes to the
    `persona-test-design` brief only.
 4. **Step 5.** Set the run `title` to `Light run`, not `Panel run`. Write no `Spec` in `meta`. Add
    one sentence to the `answer`: this run covers the essential lanes only, and

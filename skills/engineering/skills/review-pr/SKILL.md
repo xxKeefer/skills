@@ -39,7 +39,7 @@ Branch: <headRefName> → <baseRefName>. Head: <short headRefOid>. Draft: <yes |
 
 ## Step 3: Claim the worktree
 
-Run `/claim` with the PR number. It returns the worktree path, the branch, and a handoff path or
+Run `/claim` with the PR number. It returns the worktree path, the branch, and a plan path or
 `none`. If `/claim` stops to ask a question, put the question to the user, and continue with the
 answer.
 

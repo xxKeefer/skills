@@ -96,7 +96,7 @@ and then green, and each added test went red under its break.
 
 1. Push nothing, and go to Step 7, when one of these is true:
    - The branch has no open PR. Check with `gh pr view --json state -q .state`.
-   - A handoff step runs this skill. The push step of the handoff pushes.
+   - A plan step runs this skill. The push step of the plan pushes.
 2. If a note or the user's message asks to check first, show `git show --stat HEAD` when Step 4
    made a commit, and the text of each reply. Ask once: push and reply, or stop.
 3. When Step 4 made no commit, go to Step 6.

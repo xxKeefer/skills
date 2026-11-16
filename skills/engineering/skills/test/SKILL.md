@@ -19,10 +19,10 @@ Use the first row that holds:
 |---|---|
 | `$ARGUMENTS` describes a bug | `/tdd`. The first test reproduces the bug and goes red before any fix. Then fix it in the same loop. |
 | `$ARGUMENTS` names a seam or a behaviour | `/tdd` at that seam. |
-| The branch changes behaviour that no test covers | `/tdd` at the seams that the plan handoff names. Else confirm the seams with the user, as `/tdd` says. |
+| The branch changes behaviour that no test covers | `/tdd` at the seams that the plan names. Else confirm the seams with the user, as `/tdd` says. |
 | The branch is built, and its tests pass | `/happy-path`. |
 
-To find the state, read the branch diff against its base, the plan handoff if one exists, and the
+To find the state, read the branch diff against its base, the plan if one exists, and the
 test output of the project's test command.
 
 **Done when:** one skill ran.

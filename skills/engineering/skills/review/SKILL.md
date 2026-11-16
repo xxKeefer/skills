@@ -19,7 +19,7 @@ Review code before it merges. The review skills do the work. This command picks 
 | `full` and nothing else | `/mob-review` on the current branch. |
 | Empty | `/light-review` on the current branch. |
 
-Pass the plan handoff path to the review skill when one exists, for the AC and test-design checks.
+Pass the plan path to the review skill when one exists, for the AC and test-design checks.
 Find it as `/implement` Step 1 does.
 
 **Done when:** one review skill ran and wrote its report.

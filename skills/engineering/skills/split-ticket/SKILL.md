@@ -1,7 +1,7 @@
 ---
 name: split-ticket
 description: >
-  Split a ticket that is too big for one PR into sub-tasks in waves, with a stub handoff for each.
+  Split a ticket that is too big for one PR into sub-tasks in waves, with a stub plan for each.
   Use when the user asks to split a ticket, or when a scope check gives SPLIT and the user picks
   the split path.
 argument-hint: "<ticket key>"
@@ -50,7 +50,7 @@ A piece is one slice that becomes one sub-task.
    [`../refine-ticket/SKILL.md`](../refine-ticket/SKILL.md) Step 4. The title is the slice goal.
    The summary is plain, and the ACs are lettered from A. Add one line that names the parent ACs
    that the piece delivers. Run the scan from that step.
-3. Note the files or areas of each piece from the probes. They go in the stub handoff, not in the
+3. Note the files or areas of each piece from the probes. They go in the stub plan, not in the
    sub-task.
 
 **Done when:** each piece passes the five checks, each parent AC is in exactly one piece, and each
@@ -91,7 +91,7 @@ Write the report with `/write-report`:
 
 1. Give the report path, the number of pieces, and the waves.
 2. Say what a yes does: it creates one sub-task per piece under `<KEY>`, writes the points of each,
-   and writes one stub handoff per piece.
+   and writes one stub plan per piece.
 3. Name each required field that the parent cannot fill, and ask for its value in the same
    question.
 4. Ask once. On a no, create nothing, and go to Step 8 with the report path.
@@ -139,10 +139,10 @@ If a create fails, stop. List the sub-tasks that exist and the pieces that have 
    ```
 
    The stub has no Steps section. `/start-ticket <SUBKEY>` drafts the plan into it.
-2. If the parent ticket has a handoff, add a `## Split into` section to it. Give one line per
+2. If the parent ticket has a plan, add a `## Split into` section to it. Give one line per
    sub-task: its key, its title, its wave, and its stub path.
 
-**Done when:** each piece has a stub, and the parent handoff, if any, lists each stub.
+**Done when:** each piece has a stub, and the parent plan, if any, lists each stub.
 
 ## Step 8: Return
 
