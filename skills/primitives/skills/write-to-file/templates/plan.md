@@ -50,7 +50,7 @@ merge: <how the PR merges, from /split-ticket>
 Each step: `- [ ]` open, `- [x]` done, `- [-]` skipped with a `Skipped: <reason>` sub-line.
 Each step has a `Done:` sub-line.
 A step that changes behaviour names `Seam:` and `Conditions:`.
-A step with `Kind: docs`, `Kind: config`, or `Kind: mechanical`, or a title that starts with Test, Review, or Push, does not change behaviour.
+A step with `Kind: docs`, `Kind: config`, or `Kind: mechanical`, or a title whose first word is Test, Review, or Push, does not change behaviour.
 -->
 
 - [ ] **1. <slice goal>.** Seam: `<seam>`. Conditions: C1, C2.

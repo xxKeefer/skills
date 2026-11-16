@@ -49,7 +49,7 @@ def add_push_done(lines):
         out.append(lines[i])
         m = STEP.match(lines[i])
         i += 1
-        if not m or not m.group(2).startswith("Push"):
+        if not m or not re.match(r"Push\b", m.group(2)):
             continue
         j = i
         while j < len(lines) and lines[j].startswith((" ", "\t")):
@@ -100,7 +100,7 @@ def migrate(text):
             extra["merge"] = strip_period(line[len("Merge:"):])
             continue
         body.append(line)
-    approved = any(l.startswith("Approval:") for l in lines)
+    approved = not any(l.startswith("Approval: none") for l in lines)
     order = ["doctype", "ticket", "worktree", "branch"]
     out = ["---"]
     out += [f"{k}: {scalar(header[k])}" for k in order if k in header]

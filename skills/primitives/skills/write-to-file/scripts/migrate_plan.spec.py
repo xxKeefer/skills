@@ -147,12 +147,24 @@ class MigratePlan(unittest.TestCase):
         run(MIGRATE, self.path)
         self.assertIn("status: done\n", self.read())
 
-    def test_no_approval_line_gives_draft(self):
+    def test_no_approval_line_gives_approved(self):
         text = old_plan(self.dir).replace("- [x] **1.", "- [ ] **1.")
         text = text.replace("Approval: the user approved the plan.\n", "")
         self.write(text)
         run(MIGRATE, self.path)
+        self.assertIn("status: approved\n", self.read())
+
+    def test_waived_approval_line_gives_draft(self):
+        text = old_plan(self.dir).replace("- [x] **1.", "- [ ] **1.")
+        text = text.replace("Approval: the user approved the plan.", "Approval: none, the user waived questions.")
+        self.write(text)
+        run(MIGRATE, self.path)
         self.assertIn("status: draft\n", self.read())
+
+    def test_step_that_only_begins_with_push_gets_no_pr_done_line(self):
+        self.write(old_plan(self.dir).replace("**3. Push.**", "**3. Pushes events.**"))
+        run(MIGRATE, self.path)
+        self.assertNotIn("draft PR URL", self.read())
 
     def test_many_files(self):
         other = os.path.join(self.dir, "plan_X-2.md")

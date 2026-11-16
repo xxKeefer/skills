@@ -17,7 +17,7 @@ HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 STATUSES = ["draft", "approved", "building", "done"]
 STEP = re.compile(r"^- \[(.)\] \*\*(\S+?)\.\s+(.*?)\*\*")
 NOT_BEHAVIOUR_KINDS = re.compile(r"\bKind: (docs|config|mechanical)\b")
-NOT_BEHAVIOUR_TITLES = ("Test", "Review", "Push")
+NOT_BEHAVIOUR_TITLE = re.compile(r"^(Test|Review|Push)\b")
 ENTRY = re.compile(r"^### [DBN]\d+\b")
 
 
@@ -100,7 +100,7 @@ def check_steps(lines, begin, end, err):
             err(line, f"step {sid} is skipped with no reason", "add `  - Skipped: <reason>` under the step")
         if not any(s.startswith("- Done:") for s in subs):
             err(line, f"step {sid} has no done line", "add `  - Done: <line>` under the step")
-        if NOT_BEHAVIOUR_KINDS.search(body) or title.startswith(NOT_BEHAVIOUR_TITLES):
+        if NOT_BEHAVIOUR_KINDS.search(body) or NOT_BEHAVIOUR_TITLE.match(title):
             continue
         if "Seam:" not in body:
             err(line, f"step {sid} changes behaviour and names no seam",

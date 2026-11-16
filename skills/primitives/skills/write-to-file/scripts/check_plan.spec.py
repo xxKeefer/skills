@@ -75,6 +75,24 @@ class CheckPlan(unittest.TestCase):
                 self.assertEqual(r.returncode, 1)
                 self.assertIn(f"{self.path}:1: header has no `{key}`. Fix: add `{key}:`", r.stdout)
 
+    def test_each_empty_key_fails_with_one_error(self):
+        for key in HEADER_KEYS:
+            with self.subTest(key=key):
+                self.setUp()
+                self.header[key] = ""
+                r = self.write()
+                self.assertEqual(r.returncode, 1)
+                self.assertIn(f"{self.path}:1: header has no `{key}`. Fix: add `{key}:`", r.stdout)
+                self.assertEqual(len(r.stdout.splitlines()), 2, r.stdout)
+
+    def test_no_steps_section_fails_with_its_fix(self):
+        with open(self.path, "w") as f:
+            f.write("---\n" + "".join(f"{k}: {v}\n" for k, v in self.header.items()) + "---\n\n## Goal\n\nx.\n")
+        r = run(self.path)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stderr, "")
+        self.assertIn("no `## Steps` section. Fix: add `## Steps`", r.stdout)
+
     def test_no_frontmatter_fails_on_line_1(self):
         with open(self.path, "w") as f:
             f.write("# Plan: x\n\n## Steps\n")
@@ -153,6 +171,14 @@ class CheckPlan(unittest.TestCase):
             self.steps += [f"- [ ] **{i}. {t}", "  - Done: it holds."]
         r = self.write()
         self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_title_that_only_begins_with_a_non_behaviour_word_needs_a_seam(self):
+        for title in ("Testable export.", "Reviewer assignment.", "Pushes events."):
+            with self.subTest(title=title):
+                self.steps[0] = f"- [ ] **1. {title}**"
+                r = self.write()
+                self.assertEqual(r.returncode, 1)
+                self.assertIn("step 1 changes behaviour and names no seam", r.stdout)
 
     def test_kind_on_a_sub_line_counts(self):
         self.steps[0] = "- [ ] **1. Write docs.**"
