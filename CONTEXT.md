@@ -1,6 +1,6 @@
 # xxkeefer-skills — Context
 
-**Last updated:** 2026-11-13
+**Last updated:** 2026-11-16
 
 Shared terminology for the xxkeefer-skills marketplace. This is the repo-wide glossary; per-domain
 concepts still live here rather than in their own `CONTEXT.md` files for now.
@@ -43,7 +43,7 @@ straight descriptive kebab-case verb, like every skill in this repo.
 
 | Term | Definition |
 | --- | --- |
-| **HITL** | Human-in-the-loop. A skill or task that needs human judgment, design review, or an architectural decision. Signalled by `disable-model-invocation: true` in the skill's frontmatter -- only the human can invoke it. (Formerly signalled by a `*-it` name suffix, dropped 2026-07.) |
+| **HITL** | Human-in-the-loop. An action that needs a yes from the user before it runs. The pause list in the `pause-list.md` rule marks the human stop: each action whose output another person reads. A skill can call a workflow skill with no stop (ADR 0016). `disable-model-invocation: true` now marks only the skills whose whole job needs the user's judgement, such as `retro`. (Formerly signalled on the skill by that flag, and before that by a `*-it` name suffix, dropped 2026-07.) |
 | **AFK** | Away-from-keyboard. A task fully specified for autonomous agent execution without human interaction. |
 | **Vertical slice** | A unit of work that cuts through all layers end-to-end and is demo-able or verifiable on its own. |
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |
