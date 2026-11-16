@@ -25,7 +25,8 @@ names no doctype, use `scratch`.
 A file with a template has the template's layout. After you write a `plan`, run
 `python3 scripts/check_plan.py <absolute plan path>` from this skill's folder. After you write a
 `spec`, run `python3 scripts/check_spec.py <absolute spec path>` from this skill's folder. On exit
-1, fix each line that it names, and run it again.
+1, fix each line that it names, and run it again. Give the last line of the check, the open count,
+to the caller.
 
 ## Behaviour
 
@@ -56,7 +57,8 @@ request (below) moves it to the plan layout.
 ## Check a spec
 
 A caller can ask you to check a spec. Run `python3 scripts/check_spec.py <absolute spec path>` from this skill's
-folder. Change no line of the spec. Return the exit code and each error line.
+folder. Change no line of the spec. Return the exit code, each error line, and the
+`open questions: <n>` line.
 
 **Done when:** you returned the exit code and the errors.
 

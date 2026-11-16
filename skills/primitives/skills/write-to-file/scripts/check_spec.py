@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Check that a spec file has the spec layout.
 
-Each error prints as `<path>:<line>: <problem>. Fix: <fix>.` Exit 1 on any
-error, else exit 0.
+Each error prints as `<path>:<line>: <problem>. Fix: <fix>.` The last line is
+`open questions: <n>`, the count of `- ` items under `## Open questions`. Exit 1
+on any error, else exit 0.
 
 Usage: check_spec.py <spec>
 """
@@ -32,13 +33,22 @@ def check_header(header, err):
         err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(STATUSES))
 
 
+def items(lines, span):
+    if span is None:
+        return 0
+    return sum(1 for i in range(*span) if lines[i].startswith("- "))
+
+
 def check_acs(lines, body, end, err):
+    if items(lines, (body, end)) > 26:
+        err(body, "`## Acceptance criteria` has more than 26 ACs", "split the spec")
+        return
     seen = set()
     count = 0
     for i in range(body, end):
         if not lines[i].startswith("- "):
             continue
-        expected = string.ascii_uppercase[count] if count < 26 else "?"
+        expected = string.ascii_uppercase[count]
         count += 1
         m = AC.match(lines[i])
         if not m:
@@ -79,6 +89,7 @@ def main(argv):
         check_acs(lines, *found["Acceptance criteria"], err)
     for e in errors:
         print(e)
+    print(f"open questions: {items(lines, found.get('Open questions'))}")
     return 1 if errors else 0
 
 

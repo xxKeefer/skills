@@ -60,7 +60,7 @@ class CheckSpec(unittest.TestCase):
     def test_good_spec_passes(self):
         r = self.write()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(r.stdout, "")
+        self.assertEqual(r.stdout, "open questions: 0\n")
 
     def test_optional_sections_can_be_absent(self):
         del self.sections["Out of scope"]
@@ -88,7 +88,7 @@ class CheckSpec(unittest.TestCase):
                 self.header[key] = ""
                 r = self.write()
                 self.assertEqual(r.returncode, 1)
-                self.assertEqual(r.stdout, f"{self.path}:1: header has no `{key}`. Fix: add `{key}:` to the YAML header.\n")
+                self.assertEqual(r.stdout, f"{self.path}:1: header has no `{key}`. Fix: add `{key}:` to the YAML header.\nopen questions: 0\n")
 
     def test_header_with_no_closing_fence_fails_on_line_1(self):
         lines = ["---"] + [f"{k}: {v}" for k, v in self.header.items()] + ["", "# Spec: x", ""]
@@ -100,7 +100,7 @@ class CheckSpec(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertEqual(r.stderr, "")
         self.assertEqual(r.stdout.splitlines()[0], f"{self.path}:1: no YAML header. Fix: add a `---` block with `doctype`, `ticket`, `status`, `goal`.")
-        self.assertEqual(len(r.stdout.splitlines()), 1, r.stdout)
+        self.assertEqual(len(r.stdout.splitlines()), 2, r.stdout)
 
     def test_wrong_doctype_fails_on_its_line(self):
         self.header["doctype"] = "plan"
@@ -169,8 +169,32 @@ class CheckSpec(unittest.TestCase):
         self.sections["Acceptance criteria"][0] = "- [ ] **A.** Run x, it prints y."
         r = self.write()
         self.assertEqual(r.returncode, 1)
-        self.assertEqual(len(r.stdout.splitlines()), 1, r.stdout)
+        self.assertEqual(len(r.stdout.splitlines()), 2, r.stdout)
         self.assertIn(f"{self.path}:{self.line_of('Run x, it')}: AC is not in the AC layout.", r.stdout)
+
+    def test_more_than_26_acs_fails_once_on_the_heading(self):
+        letters = [chr(ord("A") + i) for i in range(26)] + ["A"]
+        self.sections["Acceptance criteria"] = [f"- [ ] **{c}.** Run x {i} → it prints y." for i, c in enumerate(letters)]
+        r = self.write()
+        self.assertEqual(r.returncode, 1)
+        line = self.line_of("## Acceptance criteria")
+        errors = [l for l in r.stdout.splitlines() if not l.startswith("open questions:")]
+        self.assertEqual(errors, [f"{self.path}:{line}: `## Acceptance criteria` has more than 26 ACs. Fix: split the spec."])
+
+    def test_no_open_questions_section_counts_0(self):
+        r = self.write()
+        self.assertEqual(r.stdout.splitlines()[-1], "open questions: 0")
+
+    def test_each_open_question_item_counts(self):
+        self.sections["Open questions"] = ["<!-- Optional. -->", "", "- Who owns y?", "- When does z ship?"]
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertEqual(r.stdout.splitlines()[-1], "open questions: 2")
+
+    def test_open_questions_with_only_a_comment_counts_0(self):
+        self.sections["Open questions"] = ["<!-- Optional. Remove when no question is open. -->"]
+        r = self.write()
+        self.assertEqual(r.stdout.splitlines()[-1], "open questions: 0")
 
     def test_done_ac_passes(self):
         self.sections["Acceptance criteria"][0] = "- [x] **A.** Run x → it prints y."
@@ -198,7 +222,7 @@ class Template(unittest.TestCase):
         shutil.copy(TEMPLATE, path)
         r = run(path)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(r.stdout, "")
+        self.assertEqual(r.stdout, "open questions: 1\n")
 
     def test_template_has_every_section(self):
         with open(TEMPLATE) as f:

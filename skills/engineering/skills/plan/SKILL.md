@@ -18,7 +18,8 @@ This command picks its input.
 - `$ARGUMENTS` is a spec file: read it. It has the layout of the `/write-to-file` spec template.
   Stop when one of these holds, and tell the user to answer or delete each item first:
   - The frontmatter has `status: draft`.
-  - The spec has an `## Open questions` section with an item.
+  - `check_spec.py` prints `open questions: <n>` with `<n>` above 0. Ask `/write-to-file` to
+    check the spec.
 
   Then run `/start-ticket` with the spec in place of the ticket:
   - The goal is the frontmatter `goal`.
