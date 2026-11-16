@@ -11,13 +11,13 @@ Usage: due.py [--root <repo>] [--tally <file>] [--today YYYY-MM-DD]
 """
 import argparse
 import datetime
-import glob
 import json
 import os
 import sys
+from pathlib import Path
 
 GRACE_DAYS = 30
-DEFAULT_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), *[".."] * 5))
+DEFAULT_ROOT = Path(__file__).resolve().parents[5]
 
 
 def tally_path():
@@ -49,16 +49,15 @@ def deprecated_date(skill_md):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default=DEFAULT_ROOT)
+    parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
     parser.add_argument("--tally", default=tally_path())
     parser.add_argument("--today", type=datetime.date.fromisoformat, default=datetime.date.today())
     args = parser.parse_args()
 
     tally = read_tally(args.tally)
-    pattern = os.path.join(args.root, "skills", "deprecated", "skills", "*", "SKILL.md")
     due = []
     failed = False
-    for skill_md in sorted(glob.glob(pattern)):
+    for skill_md in sorted((args.root / "skills" / "deprecated" / "skills").glob("*/SKILL.md")):
         value = deprecated_date(skill_md)
         if value is None:
             print(
@@ -75,7 +74,7 @@ def main():
             continue
         days = (args.today - date).days
         if days > GRACE_DAYS:
-            name = os.path.basename(os.path.dirname(skill_md))
+            name = skill_md.parent.name
             due.append((date, name, days, tally.get(name, 0)))
 
     for date, name, days, count in sorted(due):
