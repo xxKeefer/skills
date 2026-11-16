@@ -73,9 +73,11 @@ def migrate(text):
     goal_line = None
     body = []
     in_preamble = True
+    preamble_end = None
     for line in lines:
-        if line.startswith("## "):
+        if in_preamble and line.startswith("## "):
             in_preamble = False
+            preamble_end = len(body)
         m = WORKTREE.match(line) if in_preamble else None
         if m:
             header["worktree"], header["branch"] = m.group(1).strip(), m.group(2).strip()
@@ -113,11 +115,10 @@ def migrate(text):
     out += [f"{k}: {scalar(v)}" for k, v in extra.items()]
     out.append("---")
     out.append("")
-    body = add_push_done(body)
     collapsed = []
-    for blank, group in itertools.groupby(body, key=lambda l: l.strip() == ""):
+    for blank, group in itertools.groupby(body[:preamble_end], key=lambda l: l.strip() == ""):
         collapsed += [next(group)] if blank else list(group)
-    return "\n".join(out + collapsed) + "\n"
+    return "\n".join(out + collapsed + add_push_done(body[preamble_end:])) + "\n"
 
 
 def main(argv):

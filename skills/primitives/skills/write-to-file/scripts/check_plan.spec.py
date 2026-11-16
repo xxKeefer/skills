@@ -197,6 +197,12 @@ class CheckPlan(unittest.TestCase):
                 line = self.line_of("- [ ] 1. Add x.")
                 self.assertIn(f"{self.path}:{line}: step line is not in the step layout. Fix:", r.stdout)
 
+    def test_top_level_bullet_ends_the_step_block(self):
+        self.steps[:2] = ["- [ ] **1. Add x.** Seam: s. Conditions: C1.", "- a note", "  - Done: belongs to the note."]
+        r = self.write()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn(f"{self.path}:{self.line_of('**1. Add x.**')}: step 1 has no done line.", r.stdout)
+
     def test_steps_section_with_no_step_fails(self):
         self.steps = []
         r = self.write()

@@ -21,6 +21,11 @@ NOT_BEHAVIOUR_TITLE = re.compile(r"(Test|Review|Push|Review fix \S+)\.")
 ENTRY = re.compile(r"^### [DBN]\d+\b")
 
 
+class Field(NamedTuple):
+    value: str
+    line: int
+
+
 class Step(NamedTuple):
     index: int
     mark: str
@@ -30,7 +35,7 @@ class Step(NamedTuple):
 
 
 def read_header(lines):
-    """Return ({key: (value, line_no)}, end index) or (None, 0) when there is no header."""
+    """Return ({key: Field}, end index) or (None, 0) when there is no header."""
     if not lines or lines[0].strip() != "---":
         return None, 0
     header = {}
@@ -40,7 +45,7 @@ def read_header(lines):
             return header, i + 1
         m = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", line)
         if m:
-            header[m.group(1)] = (m.group(2).strip().strip("\"'"), i + 1)
+            header[m.group(1)] = Field(m.group(2).strip().strip("\"'"), i + 1)
     return None, 0
 
 
@@ -60,15 +65,15 @@ def sections(lines, start):
 
 def check_header(header, err):
     for key in HEADER_KEYS:
-        if key not in header or header[key][0] == "":
+        if key not in header or header[key].value == "":
             err(1, f"header has no `{key}`", f"add `{key}:` to the YAML header")
-    if "doctype" in header and header["doctype"][0] not in ("", "plan"):
+    if "doctype" in header and header["doctype"].value not in ("", "plan"):
         value, line = header["doctype"]
         err(line, f"doctype `{value}` is not `plan`", "set `doctype: plan`")
-    if "status" in header and header["status"][0] not in [""] + STATUSES:
+    if "status" in header and header["status"].value not in [""] + STATUSES:
         value, line = header["status"]
         err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(STATUSES))
-    if "worktree" in header and header["worktree"][0]:
+    if "worktree" in header and header["worktree"].value:
         value, line = header["worktree"]
         if not os.path.isdir(os.path.expanduser(value)):
             err(line, f"worktree `{value}` does not exist", "set `worktree:` to the path of the step's worktree")

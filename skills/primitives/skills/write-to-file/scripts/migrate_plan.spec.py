@@ -91,6 +91,23 @@ class MigratePlan(unittest.TestCase):
         self.assertIn("## Goal\n\nmake x work: fast. Scope: SCOPED. Estimate: 3.\n", body)
         self.assertIn("Approval: the user approved the plan.\n", body)
 
+    def test_blank_lines_that_the_moved_lines_leave_collapse(self):
+        self.write(old_plan(self.dir).replace("Merge: after X-0\n", "\nMerge: after X-0\n\n"))
+        run(MIGRATE, self.path)
+        body = self.read().split("---\n", 2)[2]
+        self.assertTrue(body.startswith(
+            "\n# Plan: X-1 Make x work\n\n## Goal\n\nmake x work: fast. Scope: SCOPED. Estimate: 3.\n\n"
+            "Approval: the user approved the plan.\n\n## Acceptance criteria\n"
+        ), body)
+
+    def test_body_after_the_first_heading_does_not_change(self):
+        context = "## Context\n\nMerge: keep me\nTicket: keep me\n\n```python\ndef a():\n    pass\n\n\ndef b():\n    pass\n```\n\n"
+        self.write(old_plan(self.dir).replace("## Steps\n", context + "## Steps\n"))
+        run(MIGRATE, self.path)
+        text = self.read()
+        self.assertIn(context, text.split("---\n", 2)[2])
+        self.assertIn("merge: after X-0\n", text.split("---\n")[1])
+
     def test_push_step_gets_a_done_line(self):
         self.write(old_plan(self.dir))
         run(MIGRATE, self.path)
