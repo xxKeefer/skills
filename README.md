@@ -70,6 +70,10 @@ Add to `~/.claude/settings.json`:
 
 `primitives` is required by all other domains. Enable whichever domains you need.
 
+The `experimental` domain is gone ([ADR 0017](docs/adr/0017-dated-skill-lifecycle.md)). If your
+`enabledPlugins` has the line `"experimental@xxkeefer-skills": true`, delete that line. Else Claude
+Code reports a missing plugin.
+
 ### Configure the tools on each machine
 
 A skill names a tool by its role: the tracker, the code host, or the browser. It never names a

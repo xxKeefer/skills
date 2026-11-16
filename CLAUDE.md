@@ -19,18 +19,17 @@ hook, and shared documentation. No skills live at root -- they all live under `s
 `.githooks/` holds the scrub check: a pre-commit hook, its public pattern file, and its tests
 (`sh .githooks/pre-commit_test.sh`).
 
-## Skill Maturity
+## Skill Lifecycle
 
-New skills land in `experimental` and earn their way into a stable domain, or fall through to
-`deprecated` and eventual deletion. **All moves are manual** — a deliberate human decision, not an
-automated rule:
+A skill has a dated lifecycle ([ADR 0017](docs/adr/0017-dated-skill-lifecycle.md)). Each move is a
+human decision:
 
-- **Promote** (`experimental` → stable domain): when a skill has proven its worth in real use, move
-  it into the domain it belongs to and bump that domain's version.
-- **Deprecate** (any domain → `deprecated`): when a skill has gone cold or its value is in doubt,
-  move it here rather than deleting outright.
-- **Delete** (`deprecated` → gone): once you're confident the skill is genuinely unused. Git history
-  is the archive.
+- **Add:** a new skill lands in the domain that it belongs to.
+- **Deprecate:** when a skill falls out of use, run `/retire-a-skill`. It moves the skill to
+  `deprecated` and writes `deprecated: <date>` into its frontmatter.
+- **Delete:** run `skills/meta/skills/retire-a-skill/scripts/due.py`. It lists each deprecated
+  skill that is more than 30 days old, with its count from the skill tally. Delete a listed skill
+  with `/retire-a-skill`. Git history is the archive.
 
 ## North Star
 

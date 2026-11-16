@@ -16,8 +16,7 @@ Author a new skill from scratch. Gather requirements, draft it, review with the 
 
 - **Skill name** -- what to call it
 - **Description** -- what it should do
-- **Domain** -- default to `experimental`. New skills land there and earn promotion to a stable
-  domain.
+- **Domain** -- the domain that the skill belongs to. A new skill lands there directly.
 
 If anything is missing, use **AskUserQuestion** to fill gaps. Then invoke `/grill` to flesh
 out the skill design:
