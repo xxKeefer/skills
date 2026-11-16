@@ -53,6 +53,13 @@ request (below) moves it to the plan layout.
 
 **Done when:** you returned the exit code, the errors, and the count of open decisions.
 
+## Check a spec
+
+A caller can ask you to check a spec. Run `python3 scripts/check_spec.py <absolute spec path>` from this skill's
+folder. Change no line of the spec. Return the exit code and each error line.
+
+**Done when:** you returned the exit code and the errors.
+
 ## Migrate a plan
 
 A caller can ask you to migrate a plan in the old layout, which has no YAML header. Run

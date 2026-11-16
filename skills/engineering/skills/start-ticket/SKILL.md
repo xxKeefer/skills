@@ -19,17 +19,13 @@ read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the tic
 Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
 `/split-ticket`, and each sub-task gets its own `/start-ticket` run.
 
-**No questions.** When the user says to ask no questions, a gate that asks for a yes takes its
-default and continues. Write the AC letters (Step 8), move the ticket (Step 4), and write the plan
-without the approval (Step 6). Put `Approval: none, the user waived questions.` in Context, and
-list each assumption there. A SPLIT or CLARIFY verdict still stops, because the
-user picks the path. Name each skipped gate in the Step 9 return.
+**No questions.** When the user says to ask no questions, follow
+[`references/inputs.md`](references/inputs.md#no-questions).
 
 ## Step 1: Read the ticket
 
 1. Read the key from `$ARGUMENTS`. If it is not there, ask for it. When `/plan` gives a spec in
-   place of the key, take the goal from its frontmatter `goal` and the ACs from its
-   `## Acceptance criteria` section, and skip items 2 to 4.
+   place of the key, read it as [`references/inputs.md`](references/inputs.md#a-spec) says.
 2. Read the ticket and each linked ticket with `/look-up`, in parallel. Linked tickets hold earlier
    decisions, related work, and constraints. Note each attachment or design link for the plan, and
    fetch no external URL.
@@ -48,10 +44,8 @@ user picks the path. Name each skipped gate in the Step 9 return.
 5. Letter the ACs. An AC has the form `- [ ] **A.** <action> → <expected>`, and a sub-check is
    `A.1`. Keep the letters that the ticket or `/refine-ticket` gave. If the ACs have no letters,
    letter them in order, and note that the ticket needs the letters (Step 8).
-6. If the ticket is a sub-task, find the map of its parent: `map_<PARENT>.md`, in the folder that
-   `/write-to-file` picks for doctype `map`, or in a subfolder of it. `/split-ticket` wrote it.
-   Read the unit of this sub-task: its `Done:` line, its `merge` value, and its `builds_on` value.
-   With no map, continue without them.
+6. If the ticket is a sub-task, read its map unit as
+   [`references/inputs.md`](references/inputs.md#a-sub-task-map) says.
 
 **Done when:** you have the goal and every AC with a letter. If `/refine-ticket` ran, you know
 whether it wrote the ACs.
@@ -109,12 +103,8 @@ The plan holds:
   Use its section format, with the `ID` column. When a flag gates the change, the flag-off path is
   a condition.
 
-Before you rate the ACs, read the defect hotspots of this repo, if `/engineering:self-improve` wrote them:
-`${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/<repo key>/defect-hotspots.md`. The repo key is
-`<owner>--<repo>` from the `origin` URL, else `local--<main worktree folder name>`. A file that the
-plan changes, in or under one of its Hotspots areas, is a hotspot. Raise its likelihood one step,
-only once, and name the area in the Why column. Derive the conditions for the area's Usually missed
-escape types first.
+Before you rate the ACs, read the defect hotspots of this repo, as
+[`references/inputs.md`](references/inputs.md#defect-hotspots) says.
 
 For each `—` row, ask whether the ticket needs an AC for that behaviour. A yes adds the AC with the
 next free letter, and the row takes that letter. A no keeps the `—` row.
@@ -132,14 +122,7 @@ size that the plan shows and the points that it should have had. Then ask whethe
 ticket whole or to take one of the two SPLIT paths. Write no points, because an estimate never
 overwrites a value.
 
-On SPLIT path 2, the plan steps become the slices:
-
-1. Write each step as a slice in the format of
-   [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md) Step 4. Give it its files, its parent
-   ACs, its size, its points, and the slices that it builds on.
-2. Run `/split-ticket` with the key, the slices, and the ticket text.
-3. Write no plan, and stop. Return the `/split-ticket` result. Say that the worktree from Step 3
-   has no use, and give its path.
+On SPLIT path 2, follow [`references/inputs.md`](references/inputs.md#split-at-the-plan-gate).
 
 **Done when:** the user approved the plan. On SPLIT path 2, `/split-ticket` returned and you
 stopped.

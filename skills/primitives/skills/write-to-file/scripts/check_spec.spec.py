@@ -81,6 +81,27 @@ class CheckSpec(unittest.TestCase):
                 self.assertEqual(r.returncode, 1)
                 self.assertIn(f"{self.path}:1: header has no `{key}`. Fix: add `{key}:`", r.stdout)
 
+    def test_each_empty_key_fails_with_one_error(self):
+        for key in HEADER_KEYS:
+            with self.subTest(key=key):
+                self.setUp()
+                self.header[key] = ""
+                r = self.write()
+                self.assertEqual(r.returncode, 1)
+                self.assertEqual(r.stdout, f"{self.path}:1: header has no `{key}`. Fix: add `{key}:` to the YAML header.\n")
+
+    def test_header_with_no_closing_fence_fails_on_line_1(self):
+        lines = ["---"] + [f"{k}: {v}" for k, v in self.header.items()] + ["", "# Spec: x", ""]
+        for name, body in self.sections.items():
+            lines += [f"## {name}", ""] + body + [""]
+        with open(self.path, "w") as f:
+            f.write("\n".join(lines))
+        r = run(self.path)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stderr, "")
+        self.assertEqual(r.stdout.splitlines()[0], f"{self.path}:1: no YAML header. Fix: add a `---` block with `doctype`, `ticket`, `status`, `goal`.")
+        self.assertEqual(len(r.stdout.splitlines()), 1, r.stdout)
+
     def test_wrong_doctype_fails_on_its_line(self):
         self.header["doctype"] = "plan"
         r = self.write()
@@ -143,6 +164,13 @@ class CheckSpec(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         line = self.line_of("**C.**")
         self.assertIn(f"{self.path}:{line}: AC letter `C` is out of order. Fix: set it to `B`.", r.stdout)
+
+    def test_bad_ac_form_keeps_its_letter_place(self):
+        self.sections["Acceptance criteria"][0] = "- [ ] **A.** Run x, it prints y."
+        r = self.write()
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(len(r.stdout.splitlines()), 1, r.stdout)
+        self.assertIn(f"{self.path}:{self.line_of('Run x, it')}: AC is not in the AC layout.", r.stdout)
 
     def test_done_ac_passes(self):
         self.sections["Acceptance criteria"][0] = "- [x] **A.** Run x → it prints y."

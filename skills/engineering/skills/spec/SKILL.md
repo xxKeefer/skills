@@ -87,7 +87,9 @@ Write the spec with `/write-to-file`, doctype `spec`, in the layout of its templ
 `/write-to-file` runs `check_spec.py` on the spec. Fix each line that it names, and run it again
 until it exits 0.
 
-Then stop. Give the spec path and the next command: `/plan @<spec path>`.
+Then stop. Give the spec path. When `## Open questions` holds an item, list each open item, and
+tell the user to answer or delete each one before `/plan @<spec path>`. Else give the next command:
+`/plan @<spec path>`.
 
 **Done when:** the spec is on disk, the check exits 0, and the user has its path and the next
 command.
