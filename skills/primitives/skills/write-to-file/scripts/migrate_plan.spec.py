@@ -161,12 +161,29 @@ class MigratePlan(unittest.TestCase):
         run(MIGRATE, self.path)
         self.assertIn("status: draft\n", self.read())
 
+    def test_split_stub_with_no_steps_gives_draft(self):
+        text = old_plan(self.dir).replace("Approval: the user approved the plan.\n", "")
+        text = text[: text.index("## Steps")] + text[text.index("## Progress"):]
+        self.write(text)
+        self.assertEqual(run(MIGRATE, self.path).returncode, 0)
+        self.assertIn("status: draft\n", self.read())
+
     def test_step_that_only_begins_with_push_gets_no_pr_done_line(self):
         for title in ("Pushes events.", "Push notifications on login."):
             with self.subTest(title=title):
                 self.write(old_plan(self.dir).replace("**3. Push.**", f"**3. {title}**"))
-                run(MIGRATE, self.path)
-                self.assertNotIn("draft PR URL", self.read())
+                self.assertEqual(run(MIGRATE, self.path).returncode, 0)
+                text = self.read()
+                self.assertTrue(text.startswith("---\n"))
+                self.assertIn(f"**3. {title}**", text)
+                self.assertNotIn("draft PR URL", text)
+
+    def test_push_step_with_a_done_line_keeps_only_that_line(self):
+        self.write(old_plan(self.dir).replace("`/create-pr @plan_X-1.md`.\n", "`/create-pr @plan_X-1.md`.\n  - Done: PR #12.\n"))
+        self.assertEqual(run(MIGRATE, self.path).returncode, 0)
+        text = self.read()
+        self.assertEqual(text.count("- Done:", text.index("**3. Push.**")), 1)
+        self.assertNotIn("draft PR URL", text)
 
     def test_many_files(self):
         other = os.path.join(self.dir, "plan_X-2.md")

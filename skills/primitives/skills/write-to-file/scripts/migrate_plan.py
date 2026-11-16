@@ -8,6 +8,7 @@ no done line one. A file that already has a header does not change.
 Usage: migrate_plan.py <file>...
 """
 import argparse
+import itertools
 import json
 import re
 import sys
@@ -35,7 +36,9 @@ def parse_ticket(line):
 
 def status_of(lines, approved):
     marks = [m.group(1) for m in map(STEP.match, lines) if m]
-    if marks and all(m in "x-" for m in marks):
+    if not marks:
+        return "draft"
+    if all(m in "x-" for m in marks):
         return "done"
     if "x" in marks:
         return "building"
@@ -112,10 +115,8 @@ def migrate(text):
     out.append("")
     body = add_push_done(body)
     collapsed = []
-    for line in body:
-        if line.strip() == "" and collapsed and collapsed[-1].strip() == "":
-            continue
-        collapsed.append(line)
+    for blank, group in itertools.groupby(body, key=lambda l: l.strip() == ""):
+        collapsed += [next(group)] if blank else list(group)
     return "\n".join(out + collapsed) + "\n"
 
 
