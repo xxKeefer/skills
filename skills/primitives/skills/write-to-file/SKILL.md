@@ -43,6 +43,15 @@ names, and run it again.
 **Done when:** the file exists at the path you reported, and a `plan` passes the check. For a
 doctype outside the set, you wrote no file and named the set.
 
+## Check a plan
+
+A caller can ask you to check a plan. Run `python3 scripts/check_plan.py <path>` from this skill's
+folder. Change no line of the plan. Return the exit code, each error line, and the last line, which
+gives the count of open decisions. For a file with no YAML header, also say that a migration
+request (below) moves it to the plan layout.
+
+**Done when:** you returned the exit code, the errors, and the count of open decisions.
+
 ## Migrate a plan
 
 A caller can ask you to migrate a plan in the old layout, which has no YAML header. Run
