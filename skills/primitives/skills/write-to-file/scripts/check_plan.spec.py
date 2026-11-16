@@ -136,6 +136,12 @@ class CheckPlan(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn(f"{self.path}:4: worktree `{self.header['worktree']}` does not exist. Fix:", r.stdout)
 
+    def test_done_plan_with_a_removed_worktree_passes(self):
+        self.header["worktree"] = os.path.join(self.dir, "gone")
+        self.header["status"] = "done"
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
     def test_worktree_with_a_tilde_passes(self):
         self.header["worktree"] = "~"
         r = self.write(HOME=self.dir)

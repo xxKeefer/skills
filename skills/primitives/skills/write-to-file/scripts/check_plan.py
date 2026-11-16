@@ -73,7 +73,9 @@ def check_header(header, err):
     if "status" in header and header["status"].value not in [""] + STATUSES:
         value, line = header["status"]
         err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(STATUSES))
-    if "worktree" in header and header["worktree"].value:
+    # A done plan may outlive its worktree: /tidy-up removes it.
+    done = "status" in header and header["status"].value == "done"
+    if "worktree" in header and header["worktree"].value and not done:
         value, line = header["worktree"]
         if not os.path.isdir(os.path.expanduser(value)):
             err(line, f"worktree `{value}` does not exist", "set `worktree:` to the path of the step's worktree")
