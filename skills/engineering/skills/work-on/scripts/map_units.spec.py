@@ -99,6 +99,19 @@ class MapUnits(unittest.TestCase):
             "Fix: add a '- Done: <claim>' line under the heading.\n",
         )
 
+    def test_malformed_unit_heading_fails_with_its_line(self):
+        self.write(MAP.replace("### [ ] 2. Second", "### [ ] 2 Second"))
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stdout, "")
+        self.assertIn(f"{self.map}:17: malformed unit heading", r.stderr)
+
+    def test_next_rejects_a_batch_below_1(self):
+        self.write(MAP)
+        r = run("next", self.map, "--batch", "0")
+        self.assertEqual(r.returncode, 2)
+        self.assertEqual(r.stdout, "")
+
     # C3
     def test_tick_ticks_one_unit_and_changes_no_other_line(self):
         self.write(MAP)

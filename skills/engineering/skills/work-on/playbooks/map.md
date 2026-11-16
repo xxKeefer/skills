@@ -25,7 +25,7 @@ Run the steps once for each batch. A batch is the output of step 1.
 | --- | --- | --- |
 | 1 | Run `python3 $SCRIPT next $MAP --batch 5`. Each line is `<N>\t<title>`, in map order. On exit 1, show the error line, which names the unit with no `Done:` line. | H3 on exit 1. With no lines, the map is done: go to step 7. |
 | 2 | For each unit in the batch, in order, run `/plan` in the current worktree. Give it the unit section of the map as the spec, the map path, the unit's `Done:` line, the plan name, and the branch name. Skip a unit that already has a plan with `status: approved`. | none |
-| 3 | Stop once for the whole batch. Write the playbook, the stop, and the next step into the `## Progress` of each plan. | H2: the user approves the batch of plans. Continue: `/work-on @$MAP`. |
+| 3 | When each plan in the batch has `status: approved`, go to step 4 with no stop. Else stop once for the whole batch. Write the playbook, the stop, and the next step into the `## Progress` of each plan. | H2, only when a plan in the batch is not approved: the user approves the batch of plans. Continue: `/work-on @$MAP`. |
 | 4 | For each unit, in order: run `gh stack add <branch>`, then run `/build @<plan path>` in a fresh subagent. Wait for the build before the next unit, because each layer builds on the one below. | H3, only when a build returns an open `D` entry. Stop the batch at that unit. |
 | 5 | When the build of a unit is done, run `python3 $SCRIPT tick $MAP <N>`. Tick each unit after its own build, not at the end of the batch. | H3 on exit 1. |
 | 6 | Run `gh stack submit --auto`. It opens a draft PR for each layer, with no stop. | H4, only before an action on the pause list, such as mark a PR ready or merge. |
