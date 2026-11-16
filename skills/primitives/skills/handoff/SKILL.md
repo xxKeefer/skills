@@ -13,10 +13,10 @@ Include a "suggested skills" section in the document, which suggests skills that
 When the steps change code:
 
 - End with a review step, then the push step: the step that pushes or opens a PR.
-- Write "Depends on every earlier step." in the review step. Also write that the review gets this handoff's path.
+- Write "Depends on every earlier step." in the review step. Also write that the review gets the path of this document.
 - The review step changes no code. Its done line: each fix that the user picks is a step before the push step.
 - In the suggested skills section, name `/mob-review` for the review step, if this session has it.
-- Each step that changes behaviour names its seam, and the IDs of its test conditions if the handoff lists them. Its done line names the tests it adds.
+- Each step that changes behaviour names its seam, and the IDs of its test conditions if the document lists them. Its done line names the tests it adds.
 
 Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead.
 

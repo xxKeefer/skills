@@ -10,7 +10,7 @@ description: >
 # Promote Card
 
 Turn a bare card -- a dot point with no wikilink -- into one ticket note. The card is the handle.
-The ticket is the handoff that `/do-next` runs against, one phase per session.
+The ticket is the plan that `/do-next` runs against, one phase per session.
 
 If the project's repo has an Obsidian Kanban tracker configured, this writes exactly what
 `docs/agents/issue-tracker.md` describes.

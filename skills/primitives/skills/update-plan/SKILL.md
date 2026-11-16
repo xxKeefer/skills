@@ -11,7 +11,7 @@ Update the @-tagged file with the current state of progress, for the purpose of 
 fresh agent for a cold start.
 
 - Edit the file in place. Preserve its existing structure and headings — fold progress into the
-  document it already is, don't replace it with a fresh handoff.
+  document it already is, don't replace it with a fresh plan.
 - Mark what's done, what's in progress, and what's next. Update stale claims to match reality.
 - Don't duplicate content already captured in other artifacts (PRDs, ADRs, issues, commits,
   diffs) — reference them by path or URL.

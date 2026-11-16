@@ -46,7 +46,7 @@ tags: [project, task]
 ## Ticket Notes
 
 `/promote-card` writes one ticket note per card: the template above, with a Plan and a Progress
-section between Acceptance Criteria and Notes. The ticket is a handoff. `/do-next` runs one phase
+section between Acceptance Criteria and Notes. The ticket is a plan. `/do-next` runs one phase
 per session, and `/update-plan` records each run.
 
 ```md
