@@ -1,7 +1,8 @@
 ---
 name: prototype
-description: Build a throwaway prototype to answer a design question about logic or UI.
-disable-model-invocation: true
+description: >
+  Build a throwaway prototype to answer a design question about logic or UI. Use when the user says
+  "prototype", or a design question needs running code to answer it.
 ---
 
 # Prototype

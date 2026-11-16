@@ -1,8 +1,10 @@
 ---
 name: squash-bugs
-description: Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision.
+description: >
+  Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report
+  every fix and every open decision. Use when the user says "squash bugs", or gives a batch of QA
+  bug tickets to fix.
 argument-hint: "[--max N] <ticket> [<ticket> ...]"
-disable-model-invocation: true
 ---
 
 # Squash Bugs

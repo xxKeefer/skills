@@ -1,8 +1,10 @@
 ---
 name: plan
-description: "★ Plan: turn a ticket or a spec into a claimed worktree and an approved plan handoff in vertical slices, through /start-ticket."
+description: >
+  ★ Plan: turn a ticket or a spec into a claimed worktree and an approved plan handoff in vertical
+  slices, through /start-ticket. Use when the user says "plan", or asks to plan a ticket key or a
+  spec after /spec.
 argument-hint: "<ticket key> | @<spec path>"
-disable-model-invocation: true
 ---
 
 # Plan

@@ -1,8 +1,10 @@
 ---
 name: review
-description: "★ Review: review a branch or a PR. The current branch gets /light-review, or /mob-review when you say full. A PR number, URL, or ticket key goes to /review-pr."
+description: >
+  ★ Review: review a branch or a PR. The current branch gets /light-review, or /mob-review when you
+  say full. A PR number, URL, or ticket key goes to /review-pr. Use when the user says "review", or
+  asks to review a branch, a PR, or a ticket key.
 argument-hint: "[full] [<PR number | URL | ticket key>]"
-disable-model-invocation: true
 ---
 
 # Review

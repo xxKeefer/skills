@@ -1,9 +1,9 @@
 ---
 name: fix
-disable-model-invocation: true
 description: >
-  Find and fix a broken behaviour from manual QA, or each failed item that a QA report prompt
-  names. Lighter than /diagnose, with no root-cause document.
+  Find and fix a broken behaviour from manual QA, or each failed item that a QA report prompt names.
+  Lighter than /diagnose, with no root-cause document. Use when the user reports a QA failure,
+  pastes a QA report prompt, or when /diagnose hands over a proven cause.
 ---
 
 # Fix

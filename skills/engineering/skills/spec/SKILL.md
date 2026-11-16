@@ -1,8 +1,10 @@
 ---
 name: spec
-description: "★ Spec: define what to build. A ticket key goes to /refine-ticket. A raw idea gets an interview to an explicit yes, then a written spec that /plan reads."
+description: >
+  ★ Spec: define what to build. A ticket key goes to /refine-ticket. A raw idea gets an interview to
+  an explicit yes, then a written spec that /plan reads. Use when the user says "spec", has a new
+  idea to build, or gives a ticket key to define.
 argument-hint: "<ticket key> | <idea in a sentence>"
-disable-model-invocation: true
 ---
 
 # Spec

@@ -34,7 +34,8 @@ that reads it.
 The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `webperf`,
 `code-simplify`, `ship`) are the entry points.
 
-- Each command has `disable-model-invocation: true`. Only the user starts one.
+- Each command has no `disable-model-invocation`, so the user, the agent, or another skill can
+  start one. The pause list rule, not the flag, marks where the agent stops for the user.
 - Each description starts with `★ `, so the commands stand out in the terminal list. A skill that is
   not a command has no ★.
 - A command picks a skill and runs it by name. It holds no step that a skill below it already holds.

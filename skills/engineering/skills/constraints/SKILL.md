@@ -1,8 +1,10 @@
 ---
 name: constraints
-description: "★ Constraints: write the project's quality bar to CONSTRAINTS.md, with a command behind each rule, then check each branch against it and catch a lowered bar."
+description: >
+  ★ Constraints: write the project's quality bar to CONSTRAINTS.md, with a command behind each rule,
+  then check each branch against it and catch a lowered bar. Use when the user says "constraints" or
+  "quality bar", or asks if a branch lowers the bar.
 argument-hint: "[path to check, default the branch diff]"
-disable-model-invocation: true
 ---
 
 # Constraints

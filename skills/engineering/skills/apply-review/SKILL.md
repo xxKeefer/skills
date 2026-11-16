@@ -2,8 +2,8 @@
 name: apply-review
 description: >
   Apply the rows that you tick in a review report of your own branch. Fix test-first, commit once,
-  push once, then reply on and resolve the ticked threads.
-disable-model-invocation: true
+  push once, then reply on and resolve the ticked threads. Use when the user pastes the prompt that
+  a review report of their own branch builds, or asks to apply the ticked rows.
 argument-hint: "@<report path> <row IDs>"
 ---
 

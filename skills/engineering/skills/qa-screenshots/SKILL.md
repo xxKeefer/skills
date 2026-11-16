@@ -1,7 +1,9 @@
 ---
 name: qa-screenshots
-description: Run a happy-path QA checklist in your own browser, save a screenshot for each item, show them in the QA report, and append a Manual QA section to the PR.
-disable-model-invocation: true
+description: >
+  Run a happy-path QA checklist in your own browser, save a screenshot for each item, show them in
+  the QA report, and append a Manual QA section to the PR. Use when the user says "qa screenshots",
+  or asks to run the QA checklist in the browser.
 ---
 
 # QA Screenshots

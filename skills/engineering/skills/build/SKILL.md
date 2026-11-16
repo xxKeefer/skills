@@ -1,8 +1,11 @@
 ---
 name: build
-description: "★ Build: run every remaining step of the plan handoff in fresh subagents, then loop test and review until the branch is ready for /ship, then write the QA checklist. Pass it a review report's prompt to add a fix round. /implement runs one step."
+description: >
+  ★ Build: run every remaining step of the plan handoff in fresh subagents, then loop test and
+  review until the branch is ready for /ship, then write the QA checklist. Use when the user says
+  "build" or "run the plan", gives a plan handoff, or pastes a review report's prompt for a fix
+  round. /implement runs one step.
 argument-hint: "[@handoff path] | [@<review report> <row IDs>]"
-disable-model-invocation: true
 ---
 
 # Build
@@ -142,9 +145,8 @@ Below the table, give the next command:
   user. QA items that fail build a `/fix` prompt. When every item passes, run
   `/ship`.
 
-`/ship` is user-invoked, so the agent cannot run it. If the user asks the agent to ship, tell the
-user to type `/ship`. Do not run the push step or `/create-pr` in its place, because that skips
-the `/ship` checks.
+If the user asks the agent to ship, run `/ship`. Do not run the push step or `/create-pr` in its
+place, because that skips the `/ship` checks.
 
 **Done when:** every step has a row, and the user has every entry or the next command.
 

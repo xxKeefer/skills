@@ -1,8 +1,10 @@
 ---
 name: ship
-description: "★ Ship: check that the branch is ready (plan steps, tests, review, constraints), give a go or no-go, open or update the PR through /create-pr, and merge it when it needs no gate."
+description: >
+  ★ Ship: check that the branch is ready (plan steps, tests, review, constraints), give a go or
+  no-go, open or update the PR through /create-pr, and merge it when it needs no gate. Use when the
+  user says "ship" or "ship it", or asks if the branch is ready to merge.
 argument-hint: "[@handoff path]"
-disable-model-invocation: true
 ---
 
 # Ship

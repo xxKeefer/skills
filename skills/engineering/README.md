@@ -11,7 +11,8 @@ reviewers, which each review one kind of code.
 
 ## Commands
 
-Each command has `disable-model-invocation: true`, and its description starts with ★.
+Each command description starts with ★. The user, the agent, or another skill can start a command.
+The agent stops only before an action on the pause list, such as a merge or a ready-for-review PR.
 
 | Command | Phase | Runs |
 |---|---|---|

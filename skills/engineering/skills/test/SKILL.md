@@ -1,8 +1,10 @@
 ---
 name: test
-description: "★ Test: prove the change works. A bug gets a failing test first through /tdd. A built change gets /happy-path, then /sad-path when it touches forms or fields."
+description: >
+  ★ Test: prove the change works. A bug gets a failing test first through /tdd. A built change gets
+  /happy-path, then /sad-path when it touches forms or fields. Use when the user says "test", or
+  asks to prove that a change or a bug fix works.
 argument-hint: "[bug description | seam to test]"
-disable-model-invocation: true
 ---
 
 # Test
