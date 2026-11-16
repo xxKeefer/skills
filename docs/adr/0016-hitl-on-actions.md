@@ -44,6 +44,8 @@ Options not chosen:
 
 - One request can run `/spec`, then `/plan`, then `/build`, with no typed command between them.
 - The agent stops only at an action on the pause list, or at an open `D` entry in a handoff.
+  `/plan` also stops on a spec with `status: draft` or an open question, because the confirmed
+  spec is the one stop before the plan.
 - A machine with no installed `pause-list.md` rule has no guard on these actions. Run
   `/install-rules` on each machine.
 - The HITL row in `CONTEXT.md` names the pause list, not the frontmatter flag, as the human stop.

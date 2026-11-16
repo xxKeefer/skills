@@ -14,7 +14,7 @@ import sys
 from typing import NamedTuple
 
 sys.dont_write_bytecode = True
-from layout import read_header, sections  # noqa: E402
+from layout import check_header, read_header, sections  # noqa: E402
 
 HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 STATUSES = ["draft", "approved", "building", "done"]
@@ -32,16 +32,7 @@ class Step(NamedTuple):
     block: list
 
 
-def check_header(header, err):
-    for key in HEADER_KEYS:
-        if key not in header or header[key].value == "":
-            err(1, f"header has no `{key}`", f"add `{key}:` to the YAML header")
-    if "doctype" in header and header["doctype"].value not in ("", "plan"):
-        value, line = header["doctype"]
-        err(line, f"doctype `{value}` is not `plan`", "set `doctype: plan`")
-    if "status" in header and header["status"].value not in [""] + STATUSES:
-        value, line = header["status"]
-        err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(STATUSES))
+def check_worktree(header, err):
     # A done plan may outlive its worktree: /tidy-up removes it.
     done = "status" in header and header["status"].value == "done"
     if "worktree" in header and header["worktree"].value and not done:
@@ -112,7 +103,8 @@ def main(argv):
     if header is None:
         err(1, "no YAML header", "add a `---` block with " + ", ".join(f"`{k}`" for k in HEADER_KEYS))
     else:
-        check_header(header, err)
+        check_header(header, err, "plan", HEADER_KEYS, STATUSES)
+        check_worktree(header, err)
     found = sections(lines, body_start)
     if "Steps" not in found:
         err(len(lines) or 1, "no `## Steps` section", "add `## Steps` with one checkbox per step")

@@ -1,4 +1,4 @@
-"""Parse the YAML header and the `## ` sections that check_plan.py and check_spec.py share."""
+"""Parse and check the YAML header and the `## ` sections that check_plan.py and check_spec.py share."""
 import re
 from typing import NamedTuple
 
@@ -35,3 +35,16 @@ def sections(lines, start):
     if name is not None:
         found[name] = (begin, len(lines))
     return found
+
+
+def check_header(header, err, doctype, keys, statuses):
+    """Report each missing or empty key, a wrong doctype, and a status not in statuses."""
+    for key in keys:
+        if key not in header or header[key].value == "":
+            err(1, f"header has no `{key}`", f"add `{key}:` to the YAML header")
+    if "doctype" in header and header["doctype"].value not in ("", doctype):
+        value, line = header["doctype"]
+        err(line, f"doctype `{value}` is not `{doctype}`", f"set `doctype: {doctype}`")
+    if "status" in header and header["status"].value not in [""] + statuses:
+        value, line = header["status"]
+        err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(statuses))

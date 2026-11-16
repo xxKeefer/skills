@@ -20,6 +20,8 @@ This command picks its input.
   - The frontmatter has `status: draft`.
   - `check_spec.py` prints `open questions: <n>` with `<n>` above 0. Ask `/write-to-file` to
     check the spec.
+  - `check_spec.py` exits 1. Give each error line, and tell the user to fix the spec or run
+    `/spec` again.
 
   Then run `/start-ticket` with the spec in place of the ticket:
   - The goal is the frontmatter `goal`.

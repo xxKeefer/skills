@@ -13,24 +13,12 @@ import string
 import sys
 
 sys.dont_write_bytecode = True
-from layout import read_header, sections  # noqa: E402
+from layout import check_header, read_header, sections  # noqa: E402
 
 HEADER_KEYS = ["doctype", "ticket", "status", "goal"]
 STATUSES = ["draft", "confirmed"]
 SECTIONS = ["Intent", "Decisions", "Acceptance criteria"]
 AC = re.compile(r"^- \[[ x]\] \*\*([A-Z])\.\*\* \S.* → \S.*$")
-
-
-def check_header(header, err):
-    for key in HEADER_KEYS:
-        if key not in header or header[key].value == "":
-            err(1, f"header has no `{key}`", f"add `{key}:` to the YAML header")
-    if "doctype" in header and header["doctype"].value not in ("", "spec"):
-        value, line = header["doctype"]
-        err(line, f"doctype `{value}` is not `spec`", "set `doctype: spec`")
-    if "status" in header and header["status"].value not in [""] + STATUSES:
-        value, line = header["status"]
-        err(line, f"status `{value}` is not valid", "set it to one of " + ", ".join(STATUSES))
 
 
 def items(lines, span):
@@ -80,7 +68,7 @@ def main(argv):
     if header is None:
         err(1, "no YAML header", "add a `---` block with " + ", ".join(f"`{k}`" for k in HEADER_KEYS))
     else:
-        check_header(header, err)
+        check_header(header, err, "spec", HEADER_KEYS, STATUSES)
     found = sections(lines, body_start)
     for name in SECTIONS:
         if name not in found:
