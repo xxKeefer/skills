@@ -13,7 +13,7 @@ Write the given content to the output folder for its doctype.
 | Doctype | Holds | Template |
 |---|---|---|
 | `map` | the order of many units, shared decisions, a tick per unit | none yet |
-| `spec` | what to build for one change, and why | none yet |
+| `spec` | what to build for one change, and why | [`templates/spec.md`](templates/spec.md) |
 | `plan` | goal, steps, progress, pending decisions, follow-ups | [`templates/plan.md`](templates/plan.md) |
 | `findings` | a question, its answer, the evidence, open points | none yet |
 | `report` | a review or audit result, often HTML with a JSON `runs` block and rows to tick | none yet |
@@ -23,8 +23,9 @@ Refuse any other doctype. Write no file, and reply with the six doctypes above. 
 names no doctype, use `scratch`.
 
 A file with a template has the template's layout. After you write a `plan`, run
-`python3 scripts/check_plan.py <absolute plan path>` from this skill's folder. On exit 1, fix each line that it
-names, and run it again.
+`python3 scripts/check_plan.py <absolute plan path>` from this skill's folder. After you write a
+`spec`, run `python3 scripts/check_spec.py <absolute spec path>` from this skill's folder. On exit
+1, fix each line that it names, and run it again.
 
 ## Behaviour
 
@@ -37,10 +38,10 @@ names, and run it again.
    current working directory.
 3. Ensure the folder exists
 4. Write the file to `{folder}/{filename}`
-5. For a `plan`, run the check
+5. For a `plan` or a `spec`, run its check
 6. Report the written path so the user can load it with `@{path}`
 
-**Done when:** the file exists at the path you reported, and a `plan` passes the check. For a
+**Done when:** the file exists at the path you reported, and a `plan` or a `spec` passes its check. For a
 doctype outside the set, you wrote no file and named the set.
 
 ## Check a plan

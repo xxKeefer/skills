@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Tests for check_spec.py. Run: python3 check_spec.spec.py"""
 import os
+import re
+import shutil
 import subprocess
 import tempfile
 import unittest
 
 SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "check_spec.py")
+TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates", "spec.md")
 
 HEADER_KEYS = ["doctype", "ticket", "status", "goal"]
 SECTIONS = ["Intent", "Decisions", "Acceptance criteria"]
@@ -145,6 +148,25 @@ class CheckSpec(unittest.TestCase):
         self.sections["Acceptance criteria"][0] = "- [x] **A.** Run x → it prints y."
         r = self.write()
         self.assertEqual(r.returncode, 0, r.stdout)
+
+
+class Template(unittest.TestCase):
+    # C3
+    def test_template_filled_with_example_values_passes(self):
+        path = os.path.join(tempfile.mkdtemp(), "spec_x.md")
+        shutil.copy(TEMPLATE, path)
+        r = run(path)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(r.stdout, "")
+
+    def test_template_has_every_section(self):
+        with open(TEMPLATE) as f:
+            headings = re.findall(r"(?m)^## (.+)$", f.read())
+        self.assertEqual(headings, ["Intent", "Decisions", "Acceptance criteria", "Out of scope", "Open questions"])
+
+    def test_template_status_is_confirmed(self):
+        with open(TEMPLATE) as f:
+            self.assertRegex(f.read(), r"(?m)^status: confirmed$")
 
 
 if __name__ == "__main__":

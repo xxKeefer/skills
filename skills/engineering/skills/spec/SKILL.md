@@ -72,10 +72,22 @@ correction and restate.
 
 ## Step 5: Write the spec
 
-Write the restatement, the decisions from Step 3, and the open questions with `/write-to-file`,
-doctype `spec`. Give each requirement a lettered AC in the form
-`- [ ] **A.** <action> → <expected>`.
+Write the spec with `/write-to-file`, doctype `spec`, in the layout of its template:
+
+- Header: `doctype: spec`, `ticket` (the key, or `none`), `status: confirmed`, and `goal` (the
+  Outcome line).
+- `## Intent`: the six lines of the restatement from Step 4.
+- `## Decisions`: the decisions from Step 3, each with its reason.
+- `## Acceptance criteria`: one lettered AC for each requirement, in the form
+  `- [ ] **A.** <action> → <expected>`. Letters start at A, with no gap.
+- `## Out of scope`: optional. Remove it when the Intent line says all.
+- `## Open questions`: optional. Remove it when no question is open. `/plan` stops while it holds
+  an item.
+
+`/write-to-file` runs `check_spec.py` on the spec. Fix each line that it names, and run it again
+until it exits 0.
 
 Then stop. Give the spec path and the next command: `/plan @<spec path>`.
 
-**Done when:** the spec is on disk, and the user has its path and the next command.
+**Done when:** the spec is on disk, the check exits 0, and the user has its path and the next
+command.
