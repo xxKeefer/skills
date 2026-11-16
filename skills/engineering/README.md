@@ -52,6 +52,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/pr-news` | Anytime | Table what happened over a time period on your open PRs and your review requests, one table per repo |
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
+| `/stand-up` | Anytime | Show your day as one table per epic, from your tickets, PRs, review requests, and branches, then write a news bulletin about the day |
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a handoff the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a handoff, it records the report in the review step |
 | `/light-review` | Review | Run the eight essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, and architecture) and fix and report as `/engineering:mob-review` does, with the same ticks and prompts |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/engineering:mob-review` there, then give the report path, whose ticks build the `/engineering:post-review-comments` prompt |
@@ -63,6 +64,8 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
 | `/self-improve` | Maintenance | Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put each proposal to you, apply the approved persona edits, and write a report and the repo's defect hotspots |
 | `/update-personas` | Maintenance | Refresh `persona-best-practice` against installed and current versions, lint any persona's structure, and apply the approved calibration backlog |
+| `/retro` | Maintenance | Read a session, find what in the skills, hooks, rules, and steering slowed or misled the agent, then apply and commit the fixes the user picks |
+| `/tidy-up` | Maintenance | Delete the local working state of finished work in one repo, and fix the lines in open handoffs that finished work made stale |
 
 ### Personas
 

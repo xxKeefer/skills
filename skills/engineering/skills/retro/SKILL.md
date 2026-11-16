@@ -75,7 +75,7 @@ Give each candidate one route:
 | Candidate | Route | On yes |
 | --- | --- | --- |
 | Skill misfire, skill gap in an existing skill, navigation inside a skill | Edit that skill in `$SKILLS_ROOT` | Step 6 makes the edit |
-| A task that no skill owns, seen in this session and likely to repeat | A new skill in `experimental`, through `/write-a-skill` | Step 6 runs `/write-a-skill` |
+| A task that no skill owns, seen in this session and likely to repeat | A new skill in the domain it belongs to, through `/write-a-skill` | Step 6 runs `/write-a-skill` |
 | Mechanical mistake | A hook through `/write-a-hook`, or a path rule through `/write-a-rule` | Step 6 runs that skill |
 | Review miss | An entry in the calibration backlog of `/self-improve` | Step 6 appends the entry |
 | Steering bloat, no-op | Move the line to a rule, a skill, or a check, or cut it | Step 6 edits the steering file |

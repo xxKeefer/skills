@@ -4,7 +4,9 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 
 ## Skills
 
-_None yet._
+| Skill | Purpose |
+|---|---|
+| `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 
 ## Installation
 

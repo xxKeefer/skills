@@ -18,6 +18,8 @@ Foundational skills that other domains compose. Always install this domain.
 | `/do-next` | Cold-start from a handoff/plan doc and execute the next step |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
 | `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |
+| `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
+| `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
 
 ## Installation
 

@@ -2,6 +2,7 @@
 name: lobotomize
 description: Table the agent's memories by age and purpose, then delete the ones the user selects.
 disable-model-invocation: true
+deprecated: 2026-11-16
 ---
 
 # Lobotomize

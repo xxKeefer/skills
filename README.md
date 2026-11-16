@@ -23,7 +23,6 @@ Claude Code skills for idiomatic, agnostic workflows. Organized into domains.
 | [**scribe**](skills/scribe/README.md) | Capture vault procedures + edit notes |
 | [**nix-manager**](skills/nix-manager/README.md) | NixOS config management |
 | [**utility**](skills/utility/README.md) | Dev-environment setup |
-| [**experimental**](skills/experimental/README.md) | Skills on probation |
 | [**deprecated**](skills/deprecated/README.md) | Holding pen for skills awaiting a keep/kill decision |
 
 ## The engineering flow
@@ -64,7 +63,6 @@ Add to `~/.claude/settings.json`:
     "scribe@xxkeefer-skills": true,
     "nix-manager@xxkeefer-skills": true,
     "utility@xxkeefer-skills": true,
-    "experimental@xxkeefer-skills": true,
     "deprecated@xxkeefer-skills": true
   }
 }

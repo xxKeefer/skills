@@ -107,5 +107,24 @@ class Due(unittest.TestCase):
         self.assertEqual(r.stdout, "")
 
 
+REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), *[".."] * 5))
+
+
+# C5
+class DueOnRealRepo(unittest.TestCase):
+    def setUp(self):
+        self.tally = os.path.join(tempfile.mkdtemp(), "skill-tally.json")
+
+    def test_lobotomize_is_due_on_2026_12_17(self):
+        r = run(REPO, self.tally, "2026-12-17")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("lobotomize\t2026-11-16\t31\t0\n", r.stdout)
+
+    def test_nothing_from_2026_11_16_is_due_on_2026_12_16(self):
+        r = run(REPO, self.tally, "2026-12-16")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertNotIn("lobotomize", r.stdout)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
