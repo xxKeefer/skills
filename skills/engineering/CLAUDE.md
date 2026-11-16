@@ -8,7 +8,7 @@ into this domain.
 ## Dependencies
 
 Engineering skills call `/grill`, `/write-to-file`, `/write-report`, `/look-up`, `/do-next`, and
-`/update-handoff` from the `primitives` plugin, so install it too.
+`/update-plan` from the `primitives` plugin, so install it too.
 
 ## Skills
 

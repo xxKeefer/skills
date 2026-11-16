@@ -1,10 +1,10 @@
 ---
-name: update-handoff
+name: update-plan
 description: >
-  Update an existing handoff/plan document in place with the current state of progress, so a
-  fresh agent can cold-start from it. Takes one argument: the @-tagged file path to update.
-  Use when the user says "update handoff", "update the plan", or context is about to blow out.
-argument-hint: "@path/to/handoff-or-plan.md"
+  Update an existing plan document in place with the current state of progress, so a fresh
+  agent can cold-start from it. Takes one argument: the @-tagged file path to update. Use when
+  the user says "update plan", "update the plan", or context is about to blow out.
+argument-hint: "@path/to/plan.md"
 ---
 
 Update the @-tagged file with the current state of progress, for the purpose of bootstrapping a

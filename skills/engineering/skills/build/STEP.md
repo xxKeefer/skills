@@ -63,7 +63,7 @@ red, save the work, write a `B` entry, and return.
 
 1. Stage only the files this step changed.
 2. Commit with the repo's commit convention.
-3. Invoke `/update-handoff` on the handoff to mark the step done.
+3. Invoke `/update-plan` on the handoff to mark the step done.
 
 If the step changed no file except the handoff, make no commit. A review step that only records its
 report is an example. Return `Commit: none`.

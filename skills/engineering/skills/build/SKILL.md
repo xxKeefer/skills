@@ -66,7 +66,7 @@ prompt. A fix round adds a new test and review only when the round can change be
    the text of the last test step and the last review step. In the new review step, add the row
    IDs that stay open in the last report. Tell the panel not to raise those rows again, and not to
    raise any row that only repeats them.
-7. Write the changes with `/update-handoff`.
+7. Write the changes with `/update-plan`.
 8. List the remaining steps in handoff order. Leave out the push step.
 
 **Done when:** for a report, the handoff holds a fix step for each ticked row, and either a new
@@ -101,7 +101,7 @@ For each remaining step, in handoff order:
       run its prompt, which adds a fix step for each. Option B: leave the rows open, with a reason
       for each. The entry blocks the push step. Stop the loop.
    2. Else, if the review's fix commit changes runtime behaviour, add a new round, as Step 1
-      item 6 says. Write it with `/update-handoff`, and add its steps to the list. Use the same
+      item 6 says. Write it with `/update-plan`, and add its steps to the list. Use the same
       behaviour rule as Step 1 item 1.3.
    3. Else stop the loop.
 

@@ -34,7 +34,7 @@ If the next step is ambiguous or blocked, stop and say so rather than guessing.
 
 ## Step 3: Update the Handoff
 
-Invoke `/update-handoff` on the same file to fold this run's progress back in, so the next
+Invoke `/update-plan` on the same file to fold this run's progress back in, so the next
 `/clear` + `/do-next` cold-starts cleanly.
 
 **Done when:** the handoff marks this step done and names the next one.
