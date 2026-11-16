@@ -74,7 +74,8 @@ def check_header(header, err):
             err(line, f"worktree `{value}` does not exist", "set `worktree:` to the path of the step's worktree")
 
 
-def check_steps(lines, begin, end, err):
+def parse_steps(lines, begin, end, err):
+    """Return the steps in `## Steps`. A step block is the step line and its indented sub-lines."""
     steps = []
     current = None
     for i in range(begin, end):
@@ -90,23 +91,27 @@ def check_steps(lines, begin, end, err):
                 err(i + 1, "step line is not in the step layout", "write it as `- [ ] **<id>. <title>.**`")
     if not steps:
         err(begin, "`## Steps` has no step", "add one `- [ ] **<id>. <title>.**` line for each step")
-    for i, mark, sid, title, block in steps:
-        line = i + 1
-        body = "\n".join(block)
-        subs = [b.strip() for b in block[1:]]
-        if mark not in (" ", "x", "-"):
-            err(line, f"step mark `[{mark}]` is not valid", "use `[ ]` open, `[x]` done, or `[-]` skipped")
-        if mark == "-" and not any(s.startswith("- Skipped:") for s in subs):
-            err(line, f"step {sid} is skipped with no reason", "add `  - Skipped: <reason>` under the step")
-        if not any(s.startswith("- Done:") for s in subs):
-            err(line, f"step {sid} has no done line", "add `  - Done: <line>` under the step")
-        if NOT_BEHAVIOUR_KINDS.search(body) or NOT_BEHAVIOUR_TITLE.fullmatch(title):
-            continue
-        if "Seam:" not in body:
-            err(line, f"step {sid} changes behaviour and names no seam",
-                "add `Seam: <seam>`, or `Kind: docs`, `Kind: config`, or `Kind: mechanical`")
-        if "Conditions:" not in body:
-            err(line, f"step {sid} changes behaviour and names no tests", "add `Conditions: <IDs>`")
+    return steps
+
+
+def check_step(step, err):
+    line = step.index + 1
+    sid = step.sid
+    body = "\n".join(step.block)
+    subs = [b.strip() for b in step.block[1:]]
+    if step.mark not in (" ", "x", "-"):
+        err(line, f"step mark `[{step.mark}]` is not valid", "use `[ ]` open, `[x]` done, or `[-]` skipped")
+    if step.mark == "-" and not any(s.startswith("- Skipped:") for s in subs):
+        err(line, f"step {sid} is skipped with no reason", "add `  - Skipped: <reason>` under the step")
+    if not any(s.startswith("- Done:") for s in subs):
+        err(line, f"step {sid} has no done line", "add `  - Done: <line>` under the step")
+    if NOT_BEHAVIOUR_KINDS.search(body) or NOT_BEHAVIOUR_TITLE.fullmatch(step.title):
+        return
+    if "Seam:" not in body:
+        err(line, f"step {sid} changes behaviour and names no seam",
+            "add `Seam: <seam>`, or `Kind: docs`, `Kind: config`, or `Kind: mechanical`")
+    if "Conditions:" not in body:
+        err(line, f"step {sid} changes behaviour and names no tests", "add `Conditions: <IDs>`")
 
 
 def count_open(lines, span):
@@ -136,7 +141,8 @@ def main(argv):
     if "Steps" not in found:
         err(len(lines) or 1, "no `## Steps` section", "add `## Steps` with one checkbox per step")
     else:
-        check_steps(lines, *found["Steps"], err)
+        for step in parse_steps(lines, *found["Steps"], err):
+            check_step(step, err)
     for e in errors:
         print(e)
     print(f"open decisions: {count_open(lines, found.get('Pending Decisions'))}")
