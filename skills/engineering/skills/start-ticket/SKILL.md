@@ -27,7 +27,9 @@ user picks the path. Name each skipped gate in the Step 9 return.
 
 ## Step 1: Read the ticket
 
-1. Read the key from `$ARGUMENTS`. If it is not there, ask for it.
+1. Read the key from `$ARGUMENTS`. If it is not there, ask for it. When `/plan` gives a spec in
+   place of the key, take the goal from its frontmatter `goal` and the ACs from its
+   `## Acceptance criteria` section, and skip items 2 to 4.
 2. Read the ticket and each linked ticket with `/look-up`, in parallel. Linked tickets hold earlier
    decisions, related work, and constraints. Note each attachment or design link for the plan, and
    fetch no external URL.
