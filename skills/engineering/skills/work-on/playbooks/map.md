@@ -28,7 +28,7 @@ Run the steps once for each batch. A batch is the output of step 1.
 | 3 | When each plan in the batch has `status: approved`, go to step 4 with no stop. Else stop once for the whole batch. Write the playbook, the stop, and the next step into the `## Progress` of each plan. | H2, only when a plan in the batch is not approved: the user approves the batch of plans. Continue: `/work-on @$MAP`. |
 | 4 | For each unit, in order: run `gh stack add <branch>`, then run `/build @<plan path>` in a fresh subagent. Wait for the build before the next unit, because each layer builds on the one below. | H3, only when a build returns an open `D` entry. Stop the batch at that unit. |
 | 5 | When the build of a unit is done, run `python3 $SCRIPT tick $MAP <N>`. Tick each unit after its own build, not at the end of the batch. | H3 on exit 1. |
-| 6 | Run `gh stack submit --auto`. It opens a draft PR for each layer, with no stop. | H4, only before an action on the pause list, such as mark a PR ready or merge. |
+| 6 | For each unit, from the bottom of the stack: check out its branch, then run `/ship @<plan path>`. `/create-pr` runs `gh stack submit --auto` itself, so it opens a draft PR for the layer with no stop. | H3 when `/ship` gives no-go. H4, only before an action on the pause list, such as mark a PR ready or merge. |
 | 7 | Offer `/retro` on the batch. The user runs it, or says no. Then start the next batch at step 1. | H5, when the user runs `/retro`: the user picks the skill edits. |
 
 When `/plan` splits a unit, remove the unit from the batch. At the H2 stop, give the wave 1
