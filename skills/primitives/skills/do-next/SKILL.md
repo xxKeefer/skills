@@ -14,8 +14,8 @@ document ready for the next run.
 Read the file. It is the only context you have — treat it as the source of truth for what's done
 and what's next. Follow any artifacts it references (plans, ADRs, issues, commits) as needed.
 
-If the file is a plan, run `python3 ../write-to-file/scripts/check_plan.py <path>` from this
-skill's folder. A plan has `doctype: plan` in its YAML header, or a name that starts with `plan_`.
+If the file is a plan, run `python3 ../write-to-file/scripts/check_plan.py <absolute plan path>` from this
+skill's folder. A plan has `doctype: plan` in its YAML header, or a name that starts with `plan_` or `handoff_`.
 On exit 1, stop the run before Step 2, and give each error line. For a file with no YAML header,
 say that `/write-to-file` can migrate it to the plan layout.
 

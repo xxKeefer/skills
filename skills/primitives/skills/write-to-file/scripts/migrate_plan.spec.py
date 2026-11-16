@@ -118,6 +118,12 @@ class MigratePlan(unittest.TestCase):
         self.assertIn("ticket: X-1\n", header)
         self.assertNotIn("builds_on", header)
 
+    def test_value_that_starts_with_a_backtick_is_quoted(self):
+        self.write(old_plan(self.dir).replace("Spec: unit 4 of `/tmp/map_x.md`.", "Spec: `/tmp/map_x.md`."))
+        run(MIGRATE, self.path)
+        header = self.read().split("---\n")[1]
+        self.assertIn('spec: "`/tmp/map_x.md`"\n', header)
+
     def test_ticket_line_with_no_goal(self):
         self.write(old_plan(self.dir).replace(" Goal: make x work: fast.", ""))
         r = run(MIGRATE, self.path)

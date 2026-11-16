@@ -23,7 +23,7 @@ Refuse any other doctype. Write no file, and reply with the six doctypes above. 
 names no doctype, use `scratch`.
 
 A file with a template has the template's layout. After you write a `plan`, run
-`python3 scripts/check_plan.py <path>` from this skill's folder. On exit 1, fix each line that it
+`python3 scripts/check_plan.py <absolute plan path>` from this skill's folder. On exit 1, fix each line that it
 names, and run it again.
 
 ## Behaviour
@@ -45,7 +45,7 @@ doctype outside the set, you wrote no file and named the set.
 
 ## Check a plan
 
-A caller can ask you to check a plan. Run `python3 scripts/check_plan.py <path>` from this skill's
+A caller can ask you to check a plan. Run `python3 scripts/check_plan.py <absolute plan path>` from this skill's
 folder. Change no line of the plan. Return the exit code, each error line, and the last line, which
 gives the count of open decisions. For a file with no YAML header, also say that a migration
 request (below) moves it to the plan layout.
@@ -55,7 +55,7 @@ request (below) moves it to the plan layout.
 ## Migrate a plan
 
 A caller can ask you to migrate a plan in the old layout, which has no YAML header. Run
-`python3 scripts/migrate_plan.py <path>` from this skill's folder. It changes a file that has a
+`python3 scripts/migrate_plan.py <absolute plan path>` from this skill's folder. It changes a file that has a
 header in no way. Then run the check, and report each line that it names.
 
 **Done when:** the file has a YAML header, and you reported the result of the check.

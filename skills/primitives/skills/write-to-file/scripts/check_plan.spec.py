@@ -82,6 +82,23 @@ class CheckPlan(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn(f"{self.path}:1: no YAML header", r.stdout)
 
+    def test_header_with_no_closing_fence_fails_on_line_1(self):
+        lines = ["---"] + [f"{k}: {v}" for k, v in self.header.items()]
+        lines += ["", "# Plan: x", "", "## Steps", ""] + self.steps
+        with open(self.path, "w") as f:
+            f.write("\n".join(lines) + "\n")
+        r = run(self.path)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stderr, "")
+        self.assertIn(f"{self.path}:1: no YAML header", r.stdout)
+
+    def test_each_valid_status_passes(self):
+        for status in ["draft", "approved", "building", "done"]:
+            with self.subTest(status=status):
+                self.header["status"] = status
+                r = self.write()
+                self.assertEqual(r.returncode, 0, r.stdout)
+
     def test_bad_status_fails_on_its_line(self):
         self.header["status"] = "wip"
         r = self.write()
