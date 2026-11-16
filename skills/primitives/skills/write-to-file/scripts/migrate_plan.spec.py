@@ -162,9 +162,11 @@ class MigratePlan(unittest.TestCase):
         self.assertIn("status: draft\n", self.read())
 
     def test_step_that_only_begins_with_push_gets_no_pr_done_line(self):
-        self.write(old_plan(self.dir).replace("**3. Push.**", "**3. Pushes events.**"))
-        run(MIGRATE, self.path)
-        self.assertNotIn("draft PR URL", self.read())
+        for title in ("Pushes events.", "Push notifications on login."):
+            with self.subTest(title=title):
+                self.write(old_plan(self.dir).replace("**3. Push.**", f"**3. {title}**"))
+                run(MIGRATE, self.path)
+                self.assertNotIn("draft PR URL", self.read())
 
     def test_many_files(self):
         other = os.path.join(self.dir, "plan_X-2.md")

@@ -49,7 +49,7 @@ def add_push_done(lines):
         out.append(lines[i])
         m = STEP.match(lines[i])
         i += 1
-        if not m or not re.match(r"Push\b", m.group(2)):
+        if not m or m.group(2) != "Push.":
             continue
         j = i
         while j < len(lines) and lines[j].startswith((" ", "\t")):

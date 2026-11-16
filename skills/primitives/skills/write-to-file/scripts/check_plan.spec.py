@@ -165,7 +165,7 @@ class CheckPlan(unittest.TestCase):
 
     def test_non_behaviour_steps_pass_without_seam_or_conditions(self):
         titles = ["Write docs.** Kind: docs.", "Set x.** Kind: config.", "Rename x.** Kind: mechanical.",
-                  "Test.**", "Test the edges.**", "Review.**", "Push.**"]
+                  "Test.**", "Review.**", "Push.**", "Review fix r3.1.**"]
         self.steps = []
         for i, t in enumerate(titles, 1):
             self.steps += [f"- [ ] **{i}. {t}", "  - Done: it holds."]
@@ -173,7 +173,8 @@ class CheckPlan(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout)
 
     def test_title_that_only_begins_with_a_non_behaviour_word_needs_a_seam(self):
-        for title in ("Testable export.", "Reviewer assignment.", "Pushes events."):
+        for title in ("Testable export.", "Reviewer assignment.", "Pushes events.", "Test the edges.",
+                      "Push notifications on login.", "Review fix."):
             with self.subTest(title=title):
                 self.steps[0] = f"- [ ] **1. {title}**"
                 r = self.write()
