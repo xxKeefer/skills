@@ -33,37 +33,31 @@ class MalformedHeading(Exception):
 
 
 def units(lines):
-    """Return a Unit for each unit heading under ## Units.
+    """Yield a Unit for each unit heading under ## Units.
 
     Raise MalformedHeading with the 0-based line index when a `### [` heading
     under ## Units does not match the unit form.
     """
     in_units = False
-    found = []
     current = None
     for i, line in enumerate(lines):
+        m = UNIT.match(line) if in_units else None
+        closes = line.startswith("## ") or (in_units and line.startswith("### "))
+        if closes and current:
+            yield current
+            current = None
         if line.startswith("## "):
             in_units = line.strip() == "## Units"
-            if current:
-                found.append(current)
-            current = None
+        elif not in_units:
             continue
-        if not in_units:
-            continue
-        m = UNIT.match(line)
-        if m or line.startswith("### "):
-            if current:
-                found.append(current)
-            current = None
-        if m:
+        elif m:
             current = Unit(i, m.group(1) == "x", int(m.group(2)), m.group(3).strip(), False)
         elif line.startswith("### ["):
             raise MalformedHeading(i)
         elif current and re.match(r"^\s*-?\s*Done:", line):
             current = current._replace(has_done=True)
     if current:
-        found.append(current)
-    return found
+        yield current
 
 
 def positive_int(value):
