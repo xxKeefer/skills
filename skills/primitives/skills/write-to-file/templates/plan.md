@@ -13,7 +13,7 @@ merge: <how the PR merges, from /split-ticket>
 
 # Plan: <KEY> <title>
 
-<!-- status values: draft, approved, building, done. Run scripts/check_plan.py <plan> after each write. After approval, only Progress, Pending Decisions, and Follow-ups change. -->
+<!-- status values: draft, approved, building, done. Ask /write-to-file to check this plan after each write. After approval, change only the step marks, the steps that /build adds, Progress, Pending Decisions, and Follow-ups. -->
 
 ## Goal
 

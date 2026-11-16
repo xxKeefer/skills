@@ -118,6 +118,14 @@ class MigratePlan(unittest.TestCase):
         self.assertIn("ticket: X-1\n", header)
         self.assertNotIn("builds_on", header)
 
+    def test_ticket_line_with_no_goal(self):
+        self.write(old_plan(self.dir).replace(" Goal: make x work: fast.", ""))
+        r = run(MIGRATE, self.path)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        text = self.read()
+        self.assertNotIn("goal:", text.split("---\n")[1])
+        self.assertIn("## Goal\n\nScope: SCOPED. Estimate: 3.\n", text)
+
     def test_status_from_the_steps(self):
         cases = [
             ("- [x] **1.", "- [ ] **1.", "approved"),

@@ -7,9 +7,11 @@ Each error prints as `<path>:<line>: <problem>. Fix: <fix>.` The last line is
 
 Usage: check_plan.py <plan>
 """
+import argparse
 import os
 import re
 import sys
+from typing import NamedTuple
 
 HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 STATUSES = ["draft", "approved", "building", "done"]
@@ -17,6 +19,14 @@ STEP = re.compile(r"^- \[(.)\] \*\*(\S+?)\.\s+(.*?)\*\*")
 NOT_BEHAVIOUR_KINDS = re.compile(r"\bKind: (docs|config|mechanical)\b")
 NOT_BEHAVIOUR_TITLES = ("Test", "Review", "Push")
 ENTRY = re.compile(r"^### [DBN]\d+\b")
+
+
+class Step(NamedTuple):
+    index: int
+    mark: str
+    sid: str
+    title: str
+    block: list
 
 
 def read_header(lines):
@@ -66,18 +76,21 @@ def check_header(header, err):
 
 def check_steps(lines, begin, end, err):
     steps = []
+    current = None
     for i in range(begin, end):
         m = STEP.match(lines[i])
         if m:
-            steps.append([i, m.group(1), m.group(2), m.group(3).strip(), [lines[i]]])
-        elif steps and (lines[i].startswith((" ", "\t")) or lines[i].strip() == ""):
-            steps[-1][4].append(lines[i])
+            current = Step(i, m.group(1), m.group(2), m.group(3).strip(), [lines[i]])
+            steps.append(current)
+        elif current is not None and (lines[i].startswith((" ", "\t")) or lines[i].strip() == ""):
+            current.block.append(lines[i])
         elif lines[i].startswith("- "):
-            steps.append(None)
-    for step in steps:
-        if step is None:
-            continue
-        i, mark, sid, title, block = step
+            current = None
+            if lines[i].startswith("- ["):
+                err(i + 1, "step line is not in the step layout", "write it as `- [ ] **<id>. <title>.**`")
+    if not steps:
+        err(begin, "`## Steps` has no step", "add one `- [ ] **<id>. <title>.**` line for each step")
+    for i, mark, sid, title, block in steps:
         line = i + 1
         body = "\n".join(block)
         subs = [b.strip() for b in block[1:]]
@@ -104,10 +117,9 @@ def count_open(lines, span):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("usage: check_plan.py <plan>", file=sys.stderr)
-        return 2
-    path = argv[1]
+    parser = argparse.ArgumentParser(prog="check_plan.py", description="Check that a plan file has the plan layout.")
+    parser.add_argument("plan")
+    path = parser.parse_args(argv[1:]).plan
     with open(path) as f:
         lines = f.read().splitlines()
     errors = []

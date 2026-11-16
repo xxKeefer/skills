@@ -40,8 +40,8 @@ read → review check → AC table → top sections → title and body → gate 
    `merge` key of the YAML header, the done line of each step, and the two SHAs in the done line of
    the review step: the reviewed base and the reviewed head.
 5. If the `merge` key names sub-task keys, find the PR of each key:
-   - Find `plan_<SUBKEY>.md` in the folder of the handoff and its subfolders. Read the `branch`
-     key of its YAML header.
+   - Find `plan_<SUBKEY>.md` in the folder that item 3 searches, and its subfolders. Read the
+     `branch` key of its YAML header.
    - Run `gh pr list --head <its branch> --state all --json number`.
    - With no plan, no `branch` key, or no PR, use the key.
 6. With no handoff, read the ticket whose key is in the branch name with `/look-up`, and take its

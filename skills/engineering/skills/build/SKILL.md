@@ -84,7 +84,7 @@ For each remaining step, in handoff order:
 
 1. Read the handoff again, because a subagent can add entries.
 2. If an entry under `## Pending Decisions` lists the step in its `Blocks` line, mark the step
-   skipped with that entry ID. Go to the next step.
+   `[-]`, and add `  - Skipped: blocked by <entry ID>` under it. Go to the next step.
 3. Record the `HEAD` SHA. Dispatch one fresh `general-purpose` subagent. Give it the handoff
    path, the step ID, and the absolute path to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`.
    To save subagents, give one subagent a batch: a run of consecutive review fix steps from the

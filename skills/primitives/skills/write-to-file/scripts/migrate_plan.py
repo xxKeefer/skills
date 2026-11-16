@@ -7,6 +7,7 @@ no done line one. A file that already has a header does not change.
 
 Usage: migrate_plan.py <file>...
 """
+import argparse
 import json
 import re
 import sys
@@ -84,7 +85,7 @@ def migrate(text):
             if "Spec" in fields and fields["Spec"] != "none":
                 extra["spec"] = fields["Spec"]
             rest = [f"{k}: {fields[k]}." for k in ("Scope", "Estimate") if k in fields]
-            goal_line = " ".join([fields["Goal"] + "."] * ("Goal" in fields) + rest)
+            goal_line = " ".join(([fields["Goal"] + "."] if "Goal" in fields else []) + rest)
             body.append("## Goal")
             body.append("")
             body.append(goal_line)
@@ -119,10 +120,9 @@ def migrate(text):
 
 
 def main(argv):
-    if len(argv) < 2:
-        print("usage: migrate_plan.py <file>...", file=sys.stderr)
-        return 2
-    for path in argv[1:]:
+    parser = argparse.ArgumentParser(prog="migrate_plan.py", description="Move an old-layout plan into the plan layout, in place.")
+    parser.add_argument("files", nargs="+")
+    for path in parser.parse_args(argv[1:]).files:
         with open(path) as f:
             text = f.read()
         new = migrate(text)

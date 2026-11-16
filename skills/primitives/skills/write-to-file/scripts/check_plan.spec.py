@@ -12,12 +12,12 @@ TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templ
 HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 
 
-def run(path):
+def run(path, **env):
     return subprocess.run(
         ["python3", SCRIPT, path],
         capture_output=True,
         text=True,
-        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **env},
     )
 
 
@@ -41,7 +41,7 @@ class CheckPlan(unittest.TestCase):
         ]
         self.decisions = None
 
-    def write(self):
+    def write(self, **env):
         lines = ["---"]
         lines += [f"{k}: {v}" for k, v in self.header.items()]
         lines += ["---", "", "# Plan: x", "", "## Goal", "", "Make x work.", "", "## Steps", ""]
@@ -51,7 +51,7 @@ class CheckPlan(unittest.TestCase):
             lines += ["", "## Pending Decisions", ""] + self.decisions
         with open(self.path, "w") as f:
             f.write("\n".join(lines) + "\n")
-        return run(self.path)
+        return run(self.path, **env)
 
     def line_of(self, text):
         with open(self.path) as f:
@@ -101,6 +101,11 @@ class CheckPlan(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn(f"{self.path}:4: worktree `{self.header['worktree']}` does not exist. Fix:", r.stdout)
 
+    def test_worktree_with_a_tilde_passes(self):
+        self.header["worktree"] = "~"
+        r = self.write(HOME=self.dir)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
     # C3
     def test_step_with_no_done_line_fails_naming_its_line(self):
         del self.steps[1]
@@ -137,6 +142,22 @@ class CheckPlan(unittest.TestCase):
         self.steps.insert(1, "  - Kind: docs.")
         r = self.write()
         self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_step_line_not_in_the_layout_fails(self):
+        for done in (True, False):
+            with self.subTest(done=done):
+                self.steps[:2] = ["- [ ] 1. Add x. Seam: s. Conditions: C1."] + (["  - Done: x passes."] if done else [])
+                r = self.write()
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(r.stderr, "")
+                line = self.line_of("- [ ] 1. Add x.")
+                self.assertIn(f"{self.path}:{line}: step line is not in the step layout. Fix:", r.stdout)
+
+    def test_steps_section_with_no_step_fails(self):
+        self.steps = []
+        r = self.write()
+        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+        self.assertIn(f"{self.path}:{self.line_of('## Steps')}: `## Steps` has no step. Fix:", r.stdout)
 
     # C5
     def test_skipped_step_with_no_reason_fails(self):

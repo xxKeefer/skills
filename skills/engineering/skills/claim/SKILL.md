@@ -71,8 +71,10 @@ Get the path of a new worktree from `wt list --format=json`.
 1. Find the handoff folder the way `/write-to-file` picks it: the folder that the user's
    instructions name for handoffs or plans, else `.ai/` in the parent folder of
    `git rev-parse --path-format=absolute --git-common-dir`.
-2. Find the files in that folder and its subfolders whose name holds the key. If no name holds it,
-   find the files whose text holds it. Skip each `map_` file, because a map is not a handoff.
+2. Find the plan files in that folder and its subfolders whose name holds the key. If no name
+   holds it, find the plan files whose text holds it. A plan file has a name that starts with
+   `plan_` or `handoff_`, or a YAML header with `doctype: plan`. Skip each other file, such as a
+   map, a findings doc, or a report.
    - No file: go to Step 4. The calling skill writes the handoff.
    - Two or more files: ask which one.
 3. If the file has no YAML header, ask `/write-to-file` to migrate it to the plan layout.

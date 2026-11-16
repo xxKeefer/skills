@@ -16,7 +16,7 @@ Write the given content to the output folder for its doctype.
 | `spec` | what to build for one change, and why | none yet |
 | `plan` | goal, steps, progress, pending decisions, follow-ups | [`templates/plan.md`](templates/plan.md) |
 | `findings` | a question, its answer, the evidence, open points | none yet |
-| `report` | HTML with a JSON `runs` block and rows to tick | none yet |
+| `report` | a review or audit result, often HTML with a JSON `runs` block and rows to tick | none yet |
 | `scratch` | anything | none |
 
 Refuse any other doctype. Write no file, and reply with the six doctypes above. When the caller
