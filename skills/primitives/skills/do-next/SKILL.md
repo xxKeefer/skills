@@ -1,9 +1,9 @@
 ---
 name: do-next
 description: >
-  Cold-start from a handoff or plan, run its next step, and update the document for the next run.
+  Cold-start from a plan, run its next step, and update the document for the next run.
   Use when the user says "do next" or hands you a plan to continue.
-argument-hint: "@path/to/handoff-or-plan.md"
+argument-hint: "@path/to/plan.md"
 ---
 
 Read the @-tagged file as a cold agent, do the next step of work it describes, then leave the

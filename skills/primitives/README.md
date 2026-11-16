@@ -15,7 +15,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) |
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent |
 | `/update-plan` | Update a plan doc in place with current progress |
-| `/do-next` | Cold-start from a handoff/plan doc and execute the next step |
+| `/do-next` | Cold-start from a plan doc and execute the next step |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
 | `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
