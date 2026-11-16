@@ -134,6 +134,16 @@ class DueOnRealRepo(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertNotIn("lobotomize", r.stdout)
 
+    def test_default_root_is_the_repo(self):
+        r = subprocess.run(
+            ["python3", SCRIPT, "--tally", self.tally, "--today", "2026-12-17"],
+            capture_output=True,
+            text=True,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("lobotomize\t2026-11-16\t31\t0\n", r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
