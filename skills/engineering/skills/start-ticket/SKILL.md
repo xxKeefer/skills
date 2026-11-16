@@ -2,18 +2,18 @@
 name: start-ticket
 description: >
   Start work on a ticket: refine, scope, or split it as needed, claim its worktree, and write the
-  plan. Use when the user asks to start or pick up a ticket or a sub-task.
+  plan handoff. Use when the user asks to start or pick up a ticket or a sub-task.
 argument-hint: "<ticket key>"
 ---
 
 # Start Ticket
 
-Turn a ticket into a worktree and an approved plan. The next session builds the plan with
+Turn a ticket into a worktree and an approved plan handoff. The next session builds the plan with
 `/do-next`, so this skill ends at the plan.
 
 ```
 read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the ticket → draft the plan
-     → plan gate → write the plan
+     → plan gate → write the handoff
 ```
 
 Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
@@ -21,8 +21,8 @@ Scope comes before the claim. When a ticket splits into sub-tasks, the run stops
 
 **No questions.** When the user says to ask no questions, a gate that asks for a yes takes its
 default and continues. Write the AC letters (Step 8), move the ticket (Step 4), and write the plan
-without the approval (Step 6). Put `Approval: none, the user waived questions.` under the `Ticket:`
-line, and list each assumption in Context. A SPLIT or CLARIFY verdict still stops, because the
+without the approval (Step 6). Put `Approval: none, the user waived questions.` in Context, and
+list each assumption there. A SPLIT or CLARIFY verdict still stops, because the
 user picks the path. Name each skipped gate in the Step 9 return.
 
 ## Step 1: Read the ticket
@@ -46,6 +46,10 @@ user picks the path. Name each skipped gate in the Step 9 return.
 5. Letter the ACs. An AC has the form `- [ ] **A.** <action> → <expected>`, and a sub-check is
    `A.1`. Keep the letters that the ticket or `/refine-ticket` gave. If the ACs have no letters,
    letter them in order, and note that the ticket needs the letters (Step 8).
+6. If the ticket is a sub-task, find the map of its parent: `map_<PARENT>.md`, in the folder that
+   `/write-to-file` picks for doctype `map`, or in a subfolder of it. `/split-ticket` wrote it.
+   Read the unit of this sub-task: its `Done:` line, its `merge` value, and its `builds_on` value.
+   With no map, continue without them.
 
 **Done when:** you have the goal and every AC with a letter. If `/refine-ticket` ran, you know
 whether it wrote the ACs.
@@ -68,13 +72,11 @@ path 2, `/split-ticket` returned and you stopped.
 
 ## Step 3: Claim the worktree
 
-Run `/claim` with the key. It returns the worktree path, the branch, and a plan path or `none`.
+Run `/claim` with the key. It returns the worktree path, the branch, and a handoff path or `none`.
 
 - `none`: continue.
-- A split stub: `/split-ticket` wrote it for this sub-task. It has a `Merge:` line and no
-  `## Steps` section. Ask no question. Continue, and draft the plan into the stub (Step 7).
-- Another plan: the work may have started. Show the path. Ask whether to continue that plan
-  or to write a new plan. To continue it, go to Step 9 with that plan.
+- Another handoff: the work may have started. Show the path. Ask whether to continue that handoff
+  or to write a new plan. To continue it, go to Step 9 with that handoff.
 
 If `/claim` stops to ask a question, put the question to the user, and continue with the answer.
 
@@ -120,7 +122,7 @@ the Conditions list of a step or under Not testing.
 
 ## Step 6: Plan gate
 
-Show the draft plan in the Step 7 format. Revise it with the user until they approve it. The
+Show the draft handoff in the Step 7 format. Revise it with the user until they approve it. The
 user approves the steps and the Test approach together.
 
 If the plan is much bigger than the `/scope-ticket` estimate, say so before the approval. Give the
@@ -140,61 +142,45 @@ On SPLIT path 2, the plan steps become the slices:
 **Done when:** the user approved the plan. On SPLIT path 2, `/split-ticket` returned and you
 stopped.
 
-## Step 7: Write the plan
+## Step 7: Write the handoff
 
-Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. For a
-split stub from Step 3, write the plan over the stub at its path, not into a new file. The stub is
-in the folder of the parent ticket. Write in Simplified Technical English. Read
-[`STE.md`](../../STE.md) before you write, and follow every rule in it.
+Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. Write in
+Simplified Technical English. Read [`STE.md`](../../STE.md) before you write, and follow every rule
+in it.
 
-````markdown
-# Plan: <KEY> <ticket title>
-Worktree: <path>. Branch: <branch>.
+The plan has the layout of the `/write-to-file` plan template. Fill it this way:
 
-Ticket: <key>. Goal: <one-sentence goal>. Scope: <SCOPED, or SPLIT path 1>. Estimate: <points>.
+- **Header.** `ticket` is the key. `worktree` and `branch` come from Step 3. `status` is
+  `approved`, or `draft` when the user waived questions. `goal` is the one-sentence goal. Add
+  `spec` when `/plan` gave a spec. For a sub-task with a map unit (Step 1), add `merge` and
+  `builds_on` from the unit. `/claim` and `/do-next` read `worktree` and `branch`. `/create-pr`
+  reads `merge`.
+- **Goal.** The goal, the scope (SCOPED, or SPLIT path 1), and the `/scope-ticket` estimate.
+- **Acceptance criteria.** The lettered ACs from Step 1 and Step 5.
+- **Context.** What the linked tickets, the comments, and the attachments decide. The production
+  gate. For a sub-task with a map unit, the map path and the unit's `Done:` line.
+- **Test approach.** The section from Step 5, in the format of
+  [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md).
+- **Steps.** The steps from Step 5, then a review step and a push step, as the template shows. The
+  review step names this handoff's path. Its done line also says: "Before the push step, the user
+  ticks the rows to fix in the report and runs its prompt."
+- **Progress.** One line: the date, and the branch that the plan is on.
+- Add a `## Suggested skills` section after `## Steps`:
+  - `/build @<handoff path>`: every step, then the test and review loop, from the worktree.
+  - `/implement @<handoff path>`: one step per session, from the worktree.
+  - `/tdd`: each step that changes behaviour.
+  - `/engineering:mob-review`: the review step.
+  - `/create-pr`: the push step.
 
-## Acceptance criteria
+More rules:
 
-- [ ] **A.** <action> → <expected>
-  - [ ] **A.1.** <sub-check>
-
-## Context
-
-<What the linked tickets, the comments, and the attachments decide. The production gate.>
-
-## Test approach
-
-<The section in the format of ../../TEST-APPROACH.md.>
-
-## Steps
-
-- [ ] **1. <slice goal>.** Seam: `<seam>`. Conditions: C1, C2.
-  - Done: <the tests that it adds, and what a user can do now>.
-- [ ] **<n>. Review.** Depends on every earlier step. Review the branch with this plan: `<plan path>`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
-- [ ] **<n+1>. Push.** Push the branch and open a draft PR with `/create-pr @<plan path>`.
-
-## Suggested skills
-
-- `/build @<plan path>`: every step, then the test and review loop, from the worktree.
-- `/implement @<plan path>`: one step per session, from the worktree.
-- `/tdd`: each step that changes behaviour.
-- `/engineering:mob-review`: the review step.
-- `/create-pr`: the push step.
-````
-
-- The `Worktree:` line is the line after the title. `/claim` and `/do-next` read it.
-- For a split stub, keep its `Ticket:`, `Builds on:`, and `Merge:` lines as they are, in place of
-  the `Ticket:` line above. `/create-pr` reads the `Merge:` line. Keep the stub's Context lines, and
-  add yours under them.
-- Write no stack order into the plan, because it goes stale when a lower layer merges. When the
-  ticket builds on another, add `Builds on: <key>` under the `Ticket:` line. The stack tool holds
-  the order.
+- Write no stack order into the handoff, because it goes stale when a lower layer merges. When the
+  ticket builds on another, set `builds_on: <key>` in the header. The stack tool holds the order.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
   order. The review and push steps come after the last phase.
 - Name `/engineering:mob-review` only if this session has it.
 
-**Done when:** the file exists, and its second line is the `Worktree:` line.
+**Done when:** the file exists, and the plan check of `/write-to-file` passed on it.
 
 ## Step 8: Write the letters back
 
@@ -215,7 +201,7 @@ Skip this step in these cases:
 
 ## Step 9: Return
 
-Give the worktree path, the branch, the plan path, and the next command. The user starts a new
-session in the worktree and runs `/do-next @<plan path>`.
+Give the worktree path, the branch, the handoff path, and the next command. The user starts a new
+session in the worktree and runs `/do-next @<handoff path>`.
 
 **Done when:** the user has the worktree path and the command.

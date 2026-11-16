@@ -43,6 +43,14 @@ names, and run it again.
 **Done when:** the file exists at the path you reported, and a `plan` passes the check. For a
 doctype outside the set, you wrote no file and named the set.
 
+## Migrate a plan
+
+A caller can ask you to migrate a plan in the old layout, which has no YAML header. Run
+`python3 scripts/migrate_plan.py <path>` from this skill's folder. It changes a file that has a
+header in no way. Then run the check, and report each line that it names.
+
+**Done when:** the file has a YAML header, and you reported the result of the check.
+
 ## Naming convention
 
 Pattern: `{doctype}_{terse-description}.{ext}`

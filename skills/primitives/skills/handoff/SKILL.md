@@ -8,6 +8,8 @@ argument-hint: "What will the next session be used for?"
 
 Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it with `/write-to-file`, doctype `plan`.
 
+Write a short plan in the layout of the `/write-to-file` plan [template](../write-to-file/templates/plan.md): the YAML header, `## Goal`, `## Steps`, and `## Progress`. Add an optional section only when the conversation holds its content. In the header, `worktree` is the current worktree root, or the current folder outside a git repo. `branch` is the current branch, or `none` outside a git repo. `ticket` is the key, or `none`. `status` is `building` when a step is done, else `draft`.
+
 Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.
 
 When the steps change code:
