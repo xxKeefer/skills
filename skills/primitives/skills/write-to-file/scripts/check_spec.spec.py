@@ -181,6 +181,11 @@ class CheckSpec(unittest.TestCase):
         errors = [l for l in r.stdout.splitlines() if not l.startswith("open questions:")]
         self.assertEqual(errors, [f"{self.path}:{line}: `## Acceptance criteria` has more than 26 ACs. Fix: split the spec."])
 
+    def test_26_acs_pass(self):
+        self.sections["Acceptance criteria"] = [f"- [ ] **{chr(ord('A') + i)}.** Run x {i} → it prints y." for i in range(26)]
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout)
+
     def test_no_open_questions_section_counts_0(self):
         r = self.write()
         self.assertEqual(r.stdout.splitlines()[-1], "open questions: 0")
