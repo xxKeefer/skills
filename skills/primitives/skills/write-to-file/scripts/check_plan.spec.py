@@ -245,6 +245,15 @@ class CheckPlan(unittest.TestCase):
         r = self.write()
         self.assertEqual(r.stdout.splitlines()[-1], "open decisions: 0")
 
+    def test_count_reads_only_the_pending_decisions_section(self):
+        self.decisions = ["### D1: which x? (found in step 1)"]
+        self.write()
+        with open(self.path, "a") as f:
+            f.write("\n## Follow-ups\n\n### N1: a later note\n")
+        r = run(self.path)
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertEqual(r.stdout.splitlines()[-1], "open decisions: 1")
+
     def test_count_prints_after_errors(self):
         del self.header["goal"]
         self.decisions = ["### D1: which x? (found in step 1)"]
