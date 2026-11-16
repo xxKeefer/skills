@@ -2,6 +2,7 @@
 """Tests for check_plan.py. Run: python3 check_plan.spec.py"""
 import os
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -272,6 +273,20 @@ class CheckPlan(unittest.TestCase):
         r = self.write()
         self.assertEqual(r.returncode, 1)
         self.assertEqual(r.stdout.splitlines()[-1], "open decisions: 1")
+
+
+class NoBytecode(unittest.TestCase):
+    def test_run_leaves_no_pycache(self):
+        d = tempfile.mkdtemp()
+        for name in ("check_plan.py", "layout.py"):
+            shutil.copy(os.path.join(os.path.dirname(SCRIPT), name), d)
+        path = os.path.join(d, "plan_x.md")
+        with open(path, "w") as f:
+            f.write("no header\n")
+        env = {k: v for k, v in os.environ.items() if k != "PYTHONDONTWRITEBYTECODE"}
+        r = subprocess.run(["python3", os.path.join(d, "check_plan.py"), path], capture_output=True, text=True, env=env)
+        self.assertIn("no YAML header", r.stdout + r.stderr)
+        self.assertFalse(os.path.exists(os.path.join(d, "__pycache__")))
 
 
 class Template(unittest.TestCase):

@@ -178,6 +178,19 @@ class CheckSpec(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout)
 
 
+class NoBytecode(unittest.TestCase):
+    def test_run_leaves_no_pycache(self):
+        d = tempfile.mkdtemp()
+        for name in ("check_spec.py", "layout.py"):
+            shutil.copy(os.path.join(os.path.dirname(SCRIPT), name), d)
+        path = os.path.join(d, "spec_x.md")
+        shutil.copy(TEMPLATE, path)
+        env = {k: v for k, v in os.environ.items() if k != "PYTHONDONTWRITEBYTECODE"}
+        r = subprocess.run(["python3", os.path.join(d, "check_spec.py"), path], capture_output=True, text=True, env=env)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertFalse(os.path.exists(os.path.join(d, "__pycache__")))
+
+
 class Template(unittest.TestCase):
     # C3
     def test_template_filled_with_example_values_passes(self):
