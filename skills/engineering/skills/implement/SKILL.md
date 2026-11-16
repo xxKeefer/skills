@@ -16,7 +16,7 @@ To run every remaining step, then test and review in a loop until the branch is 
 
 1. If `$ARGUMENTS` holds a plan path, use it.
 2. Else find it the way `/claim` Step 3 does. Take the ticket key from the branch name, then look
-   in the folder that `/write-to-file` uses for doctype `handoff` and `plan`.
+   in the folder that `/write-to-file` uses for doctype `plan`.
 3. If no file matches, and `$ARGUMENTS` or the conversation holds a spec or tickets, go to Step 3.
 4. If no file matches and there is no spec, or more than one file matches, ask for the path.
 

@@ -6,7 +6,7 @@ description: >
 argument-hint: "What will the next session be used for?"
 ---
 
-Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it with `/write-to-file`, doctype `handoff`.
+Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save it with `/write-to-file`, doctype `plan`.
 
 Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.
 

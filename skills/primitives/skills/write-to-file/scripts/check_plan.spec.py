@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Tests for check_plan.py. Run: python3 check_plan.spec.py"""
 import os
+import re
 import subprocess
 import tempfile
 import unittest
 
 SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "check_plan.py")
+TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates", "plan.md")
 
 HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 
@@ -184,6 +186,29 @@ class CheckPlan(unittest.TestCase):
         r = self.write()
         self.assertEqual(r.returncode, 1)
         self.assertEqual(r.stdout.splitlines()[-1], "open decisions: 1")
+
+
+class Template(unittest.TestCase):
+    # C8
+    def test_template_filled_with_example_values_passes(self):
+        with open(TEMPLATE) as f:
+            text = f.read()
+        tmp = tempfile.mkdtemp()
+        text = re.sub(r"(?m)^worktree: .*$", f"worktree: {tmp}", text, count=1)
+        path = os.path.join(tmp, "plan_x.md")
+        with open(path, "w") as f:
+            f.write(text)
+        r = run(path)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertEqual(r.stdout, "open decisions: 0\n")
+
+    def test_template_has_every_section(self):
+        with open(TEMPLATE) as f:
+            headings = re.findall(r"(?m)^## (.+)$", f.read())
+        self.assertEqual(headings, [
+            "Goal", "Spec", "Acceptance criteria", "Context", "Test approach",
+            "Steps", "Progress", "Pending Decisions", "Follow-ups",
+        ])
 
 
 if __name__ == "__main__":

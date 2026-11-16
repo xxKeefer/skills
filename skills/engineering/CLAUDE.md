@@ -71,7 +71,7 @@ commit.
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
 | `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
-| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `hunt_<KEY>.md`, written with `/write-to-file`, doctype `hunt` |
+| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## light-review

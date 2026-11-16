@@ -110,9 +110,9 @@ evidence, and ask the user what they can confirm.
 
 ## Step 4: Write the Hunt Artifact
 
-Write `hunt_<KEY>.md` with `/write-to-file`, doctype `hunt`. `<KEY>` is the ticket key, else
-`pr-<n>`, else the current branch name with each `/` changed to `-`. On the default branch, use a
-kebab-case slug of the symptom. When the user's instructions give one folder per ticket, use
+Write `findings_<KEY>.md` with `/write-to-file`, doctype `findings`. `<KEY>` is the ticket key,
+else `pr-<n>`, else the current branch name with each `/` changed to `-`. On the default branch,
+use a kebab-case slug of the symptom. When the user's instructions give one folder per ticket, use
 `<KEY>` for it. Step 5 names the path that `/write-to-file` reports.
 
 This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
