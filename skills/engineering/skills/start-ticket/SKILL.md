@@ -2,18 +2,18 @@
 name: start-ticket
 description: >
   Start work on a ticket: refine, scope, or split it as needed, claim its worktree, and write the
-  plan handoff. Use when the user asks to start or pick up a ticket or a sub-task.
+  plan. Use when the user asks to start or pick up a ticket or a sub-task.
 argument-hint: "<ticket key>"
 ---
 
 # Start Ticket
 
-Turn a ticket into a worktree and an approved plan handoff. The next session builds the plan with
+Turn a ticket into a worktree and an approved plan. The next session builds the plan with
 `/do-next`, so this skill ends at the plan.
 
 ```
 read → /refine-ticket (on a gap) → /scope-ticket → /claim → move the ticket → draft the plan
-     → plan gate → write the handoff
+     → plan gate → write the plan
 ```
 
 Scope comes before the claim. When a ticket splits into sub-tasks, the run stops after
@@ -72,11 +72,11 @@ path 2, `/split-ticket` returned and you stopped.
 
 ## Step 3: Claim the worktree
 
-Run `/claim` with the key. It returns the worktree path, the branch, and a handoff path or `none`.
+Run `/claim` with the key. It returns the worktree path, the branch, and a plan path or `none`.
 
 - `none`: continue.
-- Another handoff: the work may have started. Show the path. Ask whether to continue that handoff
-  or to write a new plan. To continue it, go to Step 9 with that handoff.
+- Another plan: the work may have started. Show the path. Ask whether to continue that plan
+  or to write a new plan. To continue it, go to Step 9 with that plan.
 
 If `/claim` stops to ask a question, put the question to the user, and continue with the answer.
 
@@ -122,7 +122,7 @@ the Conditions list of a step or under Not testing.
 
 ## Step 6: Plan gate
 
-Show the draft handoff in the Step 7 format. Revise it with the user until they approve it. The
+Show the draft plan in the Step 7 format. Revise it with the user until they approve it. The
 user approves the steps and the Test approach together.
 
 If the plan is much bigger than the `/scope-ticket` estimate, say so before the approval. Give the
@@ -142,7 +142,7 @@ On SPLIT path 2, the plan steps become the slices:
 **Done when:** the user approved the plan. On SPLIT path 2, `/split-ticket` returned and you
 stopped.
 
-## Step 7: Write the handoff
+## Step 7: Write the plan
 
 Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<KEY>.md`. Write in
 Simplified Technical English. Read [`STE.md`](../../STE.md) before you write, and follow every rule
@@ -162,19 +162,19 @@ The plan has the layout of the `/write-to-file` plan template. Fill it this way:
 - **Test approach.** The section from Step 5, in the format of
   [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md).
 - **Steps.** The steps from Step 5, then a review step and a push step, as the template shows. The
-  review step names this handoff's path. Its done line also says: "Before the push step, the user
+  review step names this plan's path. Its done line also says: "Before the push step, the user
   ticks the rows to fix in the report and runs its prompt."
 - **Progress.** One line: the date, and the branch that the plan is on.
 - Add a `## Suggested skills` section after `## Steps`:
-  - `/build @<handoff path>`: every step, then the test and review loop, from the worktree.
-  - `/implement @<handoff path>`: one step per session, from the worktree.
+  - `/build @<plan path>`: every step, then the test and review loop, from the worktree.
+  - `/implement @<plan path>`: one step per session, from the worktree.
   - `/tdd`: each step that changes behaviour.
   - `/engineering:mob-review`: the review step.
   - `/create-pr`: the push step.
 
 More rules:
 
-- Write no stack order into the handoff, because it goes stale when a lower layer merges. When the
+- Write no stack order into the plan, because it goes stale when a lower layer merges. When the
   ticket builds on another, set `builds_on: <key>` in the header. The stack tool holds the order.
 - On SPLIT path 1, put the steps of each slice under `### Phase <n>: <slice goal>`, in slice
   order. The review and push steps come after the last phase.
@@ -201,7 +201,7 @@ Skip this step in these cases:
 
 ## Step 9: Return
 
-Give the worktree path, the branch, the handoff path, and the next command. The user starts a new
-session in the worktree and runs `/do-next @<handoff path>`.
+Give the worktree path, the branch, the plan path, and the next command. The user starts a new
+session in the worktree and runs `/do-next @<plan path>`.
 
 **Done when:** the user has the worktree path and the command.
