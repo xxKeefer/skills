@@ -523,7 +523,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - After two failed fixes on one premise, write the premise down, test it, and move one effort step up to Opus max. The log records it.
 - Done: a third fix attempt starts with a written premise and a higher effort.
 
-### [ ] 21. `eval-skill` (r1.23)
+### [x] 21. `eval-skill` (r1.23)
 
 - `meta/eval-skill` (new): a blind A/B test of a skill change, with neutral prompts and no eval words the candidate can see.
 - `/retro` offers it when it proposes an edit to a skill that `/work-on` calls. Never a required step.

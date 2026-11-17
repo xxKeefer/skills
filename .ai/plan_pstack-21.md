@@ -87,8 +87,8 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   - Done: the gates are green. The pre-commit test, the commit-msg test, `leak_check.spec.py` (8 tests), and `check_principles.py` each exit 0.
 - [x] **9. Review.** Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code. The last report `.ai/review_pstack-21_eval-skill.html` has no open rows. Run only the lanes whose guard matches a file that changed after 680ffe7: the files of step 7.
   - Done: report `.ai/review_pstack-21_eval-skill.html`, run 2. Reviewed: base 680ffe7, head 1c279f4 (the plan base is caa647d). 6 lanes ran, 0 findings fixed, 1 open nit.
-- [ ] **10. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **10. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
+  - Done: pushed head 84a0da5 to `origin/pstack-21_eval-skill`.
 
 ## Suggested skills
 
@@ -116,6 +116,8 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   Cleared: no other file names `eval-skill` outside `.ai/`, the README, `retro`, and the work-on fixture map. The `retro` offer is text, guarded by "when the `meta` plugin is installed". `plugin.json` lists no skills, so the new folder needs no registry edit. Step 7 fixes the risk.
 - 2026-11-18: step 7 done: the leak check skips each path under `.claude/skills/`, 8 tests green, the repro exits 0 (commit 637465c).
 - 2026-11-18: step 9 done: light review of 680ffe7..1c279f4 ran 6 lanes. 5 lanes are clean. Correctness left 1 open nit: a missing folder passes the leak check (`leak_check.py:12`, code from step 1).
+
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Pushed 84a0da5.
 
 ## Pending Decisions
 
