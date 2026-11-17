@@ -82,8 +82,8 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - Done: the gates are green. At HEAD 6774593: check_principles 11 tests OK, map_units 14 tests OK, rerun_findings 23 tests OK, `.githooks/pre-commit` exit 0.
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code.
   - Done: report `.ai/review_pstack-10_blast-radius.html`, reviewed base 7e49a7f, head 3eb07de. No finding, and no fix commit.
-- [ ] **6. Review.** Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code. Use `/engineering:mob-review`.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **6. Review.** Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code. Use `/engineering:mob-review`.
+  - Done: report `.ai/review_pstack-10_blast-radius.html` (run 2), reviewed base 7e49a7f, head 80a85bf (panel read fc6cf32). Lanes: skills, ac-check, decisions-log. One nit, fixed in 80a85bf.
   - Recorded decision: the step 5 light run matched no lane, because its lanes do not guard Markdown, so it reviewed nothing. The full panel holds `persona-skills`, whose guard matches `SKILL.md` and `CLAUDE.md` (principle-prove-it-works).
 - [ ] **7. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
   - Done: the pushed head SHA is in this line.
@@ -114,3 +114,4 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - Follow-up (not fixed in this unit): R1. Close the pipe or use `communicate(timeout=...)` with a kill of the whole tree, or do not wait on the pipe after the kill, in `rerun_findings.py`.
 - 2026-11-17: step 4 done. Gates green at HEAD 6774593: 11, 14, and 23 tests OK, pre-commit exit 0.
 - 2026-11-17: step 5 done. Light review found nothing: no essential lane guard matched a diff of Markdown only. Report `.ai/review_pstack-10_blast-radius.html`, base 7e49a7f, head 3eb07de.
+- 2026-11-17: step 6 done. Full panel ran skills, ac-check, and decisions-log. One nit (unused `$SKILL_DIR` line), fixed in 80a85bf, a docs-only commit. Report run 2, base 7e49a7f, head 80a85bf.
