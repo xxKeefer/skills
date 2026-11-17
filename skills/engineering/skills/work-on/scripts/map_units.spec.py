@@ -9,6 +9,9 @@ import unittest
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.path.join(HERE, "map_units.py")
 FIXTURE = os.path.join(HERE, "fixtures", "map_program.md")
+TEMPLATE = os.path.join(
+    HERE, "..", "..", "..", "..", "primitives", "skills", "write-to-file", "templates", "map.md"
+)
 
 MAP = """---
 doctype: map
@@ -195,13 +198,27 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn(f"{self.map}:22: unit 3.1 has no Done: line", r.stderr)
 
+    # C3: the template layout, with the unit fields of /split-ticket
+    def test_map_from_the_template_with_split_ticket_fields_passes_next(self):
+        with open(TEMPLATE) as f:
+            text = f.read()
+        text += (
+            "\n### [ ] 2. K-2 Sub\n\n- Wave 1. Estimate: 2. Parent ACs: A.\n"
+            "- builds_on: none\n- merge: alone\n- Files or areas: x.\n"
+            "- Done: the ACs of K-2 hold, and its PR is merged.\n"
+        )
+        self.write(text)
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual([l.split("\t")[0] for l in r.stdout.splitlines()], ["1", "2"])
+
     # C4
-    def test_program_map_with_units_1_to_6_ticked_lists_7_to_11(self):
+    def test_program_map_fixture_lists_unit_15_first(self):
         r = run("next", FIXTURE)
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(
             [line.split("\t")[0] for line in r.stdout.splitlines()],
-            ["7", "8", "9", "10", "11"],
+            ["15", "16", "17", "18", "19"],
         )
 
 

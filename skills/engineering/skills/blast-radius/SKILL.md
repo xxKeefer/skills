@@ -81,8 +81,8 @@ A list of callers is not the job. Look for the breakage that a search does not s
 
 Write a script or a test that calls the real code, and exits non-zero when the fact is false. Run
 it. Keep the exact command and its output. A reader on another machine must be able to run the
-command again. So put a short proof script in the output, or save it in the plan's folder. A
-`/tmp` path does not count. When you cannot get to rung 4, say which rung you reached and why.
+command again. So put a short proof script in a fenced block in the output, and in the plan's
+`## Progress` when a plan exists. A `/tmp` path does not count. When you cannot get to rung 4, say which rung you reached and why.
 
 **Done when:** you have the rung reached, and for rung 4 or 5, the command and its output.
 

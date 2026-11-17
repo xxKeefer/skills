@@ -7,7 +7,7 @@ open unit of work reads it.
 ## What stays
 
 - A map with at least one unit that has no tick.
-- The spec, plan, findings, and decision log of a unit whose PR is not merged.
+- The spec, plan, findings, report, and decision log of a unit whose PR is not merged.
 - A report whose rows the user has not ticked yet.
 
 Everything else goes.
@@ -17,7 +17,6 @@ Everything else goes.
 - **At the start of each unit**, before its first commit: delete each file of a unit whose PR is
   merged. Make the deletion the first commit on the new branch.
 - **Before each push**: delete every `scratch` file. A scratch file never reaches the remote.
-- **When a report is acted on**: delete it. Its fixes are in the commits.
 - **When a map has a tick on every unit**: delete the map in the same PR as its last unit.
 - **When the user asks for a groom**: apply every rule above to the whole folder at once.
 

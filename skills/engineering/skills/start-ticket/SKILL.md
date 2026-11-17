@@ -147,8 +147,7 @@ The plan has the layout of the `/write-to-file` plan template. Fill it this way:
 - **Test approach.** The section from Step 5, in the format of
   [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md).
 - **Steps.** The steps from Step 5, then a review step and a push step, as the template shows. The
-  review step names this plan's path. Its done line also says: "Before the push step, the user
-  ticks the rows to fix in the report and runs its prompt."
+  review step names this plan's path.
 - **Progress.** One line: the date, and the branch that the plan is on.
 - Add a `## Suggested skills` section after `## Steps`:
   - `/build @<plan path>`: every step, then the test and review loop, from the worktree.
