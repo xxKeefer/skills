@@ -60,6 +60,11 @@ class LogDecision(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("plan_", r.stderr)
 
+    def test_plan_name_without_md_suffix_exits_1(self):
+        r = run(os.path.join(self.dir, "plan_x.txt"))
+        self.assertEqual(r.returncode, 1)
+        self.assertIn(".md", r.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
