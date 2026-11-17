@@ -40,9 +40,9 @@ This command picks its input.
   - Claim no branch and no worktree. Set `worktree` to the current worktree, and `branch` to the
     branch name from the caller. The caller makes the branch before the build.
   - Put the map path and the last AC, which is the unit's `Done:` line, in the plan's Context.
-  - Skip the plan gate of `/start-ticket`. Write the plan with `status: draft`, and put
-    `Approval: the caller's H2 stop.` in Context. The caller asks for the yes for each plan of its
-    batch at one time.
+  - Skip the plan gate of `/start-ticket`. Write the plan with `status: approved`, and put
+    `Approval: the map (H0).` in Context. The user approved the map, and that approval covers
+    each unit plan.
   - On a SPLIT verdict, take path 2 and ask no question. Run no `/split-ticket`, because a map
     unit has no tracker. Write no plan. Return the slices to the caller, each with its goal and its
     ACs. The caller writes them into the map.

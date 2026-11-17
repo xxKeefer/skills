@@ -1,0 +1,23 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><title>Light run: pstack-7_agents-md</title></head><body>
+<h1>Light run: pstack-7_agents-md</h1>
+<p>Reviewed: base 42729ac, head (panel read) f5a6efa, fix commit be6582f. Plan: .ai/plan_pstack-7.md. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.</p>
+<h2>Answer</h2>
+<p>7 findings from 4 lanes. The panel fixed all 7 in the fix commit. 0 rows stay open.</p>
+<h2>Coverage</h2>
+<table border="1"><tr><th>Lane</th><th>Status</th></tr>
+<tr><td>persona-correctness</td><td>1 finding, fixed</td></tr>
+<tr><td>persona-code-quality</td><td>4 findings, fixed</td></tr>
+<tr><td>persona-test-quality</td><td>clean</td></tr>
+<tr><td>persona-test-design</td><td>3 findings, fixed</td></tr>
+<tr><td>persona-security, persona-error-handling, persona-naming, persona-architecture</td><td>skipped (guard did not match)</td></tr>
+<tr><td>every other lane, project rubric</td><td>skipped (not in the light set)</td></tr></table>
+<h2>Rows</h2>
+<table border="1"><tr><th>Tier</th><th>Where</th><th>Issue</th><th>Status</th></tr>
+<tr><td>change-requested</td><td>install_agents_md.py install()</td><td>one function holds six jobs</td><td>fixed: scan, assemble, write_target, load_values</td></tr>
+<tr><td>nit</td><td>scan loop</td><td>line numbers shift after a drop</td><td>fixed: numbers follow the original file, tests added</td></tr>
+<tr><td>nit</td><td>scan loop</td><td>in-place mutation of parsed items</td><td>fixed: scan returns new items</td></tr>
+<tr><td>nit</td><td>drop branches</td><td>duplicate end computation</td><td>fixed</td></tr>
+<tr><td>nit</td><td>line counter</td><td>repeats block layout</td><td>fixed: counter reads original line numbers</td></tr>
+<tr><td>nit</td><td>spec</td><td>nested start marker untested</td><td>fixed: test added</td></tr>
+<tr><td>future</td><td>drop edge cases</td><td>duplicate heading, absent heading, fences, bad JSON</td><td>fixed: code and tests added</td></tr></table>
+<p>No calibration signals.</p></body></html>

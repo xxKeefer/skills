@@ -9,6 +9,9 @@ argument-hint: "[@plan path | spec or tickets]"
 Run one step of a plan, then stop. `/do-next` does the work. Each step that changes
 behaviour follows `/tdd` at the seams that the step names.
 
+Do the work at the `worker` role of the `models` block in `~/.claude/AGENTS.md`. With no `models`
+block, use the session model.
+
 To run every remaining step, then test and review in a loop until the branch is ready to ship, use
 `/build` instead.
 
