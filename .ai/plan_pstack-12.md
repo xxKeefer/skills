@@ -104,7 +104,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - Done: `/update-plan` logs each choice that the caller gives, and skips only a choice that the log already holds.
 - [x] **11. Review fix r1.3.** `sitrep.py` drops the wrapped or nested lines of a Follow-ups bullet, at `skills/primitives/skills/sitrep/scripts/sitrep.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
   - Done: a Follow-ups item that wraps to more lines prints in full. A spec case covers it.
-- [ ] **12. Review fix r1.4.** `log_decision.py` cannot record a field value that starts with a dash, at `skills/primitives/skills/update-plan/scripts/log_decision.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+- [x] **12. Review fix r1.4.** `log_decision.py` cannot record a field value that starts with a dash, at `skills/primitives/skills/update-plan/scripts/log_decision.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
   - Done: `update-plan/SKILL.md` writes the command line in the `--field=value` form, and a spec case records a value that starts with a dash. `log_decision.py` also accepts a plan named `handoff_<KEY>.md`, with the log `decisions_<KEY>.tsv` (the blast-radius risk). A spec case covers it.
   - Recorded decision: rows r1.3 and r1.4 change runtime behaviour, so `/build` Step 1 item 1.3 adds a new round of test and review (steps 13 and 14). Every row of the interrogate run is ticked, so no row stays open.
 - [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
@@ -158,3 +158,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - 2026-11-17: step 9 done. `STEP.md` section 4 item 4 and map playbook step 4 commit the decision log.
 - 2026-11-17: step 10 done. `/update-plan` logs each choice that the caller gives, and skips only a choice that the log holds.
 - 2026-11-17: step 11 done. `sitrep.py` joins the wrapped and nested lines of a Follow-ups bullet, and a spec case covers it.
+- 2026-11-17: step 12 done. `update-plan/SKILL.md` writes the flags as `--field=value`, `log_decision.py` accepts `handoff_<KEY>.md`, and two spec cases cover both.
