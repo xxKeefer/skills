@@ -113,8 +113,9 @@ second run changes nothing. Scope: SCOPED, one PR. Estimate: 3 points.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-7.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
   - Result: report `.ai/report_pstack-7.html`, reviewed base 42729ac, head f5a6efa, fix commit be6582f. All 7 rows fixed, none open.
-- [ ] **7. Push.** Push the branch with `git push -u origin pstack-7_agents-md`. Run no `gh` command on this machine. The home machine opens the PR.
+- [x] **7. Push.** Push the branch with `git push -u origin pstack-7_agents-md`. Run no `gh` command on this machine. The home machine opens the PR.
   - Done: the pushed branch and its head SHA are in this line.
+  - Result: pushed `pstack-7_agents-md` at fe85f43. The home machine opens the PR.
 
 ## Suggested skills
 
@@ -130,3 +131,4 @@ second run changes nothing. Scope: SCOPED, one PR. Estimate: 3 points.
 - 2026-11-17: step 4, C10 proof run on a temp copy of the real `~/.claude/AGENTS.md`, with a temp values file. Run 1: `updated`, three blocks at the top, the last N bytes equal the original file (user text kept byte for byte), `AGENTS.md.bak` equals the original, `OLD tools` and `EDIT coding` lines listed. Run 2: `unchanged`, bytes equal to run 1. A run with `--drop tools` removed only the 11-line old tools section. No copy committed, temp folder deleted.
 - 2026-11-17: step 5, gates green: `install_agents_md.spec.py` (20 tests OK), `pre-commit_test.sh` (all ok).
 - 2026-11-17: step 6 done. Light review: 7 rows, all fixed in be6582f. Spec now 27 tests, green. Step 7 (push) stays open for /ship.
+- 2026-11-17: /ship steps 1 to 3 gave go. The panel did not run a second round on fix commit be6582f. The judgement agent read the script after the fix and found no defect. Pushed at fe85f43. Unit 7 ticked on the map.

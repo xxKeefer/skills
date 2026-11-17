@@ -421,7 +421,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
   6. Offer `/retro` on the batch, then start the next batch.
 - Done: `/work-on <ticket>` takes a ticket to a draft PR and stops only at H1, H2, H3, and H4. `/work-on @<map>` builds the next batch of units as stack layers, with one stop for the plans.
 
-### [ ] 7. `install-agents-md` and the models block (r1.10)
+### [x] 7. `install-agents-md` and the models block (r1.10)
 
 - `utility/install-agents-md` as in Decisions, with `sections/`, `HYDRATE.md`, and the backup.
 - Blocks: `coding` (the TDD rule), `tools` (the role table), `models` (the model table).
