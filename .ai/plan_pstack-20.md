@@ -82,8 +82,8 @@ After two failed fixes on one premise, the agent writes the premise down and tes
     - At `opus` max, attempts 1 and 2 fail on one premise, and the step returns a `B` entry with the premise. Item 8 is at the ceiling, so the `B` entry stands, the step is blocked by it, and the run goes on. No gap found.
 - [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at 2f16b0b. Both hook tests print only `ok` lines, `install_agents_md.spec.py` prints OK, and `check_principles.py` exits 0.
-- [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-20.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-20.md`. This step changes no code.
+  - Done: `.ai/review_pstack-20_premise-escalation.html` run 1, base ad1a0e3, head 26365e1 (panel read 6caa33e). Light run: test-quality and comments clean, plus `persona-skills`. One nit, fixed in 26365e1. None open. The fix changes only skill text, so no new round.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-20_premise-escalation`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -104,6 +104,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - Decision log: decisions_pstack-20.tsv
 
 - 2026-11-18: step 5 done. The gates are green.
+- 2026-11-18: step 6 done. One review nit fixed in 26365e1. The loop stops (build 7.3).
 
 ## Pending Decisions
 
