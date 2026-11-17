@@ -433,7 +433,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `/work-on` runs it after the build loop when `blast-radius` finds risk. Uses the panel models.
 - Done: on a branch with a planted bug, the report keeps the proven finding and drops an unproven one.
 
-### [ ] 10. `blast-radius` (r1.3)
+### [x] 10. `blast-radius` (r1.3)
 
 - `engineering/blast-radius` (new). The ladder: said it, pointed at the line, walked it, ran it, saw it live. Prove by a run the one fact that makes the change safe. List what was cleared.
 - Done: on a change, the output names the rung reached and the command that proved it.

@@ -85,8 +85,8 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
 - [x] **6. Review.** Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: report `.ai/review_pstack-10_blast-radius.html` (run 2), reviewed base 7e49a7f, head 80a85bf (panel read fc6cf32). Lanes: skills, ac-check, decisions-log. One nit, fixed in 80a85bf.
   - Recorded decision: the step 5 light run matched no lane, because its lanes do not guard Markdown, so it reviewed nothing. The full panel holds `persona-skills`, whose guard matches `SKILL.md` and `CLAUDE.md` (principle-prove-it-works).
-- [ ] **7. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
-  - Done: the pushed head SHA is in this line.
+- [x] **7. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
+  - Done: pushed `ba7a459` to `origin/pstack-10_blast-radius`.
 
 ## Suggested skills
 
@@ -116,3 +116,4 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
 - 2026-11-17: step 5 done. Light review found nothing: no essential lane guard matched a diff of Markdown only. Report `.ai/review_pstack-10_blast-radius.html`, base 7e49a7f, head 3eb07de.
 - 2026-11-17: step 6 done. Full panel ran skills, ac-check, and decisions-log. One nit (unused `$SKILL_DIR` line), fixed in 80a85bf, a docs-only commit. Report run 2, base 7e49a7f, head 80a85bf.
 - 2026-11-17: map playbook step 5 ran `/blast-radius @.ai/plan_pstack-10.md` on this branch. Verdict: `clear`. Safety fact: the unit changes only Markdown files, and adds one skill name that no other skill uses, so no script or manifest reads the change. Rung: 4. Command, from the repo root: `( ! git diff --name-only 7e49a7f HEAD -- . ':!.ai' | grep -v '\.md$' ) && [ "$(find skills -type d -name blast-radius | wc -l | tr -d ' ')" = 1 ]`, exit 0. Confirmed risks: none. `/interrogate` did not run, because the verdict is `clear`.
+- 2026-11-17: `/ship` steps 1 to 3 gave go. Pushed `ba7a459`. Map unit 10 is ticked. Next: the home machine opens the PR into `pstack-inspired`. Playbook: map, step 8 (offer `/retro`).
