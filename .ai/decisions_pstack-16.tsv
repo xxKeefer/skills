@@ -7,3 +7,4 @@ Stack detection by base and head branches of the watched PRs, with no gh stack c
 Make the C1 fixtures from the old script with a fake date on PATH (fixed epoch 1700000000), stored in setup-statusline/fixtures/	Reset timers and pace depend on the clock	Old script output saved before the refactor; new script is byte-equal	C1 passes
 Keep the token cache as one file with lines path, size, tokens: one line for each transcript path, rewritten atomically	A one-entry file would thrash across sessions	C2 red on the old script (read 2222, not the cached 1111), green after	C2 passes
 Run only the gates whose files exist: statusline spec, install_agents_md spec, both githook tests	watch_prs.spec.py comes in a later step	The four existing gates are green	No gap
+The state file is a JSON list, and add reads head and base from gh	Poll needs head and base to find the lowest PR of a stack before it calls gh for the PR	watch_prs.spec.py C5 passes	done

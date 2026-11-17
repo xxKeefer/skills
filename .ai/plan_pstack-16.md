@@ -82,7 +82,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Cache the token count in `${XDG_CACHE_HOME:-$HOME/.cache}/statusline/tokens`, keyed by the transcript path and its size. Parse the transcript only on a miss.
   - Add `statusline.spec.py` beside the script.
   - Done: `statusline.spec.py` passes C1 and C2.
-- [ ] **2. The watcher script.** Seam: `watch_prs.py` commands `add`, `poll`, and `run`. Conditions: C3, C4, C5, C6, C7.
+- [x] **2. The watcher script.** Seam: `watch_prs.py` commands `add`, `poll`, and `run`. Conditions: C3, C4, C5, C6, C7.
   - Add `engineering/skills/babysit/scripts/watch_prs.py`. It keeps the watch list and the last state in `~/.cache/babysit/state.json`: one entry for each PR, with `repo`, `number`, `head`, `base`, `state`, `threads`, and `done_at`.
   - `add <owner/repo> <number>` adds a PR. `poll` runs one pass: for each open PR that is the lowest of its stack, it calls `gh pr view` for the fields of the state rule, and `gh api graphql` for the count of unresolved review threads. It writes the file atomically. It calls `notifier_command` from `~/.claude/agents-md.values.json` with a title and a body, only when a known state changes.
   - `run [--interval <seconds>]` polls in a loop and exits when no watched PR is open. It writes its pid to `~/.cache/babysit/run.pid`, and exits at once when that pid is alive.
@@ -120,3 +120,4 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - Decision log: decisions_pstack-16.tsv
 - 2026-11-17: five judgement calls written to `decisions_pstack-16.tsv`.
 - 2026-11-17: step 1 done in commit 883c074. `statusline.sh` has one `jq` read and the token cache. `statusline.spec.py` passes C1 and C2. The C1 fixtures are in `skills/utility/skills/setup-statusline/fixtures/`.
+- 2026-11-17: step 2 done in commit f11f7b7. `watch_prs.py` has `add`, `poll`, and `run`. The state file is a JSON list. `add` calls `gh pr view` once, to read the head and base of the PR. `watch_prs.spec.py` passes C3 to C7. Step 3 reads the same list: each entry has `repo`, `number`, `head`, `base`, `state`, `threads`, and `done_at`. The `state` values are done, failed, stale, threads, pending, and ready.
