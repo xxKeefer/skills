@@ -67,12 +67,14 @@ def render_open_entries(entries):
 
 def render_choices(rows):
     out = ["## Choices made alone"]
-    for r in rows:
+    for n, r in enumerate(rows, 1):
         out.append("")
         out.append(f"- Decision: {r['decision']}")
         out.append(f"  - Reason: {r['reason']}")
         out.append(f"  - Evidence: {r['evidence']}")
         out.append(f"  - Result: {r['result']}")
+        if r["result"].lower().startswith("open"):
+            out.append(f"  - Still open: row {n}. Close it with `log_decision.py result <plan> {n} --result=<text>`.")
     return out
 
 

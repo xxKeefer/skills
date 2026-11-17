@@ -83,6 +83,18 @@ class Sitrep(unittest.TestCase):
         for field in ["kept A", "simpler", "step 1", "green"]:
             self.assertIn(field, out)
 
+    def test_marks_each_open_row_with_its_row_number(self):
+        self.write(PLAN)
+        for d, res in [("first", "kept"), ("second", "Open: waits on X"), ("third", "open: later")]:
+            subprocess.run(["python3", LOG_SCRIPT, self.plan, "--decision", d,
+                            "--reason", "r", "--evidence", "e", "--result", res],
+                           check=True, capture_output=True)
+        out = sitrep(self.plan).stdout
+        self.assertEqual(out.count("Still open"), 2)
+        self.assertIn("Still open: row 2", out)
+        self.assertIn("Still open: row 3", out)
+        self.assertNotIn("row 1", out)
+
     def test_lists_skipped_steps_and_follow_ups(self):
         self.write(PLAN)
         out = sitrep(self.plan).stdout

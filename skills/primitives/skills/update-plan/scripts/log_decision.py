@@ -5,7 +5,11 @@ The log is `decisions_<KEY>.tsv` for the plan `plan_<KEY>.md` or `handoff_<KEY>.
 row for each choice. Print the log path. Exit 1 on an empty field or a plan name that does not
 start with `plan_` or `handoff_`.
 
+The `result` form sets the result of one row, counted from 1 with the header not counted. Exit 1
+on a row out of range or an empty result.
+
 Usage: log_decision.py <plan> --decision <text> --reason <text> --evidence <text> --result <text>
+       log_decision.py result <plan> <row> --result <text>
 """
 import argparse
 import os
@@ -49,7 +53,36 @@ def read_log(path):
     return rows
 
 
+def set_result(argv):
+    parser = argparse.ArgumentParser(prog="log_decision.py result")
+    parser.add_argument("plan")
+    parser.add_argument("row", type=int)
+    parser.add_argument("--result", required=True)
+    args = parser.parse_args(argv)
+    try:
+        path = log_path(args.plan)
+    except ValueError as e:
+        print(e, file=sys.stderr)
+        return 1
+    if not clean(args.result):
+        print("`--result` is empty. Fix: give the field a value.", file=sys.stderr)
+        return 1
+    rows = read_log(path)
+    if not 1 <= args.row <= len(rows):
+        print(f"row {args.row} is out of range. Fix: give a row from 1 to {len(rows)}.", file=sys.stderr)
+        return 1
+    rows[args.row - 1]["result"] = args.result
+    with open(path, "w") as f:
+        f.write("\t".join(COLUMNS) + "\n")
+        for r in rows:
+            f.write(format_row([r[c] for c in COLUMNS]) + "\n")
+    print(path)
+    return 0
+
+
 def main():
+    if sys.argv[1:2] == ["result"]:
+        return set_result(sys.argv[2:])
     parser = argparse.ArgumentParser()
     parser.add_argument("plan")
     for c in COLUMNS:

@@ -15,7 +15,7 @@ Run `python3 $SKILL_DIR/scripts/sitrep.py <absolute plan path>`. `$SKILL_DIR` is
 directory. The script prints one section for each of these, and leaves out an empty section:
 
 - The open `D`, `B`, and `N` entries of `Pending Decisions`.
-- The rows of the decision log, `decisions_<KEY>.tsv` beside the plan.
+- The rows of the decision log, `decisions_<KEY>.tsv` beside the plan. A row whose result starts with `open` shows `Still open` and its row number. To close it, run the `result` form of `/update-plan`'s `log_decision.py` with that number.
 - The skipped steps, with their reasons.
 - The `Follow-ups`.
 

@@ -19,6 +19,15 @@ def run(plan, decision="d", reason="r", evidence="e", result="x"):
     )
 
 
+def run_result(plan, row, result="done"):
+    return subprocess.run(
+        ["python3", SCRIPT, "result", plan, str(row), "--result=" + result],
+        capture_output=True,
+        text=True,
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+    )
+
+
 class LogDecision(unittest.TestCase):
     def setUp(self):
         self.dir = tempfile.mkdtemp()
@@ -79,6 +88,41 @@ class LogDecision(unittest.TestCase):
         r = run(os.path.join(self.dir, "plan_x.txt"))
         self.assertEqual(r.returncode, 1)
         self.assertIn(".md", r.stderr)
+
+    # result form
+    def test_result_form_replaces_the_result_of_that_row_only(self):
+        run(self.plan, "one", result="open: waits on X")
+        run(self.plan, "two", result="kept")
+        r = run_result(self.plan, 1, "green")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read(), [HEADER, "one\tr\te\tgreen", "two\tr\te\tkept", ""])
+
+    def test_result_form_cleans_the_result(self):
+        run(self.plan, "one")
+        run_result(self.plan, 1, "a\tb\nc")
+        self.assertEqual(self.read()[1].split("\t")[3], "a b c")
+
+    def test_result_form_row_out_of_range_exits_1(self):
+        run(self.plan, "one")
+        for row in (0, 2, -1):
+            with self.subTest(row=row):
+                r = run_result(self.plan, row)
+                self.assertEqual(r.returncode, 1)
+                self.assertIn("row", r.stderr)
+        self.assertEqual(self.read(), [HEADER, "one\tr\te\tx", ""])
+
+    def test_result_form_with_no_log_exits_1(self):
+        r = run_result(self.plan, 1)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("row", r.stderr)
+
+    def test_result_form_empty_result_exits_1(self):
+        run(self.plan, "one")
+        r = run_result(self.plan, 1, "  ")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("result", r.stderr)
+        self.assertEqual(self.read()[1].split("\t")[3], "x")
+
 
 
 if __name__ == "__main__":
