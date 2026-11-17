@@ -122,6 +122,20 @@ class CheckPrinciples(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("index entry principle-ghost has no folder", r.stdout)
 
+    def test_folder_without_skill_md_fails_with_one_line(self):
+        os.remove(os.path.join(self.skills, "principle-fix-root-causes", "SKILL.md"))
+        r = run(self.root)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("principle-fix-root-causes: no SKILL.md", r.stdout)
+        self.assertNotIn("Traceback", r.stderr)
+
+    def test_skill_md_without_frontmatter_fails_name_and_flag(self):
+        self.write("principle-fix-root-causes/SKILL.md", "# T\n\nBody only.\n")
+        r = run(self.root)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("principle-fix-root-causes: name must equal the folder name", r.stdout)
+        self.assertIn("principle-fix-root-causes: disable-model-invocation must be true", r.stdout)
+
     def test_missing_group_heading_fails(self):
         groups = {k: v for k, v in GROUPS.items() if k != "Meta"}
         groups["Delegation"] = GROUPS["Delegation"] + GROUPS["Meta"]

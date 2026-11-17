@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Check the principle skills and the index in work-on. Usage: check_principles.py <repo root>.
 Exit 0 when all is well. Exit 1 with one error line for each fault."""
-import os
 import re
 import sys
+from pathlib import Path
 
 GROUPS = ["Core", "Architecture", "Verification", "Delegation", "Meta"]
 EXPECTED = """
@@ -23,9 +23,7 @@ principle-type-system-discipline
 
 
 def frontmatter(path):
-    with open(path) as f:
-        text = f.read()
-    m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+    m = re.match(r"---\n(.*?)\n---\n", path.read_text(), re.S)
     fields = {}
     if m:
         for line in m.group(1).splitlines():
@@ -35,22 +33,19 @@ def frontmatter(path):
     return fields
 
 
-def main(root):
-    skills = os.path.join(root, "skills", "engineering", "skills")
+def check_folders(folders):
+    errors = [f"missing {n}" for n in EXPECTED if n not in folders]
+    errors += [f"extra {n}" for n in folders if n not in EXPECTED]
+    return errors
+
+
+def check_frontmatter(skills, folders):
     errors = []
-    folders = sorted(
-        d for d in os.listdir(skills)
-        if d.startswith("principle-") and os.path.isdir(os.path.join(skills, d))
-    )
-    for name in EXPECTED:
-        if name not in folders:
-            errors.append(f"missing {name}")
     for name in folders:
         if name not in EXPECTED:
-            errors.append(f"extra {name}")
             continue
-        path = os.path.join(skills, name, "SKILL.md")
-        if not os.path.isfile(path):
+        path = skills / name / "SKILL.md"
+        if not path.is_file():
             errors.append(f"{name}: no SKILL.md")
             continue
         fields = frontmatter(path)
@@ -58,20 +53,27 @@ def main(root):
             errors.append(f"{name}: name must equal the folder name")
         if fields.get("disable-model-invocation") != "true":
             errors.append(f"{name}: disable-model-invocation must be true")
+    return errors
 
-    with open(os.path.join(skills, "work-on", "SKILL.md")) as f:
-        text = f.read()
+
+def check_index(text, folders):
+    errors = []
     for group in GROUPS:
         if not re.search(rf"^\*\*{group}\*\*\s*$", text, re.M):
             errors.append(f"work-on: no group heading {group}")
     entries = re.findall(r"^- `(principle-[a-z-]+)`", text, re.M)
-    for name in entries:
-        if name not in folders:
-            errors.append(f"work-on: index entry {name} has no folder")
-    for name in folders:
-        if name not in entries:
-            errors.append(f"work-on: no index entry {name}")
+    errors += [f"work-on: index entry {n} has no folder" for n in entries if n not in folders]
+    errors += [f"work-on: no index entry {n}" for n in folders if n not in entries]
+    return errors
 
+
+def main(root):
+    skills = Path(root) / "skills" / "engineering" / "skills"
+    folders = sorted(
+        d.name for d in skills.iterdir() if d.name.startswith("principle-") and d.is_dir()
+    )
+    index = (skills / "work-on" / "SKILL.md").read_text()
+    errors = check_folders(folders) + check_frontmatter(skills, folders) + check_index(index, folders)
     for line in errors:
         print(line)
     return 1 if errors else 0
