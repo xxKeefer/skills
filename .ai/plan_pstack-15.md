@@ -75,8 +75,8 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - `split-ticket` Step 7: write the map in the template layout. Keep only its unit bullets inline. Delete the rest of its block.
   - Refresh the fixture from the current map header and unit headings. Add a test for C3 with the `split-ticket` unit fields, and change the fixture test for C4.
   - Done: the two tests pass, and `map_units.py next` on the real map exits 0.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. `map_units.spec.py`, `check_plan.spec.py`, `check_spec.spec.py`, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **5. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.

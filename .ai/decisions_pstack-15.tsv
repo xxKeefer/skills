@@ -1,6 +1,6 @@
 decision	reason	evidence	result
 One whole-branch patch-id with the pathspec ':!.ai' replaces the range-diff rule and the .ai/ rule in the ship Review check.	Subtract before you add. One compare covers a rebase, a clean merge of the base, and a commit to .ai/ only.	The ship Review row holds both old rules.	Held. C1 gave equal IDs after a rebase and a .ai-only commit. C2 gave different IDs after a one-line change. Commit a66c5b9.
 Write no check_map.py. The map check stays map_units.py next.	It already checks the Units section, the headings, the Done lines, and batch. The map playbook runs it at step 1, before each batch.	map_units.py cmd_next.	No new script.
-Add a map template to write-to-file, and point split-ticket at it.	The inline map of split-ticket has no Units heading, so map_units.py next exits 1 on it.	split-ticket Step 7, and the no-Units test in map_units.spec.py.	open: the C3 test in step 2.
+Add a map template to write-to-file, and point split-ticket at it.	The inline map of split-ticket has no Units heading, so map_units.py next exits 1 on it.	split-ticket Step 7, and the no-Units test in map_units.spec.py.	Held. The C3 test passes on the template with the split-ticket unit fields. Commit 6735290.
 create-pr Step 2 keeps its range-diff.	It shows the drift as a warning, not a gate, and it is outside unit 15.	create-pr Step 2.	No change.
 Write the optional map header keys as comment lines in the template	A placeholder batch value fails map_units.py next	First run of the C3 test failed with a batch error	C3 passes
