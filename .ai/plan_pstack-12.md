@@ -92,7 +92,12 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - Done: the gates are green at HEAD d334c85. Tests: log_decision 5, sitrep 5, check_plan 33, check_principles 11, map_units 14. The pre-commit hook, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: the report is `.ai/review_pstack-12_decision-log-sitrep.html`. Reviewed: base 400344b, head 9d3fe88 (panel read a759e5d). The panel fixed all 4 findings in 9d3fe88, and none is open.
-- [ ] **7. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
+  - Recorded decision: the fix commit 9d3fe88 changes the behaviour of `sitrep.py`, so `/build` rule 7.2 adds a new round of test and review (steps 7 and 8).
+- [ ] **7. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`. Run 1 has no open row. Do not raise the rows of run 1 again.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+- [ ] **9. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
 
 ## Suggested skills
