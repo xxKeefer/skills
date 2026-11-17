@@ -419,7 +419,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `build`, `implement`, `mob-review`, and `/work-on` name roles and read the block.
 - Done: a run on a copy of the user's AGENTS.md adds the blocks at the top, keeps the user's text, and a second run changes nothing.
 
-### [ ] 8. Principles and the TDD skip rule (r1.2)
+### [x] 8. Principles and the TDD skip rule (r1.2)
 
 - 24 `principle-*` skills from pstack, user-only, in `engineering`. Adapt the two named in Decisions.
 - The index in `/work-on`. The reply rule and the "read it first" rule.

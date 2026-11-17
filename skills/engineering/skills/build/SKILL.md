@@ -15,6 +15,8 @@ in a fresh subagent that cold-starts from the plan, as one `/clear` + `/implemen
 After the build steps, the run loops a test step and a review step until the branch passes the
 `/ship` checks. Then it writes the QA checklist. It never runs the push step. `/ship` pushes.
 
+Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-sequence-verifiable-units** ([`../principle-sequence-verifiable-units/SKILL.md`](../principle-sequence-verifiable-units/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
+
 ```
 build steps → test → review → (fix changed behaviour?) → test → review → … → QA checklist
 ```
