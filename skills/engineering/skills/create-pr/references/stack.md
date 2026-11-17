@@ -33,8 +33,8 @@ Make the merge line the first line of the body:
 
 ## Step 7: push and open
 
-1. Push with `gh stack push`. It force-pushes each branch with a lease, which a rebased stack
-   needs.
+1. Push with `gh stack push`, through the `gh-stack` skill. It force-pushes each branch with a
+   lease, which a rebased stack needs. ADR 0011 allows this push.
 2. With no open PR, open it with `gh stack submit --auto`. This opens drafts and links the stack
    on GitHub. Then set the title and the body with `gh pr edit`, and request the bot review with
    the `gh api` call in Step 7 of `SKILL.md`.

@@ -35,7 +35,11 @@ These gates stay, because they guard against lost work, not against a commit or 
 - A run goes from the plan to a draft PR with one stop, at the review report.
 - A branch can reach the remote before the user reads the diff. A draft PR and the review report
   are where the user reads it.
-- No skill force-pushes. Each push step still says "Never force".
+- No skill force-pushes with `git push --force`. Each push step still says "Never force". One
+  exception: a skill pushes a gh stack through the `gh-stack` skill, with `gh stack push`. That
+  command force-pushes each branch with a lease, which a rebased stack needs. The lease stops the
+  push when the remote has a commit that the agent did not see. A force-push to a branch that
+  another person uses stays on the pause list (ADR 0016). (Amended 2026-11-17.)
 - A new skill that commits or pushes follows this rule. A new gate before a commit or a push needs
   its own ADR.
 - Vault skills keep their rule: they never commit in the vault.
