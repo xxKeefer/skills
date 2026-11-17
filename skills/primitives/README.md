@@ -16,6 +16,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/handoff` | Compact the conversation into a handoff doc for a fresh agent |
 | `/update-plan` | Update a plan doc in place with current progress |
 | `/do-next` | Cold-start from a plan doc and execute the next step |
+| `/sitrep` | Show the open decisions, the choices made alone, the skipped steps, and the follow-ups of a plan |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
 | `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
