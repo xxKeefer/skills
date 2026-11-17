@@ -6,8 +6,9 @@ The report is for QA, not for decisions, so the panel makes each
 fix that a finding names and never asks the user to choose. Skip this part on someone else's code.
 
 1. Sort each finding. A finding is **open** when the persona marked it `future`, or when its fix
-   needs a product or design answer that the code and the spec do not give. Every other finding
-   is **fixable**, nits included.
+   needs a product or design answer that the code and the spec do not give. A finding is also
+   **open** when its fix contradicts an AC or a Decision of the plan or the spec: mark it Change
+   Requested, so that `/build` asks the user. Every other finding is **fixable**, nits included.
 2. When a suggestion names two fixes, take the one the persona recommends. With no
    recommendation, take the smaller fix that removes the defect. Do not ask.
 3. If the working tree has changes and Step 1 did not review the working tree, fix nothing. A fix

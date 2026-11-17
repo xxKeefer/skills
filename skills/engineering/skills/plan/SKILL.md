@@ -36,6 +36,8 @@ This command picks its input.
     branch.
 - `$ARGUMENTS` is a spec file, and the caller also gives a map path, a plan name, and a branch
   name: this is a map unit. `/work-on` gives these. Run the spec route above, with these changes:
+  - Run only Step 5 (draft the plan) and Step 7 (write the plan) of `/start-ticket`, with the
+    changes below. A map unit has no tracker, no claim, no plan gate, and no letters to write back.
   - Name the plan with the plan name from the caller.
   - Claim no branch and no worktree. Set `worktree` to the current worktree, and `branch` to the
     branch name from the caller. The caller makes the branch before the build.

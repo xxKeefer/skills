@@ -70,11 +70,14 @@ red, save the work, write a `B` entry, and return.
    the message and commit again. Keep the hook on.
 3. Invoke `/update-plan` on the plan to mark the step done.
 
-If the step changed no file except the plan, make no commit. A review step that only records its
-report is an example. Return `Commit: none`.
+4. Commit the plan edit alone, with the message `docs(ai): mark step <id> done`, so the tree is
+   clean when you return.
 
-**Done when:** the plan marks the step done, and the commit exists or the step changed no file
-except the plan.
+If the step changed no file except the plan, make only the commit of item 4. A test step or a
+review step that only records its report is an example. Return `Commit: none`.
+
+**Done when:** the plan marks the step done, the tree has no modified or staged files, and the
+commit exists or the step changed no file except the plan.
 
 ## 5. Return
 
