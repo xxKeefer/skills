@@ -90,6 +90,16 @@ class RerunFindings(unittest.TestCase):
         self.assertEqual([k["title"] for k in out["kept"]], ["a", "c"])
         self.assertEqual([d["title"] for d in out["dropped"]], ["b"])
 
+    def test_output_that_is_not_utf8_is_still_checked(self):
+        out = self.result([finding(command="printf '\\xff boom\\n'; exit 1")])
+        self.assertEqual(len(out["kept"]), 1)
+
+    def test_command_that_is_not_text_is_dropped(self):
+        self.assertEqual(self.reason(finding(command=["pytest"])), "no command")
+
+    def test_evidence_that_is_not_text_is_dropped(self):
+        self.assertEqual(self.reason(finding(evidence=1)), "no evidence")
+
     def test_malformed_json_exits_1_with_one_line(self):
         r = self.run_script("{not json")
         self.assertEqual(r.returncode, 1)

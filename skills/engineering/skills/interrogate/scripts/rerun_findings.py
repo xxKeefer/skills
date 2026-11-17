@@ -8,8 +8,10 @@ import sys
 
 
 def rerun(f, timeout):
-    command = (f.get("command") or "").strip()
-    evidence = (f.get("evidence") or "").strip()
+    command = f.get("command")
+    evidence = f.get("evidence")
+    command = command.strip() if isinstance(command, str) else ""
+    evidence = evidence.strip() if isinstance(evidence, str) else ""
     cwd = f.get("cwd") or os.getcwd()
     if not command:
         return None, "no command"
@@ -18,7 +20,7 @@ def rerun(f, timeout):
     if not os.path.isdir(cwd):
         return None, "cwd not found"
     proc = subprocess.Popen(
-        command, shell=True, cwd=cwd, text=True,
+        command, shell=True, cwd=cwd, text=True, errors="replace",
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True,
     )
     try:
@@ -34,24 +36,30 @@ def rerun(f, timeout):
     return {"output": output, "exit": proc.returncode}, None
 
 
+def load_findings(path):
+    try:
+        with open(path) as fh:
+            findings = json.load(fh)
+    except (OSError, ValueError) as e:
+        raise ValueError(f"cannot read {path}: {e}")
+    if not isinstance(findings, list):
+        raise ValueError("findings file must hold a JSON list")
+    bad = next((i for i, f in enumerate(findings, 1) if not isinstance(f, dict)), None)
+    if bad:
+        raise ValueError(f"finding {bad} is not an object")
+    return findings
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("findings")
     p.add_argument("--timeout", type=float, default=120)
     args = p.parse_args()
     try:
-        with open(args.findings) as fh:
-            findings = json.load(fh)
-    except (OSError, ValueError) as e:
-        print(f"cannot read {args.findings}: {e}")
+        findings = load_findings(args.findings)
+    except ValueError as e:
+        print(e)
         return 1
-    if not isinstance(findings, list):
-        print("findings file must hold a JSON list")
-        return 1
-    for i, f in enumerate(findings, 1):
-        if not isinstance(f, dict):
-            print(f"finding {i} is not an object")
-            return 1
     kept, dropped = [], []
     for f in findings:
         proof, reason = rerun(f, args.timeout)
