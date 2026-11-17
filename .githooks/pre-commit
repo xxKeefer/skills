@@ -27,7 +27,8 @@ status=$?
 [ "$status" -eq 1 ] || exit 1
 
 undefined=$(git grep -l -I -F -e '$SKILL_DIR/' "$target" -- '*SKILL.md' | while IFS= read -r f; do
-  git grep -q -I -E -e '`\$SKILL_DIR[^`]*` (is|means)' "$target" -- "${f#"$target":}" || echo "${f#"$target":}"
+  p=${f#"$target":}
+  git grep -q -I -E -e '`\$SKILL_DIR[^`]*` (is|means)' "$target" -- "$p" || echo "$p"
 done)
 [ -z "$undefined" ] && exit 0
 echo "$undefined" >&2

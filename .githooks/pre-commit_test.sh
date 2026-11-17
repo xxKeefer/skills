@@ -124,4 +124,14 @@ new_repo
 try_skill 'Flag an unset `$SKILL_DIR` placeholder.'
 expect 'a $SKILL_DIR mention with no path commits' pass $?
 
+new_repo
+try_skill 'Read `$SKILL_DIR/x`.'
+(cd "$repo" && .githooks/pre-commit HEAD > /dev/null 2>&1)
+expect 'a revision with an undefined $SKILL_DIR path fails' block $?
+
+new_repo
+try_skill '`$SKILL_DIR` is the base directory. Read `$SKILL_DIR/x`.'
+(cd "$repo" && .githooks/pre-commit HEAD > /dev/null 2>&1)
+expect 'a revision with a defined $SKILL_DIR path passes' pass $?
+
 exit "$failed"
