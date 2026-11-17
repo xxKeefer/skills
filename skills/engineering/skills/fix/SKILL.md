@@ -10,6 +10,8 @@ description: >
 
 Resolve a broken behaviour reported from manual QA. Find the fault, fix it, prove it.
 
+Principle: **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
+
 ## Step 1: Understand the Problem
 
 Parse `$ARGUMENTS` into **problem description** and **resource links** (if any).
