@@ -1,8 +1,10 @@
 ---
 name: spec
-description: "★ Spec: define what to build. A ticket key goes to /refine-ticket. A raw idea gets an interview to an explicit yes, then a written spec that /plan reads."
+description: >
+  ★ Spec: define what to build. A ticket key goes to /refine-ticket. A raw idea gets an interview to
+  an explicit yes, then a written spec that /plan reads. Use when the user says "spec", has a new
+  idea to build, or gives a ticket key to define.
 argument-hint: "<ticket key> | <idea in a sentence>"
-disable-model-invocation: true
 ---
 
 # Spec
@@ -70,10 +72,24 @@ correction and restate.
 
 ## Step 5: Write the spec
 
-Write the restatement, the decisions from Step 3, and the open questions with `/write-to-file`,
-doctype `spec`. Give each requirement a lettered AC in the form
-`- [ ] **A.** <action> → <expected>`.
+Write the spec with `/write-to-file`, doctype `spec`, in the layout of its template:
 
-Then stop. Give the spec path and the next command: `/plan @<spec path>`.
+- Header: `doctype: spec`, `ticket` (the key, or `none`), `status: confirmed`, and `goal` (the
+  Outcome line).
+- `## Intent`: the six lines of the restatement from Step 4.
+- `## Decisions`: the decisions from Step 3, each with its reason.
+- `## Acceptance criteria`: one lettered AC for each requirement, in the form
+  `- [ ] **A.** <action> → <expected>`. Letters start at A, with no gap.
+- `## Out of scope`: optional. Remove it when the Intent line says all.
+- `## Open questions`: optional. Remove it when no question is open. `/plan` stops while it holds
+  an item.
 
-**Done when:** the spec is on disk, and the user has its path and the next command.
+`/write-to-file` runs `check_spec.py` on the spec. Fix each line that it names, and run it again
+until it exits 0.
+
+Then stop. Give the spec path. When the check prints `open questions: <n>` with `<n>` above 0,
+list each item of `## Open questions`, and tell the user to answer or delete each one before
+`/plan @<spec path>`. Else give the next command: `/plan @<spec path>`.
+
+**Done when:** the spec is on disk, the check exits 0, and the user has its path and the next
+command.

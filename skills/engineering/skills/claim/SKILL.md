@@ -2,7 +2,7 @@
 name: claim
 description: >
   Find or create the worktree for a ticket key, a PR, or a branch, then record the branch and the
-  worktree in the handoff for that work. Needs worktrunk (`wt`). Use when the user says "claim" or
+  worktree in the plan for that work. Needs worktrunk (`wt`). Use when the user says "claim" or
   asks which worktree holds a ticket, or when another skill needs a worktree before work starts.
 argument-hint: "<ticket key | PR number or URL | branch>"
 ---
@@ -66,28 +66,30 @@ Get the path of a new worktree from `wt list --format=json`.
 
 **Done when:** you have one worktree path on the branch, or you stopped and asked.
 
-## Step 3: Record the claim in the handoff
+## Step 3: Record the claim in the plan
 
-1. Find the handoff folder the way `/write-to-file` picks it: the folder that the user's
-   instructions name for handoffs or plans, else `.ai/` in the parent folder of
+1. Find the plan folder the way `/write-to-file` picks it: the folder that the user's
+   instructions name for plans or plans, else `.ai/` in the parent folder of
    `git rev-parse --path-format=absolute --git-common-dir`.
-2. Find the files in that folder and its subfolders whose name holds the key. If no name holds it,
-   find the files whose text holds it.
-   - No file: go to Step 4. The calling skill writes the handoff.
+2. Find the plan files in that folder and its subfolders whose name holds the key. If no name
+   holds it, find the plan files whose text holds it. A plan file has a name that starts with
+   `plan_` or `handoff_`, or a YAML header with `doctype: plan`. Skip each other file, such as a
+   map, a findings doc, or a report.
+   - No file: go to Step 4. The calling skill writes the plan.
    - Two or more files: ask which one.
-3. Write `Worktree: <path>. Branch: <branch>.` on the line after the file's title. If the file
-   already has a `Worktree:` line, replace that line. `/do-next` reads this line to check the
-   branch.
+3. If the file has no YAML header, ask `/write-to-file` to migrate it to the plan layout.
+4. Set `worktree: <path>` and `branch: <branch>` in the file's YAML header. Replace a value that
+   is there. Change no other line. `/do-next` reads these keys to check the branch.
 
-**Done when:** the handoff holds the line for this claim, or no handoff names the key.
+**Done when:** the plan header holds the keys for this claim, or no plan names the key.
 
 ## Step 4: Return
 
-Return the worktree path, the branch, the handoff path or `none`, and whether the worktree is new.
-A caller that writes a new handoff puts the Step 3 line in it.
+Return the worktree path, the branch, the plan path or `none`, and whether the worktree is new.
+A caller that writes a new plan puts the Step 3 keys in its header.
 
-With no calling skill, tell the user to start the next session in the worktree. If a handoff
-exists, give the command for that session: `/do-next @<handoff path>`.
+With no calling skill, tell the user to start the next session in the worktree. If a plan
+exists, give the command for that session: `/do-next @<plan path>`.
 
-**Done when:** the caller or the user has the worktree path, the branch, and the handoff path or
+**Done when:** the caller or the user has the worktree path, the branch, and the plan path or
 `none`.

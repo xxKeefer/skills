@@ -1,7 +1,7 @@
 ---
 name: split-ticket
 description: >
-  Split a ticket that is too big for one PR into sub-tasks in waves, with a stub handoff for each.
+  Split a ticket that is too big for one PR into sub-tasks in waves, with a map of the sub-tasks.
   Use when the user asks to split a ticket, or when a scope check gives SPLIT and the user picks
   the split path.
 argument-hint: "<ticket key>"
@@ -14,7 +14,7 @@ The parent ticket gets no PR of its own. Separate agents can build the pieces of
 same time.
 
 ```
-read → cut the pieces → order the waves → write the report → gate → create → write the stubs
+read → cut the pieces → order the waves → write the report → gate → create → write the map
      → return
 ```
 
@@ -50,7 +50,7 @@ A piece is one slice that becomes one sub-task.
    [`../refine-ticket/SKILL.md`](../refine-ticket/SKILL.md) Step 4. The title is the slice goal.
    The summary is plain, and the ACs are lettered from A. Add one line that names the parent ACs
    that the piece delivers. Run the scan from that step.
-3. Note the files or areas of each piece from the probes. They go in the stub handoff, not in the
+3. Note the files or areas of each piece from the probes. They go in the map, not in the
    sub-task.
 
 **Done when:** each piece passes the five checks, each parent AC is in exactly one piece, and each
@@ -91,7 +91,7 @@ Write the report with `/write-report`:
 
 1. Give the report path, the number of pieces, and the waves.
 2. Say what a yes does: it creates one sub-task per piece under `<KEY>`, writes the points of each,
-   and writes one stub handoff per piece.
+   and writes one map with one unit per sub-task.
 3. Name each required field that the parent cannot fill, and ask for its value in the same
    question.
 4. Ask once. On a no, create nothing, and go to Step 8 with the report path.
@@ -116,37 +116,42 @@ If a create fails, stop. List the sub-tasks that exist and the pieces that have 
 
 **Done when:** each piece has a sub-task key, and each sub-task reads back as sent.
 
-## Step 7: Write the stubs
+## Step 7: Write the map
 
-1. For each piece, write `plan_<SUBKEY>.md` with `/write-to-file`, doctype `plan`, into the folder
-   of the parent ticket `<KEY>`. `/claim <SUBKEY>` finds the stub by its name. Write in Simplified
-   Technical English. Read [`STE.md`](../../STE.md) first, and follow every rule in it.
+Write `map_<KEY>.md` with `/write-to-file`, doctype `map`, into the folder of the parent ticket
+`<KEY>`. Give one unit per sub-task, in merge order. Write no plan for a sub-task.
+`/start-ticket <SUBKEY>` reads its unit from the map, then writes its plan. Write in Simplified
+Technical English. Read [`STE.md`](../../STE.md) first, and follow every rule in it.
 
-   ```markdown
-   # Plan: <SUBKEY> <title>
+```markdown
+---
+doctype: map
+ticket: <KEY>
+status: approved
+goal: <the goal of the parent ticket>
+---
 
-   Ticket: <SUBKEY>, a sub-task of <KEY>. Goal: <title>. Scope: piece <n> of <m>, wave <w>. Estimate: <points>.
-   Builds on: <SUBKEY list, or none>.
-   Merge: after <SUBKEY list> | Merge: alone
+# Map: <KEY> <title>
 
-   ## Acceptance criteria
+Split report: <path>.
 
-   - [ ] **A.** <action> → <expected>
+### [ ] 1. <SUBKEY> <title>
 
-   ## Context
+- Wave <w>. Estimate: <points>. Parent ACs: <letters>.
+- builds_on: <SUBKEY list, or none>
+- merge: <after <SUBKEY list>, or alone>
+- Files or areas: <from Step 2>.
+- Done: the ACs of <SUBKEY> hold, and its PR is merged.
+```
 
-   Files or areas: <from Step 2>. Split report: <path>.
-   ```
+`/start-ticket` copies `builds_on` and `merge` into the header of the plan. `/create-pr` reads
+`merge` there.
 
-   The stub has no Steps section. `/start-ticket <SUBKEY>` drafts the plan into it.
-2. If the parent ticket has a handoff, add a `## Split into` section to it. Give one line per
-   sub-task: its key, its title, its wave, and its stub path.
-
-**Done when:** each piece has a stub, and the parent handoff, if any, lists each stub.
+**Done when:** the map exists, and it has one unit for each sub-task.
 
 ## Step 8: Return
 
-Return the report path, and each sub-task key with its wave and stub path. For each piece in wave
+Return the report path, the map path, and each sub-task key with its wave. For each piece in wave
 1, give the command `/start-ticket <SUBKEY>`. Each one runs in its own session, at the same time
 as the others. A calling skill continues from here. With no caller, stop.
 

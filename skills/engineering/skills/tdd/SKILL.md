@@ -21,7 +21,7 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 **Test only at pre-agreed seams.** Agreement on the seams puts the test effort on the critical paths and the complex logic, not on every edge case.
 
-- A seam that the handoff step names is agreed. Test at it, and ask nothing about it. Test the conditions whose IDs the step names.
+- A seam that the plan step names is agreed. Test at it, and ask nothing about it. Test the conditions whose IDs the step names.
 - Confirm each other seam with the user before you write a test at it. Ask: "What is the public interface, and which seams do we test?"
 
 To rate the risk, derive the test conditions, and pick the level of each test, use [`TEST-APPROACH.md`](../../TEST-APPROACH.md).

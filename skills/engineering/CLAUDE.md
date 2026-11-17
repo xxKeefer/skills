@@ -8,7 +8,7 @@ into this domain.
 ## Dependencies
 
 Engineering skills call `/grill`, `/write-to-file`, `/write-report`, `/look-up`, `/do-next`, and
-`/update-handoff` from the `primitives` plugin, so install it too.
+`/update-plan` from the `primitives` plugin, so install it too.
 
 ## Skills
 
@@ -34,14 +34,18 @@ that reads it.
 The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `webperf`,
 `code-simplify`, `ship`) are the entry points.
 
-- Each command has `disable-model-invocation: true`. Only the user starts one.
+- Each command has no `disable-model-invocation`, so the user, the agent, or another skill can
+  start one. The pause list rule, not the flag, marks where the agent stops for the user.
 - Each description starts with `★ `, so the commands stand out in the terminal list. A skill that is
   not a command has no ★.
 - A command picks a skill and runs it by name. It holds no step that a skill below it already holds.
   When a skill changes its input or its return, check each command that runs it.
 - `build`, `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill
-  below them does the work. `build` runs the steps of a handoff in subagents through `STEP.md`, and
+  below them does the work. `build` runs the steps of a plan in subagents through `STEP.md`, and
   loops test and review. `implement` is the skill for one step.
+- `work-on` is not a command, because it runs the commands. It has no ★. It picks a playbook from
+  `work-on/playbooks/` and calls the commands in order. When a command changes its input, its
+  return, or where it stops, check each playbook.
 
 ## Tool roles
 
@@ -64,13 +68,13 @@ commit.
 
 | Skill | Called by | Must keep |
 |---|---|---|
-| `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, handoff), the `Worktree:` line that `/do-next` reads, and the search for a handoff whose file name holds the key |
-| `build` | `mob-review`, and the prompt of its report in a handoff | The `D` and `N` entry format in `STEP.md`, and the `Handoff` meta key that it reads from the report |
+| `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, plan), the `worktree` and `branch` header keys that `/do-next` reads, and the search for a plan whose file name holds the key |
+| `build` | `mob-review`, and the prompt of its report in a plan | The `D` and `N` entry format in `STEP.md`, and the `Plan` meta key that it reads from the report |
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
-| `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the handoff step names is agreed" and "Test the conditions whose IDs the step names" |
-| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `hunt_<KEY>.md`, written with `/write-to-file`, doctype `hunt` |
+| `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
+| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## light-review

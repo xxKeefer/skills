@@ -1,8 +1,9 @@
 ---
 name: webperf
-description: "★ Webperf: measure a web page's performance first, find the one bottleneck, fix it, then measure again and keep or revert the fix."
+description: >
+  ★ Webperf: measure a web page's performance first, find the one bottleneck, fix it, then measure
+  again and keep or revert the fix. Use when the user says "webperf", or a page is slow.
 argument-hint: "<URL> [page or flow]"
-disable-model-invocation: true
 ---
 
 # Webperf

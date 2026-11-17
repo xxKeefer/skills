@@ -2,8 +2,8 @@
 name: apply-review
 description: >
   Apply the rows that you tick in a review report of your own branch. Fix test-first, commit once,
-  push once, then reply on and resolve the ticked threads.
-disable-model-invocation: true
+  push once, then reply on and resolve the ticked threads. Use when the user pastes the prompt that
+  a review report of their own branch builds, or asks to apply the ticked rows.
 argument-hint: "@<report path> <row IDs>"
 ---
 
@@ -96,7 +96,7 @@ and then green, and each added test went red under its break.
 
 1. Push nothing, and go to Step 7, when one of these is true:
    - The branch has no open PR. Check with `gh pr view --json state -q .state`.
-   - A handoff step runs this skill. The push step of the handoff pushes.
+   - A plan step runs this skill. The push step of the plan pushes.
 2. If a note or the user's message asks to check first, show `git show --stat HEAD` when Step 4
    made a commit, and the text of each reply. Ask once: push and reply, or stop.
 3. When Step 4 made no commit, go to Step 6.

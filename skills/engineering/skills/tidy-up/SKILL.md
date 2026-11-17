@@ -1,13 +1,15 @@
 ---
 name: tidy-up
-description: Delete the local working state of finished work in one repo, and fix the lines in open handoffs that finished work made stale.
-disable-model-invocation: true
+description: >
+  Delete the local working state of finished work in one repo, and fix the lines in open plans
+  that finished work made stale. Use when the user says "tidy up", or asks to clean up finished
+  branches and worktrees.
 argument-hint: "[repo path, default the current repo]"
 ---
 
 # Tidy Up
 
-Work leaves state behind: plans, handoffs, review reports, worktrees, branches, remote-tracking
+Work leaves state behind: plans, plans, review reports, worktrees, branches, remote-tracking
 refs, and stack records. When a ticket closes or a PR merges, that state is **stale**. This skill
 finds it, ties each item to its work, and deletes or fixes only what it can tie to finished work.
 
@@ -28,8 +30,8 @@ Run these in one batch:
 
 ## Step 2: Tie each item to its work
 
-1. Read the ticket key or the PR from the file name, the branch name, or the handoff's `Ticket:`
-   line.
+1. Read the ticket key or the PR from the file name, the branch name, or the `ticket` key of the
+   plan's YAML header.
 2. Read the state of each key from the tracker, as the repo's issue tracker doc says.
 3. Give each item one action:
 
@@ -40,7 +42,7 @@ Run these in one batch:
 | A remote-tracking ref that `prune --dry-run` lists | delete |
 | A clean worktree, or a branch, whose work merged | delete |
 | A stack record that names a branch that is gone or merged | delete the local record only |
-| An open handoff that names finished work as current, such as a stack order or a base branch | fix the line |
+| An open plan that names finished work as current, such as a stack order or a base branch | fix the line |
 | An item with uncommitted changes or unpushed commits | keep, and name it |
 | An item that you cannot tie to work | keep, and name it |
 

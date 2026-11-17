@@ -1,7 +1,8 @@
 # install-rules
 
-Installs every version-controlled coding-convention rule onto a machine. The goal: the same
-conventions on home and work, from one committed source, loaded only when they apply.
+Installs every version-controlled rule onto a machine. The goal: the same conventions on home and
+work, from one committed source, loaded only when they apply. `pause-list.md` has no `paths:`, so
+it loads in every session. It names the actions that stop for the user.
 
 - **Source:** `rules/*.md` in this folder (single source of truth)
 - **Installs to:** `~/.claude/rules/` (all files)

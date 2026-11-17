@@ -1,7 +1,10 @@
 ---
 name: self-improve
-description: Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration backlog, put every proposal to you in one table, apply the approved persona edits through update-personas, and write a report and the repo's defect hotspots.
-disable-model-invocation: true
+description: >
+  Mine a repo's fix commits, tracker bugs, review threads, failed CI runs, and the calibration
+  backlog, put every proposal to you in one table, apply the approved persona edits through
+  update-personas, and write a report and the repo's defect hotspots. Use when the user says
+  "self-improve", or asks to tune the personas from the repo's history.
 argument-hint: "[--since <YYYY-MM-DD>] [--until <YYYY-MM-DD>]"
 ---
 

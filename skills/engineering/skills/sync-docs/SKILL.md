@@ -1,7 +1,8 @@
 ---
 name: sync-docs
-disable-model-invocation: true
-description: Update every doc, README, type, and config that the current code changes put out of sync.
+description: >
+  Update every doc, README, type, and config that the current code changes put out of sync. Use when
+  the user says "sync docs", or the docs are stale after a change.
 ---
 
 # Sync Docs

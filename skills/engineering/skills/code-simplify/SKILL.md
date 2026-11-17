@@ -1,8 +1,10 @@
 ---
 name: code-simplify
-description: "★ Code-simplify: make working code easier to read without a change in behaviour, one change at a time, with the tests run after each change."
+description: >
+  ★ Code-simplify: make working code easier to read without a change in behaviour, one change at a
+  time, with the tests run after each change. Use when the user says "simplify" or "clean up this
+  code".
 argument-hint: "[path, default the branch diff]"
-disable-model-invocation: true
 ---
 
 # Code Simplify

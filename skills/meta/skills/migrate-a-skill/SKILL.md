@@ -57,8 +57,8 @@ Notes:
 - If a `README.md` has no skill table, flag it in the summary rather than inventing one.
 - A domain with no skills shows a `_None yet._` placeholder under `## Skills`. When adding the
   first row, replace the placeholder with the table; when removing the last row, restore it.
-- If the source-domain README has migration notes (e.g. experimental's "Migrated in from…"
-  blurb) that named this skill, prune the stale reference.
+- If the source-domain README has migration notes (e.g. a "Migrated in from…" blurb) that named
+  this skill, prune the stale reference.
 
 **Done when:** the source `README.md` no longer lists the skill, the target `README.md` does, and
 both tables match their `skills/` directories.
@@ -83,7 +83,7 @@ Pick the commit `type` from the direction of the move:
 
 | Move | Type |
 |---|---|
-| into a stable domain (esp. from `experimental`) — a promotion | `feat` |
+| out of `deprecated` — a revival | `feat` |
 | into `deprecated` — a demotion | `chore` |
 | any other lateral move | `refactor` |
 
