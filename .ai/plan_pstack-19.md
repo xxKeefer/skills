@@ -116,6 +116,32 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - 2026-11-17: step 5 done in b7e820e. `coding.md` has a `## Comments` section and two `lists:` lines; 28 tests pass; AC F holds.
 - 2026-11-17: step 6 done. Scratch run listed both comments; each maps to a rung and an outcome. AC G holds.
 - Decision log: decisions_pstack-19.tsv
+- 2026-11-17: `/blast-radius`: verdict `risk`.
+  - Safety fact: on a real `git diff --merge-base` patch, each `file:line` that `added_comments.py` prints holds the printed text on the branch, and the move kept every rule number (1 to 14, 17 to 19). Rung 4: the proof below exits 0. A one-line shift in the hunk counter makes it exit 1.
+  - Confirmed risk: `skills/engineering/skills/mob-review/PANEL.md:16` gives the `persona-comments` guard as "an added comment line that `scripts/added_comments.py` lists". `mob-review` Step 2 (`skills/engineering/skills/mob-review/SKILL.md:89`) matches each guard against `files.txt` only, and runs no script. Chance: medium. Cost: on the user's branch the lane can skip, and the no-comments rule does not run. Clear fix: make the `PANEL.md` guard file-based (a changed file with an extension that the script knows), and keep the script run in the persona's own Guard.
+  - Cleared: `persona-architecture/SKILL.md:59` says `persona-comments` raises a comment that names another package as Change Requested; both lenses still do. `persona-shell`, `persona-github-actions`, `persona-i18n`, `persona-naming`, and `persona-code-quality` route comments to `persona-comments`; the new guard covers shell and YAML, which the old frontend-only guard did not. `sad-path` lists no `persona-comments` guard. `light-review` does not run `persona-comments`, so the new `Lens:` line does not touch it. A deleted file (`+++ /dev/null`) has no known extension, so the script lists nothing for it.
+  - Proof, from the repo root:
+
+    ```sh
+    set -e
+    D=skills/engineering/skills/persona-comments
+    git diff --merge-base origin/pstack-inspired HEAD > /tmp/br19.patch
+    python3 $D/scripts/added_comments.py /tmp/br19.patch > /tmp/br19.out
+    n=0
+    while IFS= read -r row; do
+      f=${row%%:*}; rest=${row#*:}; l=${rest%%:*}; t=${rest#*: }
+      sed -n "${l}p" "$f" | grep -qF -- "$t" || { echo "MISMATCH $row"; exit 1; }
+      n=$((n+1))
+    done < /tmp/br19.out
+    [ "$n" -gt 0 ] || { echo "NO ROWS"; exit 1; }
+    echo "rows checked: $n"
+    rules() { grep -oE '^ *[0-9]+\. \*\*' | grep -oE '[0-9]+' | sort -n | tr '\n' ' '; }
+    old=$(for f in SKILL.md references/comment-style.md references/file-headers.md references/reach-and-placement.md; do git show "origin/pstack-inspired:$D/$f"; done | rules)
+    new=$(cat $D/references/*.md | rules)
+    echo "old: $old"; echo "new: $new"
+    [ "$old" = "$new" ] || { echo "RULE NUMBERS CHANGED"; exit 1; }
+    echo PASS
+    ```
 
 ## Pending Decisions
 
