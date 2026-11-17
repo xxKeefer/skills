@@ -1,0 +1,4 @@
+decision	reason	evidence	result
+The script is the guard for both lenses, in place of the frontend-only guard	One guard is simpler than two, and the no-comments rule covers every repo	map Comments decision: every repo	open: the review step reads the persona
+A hack finding starts its summary with hack: so FIX.md can find it	The persona contract has no hack field, and a new field would touch every persona	PERSONA-CONTRACT.md output fields	open: step 6 runs the flow
+With no lens in the brief, the persona uses the other-PR lens	mob-review says to treat a doubtful case as someone else's code	mob-review SKILL.md Step 1 ownership check	open: the review step reads the persona
