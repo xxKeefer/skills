@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent / "../../verify/scripts"))
-from find_drivers import app_paths
+from find_drivers import app_paths, frontmatter, name_key, repo_key
 
 SECTIONS = ["Launch", "Doctor", "Drive", "Evidence", "Cleanup", "Helpers"]
 FEATURE_H2S = ["Sub-features", "How to get to it (user POV)", "Driving it with", "Gotchas"]
@@ -28,32 +28,22 @@ def h2_titles(text):
     return [m.group(1).strip() for m in re.finditer(r"^## (.+)$", text, re.M)]
 
 
-def frontmatter(text):
-    lines = text.split("\n")
-    if not lines or lines[0].strip() != "---":
-        return None
-    block = []
-    for line in lines[1:]:
-        if line.strip() == "---":
-            return block
-        block.append(line)
-    return None
-
-
 def check_skill(root):
     errors = []
     path = root / "SKILL.md"
     if not path.is_file():
         return ["SKILL.md: file is missing. Fix: add SKILL.md to the driver folder."]
     text = path.read_text()
-    block = frontmatter(text)
-    if block is None:
+    if frontmatter(path) is None:
         errors.append("SKILL.md: frontmatter is missing. Fix: start the file with a --- block.")
-        block = []
-    if not any(re.match(r"^name:\s*\S", l) for l in block):
+    name = name_key(path)
+    repo = repo_key(path)
+    if not name:
         errors.append("SKILL.md: frontmatter key `name` is missing. Fix: add `name: verify-<repo>-<app>`.")
-    if not any(re.match(r"^repo:\s*\S", l) for l in block):
+    if not repo:
         errors.append("SKILL.md: frontmatter key `repo` is missing. Fix: add `repo: <repo>`, the last part of `git remote get-url origin` with no `.git`.")
+    elif name and not name.startswith("verify-%s-" % repo):
+        errors.append("SKILL.md: `name` does not start with `verify-%s-`. Fix: rename the driver `verify-%s-<app>`, or correct `repo`." % (repo, repo))
     if not app_paths(path):
         errors.append("SKILL.md: frontmatter key `app-paths` is missing or empty. Fix: list the app globs from the repo root under `app-paths:`.")
     titles = h2_titles(text)

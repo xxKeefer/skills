@@ -36,8 +36,7 @@ or a file upload changed. It adds its run to the same report.
 
 ## Step 2b: See it live
 
-After `/happy-path`, run `/verify`. On `no driver`, write `no driver` in the `Progress` of the plan,
-when a plan exists.
+After `/happy-path`, run `/verify`. `/verify` records `no driver` in the plan.
 
 **Done when:** `/verify` returned a result, or `/happy-path` did not run.
 

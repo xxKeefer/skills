@@ -44,7 +44,7 @@ Ask in one `AskUserQuestion`. Each question names its items.
 
 ## Step 3: Capture
 
-Work in the tab from Step 2. Run `python3 $SKILL_DIR/../verify/scripts/find_drivers.py --repo <repo root> --base <base>`. When it prints a
+Work in the tab from Step 2. Run `python3 $SKILL_DIR/../verify/scripts/find_drivers.py --repo <repo root> --base <base>`. The base is the base branch of the PR or the plan, else the default branch of the repo. When it prints a
 driver path, read the feature map of that driver for the user path to each screen, and drive the screens in this tab. Do not run `/verify` here: it drives its own
 instance, not your tab. With no driver, use the browser flow below.
 

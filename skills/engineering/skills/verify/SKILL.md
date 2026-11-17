@@ -33,8 +33,8 @@ find the drivers → run each driver → return the evidence
 3. A line `no app-paths: <path>` on stderr names a driver that has no `app-paths` key. A line
    `no repo: <path>` names a driver whose `repo` key is missing or names another repo. Tell the
    user that the driver cannot match, and keep going.
-4. When the output is `no driver`, return `no driver` and stop. Do not write a driver here. The
-   caller writes `no driver` in the plan's `Progress`, and `/retro` proposes
+4. When the output is `no driver`, return `no driver` and stop. Do not write a driver here. When a
+   plan exists, write `no driver` in its `Progress`, and `/retro` proposes
    `/create-verification-skill`.
 
 **Done when:** you have a list of driver paths, or you have returned `no driver`.

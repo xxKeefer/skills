@@ -57,6 +57,12 @@ class CheckDriver(unittest.TestCase):
                 self.assertIn(missing, r.stderr)
                 self.assertIn("SKILL.md", r.stderr)
 
+    def test_name_prefix_that_differs_from_repo_exits_1_and_names_it(self):
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-other-cli\nrepo: demo\napp-paths:\n  - src/**\n"))
+        r = self.run_script()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("verify-demo-", r.stderr)
+
     def test_missing_index_exits_1(self):
         os.remove(os.path.join(self.dir, "features", "README.md"))
         r = self.run_script()

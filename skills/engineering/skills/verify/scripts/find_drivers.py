@@ -64,15 +64,25 @@ def glob_regex(pattern):
     return re.compile("^" + out + "$")
 
 
-def app_paths(skill_md):
+def frontmatter(skill_md):
     with open(skill_md) as f:
         lines = f.read().split("\n")
     if not lines or lines[0].strip() != "---":
         return None
-    paths = None
+    block = []
     for line in lines[1:]:
         if line.strip() == "---":
-            break
+            return block
+        block.append(line)
+    return block
+
+
+def app_paths(skill_md):
+    block = frontmatter(skill_md)
+    if block is None:
+        return None
+    paths = None
+    for line in block:
         if re.match(r"^app-paths:\s*$", line):
             paths = []
         elif paths is not None and re.match(r"^\s*-\s+", line):
@@ -84,14 +94,16 @@ def app_paths(skill_md):
 
 
 def repo_key(skill_md):
-    with open(skill_md) as f:
-        lines = f.read().split("\n")
-    if not lines or lines[0].strip() != "---":
-        return None
-    for line in lines[1:]:
-        if line.strip() == "---":
-            break
+    for line in frontmatter(skill_md) or []:
         m = re.match(r"^repo:\s*(\S.*?)\s*$", line)
+        if m:
+            return m.group(1).strip("\"'")
+    return None
+
+
+def name_key(skill_md):
+    for line in frontmatter(skill_md) or []:
+        m = re.match(r"^name:\s*(\S.*?)\s*$", line)
         if m:
             return m.group(1).strip("\"'")
     return None
