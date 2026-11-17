@@ -26,7 +26,7 @@ Stop only at these points. Between two stops, run with no input from the user.
 | --- | --- | --- |
 | H0 | The user approves the map. | Once per program. |
 | H1 | The user says yes to the spec. | Once per change, when a spec exists. |
-| H2 | The user approves the plan. | Once per change, or once per batch. |
+| H2 | The user approves the plan. | Once per change. A map run has no H2 stop, because the map approval (H0) covers each unit plan. |
 | H3 | An open `Pending Decision` (a `D` entry) exists. | Only when the agent cannot decide. |
 | H4 | An action is on the pause list. | Each time another person reads the output. |
 | H5 | The user picks the skill edits from `/retro`. | After a unit. |
@@ -68,11 +68,14 @@ do not drop a step.
 When you skip a step, keep it in the list. Mark it done, and add the reason, such as
 `skipped: the ticket has a spec`.
 
-**Done when:** the todo list holds every playbook step.
+When the session has no todo tool, list the playbook steps in the reply, with the same marks.
+Keep the list current in each later reply.
+
+**Done when:** the todo list, or the list in the reply, holds every playbook step.
 
 ## Step 3: Run the steps
 
-Run each step in order. Mark each todo when its step is done.
+Run each step in order. Mark each step done in the list when it is done.
 
 - Before an action on the pause list, stop (H4). A step that would do the action does not do it.
 - When a step returns an open `D` entry, stop (H3).

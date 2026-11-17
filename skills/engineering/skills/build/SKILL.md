@@ -99,7 +99,8 @@ For each remaining step, in plan order:
    names. With `Commit: none`, `HEAD` is still the SHA from before that step. For an entry ID,
    the plan holds that entry. For both, the tree has no modified or staged files. A batch
    stops at the first step that writes an entry. Mark each later step of the batch `not run`,
-   and dispatch it again in a later pass.
+   and dispatch it again in a later pass. For a review step, the report must hold the JSON `runs`
+   block of `/write-report`. A report with no `runs` block fails the check.
 6. If the check fails, stop the run and go to Step 4.
 7. After a review step that is done, read its report from the step's done line, and decide the
    next round:
@@ -116,7 +117,9 @@ For each remaining step, in plan order:
    in the report.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
-failed check, and the loop stopped.
+failed check, and the loop stopped. You can name the rule that stopped the loop: 7.1, 7.3, the
+third review step, or a failed check. A review fix that changes runtime behaviour does not stop
+the loop (7.2).
 
 ## Step 3: Write the QA checklist
 
@@ -142,7 +145,10 @@ Give each step of a batch its own row. Take Workflow, Commit, and Tests from the
 return for that step. Status is `done`, the entry ID the
 subagent wrote, `skipped (<entry ID>)`, the failed check, or `not run`.
 
-Below the table, give the next command:
+Below the table, name the rule that stopped the loop, from the Step 2 done line. Name each skipped
+step with the rule that allowed the skip.
+
+Then give the next command:
 
 - An entry is pending: every entry under `## Pending Decisions` in full, in ID order. Then wait for
   the user's answers.
