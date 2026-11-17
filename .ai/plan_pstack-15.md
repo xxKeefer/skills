@@ -77,8 +77,9 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - Done: the two tests pass, and `map_units.py next` on the real map exits 0.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. `map_units.spec.py`, `check_plan.spec.py`, `check_spec.spec.py`, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+  - Result: report `.ai/review_pstack-15_ship-stack.html`. Reviewed base `c78ec66` (`pstack-inspired`), head `65cc83c`. Light run: 0 findings, 0 fixed, 0 open.
 - [ ] **5. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.
   - Done: the branch is on the remote.
 
@@ -101,3 +102,4 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
 - 2026-11-17: step 2 done, commit `6735290`. `write-to-file/templates/map.md` holds the header, `## Decisions`, and `## Units`. Optional header keys are comment lines, because a placeholder `batch` fails `map_units.py next`. The `map` row of `write-to-file` points at the template. `split-ticket` Step 7 has the unit bullets only. The fixture has the current unit headings, each with `Done: x.`.
   - C3: a template map with the `split-ticket` unit fields passes `map_units.py next`. C4: the fixture lists unit 15 first. `map_units.spec.py` runs 19 tests, all pass. `map_units.py next` on the real map exits 0.
   - Mutation check: the template with `## Units` renamed turns C3 red.
+- 2026-11-17: step 4 done. Light run of `correctness` and `test-quality` found nothing. No fix commit. Report: `.ai/review_pstack-15_ship-stack.html`, base `c78ec66`, head `65cc83c`.
