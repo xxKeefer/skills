@@ -453,7 +453,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.26): call it sitrep.
 - Done: after a `/build`, `/sitrep` lists the choices the agent made alone.
 
-### [ ] 13. `/checkpoint` (r1.24)
+### [x] 13. `/checkpoint` (r1.24)
 
 - `primitives/checkpoint` (new): finish or back out the step, make a `wip:` commit, write the resume note as a `Progress` entry.
 - Done: `/checkpoint` mid-step leaves a clean tree, and `/do-next` or `/work-on` resumes from the plan.

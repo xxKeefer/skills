@@ -77,8 +77,8 @@ through `/update-plan`. Scope: SCOPED, one PR.
   - Done: the gates are green at HEAD 3227d58. `check_plan.spec.py` and `check_principles.spec.py` print OK, `check_principles.py` exits 0, and the pre-commit hook, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-13.md`. This step changes no code.
   - Done: report `.ai/review_pstack-13.html`, base 3919d30, head 1978660. Light run, lanes skills and decisions-log, 0 findings.
-- [ ] **6. Push.** Push the branch with `git push -u origin pstack-13_checkpoint`. Push-only map: open no PR.
-  - Done: the pushed SHA is in this line.
+- [x] **6. Push.** Push the branch with `git push -u origin pstack-13_checkpoint`. Push-only map: open no PR.
+  - Done: pushed `c30165a` to `origin/pstack-13_checkpoint`.
 
 ## Suggested skills
 
