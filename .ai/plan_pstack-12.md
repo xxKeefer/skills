@@ -93,8 +93,8 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: the report is `.ai/review_pstack-12_decision-log-sitrep.html`. Reviewed: base 400344b, head 9d3fe88 (panel read a759e5d). The panel fixed all 4 findings in 9d3fe88, and none is open.
   - Recorded decision: the fix commit 9d3fe88 changes the behaviour of `sitrep.py`, so `/build` rule 7.2 adds a new round of test and review (steps 7 and 8).
-- [ ] **7. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **7. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at HEAD 2c0922a. Tests: log_decision 5, sitrep 7, check_plan 33, check_principles 11, map_units 14. The pre-commit hook, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
 - [ ] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`. Run 1 has no open row. Do not raise the rows of run 1 again.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **9. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
@@ -135,3 +135,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - Judgement by `/sitrep` Step 2: Evidence: `/tmp/sitrep-demo/GREETING.md` (four lines, matches the result) and commit `c6635a6`. Risk: L, because the file is copy only and the plan left the wording open. Pick: keep, because it welcomes a new reader and points to `README.md`.
 - 2026-11-17: step 5 done at d334c85. All eight gates green, and the step changed no file except this plan.
 - 2026-11-17: step 6 done. Report `.ai/review_pstack-12_decision-log-sitrep.html`, base 400344b, head 9d3fe88 (panel read a759e5d). Fix commit 9d3fe88 holds 4 fixes, and no row is open. The gates stay green.
+- 2026-11-17: step 7 done at 2c0922a. All eight gates green, and the step changed no file except this plan.
