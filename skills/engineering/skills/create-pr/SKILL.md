@@ -111,7 +111,8 @@ Use the top sections of [`templates/body.md`](templates/body.md).
    section.
 
 **Done when:** the Why gives the goal or is removed, the Summary has a visual, the Evidence shows
-proof or is removed, and the Merge danger names a door and a blast radius, and the Follow-ups list the plan's entries or are removed.
+proof or is removed, the Merge danger names a door and a blast radius, and the Follow-ups list the
+plan's entries or are removed.
 
 ## Step 5: Write the title and the body
 

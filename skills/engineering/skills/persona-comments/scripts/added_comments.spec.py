@@ -74,6 +74,33 @@ class Skips(unittest.TestCase):
         text = '+++ b/a.ts\n@@ -0,0 +1,1 @@\n+const u = "http://x" // why\n'
         self.assertEqual(run(text)[1], "a.ts:1: // why\n")
 
+    def test_lone_quote_does_not_hide_a_trailing_comment(self):
+        text = "+++ b/a.rs\n@@ -0,0 +1,1 @@\n+fn f<'a>(x: &'a str) -> &'a str { x } // why\n"
+        self.assertEqual(run(text)[1], "a.rs:1: // why\n")
+        text = "+++ b/a.sh\n@@ -0,0 +1,1 @@\n+echo don't # why\n"
+        self.assertEqual(run(text)[1], "a.sh:1: # why\n")
+
+    def test_hash_inside_a_shell_word_is_skipped(self):
+        text = "+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo $#\n+n=${#arr[@]}\n"
+        self.assertEqual(run(text), (0, "", ""))
+
+
+class Hunks(unittest.TestCase):
+    def test_removed_line_does_not_move_the_line_number(self):
+        text = "+++ b/a.py\n@@ -1,2 +1,2 @@\n keep\n-old\n+# why\n"
+        self.assertEqual(run(text)[1], "a.py:2: # why\n")
+
+    def test_new_hunk_resets_the_line_and_an_open_block(self):
+        text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+/* open\n@@ -10,0 +20,1 @@\n+const a = 1\n"
+        self.assertEqual(run(text)[1], "a.ts:1: /* open\n")
+
+    def test_each_file_gets_its_own_line_numbers(self):
+        text = (
+            "+++ b/a.py\n@@ -0,0 +1,2 @@\n+x = 1\n+# one\n"
+            "+++ b/b.py\n@@ -0,0 +5,1 @@\n+# two\n"
+        )
+        self.assertEqual(run(text)[1], "a.py:2: # one\nb.py:5: # two\n")
+
 
 class Input(unittest.TestCase):
     def test_empty_diff_exits_zero_with_no_output(self):

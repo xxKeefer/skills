@@ -102,7 +102,7 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`.
+When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`. Add one line to the `persona-comments` brief from the Step 1 ownership check: `Lens: own code` or `Lens: someone else's code`.
 
 **Project rubric, same message, when the repo has one.** Read [`RUBRIC.md`](RUBRIC.md), and follow its Step 3.
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import re
 import sys
+from pathlib import Path
 
 HASH = ("#",)
 SLASH = ("//",)
@@ -18,6 +19,17 @@ for exts, line, blocks in (
 HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)")
 
 
+def closes(text, i, quote):
+    while i < len(text):
+        if text[i] == "\\":
+            i += 2
+            continue
+        if text[i] == quote:
+            return True
+        i += 1
+    return False
+
+
 def scan(text, lines, blocks):
     quote = None
     i = 0
@@ -31,12 +43,12 @@ def scan(text, lines, blocks):
                 quote = None
             i += 1
             continue
-        if c in "\"'`":
+        if c in "\"'`" and closes(text, i + 1, c):
             quote = c
             i += 1
             continue
         for tok in lines:
-            if text.startswith(tok, i):
+            if text.startswith(tok, i) and (tok != "#" or i == 0 or text[i - 1].isspace()):
                 return i, None, len(text)
         for open_, close in blocks:
             if text.startswith(open_, i):
@@ -92,7 +104,7 @@ def comments(diff):
 
 
 def main():
-    diff = open(sys.argv[1]).read() if len(sys.argv) > 1 else sys.stdin.read()
+    diff = Path(sys.argv[1]).read_text() if len(sys.argv) > 1 else sys.stdin.read()
     for path, line, text in comments(diff):
         print("%s:%d: %s" % (path, line, text))
 
