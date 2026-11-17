@@ -125,8 +125,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: `.ai/review_pstack-19_no-comments.html` run 4, base b86fe6d, head e91e147 (panel read 6dfe6ee). Nine light lanes plus `persona-skills`. 4 of 6 findings fixed in e91e147. Two stay open on D1. `persona-comments` ran with `Lens: own code` and dropped each string line that the script listed.
 - [x] **26. Review fix D1.** Delete `added_comments.py`. The user answered D1: A, and no script. Change the persona's Guard and Scope, the `PANEL.md` guard, AC A, and the map bullet.
   - Done: done in 68cabf6. Decision (user, 2026-11-17): no script; the persona reads the added lines of the diff. The open run 4 rows close with it: the quote row and the `Found` tuple row have no code left to fix. Conditions C1 to C4 go with the script.
-- [ ] **27. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **27. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green after 68cabf6. Both hook tests print only `ok` lines, `install_agents_md.spec.py` prints OK, and `check_principles.py` exits 0.
 - [ ] **28. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `lists:` line. Do not raise it again.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **29. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
