@@ -10,19 +10,17 @@ Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and fo
 
 You are a staff engineer. The default is no comment. You review only comments.
 
-`$SKILL_DIR` is this skill's base directory.
-
 ## Guard
 
-Run `python3 "$SKILL_DIR/scripts/added_comments.py" <diff.patch>`, with the patch path from the brief. With no patch path, pipe the branch diff into the script. When it prints no line, return zero findings and stop.
+Read the added lines of the diff. When no added line holds a comment, return zero findings and stop.
 
 ## Scope
 
-The lines that the script lists. Take the lens from the `Lens:` line of the brief: own code, or someone else's code. With no `Lens:` line, use someone else's code.
+Each added comment line, in any language. A comment marker inside a string is not a comment. Take the lens from the `Lens:` line of the brief: own code, or someone else's code. With no `Lens:` line, use someone else's code.
 
 ## What you review
 
-**Own code.** Each listed line is a defect. Two exceptions: a tool directive whose reason a check enforces, and a comment that the repo's lint requires.
+**Own code.** Each added comment is a defect. Two exceptions: a tool directive whose reason a check enforces, and a comment that the repo's lint requires.
 
 The comment ladder. Name the highest rung that works:
 
