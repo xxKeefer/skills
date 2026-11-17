@@ -116,8 +116,8 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Done: `find_drivers.py` holds the one parse, and `check_driver.py` imports it by a sibling path. The specs of both scripts pass.
 - [x] **12. Review fix D1 path.** Kind: docs. `qa-screenshots` Step 3 calls `python3 ../verify/scripts/find_drivers.py`, which resolves from the current folder.
   - Done: `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`.
-- [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **13. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at HEAD 1a8135971e0e20297fcfd10cd2ced169f4c22831. find_drivers 25 tests, check_driver 17, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` 11 ok, `commit-msg_test.sh` 8 ok.
 - [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. Rows r2.1 and r2.8 are fixed in steps 10 and 11. Do not raise the rows of runs 1 and 2 again.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **15. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
@@ -158,3 +158,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 10 done in commit 97dac2d. Each driver has a `repo:` key. `find_drivers.py` matches it, and names a driver with a missing or different `repo:` on stderr as `no repo: <path>`. `check_driver.py` exits 1 on a missing `repo` key. `create-verification-skill` and `maintain-verification-skill` Step 1 use the rule, and `verify/SKILL.md` names the new stderr line. Spec case: `verify-demo-x` and `verify-demo-web-x` for repo `demo` finds only `verify-demo-x`. A mutation of the repo compare made 17 tests red. Scratch driver `/tmp/verify-demo/.claude/skills/verify-verify-demo-todo/SKILL.md` has `repo: verify-demo` (uncommitted there). `check_driver.py` on it: `ok`, exit 0. `find_drivers.py --repo /tmp/verify-demo --base main --home <empty temp folder>` on branch `change-app` printed `/tmp/verify-demo/.claude/skills/verify-verify-demo-todo/SKILL.md`.
 - 2026-11-17: step 11 done in commit 04139ac. `check_driver.py` imports `app_paths` from `find_drivers.py` by a path built from its own file location. A mutation of the shared parse made 3 check_driver tests red. Both specs pass (25 and 17 tests).
 - 2026-11-17: step 12 done in commit 3fb4f78. `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`. Next: step 13.
+- 2026-11-17: step 13 done. All gates green at 1a81359, no file changed except this plan. Next: step 14.
