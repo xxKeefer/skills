@@ -97,8 +97,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: the gates are green at 987ddf7. `added_comments.spec.py` runs 22 tests, OK.
 - [x] **12. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
   - Done: `.ai/review_pstack-19_no-comments.html` run 3, base b86fe6d, head 98c6194 (panel read 499afdb). Two test-design nits, both fixed in 98c6194 with new tests. Four lanes clean. None open. The loop stops at the third review step.
-- [ ] **13. Review fix r1.1.** A path that git quotes (a non-ASCII name) is skipped at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
-  - Done: Decode a C-quoted `+++ "b/..."` path before the extension lookup. Test first with the octal-escaped header.
+- [x] **13. Review fix r1.1.** A path that git quotes (a non-ASCII name) is skipped at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Decode a C-quoted `+++ "b/..."` path before the extension lookup. Test first with the octal-escaped header. Done in 6589c1d. Two new tests in `added_comments.spec.py`, 26 tests OK.
 - [ ] **14. Review fix r1.2.** An added line inside a block comment that a context line opened, or that spans a context line, is not listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: Track the block state on context lines too, and print only added lines. In a `/* */` language, list an added line whose text starts with `*` as a block continuation. Test first: a JSDoc continuation line, and a new block that spans a context line.
 - [ ] **15. Review fix r1.3.** CSS has no line comments, so `url(//...)` is listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
@@ -142,6 +142,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - 2026-11-17: step 5 done in b7e820e. `coding.md` has a `## Comments` section and two `lists:` lines; 28 tests pass; AC F holds.
 - 2026-11-17: step 6 done. Scratch run listed both comments; each maps to a rung and an outcome. AC G holds.
 - Decision log: decisions_pstack-19.tsv
+- 2026-11-17: step 13 done in 6589c1d. `added_comments.py` decodes a C-quoted `+++` path.
 - 2026-11-17: `/blast-radius`: verdict `risk`.
   - Safety fact: on a real `git diff --merge-base` patch, each `file:line` that `added_comments.py` prints holds the printed text on the branch, and the move kept every rule number (1 to 14, 17 to 19). Rung 4: the proof below exits 0. A one-line shift in the hunk counter makes it exit 1.
   - Confirmed risk: `skills/engineering/skills/mob-review/PANEL.md:16` gives the `persona-comments` guard as "an added comment line that `scripts/added_comments.py` lists". `mob-review` Step 2 (`skills/engineering/skills/mob-review/SKILL.md:83`) matches each guard against `files.txt` only, and runs no script. Chance: medium. Cost: on the user's branch the lane can skip, and the no-comments rule does not run. Clear fix: make the `PANEL.md` guard file-based (a changed file with an extension that the script knows), and keep the script run in the persona's own Guard.
