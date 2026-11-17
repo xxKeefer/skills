@@ -55,3 +55,9 @@ Issues are cards on the `agentic-skills` Obsidian Kanban board in the vault. See
 
 Single-context: one `CONTEXT.md` at the repo root; ADRs go in `docs/adr/`. See
 `docs/agents/domain.md`.
+
+### Working files
+
+Write every `/write-to-file` doctype to `.ai/` in the root of the current worktree, not the main
+worktree. Git tracks `.ai/`, so a map, a plan, or a spec travels with its branch. Read
+`.ai/CLAUDE.md` before you add, edit, or delete a file there.
