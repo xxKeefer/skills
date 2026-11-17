@@ -75,8 +75,8 @@ through `/update-plan`. Scope: SCOPED, one PR.
   - Done: `git status --porcelain` is empty after `/checkpoint`, the log holds one `wip:` commit, and the second subagent finishes the step from the note.
 - [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at HEAD 3227d58. `check_plan.spec.py` and `check_principles.spec.py` print OK, `check_principles.py` exits 0, and the pre-commit hook, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
-- [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-13.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+- [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-13.md`. This step changes no code.
+  - Done: report `.ai/review_pstack-13.html`, base 3919d30, head 1978660. Light run, lanes skills and decisions-log, 0 findings.
 - [ ] **6. Push.** Push the branch with `git push -u origin pstack-13_checkpoint`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
 
@@ -101,3 +101,4 @@ through `/update-plan`. Scope: SCOPED, one PR.
   - Checkpoint (C2): one fresh subagent did part one, then followed `checkpoint/SKILL.md`. It wrote the note through `/update-plan` ("Step 1 part one is done ... Next action: append the line `End of notes.`") and made one commit, `2dacf40 wip: 1 part one done, notes.md holds the title line`. `git status --porcelain` printed nothing.
   - Attempt 1 of the resume did not count. The step subagent returned before its nested subagents were done, and a nested `/do-next` that it started finished the step while the main thread ran its own. The main thread reset the scratch repo to `2dacf40`.
   - Resume (C3): one fresh subagent, given only `do-next/SKILL.md` and the plan path, read the checkpoint note, ran only part two, and committed `f45fa47`. `notes.md` holds `# Notes` and `End of notes.`, and `git status --porcelain` printed nothing.
+- 2026-11-17: step 5 done. Light run on 1978660 against pstack-inspired (3919d30): 0 findings. Report `.ai/review_pstack-13.html`.

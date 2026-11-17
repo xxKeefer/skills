@@ -1,1 +1,1 @@
-window.REPORTS = ["qa_pstack-12_decision-log-sitrep.html", "review_pstack-12_decision-log-sitrep.html"];
+window.REPORTS = ["review_pstack-13.html"];
