@@ -92,9 +92,22 @@ pace_colour() {
   fi
 }
 
-cwd=$(jq -r '.cwd // .workspace.current_dir // ""' <<<"$input")
-transcript=$(jq -r '.transcript_path // ""' <<<"$input")
-model_id=$(jq -r '.model.id // ""' <<<"$input")
+fields=()
+while IFS= read -r line; do fields+=("$line"); done < <(jq -r '
+  (.cwd // .workspace.current_dir // ""),
+  (.transcript_path // ""),
+  (.model.id // ""),
+  (.rate_limits.five_hour.used_percentage // ""),
+  (.rate_limits.five_hour.resets_at // ""),
+  (.rate_limits.seven_day.used_percentage // ""),
+  (.rate_limits.seven_day.resets_at // ""),
+  (.model.display_name // "" | ascii_downcase | gsub(" "; "-")),
+  (.effort.level // "")
+' <<<"$input")
+cwd=${fields[0]:-}; transcript=${fields[1]:-}; model_id=${fields[2]:-}
+session_used=${fields[3]:-}; session_reset=${fields[4]:-}
+weekly_used=${fields[5]:-}; weekly_reset=${fields[6]:-}
+model_name=${fields[7]:-}; effort=${fields[8]:-}
 
 case "$model_id" in
   *1m*|*1M*) ctx_max=1000000 ;;
@@ -110,11 +123,26 @@ reverse_file() {
 # --- context window: sum last message.usage from the transcript JSONL ---
 tokens=0
 if [ -n "$transcript" ] && [ -f "$transcript" ]; then
-  t=$(reverse_file "$transcript" 2>/dev/null | jq -r '
-    select(.message?.usage?) |
-    .message.usage |
-    (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)
-  ' 2>/dev/null | head -n 1)
+  cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/statusline"
+  cache_file="$cache_dir/tokens"
+  size=$(wc -c <"$transcript" | tr -d ' ')
+  t=""
+  if [ -f "$cache_file" ]; then
+    t=$(awk -F'\t' -v p="$transcript" -v s="$size" '$1 == p && $2 == s { print $3; exit }' "$cache_file")
+  fi
+  if [ -z "$t" ]; then
+    t=$(reverse_file "$transcript" 2>/dev/null | jq -r '
+      select(.message?.usage?) |
+      .message.usage |
+      (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)
+    ' 2>/dev/null | head -n 1)
+    if [ -n "$t" ] && mkdir -p "$cache_dir" 2>/dev/null; then
+      {
+        [ -f "$cache_file" ] && awk -F'\t' -v p="$transcript" '$1 != p' "$cache_file"
+        printf '%s\t%s\t%s\n' "$transcript" "$size" "$t"
+      } >"$cache_file.$$" && mv "$cache_file.$$" "$cache_file"
+    fi
+  fi
   [ -n "$t" ] && tokens=$t
 fi
 
@@ -182,13 +210,6 @@ usage_widget() {
   fi
   printf '%s %s%s%%%s%s' "$label" "$colour" "$used_int" "$RESET" "$reset"
 }
-
-session_used=$(jq -r '.rate_limits.five_hour.used_percentage // empty' <<<"$input")
-session_reset=$(jq -r '.rate_limits.five_hour.resets_at // empty' <<<"$input")
-weekly_used=$(jq -r '.rate_limits.seven_day.used_percentage // empty' <<<"$input")
-weekly_reset=$(jq -r '.rate_limits.seven_day.resets_at // empty' <<<"$input")
-model_name=$(jq -r '.model.display_name // "" | ascii_downcase | gsub(" "; "-")' <<<"$input")
-effort=$(jq -r '.effort.level // empty' <<<"$input")
 
 # --- assemble ---
 sep=" ${DIM}${DELIM}${RESET} "
