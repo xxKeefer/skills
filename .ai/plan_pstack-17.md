@@ -57,3 +57,15 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
 - 2026-11-17: plan written on `pstack-inspired`, for the branch `pstack-17_tidy-up-audit`.
 - 2026-11-17: step 1 done in commit d682824. Gates green.
 - Decision log: decisions_pstack-17.tsv
+- 2026-11-17: step 3 done. Light review in `.ai/review_pstack-17_tidy-up-audit.html`, two nits fixed in b170da4.
+- 2026-11-17: blast radius `clear`. Safety fact: no other skill or script calls `/tidy-up` as a step, so only its own text changes behaviour. Rung 4. The one match, a comment in `write-to-file/scripts/check_plan.py:36`, says that `/tidy-up` removes a done plan's worktree, and it stays true after a pick. Cleared: the description and the `README.md` row still match the skill. Proof, run from the repo root, exit 0:
+
+  ```sh
+  callers=$(grep -rln --include='*.md' --include='*.py' --include='*.sh' -e 'tidy-up' skills docs \
+    | grep -v '^skills/engineering/skills/tidy-up/' | grep -v '^skills/engineering/README.md$' \
+    | grep -v '^docs/adr/' | grep -v '/fixtures/' | grep -v 'write-to-file/scripts/check_plan.py' || true)
+  [ -z "$callers" ] || { echo "caller found: $callers"; exit 1; }
+  f=skills/engineering/skills/tidy-up/SKILL.md
+  grep -q 'or at once when the' "$f" && { echo "bypass still present"; exit 1; }
+  grep -q 'Apply only the picked rows' "$f" || { echo "no pick rule"; exit 1; }
+  ```
