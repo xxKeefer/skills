@@ -1,1 +1,1 @@
-window.REPORTS = ["review_pstack-9_interrogate.html"];
+window.REPORTS = ["qa_pstack-9_interrogate.html", "review_pstack-9_interrogate.html"];
