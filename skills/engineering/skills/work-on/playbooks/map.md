@@ -19,7 +19,7 @@ approval covers the map and each unit plan, so this playbook stops for neither.
   from the unit title, such as `pstack-7_agents-md`.
 - **Spec.** `spec_<prefix>-<N>.md`, written with `/write-to-file`, doctype `spec`.
 - **Plan.** `plan_<prefix>-<N>.md`, written by the map-unit route of `/plan`.
-- **Batch size.** The map's `batch` frontmatter key. Else 5.
+- **Batch size.** The `next` command of the script reads the map's `batch` frontmatter key. Else 5. Pass no `--batch` flag.
 
 ## Push only
 
@@ -38,7 +38,7 @@ Run the steps once for each batch. A batch is the output of step 1.
 
 | # | Step | Stop after the step |
 | --- | --- | --- |
-| 1 | Run `python3 $SCRIPT next $MAP --batch <batch size>`. Each line is `<N>\t<title>`, in map order. On exit 1, show the error line. It names a unit with no `Done:` line, a malformed heading, or a map with no `## Units` section. | H3 on exit 1. With no lines, the map is done: go to step 8. |
+| 1 | Run `python3 $SCRIPT next $MAP`, with no flag. The script reads the batch size. Each line is `<N>\t<title>`, in map order. On exit 1, show the error line. It names a unit with no `Done:` line, a malformed heading, or a map with no `## Units` section. | H3 on exit 1. With no lines, the map is done: go to step 8. |
 | 2 | For each unit in the batch, in order, write its spec with `/write-to-file`, doctype `spec`. `goal` comes from the unit's `Done:` line. `status` is `confirmed`, because the user approved the map at H0. `## Intent` comes from the unit's bullets. `## Decisions` holds the map Decisions that the unit names. `## Acceptance criteria` has one lettered AC for each unit bullet, and the `Done:` line as the last AC, rewritten as `<action> → <expected>`. Then run `/plan @<spec path>` in the current worktree, with the map path, the plan name, and the branch name. Skip a unit that already has a plan. When `/plan` splits a unit, see [Split a unit](#split-a-unit). | H3 when the spec check fails, or when `/plan` returns a `D` entry. No stop on a split. |
 | 3 | Check that each plan in the batch has `status: approved`. Set it on a plan that has `status: draft`. Write each judgement call that a plan makes, and that its unit does not decide, into the plan's `## Progress`. Give each one to `/update-plan` as a choice, with the reason, the evidence, and the result, so that it enters the decision log. | No stop. |
 | 4 | For each unit, in order: run `gh stack add <branch>`. On the new branch, delete the `.ai/` files of each unit whose PR is merged, as `.ai/CLAUDE.md` says, and commit that deletion alone. Then commit the unit's spec and plan, and the decision log when it exists. Then run `/build @<plan path>` in this thread, not in a subagent, so that `/build` can give each step its own fresh subagent. Wait for the build before the next unit, because each layer builds on the one below. Skip `gh stack add` when the branch exists, and skip `/build` when each step of the plan is done. When the current branch is not in a gh stack (`gh stack view` fails), run `gh stack init <branch>` in place of `gh stack add`. Add `--base <current branch>` when the current branch is not the default branch. | H3, only when a build returns an open `D` entry. Stop the batch at that unit. |

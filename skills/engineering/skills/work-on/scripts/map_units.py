@@ -6,9 +6,10 @@ under the map's `## Units` heading, with a `Done:` line in its section. A split
 unit is replaced by sub-units `### [ ] N.1. Title`, `### [ ] N.2. Title`; N is
 then a dotted number such as `7.1`.
 
-  next <map> [--batch 5]  One line per unit with no tick, in order,
-                          `<N>\t<title>`, at most --batch lines. A unit with
-                          no `Done:` line is an error that names its line.
+  next <map> [--batch N]  One line per unit with no tick, in order,
+                          `<N>\t<title>`, at most N lines. N is --batch, else
+                          the `batch:` key of the map header, else 5. A unit
+                          with no `Done:` line is an error that names its line.
   tick <map> <N>          Change `### [ ] N.` to `### [x] N.`. Exit 1 when
                           unit N does not exist or is already ticked.
 
@@ -69,9 +70,29 @@ def positive_int(value):
     return n
 
 
+def header_batch(lines):
+    """Returns the `batch:` value of the map header, or None when it has none."""
+    if not lines or lines[0].strip() != "---":
+        return None
+    for line in lines[1:]:
+        if line.strip() == "---":
+            return None
+        m = re.match(r"^batch:\s*(.*?)\s*$", line)
+        if m:
+            return m.group(1)
+    return None
+
+
 def cmd_next(path, batch):
     with open(path) as f:
         lines = f.read().splitlines()
+    if batch is None:
+        value = header_batch(lines)
+        try:
+            batch = 5 if value is None else positive_int(value)
+        except (ValueError, argparse.ArgumentTypeError):
+            print(f"error: {path}: batch `{value}` is not a whole number of 1 or more. Fix: set `batch:` to 1 or more.", file=sys.stderr)
+            return 1
     if not any(line.strip() == "## Units" for line in lines):
         print(f"error: {path}: no ## Units section. Fix: put the units under '## Units'.", file=sys.stderr)
         return 1
@@ -113,7 +134,7 @@ def main():
     sub = parser.add_subparsers(dest="cmd", required=True)
     p_next = sub.add_parser("next")
     p_next.add_argument("map")
-    p_next.add_argument("--batch", type=positive_int, default=5)
+    p_next.add_argument("--batch", type=positive_int)
     p_tick = sub.add_parser("tick")
     p_tick.add_argument("map")
     p_tick.add_argument("number")
