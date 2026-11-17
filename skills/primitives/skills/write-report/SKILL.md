@@ -36,65 +36,62 @@ The caller gives these:
 
 **Done when:** you have the absolute path, and you know if the file exists.
 
-## Step 2: Build the data
+## Step 2: Build the run JSON
 
-The data has this shape:
+Write the run JSON to a temp file. It holds the top fields and one `run` object, with no `run`
+number. The script in Step 3 adds the run number, `path`, `date`, and row IDs. The JSON has this
+shape:
 
 ```json
 {
   "title": "Review of PR #456",
-  "path": "/abs/path/to/review_pr-456.html",
   "skill": "/engineering:post-review-comments",
-  "runs": [
-    {
-      "run": 2,
-      "title": "Panel run",
-      "head": "4f2c9e1",
-      "date": "2026-11-07",
-      "meta": { "PR": "#456", "Base": "main" },
-      "answer": "Two issues block the merge. Tick the replies to post, then copy the prompt.",
-      "visuals": [
-        {
-          "question": "How many findings does each tier hold?",
-          "bars": [["Blocker", 2], ["Major", 3]]
-        },
-        {
-          "question": "Which lanes ran?",
-          "fold": true,
-          "table": { "columns": ["Lane", "Findings"], "rows": [["correctness", "2"]] }
-        },
-        {
-          "question": "Which modules call the cart?",
-          "mermaid": "flowchart LR\n  A[checkout] --> B[cart]"
-        }
-      ],
-      "columns": [
-        { "key": "tier", "label": "Tier" },
-        { "key": "where", "label": "Where", "mono": true },
-        { "key": "issue", "label": "Issue" },
-        { "key": "draft", "label": "Draft reply", "fold": true }
-      ],
-      "rows": [
-        {
-          "id": "r2.1",
-          "ticks": ["reply"],
-          "cells": { "tier": "Blocker", "where": "src/cart.ts:42", "issue": "...", "draft": "..." }
-        }
-      ]
-    }
-  ]
+  "run": {
+    "title": "Panel run",
+    "head": "4f2c9e1",
+    "meta": { "PR": "#456", "Base": "main" },
+    "answer": "Two issues block the merge. Tick the replies to post, then copy the prompt.",
+    "visuals": [
+      {
+        "question": "How many findings does each tier hold?",
+        "bars": [["Blocker", 2], ["Major", 3]]
+      },
+      {
+        "question": "Which lanes ran?",
+        "fold": true,
+        "table": { "columns": ["Lane", "Findings"], "rows": [["correctness", "2"]] }
+      },
+      {
+        "question": "Which modules call the cart?",
+        "mermaid": "flowchart LR\n  A[checkout] --> B[cart]"
+      }
+    ],
+    "columns": [
+      { "key": "tier", "label": "Tier" },
+      { "key": "where", "label": "Where", "mono": true },
+      { "key": "issue", "label": "Issue" },
+      { "key": "draft", "label": "Draft reply", "fold": true }
+    ],
+    "rows": [
+      {
+        "ticks": ["reply"],
+        "cells": { "tier": "Blocker", "where": "src/cart.ts:42", "issue": "...", "draft": "..." }
+      }
+    ]
+  }
 }
 ```
 
 Follow these rules:
 
-- **Runs.** A new file has one run, number 1. On a re-run, parse the JSON in
-  `<script type="application/json" id="runs">`. The new run number is the highest `run` plus 1.
-  Put the new run first. Keep each earlier run exactly as it is. Never drop a run.
+- **Runs.** The script gives a new file one run, number 1. On a re-run, it gives the new run the
+  highest earlier `run` plus 1, puts it first, and keeps each earlier run exactly as it is. It
+  never drops a run.
 - **Head.** `head` is the commit that the run looked at. The caller gives it, else use
   `git rev-parse --short HEAD`. Two runs can have the same head.
-- **Top fields.** Set `title`, `path`, and `skill` from this call. `path` is the absolute path
-  from Step 1, and the prompt names it.
+- **Top fields.** Set `title` and `skill` from this call. The script sets `path` to the absolute
+  path from Step 1, and the prompt names it.
+- **Date.** The script sets `date` to today when the run has none.
 - **Answer.** One to three sentences: the verdict, and what the user does next.
 - **Visuals.** Each visual answers one question. Write that question in `question`. Leave out a
   visual that answers no question that the user has. Use one of these types:
@@ -106,43 +103,40 @@ Follow these rules:
 - **Fold.** Set `fold` on a visual that the user checks only sometimes, such as a long table.
   The page then shows only its question, and a click opens it. Do not fold a `mermaid` visual,
   because Mermaid can draw a closed graph at the wrong size.
-- **Rows.** Give one row to each item that the user can act on. A row ID is `r<run>.<n>`, with
-  `<n>` from 1 in row order, such as `r2.3`. `columns` gives each `key` and `label`. Set `mono`
-  for code, such as `file:line`. Set `fold` for long text, such as a draft reply. `cells` maps
-  each column key to plain text.
+- **Rows.** Give one row to each item that the user can act on. The script gives each row with no
+  `id` the ID `r<run>.<n>`, with `<n>` from 1 in row order, such as `r2.3`. `columns` gives each
+  `key` and `label`. Set `mono` for code, such as `file:line`. Set `fold` for long text, such as
+  a draft reply. `cells` maps each column key to plain text.
 - **Ticks.** `ticks` lists the actions that the user can tick for the row, such as `["reply"]`
   or `["fix", "reply", "resolve"]`. A row with no ticks gets no checkbox and no note field.
 - **Track.** The top-level `track` lists the ticks that only mark a row for the user, such as
   `["pass"]`. A tick in `track` shows a checkbox, but it adds nothing to the prompt.
 
-**Done when:** the data holds the new run first and every earlier run unchanged.
+**Done when:** the temp file holds the top fields and the new run.
 
 ## Step 3: Write the file
 
-1. Copy `template.html` with no change. Replace the content of the `runs` block with the data.
-2. In each JSON string, write `</` as `<\/`. This stops a `</script>` in the data from closing
-   the block. Put no HTML comment in a string.
-3. Write the file with `/write-to-file`, doctype `report`, at the path from Step 1. A re-run
-   writes the whole file again from the current template.
-4. Read the JSON block back and parse it. If the parse fails, fix the JSON and write the file
-   again.
-5. Write `reports.js` in the same folder. It lists the name of each `.html` file in the folder,
-   this report included, newest first, in this form:
+1. Run `python3 $SKILL_DIR/scripts/write_report.py <path> <json>`. `$SKILL_DIR` is this skill's
+   base directory. `<path>` is the absolute path from Step 1. `<json>` is the temp file from
+   Step 2. The script does these things:
+   - It copies `template.html` with no change, except the `runs` block. On a re-run, it writes
+     the whole file again from the current template.
+   - It writes `</` as `<\/` in the JSON, so a `</script>` in the data does not close the block.
+   - It reads the written block back. If the block does not parse, it exits 1 with a message.
+   - It writes `reports.js` in the same folder. The file lists each `.html` file there, this
+     report included, newest first, in this form: `window.REPORTS = ["a.html", "b.html"];`. The
+     page shows the other names as links in a fold at the top. A browser cannot list a local
+     folder, so the page reads this file instead.
+   - It prints the `file://` URL of the report.
 
-   ```js
-   window.REPORTS = ["review_pr-456.html", "qa_pr-456.html"];
-   ```
-
-   Write it again each time, because other skills add files to the folder. The page shows the
-   other names as links in a fold at the top. A browser cannot list a local folder, so the page
-   reads this file instead. A file that you delete stays in the list until the next write.
-6. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
+   If the script exits 1, read its message, fix the temp file, and run it again. Put no HTML
+   comment in a string.
+2. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
    on Linux. If the command fails, go on.
-7. Return a `file://` URL of the absolute path, not a bare path. A caller shows this URL to the
-   user, because an editor opens a bare path.
+3. Return the `file://` URL that the script printed, not a bare path. A caller shows this URL to
+   the user, because an editor opens a bare path.
 
-**Done when:** the file holds every earlier run and the new run, its JSON block parses,
-`reports.js` lists every `.html` file in the folder, and you return the `file://` URL.
+**Done when:** the script exits 0, and you return the `file://` URL.
 
 ## The prompt
 
