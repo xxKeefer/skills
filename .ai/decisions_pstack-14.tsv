@@ -1,5 +1,5 @@
-date	unit	choice	reason	result
-2026-11-17	14	keep the old-layout path in claim	22 plans have no YAML header	no subtraction there
-2026-11-17	14	no script for the stack check	subtract first, two commands do it	prose, proved by a live run
-2026-11-17	14	git counts for the stale check	wt list has no remote field on a branch row	claim uses git rev-list
-2026-11-17	14	no sync for a PR input in claim	PR callers sync in their own step, and the sync can force-push	fix from review
+decision	reason	evidence	result
+Keep the old-layout path (handoff_ names, migration) in claim Step 3	Subtract only dead weight, and this path is live	22 plans in the user plan folder have no YAML header	No subtraction in claim Step 3
+Add no script for the stack check	Subtract before you add: two commands do the check	gh stack view --json in each worktree, run on a real stack	Prose only, proved by the step 4 run
+Count the stale drift with git rev-list in claim	wt list gives no remote field on a branch row with no worktree	The step 4 run: remote was None for the bottom layer	claim runs git rev-list --left-right --count
+Skip the sync for a PR input in claim	The PR callers sync in their own step, and the sync can force-push	Review finding 1, review-pr and pickup read	claim syncs only a ticket key or branch input

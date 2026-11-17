@@ -81,7 +81,7 @@ Remove the dead and repeated text in `claim`, `stand-up`, and `install-agents-md
   - Done: every gate is green.
 - [x] **6. Review.** Review the branch with this plan.
   - Done: a review report with each kept row fixed.
-- [ ] **7. Push.** `git push -u origin pstack-14_stack-claim`. Push-only map: open no PR.
+- [x] **7. Push.** `git push -u origin pstack-14_stack-claim`. Push-only map: open no PR.
   - Done: the branch is on the remote.
 
 ## Progress
@@ -97,4 +97,5 @@ Remove the dead and repeated text in `claim`, `stand-up`, and `install-agents-md
 - Choice: kept the `handoff_` names and the migration in `claim` Step 3. Reason: 22 plans in the user's plan folder still have no YAML header. Result: no subtraction there.
 - Choice: no script for the stack check. Reason: the user's focus on subtraction, and two commands do the check. Result: prose only, proved by the step 4 run.
 - Not done: `/plan` and `/build` were not invoked. The agent wrote the spec and plan in the unit 13 layout, ran each step in the main thread, and used one review subagent in place of `/light-review`. `/blast-radius` was folded into that review, which read each caller of `claim`.
-- Next: step 7, push.
+- Step 7: pushed `pstack-14_stack-claim`. Unit 14 ticked on the map.
+- Next: the home machine opens the PR into `pstack-inspired`. Then `/retro` on unit 14, or no.
