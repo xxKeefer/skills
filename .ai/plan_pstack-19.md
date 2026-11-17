@@ -129,8 +129,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: the gates are green after 68cabf6. Both hook tests print only `ok` lines, `install_agents_md.spec.py` prints OK, and `check_principles.py` exits 0.
 - [x] **28. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `lists:` line. Do not raise it again.
   - Done: `.ai/review_pstack-19_no-comments.html` run 5, base b86fe6d, head 525c726 (panel read 406667f). One skills finding, fixed in 525c726; it changes only skill text, so no new round. None open.
-- [ ] **29. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **29. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
+  - Done: pushed head 5e8fc15 to `origin/pstack-19_no-comments`. Ship: go.
 
 ## Suggested skills
 
@@ -176,6 +176,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
     echo PASS
     ```
 - 2026-11-17: `/work-on` map playbook, batch of unit 19. Stopped at H3 on D1, in playbook step 5 (the fix round after `/interrogate`). Steps 1 to 25 are done. Next: answer D1, then `/work-on @.ai/map_pstack-program.md`. That run resumes at playbook step 5: it applies the D1 answer, runs the test and review steps again, then playbook step 6 (`/ship` steps 1 to 3, then `git push -u origin pstack-19_no-comments`) and step 7 (tick unit 19).
+- 2026-11-17: D1 answered (no script). Steps 26 to 29 done. Pushed 5e8fc15. Unit 19 ticked on the map.
 
 ## Pending Decisions
 

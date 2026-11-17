@@ -494,7 +494,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `engineering/constraints` and `engineering/self-improve`: architecture, then types, then a lint whose error names the fix, then a test, docs last. A mistake class counts after two times.
 - Done: a repeated mistake gets a fix at the highest rung that works.
 
-### [ ] 19. No comments (r1.21)
+### [x] 19. No comments (r1.21)
 
 - `persona-comments`: the two lenses. The persona reads the added lines of the diff for comments, with no script (D1, 2026-11-17).
 - The ladder and the follow-up flow from Decisions. The `Follow-ups` section from unit 4.
