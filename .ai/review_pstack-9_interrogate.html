@@ -55,6 +55,374 @@
   "skill": "/engineering:build",
   "runs": [
     {
+      "run": 3,
+      "title": "Light run",
+      "head": "cc33966",
+      "date": "2026-11-17",
+      "meta": {
+        "Base": "pstack-inspired 428f956",
+        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-9.md",
+        "Fixed in": "69c9e07"
+      },
+      "answer": "The panel fixed 2 findings in 69c9e07, and 1 future row stays open for QA. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+      "visuals": [
+        {
+          "question": "Which lanes ran, and what did each find?",
+          "fold": true,
+          "table": {
+            "columns": [
+              "Persona",
+              "CR",
+              "Nit",
+              "Future",
+              "Status"
+            ],
+            "rows": [
+              [
+                "correctness",
+                "1",
+                "0",
+                "0",
+                "ran"
+              ],
+              [
+                "code-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "test-design",
+                "0",
+                "1",
+                "1",
+                "ran"
+              ],
+              [
+                "test-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "security",
+                "—",
+                "—",
+                "—",
+                "skipped (no non-test .ts/.vue)"
+              ],
+              [
+                "error-handling",
+                "—",
+                "—",
+                "—",
+                "skipped (no non-test .ts/.vue)"
+              ],
+              [
+                "naming",
+                "—",
+                "—",
+                "—",
+                "skipped (no .ts/.vue/.js identifiers)"
+              ],
+              [
+                "architecture",
+                "—",
+                "—",
+                "—",
+                "skipped (no app or lib source)"
+              ],
+              [
+                "a11y",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "i18n",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "vue-reactivity",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "design-system",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "decisions-log",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "tanstack",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "vitest",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "comments",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "async-state",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "form-behaviour",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "text-input",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "url-state",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "value-display",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "resilience",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "charts",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "file-upload",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "best-practice",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "typing",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "github-actions",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "shell",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "skills",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "api-spec",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "integration-test",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "browser-e2e",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "api-integrity",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "ac-check",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "pr-size",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "production-protector",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "bundle-size",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "analytics",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "project rubric",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ]
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "key": "tier",
+          "label": "Tier"
+        },
+        {
+          "key": "persona",
+          "label": "Persona"
+        },
+        {
+          "key": "where",
+          "label": "File:line",
+          "mono": true
+        },
+        {
+          "key": "issue",
+          "label": "Issue"
+        },
+        {
+          "key": "recommendation",
+          "label": "Recommendation"
+        },
+        {
+          "key": "result",
+          "label": "Result"
+        }
+      ],
+      "rows": [
+        {
+          "id": "r3.3",
+          "ticks": [
+            "fix"
+          ],
+          "cells": {
+            "tier": "Future",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:58",
+            "issue": "No test covers an empty findings list.\n\nAn empty list must print empty kept and dropped lists and exit 0. The code handles it, so the risk is low.",
+            "recommendation": "Add a spec: self.result([]) equals {'kept': [], 'dropped': []}.",
+            "result": "Open: the persona marked it future"
+          }
+        },
+        {
+          "id": "r3.1",
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:24",
+            "issue": "A command that Popen cannot start stops the whole run.\n\nA command with a NUL character makes Popen raise ValueError. The script prints a traceback and no JSON, so every other finding loses its verdict.",
+            "recommendation": "Catch ValueError and OSError around Popen, and drop the finding with 'cannot run'. Add the reason to SKILL.md Step 3. Spec with a bad and a good finding.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r3.2",
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:14",
+            "issue": "No test covers evidence that holds only spaces.\n\nWithout the strip, such evidence matches nearly any output, and the finding is kept with no real proof.",
+            "recommendation": "Spec: evidence '  ' is dropped with 'no evidence'.",
+            "result": "Fixed"
+          }
+        }
+      ]
+    },
+    {
       "run": 2,
       "title": "Light run",
       "head": "3e3dd9b",
