@@ -445,7 +445,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.5): personal at work, committed in hobby repos.
 - Done: `/create-verification-skill` on a small app writes a driver that passes its own proof run, and `/verify` finds it from a diff.
 
-### [ ] 12. The decision log and `/sitrep` (r1.8, r1.26)
+### [x] 12. The decision log and `/sitrep` (r1.8, r1.26)
 
 - `decisions_<KEY>.tsv` beside the plan. Columns: decision, reason, evidence pointer, result. `scripts/log_decision.py` appends each row.
 - `build` writes it. The plan's `Progress` links it.

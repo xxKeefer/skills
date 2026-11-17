@@ -112,8 +112,8 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`. Add this run as run 3 of `.ai/review_pstack-12_decision-log-sitrep.html`. Row r2.1 stays open. Do not raise the rows of runs 1 and 2 again, or a row that only repeats them.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
   - Result: the report is `.ai/review_pstack-12_decision-log-sitrep.html`, run 3. Reviewed: base 400344b, head 3fa230c. The panel found 1 Future finding (r3.1) and fixed none. Rows r3.1 and r2.1 stay open.
-- [ ] **15. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
-  - Done: the pushed SHA is in this line.
+- [x] **15. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
+  - Done: pushed `3799d7b` to `origin/pstack-12_decision-log-sitrep`.
 
 ## Suggested skills
 
@@ -162,3 +162,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - 2026-11-17: step 12 done. `update-plan/SKILL.md` writes the flags as `--field=value`, `log_decision.py` accepts `handoff_<KEY>.md`, and two spec cases cover both.
 - 2026-11-17: step 13 done at 24d6e87. All eight gates green, and the step changed no file except this plan.
 - 2026-11-17: step 14 done. Run 3 of the report, base 400344b, head 3fa230c. 1 Future finding open (r3.1), 6 lanes clean. The gates stay green. Two panel choices went into the decision log.
+- 2026-11-17: `/interrogate` kept 4 of 4 findings (report removed after the fix round, git history holds it). Steps 9 to 12 fixed them, and the blast-radius `handoff_` risk with r1.4. Steps 13 and 14 ran a third round. Review rows r2.1 (nit) and r3.1 (Future) stay open. `/ship` steps 1 to 3 gave go, and step 15 pushed the branch.
