@@ -8,3 +8,7 @@ Keep the description short: two lenses, no trigger list	The skill is user-invoke
 Follow-ups heading goes in the template Top sections block, after Merge danger	One place for the section; Step 4 item 5 reads it	templates/body.md	done
 Add a second lists: header, Use comments sparingly, to coding.md	The old AGENTS.md wording repeats the new rule, so the installer should report it	scan() in install_agents_md.py matches lists: by substring	Installer reports the old line as EDIT; 28 tests pass
 AC G is proven by a scratch run and a read, not a full mob-review run	A full run is expensive; the plan says C6 replaces it	script printed 2 lines on a scratch diff; persona and FIX.md item 6 read	done
+The review step ran persona-skills beside the light lanes	12 of 17 changed files are skill text, and no light lane reads skill text	open calibration entry: light-review TypeScript-only guards	persona-skills gave 4 of the 5 Change Requested rows, all fixed in 4f0fd8f
+Left open: split the comments generator	It adds a layer with one caller, against the subtract-first focus	review row, code-quality nit; hunk tests pin the walker	open: the user ticks the row after QA, or not
+Left open: the lists: line in coding.md	Not a defect. A lists: line quotes the old user text that the installer flags	install_agents_md.py scan() matches by substring	calibration entry recorded for persona-skills
+Added review round 2	The fix commit changes the script's runtime behaviour	4f0fd8f: quote pairing and shell hash rules	open: steps 9 and 10

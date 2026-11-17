@@ -87,9 +87,13 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: AC G holds. Scratch run printed `b.py:2: # this sets the retry count` and `b.py:4: # HACK: sleep because the api races`. Line 2: ladder rung 1 (a better name, such as `retry_count`), else rung 5 (delete); a finding, not a hack, so no plan step and no Follow-up. Line 4: a `hack:` finding with rung 4 (a check that fails with the fix in its error) applied now; FIX.md item 6 then runs `/blast-radius` and gives a plan step when the architectural fix (remove the race at the api) is small and in scope, else a Follow-ups entry. The text does not say which case a given hack falls in beyond "small and inside the change's scope"; the outcome is set at run time.
 - [x] **7. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at 17ab3c9. Both hook tests print only `ok` lines, `added_comments.spec.py` and `install_agents_md.spec.py` print OK, and `check_principles.py` exits 0.
-- [ ] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code.
+- [x] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code.
+  - Done: `.ai/review_pstack-19_no-comments.html`, base b86fe6d, head 4f0fd8f (panel read cbd39c4). Light run, plus `persona-skills`. 10 of 12 findings fixed in 4f0fd8f. Two nits stay open, each with a reason. The fix changes the script's behaviour, so round 2 follows.
+- [ ] **9. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **10. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
   - Done: the report path and the reviewed base and head SHAs are in this line.
-- [ ] **9. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
+- [ ] **11. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
