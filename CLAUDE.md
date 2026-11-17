@@ -19,6 +19,8 @@ hook, and shared documentation. No skills live at root -- they all live under `s
 `.githooks/` holds two checks, each with its tests:
 
 - The scrub check: a pre-commit hook and its public pattern file (`sh .githooks/pre-commit_test.sh`).
+  The same hook blocks a `SKILL.md` that runs a script by a path from the current folder
+  (`python3 ../`). Start the path with `$SKILL_DIR/`.
 - The attribution check: a commit-msg hook that blocks a Claude attribution line
   (`sh .githooks/commit-msg_test.sh`).
 
