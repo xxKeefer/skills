@@ -35,7 +35,7 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 - Push-only map: the build machine runs no `gh` command. The push step runs `git push -u origin pstack-9_interrogate`. The home machine opens the PR into `pstack-inspired`.
 - Spec Intent: adversaries try to break a change, and a finding stays only when a re-run of its command proves it. The re-run check is a script (r1.4 user note). The skill applies no fix. Out of scope: `blast-radius` (unit 10) and `/verify` (unit 11). The text names them as they will be.
 - Spec Decisions:
-  - Source: pstack `skills/interrogate`, MIT licence. pstack's `arena` phases go inline. `skills/engineering/PSTACK-LICENSE` already holds the notice.
+  - Source: pstack `skills/interrogate`, MIT licence. pstack's `arena` phases go inline.
   - No `disable-model-invocation`, because `/work-on` calls the skill.
   - Adversaries use the `panel` role: `opus` high, `sonnet` high, and the session model.
   - Each adversary works in its own git worktree, with the scope's uncommitted changes copied in.
@@ -131,3 +131,4 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 - 2026-11-17: step 7 ran the second light review. The panel fixed 1 Change Requested row and 3 nits in `0dd8026`. No calibration signals.
 - 2026-11-17: step 9 ran the third light review. The panel fixed 1 Change Requested row and 1 nit in `69c9e07`. One future row (r3.3) stays open. The loop stopped at the third review step. No calibration signals.
 - 2026-11-17: `/ship` steps 1 to 3 gave go. Pushed `f953474`. Map unit 9 is ticked. Next: the home machine opens the PR into `pstack-inspired`. Playbook: map, step 8 (offer `/retro`).
+- 2026-11-17: the user asked to delete every licence file as bloat. `skills/engineering/PSTACK-LICENSE` and its three links are gone.

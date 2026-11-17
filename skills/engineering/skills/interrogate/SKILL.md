@@ -15,8 +15,7 @@ no fix: the report's ticks build a `/engineering:fix` prompt.
 
 Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-separate-before-serializing-shared-state** ([`../principle-separate-before-serializing-shared-state/SKILL.md`](../principle-separate-before-serializing-shared-state/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
 
-`$SKILL_DIR` is this skill's base directory. Adapted from pstack `interrogate` and `arena`, under the
-MIT licence in [`PSTACK-LICENSE`](../../PSTACK-LICENSE).
+`$SKILL_DIR` is this skill's base directory. Adapted from pstack `interrogate` and `arena`.
 
 ```
 frame → fan out adversaries → collect findings → rerun_findings.py → intent check → report → remove worktrees
