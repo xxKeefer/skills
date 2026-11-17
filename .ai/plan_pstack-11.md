@@ -93,7 +93,7 @@ live call `/verify`. Scope: SCOPED, one PR.
 - [x] **3. Run it.** Seam: `/create-verification-skill` on a scratch app. Conditions: C10.
   - Make a small CLI app in `/tmp/verify-demo`, a git repo whose `origin` owner is one that `~/.claude/AGENTS.md` names as the user's (no push). Follow `/create-verification-skill` there. Commit a change to the app, then run `find_drivers.py` on that diff. Record the commands and the results in Progress.
   - Done: the driver passes `check_driver.py` and its own proof run, its evidence survives its cleanup, and `find_drivers.py` prints its path from the diff.
-- [ ] **4. Maintain a driver.** Kind: docs.
+- [x] **4. Maintain a driver.** Kind: docs.
   - `maintain-verification-skill/SKILL.md`, adapted from pstack: locate, index hygiene, source wave, reconcile, live pass, triage, ship or stop. The outcome is `clean`, `changed`, or `blocked`. It runs `check_driver.py`. The ship step follows the Spec Decision. Add the skill to the README.
   - Done: the skill holds every step and the three outcomes, and each relative path in it resolves.
 - [ ] **5. The callers.** Kind: docs.
@@ -130,3 +130,4 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Proof run, from the repo root: Launch (`export TODO_FILE=$RUN/todo.json`, `python3 src/todo.py list` printed nothing, exit 0); Doctor (`scripts/doctor.sh` printed `doctor ok`, exit 0); Drive (`scripts/drive-add-list.sh /tmp/todo-verify-evidence/proof1` ran add, list, done, list, and every check passed); Cleanup (`rm -rf $RUN`, the run folder is gone). Evidence check after Cleanup: `transcript.txt` and `todo.json` (`[{"text": "buy milk", "done": true}]`) still exist in `/tmp/todo-verify-evidence/proof1`.
   - `find_drivers.py --repo /tmp/verify-demo --base main --home <empty temp folder>` on branch `change-app` (one commit to `src/todo.py`): printed `/tmp/verify-demo/.claude/skills/verify-verify-demo-todo/SKILL.md`. The same command on branch `docs-only` (one commit to `README.md`): printed `no driver`, exit 0.
   - Unproved by the stand-in: none, because the scratch app is the target.
+- 2026-11-17: step 4 done in commit abedfd3. `maintain-verification-skill/SKILL.md` holds locate, index hygiene, source wave, reconcile, live pass, triage, and ship or stop, with the outcomes `clean`, `changed`, and `blocked`. It runs `check_driver.py` by a sibling path. A driver in the repo gets one commit and a draft PR through `/create-pr`. A driver in `~/.claude/skills/` gets an edit in place. The README row is in. Both relative paths resolve. The 7 gates that ran are green. Next: step 5.
