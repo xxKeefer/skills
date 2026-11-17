@@ -96,8 +96,14 @@ def poll():
             p["done_at"] = int(time.time())
         if old is not None and old != new:
             notify("babysit", "%s#%d is %s" % (p["repo"], p["number"], new))
-        save(prs)
-    return any(p["state"] != "done" for p in prs)
+        fresh = load()
+        for q in fresh:
+            if q["repo"] == p["repo"] and q["number"] == p["number"]:
+                q.update(head=p["head"], base=p["base"], state=p["state"],
+                         threads=p["threads"], done_at=p["done_at"])
+        save(fresh)
+        prs = fresh
+    return any(p["state"] != "done" for p in load())
 
 
 def alive(pid):

@@ -19,6 +19,11 @@ d = os.environ["FAKE_DIR"]
 a = sys.argv[1:]
 with open(os.path.join(d, "calls"), "a") as f:
     f.write(" ".join(a) + "\\n")
+hook = os.path.join(d, "hook")
+if a[0] == "pr" and a[2] == "1" and os.path.exists(hook):
+    cmd = open(hook).read()
+    os.remove(hook)
+    os.system(cmd)
 if a[0] == "pr":
     print(open(os.path.join(d, "pr_%s.json" % a[2])).read())
 else:
@@ -51,6 +56,8 @@ class Classify(unittest.TestCase):
             (view(checks=[done_check()], review="APPROVED"), 0, "ready"),
             (view(checks=[done_check()], review=""), 0, "ready"),
             (view(checks=[done_check()], review="REVIEW_REQUIRED"), 0, "pending"),
+            (view(checks=[{"state": "ERROR"}]), 0, "failed"),
+            (view(checks=[{"state": "PENDING"}]), 0, "pending"),
         ]
         for v, threads, want in cases:
             self.assertEqual(watch_prs.classify(v, threads), want, (v, threads))
@@ -132,6 +139,17 @@ class Alerts(Env):
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertEqual(self.read("alerts"), [])
             os.remove(os.path.join(self.home, ".cache", "babysit", "state.json"))
+
+
+class Concurrent(Env):
+    def test_add_during_poll_is_kept(self):
+        self.pr(1)
+        self.pr(2)
+        self.cli("add", "o/r", "1")
+        with open(os.path.join(self.fake, "hook"), "w") as f:
+            f.write("python3 %s add o/r 2" % SCRIPT)
+        self.cli("poll")
+        self.assertEqual([p["number"] for p in self.state()], [1, 2])
 
 
 class Stack(Env):
