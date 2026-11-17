@@ -89,8 +89,9 @@ that session. Scope: SCOPED, one PR. Estimate: 3 points. Most of the diff is 24 
   - Done: the README lists 24 principles, `CLAUDE.md` names the check, and `CONTEXT.md` defines a principle.
 - [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
-- [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-8.md`. This step changes no code.
+- [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-8.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+  - Result: report `.ai/review_pstack-8_principles-tdd-skip.html`, base f7c5914, reviewed head 5b77736 (panel read 6d943db). Four nits fixed, one future row open (r1.1).
 - [ ] **7. Push.** Push the branch with `git push -u origin pstack-8_principles-tdd-skip`. Push-only map: open no PR.
   - Done: the pushed head SHA is in this line.
 
@@ -112,3 +113,10 @@ that session. Scope: SCOPED, one PR. Estimate: 3 points. Most of the diff is 24 
   - The pstack MIT notice goes in `skills/engineering/PSTACK-LICENSE`.
   - Step 2 picks seven skills that apply a principle alone. The map names none.
   - The push step pushes and opens no PR, because the map is push-only.
+- 2026-11-17: build run by `/build`:
+  - The build ran every step in the main thread, not in fresh subagents. The caller was itself a subagent.
+  - Review base: `pstack-inspired` (merge base f7c5914), not `origin/main`, because `main` lacks the earlier units of the program. Light run: correctness, code-quality, test-quality, test-design ran. The other lanes skipped by guard.
+  - Fix round: four nits fixed in 5b77736 (split `check_principles.py` into three checks, pathlib, two new spec cases). The fix changes no runtime behaviour of the skills, so no new test and review round.
+  - Open row r1.1 (future): duplicate and group-membership checks are not in `check_principles.py`. Left open, low risk.
+  - Principle bodies: the two adapted principles have no pstack link left. The `benchmark-checklist` link of `explain-the-number` is dropped, and the `typescript-best-practices` link of `type-system-discipline` points at the `typescript-conventions` rule.
+  - The `Co-Authored-By` line of the session attribution is left out of commits, because the user's global rule forbids Claude attribution.
