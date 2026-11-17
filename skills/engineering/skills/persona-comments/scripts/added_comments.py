@@ -8,12 +8,14 @@ SLASH = ("//",)
 C_BLOCK = ("/*", "*/")
 HTML_BLOCK = ("<!--", "-->")
 ROWS = (
-    ("py sh bash zsh nix yaml yml toml rb pl r Dockerfile Makefile", HASH, ()),
+    ("py sh bash zsh yaml yml toml rb pl r Dockerfile Makefile", HASH, ()),
+    ("nix", HASH, (C_BLOCK,)),
     ("ts tsx js jsx mjs cjs java kt go rs c h cpp cs swift scala php scss", SLASH, (C_BLOCK,)),
     ("css", (), (C_BLOCK,)),
     ("vue", SLASH, (C_BLOCK, HTML_BLOCK)),
     ("html", (), (HTML_BLOCK,)),
-    ("sql lua hs", ("--",), ()),
+    ("sql", ("--",), (C_BLOCK,)),
+    ("lua hs", ("--",), ()),
 )
 LANGS = {ext: (lines, blocks) for exts, lines, blocks in ROWS for ext in exts.split()}
 

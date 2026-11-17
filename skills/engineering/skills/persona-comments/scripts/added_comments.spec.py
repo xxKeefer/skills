@@ -47,6 +47,23 @@ class Languages(unittest.TestCase):
         self.assertEqual(run(text)[1], "a.sql:1: -- why\n")
 
 
+class SqlAndNixBlocks(unittest.TestCase):
+    def test_sql_block_comment_over_lines_is_listed(self):
+        text = "+++ b/db/q.sql\n@@ -0,0 +1,4 @@\n+/* first\n+ second */\n+select 1\n+select 2 /* why */\n"
+        self.assertEqual(
+            run(text)[1],
+            "db/q.sql:1: /* first\ndb/q.sql:2: second */\ndb/q.sql:4: /* why */\n",
+        )
+
+    def test_sql_keeps_its_dash_comment(self):
+        text = "+++ b/a.sql\n@@ -0,0 +1,1 @@\n+select 1 -- why\n"
+        self.assertEqual(run(text)[1], "a.sql:1: -- why\n")
+
+    def test_nix_block_comment_and_hash_comment_are_listed(self):
+        text = "+++ b/f.nix\n@@ -0,0 +1,3 @@\n+{\n+  /* why */ a = 1;\n+  b = 2; # why\n}\n"
+        self.assertEqual(run(text)[1], "f.nix:2: /* why */\nf.nix:3: # why\n")
+
+
 class Skips(unittest.TestCase):
     def test_removed_and_context_lines_give_no_output(self):
         text = "+++ b/a.py\n@@ -1,3 +1,2 @@\n # kept\n-# gone\n+x = 1\n"
