@@ -39,8 +39,8 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
 
 - [x] **1. Rewrite the table and the pick in `tidy-up`.** Kind: docs. In `skills/engineering/skills/tidy-up/SKILL.md`: remove the repeated "plans" in the opening list. In Step 1, add the reads for the table columns: the size of each worktree and file, the dirty state of each worktree, the last commit date or file time, and the PR state from the code host. In Step 3, replace the table and the single yes: show one numbered row for each item with the columns item, work, size, merged, dirty, PR state, last used, proposed action, and reason, with `-` where a column does not apply. Change nothing in this step. Ask the user to pick rows by number, `all`, or `none`. Remove the bypass for a cleanup asked for by name. In Step 4, apply only the picked rows. Keep the description and the `README.md` row unless their words become false.
   - Done: the skill shows the table with the five columns, changes nothing before a pick, applies only the picked rows, and has no bypass. AC A, B, and C hold on a read of the skill.
-- [ ] **2. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **2. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. `pre-commit_test.sh` and `commit-msg_test.sh` print only `ok` lines.
 - [ ] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-17.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **4. Push.** Push-only map: run `git push -u origin pstack-17_tidy-up-audit`, in place of `/create-pr`.
