@@ -23,7 +23,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - [x] **A.** Read `diagnose` and `fix` → each cites `principle-attack-the-premise` and `principle-fix-root-causes` by sibling path.
 - [x] **B.** Read `build` `STEP.md` and `build` `SKILL.md` → after two failed fixes on one premise, the step writes the premise down, tests it, and returns it, and `build` runs the next attempt one effort step up, to a ceiling of `opus` max, and logs the step through `/update-plan`.
 - [x] **C.** Run `install_agents_md.py` against a scratch home → the `models` block holds the effort ladder in rule 1.
-- [ ] **D.** Fail a fix twice on one premise → the third fix attempt starts with a written premise and a higher effort.
+- [x] **D.** Fail a fix twice on one premise → the third fix attempt starts with a written premise and a higher effort.
 
 ## Context
 
@@ -70,9 +70,16 @@ After two failed fixes on one premise, the agent writes the premise down and tes
   - Done: AC A holds on a read, and `check_principles.py` exits 0.
 - [x] **3. Escalation in `build`.** Kind: docs. In `build/STEP.md` section 3, replace "After 3 fix attempts" with: after two fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, then save the work, write a `B` entry, and return. Add `- Premise: <the sentence>, tested by <observation>: <result>` and `- Effort: <model> <effort>` to the `B` format, and change `Tried` to two attempts. In `build/SKILL.md` Step 2, add one item after the check: when a step returns a `B` entry below the ceiling, dispatch the step again one effort step up, by rule 1 of the `models` block, with the `B` entry as its start. Record the step with `/update-plan` as a choice, then delete the `B` entry. At the ceiling, the `B` entry stands. Keep the `D` and `N` formats as they are.
   - Done: AC B holds on a read. `STEP.md` and `SKILL.md` agree on the `B` format.
-- [ ] **4. End-to-end trace.** Kind: config. Conditions: C2. Trace a gate that stays red through `STEP.md` and `build/SKILL.md` at `sonnet` medium, and write each attempt, its effort, and the premise line in this Done line. Then trace the same at `opus` max, and confirm the `B` entry stands.
+- [x] **4. End-to-end trace.** Kind: config. Conditions: C2. Trace a gate that stays red through `STEP.md` and `build/SKILL.md` at `sonnet` medium, and write each attempt, its effort, and the premise line in this Done line. Then trace the same at `opus` max, and confirm the `B` entry stands.
   - Decision (agent, 2026-11-18): D1 answered B. `build/SKILL.md` Step 2 item 8 writes the resume patch and the premise into the plan, deletes the `B` entry, then dispatches again one effort step up from the effort the parent gave, with the premise in the prompt.
-  - Done: AC D holds.
+  - Done: AC D holds on a read trace of `STEP.md` section 3, the `B` format, and `build/SKILL.md` Step 2 items 3, 5, and 8.
+    - At `sonnet` medium, attempt 1 fixes the gate, and it stays red. Attempt 2 fixes again on the same premise, and the gate stays red.
+    - `STEP.md` section 3 then says: write the premise down, test it, save the work, write a `B` entry, and return.
+    - The `B` entry holds `Premise: <the sentence>, tested by <observation>: <result>`, `Tried` with two attempts, `Effort: sonnet medium`, and the patch on `Work`.
+    - Item 5 passes, because the plan holds the entry. Item 8 is below the ceiling. It writes the resume line and the premise under the step, logs `sonnet` high as a choice, deletes the `B` entry, and dispatches the step again at `sonnet` high with the premise in the prompt.
+    - `STEP.md` section 1 item 2 applies the patch. Attempt 3 at `sonnet` high starts with the written premise.
+    - Later `B` entries climb to `xhigh`, `max`, then `opus` max.
+    - At `opus` max, attempts 1 and 2 fail on one premise, and the step returns a `B` entry with the premise. Item 8 is at the ceiling, so the `B` entry stands, the step is blocked by it, and the run goes on. No gap found.
 - [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-20.md`. This step changes no code.
@@ -93,6 +100,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - 2026-11-18: step 1 done. The `models` rule 1 holds the ladder and the premise rule.
 - 2026-11-18: step 2 done. `diagnose` and `fix` cite both principles. Commit 568af6f.
 - 2026-11-18: step 3 done. `STEP.md` and `build/SKILL.md` agree on the `B` format and the escalation.
+- 2026-11-18: step 4 done. The trace of `STEP.md` and `build/SKILL.md` found no gap. AC D holds.
 - Decision log: decisions_pstack-20.tsv
 
 ## Pending Decisions
