@@ -129,7 +129,8 @@ Run each step in order. Mark each step done in the list when it is done.
 - When a step returns an open `D` entry, stop (H3).
 - When a step fails and gives no `D` entry, stop, and show the failure as an H3 stop.
 
-**Done when:** the playbook's done line holds, or the run is at a stop.
+**Done when:** each step ran the skill that it names, or is marked skipped with its reason in the
+list, and the playbook's done line holds or the run is at a stop.
 
 ## Step 4: Stop
 
