@@ -11,7 +11,7 @@ description: >
 Go from bug report to proven root cause. Assess the report critically, trace the code until the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.
 
-Principle: **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
+Principles: **principle-attack-the-premise** ([`../principle-attack-the-premise/SKILL.md`](../principle-attack-the-premise/SKILL.md)) and **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
 
 This is the investigation skill for **head-scratchers** -- bugs nobody understands yet. It
 deliberately stops at root cause: the skills in Step 5 own the fix. If the cause is already
@@ -88,6 +88,8 @@ Work from symptom to cause. Keep going until you can **show** the fault, not jus
 4. **Check boundaries** — inputs, type conversions, edge cases, error handling at each layer
 5. **Widen when stuck** — history of the suspect code, similar patterns elsewhere, tests that
    should have caught this
+
+When two hypotheses that share one premise fail, write the premise down and test it before the next.
 
 Use Explore subagents for broad sweeps; targeted search for specific symbols. Record dead ends as
 you go — ruled-out causes belong in the artifact.
