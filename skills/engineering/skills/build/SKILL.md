@@ -136,7 +136,7 @@ For each remaining step, in plan order:
    3. Dispatch the step again as item 3 says, one effort step up by rule 1. Put the `Premise`
       line in the prompt.
 
-   At the ceiling, the `B` entry stands.
+   At the ceiling, or with no `models` block, the `B` entry stands.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
 failed check, and the loop stopped. You can name the rule that stopped the loop: 7.1, 7.3, the

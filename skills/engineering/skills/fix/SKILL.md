@@ -68,7 +68,8 @@ When `$ARGUMENTS` starts with a report path and row IDs, do these steps:
 6. After two failed fixes on one premise, write the premise down and test it, as
    `principle-attack-the-premise` says. Then run the third attempt in a subagent one effort step up,
    by rule 1 of the `models` block in `~/.claude/AGENTS.md`. When a plan exists, record the step
-   with `/update-plan`.
+   with `/update-plan`. At the ceiling, or with no `models` block, stop and give the premise and
+   both attempts to the user.
 
 ## Step 4: Return
 
