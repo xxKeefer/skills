@@ -61,7 +61,7 @@ class Skips(unittest.TestCase):
         self.assertEqual(run(text)[1], "a.sh:2: # why\n")
 
     def test_marker_inside_a_string_is_skipped(self):
-        text = '+++ b/a.ts\n@@ -0,0 +1,2 @@\n+const u = "http://x.test"\n+const s = \'a // b\'\n'
+        text = '+++ b/a.ts\n@@ -0,0 +1,2 @@\n+const u = "http://x.test"\n+const s = `a // b`\n'
         self.assertEqual(run(text), (0, "", ""))
         text = '+++ b/a.py\n@@ -0,0 +1,1 @@\n+s = "a # b"\n'
         self.assertEqual(run(text), (0, "", ""))
@@ -79,6 +79,20 @@ class Skips(unittest.TestCase):
         self.assertEqual(run(text)[1], "a.rs:1: // why\n")
         text = "+++ b/a.sh\n@@ -0,0 +1,1 @@\n+echo don't # why\n"
         self.assertEqual(run(text)[1], "a.sh:1: # why\n")
+
+    def test_apostrophe_in_the_comment_does_not_hide_it(self):
+        text = "+++ b/a.rs\n@@ -0,0 +1,1 @@\n+fn f(x: &'a str) {} // don't do this\n"
+        self.assertEqual(run(text)[1], "a.rs:1: // don't do this\n")
+        text = "+++ b/a.sh\n@@ -0,0 +1,1 @@\n+echo it's # don't\n"
+        self.assertEqual(run(text)[1], "a.sh:1: # don't\n")
+
+    def test_single_quote_never_opens_a_string(self):
+        text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+const s = 'a // b'\n"
+        self.assertEqual(run(text)[1], "a.ts:1: // b'\n")
+
+    def test_escaped_quote_keeps_the_string_open(self):
+        text = '+++ b/a.py\n@@ -0,0 +1,1 @@\n+s = "a\\" # b"\n'
+        self.assertEqual(run(text), (0, "", ""))
 
     def test_hash_inside_a_shell_word_is_skipped(self):
         text = "+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo $#\n+n=${#arr[@]}\n"

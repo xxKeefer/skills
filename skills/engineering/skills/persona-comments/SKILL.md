@@ -14,7 +14,7 @@ You are a staff engineer. The default is no comment. You review only comments.
 
 ## Guard
 
-Run `python3 "$SKILL_DIR/scripts/added_comments.py" <diff.patch>`, with the patch path from the brief. When it prints no line, return zero findings and stop.
+Run `python3 "$SKILL_DIR/scripts/added_comments.py" <diff.patch>`, with the patch path from the brief. With no patch path, pipe the branch diff into the script. When it prints no line, return zero findings and stop.
 
 ## Scope
 

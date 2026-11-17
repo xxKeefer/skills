@@ -5,16 +5,16 @@ from pathlib import Path
 
 HASH = ("#",)
 SLASH = ("//",)
-LANGS = {}
-for exts, line, blocks in (
+C_BLOCK = ("/*", "*/")
+HTML_BLOCK = ("<!--", "-->")
+ROWS = (
     ("py sh bash zsh nix yaml yml toml rb pl r", HASH, ()),
-    ("ts tsx js jsx mjs cjs vue java kt go rs c h cpp cs swift scala php css scss", SLASH, (("/*", "*/"),)),
-    ("vue html", (), (("<!--", "-->"),)),
+    ("ts tsx js jsx mjs cjs java kt go rs c h cpp cs swift scala php css scss", SLASH, (C_BLOCK,)),
+    ("vue", SLASH, (C_BLOCK, HTML_BLOCK)),
+    ("html", (), (HTML_BLOCK,)),
     ("sql lua hs", ("--",), ()),
-):
-    for ext in exts.split():
-        old = LANGS.get(ext, ((), ()))
-        LANGS[ext] = (old[0] + line, old[1] + blocks)
+)
+LANGS = {ext: (lines, blocks) for exts, lines, blocks in ROWS for ext in exts.split()}
 
 HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)")
 
@@ -43,7 +43,7 @@ def scan(text, lines, blocks):
                 quote = None
             i += 1
             continue
-        if c in "\"'`" and closes(text, i + 1, c):
+        if c in "\"`" and closes(text, i + 1, c):
             quote = c
             i += 1
             continue

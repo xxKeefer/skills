@@ -22,7 +22,8 @@ fix that a finding names and never asks the user to choose. Skip this part on so
 6. A finding whose `summary` starts `hack:` has two parts. Apply its rung now, as item 4 says.
    Then run `/blast-radius` on the architectural fix in its `detail`. When the fix is small and
    inside the change's scope, add it as a new plan step. Else add a `Follow-ups` entry with
-   `/update-plan`. Do not stop.
+   `/update-plan`. Do not stop. With no plan, run no `/blast-radius`. Mark the finding open, with
+   the architectural fix as the reason.
 7. Make one commit in the repo's commit convention. The body lists each fix and its finding. For
    a working-tree run, leave the fixes in the working tree. Never push.
 
