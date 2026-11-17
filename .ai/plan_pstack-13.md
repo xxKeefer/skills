@@ -96,3 +96,8 @@ through `/update-plan`. Scope: SCOPED, one PR.
   - Subagent 2 followed `/do-next` on the same plan. It appended `End of notes.` (part two), marked step 1 done, and committed `b209917 docs: step 1 done, notes.md holds both lines`. Final `git status --porcelain` printed nothing. `notes.md` holds `# Notes` then `End of notes.`.
   - C2 and C3 hold.
 - Decision log: decisions_pstack-13.tsv
+- 2026-11-17: step 3 done. The live run needed two attempts, and no repo fix.
+  - Setup: scratch repo `/tmp/checkpoint-demo`, branch `demo-branch`, plan `.ai/plan_demo.md` with one docs step in two parts (part one writes `# Notes` to `notes.md`, part two appends `End of notes.`).
+  - Checkpoint (C2): one fresh subagent did part one, then followed `checkpoint/SKILL.md`. It wrote the note through `/update-plan` ("Step 1 part one is done ... Next action: append the line `End of notes.`") and made one commit, `2dacf40 wip: 1 part one done, notes.md holds the title line`. `git status --porcelain` printed nothing.
+  - Attempt 1 of the resume did not count. The step subagent returned before its nested subagents were done, and a nested `/do-next` that it started finished the step while the main thread ran its own. The main thread reset the scratch repo to `2dacf40`.
+  - Resume (C3): one fresh subagent, given only `do-next/SKILL.md` and the plan path, read the checkpoint note, ran only part two, and committed `f45fa47`. `notes.md` holds `# Notes` and `End of notes.`, and `git status --porcelain` printed nothing.
