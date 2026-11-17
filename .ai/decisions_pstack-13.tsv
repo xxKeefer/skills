@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+Move the 'context is about to blow out' trigger from /update-plan to /checkpoint	Subtract before you add: one trigger names one skill, so the agent does not pick between two	update-plan/SKILL.md description, principle-subtract-before-you-add	The trigger is only in /checkpoint. The blast-radius script found no file that reads the removed line.
+Delete the 'If /checkpoint is not installed' fallback in principle-guard-the-context-window	engineering depends on primitives, so the fallback cannot fire	skills/engineering/CLAUDE.md Dependencies	Deleted in 036ddba.
+/checkpoint adds no script and no template, and no unit test	/update-plan already writes Progress and git makes the commit. The live run is the closest real check, by the TDD skip rule	map Decisions TDD, spec Constraint	No script and no template. The live run in step 3 proved the skill with markdown only.
+Scope SCOPED with no /scope-ticket run	Two deleted lines, one new markdown skill, one README row	plan Steps	one PR

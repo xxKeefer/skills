@@ -50,22 +50,19 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Review of pstack-12_decision-log-sitrep",
- "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-12_decision-log-sitrep.html",
+ "title": "Review of pstack-13_checkpoint",
+ "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-13.html",
  "skill": "/engineering:build",
  "runs": [
   {
-   "run": 3,
-   "title": "Panel run",
-   "head": "3fa230c",
-   "date": "2026-11-17",
+   "title": "Light run",
+   "head": "1978660",
    "meta": {
-    "Base": "pstack-inspired 400344b",
+    "Base": "pstack-inspired 3919d30",
     "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Spec": ".ai/plan_pstack-12.md",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-13.md"
    },
-   "answer": "The panel found 1 Future finding and no Change Requested. It fixed none. 1 stays open: a test for a skipped step that has no reason. Row r2.1 from run 2 stays open.",
+   "answer": "No essential lane matched this prose-only diff, so each lane that matches ran: skills and decisions-log. Both are clean, with 0 findings. This run covers a light set only, and /engineering:mob-review runs the full panel.",
    "visuals": [
     {
      "question": "Which lanes ran, and what did each find?",
@@ -84,431 +81,51 @@
         "0",
         "0",
         "0",
-        "ran (clean)"
-       ],
-       [
-        "correctness",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "code-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
+        "ran (no essential lane matched)"
        ],
        [
         "decisions-log",
         "0",
         "0",
         "0",
-        "ran (clean)"
-       ],
-       [
-        "test-design",
-        "0",
-        "0",
-        "1",
-        "ran"
+        "ran (no essential lane matched)"
        ],
        [
         "ac-check",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
        ],
        [
-        "all other lanes",
-        "-",
-        "-",
-        "-",
-        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
+        "the eight essential lanes",
+        "—",
+        "—",
+        "—",
+        "skipped (guard not matched)"
+       ],
+       [
+        "every other lane",
+        "—",
+        "—",
+        "—",
+        "skipped (guard not matched)"
        ],
        [
         "project rubric",
-        "-",
-        "-",
-        "-",
-        "skipped (repo names none)"
+        "—",
+        "—",
+        "—",
+        "skipped (none named)"
        ]
       ]
      }
     }
    ],
-   "columns": [
-    {
-     "key": "tier",
-     "label": "Tier"
-    },
-    {
-     "key": "persona",
-     "label": "Persona"
-    },
-    {
-     "key": "where",
-     "label": "File:line",
-     "mono": true
-    },
-    {
-     "key": "issue",
-     "label": "Issue"
-    },
-    {
-     "key": "recommendation",
-     "label": "Recommendation"
-    },
-    {
-     "key": "result",
-     "label": "Result"
-    }
-   ],
-   "rows": [
-    {
-     "id": "r3.1",
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "tier": "Future",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:42",
-      "issue": "A skipped step with no `- Skipped:` line has no test.\n\n`skipped_steps` gives an empty reason, and `render_skipped` prints the title with a blank reason. A change to that fallback would pass every test. The risk is low, because the output is read-only text.",
-      "recommendation": "Add one test in `sitrep.spec.py`: a `[-]` step with no `- Skipped:` line still shows its title under `## Skipped steps`.",
-      "result": "Open: the persona marked it Future."
-     }
-    }
-   ]
-  },
-  {
-   "run": 2,
-   "title": "Panel run",
-   "head": "a8757d8",
-   "date": "2026-11-17",
-   "meta": {
-    "Base": "pstack-inspired 400344b",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Spec": ".ai/plan_pstack-12.md",
-    "Fixed in": "a8757d8",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
-   },
-   "answer": "The panel found 2 nits and no Change Requested. It fixed 1 in commit a8757d8. 1 stays open: the size of build/SKILL.md, which was over the limit before this branch.",
-   "visuals": [
-    {
-     "question": "Which lanes ran, and what did each find?",
-     "fold": true,
-     "table": {
-      "columns": [
-       "Persona",
-       "CR",
-       "Nit",
-       "Future",
-       "Status"
-      ],
-      "rows": [
-       [
-        "skills",
-        "0",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "correctness",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "code-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "decisions-log",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-design",
-        "0",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "ac-check",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "all other lanes",
-        "-",
-        "-",
-        "-",
-        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
-       ],
-       [
-        "project rubric",
-        "-",
-        "-",
-        "-",
-        "skipped (repo names none)"
-       ]
-      ]
-     }
-    }
-   ],
-   "columns": [
-    {
-     "key": "tier",
-     "label": "Tier"
-    },
-    {
-     "key": "persona",
-     "label": "Persona"
-    },
-    {
-     "key": "where",
-     "label": "File:line",
-     "mono": true
-    },
-    {
-     "key": "issue",
-     "label": "Issue"
-    },
-    {
-     "key": "recommendation",
-     "label": "Recommendation"
-    },
-    {
-     "key": "result",
-     "label": "Result"
-    }
-   ],
-   "rows": [
-    {
-     "id": "r2.1",
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "tier": "Nit",
-      "persona": "skills",
-      "where": "skills/engineering/skills/build/SKILL.md:74",
-      "issue": "`build/SKILL.md` is 11,608 bytes, over the 10 KB limit.\n\nThe file was 11,295 bytes on `pstack-inspired`. This branch adds 313 bytes for the decision log lines.",
-      "recommendation": "Move the fix-round rules of Step 1 item 1 and Step 5 to a reference file, with one line that says when to read it. Keep the decision log lines inline.",
-      "result": "Open: the file was over the limit before this branch. The fix restructures `build` and the rules that Step 2 item 7.2 cites, and it is outside this unit."
-     }
-    },
-    {
-     "id": "r2.2",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/update-plan/scripts/log_decision.py:23",
-      "issue": "A plan name with no `.md` suffix had no test.\n\nDropping the suffix check passed every test, so `plan_x.txt` would give the log `decisions_x.t.tsv`.",
-      "recommendation": "Add a test that a name with no `.md` suffix exits 1. A mutation check showed that the test goes red without the check.",
-      "result": "Fixed"
-     }
-    }
-   ]
-  },
-  {
+   "columns": [],
+   "rows": [],
    "run": 1,
-   "title": "Panel run",
-   "head": "9d3fe88",
-   "date": "2026-11-17",
-   "meta": {
-    "Base": "pstack-inspired 400344b",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Spec": ".ai/plan_pstack-12.md",
-    "Fixed in": "9d3fe88",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
-   },
-   "answer": "The panel found 1 Change Requested and 3 nits. It fixed all 4 in commit 9d3fe88. No finding is open.",
-   "visuals": [
-    {
-     "question": "Which lanes ran, and what did each find?",
-     "fold": true,
-     "table": {
-      "columns": [
-       "Persona",
-       "CR",
-       "Nit",
-       "Future",
-       "Status"
-      ],
-      "rows": [
-       [
-        "skills",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "correctness",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "code-quality",
-        "0",
-        "2",
-        "0",
-        "ran"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "decisions-log",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-design",
-        "1",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "ac-check",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "all other lanes",
-        "-",
-        "-",
-        "-",
-        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
-       ],
-       [
-        "project rubric",
-        "-",
-        "-",
-        "-",
-        "skipped (repo names none)"
-       ]
-      ]
-     }
-    }
-   ],
-   "columns": [
-    {
-     "key": "tier",
-     "label": "Tier"
-    },
-    {
-     "key": "persona",
-     "label": "Persona"
-    },
-    {
-     "key": "where",
-     "label": "File:line",
-     "mono": true
-    },
-    {
-     "key": "issue",
-     "label": "Issue"
-    },
-    {
-     "key": "recommendation",
-     "label": "Recommendation"
-    },
-    {
-     "key": "result",
-     "label": "Result"
-    }
-   ],
-   "rows": [
-    {
-     "id": "r1.1",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:75",
-      "issue": "A plan name with no `plan_` prefix drops the decision log with no sign. The reader had no test.\n\n`/sitrep` printed `Nothing is pending.` while a log could exist.",
-      "recommendation": "Print a warning to stderr, keep the other sections, and pin the behaviour with a test.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.2",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/update-plan/scripts/log_decision.py:46",
-      "issue": "A log row with fewer than four fields had no test.\n\nA hand-edited row could crash `/sitrep` if the padding went.",
-      "recommendation": "Add a test with a two-field row. A mutation check showed that the test goes red without the padding.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.3",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "code-quality",
-      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:55",
-      "issue": "`main()` built four sections inline.",
-      "recommendation": "Split into one render function for each section.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.4",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "code-quality",
-      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:25",
-      "issue": "The same `span is None` guard sat in three helpers.",
-      "recommendation": "Pass an empty span when a section is absent, and drop the guards.",
-      "result": "Fixed"
-     }
-    }
-   ]
+   "date": "2026-11-17"
   }
  ]
 }
