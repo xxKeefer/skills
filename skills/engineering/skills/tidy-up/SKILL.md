@@ -9,7 +9,7 @@ argument-hint: "[repo path, default the current repo]"
 
 # Tidy Up
 
-Work leaves state behind: plans, plans, review reports, worktrees, branches, remote-tracking
+Work leaves state behind: plans, review reports, worktrees, branches, remote-tracking
 refs, and stack records. When a ticket closes or a PR merges, that state is **stale**. This skill
 finds it, ties each item to its work, and deletes or fixes only what it can tie to finished work.
 
@@ -25,6 +25,8 @@ Run these in one batch:
 - The working-file folder that `/write-to-file` uses for this repo, and every file in it.
 - `git worktree list`, `git branch -vv`, and `git remote prune origin --dry-run`.
 - The local stack records, if the repo uses a stack tool.
+- For each item: its size on disk, its dirty state (worktrees), its last commit date or file time,
+  and its PR state from the code host.
 
 **Done when:** you have each item and its path or ref.
 
@@ -50,14 +52,15 @@ Run these in one batch:
 
 ## Step 3: Checkpoint
 
-Show one table: item, work, state, action, reason. Ask once. Apply after a yes, or at once when the
-user asked for the cleanup by name.
+Show one numbered table, one row for each item: item, work, size, merged, dirty, PR state, last
+used, proposed action, reason. Write `-` where a column does not apply. Change nothing yet. Ask the
+user to pick rows by number, `all`, or `none`.
 
-**Done when:** the user approved, or asked for the cleanup up front.
+**Done when:** the user picked rows. A pick of `none` ends the skill with no change.
 
 ## Step 4: Apply
 
-Use the safe form of each command: `git worktree remove` without `--force`, and `git branch -d`,
+Apply only the picked rows. Use the safe form of each command: `git worktree remove` without `--force`, and `git branch -d`,
 not `-D`. On a refusal, keep the item and name it. Touch nothing on the remote.
 
 **Done when:** each action ran or is named as refused.
