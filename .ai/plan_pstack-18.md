@@ -23,8 +23,8 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 - [x] **A.** Read `principle-encode-lessons-in-structure` → it orders the fix rungs as architecture, types, a lint whose error names the fix, a test, then docs, and counts a mistake class after two times.
 - [x] **B.** Read `constraints` → when it writes a rule, it backs the rule at the highest rung of the ladder that works, and reads the principle by path for the ladder.
 - [x] **C.** Read `self-improve` → a codebase-specific theme goes to the highest rung that works, with the agent file last, and the step reads the principle by path.
-- [ ] **D.** Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py .` → exit 0, and no skill outside the principle restates the ladder.
-- [ ] **E.** Feed a repeated mistake through either skill → its fix lands at the highest rung that works.
+- [x] **D.** Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py .` → exit 0, and no skill outside the principle restates the ladder.
+- [x] **E.** Feed a repeated mistake through either skill → its fix lands at the highest rung that works.
 
 ## Context
 
