@@ -70,7 +70,7 @@ through `/update-plan`. Scope: SCOPED, one PR.
 - [x] **2. `/checkpoint`.** Kind: docs.
   - Write `skills/primitives/skills/checkpoint/SKILL.md`: stop at a safe point, one `wip:` commit, the note through `/update-plan` (or `/handoff` when no plan exists), and a reply that names the commit, the clean tree, and the command to continue. Take the context trigger into its description. Add the row to `skills/primitives/README.md`.
   - Done: the skill and the README row exist. A user can run `/checkpoint`.
-- [ ] **3. Run it.** Seam: `/checkpoint` mid-step on a scratch plan, then `/do-next`. Conditions: C2, C3.
+- [x] **3. Run it.** Seam: `/checkpoint` mid-step on a scratch plan, then `/do-next`. Conditions: C2, C3.
   - Make a git repo in `/tmp/checkpoint-demo` with a plan of one two-part docs step. One subagent does part one, then runs `/checkpoint`. A second fresh subagent runs `/do-next` on the plan. Record the commands and the output in Progress.
   - Done: `git status --porcelain` is empty after `/checkpoint`, the log holds one `wip:` commit, and the second subagent finishes the step from the note.
 - [ ] **4. Test.** Run the gates from Context. This step changes no behaviour.
@@ -91,4 +91,8 @@ through `/update-plan`. Scope: SCOPED, one PR.
 - 2026-11-17: plan written on `pstack-13_checkpoint`.
 - 2026-11-17: step 1 done in commit 036ddba. The trigger and the fallback line are gone.
 - 2026-11-17: step 2 done in commit 0baa225. /checkpoint and its README row exist.
+- 2026-11-17: step 3 done. Proof from `/tmp/checkpoint-demo` (one plan, one two-part docs step), two fresh subagents:
+  - Subagent 1 did part one only (`notes.md` holds `# Notes`), then followed `/checkpoint`. After it, `git status --porcelain` printed nothing. `git log --oneline` held `2dacf40 wip: 1 part one done, notes.md holds the title line` on top of `e272288 docs: add demo plan`. The plan Progress held the resume note: part one done, part two open, next action, file `notes.md`.
+  - Subagent 2 followed `/do-next` on the same plan. It appended `End of notes.` (part two), marked step 1 done, and committed `b209917 docs: step 1 done, notes.md holds both lines`. Final `git status --porcelain` printed nothing. `notes.md` holds `# Notes` then `End of notes.`.
+  - C2 and C3 hold.
 - Decision log: decisions_pstack-13.tsv
