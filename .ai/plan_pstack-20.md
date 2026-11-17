@@ -21,7 +21,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 ## Acceptance criteria
 
 - [x] **A.** Read `diagnose` and `fix` → each cites `principle-attack-the-premise` and `principle-fix-root-causes` by sibling path.
-- [ ] **B.** Read `build` `STEP.md` and `build` `SKILL.md` → after two failed fixes on one premise, the step writes the premise down, tests it, and returns it, and `build` runs the next attempt one effort step up, to a ceiling of `opus` max, and logs the step through `/update-plan`.
+- [x] **B.** Read `build` `STEP.md` and `build` `SKILL.md` → after two failed fixes on one premise, the step writes the premise down, tests it, and returns it, and `build` runs the next attempt one effort step up, to a ceiling of `opus` max, and logs the step through `/update-plan`.
 - [x] **C.** Run `install_agents_md.py` against a scratch home → the `models` block holds the effort ladder in rule 1.
 - [ ] **D.** Fail a fix twice on one premise → the third fix attempt starts with a written premise and a higher effort.
 
@@ -68,7 +68,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
   - Done: `install_agents_md.spec.py` passes, C1. AC C holds.
 - [x] **2. `diagnose` and `fix` cite both principles.** Kind: docs. Change the `Principle:` line of each to a `Principles:` line that names **principle-attack-the-premise** and **principle-fix-root-causes**, each with its sibling path, in the form of `build/SKILL.md`. In `fix` Step 3, add: after two failed fixes on one premise, write the premise down and test it, as `principle-attack-the-premise` says. Then run the third attempt in a subagent one effort step up, by rule 1 of the `models` block, and record the step with `/update-plan` when a plan exists. In `diagnose` Step 3, add: when two hypotheses that share one premise fail, write the premise down and test it before the next.
   - Done: AC A holds on a read, and `check_principles.py` exits 0.
-- [ ] **3. Escalation in `build`.** Kind: docs. In `build/STEP.md` section 3, replace "After 3 fix attempts" with: after two fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, then save the work, write a `B` entry, and return. Add `- Premise: <the sentence>, tested by <observation>: <result>` and `- Effort: <model> <effort>` to the `B` format, and change `Tried` to two attempts. In `build/SKILL.md` Step 2, add one item after the check: when a step returns a `B` entry below the ceiling, dispatch the step again one effort step up, by rule 1 of the `models` block, with the `B` entry as its start. Record the step with `/update-plan` as a choice, then delete the `B` entry. At the ceiling, the `B` entry stands. Keep the `D` and `N` formats as they are.
+- [x] **3. Escalation in `build`.** Kind: docs. In `build/STEP.md` section 3, replace "After 3 fix attempts" with: after two fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, then save the work, write a `B` entry, and return. Add `- Premise: <the sentence>, tested by <observation>: <result>` and `- Effort: <model> <effort>` to the `B` format, and change `Tried` to two attempts. In `build/SKILL.md` Step 2, add one item after the check: when a step returns a `B` entry below the ceiling, dispatch the step again one effort step up, by rule 1 of the `models` block, with the `B` entry as its start. Record the step with `/update-plan` as a choice, then delete the `B` entry. At the ceiling, the `B` entry stands. Keep the `D` and `N` formats as they are.
   - Done: AC B holds on a read. `STEP.md` and `SKILL.md` agree on the `B` format.
 - [ ] **4. End-to-end trace.** Kind: config. Conditions: C2. Trace a gate that stays red through `STEP.md` and `build/SKILL.md` at `sonnet` medium, and write each attempt, its effort, and the premise line in this Done line. Then trace the same at `opus` max, and confirm the `B` entry stands.
   - Done: AC D holds.
@@ -91,6 +91,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - 2026-11-18: plan written on `pstack-20_premise-escalation`.
 - 2026-11-18: step 1 done. The `models` rule 1 holds the ladder and the premise rule.
 - 2026-11-18: step 2 done. `diagnose` and `fix` cite both principles. Commit 568af6f.
+- 2026-11-18: step 3 done. `STEP.md` and `build/SKILL.md` agree on the `B` format and the escalation.
 - Decision log: decisions_pstack-20.tsv
 
 ## Pending Decisions
