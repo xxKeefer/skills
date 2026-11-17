@@ -87,6 +87,14 @@ class CheckPlan(unittest.TestCase):
                 self.assertIn(f"{self.path}:1: header has no `{key}`. Fix: add `{key}:`", r.stdout)
                 self.assertEqual(len(r.stdout.splitlines()), 2, r.stdout)
 
+    def test_repeated_section_fails_on_its_second_line(self):
+        self.progress = ["- 2026-11-16: written.", "", "## Steps", "", "- [x] **9. Again.** Kind: docs.", "  - Done: copied."]
+        r = self.write()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        with open(self.path) as f:
+            second = [i for i, line in enumerate(f, 1) if line.rstrip() == "## Steps"][1]
+        self.assertIn(f"{self.path}:{second}: section `## Steps` appears twice", r.stdout)
+
     def test_no_steps_section_fails_with_its_fix(self):
         with open(self.path, "w") as f:
             f.write("---\n" + "".join(f"{k}: {v}\n" for k, v in self.header.items()) + "---\n\n## Goal\n\nx.\n")
