@@ -68,6 +68,9 @@ def scan(text, lines, blocks):
                 quote = None
             i += 1
             continue
+        if c == '"' and text[i - 1:i] == "'" and text[i + 1:i + 2] == "'":
+            i += 1
+            continue
         if c in "\"`" and closes(text, i + 1, c):
             quote = c
             i += 1

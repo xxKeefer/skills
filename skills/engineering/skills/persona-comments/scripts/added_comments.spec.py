@@ -100,6 +100,10 @@ class Skips(unittest.TestCase):
         text = '+++ b/a.sh\n@@ -0,0 +1,1 @@\n+echo 5" # why\n'
         self.assertEqual(run(text)[1], "a.sh:1: # why\n")
 
+    def test_double_quote_char_literal_does_not_hide_a_trailing_comment(self):
+        text = "+++ b/a.go\n@@ -0,0 +1,1 @@\n+if c == '\"' { // handle \"quoted\" input\n"
+        self.assertEqual(run(text)[1], 'a.go:1: // handle "quoted" input\n')
+
     def test_hash_inside_a_shell_word_is_skipped(self):
         text = "+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo $#\n+n=${#arr[@]}\n"
         self.assertEqual(run(text), (0, "", ""))
