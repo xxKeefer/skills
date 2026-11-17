@@ -103,8 +103,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: Track the block state on context lines too, and print only added lines. In a `/* */` language, list an added line whose text starts with `*` as a block continuation. Test first: a JSDoc continuation line, and a new block that spans a context line. Done in 1c1d27a. Five `Blocks` tests went red on the old script, then green; 31 tests pass. A C line that starts with `*`, such as `*ptr = 0;`, is listed: the rule fails toward listing.
 - [x] **15. Review fix r1.3.** CSS has no line comments, so `url(//...)` is listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: Give `css` a row with the `/* */` block only. `scss` keeps `//`. Test first. Done in cc9ba4c. Two new tests in `added_comments.spec.py`, 33 tests OK; the `url(//...)` test went red on the old script.
-- [ ] **16. Review fix r1.4.** A form feed inside an added line shifts each later line number at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
-  - Done: Split the diff on `\n` only, not with `splitlines`. Test first with a form feed.
+- [x] **16. Review fix r1.4.** A form feed inside an added line shifts each later line number at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Split the diff on `\n` only, not with `splitlines`. Test first with a form feed. Done in 18bfeae. One new test, 34 tests OK; it went red on the old script.
 - [ ] **17. Review fix r1.5.** A `'"'` char literal hides a trailing comment at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: A `"` with a `'` on each side is a char literal, not a string start. Test first.
 - [ ] **18. Review fix r1.6.** A `#` with no space before it is missed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
