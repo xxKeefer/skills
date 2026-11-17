@@ -28,8 +28,8 @@ Check each item, and note pass, fail, or not found:
 |---|---|
 | Plan | Each build step in the plan is done, and `## Pending Decisions` is empty. |
 | Tests | The project's test command passes on the branch head. Run it. |
-| Review | A review report exists for the branch head, and none of its rows at the top severity is open. A report of an earlier head also passes when each later commit is a review fix step that the plan records, or when `git range-diff` shows each reviewed commit unchanged (`=`) after a rebase. A review fix step is a plan step titled `Review fix <row ID>.`, not a note in another step's line. A later commit that changes only files under `.ai/` passes. Any other later commit fails the check, and the fix is `/review`. A run whose coverage table shows no lane that ran fails the check, and the fix is `/engineering:mob-review`. |
-| Stack | The branch is in no gh stack. Else, after `git fetch origin`, each lower branch is at the SHA of its remote, and `gh stack view` shows no branch that needs a rebase. On a fail, show each lower branch commit that this branch does not have. The fix is: pull the lower branch, run `gh stack rebase --upstack` from it, and check again. If a lower branch holds temporary commits, such as a test that is in progress, wait until its PR removes them. |
+| Review | A review report exists for the branch head, and none of its rows at the top severity is open. A report of an earlier head also passes when each later commit is a review fix step that the plan records, or when `git patch-id --stable` gives one ID for `git diff <base> <head> -- . ':!.ai'` on the reviewed pair and on `$(git merge-base origin/<base> HEAD)` with `HEAD`. A review fix step is a plan step titled `Review fix <row ID>.`, not a note in another step's line. Else it fails, and the fix is `/review`. A run whose coverage table shows no lane that ran fails the check, and the fix is `/engineering:mob-review`. |
+| Stack | The branch is in no gh stack. Else, after `git fetch origin`, each lower branch is at the SHA of its remote, and `gh stack view` shows no branch that needs a rebase. On a fail, show each lower branch commit that this branch does not have. The fix is `gh stack sync`. If a lower branch holds temporary commits, such as a test that is in progress, wait until its PR removes them. |
 | Constraints | `/constraints` finds nothing, when `CONSTRAINTS.md` exists. |
 | Tree | The working tree is clean. |
 
@@ -58,8 +58,9 @@ Skip this step when the change needs a gate, as [`CHECK-INS.md`](../../CHECK-INS
 1. Mark the PR ready with `gh pr ready <number>`.
 2. Wait for the PR checks with `gh pr checks <number> --watch`. If a check fails, stop and show it.
 3. Merge. In a gh stack, run `gh stack merge <number> --yes`. Else run
-   `gh pr merge <number> --squash`.
-4. Find the run on the default branch for the merge commit with `gh run list --branch <default>`.
+   `gh pr merge <number> --squash`. Then `gh pr view <number> --json state,mergeCommit` must show
+   `MERGED`.
+4. Find the run on the default branch for the `mergeCommit` with `gh run list --branch <default>`.
    Watch it with `gh run watch <id> --exit-status`.
 5. Run each QA row that waits for the merge, as `/build` Step 3 runs `agent` rows.
 6. In a gh stack, run `gh stack sync`.
