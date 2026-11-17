@@ -163,3 +163,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - 2026-11-17: step 13 done at 24d6e87. All eight gates green, and the step changed no file except this plan.
 - 2026-11-17: step 14 done. Run 3 of the report, base 400344b, head 3fa230c. 1 Future finding open (r3.1), 6 lanes clean. The gates stay green. Two panel choices went into the decision log.
 - 2026-11-17: `/interrogate` kept 4 of 4 findings (report removed after the fix round, git history holds it). Steps 9 to 12 fixed them, and the blast-radius `handoff_` risk with r1.4. Steps 13 and 14 ran a third round. Review rows r2.1 (nit) and r3.1 (Future) stay open. `/ship` steps 1 to 3 gave go, and step 15 pushed the branch.
+- 2026-11-17: `/work-on` map playbook, batch of unit 12. Steps 1 to 7 done. Stop: H5, the `/retro` offer (step 8). Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts unit 13 after the home machine merges this branch.
