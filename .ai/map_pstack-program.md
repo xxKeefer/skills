@@ -427,7 +427,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.2): keep them skills, so the user can call one on a smell. A rule file gets lost in context drift.
 - Done: `/work-on` on a task names the principle that shaped a choice, and the principle's file was read in that session.
 
-### [ ] 9. `interrogate` (r1.1)
+### [x] 9. `interrogate` (r1.1)
 
 - `engineering/interrogate` (new). Adversaries try to break a change. A finding stays only if a re-run command proves it. Others go to a Dropped list.
 - `/work-on` runs it after the build loop when `blast-radius` finds risk. Uses the panel models.

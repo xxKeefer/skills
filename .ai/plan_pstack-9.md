@@ -106,8 +106,8 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 - [x] **9. Review.** Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code. Use `/engineering:light-review`. No row stays open from the last report.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-9_interrogate.html` (Light run 3). Reviewed: base `428f956`, head `69c9e07` (panel read `cc33966`). The panel fixed r3.1 and r3.2 in `69c9e07`. r3.3 (future: no spec for an empty findings list) stays open for QA.
   - Recorded decision: the fix commit changes runtime behaviour (r3.1), but this is the third review step of the run, so `/build` stops the loop. At `69c9e07` the gates are green: `rerun_findings.spec.py` 23 tests OK.
-- [ ] **10. Push.** Push the branch with `git push -u origin pstack-9_interrogate`. Push-only map: open no PR.
-  - Done: the pushed head SHA is in this line.
+- [x] **10. Push.** Push the branch with `git push -u origin pstack-9_interrogate`. Push-only map: open no PR.
+  - Done: the pushed head SHA is in this line. Pushed `f953474` to `origin/pstack-9_interrogate`.
 
 ## Suggested skills
 
@@ -130,3 +130,4 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 - 2026-11-17: step 5 ran `/engineering:light-review` against `pstack-inspired`. Four lanes ran (correctness, code-quality, test-design, test-quality). The panel fixed 1 Change Requested row and 3 nits in `c0d94e1`. No calibration signals.
 - 2026-11-17: step 7 ran the second light review. The panel fixed 1 Change Requested row and 3 nits in `0dd8026`. No calibration signals.
 - 2026-11-17: step 9 ran the third light review. The panel fixed 1 Change Requested row and 1 nit in `69c9e07`. One future row (r3.3) stays open. The loop stopped at the third review step. No calibration signals.
+- 2026-11-17: `/ship` steps 1 to 3 gave go. Pushed `f953474`. Map unit 9 is ticked. Next: the home machine opens the PR into `pstack-inspired`. Playbook: map, step 8 (offer `/retro`).
