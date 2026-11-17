@@ -76,7 +76,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 
 ## Steps
 
-- [ ] **1. Subtract: one `jq` read and the token cache in `statusline.sh`.** Seam: `statusline.sh`, stdin JSON to stdout. Conditions: C1, C2.
+- [x] **1. Subtract: one `jq` read and the token cache in `statusline.sh`.** Seam: `statusline.sh`, stdin JSON to stdout. Conditions: C1, C2.
   - Before you change the script, save its output for the two sample payloads of `/setup-statusline` Step 5, with a fixed `HOME`, as the C1 fixtures.
   - Replace the eight `jq` reads of `$input` with one `jq` call that prints each field on its own line.
   - Cache the token count in `${XDG_CACHE_HOME:-$HOME/.cache}/statusline/tokens`, keyed by the transcript path and its size. Parse the transcript only on a miss.
@@ -119,3 +119,4 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: plan written on `pstack-inspired`, for the branch `pstack-16_babysit`.
 - Decision log: decisions_pstack-16.tsv
 - 2026-11-17: five judgement calls written to `decisions_pstack-16.tsv`.
+- 2026-11-17: step 1 done in commit 883c074. `statusline.sh` has one `jq` read and the token cache. `statusline.spec.py` passes C1 and C2. The C1 fixtures are in `skills/utility/skills/setup-statusline/fixtures/`.

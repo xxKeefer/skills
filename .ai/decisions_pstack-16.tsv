@@ -4,3 +4,6 @@ A PR with review required or changes requested and green CI shows pending (yello
 The notifier is a shell command in agents-md.values.json key notifier_command, not a product name	the watcher must run it with no agent; one values file, no new config	install-agents-md HYDRATE.md	open: step 2
 The ticker offset is the epoch second; no ticker state is stored	principle-subtract-before-you-add; a redraw each second moves one column	map Decisions, ticker	open: step 3
 Stack detection by base and head branches of the watched PRs, with no gh stack call	push-only machines and repos without gh-stack still work	spec Decisions	open: step 2
+Make the C1 fixtures from the old script with a fake date on PATH (fixed epoch 1700000000), stored in setup-statusline/fixtures/	Reset timers and pace depend on the clock	Old script output saved before the refactor; new script is byte-equal	C1 passes
+Keep the token cache as one file with lines path, size, tokens: one line for each transcript path, rewritten atomically	A one-entry file would thrash across sessions	C2 red on the old script (read 2222, not the cached 1111), green after	C2 passes
+Run only the gates whose files exist: statusline spec, install_agents_md spec, both githook tests	watch_prs.spec.py comes in a later step	The four existing gates are green	No gap
