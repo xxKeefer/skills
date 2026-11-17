@@ -73,7 +73,7 @@ frame → fan out adversaries → collect findings → rerun_findings.py → int
    when a command needs more than 120 seconds, such as a full test suite.
 3. The script keeps a finding when its command exits non-zero and its output holds the evidence
    line. It drops each other finding with one reason: `no command`, `no evidence`, `cwd not found`,
-   `timed out`, `passed on re-run`, or `evidence not in output`. A kept finding gets its `output`
+   `cannot run`, `timed out`, `passed on re-run`, or `evidence not in output`. A kept finding gets its `output`
    and `exit`.
 
 Only the script decides if a run proves a finding. Do not keep a finding that the script drops.

@@ -79,6 +79,14 @@ class RerunFindings(unittest.TestCase):
     def test_missing_evidence_is_dropped(self):
         self.assertEqual(self.reason(finding(evidence="")), "no evidence")
 
+    def test_blank_evidence_is_dropped(self):
+        self.assertEqual(self.reason(finding(evidence="  ")), "no evidence")
+
+    def test_command_that_cannot_start_is_dropped_and_the_rest_still_run(self):
+        out = self.result([finding(title="bad", command="echo a\u0000b; exit 1"), finding(title="good")])
+        self.assertEqual([k["title"] for k in out["kept"]], ["good"])
+        self.assertEqual([(d["title"], d["reason"]) for d in out["dropped"]], [("bad", "cannot run")])
+
     def test_command_over_timeout_is_dropped(self):
         self.assertEqual(self.reason(finding(command="sleep 5; echo boom; exit 1"), "--timeout", "1"), "timed out")
 

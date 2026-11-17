@@ -19,10 +19,13 @@ def rerun(f, timeout):
         return None, "no evidence"
     if not isinstance(cwd, str) or not os.path.isdir(cwd):
         return None, "cwd not found"
-    proc = subprocess.Popen(
-        command, shell=True, cwd=cwd, text=True, errors="replace",
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True,
-    )
+    try:
+        proc = subprocess.Popen(
+            command, shell=True, cwd=cwd, text=True, errors="replace",
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True,
+        )
+    except (ValueError, OSError):
+        return None, "cannot run"
     try:
         output, _ = proc.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
