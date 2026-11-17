@@ -84,6 +84,8 @@ After two failed fixes on one premise, the agent writes the premise down and tes
   - Done: the gates are green at 2f16b0b. Both hook tests print only `ok` lines, `install_agents_md.spec.py` prints OK, and `check_principles.py` exits 0.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-20.md`. This step changes no code.
   - Done: `.ai/review_pstack-20_premise-escalation.html` run 1, base ad1a0e3, head 26365e1 (panel read 6caa33e). Light run: test-quality and comments clean, plus `persona-skills`. One nit, fixed in 26365e1. None open. The fix changes only skill text, so no new round.
+- [ ] **8. Review fix br.1.** `squash-bugs` still makes 3 fix attempts with no premise and no move up at `skills/engineering/skills/squash-bugs/BUG.md:50`. Source: the `/blast-radius` confirmed risk in Progress. Kind: docs.
+  - Done: In `BUG.md` section 4, after 2 fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, and the verdict is `blocked`. In section 6, the `blocked` Fix holds the red gate, its first output lines, the premise and its test result, the 2 attempts, and the effort. In `squash-bugs/SKILL.md` Step 3, a `blocked` return below the ceiling of rule 1 of the `models` block runs the subagent again in the same worktree, one effort step up, with the hunt doc path. At the ceiling, or with no `models` block, the ticket stays `blocked`. The `/blast-radius` proof in Progress exits 0.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-20_premise-escalation`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -105,6 +107,43 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 
 - 2026-11-18: step 5 done. The gates are green.
 - 2026-11-18: step 6 done. One review nit fixed in 26365e1. The loop stops (build 7.3).
+- 2026-11-18: `/blast-radius`: verdict `risk`.
+  - Safety fact: a `B` entry in the new format still counts as one open entry for `check_plan.py`, the installer renders the new rule 1 (the premise, the ladder, the `opus` max ceiling) into `AGENTS.md`, and no skill keeps the old 3-attempt rule. Rung 4: the proof below. Its first two checks pass. The third check fails on `squash-bugs/BUG.md:50`.
+  - Confirmed risk br.1: `skills/engineering/skills/squash-bugs/BUG.md:50` keeps "After 3 fix attempts that leave a gate red", with no premise and no move up. Chance: high on any bug that resists two fixes. Cost: medium. The bug comes back `blocked` with no premise, and `squash-bugs` never tries one effort step up. Clear fix: step 8.
+  - Cleared: `check_plan.py` matches only the `### B<n>` heading (`ENTRY` at line 24), so the new `Premise` and `Effort` lines do not break the count. `sitrep` lists the `B` entries by heading. `build` items 7.1 and 7.3 keep their numbers, because the new item is 8. The `Effort` values match the `effort` values that a subagent call takes: `low`, `medium`, `high`, `xhigh`, `max`.
+  - Correction: the Context line "With no `models` block, the agent uses the same ladder" no longer holds. Since 26365e1, with no `models` block, the `B` entry stands and `fix` stops.
+  - Proof, from the repo root:
+
+    ```sh
+    set -e
+    R=$(git rev-parse --show-toplevel)
+    T=$(mktemp -d)
+    sed -n '/^---$/,/^## Pending Decisions/p' "$R/.ai/plan_pstack-20.md" > "$T/plan_x.md"
+    cat >> "$T/plan_x.md" <<'P'
+
+    ### B1: step 3, tests stay red
+    - Failure: 1 failed
+    - Premise: the cache key holds the user id, tested by a print of the key: false
+    - Tried: clear the cache, rebuild the key
+    - Effort: sonnet medium
+    - Work: none
+    - Blocks: 3, 5
+
+    ## Follow-ups
+    P
+    out=$(python3 "$R/skills/primitives/skills/write-to-file/scripts/check_plan.py" "$T/plan_x.md")
+    echo "$out" | tail -1
+    [ "$(echo "$out" | tail -1)" = "open decisions: 1" ] || { echo "B ENTRY NOT COUNTED"; exit 1; }
+    mkdir -p "$T/home/.claude"
+    HOME="$T/home" python3 "$R/skills/utility/skills/install-agents-md/scripts/install_agents_md.py" >/dev/null 2>&1 || true
+    f="$T/home/.claude/AGENTS.md"
+    [ -f "$f" ] || { echo "NO AGENTS.md WRITTEN"; exit 1; }
+    for w in 'write the premise down and test it' '`low`, `medium`, `high`, `xhigh`, `max`' 'The ceiling is `opus` at `max`'; do
+      tr '\n' ' ' < "$f" | tr -s ' ' | grep -qF -- "$w" || { echo "MISSING: $w"; exit 1; }
+    done
+    grep -rn 'After 3 fix attempts' "$R/skills" && { echo "OLD RULE LEFT"; exit 1; }
+    echo PASS
+    ```
 
 ## Pending Decisions
 
