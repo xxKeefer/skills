@@ -89,8 +89,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: the gates are green at 17ab3c9. Both hook tests print only `ok` lines, `added_comments.spec.py` and `install_agents_md.spec.py` print OK, and `check_principles.py` exits 0.
 - [x] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code.
   - Done: `.ai/review_pstack-19_no-comments.html`, base b86fe6d, head 4f0fd8f (panel read cbd39c4). Light run, plus `persona-skills`. 10 of 12 findings fixed in 4f0fd8f. Two nits stay open, each with a reason. The fix changes the script's behaviour, so round 2 follows.
-- [ ] **9. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **9. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at f620eef. `added_comments.spec.py` runs 19 tests, OK.
 - [ ] **10. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **11. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
