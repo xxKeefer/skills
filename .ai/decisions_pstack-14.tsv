@@ -1,0 +1,5 @@
+date	unit	choice	reason	result
+2026-11-17	14	keep the old-layout path in claim	22 plans have no YAML header	no subtraction there
+2026-11-17	14	no script for the stack check	subtract first, two commands do it	prose, proved by a live run
+2026-11-17	14	git counts for the stale check	wt list has no remote field on a branch row	claim uses git rev-list
+2026-11-17	14	no sync for a PR input in claim	PR callers sync in their own step, and the sync can force-push	fix from review
