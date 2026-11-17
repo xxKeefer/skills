@@ -106,6 +106,13 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.stdout, "")
         self.assertIn(f"{self.map}:17: malformed unit heading", r.stderr)
 
+    def test_next_on_a_map_with_no_units_section_fails(self):
+        self.write("---\ndoctype: map\n---\n\n# Map: K-1\n\n### [ ] 1. K-2 Sub\n\n- Done: two.\n")
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(r.stdout, "")
+        self.assertIn(f"error: {self.map}: no ## Units section.", r.stderr)
+
     def test_next_rejects_a_batch_below_1(self):
         self.write(MAP)
         r = run("next", self.map, "--batch", "0")

@@ -96,7 +96,7 @@ it has one.
 Use the top sections of [`templates/body.md`](templates/body.md).
 
 1. **Why.** Write the reason for the change from the plan's `goal`. With a spec, add the
-   Intent's `User` and `Why now` lines, in the reader's words. With no plan, take the reason from
+   Intent's `User` and `Why now` lines when the spec has them, in the reader's words. With no plan, take the reason from
    the ticket. With no goal and no ticket, remove the section. Do not invent a reason.
 2. **Summary.** Run `/show-me` on the diff from `git diff --merge-base origin/<base> HEAD`. Use
    a text view or Mermaid. Take no HTML file. One view is usual; use two only when one hides the

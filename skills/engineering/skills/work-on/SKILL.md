@@ -50,7 +50,7 @@ stop: the review fixes each row with no stop.
 | A ticket key or an idea | [`playbooks/new-ticket.md`](playbooks/new-ticket.md) |
 | `@<map path>`: a file with doctype `map`, or with unit headings `### [ ] N. Title` | [`playbooks/map.md`](playbooks/map.md) |
 | `@<spec path>`: a file with doctype `spec` | [`playbooks/new-ticket.md`](playbooks/new-ticket.md), from step 2. |
-| `@<plan path>` | Continue. Read the plan's `## Progress` for the playbook and the last stop. Start at the playbook step after that stop. |
+| `@<plan path>` | Continue. Read the plan's `## Progress` for the playbook and the last stop. After H3 or H4, start at the step that stopped, because that step is not done. After H1, H2, or H5, start at the next step. |
 | Empty | Ask for a ticket key, an idea, a map, or a plan. |
 
 Read the playbook from `$SKILL_DIR/playbooks/`.
@@ -82,9 +82,9 @@ Run each step in order. Mark each todo when its step is done.
 At each stop:
 
 1. Write the plan with `/update-plan`. Record the playbook, the stop, and the next step in
-   `## Progress`, so a fresh run can continue. Before a plan exists (H1), skip `/update-plan`.
-   The command to continue is `/work-on @<spec path>`, or `/work-on <ticket key>` when
-   `/refine-ticket` wrote the spec back to the ticket.
+   `## Progress`, so a fresh run can continue. When no plan exists yet, skip `/update-plan`.
+   Then the command to continue is `/work-on @<map path>` in a map run, `/work-on @<spec path>`,
+   or `/work-on <ticket key>` when `/refine-ticket` wrote the spec back to the ticket.
 2. End the turn with one line that names the stop and the command to continue:
 
    ```

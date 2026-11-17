@@ -72,6 +72,9 @@ def positive_int(value):
 def cmd_next(path, batch):
     with open(path) as f:
         lines = f.read().splitlines()
+    if not any(line.strip() == "## Units" for line in lines):
+        print(f"error: {path}: no ## Units section. Fix: put the units under '## Units'.", file=sys.stderr)
+        return 1
     open_units = [u for u in units(lines) if not u.ticked]
     errors = [u for u in open_units if not u.has_done]
     for u in errors:

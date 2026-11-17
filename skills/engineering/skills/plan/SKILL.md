@@ -46,6 +46,8 @@ This command picks its input.
   - On a SPLIT verdict, take path 2 and ask no question. Run no `/split-ticket`, because a map
     unit has no tracker. Write no plan. Return the slices to the caller, each with its goal and its
     ACs. The caller writes them into the map.
+  - On a CLARIFY verdict, run no `/refine-ticket`, because a map unit has no ticket. Write no
+    plan. Return each open question to the caller as a `D` entry.
 - `$ARGUMENTS` is empty: ask for a ticket key or a spec path.
 
 **Done when:** `/start-ticket` ran with a ticket or a spec.
