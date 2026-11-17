@@ -6,6 +6,7 @@ status: approved
 repo: xxKeefer/skills
 batch: 1
 push_only: true
+subagent_model: sonnet
 goal: Adopt the pstack philosophy as one program. One router runs the skills, claims are proven by a run, and a feedback loop raises quality.
 ---
 
