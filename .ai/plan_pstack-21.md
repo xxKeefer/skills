@@ -81,7 +81,9 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   - Done: the gates are green. The pre-commit test, the commit-msg test, `leak_check.spec.py` (6 tests), and `check_principles.py` each exit 0.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code.
   - Done: report `.ai/review_pstack-21_eval-skill.html`. Reviewed: base caa647d, head 680ffe7 (panel read 44dee66). The fix commit 680ffe7 holds 3 findings, 0 open.
-- [ ] **7. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
+- [ ] **7. Blast-radius fix: skill folder names.** The leak check lists the folder of the skill under trial when its name holds a banned word. Six skills do: `test`, `eval-skill`, `persona-integration-test`, `persona-test-design`, `persona-test-quality`, and `principle-test-behavior-not-implementation`. `test` is a command that a `work-on` playbook calls, so `/retro` offers a trial that cannot finish Step 3. Test first in `leak_check.spec.py`: a folder with `.claude/skills/test/SKILL.md` and a clean prompt exits 0 with no output, and a banned word in any other path is still listed. Then make `leak_check.py` skip each path under `.claude/skills/`. In `eval-skill/SKILL.md`, say in Rules for blinding that the copied skill folder is exempt, because the trial must not change the skill.
+  - Done: `leak_check.spec.py` passes with the new tests, and the repro below exits 0.
+- [ ] **8. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -101,6 +103,13 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 - 2026-11-18: step 4 done: live run on `tabular-analysis`. Candidates ran on `sonnet`, and the judge ran on `opus`. The judge scored each version on 5 criteria. Both B runs named the framework in each row, and both A runs left the rows unnamed with a key in the prose, which cost A on row identity and prose. My read: the gap comes from the Step 4 rule "don't invent a name column", which both versions hold, not from the cut Step 1. The run proves that the judge separates two versions, not that the cut made the skill better.
 - 2026-11-18: step 5 done: every gate is green.
 - 2026-11-18: step 6 done: light review fixed 3 findings in 680ffe7, 0 open.
+- 2026-11-18: `/blast-radius`: verdict `risk`. Safety fact: outside `.ai/` and the new skill folder, the branch only adds lines (3 in `retro/SKILL.md`, 1 in `skills/meta/README.md`), and the meta plugin finds a skill by its folder, so no other skill changes. Rung 4: `git diff --numstat caa647d HEAD -- . ':!.ai' ':!skills/meta/skills/eval-skill'` shows 0 deletions. Confirmed risk: the leak check flags the folder name of the skill under trial (`skills/meta/skills/eval-skill/scripts/leak_check.py:12`). Repro, exits 1 today:
+  ```
+  D=$(mktemp -d); mkdir -p $D/acme/.claude/skills/test; touch $D/acme/.claude/skills/test/SKILL.md
+  echo "Please check my change" > $D/p.txt
+  python3 skills/meta/skills/eval-skill/scripts/leak_check.py $D/acme $D/p.txt; echo "exit $?"
+  ```
+  Cleared: no other file names `eval-skill` outside `.ai/`, the README, `retro`, and the work-on fixture map. The `retro` offer is text, guarded by "when the `meta` plugin is installed". `plugin.json` lists no skills, so the new folder needs no registry edit. Step 7 fixes the risk.
 
 ## Pending Decisions
 
