@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import os
 import re
 import sys
+from pathlib import Path
 
 WORDS = ["eval", "test", "judge", "experiment", "rubric", "score", "compare", "benchmark", "candidate", "arena"]
 PATTERN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(WORDS) + r")s?(?![A-Za-z0-9])", re.IGNORECASE)
@@ -9,11 +9,10 @@ PATTERN = re.compile(r"(?<![A-Za-z0-9])(" + "|".join(WORDS) + r")s?(?![A-Za-z0-9
 
 def main(folder, prompt_file):
     hits = []
-    for root, dirs, files in os.walk(folder):
-        for name in dirs + files:
-            rel = os.path.relpath(os.path.join(root, name), folder)
-            for w in dict.fromkeys(m.lower() for m in PATTERN.findall(rel)):
-                hits.append(f"{rel}: {w}")
+    for path in sorted(Path(folder).rglob("*")):
+        rel = path.relative_to(folder).as_posix()
+        for w in dict.fromkeys(m.lower() for m in PATTERN.findall(rel)):
+            hits.append(f"{rel}: {w}")
     with open(prompt_file) as f:
         for w in dict.fromkeys(m.lower() for m in PATTERN.findall(f.read())):
             hits.append(f"prompt: {w}")

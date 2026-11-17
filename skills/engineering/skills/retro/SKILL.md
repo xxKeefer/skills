@@ -131,6 +131,6 @@ Print the count of rows applied and dropped, the commits, and each steering file
 that changed.
 
 For each applied row that edits a skill that a `work-on` playbook calls, offer
-`/eval-skill <skill>`. Never run it unasked.
+`/eval-skill <skill>`, when the `meta` plugin is installed. Never run it unasked.
 
 **Done when:** the user has the summary.

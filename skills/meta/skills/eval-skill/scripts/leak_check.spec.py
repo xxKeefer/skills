@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run: python3 leak_check.spec.py"""
 import os
 import shutil
 import subprocess
