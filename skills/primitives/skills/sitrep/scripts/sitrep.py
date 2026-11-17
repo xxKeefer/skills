@@ -43,7 +43,14 @@ def skipped_steps(lines, span):
 
 
 def follow_ups(lines, span):
-    return [lines[i].strip()[2:] for i in range(*span) if lines[i].startswith("- ")]
+    """Returns each top-level bullet with its wrapped and nested lines, joined by line breaks."""
+    items = []
+    for i in range(*span):
+        if lines[i].startswith("- "):
+            items.append([lines[i][2:].strip()])
+        elif items and lines[i].strip():
+            items[-1].append(lines[i].strip())
+    return ["\n  ".join(item) for item in items]
 
 
 def render_open_entries(entries):

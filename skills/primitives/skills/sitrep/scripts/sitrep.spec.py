@@ -90,6 +90,13 @@ class Sitrep(unittest.TestCase):
         self.assertIn("the base moved.", out)
         self.assertIn("Rename the helper.", out)
 
+    def test_follow_up_that_wraps_prints_in_full(self):
+        self.write(PLAN.replace("- Rename the helper.\n", "- Rename the helper\n  so that it names the log.\n  - Check the callers.\n- Second item.\n"))
+        out = sitrep(self.plan).stdout
+        self.assertIn("so that it names the log.", out)
+        self.assertIn("Check the callers.", out)
+        self.assertIn("Second item.", out)
+
     def test_leaves_out_empty_sections(self):
         self.write(PLAN)
         out = sitrep(self.plan).stdout
