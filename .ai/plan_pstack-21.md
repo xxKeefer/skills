@@ -97,6 +97,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 - 2026-11-18: step 2 done: `eval-skill/SKILL.md` and the meta README row (commit d4ebb97).
 - 2026-11-18: step 3 done: `retro` Step 7 offers `/eval-skill`.
 - Decision log: decisions_pstack-21.tsv
+- 2026-11-18: checkpoint. Steps 1 to 3 are done, and the tree is clean. The step 2 and step 3 subagent ran only the pre-commit test; step 5 runs every gate. Open: step 4, the live run, which touches only a scratch copy of `skills/primitives/skills/tabular-analysis/SKILL.md` and temp folders. Next action: `/work-on @.ai/map_pstack-program.md`. It finds unit 21 open, skips the spec and plan (they exist), and resumes `/build @.ai/plan_pstack-21.md` at step 4 in the main thread, then `/blast-radius`, the ship checks, the push, and the tick. This branch starts from `pstack-20_premise-escalation` (pushed, not merged); keep the unit 20 `.ai/` files.
 
 ## Pending Decisions
 
