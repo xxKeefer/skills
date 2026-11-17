@@ -82,7 +82,7 @@ commit.
 
 ## light-review
 
-`light-review` has no steps of its own. It follows the `mob-review` steps with a list of nine
+`light-review` has no steps of its own. It follows the `mob-review` steps with a list of
 lanes.
 
 - A change to a `mob-review` step also changes `light-review`. Check each change that

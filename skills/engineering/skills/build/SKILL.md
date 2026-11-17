@@ -95,7 +95,8 @@ For each remaining step, in plan order:
    path, the step ID, the `goal` key of the plan's header word for word, and the absolute path
    to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`. Run it at the `worker` role of the
    `models` block in `~/.claude/AGENTS.md`, or at the `mechanical worker` role for a step that the
-   plan marks mechanical. With no `models` block, use the session model.
+   plan marks mechanical. With no `models` block, use the session model. When the plan's Context
+   names a subagent model, use that model in place of the role.
    To save subagents, give one subagent a batch of at most four consecutive steps: review fix
    steps from the same round, or steps that the plan marks `Kind: docs` or `Kind: mechanical`.
    Pick steps that are small or that touch the same files. Give it the list of step IDs in place

@@ -89,7 +89,8 @@ ticket that is further along. Say in one line what you did.
 ## Step 5: Draft the plan
 
 Plan only the scope from Step 2. Read the code in the worktree from Step 3. If the area that
-changes is unknown, send one search subagent to find it. Its brief names no model.
+changes is unknown, send one search subagent to find it. Its brief names no model. When a step
+rewrites a rule, search the repo for the rule's old words, and give each copy a step.
 
 The plan holds:
 
