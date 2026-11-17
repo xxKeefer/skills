@@ -109,7 +109,8 @@ For each remaining step, in plan order:
    the plan holds that entry. For both, the tree has no modified or staged files. A batch
    stops at the first step that writes an entry. Mark each later step of the batch `not run`,
    and dispatch it again in a later pass. For a review step, the report must hold the JSON `runs`
-   block of `/write-report`. A report with no `runs` block fails the check.
+   block of `/write-report`, and the coverage table of the new run must show at least one lane
+   that ran. A report with no `runs` block, or a run with no lane, fails the check.
 6. If the check fails, stop the run and go to Step 4.
 7. After a review step that is done, read its report from the step's done line, and decide the
    next round:

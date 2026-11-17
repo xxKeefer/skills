@@ -11,6 +11,8 @@ fix that a finding names and never asks the user to choose. Skip this part on so
    Requested, so that `/build` asks the user. Every other finding is **fixable**, nits included.
 2. When a suggestion names two fixes, take the one the persona recommends. With no
    recommendation, take the smaller fix that removes the defect. Do not ask.
+   When the fix closes a race on shared state, such as a file or a key, find each other writer
+   of that state, and fix each one in the same commit.
 3. If the working tree has changes and Step 1 did not review the working tree, fix nothing. A fix
    commit would take in those changes. Mark each finding open, with that reason.
 4. Apply each fixable finding as [`apply-review`](../apply-review/SKILL.md) Step 3 says, in the

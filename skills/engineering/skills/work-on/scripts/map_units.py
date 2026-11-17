@@ -111,6 +111,21 @@ def cmd_next(path, batch):
     return 0
 
 
+def cmd_show(path, number):
+    with open(path) as f:
+        lines = f.read().splitlines()
+    match = [u for u in units(lines) if u.number == number]
+    if not match:
+        print(f"error: {path}: unit {number} does not exist.", file=sys.stderr)
+        return 1
+    start = match[0].index
+    end = start + 1
+    while end < len(lines) and not lines[end].startswith(("## ", "### ")):
+        end += 1
+    print("\n".join(lines[start:end]).rstrip("\n"))
+    return 0
+
+
 def cmd_tick(path, number):
     with open(path) as f:
         text = f.read()
@@ -135,6 +150,9 @@ def main():
     p_next = sub.add_parser("next")
     p_next.add_argument("map")
     p_next.add_argument("--batch", type=positive_int)
+    p_show = sub.add_parser("show")
+    p_show.add_argument("map")
+    p_show.add_argument("number")
     p_tick = sub.add_parser("tick")
     p_tick.add_argument("map")
     p_tick.add_argument("number")
@@ -142,6 +160,8 @@ def main():
     try:
         if args.cmd == "next":
             return cmd_next(args.map, args.batch)
+        if args.cmd == "show":
+            return cmd_show(args.map, args.number)
         return cmd_tick(args.map, args.number)
     except MalformedHeading as e:
         print(

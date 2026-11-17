@@ -152,6 +152,18 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(self.read(), MAP.replace("### [ ] 3.", "### [x] 3."))
 
+    def test_show_prints_only_the_section_of_one_unit(self):
+        self.write(MAP)
+        r = run("show", self.map, "2")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout, "### [ ] 2. Second\n\n- A note.\n- Done: two.\n")
+
+    def test_show_on_a_missing_unit_exits_1(self):
+        self.write(MAP)
+        r = run("show", self.map, "9")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("unit 9 does not exist", r.stderr)
+
     def test_tick_on_a_missing_unit_exits_1(self):
         self.write(MAP)
         r = run("tick", self.map, "7")
