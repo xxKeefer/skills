@@ -41,13 +41,14 @@ class CheckPlan(unittest.TestCase):
             "  - Done: the gates are green.",
         ]
         self.decisions = None
+        self.progress = ["- 2026-11-16: written."]
 
     def write(self, **env):
         lines = ["---"]
         lines += [f"{k}: {v}" for k, v in self.header.items()]
         lines += ["---", "", "# Plan: x", "", "## Goal", "", "Make x work.", "", "## Steps", ""]
         lines += self.steps
-        lines += ["", "## Progress", "", "- 2026-11-16: written."]
+        lines += ["", "## Progress", ""] + self.progress
         if self.decisions is not None:
             lines += ["", "## Pending Decisions", ""] + self.decisions
         with open(self.path, "w") as f:
@@ -273,6 +274,29 @@ class CheckPlan(unittest.TestCase):
         r = self.write()
         self.assertEqual(r.returncode, 1)
         self.assertEqual(r.stdout.splitlines()[-1], "open decisions: 1")
+
+    def write_log(self, header):
+        with open(os.path.join(self.dir, "decisions_x.tsv"), "w") as f:
+            f.write(header + "\n" + "a\tb\tc\td\n")
+
+    def test_decision_log_with_the_columns_and_a_progress_line_passes(self):
+        self.write_log("decision\treason\tevidence\tresult")
+        self.progress.append("- Decision log: decisions_x.tsv")
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+    def test_decision_log_with_other_columns_fails(self):
+        self.write_log("date\tunit\tchoice\tresult")
+        r = self.write()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("decisions_x.tsv has the header `date unit choice result`", r.stdout)
+        self.assertIn("Fix: write each row with `log_decision.py`", r.stdout)
+
+    def test_decision_log_with_no_progress_line_fails(self):
+        self.write_log("decision\treason\tevidence\tresult")
+        r = self.write()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("`## Progress` has no `Decision log:` line", r.stdout)
 
 
 class NoBytecode(unittest.TestCase):

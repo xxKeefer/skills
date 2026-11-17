@@ -1,4 +1,4 @@
-"""Parse and check the YAML header and the `## ` sections that check_plan.py and check_spec.py share."""
+"""Parse and check the YAML header and the `## ` sections that check_plan.py and check_spec.py share, and the decision log columns."""
 import re
 from typing import NamedTuple
 
@@ -6,6 +6,9 @@ from typing import NamedTuple
 class Field(NamedTuple):
     value: str
     line: int
+
+
+DECISION_COLUMNS = ["decision", "reason", "evidence", "result"]
 
 
 def read_header(lines):
