@@ -14,3 +14,4 @@ Put the /babysit row in the engineering README Skills table before /blast-radius
 Leave the 3 code-quality nits open	chips.jq needs an installer change, the state table changes the spec contract, and the poll refactor has no defect	statusline installer copies only statusline.sh; spec defines the state file fields	open: step 6
 Add a second test and review round after step 6	build rule 7.2: the review fix 9ffdc2a changes poll's runtime behaviour	9ffdc2a	open: steps 7 and 8
 Add a third test and review round after step 8	build rule 7.2: fix acf5b53 changes poll, add, and the token cache at runtime; this is the last round the loop allows	acf5b53	open: steps 9 and 10
+Push with no interrogate	blast-radius verdict clear at rung 4	plan Progress, blast-radius entry	done: pushed
