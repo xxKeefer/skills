@@ -202,6 +202,41 @@ class Blocks(unittest.TestCase):
         self.assertEqual(run(text), (0, "", ""))
 
 
+class PythonStrings(unittest.TestCase):
+    def test_hash_line_inside_a_triple_quoted_string_is_skipped(self):
+        for q in ('"""', "'''"):
+            text = "+++ b/cli.py\n@@ -0,0 +1,5 @@\n+USAGE = %s\n+# Usage\n+  run it\n+%s\n+x = 1\n" % (q, q)
+            self.assertEqual(run(text), (0, "", ""))
+
+    def test_one_line_triple_quoted_string_is_skipped(self):
+        text = '+++ b/a.py\n@@ -0,0 +1,1 @@\n+s = """a # b"""\n'
+        self.assertEqual(run(text), (0, "", ""))
+
+    def test_comment_after_the_string_closes_on_the_same_line_is_listed(self):
+        text = '+++ b/a.py\n@@ -0,0 +1,3 @@\n+s = """\n+# in\n+""" # real\n'
+        self.assertEqual(run(text)[1], "a.py:3: # real\n")
+        text = '+++ b/a.py\n@@ -0,0 +1,1 @@\n+s = """a""" # real\n'
+        self.assertEqual(run(text)[1], "a.py:1: # real\n")
+
+    def test_string_that_a_context_line_opened_hides_an_added_hash_line(self):
+        text = '+++ b/a.py\n@@ -1,3 +1,4 @@\n s = """\n+# in\n """\n'
+        self.assertEqual(run(text), (0, "", ""))
+
+    def test_hash_line_is_listed_when_the_string_never_closes_in_the_hunk(self):
+        text = '+++ b/a.py\n@@ -1,2 +1,3 @@\n     """\n+# real\n+x = 1\n'
+        self.assertEqual(run(text)[1], "a.py:2: # real\n")
+
+    def test_triple_quote_inside_a_comment_or_single_string_opens_nothing(self):
+        text = "+++ b/a.py\n@@ -0,0 +1,3 @@\n+x = 1  # \"\"\"\n+# real\n"
+        self.assertEqual(run(text)[1], 'a.py:1: # """\na.py:2: # real\n')
+        text = "+++ b/a.py\n@@ -0,0 +1,2 @@\n+s = '\"\"\"'\n+# real\n"
+        self.assertEqual(run(text)[1], "a.py:2: # real\n")
+
+    def test_other_languages_get_no_string_blocks(self):
+        text = '+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo """\n+# real\n'
+        self.assertEqual(run(text)[1], "a.sh:2: # real\n")
+
+
 class Input(unittest.TestCase):
     def test_empty_diff_exits_zero_with_no_output(self):
         self.assertEqual(run(""), (0, "", ""))
