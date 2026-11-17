@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+The parent raises the effort: a step returns a B entry with its premise, and build dispatches it again one step up.	A subagent cannot raise its own effort.	The Agent tool takes effort at dispatch only.	Steps 3 and 4 build it.
+Ladder: low, medium, high, xhigh, max; at max on a model below opus, the next step is opus at max.	The map names one effort step up to a ceiling of opus max, but gives no rule for a sonnet or haiku role.	Map Models rule 1; the Agent tool effort enum.	Step 1 writes it into rule 1 of the models section.
+A build step makes two fix attempts at one effort, not three.	The map rule triggers after two failed fixes on one premise.	build/STEP.md section 3 said 3 attempts.	Step 3 changes it.
+AC D is proved by a read trace, not a live build with a staged failure.	A live run that must fail twice is expensive to stage.	Plan Test approach, Not testing.	Step 4 runs the trace.
