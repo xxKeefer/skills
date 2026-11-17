@@ -23,8 +23,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - [x] **A.** Run `scripts/added_comments.py` on a diff that adds a comment in a `#` language, a `//` language, and a block comment → it prints one `<file>:<line>: <text>` line for each added comment line, and none for removed lines, context lines, or a string that holds `#` or `//`.
 - [x] **B.** Read `persona-comments` on the user's own branch → each added comment is a finding whose `suggestion` names a ladder rung and the replacement, except the two exceptions; the other-PR rules are not in `SKILL.md`.
 - [x] **C.** Read `persona-comments` on another person's PR → it reads the reference file and applies the current rules unchanged.
-- [ ] **D.** Read `mob-review` `FIX.md` → a hack finding runs `/blast-radius` on the architectural fix, and becomes a new plan step when small and in scope, else a `Follow-ups` entry.
-- [ ] **E.** Read `create-pr` → the PR body lists the plan's Follow-ups, and removes the section when there are none.
+- [x] **D.** Read `mob-review` `FIX.md` → a hack finding runs `/blast-radius` on the architectural fix, and becomes a new plan step when small and in scope, else a `Follow-ups` entry.
+- [x] **E.** Read `create-pr` → the PR body lists the plan's Follow-ups, and removes the section when there are none.
 - [ ] **F.** Run `install_agents_md.py` against a scratch home → the `coding` block holds "No comments. Two exceptions: tool directives and comments that lint requires."
 - [ ] **G.** Review a branch with an added comment → it gets a finding with the replacement, and a hack gets a step or a follow-up.
 
@@ -79,7 +79,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: `added_comments.spec.py` passes, C1 to C4. AC A holds.
 - [x] **3. Add the two lenses to `persona-comments`.** Kind: docs. In `SKILL.md`: a short `description` that names the two lenses. `$SKILL_DIR` is this skill's base directory. `## Guard`: run `python3 "$SKILL_DIR/scripts/added_comments.py"` on the diff; with no line out, return zero findings. This replaces the frontend-only guard and `## Scope`. `## Lens`: take own code or someone else's code from the brief; with none, use someone else's. **Own code:** each listed line is one finding, except a tool directive whose reason a check enforces and a comment that the repo's lint requires. Write the ladder once (name, type, test title, check, delete); the `suggestion` names the highest rung that works and the replacement. When the comment marks a hack (a workaround, a TODO, a quirk), start the `summary` with `hack:` and name the architectural fix in `detail`. Group by root cause as before. **Someone else's code:** read `references/other-pr.md`, and follow it. Keep `## Out of lane` for naming and structure. In `skills/engineering/skills/mob-review/PANEL.md`, change the `persona-comments` trigger to: an added comment line that `scripts/added_comments.py` lists.
   - Done: AC B and C hold on a read, and the pre-commit `$SKILL_DIR` check passes.
-- [ ] **4. The hack flow and the PR notes.** Kind: docs. In `skills/engineering/skills/mob-review/FIX.md`: one item for a finding whose `summary` starts `hack:`. Apply its rung now. Then run `/blast-radius` on the architectural fix in `detail`. When the fix is small and inside the change's scope, add it as a new plan step; else add a `Follow-ups` entry with `/update-plan`. No stop. In `skills/engineering/skills/create-pr/SKILL.md` Step 4 and `templates/body.md`: a `## Follow-ups` section that lists the plan's Follow-ups, removed when there are none.
+- [x] **4. The hack flow and the PR notes.** Kind: docs. In `skills/engineering/skills/mob-review/FIX.md`: one item for a finding whose `summary` starts `hack:`. Apply its rung now. Then run `/blast-radius` on the architectural fix in `detail`. When the fix is small and inside the change's scope, add it as a new plan step; else add a `Follow-ups` entry with `/update-plan`. No stop. In `skills/engineering/skills/create-pr/SKILL.md` Step 4 and `templates/body.md`: a `## Follow-ups` section that lists the plan's Follow-ups, removed when there are none.
   - Done: AC D and E hold on a read.
 - [ ] **5. The `coding` block.** Seam: `install-agents-md/sections/coding.md`. Conditions: C5. Add a test to `install_agents_md.spec.py` that renders the real `coding` section and finds the rule, and see it fail. Then add to `coding.md` a `## Comments` section: "No comments. Two exceptions: tool directives and comments that lint requires." Add a `lists:` header line for the old wording that it repeats, such as "comments sparingly", if the `lists` match works on a substring; read the script to check.
   - Done: `install_agents_md.spec.py` passes, C5. AC F holds.
@@ -104,6 +104,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - 2026-11-17: plan written on `pstack-19_no-comments`.
 - 2026-11-17: step 2 done in 45c8571. Script and 14 tests added; AC A holds.
 - 2026-11-17: step 3 done in b224d5d. `persona-comments` has the Guard, Lens, and ladder; `PANEL.md` trigger changed; AC B and C hold.
+- 2026-11-17: step 4 done in 6e58afc. `FIX.md` item 6 handles `hack:` findings; `create-pr` and its body template list Follow-ups; AC D and E hold.
 - Decision log: decisions_pstack-19.tsv
 
 ## Pending Decisions
