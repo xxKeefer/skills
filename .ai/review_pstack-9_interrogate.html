@@ -55,6 +55,382 @@
   "skill": "/engineering:build",
   "runs": [
     {
+      "run": 2,
+      "title": "Light run",
+      "head": "3e3dd9b",
+      "date": "2026-11-17",
+      "meta": {
+        "Base": "pstack-inspired 428f956",
+        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-9.md",
+        "Fixed in": "0dd8026"
+      },
+      "answer": "The panel fixed 4 findings in 0dd8026, and no finding stays open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+      "visuals": [
+        {
+          "question": "Which lanes ran, and what did each find?",
+          "fold": true,
+          "table": {
+            "columns": [
+              "Persona",
+              "CR",
+              "Nit",
+              "Future",
+              "Status"
+            ],
+            "rows": [
+              [
+                "correctness",
+                "1",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "code-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "test-design",
+                "0",
+                "2",
+                "0",
+                "ran"
+              ],
+              [
+                "test-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "security",
+                "—",
+                "—",
+                "—",
+                "skipped (no non-test .ts/.vue)"
+              ],
+              [
+                "error-handling",
+                "—",
+                "—",
+                "—",
+                "skipped (no non-test .ts/.vue)"
+              ],
+              [
+                "naming",
+                "—",
+                "—",
+                "—",
+                "skipped (no .ts/.vue/.js identifiers)"
+              ],
+              [
+                "architecture",
+                "—",
+                "—",
+                "—",
+                "skipped (no app or lib source)"
+              ],
+              [
+                "a11y",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "i18n",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "vue-reactivity",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "design-system",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "decisions-log",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "tanstack",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "vitest",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "comments",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "async-state",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "form-behaviour",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "text-input",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "url-state",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "value-display",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "resilience",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "charts",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "file-upload",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "best-practice",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "typing",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "github-actions",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "shell",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "skills",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "api-spec",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "integration-test",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "browser-e2e",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "api-integrity",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "ac-check",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "pr-size",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "production-protector",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "bundle-size",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "analytics",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ],
+              [
+                "project rubric",
+                "—",
+                "—",
+                "—",
+                "skipped (not in the light set)"
+              ]
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "key": "tier",
+          "label": "Tier"
+        },
+        {
+          "key": "persona",
+          "label": "Persona"
+        },
+        {
+          "key": "where",
+          "label": "File:line",
+          "mono": true
+        },
+        {
+          "key": "issue",
+          "label": "Issue"
+        },
+        {
+          "key": "recommendation",
+          "label": "Recommendation"
+        },
+        {
+          "key": "result",
+          "label": "Result"
+        }
+      ],
+      "rows": [
+        {
+          "id": "r2.1",
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/interrogate/SKILL.md:46",
+            "issue": "The worktree copy fails on a clean tree.\n\ngit diff HEAD --binary prints nothing on a clean tree, and git apply on empty input exits 128 with 'No valid patches in input'. A clean tree is the normal state after a build.",
+            "recommendation": "Use git apply --allow-empty.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.2",
+          "cells": {
+            "tier": "Nit",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:15",
+            "issue": "A cwd that is not a string stops the run.\n\nos.path.isdir raises TypeError on a list.",
+            "recommendation": "Drop the finding with 'cwd not found'. Spec case with a list cwd.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.3",
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:29",
+            "issue": "No test proves that the timeout kills the child processes of the shell.\n\nWith proc.kill() in place of os.killpg, a grandchild keeps the pipe open and the script stalls, but the old test still passed.",
+            "recommendation": "Spec: sleep 30 with --timeout 1 returns in under 10 seconds with 'timed out'.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.4",
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/interrogate/scripts/rerun_findings.py:41",
+            "issue": "No test covers a findings file that does not exist.",
+            "recommendation": "Spec: a missing path exits 1 with one 'cannot read' line and no traceback.",
+            "result": "Fixed"
+          }
+        }
+      ]
+    },
+    {
       "run": 1,
       "title": "Light run",
       "head": "28c7cc6",

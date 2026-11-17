@@ -96,11 +96,16 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt. Report: `.ai/review_pstack-9_interrogate.html` (Light run 1). Reviewed: base `428f956`, head `c0d94e1` (panel read `28c7cc6`). The panel fixed r1.1 to r1.4 in `c0d94e1`. No row stays open.
   - Recorded decision: the fix commit changes runtime behaviour (r1.1, r1.2), so `/build` adds a new round of test and review (Step 2 item 7.2).
-- [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
+- [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. At `3e3dd9b`: `rerun_findings.spec.py` 18 tests OK, `check_principles.spec.py` 11 OK, `map_units.spec.py` 14 OK, `.githooks/pre-commit` exit 0.
+- [x] **7. Review.** Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code. Use `/engineering:light-review`. No row stays open from the last report.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-9_interrogate.html` (Light run 2). Reviewed: base `428f956`, head `0dd8026` (panel read `3e3dd9b`). The panel fixed r2.1 to r2.4 in `0dd8026`. No row stays open.
+  - Recorded decision: the fix commit changes runtime behaviour (r2.1, r2.2), so `/build` adds a third round of test and review (Step 2 item 7.2). The loop stops after that review.
+- [ ] **8. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
-- [ ] **7. Review.** Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code. Use `/engineering:light-review`. No row stays open from the last report.
+- [ ] **9. Review.** Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code. Use `/engineering:light-review`. No row stays open from the last report.
   - Done: the report path and the reviewed base and head SHAs are in this line.
-- [ ] **8. Push.** Push the branch with `git push -u origin pstack-9_interrogate`. Push-only map: open no PR.
+- [ ] **10. Push.** Push the branch with `git push -u origin pstack-9_interrogate`. Push-only map: open no PR.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -122,3 +127,4 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
   - The cleanup commit `0a4b4b8` deletes the unit 8 files and fixes three stale map lines, at the user's request.
 - 2026-11-17: `/build` ran steps 1 to 4. Commits: `d4cd57b` (step 1, TDD: 15 tests red, then green, and a mutation check on the exit and evidence rules), `6ea2a53` (step 2), `633666d` (step 3). Step 4 changed no file.
 - 2026-11-17: step 5 ran `/engineering:light-review` against `pstack-inspired`. Four lanes ran (correctness, code-quality, test-design, test-quality). The panel fixed 1 Change Requested row and 3 nits in `c0d94e1`. No calibration signals.
+- 2026-11-17: step 7 ran the second light review. The panel fixed 1 Change Requested row and 3 nits in `0dd8026`. No calibration signals.
