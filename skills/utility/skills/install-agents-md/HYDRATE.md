@@ -13,6 +13,8 @@ Read the machine, not the repo. Never write a value into a file in this repo.
 | `code_host_notes` | The path of a file with code host rules, or `none` | `~/.claude/tools/` |
 | `browser_tool` | The browser that the agent drives, and which profile. Write `none` when the machine has none | The enabled browser extensions and MCP servers |
 | `browser_notes` | The path of a file with browser rules, or `none` | `~/.claude/tools/` |
+| `notifier_command` | A shell command that takes a title and a body as its two arguments, such as `notify-send` on Linux, or `sh -c 'osascript -e "display notification \"$2\" with title \"$1\""' sh` on macOS. Write `none` when the machine has none. `/babysit` reads it | The installed CLIs: `command -v notify-send osascript` |
+| `notifier_notes` | The path of a file with notifier rules, or `none` | `~/.claude/tools/` |
 
 When the existing `~/.claude/AGENTS.md` already holds a tool table, take the values from it.
 

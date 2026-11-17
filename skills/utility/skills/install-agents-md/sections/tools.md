@@ -10,3 +10,4 @@ When a role says none, skip the step and say so.
 | Tracker   | {{tracker_tool}}    | {{tracker_notes}}    |
 | Code host | {{code_host_tool}}  | {{code_host_notes}}  |
 | Browser   | {{browser_tool}}    | {{browser_notes}}    |
+| Notifier  | {{notifier_command}} | {{notifier_notes}}   |
