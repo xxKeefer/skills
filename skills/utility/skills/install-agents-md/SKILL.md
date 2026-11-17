@@ -66,15 +66,21 @@ Skip this step when `wt` does not run. [`worktrunk.toml`](worktrunk.toml) names 
 the ticket key in its branch, so each layer of a stack resolves to one folder. A branch with no key
 keeps its own name. Ask first, because the move changes folder paths. On a no, skip the step.
 
-1. Read `~/.config/worktrunk/config.toml`. Show its `worktree-path` line, if it has one.
+1. Read `~/.config/worktrunk/config.toml`. Show its `worktree-path` line, if it has one. When the
+   file is a link into a read-only store, find the source of the config manager that writes it,
+   and edit that source in Step 2. Say that the user must rebuild before Step 3.
 2. Put the line from `worktrunk.toml` above the first `[table]` header. Replace the old
    `worktree-path` line. A key below a table header belongs to that table, and worktrunk ignores
    it with no error.
-3. In each repo of the user's work folder, run `wt step relocate --dry-run`. Show the moves, and
-   ask once. On a yes, run `wt step relocate`.
-4. For each moved worktree, set the new path in each plan that names the old path, in its
+3. Ask which repos to move. The default is the current repo. In each, run
+   `wt step relocate --dry-run`. Show the moves, and ask once. On a yes, run
+   `wt step relocate <branch>...` with the branch of each linked worktree only. A main checkout
+   never moves, even on a feature branch.
+4. Read `git worktree list` in each repo. `relocate` can report a move that it did not make. For
+   each worktree still at its old path, run `git worktree move <old> <new>`.
+5. For each moved worktree, set the new path in each plan that names the old path, in its
    `worktree:` key or its `Worktree:` line.
-5. Find each line in `~/.claude/AGENTS.md` that holds `<repo>.<branch>/`. Show it beside the same
+6. Find each line in `~/.claude/AGENTS.md` that holds `<repo>.<branch>/`. Show it beside the same
    line with `<repo>.<KEY>/`. Never apply it.
 
 **Done when:** the user said no, or the template is in the config, the worktrees moved, and the
