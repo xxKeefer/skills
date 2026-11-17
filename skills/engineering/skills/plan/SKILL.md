@@ -43,6 +43,9 @@ This command picks its input.
   - Skip the plan gate of `/start-ticket`. Write the plan with `status: draft`, and put
     `Approval: the caller's H2 stop.` in Context. The caller asks for the yes for each plan of its
     batch at one time.
+  - On a SPLIT verdict, take path 2 and ask no question. Run no `/split-ticket`, because a map
+    unit has no tracker. Write no plan. Return the slices to the caller, each with its goal and its
+    ACs. The caller writes them into the map.
 - `$ARGUMENTS` is empty: ask for a ticket key or a spec path.
 
 **Done when:** `/start-ticket` ran with a ticket or a spec.

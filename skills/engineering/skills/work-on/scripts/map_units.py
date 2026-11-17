@@ -2,7 +2,9 @@
 """Read and tick the units of a map.
 
 A unit is a heading `### [ ] N. Title` (or `### [x] N. Title` when ticked)
-under the map's `## Units` heading, with a `Done:` line in its section.
+under the map's `## Units` heading, with a `Done:` line in its section. A split
+unit is replaced by sub-units `### [ ] N.1. Title`, `### [ ] N.2. Title`; N is
+then a dotted number such as `7.1`.
 
   next <map> [--batch 5]  One line per unit with no tick, in order,
                           `<N>\t<title>`, at most --batch lines. A unit with
@@ -17,13 +19,13 @@ import re
 import sys
 from typing import NamedTuple
 
-UNIT = re.compile(r"^### \[([ x])\] (\d+)\. (.*)$")
+UNIT = re.compile(r"^### \[([ x])\] (\d+(?:\.\d+)*)\. (.*)$")
 
 
 class Unit(NamedTuple):
     index: int
     ticked: bool
-    number: int
+    number: str
     title: str
     has_done: bool
 
@@ -51,7 +53,7 @@ def units(lines):
         elif not in_units:
             continue
         elif m:
-            current = Unit(i, m.group(1) == "x", int(m.group(2)), m.group(3).strip(), False)
+            current = Unit(i, m.group(1) == "x", m.group(2), m.group(3).strip(), False)
         elif line.startswith("### ["):
             raise MalformedHeading(i)
         elif current and re.match(r"^\s*-?\s*Done:", line):
@@ -111,7 +113,7 @@ def main():
     p_next.add_argument("--batch", type=positive_int, default=5)
     p_tick = sub.add_parser("tick")
     p_tick.add_argument("map")
-    p_tick.add_argument("number", type=int)
+    p_tick.add_argument("number")
     args = parser.parse_args()
     try:
         if args.cmd == "next":

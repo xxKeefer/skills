@@ -139,6 +139,32 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertEqual(self.read(), MAP)
 
+    # r2.1: a split unit becomes sub-units N.1, N.2 in the map
+    def test_next_and_tick_read_sub_units_of_a_split_unit(self):
+        split = MAP.replace(
+            "### [ ] 3. Third\n\n- Done: three.\n",
+            "### [ ] 3.1. Third, part one\n\n- Done: three a.\n\n"
+            "### [ ] 3.2. Third, part two\n\n- Done: three b.\n",
+        )
+        self.write(split)
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(
+            r.stdout, "2\tSecond\n3.1\tThird, part one\n3.2\tThird, part two\n5\tFifth\n"
+        )
+        r = run("tick", self.map, "3.2")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read(), split.replace("### [ ] 3.2.", "### [x] 3.2."))
+        r = run("tick", self.map, "3")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("unit 3 does not exist", r.stderr)
+
+    def test_sub_unit_with_no_done_line_fails_with_its_line(self):
+        self.write(MAP.replace("### [ ] 3. Third\n\n- Done: three.\n", "### [ ] 3.1. Third\n\n- A note.\n"))
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn(f"{self.map}:22: unit 3.1 has no Done: line", r.stderr)
+
     # C4
     def test_program_map_with_units_1_to_6_ticked_lists_7_to_11(self):
         r = run("next", FIXTURE)
