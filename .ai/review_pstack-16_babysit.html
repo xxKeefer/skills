@@ -56,6 +56,360 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "64e6bd1",
+   "meta": {
+    "Base": "origin/pstack-inspired f33d9fd",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-16.md",
+    "Fixed in": "a336ff2"
+   },
+   "answer": "Run 4 read the retro commits 7a7f981, 738d489, and 0865096 with four real lane subagents at sonnet: correctness, code-quality, test-design, and test-quality. It found 2 nits, and the fix commit a336ff2 holds both. No finding stays open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "naming",
+        "—",
+        "—",
+        "—",
+        "skipped (no guard match: no .ts/.vue/.js source)"
+       ],
+       [
+        "security",
+        "—",
+        "—",
+        "—",
+        "skipped (no guard match: no .ts/.vue/.js source)"
+       ],
+       [
+        "error-handling",
+        "—",
+        "—",
+        "—",
+        "skipped (no guard match: no .ts/.vue/.js source)"
+       ],
+       [
+        "architecture",
+        "—",
+        "—",
+        "—",
+        "skipped (no guard match: no .ts/.vue/.js source)"
+       ],
+       [
+        "a11y",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "i18n",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "vue-reactivity",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "design-system",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "decisions-log",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "tanstack",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "vitest",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "comments",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "async-state",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "form-behaviour",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "text-input",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "url-state",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "value-display",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "resilience",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "charts",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "file-upload",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "best-practice",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "typing",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "github-actions",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "shell",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "skills",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "api-spec",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "integration-test",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "browser-e2e",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "api-integrity",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "ac-check",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "pr-size",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "production-protector",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "bundle-size",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "analytics",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/engineering/skills/work-on/scripts/map_units.py:123",
+      "issue": "No test showed that show stops at an H2 heading after the last unit. Dropping the H2 check kept every test green, and the map playbook would then write spec text from the wrong section.",
+      "recommendation": "Add a test with a Notes section after the last unit.",
+      "result": "Fixed in a336ff2. Test: test_show_on_the_last_unit_stops_at_the_next_h2_heading. Mutation check: red without the H2 check."
+     },
+     "id": "r4.1"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/utility/skills/install-agents-md/scripts/install_agents_md.py:45",
+      "issue": "render checked for a missing key in two passes, so the none default and the missing-key rule lived in two places.",
+      "recommendation": "Warn inside the substitution callback, and remove the pre-scan loop.",
+      "result": "Fixed in a336ff2. The existing missing-value tests stay green."
+     },
+     "id": "r4.2"
+    }
+   ],
+   "run": 4,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "a6ac67b",
    "meta": {
     "Base": "origin/pstack-inspired f33d9fd",
@@ -387,7 +741,7 @@
   }
  ]
 }
-    </script>
+</script>
 
     <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
     <script src="reports.js"></script>

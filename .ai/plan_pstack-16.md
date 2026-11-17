@@ -116,8 +116,8 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Done: pushed `origin/pstack-16_babysit`.
 - [x] **12. Test.** Run the gates from Context, plus `map_units.spec.py`, after the retro commits 7a7f981, 738d489, and 0865096. This step changes no behaviour.
   - Done: the gates are green on 0865096: map_units.spec.py, install_agents_md.spec.py, watch_prs.spec.py, statusline.spec.py, pre-commit_test.sh, check_principles.py.
-- [ ] **13. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The retro commits since acf5b53 are the new code. The three open code-quality nits of run 1 are not raised again.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **13. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The retro commits since acf5b53 are the new code. The three open code-quality nits of run 1 are not raised again.
+  - Done: the report is `.ai/review_pstack-16_babysit.html` (run 4). Reviewed: base f33d9fd, head a336ff2 (panel read 64e6bd1). Four lane subagents ran at sonnet: correctness, code-quality, test-design, test-quality. Fix commit a336ff2 holds 2 nit fixes, and none stay open.
 - [ ] **14. Push.** Push the branch and open a draft PR into `pstack-inspired` with `/create-pr @.ai/plan_pstack-16.md`. This machine runs `gh` as the repo owner.
   - Done: the draft PR URL is in this line.
 
@@ -143,6 +143,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: blast-radius (base f33d9fd): verdict clear, rung 4. Safety fact: `statusline.sh` exits 0 and draws line 1 and line 2 for each of: no state file, a malformed or wrong-shape state file, `COLUMNS` unset, empty, or non-numeric, and empty or garbage stdin; and the C1 output is byte-equal. Command: run `HOME=<tmp> python3 -I skills/utility/skills/setup-statusline/statusline.spec.py` (8 tests OK), then `env -i PATH="$PATH" HOME=<tmp> COLUMNS=<v> bash statusline.sh < fixtures/payload_full.json` against `<tmp>/.cache/babysit/state.json` set to `''`, `{`, `null`, `{"a":1}`, `[null]`, `[1,"x"]`. No confirmed risk. Open notes: an old `agents-md.values.json` makes `install_agents_md.py` exit 1 with `missing value notifier_command` and write nothing, until the user adds the two keys (documented in SKILL Step 2). The chip line is exactly `COLUMNS` wide, so a UI that pads the status line may wrap it (user check, step 5 QA). Not run: bash 3.2 and jq 1.6 (read only).
 - 2026-11-17: `/ship` checks go: the patch-id of the reviewed head acf5b53 matches HEAD. Pushed `origin/pstack-16_babysit`, and ticked unit 16 on the map. Map playbook: next is step 8, the `/retro` offer (H5).
 - 2026-11-17: `/retro` (H5): the user approved all 9 rows. Rows 1 to 7 are applied in 7a7f981, 738d489, 0865096, and the calibration backlog. Rows 8 and 9 are report only. Next: the home machine opens the PR into `pstack-inspired`, reviews it, and merges it (H4). Then `/work-on @.ai/map_pstack-program.md` starts unit 17.
+- 2026-11-17: step 13 done. Light review run 4 in `.ai/review_pstack-16_babysit.html`: base f33d9fd, head a336ff2 (panel read 64e6bd1). Fix commit a336ff2: a test for `map_units.py show` on the last unit (mutation checked), and one-pass warning in `install_agents_md.py render`.
 
 ## Follow-ups
 
