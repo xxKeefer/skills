@@ -119,6 +119,8 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 
 - 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Pushed 84a0da5.
 
+- 2026-11-18: unit 21 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.
+
 ## Pending Decisions
 
 ## Follow-ups
