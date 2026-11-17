@@ -4,6 +4,8 @@ source: conversation
 created: 2026-11-16
 status: approved
 repo: xxKeefer/skills
+batch: 1
+push_only: true
 goal: Adopt the pstack philosophy as one program. One router runs the skills, claims are proven by a run, and a feedback loop raises quality.
 ---
 
@@ -48,20 +50,9 @@ Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` 
 
 ### One unit (build machine)
 
-1. Run this prompt:
-
-   ```
-   /work-on @.ai/map_pstack-program.md
-   Run a batch of one unit: use --batch 1 in step 1 of the map playbook.
-   Run no gh command, and no gh stack command, on this machine.
-   Step 4: make the unit branch with `git switch -c <branch> pstack-inspired`, then run /build.
-   Step 5: run steps 1 to 3 of /ship only. On go, run `git push -u origin <branch>` in place of /create-pr.
-   Step 6: tick the unit after the push.
-   ```
-
-2. Approve the plan when `/work-on` stops for it (H2).
-3. `/work-on` builds the unit on its branch, `pstack-<N>_<short-desc>`, pushes it, and ticks the unit.
-4. Run `/retro` when `/work-on` offers it, or say no.
+1. Run `/work-on @.ai/map_pstack-program.md`. The map's `batch: 1` and `push_only: true` keys set a batch of one unit, no `gh` command, and a `git push` in place of a PR.
+2. `/work-on` plans the unit, builds it on its branch, `pstack-<N>_<short-desc>`, pushes it, and ticks the unit. It does not stop for the plan, because this map's approval (H0) covers it.
+3. Run `/retro` when `/work-on` offers it, or say no.
 
 ### One unit (home machine)
 
@@ -117,7 +108,7 @@ After the merge, change the marketplace `path` back to the main checkout, and pu
 | --- | --- | --- |
 | H0 | The user approves the map. | Once per program. |
 | H1 | The user says yes to the spec. | Once per change, when a spec exists. |
-| H2 | The user approves the plan. | Once per change, or once per batch. |
+| H2 | The user approves the plan. | Once per change. A map run has no H2 stop, because H0 covers each unit plan. |
 | H3 | An open `Pending Decision` (a `D` entry) exists. | Only when the agent cannot decide. |
 | H4 | An action is on the pause list. | Each time another person reads the output. |
 | H5 | The user picks the skill edits from `/retro`. | After a unit. |
