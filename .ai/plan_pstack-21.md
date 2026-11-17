@@ -81,7 +81,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   - Done: the gates are green. The pre-commit test, the commit-msg test, `leak_check.spec.py` (6 tests), and `check_principles.py` each exit 0.
 - [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code.
   - Done: report `.ai/review_pstack-21_eval-skill.html`. Reviewed: base caa647d, head 680ffe7 (panel read 44dee66). The fix commit 680ffe7 holds 3 findings, 0 open.
-- [ ] **7. Blast-radius fix: skill folder names.** The leak check lists the folder of the skill under trial when its name holds a banned word. Six skills do: `test`, `eval-skill`, `persona-integration-test`, `persona-test-design`, `persona-test-quality`, and `principle-test-behavior-not-implementation`. `test` is a command that a `work-on` playbook calls, so `/retro` offers a trial that cannot finish Step 3. Test first in `leak_check.spec.py`: a folder with `.claude/skills/test/SKILL.md` and a clean prompt exits 0 with no output, and a banned word in any other path is still listed. Then make `leak_check.py` skip each path under `.claude/skills/`. In `eval-skill/SKILL.md`, say in Rules for blinding that the copied skill folder is exempt, because the trial must not change the skill.
+- [x] **7. Blast-radius fix: skill folder names.** The leak check lists the folder of the skill under trial when its name holds a banned word. Six skills do: `test`, `eval-skill`, `persona-integration-test`, `persona-test-design`, `persona-test-quality`, and `principle-test-behavior-not-implementation`. `test` is a command that a `work-on` playbook calls, so `/retro` offers a trial that cannot finish Step 3. Test first in `leak_check.spec.py`: a folder with `.claude/skills/test/SKILL.md` and a clean prompt exits 0 with no output, and a banned word in any other path is still listed. Then make `leak_check.py` skip each path under `.claude/skills/`. In `eval-skill/SKILL.md`, say in Rules for blinding that the copied skill folder is exempt, because the trial must not change the skill.
   - Done: `leak_check.spec.py` passes with the new tests, and the repro below exits 0.
 - [ ] **8. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -114,6 +114,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   python3 skills/meta/skills/eval-skill/scripts/leak_check.py $D/acme $D/p.txt; echo "exit $?"
   ```
   Cleared: no other file names `eval-skill` outside `.ai/`, the README, `retro`, and the work-on fixture map. The `retro` offer is text, guarded by "when the `meta` plugin is installed". `plugin.json` lists no skills, so the new folder needs no registry edit. Step 7 fixes the risk.
+- 2026-11-18: step 7 done: the leak check skips each path under `.claude/skills/`, 8 tests green, the repro exits 0 (commit 637465c).
 
 ## Pending Decisions
 
