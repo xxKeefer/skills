@@ -118,6 +118,10 @@ class Skips(unittest.TestCase):
         text = "+++ b/a.scss\n@@ -0,0 +1,1 @@\n+a { color: red; } // why\n"
         self.assertEqual(run(text)[1], "a.scss:1: // why\n")
 
+    def test_hash_with_no_space_before_it_is_listed(self):
+        text = "+++ b/a.py\n@@ -0,0 +1,1 @@\n+x = f(1)# hack\n"
+        self.assertEqual(run(text)[1], "a.py:1: # hack\n")
+
 
 class Paths(unittest.TestCase):
     def test_quoted_non_ascii_path_is_decoded_and_scanned(self):

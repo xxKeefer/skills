@@ -76,7 +76,7 @@ def scan(text, lines, blocks):
             i += 1
             continue
         for tok in lines:
-            if text.startswith(tok, i) and (tok != "#" or i == 0 or text[i - 1].isspace()):
+            if text.startswith(tok, i) and (tok != "#" or text[i - 1:i] not in ("$", "{")):
                 return i, None, len(text)
         for open_, close in blocks:
             if text.startswith(open_, i):
