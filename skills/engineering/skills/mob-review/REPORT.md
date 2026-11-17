@@ -57,7 +57,7 @@ fixed rows in each group.
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
 - Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
-  `path:line`, convert it to a link first (resolve the line on `origin/main`).
+  `path:line`, convert it to a link first (resolve the line on `$BASE`).
 - Write each draft reply in the comment layout of
   [`post-review-comments`](../post-review-comments/SKILL.md#the-comment-layout), and follow the
   rules under that layout. `/engineering:post-review-comments` checks the anchor and scans the draft

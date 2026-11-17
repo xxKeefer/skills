@@ -50,20 +50,20 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Review of pstack-17_tidy-up-audit",
- "path": "/home/xxkeefer/studio/code/skills/.ai/review_pstack-17_tidy-up-audit.html",
+ "title": "Review of pstack-18_correct-ladder",
+ "path": "/home/xxkeefer/studio/code/skills/.ai/review_pstack-18_correct-ladder.html",
  "skill": "/engineering:build",
  "runs": [
   {
    "title": "Light run",
-   "head": "5f67ec0",
+   "head": "06ef709",
    "meta": {
-    "Base": "pstack-inspired 54b3f0e",
+    "Base": "pstack-inspired 5790422",
     "Folder": "/home/xxkeefer/studio/code/skills",
-    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-17.md",
-    "Fixed in": "b170da4"
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-18.md",
+    "Fixed in": "55485c9"
    },
-   "answer": "No essential lane matched this skill-text diff, so persona-skills ran in their place. It found 2 nits, and commit b170da4 fixes both. No row is open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "answer": "This run reviews the whole branch, with the retro changes. Four lanes ran. They found 2 nits, and commit 55485c9 fixes both. No finding is open. This run covers the essential lanes only. /engineering:mob-review runs the full panel.",
    "visuals": [
     {
      "question": "Which lanes ran, and what did each find?",
@@ -78,70 +78,70 @@
       ],
       "rows": [
        [
-        "skills",
+        "correctness",
         "0",
-        "2",
         "0",
-        "ran (no essential lane matched)"
+        "0",
+        "ran (clean)"
        ],
        [
-        "correctness",
-        "-",
-        "-",
-        "-",
-        "skipped (prose only, no executable code)"
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
        ],
        [
         "security",
         "-",
         "-",
         "-",
-        "skipped (no .ts/.vue source)"
+        "skipped (no .ts or .vue source)"
        ],
        [
         "error-handling",
         "-",
         "-",
         "-",
-        "skipped (no failure path)"
-       ],
-       [
-        "code-quality",
-        "-",
-        "-",
-        "-",
-        "skipped (no non-test source)"
+        "skipped (no .ts or .vue failure path)"
        ],
        [
         "naming",
         "-",
         "-",
         "-",
-        "skipped (no identifiers changed)"
-       ],
-       [
-        "test-design",
-        "-",
-        "-",
-        "-",
-        "skipped (no behavioural source)"
-       ],
-       [
-        "test-quality",
-        "-",
-        "-",
-        "-",
-        "skipped (no test file)"
+        "skipped (no .ts, .vue, or .js identifiers)"
        ],
        [
         "architecture",
         "-",
         "-",
         "-",
-        "skipped (no app or lib source)"
+        "skipped (no app or library source)"
        ],
        [
-        "other lanes, project rubric",
+        "other panel lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
         "-",
         "-",
         "-",
@@ -182,10 +182,168 @@
     {
      "cells": {
       "tier": "Nit",
+      "persona": "code-quality",
+      "where": ".githooks/pre-commit:29",
+      "issue": "The dir check writes the prefix strip two times.\n\nA later change can update one copy and not the other.",
+      "recommendation": "Set p once at the top of the loop, and use it in both lines.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": ".githooks/pre-commit:29",
+      "issue": "No test runs the dir check on a revision.\n\nOnly a revision uses the prefix strip, so a broken strip passes every test.",
+      "recommendation": "Add two revision tests: an undefined $SKILL_DIR path fails, and a defined one passes.",
+      "result": "Fixed"
+     },
+     "id": "r2.2"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
+   "head": "04f7bac",
+   "meta": {
+    "Base": "pstack-inspired 5790422",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-18.md",
+    "Fixed in": "3014e27"
+   },
+   "answer": "No essential lane matched this diff of skill text, so the panel ran the skills lane only. The lane found 2 findings. Commit 3014e27 fixes both, and no finding is open. This run covers the essential lanes only. /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "1",
+        "1",
+        "0",
+        "ran (no essential lane matched)"
+       ],
+       [
+        "correctness",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "test-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (guard did not match)"
+       ],
+       [
+        "other panel lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
       "persona": "skills",
-      "where": "skills/engineering/skills/tidy-up/SKILL.md:57",
-      "issue": "The pick `all` is not defined for keep rows.\n\nStep 4 applies only the picked rows, so the agent must guess if `all` takes the keep and fix rows.",
-      "recommendation": "Step 3 says that `all` picks each row whose action is not keep, and that a picked keep row changes nothing.",
+      "where": "skills/engineering/skills/constraints/SKILL.md:54",
+      "issue": "Step 4 reads the principle at $SKILL_DIR/.., but constraints does not define $SKILL_DIR.\n\nAn agent gets a path that does not resolve, and does not read the ladder.",
+      "recommendation": "Link the principle with the sibling path ../principle-encode-lessons-in-structure/SKILL.md.",
       "result": "Fixed"
      },
      "id": "r1.1"
@@ -194,9 +352,9 @@
      "cells": {
       "tier": "Nit",
       "persona": "skills",
-      "where": "skills/engineering/skills/tidy-up/SKILL.md:55",
-      "issue": "No step reads the merged state for the `merged` column.\n\nTwo runs can fill the column from different sources.",
-      "recommendation": "Step 1 reads the merged state of each branch and worktree from `git branch --merged <default branch>`.",
+      "where": "skills/engineering/skills/work-on/SKILL.md:95",
+      "issue": "The work-on index line for the principle still gives the old list.\n\nThe line does not agree with the new ladder.",
+      "recommendation": "Change the line to: fix it at the highest rung of the ladder that works, with docs last.",
       "result": "Fixed"
      },
      "id": "r1.2"

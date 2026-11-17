@@ -6,6 +6,7 @@ status: approved
 repo: xxKeefer/skills
 batch: 1
 push_only: true
+subagent_model: sonnet
 goal: Adopt the pstack philosophy as one program. One router runs the skills, claims are proven by a run, and a feedback loop raises quality.
 ---
 
@@ -488,7 +489,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - A read-only table first: size, merged, dirty, PR state, last used. Delete only after the user picks.
 - Done: `/tidy-up` shows the table and deletes nothing until a pick.
 
-### [ ] 18. The correct ladder (r1.6)
+### [x] 18. The correct ladder (r1.6)
 
 - `engineering/constraints` and `engineering/self-improve`: architecture, then types, then a lint whose error names the fix, then a test, docs last. A mistake class counts after two times.
 - Done: a repeated mistake gets a fix at the highest rung that works.

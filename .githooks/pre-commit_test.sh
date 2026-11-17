@@ -105,11 +105,33 @@ try_skill 'Run `python3 ../other/scripts/check.py`.'
 expect 'a script path from the current folder in a SKILL.md blocks the commit' block $?
 
 new_repo
-try_skill 'Run `python3 $SKILL_DIR/../other/scripts/check.py`.'
+try_skill '`$SKILL_DIR` is the base directory. Run `python3 $SKILL_DIR/../other/scripts/check.py`.'
 expect 'a script path from $SKILL_DIR in a SKILL.md commits' pass $?
 
 new_repo
 try_commit 'Run `python3 ../other/scripts/check.py`.'
 expect 'a script path from the current folder outside a SKILL.md commits' pass $?
+
+new_repo
+try_skill 'Read `$SKILL_DIR/../other/SKILL.md`.'
+expect 'a $SKILL_DIR path in a SKILL.md that does not say what $SKILL_DIR is blocks the commit' block $?
+
+new_repo
+try_skill "\`\$SKILL_DIR\` is this skill's base directory. Read \`\$SKILL_DIR/../other/SKILL.md\`."
+expect 'a $SKILL_DIR path in a SKILL.md that says what $SKILL_DIR is commits' pass $?
+
+new_repo
+try_skill 'Flag an unset `$SKILL_DIR` placeholder.'
+expect 'a $SKILL_DIR mention with no path commits' pass $?
+
+new_repo
+try_skill 'Read `$SKILL_DIR/x`.'
+(cd "$repo" && .githooks/pre-commit HEAD > /dev/null 2>&1)
+expect 'a revision with an undefined $SKILL_DIR path fails' block $?
+
+new_repo
+try_skill '`$SKILL_DIR` is the base directory. Read `$SKILL_DIR/x`.'
+(cd "$repo" && .githooks/pre-commit HEAD > /dev/null 2>&1)
+expect 'a revision with a defined $SKILL_DIR path passes' pass $?
 
 exit "$failed"
