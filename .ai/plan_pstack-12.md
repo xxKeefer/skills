@@ -98,7 +98,20 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`. Run 1 has no open row. Do not raise the rows of run 1 again.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
   - Result: the report is `.ai/review_pstack-12_decision-log-sitrep.html`, run 2. Reviewed: base 400344b, head a8757d8 (panel read faf296b). The panel fixed 1 finding in a8757d8. Row r2.1 stays open: `build/SKILL.md` is over 10 KB, and it was before this branch. The fix touched a test only, so rule 7.2 adds no new round.
-- [ ] **9. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
+- [ ] **9. Review fix r1.1.** A build step commits only the plan, so the new decision log never enters git, at `skills/engineering/skills/build/STEP.md` section 4 item 4. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+  - Done: STEP.md section 4 item 4 commits the decision log with the plan edit. Map playbook step 4 commits the log with the spec and the plan when the log exists.
+- [ ] **10. Review fix r1.2.** Callers give `/update-plan` choices that are already in the plan, and `/update-plan` says not to log those, at `skills/primitives/skills/update-plan/SKILL.md`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+  - Done: `/update-plan` logs each choice that the caller gives, and skips only a choice that the log already holds.
+- [ ] **11. Review fix r1.3.** `sitrep.py` drops the wrapped or nested lines of a Follow-ups bullet, at `skills/primitives/skills/sitrep/scripts/sitrep.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+  - Done: a Follow-ups item that wraps to more lines prints in full. A spec case covers it.
+- [ ] **12. Review fix r1.4.** `log_decision.py` cannot record a field value that starts with a dash, at `skills/primitives/skills/update-plan/scripts/log_decision.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+  - Done: `update-plan/SKILL.md` writes the command line in the `--field=value` form, and a spec case records a value that starts with a dash. `log_decision.py` also accepts a plan named `handoff_<KEY>.md`, with the log `decisions_<KEY>.tsv` (the blast-radius risk). A spec case covers it.
+  - Recorded decision: rows r1.3 and r1.4 change runtime behaviour, so `/build` Step 1 item 1.3 adds a new round of test and review (steps 13 and 14). Every row of the interrogate run is ticked, so no row stays open.
+- [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`. Add this run as run 3 of `.ai/review_pstack-12_decision-log-sitrep.html`. Row r2.1 stays open. Do not raise the rows of runs 1 and 2 again, or a row that only repeats them.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+- [ ] **15. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
 
 ## Suggested skills
