@@ -206,6 +206,13 @@ class FindDrivers(unittest.TestCase):
         )
         self.assertEqual(r.stdout.strip(), path)
 
+    def test_items_of_a_later_key_are_not_app_paths(self):
+        path = os.path.join(self.repo_skills, "verify-demo-cli", "SKILL.md")
+        write(path, "---\nname: verify-demo-cli\napp-paths:\n  - src/**\ntags:\n  - docs/**\n---\n")
+        self.change("docs/a.md")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), "no driver")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -106,6 +106,22 @@ class CheckDriver(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("app-paths", r.stderr)
 
+    def test_empty_app_paths_before_another_list_key_exits_1(self):
+        write(
+            os.path.join(self.dir, "SKILL.md"),
+            skill_md(frontmatter="name: verify-demo-cli\napp-paths:\nallowed-tools:\n  - Bash\n"),
+        )
+        r = self.run_script()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("app-paths", r.stderr)
+
+    def test_index_link_with_an_anchor_or_title_passes(self):
+        for link in ("./greet.md#sub-features", './greet.md "Greet"'):
+            with self.subTest(link=link):
+                write(os.path.join(self.dir, "features", "README.md"), "# Map\n\n- [Greet](%s)\n" % link)
+                r = self.run_script()
+                self.assertEqual(r.returncode, 0, r.stderr)
+
     def test_missing_skill_md_exits_1(self):
         os.remove(os.path.join(self.dir, "SKILL.md"))
         r = self.run_script()

@@ -39,13 +39,14 @@ or a file upload changed. It adds its run to the same report.
 After `/happy-path`, run `/verify`. On `no driver`, write `no driver` in the `Progress` of the plan,
 when a plan exists.
 
-**Done when:** `/verify` returned evidence, or `no driver` is in the plan.
+**Done when:** `/verify` returned a result, or `/happy-path` did not run.
 
 ## Step 3: Hand on
 
 Give the next command:
 
 - QA items failed: the `/fix` prompt that the report builds.
+- `/verify` gave `fail` or `blocked`: `/fix` with the evidence path of the driver.
 - Everything passed: `/review`.
 
 **Done when:** the user has the next command.

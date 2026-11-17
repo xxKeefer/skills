@@ -77,7 +77,7 @@ commit.
 | `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `interrogate` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the `/write-report` kind `interrogate` |
 | `blast-radius` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the verdict words `clear` and `risk` |
-| `verify` | `test`, `interrogate`, `blast-radius`, `qa-screenshots` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
+| `verify` | `test`, `interrogate`, `blast-radius`; `qa-screenshots` runs only its `find_drivers.py` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## light-review

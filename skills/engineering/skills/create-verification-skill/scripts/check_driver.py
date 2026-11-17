@@ -76,7 +76,7 @@ def check_features(root):
         name = file.name
         if name == "README.md":
             continue
-        if not re.search(r"\((?:[^)\s]*/)?" + re.escape(name) + r"\)", index_text):
+        if not re.search(r"\((?:[^)\s]*/)?" + re.escape(name) + r"(?:[#\s][^)]*)?\)", index_text):
             errors.append("features/README.md: feature file `%s` is not in the index. Fix: add a link to it." % name)
         titles = h2_titles(file.read_text())
         for h2 in FEATURE_H2S:

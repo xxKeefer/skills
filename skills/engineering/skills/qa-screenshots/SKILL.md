@@ -42,8 +42,9 @@ Ask in one `AskUserQuestion`. Each question names its items.
 
 ## Step 3: Capture
 
-Work in the tab from Step 2. Run `/verify` first. When it finds a driver, use the Drive section and
-the feature map of the driver to reach each screen. With `no driver`, use the browser flow below.
+Work in the tab from Step 2. Run `python3 ../verify/scripts/find_drivers.py --repo <repo root> --base <base>`. When it prints a
+driver path, read the feature map of that driver for the user path to each screen, and drive the screens in this tab. Do not run `/verify` here: it drives its own
+instance, not your tab. With no driver, use the browser flow below.
 
 - **Sign-in or device check:** stop and tell the user. Use no other browser, and do not go around
   it.

@@ -51,7 +51,7 @@ call, or the user's words. No candidate without one.
 | --- | --- |
 | **Skill gap** | The user did a task by hand that a skill could own, or a skill was missing a step that the agent had to work out. |
 | **Skill misfire** | A skill step misled the agent, ran in the wrong order, contradicted another skill, or did not trigger when it should have. |
-| **Missing driver** | A `no driver` line in the `Progress` of a plan. Propose `/create-verification-skill` as a new skill row. |
+| **Missing driver** | A `no driver` line in the `Progress` of a plan. Propose `/create-verification-skill` for that app. |
 | **Navigation** | The agent took long to find a file or a fact. A pointer in a skill, a reference, or a steering file would have saved the search. |
 | **Automated check** | The agent made a mistake that a check could catch: a hook, a pre-commit check, a lint rule, a test. First read the checks that exist (`.githooks/`, the lint config, the CI workflow). A check that exists but is not wired, or is broken, is the finding. |
 | **Review miss** | A mistake reached the user that a reviewer should have caught, or a reviewer flagged something it should not have. |
@@ -77,6 +77,7 @@ Give each candidate one route:
 | --- | --- | --- |
 | Skill misfire, skill gap in an existing skill, navigation inside a skill | Edit that skill in `$SKILLS_ROOT` | Step 6 makes the edit |
 | A task that no skill owns, seen in this session and likely to repeat | A new skill in the domain it belongs to, through `/write-a-skill` | Step 6 runs `/write-a-skill` |
+| Missing driver | A driver for that app, through `/create-verification-skill`, which picks the place by its owner rule | Step 6 runs `/create-verification-skill` in the app repo, with no commit in `$SKILLS_ROOT` |
 | Mechanical mistake | A hook through `/write-a-hook`, or a path rule through `/write-a-rule` | Step 6 runs that skill |
 | Review miss | An entry in the calibration backlog of `/self-improve` | Step 6 appends the entry |
 | Steering bloat, no-op | Move the line to a rule, a skill, or a check, or cut it | Step 6 edits the steering file |
