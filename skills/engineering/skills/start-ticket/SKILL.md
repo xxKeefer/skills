@@ -95,7 +95,8 @@ The plan holds:
 
 - **Steps.** Each step is a vertical slice: when it is done, a user can exercise it end to end.
   Put the most uncertain or risky work first. Each step that changes behaviour names its seam and
-  the IDs of its test conditions. Its done line names the tests that it adds.
+  the IDs of its test conditions. Its done line names the tests that it adds, and the letter of
+  each AC that it proves. Each AC has one step.
 - **The production gate.** Name the flag, permission, or setting that gates the change, and what a
   user without it sees. If nothing gates it, say why that is safe.
 - **The Test approach.** Read [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)

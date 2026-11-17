@@ -20,6 +20,7 @@ approval covers the map and each unit plan, so this playbook stops for neither.
 - **Spec.** `spec_<prefix>-<N>.md`, written with `/write-to-file`, doctype `spec`.
 - **Plan.** `plan_<prefix>-<N>.md`, written by the map-unit route of `/plan`.
 - **Batch size.** The `next` command of the script reads the map's `batch` frontmatter key. Else 5. Pass no `--batch` flag.
+- **Subagent model.** The map's `subagent_model` frontmatter key, when set, replaces the `models` block for each subagent of the run. Write it into each plan's Context, and pass it to each skill that starts a subagent.
 
 ## Push only
 

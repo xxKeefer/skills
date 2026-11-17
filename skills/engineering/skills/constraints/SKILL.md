@@ -51,7 +51,7 @@ working bar. Stop at four.
      (edit, task end, or CI). A rule with no command is not a constraint. Leave it out.
    - **Measured, not enforced**: the metric, today's value, and the direction it must not move.
    - **Exceptions**: ID, rule, path, reason, owner, and expiry date.
-2. Read [`principle-encode-lessons-in-structure`](../principle-encode-lessons-in-structure/SKILL.md). Back each rule at the
+2. Read **principle-encode-lessons-in-structure** ([`../principle-encode-lessons-in-structure/SKILL.md`](../principle-encode-lessons-in-structure/SKILL.md)). Back each rule at the
    highest rung of its ladder that works. Add each command to the project's own scripts, so that it
    runs without an agent. Use the tools that the project already has. Add a new tool only for a
    dimension that the user picked.
