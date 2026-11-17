@@ -94,6 +94,12 @@ class Skips(unittest.TestCase):
         text = '+++ b/a.py\n@@ -0,0 +1,1 @@\n+s = "a\\" # b"\n'
         self.assertEqual(run(text), (0, "", ""))
 
+    def test_unclosed_double_quote_or_backtick_does_not_hide_a_comment(self):
+        text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+x = `a // why\n"
+        self.assertEqual(run(text)[1], "a.ts:1: // why\n")
+        text = '+++ b/a.sh\n@@ -0,0 +1,1 @@\n+echo 5" # why\n'
+        self.assertEqual(run(text)[1], "a.sh:1: # why\n")
+
     def test_hash_inside_a_shell_word_is_skipped(self):
         text = "+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo $#\n+n=${#arr[@]}\n"
         self.assertEqual(run(text), (0, "", ""))
@@ -107,6 +113,10 @@ class Hunks(unittest.TestCase):
     def test_new_hunk_resets_the_line_and_an_open_block(self):
         text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+/* open\n@@ -10,0 +20,1 @@\n+const a = 1\n"
         self.assertEqual(run(text)[1], "a.ts:1: /* open\n")
+
+    def test_no_newline_marker_does_not_move_the_line_number(self):
+        text = "+++ b/a.py\n@@ -1,1 +1,2 @@\n-old\n\\ No newline at end of file\n+x = 1\n+# why\n"
+        self.assertEqual(run(text)[1], "a.py:2: # why\n")
 
     def test_each_file_gets_its_own_line_numbers(self):
         text = (
