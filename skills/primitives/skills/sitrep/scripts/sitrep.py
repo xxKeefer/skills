@@ -22,8 +22,6 @@ RECOMMENDED = re.compile(r"^- ([A-Z]): .*\(recommended")
 
 def open_entries(lines, span):
     """Returns each pending entry as a list of lines: its heading, then its body."""
-    if span is None:
-        return []
     entries = []
     for i in range(*span):
         if ENTRY.match(lines[i]):
@@ -35,8 +33,6 @@ def open_entries(lines, span):
 
 def skipped_steps(lines, span):
     """Returns (title, reason) for each skipped step."""
-    if span is None:
-        return []
     found = []
     for step in parse_steps(lines, *span, lambda *a: None):
         if step.mark != "-":
@@ -47,9 +43,38 @@ def skipped_steps(lines, span):
 
 
 def follow_ups(lines, span):
-    if span is None:
-        return []
     return [lines[i].strip()[2:] for i in range(*span) if lines[i].startswith("- ")]
+
+
+def render_open_entries(entries):
+    out = ["## Open entries"]
+    for entry in entries:
+        out.append("")
+        out.append(entry[0].lstrip("# "))
+        out.extend(entry[1:])
+        rec = next((m.group(1) for l in entry if (m := RECOMMENDED.match(l))), None)
+        if rec:
+            out.append(f"Recommended: {rec}")
+    return out
+
+
+def render_choices(rows):
+    out = ["## Choices made alone"]
+    for r in rows:
+        out.append("")
+        out.append(f"- Decision: {r['decision']}")
+        out.append(f"  - Reason: {r['reason']}")
+        out.append(f"  - Evidence: {r['evidence']}")
+        out.append(f"  - Result: {r['result']}")
+    return out
+
+
+def render_skipped(skipped):
+    return ["## Skipped steps"] + [f"- {title} Skipped: {reason}" for title, reason in skipped]
+
+
+def render_follow_ups(items):
+    return ["## Follow-ups"] + [f"- {i}" for i in items]
 
 
 def main(argv):
@@ -57,41 +82,28 @@ def main(argv):
     with open(plan) as f:
         lines = f.read().splitlines()
     found = sections(lines, 0)
+    none = (0, 0)
     out = []
 
-    entries = open_entries(lines, found.get("Pending Decisions"))
+    entries = open_entries(lines, found.get("Pending Decisions", none))
     if entries:
-        out.append("## Open entries")
-        for entry in entries:
-            out.append("")
-            out.append(entry[0].lstrip("# "))
-            out.extend(entry[1:])
-            rec = next((m.group(1) for l in entry if (m := RECOMMENDED.match(l))), None)
-            if rec:
-                out.append(f"Recommended: {rec}")
+        out.extend(render_open_entries(entries))
 
     try:
         rows = read_log(log_path(plan))
-    except ValueError:
+    except ValueError as e:
+        print(f"Warning: {e}. The decision log is not read.", file=sys.stderr)
         rows = []
     if rows:
-        out.append("## Choices made alone")
-        for r in rows:
-            out.append("")
-            out.append(f"- Decision: {r['decision']}")
-            out.append(f"  - Reason: {r['reason']}")
-            out.append(f"  - Evidence: {r['evidence']}")
-            out.append(f"  - Result: {r['result']}")
+        out.extend(render_choices(rows))
 
-    skipped = skipped_steps(lines, found.get("Steps"))
+    skipped = skipped_steps(lines, found.get("Steps", none))
     if skipped:
-        out.append("## Skipped steps")
-        out.extend(f"- {title} Skipped: {reason}" for title, reason in skipped)
+        out.extend(render_skipped(skipped))
 
-    items = follow_ups(lines, found.get("Follow-ups"))
+    items = follow_ups(lines, found.get("Follow-ups", none))
     if items:
-        out.append("## Follow-ups")
-        out.extend(f"- {i}" for i in items)
+        out.extend(render_follow_ups(items))
 
     print("\n".join(out) if out else "Nothing is pending.")
     return 0

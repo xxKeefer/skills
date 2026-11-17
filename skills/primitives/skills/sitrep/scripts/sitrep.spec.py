@@ -101,6 +101,22 @@ class Sitrep(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn("Nothing is pending.", r.stdout)
 
+    def test_plan_name_without_prefix_warns_and_still_prints(self):
+        self.plan = os.path.join(self.dir, "notes.md")
+        self.write(PLAN)
+        r = sitrep(self.plan)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("plan_", r.stderr)
+        self.assertIn("Rename the helper.", r.stdout)
+
+    def test_short_log_row_still_lists_the_decision(self):
+        self.write(PLAN)
+        with open(os.path.join(self.dir, "decisions_demo-1.tsv"), "w") as f:
+            f.write("decision\treason\tevidence\tresult\nkept A\tsimpler\n")
+        r = sitrep(self.plan)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("kept A", r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
