@@ -85,8 +85,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: `install_agents_md.spec.py` passes, C5. AC F holds.
 - [x] **6. End-to-end check.** Kind: config. Conditions: C6. On a scratch git repo in `/tmp`, commit a file, then add a `.py` file with a plain comment and a `# HACK:` comment on a branch. Run `added_comments.py` on `git diff main...HEAD`, and confirm two lines. Read `persona-comments` and `FIX.md` for each line, and write in this Done line the rung and the outcome (plan step or Follow-up). Delete the scratch repo.
   - Done: AC G holds. Scratch run printed `b.py:2: # this sets the retry count` and `b.py:4: # HACK: sleep because the api races`. Line 2: ladder rung 1 (a better name, such as `retry_count`), else rung 5 (delete); a finding, not a hack, so no plan step and no Follow-up. Line 4: a `hack:` finding with rung 4 (a check that fails with the fix in its error) applied now; FIX.md item 6 then runs `/blast-radius` and gives a plan step when the architectural fix (remove the race at the api) is small and in scope, else a Follow-ups entry. The text does not say which case a given hack falls in beyond "small and inside the change's scope"; the outcome is set at run time.
-- [ ] **7. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **7. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at 17ab3c9. Both hook tests print only `ok` lines, `added_comments.spec.py` and `install_agents_md.spec.py` print OK, and `check_principles.py` exits 0.
 - [ ] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **9. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
