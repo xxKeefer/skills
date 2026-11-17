@@ -90,7 +90,7 @@ To go back:
 3. Run `/plugin marketplace update xxkeefer-skills`, then start a new session.
 4. Run the same three installers from `main`.
 
-After the merge, change the marketplace `path` back to the main checkout, and pull `main` there. Then remove the worktree: `git -C ~/studio/code/xxkeefer-skills worktree remove ../pstack-inspiration`.
+After the merge, change the marketplace `path` back to the main checkout, and pull `main` there. Then remove the worktree: `git -C ~/studio/code/skills worktree remove ../skills.pstack-6_work-on`.
 
 ## Decisions
 
