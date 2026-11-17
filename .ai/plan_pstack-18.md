@@ -63,7 +63,7 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 - 2026-11-17: step 2 done in commit dd75f5b. Both skills name the principle path. Next: step 3.
 - Decision log: decisions_pstack-18.tsv
 - 2026-11-17: step 4 done. Build loop stopped by rule 7.3: the review fix changes no runtime behaviour. QA checklist skipped: the diff changes only skill text.
-- 2026-11-17: blast radius `clear`. Safety fact: each reader of the ladder resolves the principle file, and only the principle holds the rungs. Rung 4. Readers: `constraints` (sibling link), `self-improve` (`$SKILL_DIR` is defined there), the `work-on` index, and the `README.md` row, which still fits. No script reads the principle text; `check_principles.py` checks only names, flags, and the index. Proof, run from the repo root, exit 0:
+- 2026-11-17: blast radius `clear`. Safety fact: each reader of the ladder resolves the principle file, and only the principle holds the rungs. Rung 4. Readers: `constraints` (sibling link), `self-improve` (sibling link, since the retro), the `work-on` index, and the `README.md` row, which still fits. No script reads the principle text; `check_principles.py` checks only names, flags, and the index. Proof, run from the repo root, exit 0:
 
   ```sh
   set -e
@@ -72,11 +72,11 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
   p=$d/principle-encode-lessons-in-structure/SKILL.md
   test -f "$d/constraints/../principle-encode-lessons-in-structure/SKILL.md"
   grep -q '](../principle-encode-lessons-in-structure/SKILL.md)' $d/constraints/SKILL.md
-  grep -q '`$SKILL_DIR/..` is this domain' $d/self-improve/SKILL.md
-  grep -q 'SKILL_DIR/../principle-encode-lessons-in-structure/SKILL.md' $d/self-improve/SKILL.md
+  grep -q '](../principle-encode-lessons-in-structure/SKILL.md)' $d/self-improve/SKILL.md
   for r in 'Architecture' 'Types' 'names the fix' 'A test' 'Docs, last' 'after two times'; do grep -q "$r" $p; done
   n=$(grep -rl 'Docs, last' skills | wc -l); [ "$n" -eq 1 ]
   python3 $d/work-on/scripts/check_principles.py .
   echo ok
   ```
 - 2026-11-17: ship go, pushed 0c81cbb. Map unit 18 ticked. Next: the home machine opens the PR into `pstack-inspired`, then `/retro` (H5).
+- 2026-11-17: retro done. All 5 rows applied: the `$SKILL_DIR` dir check in the pre-commit hook (6815c00), the `$BASE` in `mob-review` Step 1 and the skip of Step 0 for a caller skill (97ca991), AC ticks from the step that proves them and the map `subagent_model` key (c1f6fbb, d9ba02e, b438d3c). No version bump (map rule: only unit 33 bumps). The proof script above now checks the sibling links.
