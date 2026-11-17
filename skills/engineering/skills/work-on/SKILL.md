@@ -46,6 +46,54 @@ The end of a ★ command is not a stop. A test round, a review round, a push to 
 branch, and a draft PR are not stops. In the user's own build loop, a review report row is not a
 stop: the review fixes each row with no stop.
 
+## Principles
+
+The 24 principles are skills with `disable-model-invocation: true`. They add no context until you
+read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can also type it, such as
+`/principle-fix-root-causes`.
+
+- **Read it first.** Before you apply a principle, read its `SKILL.md` in full in this session. Do not apply one from memory of the index.
+- **Name it in the reply.** The reply names each principle that shaped a choice, and says what the choice was. Cite a principle only when you read its file in this session. Name none when none applied.
+
+**Core**
+
+- `principle-laziness-protocol`. Refactoring, sizing a diff, or about to add an abstraction, a layer, or a signal that threads through the code. Prefer deletion and the smallest change.
+- `principle-foundational-thinking`. Before you write logic: core types, data structures, scaffold before feature, and what concurrent actors share.
+- `principle-redesign-from-first-principles`. A new requirement fits into an existing design. Redesign as if it had been a base assumption.
+- `principle-attack-the-premise`. Two or more fixes that share one premise have failed the same gate. Write the premise down and test it before the next fix.
+- `principle-subtract-before-you-add`. Ordering an addition, a refactor, or a rewrite. Remove dead weight first, then build on the simpler base.
+- `principle-minimize-reader-load`. Code that is hard to trace. Count the layers and the hidden state, collapse one-caller wrappers, and shrink mutable scope.
+- `principle-outcome-oriented-execution`. A planned rewrite or migration with phase boundaries. Converge on the target, and keep no throwaway compatibility state.
+- `principle-experience-first`. A product, UX, or feature-scope tradeoff. Choose user delight over implementation convenience.
+- `principle-exhaust-the-design-space`. A new interaction or architecture decision with no precedent. Build two or three prototypes and compare them.
+- `principle-build-the-lever`. Any non-trivial work. Build the tool that does the work or proves it, so that a reviewer can run it again.
+
+**Architecture**
+
+- `principle-model-the-domain`. Stateful logic, or code that branches a lot or repeats a shape assumption. Encode the domain in a structure, not in conditionals.
+- `principle-boundary-discipline`. Wiring validation, error handling, or framework adapters. Guard at system boundaries, trust internal types, keep business logic pure.
+- `principle-type-system-discipline`. Designing types or a signature in a typed language. Make illegal states impossible to represent, and parse external data at the boundary.
+- `principle-make-operations-idempotent`. Commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state.
+- `principle-migrate-callers-then-delete-legacy-apis`. A new internal API while old callers exist. Migrate and delete in one wave.
+- `principle-separate-before-serializing-shared-state`. Concurrent actors might write the same file, branch, key, or object. Remove the sharing first.
+
+**Verification**
+
+- `principle-prove-it-works`. After a task, before you say it is done. Check the real artifact, not a proxy.
+- `principle-fix-root-causes`. Debugging. Trace each symptom to the first place the system went wrong, and fix it there.
+- `principle-sequence-verifiable-units`. Multi-step work, and how you stack commits and PRs. Small units that each end in a check.
+- `principle-test-behavior-not-implementation`. Writing, changing, or keeping a test. Assert what the users of the code can observe.
+- `principle-explain-the-number`. Before you trust, report, or act on a measured number. Find what limits it, and rule out that it measured something else.
+
+**Delegation**
+
+- `principle-guard-the-context-window`. Context is filling up: large outputs, long files, repeated reads. Send bulk work to subagents, and keep summaries in the main thread.
+- `principle-never-block-on-the-human`. About to ask whether to do something on reversible work. Proceed and present the result. Stop only at the pause list.
+
+**Meta**
+
+- `principle-encode-lessons-in-structure`. You write the same instruction a second time. Encode it as a lint, a flag, a runtime check, or a script.
+
 ## Step 1: Pick the playbook
 
 | `$ARGUMENTS` | Playbook |
