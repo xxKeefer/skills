@@ -16,6 +16,10 @@ import re
 import sys
 from pathlib import Path
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent / "../../verify/scripts"))
+from find_drivers import app_paths
+
 SECTIONS = ["Launch", "Doctor", "Drive", "Evidence", "Cleanup", "Helpers"]
 FEATURE_H2S = ["Sub-features", "How to get to it (user POV)", "Driving it with", "Gotchas"]
 
@@ -50,15 +54,7 @@ def check_skill(root):
         errors.append("SKILL.md: frontmatter key `name` is missing. Fix: add `name: verify-<repo>-<app>`.")
     if not any(re.match(r"^repo:\s*\S", l) for l in block):
         errors.append("SKILL.md: frontmatter key `repo` is missing. Fix: add `repo: <repo>`, the last part of `git remote get-url origin` with no `.git`.")
-    start = next((i for i, l in enumerate(block) if re.match(r"^app-paths:\s*$", l)), None)
-    items = []
-    if start is not None:
-        for l in block[start + 1:]:
-            if re.match(r"^\s*-\s+\S", l):
-                items.append(l)
-            elif re.match(r"^\S", l):
-                break
-    if not items:
+    if not app_paths(path):
         errors.append("SKILL.md: frontmatter key `app-paths` is missing or empty. Fix: list the app globs from the repo root under `app-paths:`.")
     titles = h2_titles(text)
     for section in SECTIONS:
