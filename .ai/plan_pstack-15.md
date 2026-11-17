@@ -112,3 +112,27 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - Mutation check: the template with `## Units` renamed turns C3 red.
 - 2026-11-17: step 4 done. Light run of `correctness` and `test-quality` found nothing. No fix commit. Report: `.ai/review_pstack-15_ship-stack.html`, base `c78ec66`, head `65cc83c`.
 - 2026-11-17: step 7 done. Light run of `correctness` and `test-quality` found one nit: the fixture test checked only the first unit ID. Fixed in `bfb4067`, which asserts the full list. Report: `.ai/review_pstack-15_ship-stack.html`, base `c78ec66`, head `bfb4067`.
+- 2026-11-17: `/blast-radius` verdict `clear`. Safety fact: the patch-id of the branch diff without `.ai/` stays the same after a rebase, a clean merge of the base, or a commit to `.ai/` only, and changes when a reviewed line changes. Rung 4: the script below exits 0 (`sh <file>`, with `PROOF OK`).
+  - Cleared: an edit on the base near a reviewed hunk changes the context lines, so the IDs differ (C4). The check then fails and asks for `/review`. This fails safe, and the old `range-diff` rule failed in the same case. A reviewed SHA that is not in the local repo makes `git diff` exit non-zero, so no ID matches (C5). This fails safe.
+  - Cleared: no other skill reads the `ship` Review rule. `create-pr` Step 2 keeps its own `range-diff`. `map_units.py` reads only the `batch:` header line, so the `#` comment lines of the template change nothing. `start-ticket` finds the map by file name, not by layout.
+  - Confirmed risks: none.
+
+```sh
+set -e
+pid() { git diff "$1" "$2" -- . ':!.ai' | git patch-id --stable | cut -c1-12; }
+d=$(mktemp -d); cd "$d"; git init -q -b main; git config user.email t@t; git config user.name t
+seq 1 30 > a.txt; echo x > b.txt; git add .; git commit -qm base
+git switch -qc feat; perl -pi -e 's/^15$/fifteen/' a.txt; git commit -qam f1; echo y >> b.txt; git commit -qam f2
+RB=$(git merge-base main feat); RH=$(git rev-parse HEAD); R=$(pid $RB $RH)
+git switch -q main; echo o > other.txt; git add .; git commit -qm m1; git switch -q feat
+git rebase -q main; mkdir .ai; echo n > .ai/x.md; git add .; git commit -qm ai
+C1=$(pid $(git merge-base main HEAD) HEAD); echo "C1 rebase+.ai: $R vs $C1"; [ "$R" = "$C1" ]
+git switch -q main; echo p > other2.txt; git add .; git commit -qm m2; git switch -q feat; git merge -q --no-edit main
+C3=$(pid $(git merge-base main HEAD) HEAD); echo "C3 clean merge of base: $R vs $C3"; [ "$R" = "$C3" ]
+perl -pi -e 's/^3$/three/' a.txt; git commit -qam change
+C2=$(pid $(git merge-base main HEAD) HEAD); echo "C2 one changed line: $R vs $C2"; [ "$R" != "$C2" ]
+git switch -q main; perl -pi -e 's/^17$/seventeen/' a.txt; git commit -qam near; git switch -q feat; git reset -q --hard HEAD~1; git rebase -q main
+C4=$(pid $(git merge-base main HEAD) HEAD); echo "C4 base edit 2 lines from a reviewed hunk: $R vs $C4"; [ "$R" != "$C4" ]
+git diff nosuchsha HEAD >/dev/null 2>&1 && exit 1 || echo "C5 reviewed SHA missing: git diff exits non-zero"
+echo PROOF OK
+```
