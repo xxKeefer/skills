@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import time
 import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -99,6 +100,21 @@ class RerunFindings(unittest.TestCase):
 
     def test_evidence_that_is_not_text_is_dropped(self):
         self.assertEqual(self.reason(finding(evidence=1)), "no evidence")
+
+    def test_timeout_kills_the_child_processes_of_the_shell(self):
+        start = time.monotonic()
+        self.assertEqual(self.reason(finding(command="sleep 30; echo boom; exit 1"), "--timeout", "1"), "timed out")
+        self.assertLess(time.monotonic() - start, 10)
+
+    def test_cwd_that_is_not_text_is_dropped(self):
+        self.assertEqual(self.reason(finding(cwd=["a"])), "cwd not found")
+
+    def test_missing_findings_file_exits_1_with_one_line(self):
+        r = subprocess.run(["python3", SCRIPT, os.path.join(self.dir, "gone.json")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 1)
+        self.assertEqual(len(r.stdout.strip().splitlines()), 1, r.stdout)
+        self.assertIn("cannot read", r.stdout)
+        self.assertNotIn("Traceback", r.stderr)
 
     def test_malformed_json_exits_1_with_one_line(self):
         r = self.run_script("{not json")

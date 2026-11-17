@@ -17,7 +17,7 @@ def rerun(f, timeout):
         return None, "no command"
     if not evidence:
         return None, "no evidence"
-    if not os.path.isdir(cwd):
+    if not isinstance(cwd, str) or not os.path.isdir(cwd):
         return None, "cwd not found"
     proc = subprocess.Popen(
         command, shell=True, cwd=cwd, text=True, errors="replace",

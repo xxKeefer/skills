@@ -43,7 +43,7 @@ frame → fan out adversaries → collect findings → rerun_findings.py → int
    when fewer remain.
 2. Give each adversary its own git worktree, so that no two adversaries write the same files:
    `git worktree add --detach /tmp/interrogate-<branch>-<n> <head SHA>`. Copy the scope's
-   uncommitted changes into it: `git diff HEAD --binary | git -C <worktree> apply`, then copy each
+   uncommitted changes into it: `git diff HEAD --binary | git -C <worktree> apply --allow-empty`, then copy each
    untracked file of the scope.
 3. Spawn every adversary in one message, each as a `general-purpose` subagent with
    `run_in_background: true`. Give each one the scope, the intent, its worktree path, and this
