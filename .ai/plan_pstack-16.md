@@ -88,7 +88,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - `run [--interval <seconds>]` polls in a loop and exits when no watched PR is open. It writes its pid to `~/.cache/babysit/run.pid`, and exits at once when that pid is alive.
   - Add `watch_prs.spec.py` with a fake `gh` first on `PATH` and a temporary `HOME`.
   - Done: `watch_prs.spec.py` passes C3 to C7.
-- [ ] **3. The chips on line 1.** Seam: `statusline.sh`, with a state file. Conditions: C8, C9, C10, C11.
+- [x] **3. The chips on line 1.** Seam: `statusline.sh`, with a state file. Conditions: C8, C9, C10, C11.
   - Read `~/.cache/babysit/state.json` with one `jq` call that sorts by urgency and drops a done PR older than 600 seconds.
   - Draw each chip as ` <symbol> <number> ` on a background colour, from the chip table in the spec. Right-align the chips on line 1 with `COLUMNS`.
   - When the chips do not fit, pin the red and amber chips on the left, and show a window of the other chips that starts at `epoch second mod length`.
@@ -121,3 +121,4 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: five judgement calls written to `decisions_pstack-16.tsv`.
 - 2026-11-17: step 1 done in commit 883c074. `statusline.sh` has one `jq` read and the token cache. `statusline.spec.py` passes C1 and C2. The C1 fixtures are in `skills/utility/skills/setup-statusline/fixtures/`.
 - 2026-11-17: step 2 done in commit f11f7b7. `watch_prs.py` has `add`, `poll`, and `run`. The state file is a JSON list. `add` calls `gh pr view` once, to read the head and base of the PR. `watch_prs.spec.py` passes C3 to C7. Step 3 reads the same list: each entry has `repo`, `number`, `head`, `base`, `state`, `threads`, and `done_at`. The `state` values are done, failed, stale, threads, pending, and ready.
+- 2026-11-17: step 3 done in commit 193baa2. `statusline.sh` draws the chips with one `jq` call, and `refreshInterval: 1` is in the `setup-statusline` SKILL and README. `statusline.spec.py` passes C1, C2, and C8 to C11. The leading spaces in the real status line need the user's eye (step 5 QA).
