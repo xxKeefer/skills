@@ -56,6 +56,169 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "35c34ca",
+   "meta": {
+    "Base": "pstack-inspired b86fe6d",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-19.md",
+    "Fixed in": "c5dd0ae"
+   },
+   "answer": "The panel fixed all 5 findings in c5dd0ae. None stay open. The quote fix failed twice on one premise, so the build tested the premise: every miss started at a single quote, so a single quote no longer opens a string. This run covers the essential lanes only, plus persona-skills. /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "1",
+        "0",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "skills",
+        "1",
+        "1",
+        "0",
+        "ran (added by the build: the diff is mostly skill text)"
+       ],
+       [
+        "naming, error-handling, architecture, security",
+        "—",
+        "—",
+        "—",
+        "skipped (TypeScript-only guards)"
+       ],
+       [
+        "other lanes and project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:30",
+      "issue": "A lone quote pairs with an apostrophe in the comment.\n\n`fn f(x: &'a str) {} // don't do this` gave no output.",
+      "recommendation": "A single quote never opens a string. Tests: `test_apostrophe_in_the_comment_does_not_hide_it`, `test_single_quote_never_opens_a_string`.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/mob-review/FIX.md:22",
+      "issue": "The hack flow needs a plan, and a review can run with none.",
+      "recommendation": "With no plan, run no `/blast-radius`, and mark the finding open with the architectural fix as the reason.",
+      "result": "Fixed"
+     },
+     "id": "r2.2"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:8",
+      "issue": "The extension map is built by a loop that merges into a module dict.",
+      "recommendation": "Give `vue` its own row, and build the map in one comprehension.",
+      "result": "Fixed"
+     },
+     "id": "r2.3"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:39",
+      "issue": "No test has an escaped quote inside a string.",
+      "recommendation": "`test_escaped_quote_keeps_the_string_open`. A mutation that drops the escape branch fails it.",
+      "result": "Fixed"
+     },
+     "id": "r2.4"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-comments/SKILL.md:17",
+      "issue": "The guard has no fallback when the brief names no patch.",
+      "recommendation": "With no patch path, pipe the branch diff into the script.",
+      "result": "Fixed"
+     },
+     "id": "r2.5"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "cbd39c4",
    "meta": {
     "Base": "pstack-inspired b86fe6d",
