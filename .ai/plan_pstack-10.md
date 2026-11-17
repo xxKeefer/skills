@@ -82,7 +82,10 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - Done: the gates are green. At HEAD 6774593: check_principles 11 tests OK, map_units 14 tests OK, rerun_findings 23 tests OK, `.githooks/pre-commit` exit 0.
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code.
   - Done: report `.ai/review_pstack-10_blast-radius.html`, reviewed base 7e49a7f, head 3eb07de. No finding, and no fix commit.
-- [ ] **6. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
+- [ ] **6. Review.** Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code. Use `/engineering:mob-review`.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Recorded decision: the step 5 light run matched no lane, because its lanes do not guard Markdown, so it reviewed nothing. The full panel holds `persona-skills`, whose guard matches `SKILL.md` and `CLAUDE.md` (principle-prove-it-works).
+- [ ] **7. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
