@@ -11,7 +11,7 @@ description: >
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
-`light-review` follows Steps 0 to 7 of this skill with eight lanes only, so a change to a step here also changes `light-review`.
+`light-review` follows Steps 0 to 7 of this skill with nine lanes only, so a change to a step here also changes `light-review`.
 
 ## Step 0: Run the panel in a clean thread
 
