@@ -21,8 +21,8 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 ## Acceptance criteria
 
 - [x] **A.** Read `principle-encode-lessons-in-structure` → it orders the fix rungs as architecture, types, a lint whose error names the fix, a test, then docs, and counts a mistake class after two times.
-- [ ] **B.** Read `constraints` → when it writes a rule, it backs the rule at the highest rung of the ladder that works, and reads the principle by path for the ladder.
-- [ ] **C.** Read `self-improve` → a codebase-specific theme goes to the highest rung that works, with the agent file last, and the step reads the principle by path.
+- [x] **B.** Read `constraints` → when it writes a rule, it backs the rule at the highest rung of the ladder that works, and reads the principle by path for the ladder.
+- [x] **C.** Read `self-improve` → a codebase-specific theme goes to the highest rung that works, with the agent file last, and the step reads the principle by path.
 - [ ] **D.** Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py .` → exit 0, and no skill outside the principle restates the ladder.
 - [ ] **E.** Feed a repeated mistake through either skill → its fix lands at the highest rung that works.
 
@@ -41,7 +41,7 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 
 - [x] **1. Write the ladder into the principle.** Kind: docs. In `skills/engineering/skills/principle-encode-lessons-in-structure/SKILL.md`: replace the unordered list "a lint, a metadata flag, a runtime check, or a script" with an ordered ladder: 1. architecture (make the mistake impossible to write), 2. types, 3. a lint or check whose error names the fix, 4. a test, 5. docs, last. Add: a mistake class counts after two times; fix it at the highest rung that works. Keep the judgement paragraph and the corollary. Update the `description` only if its words become false. Keep the file short.
   - Done: the principle holds the ordered ladder and the two-times count, and `check_principles.py` exits 0. AC A holds.
-- [ ] **2. Point `constraints` and `self-improve` at the ladder.** Kind: docs. In `skills/engineering/skills/constraints/SKILL.md` Step 4 item 2: back each rule at the highest rung of the ladder in `$SKILL_DIR/../principle-encode-lessons-in-structure/SKILL.md` that works; read it first. In `skills/engineering/skills/self-improve/SKILL.md` Step 3: the row "Specific to this codebase or team" picks its target by the same ladder, with the agent file (`CLAUDE.md`, `AGENTS.md`) last; read the principle by path. Do not copy the rungs into either skill. Do not change the self-improve theme threshold.
+- [x] **2. Point `constraints` and `self-improve` at the ladder.** Kind: docs. In `skills/engineering/skills/constraints/SKILL.md` Step 4 item 2: back each rule at the highest rung of the ladder in `$SKILL_DIR/../principle-encode-lessons-in-structure/SKILL.md` that works; read it first. In `skills/engineering/skills/self-improve/SKILL.md` Step 3: the row "Specific to this codebase or team" picks its target by the same ladder, with the agent file (`CLAUDE.md`, `AGENTS.md`) last; read the principle by path. Do not copy the rungs into either skill. Do not change the self-improve theme threshold.
   - Done: both skills name the principle path and do not restate the rungs. AC B, C, and E hold on a read.
 - [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -60,4 +60,5 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 
 - 2026-11-17: plan written on `pstack-inspired`, for the branch `pstack-18_correct-ladder`.
 - 2026-11-17: step 1 done in commit e43d7f0. The principle holds the ladder. Next: step 2.
+- 2026-11-17: step 2 done in commit dd75f5b. Both skills name the principle path. Next: step 3.
 - Decision log: decisions_pstack-18.tsv

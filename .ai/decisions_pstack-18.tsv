@@ -1,2 +1,3 @@
 decision	reason	evidence	result
 Changed the description of the principle to "Fix the cause in the code, not in more text"	The old words named the removed list	check_principles.py exit 0	The description matches the ladder
+In the self-improve row, the route column names the ladder by path and puts the agent file last. The lint-config paragraph below it is unchanged.	The user asked for in-place edits and no copied rungs.	The three gates are green.	Both skills name the principle path.
