@@ -70,3 +70,4 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
   grep -q 'Apply only the picked rows' "$f" || { echo "no pick rule"; exit 1; }
   ```
 - 2026-11-17: ship go, pushed 046b10d. Map unit 17 ticked. Next: the home machine opens the PR into `pstack-inspired`.
+- 2026-11-17: retro done. Rows 1-4 applied to `install-agents-md` Step 5 in cd275db, with no version bump (map rule: only unit 33 bumps). Rows 5-6 report only. Stop H4: the user opens and merges the PR into `pstack-inspired` before unit 18 starts.
