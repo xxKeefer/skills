@@ -20,10 +20,10 @@ fix that a finding names and never asks the user to choose. Skip this part on so
 5. Run the gates as `apply-review` Step 4 says. When a fix fails a gate, or its test cannot go red
    and then green, revert that fix. Mark the finding open, with the reason.
 6. A finding whose `summary` starts `hack:` has two parts. Apply its rung now, as item 4 says.
-   Then run `/blast-radius` on the architectural fix in its `detail`. When the fix is small and
+   With no plan, stop there: mark the finding open, with the architectural fix in its `detail` as
+   the reason. With a plan, run `/blast-radius` on the architectural fix. When the fix is small and
    inside the change's scope, add it as a new plan step. Else add a `Follow-ups` entry with
-   `/update-plan`. Do not stop. With no plan, run no `/blast-radius`. Mark the finding open, with
-   the architectural fix as the reason.
+   `/update-plan`. Do not stop.
 7. Make one commit in the repo's commit convention. The body lists each fix and its finding. For
    a working-tree run, leave the fixes in the working tree. Never push.
 
