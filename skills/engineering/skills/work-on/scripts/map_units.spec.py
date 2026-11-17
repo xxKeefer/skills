@@ -158,6 +158,12 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(r.stdout, "### [ ] 2. Second\n\n- A note.\n- Done: two.\n")
 
+    def test_show_on_the_last_unit_stops_at_the_next_h2_heading(self):
+        self.write(MAP + "\n## Notes\n\n- Not part of unit 5.\n")
+        r = run("show", self.map, "5")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout, "### [ ] 5. Fifth\n\n- Done: five.\n")
+
     def test_show_on_a_missing_unit_exits_1(self):
         self.write(MAP)
         r = run("show", self.map, "9")
