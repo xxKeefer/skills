@@ -64,7 +64,7 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
 
 ## Steps
 
-- [ ] **1. Patch-id review, stack sync, and read-back in `ship`.** Kind: docs. Conditions: C1, C2.
+- [x] **1. Patch-id review, stack sync, and read-back in `ship`.** Kind: docs. Conditions: C1, C2.
   - Replace the Review row rule: a report of an earlier head passes when `git diff <reviewed base> <reviewed head> -- . ':!.ai' | git patch-id --stable` equals the same for `$(git merge-base origin/<base> HEAD)` and `HEAD`. Delete the `range-diff` sentence and the `.ai/` sentence, which the pathspec now covers. Keep the review-fix-step rule.
   - Stack row fix: `gh stack sync`. Delete the manual pull and rebase.
   - Step 5: merge, then `gh pr view <number> --json state,mergeCommit` must show `MERGED`. Watch the run of that `mergeCommit`.
@@ -94,3 +94,7 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
 
 - 2026-11-17: plan written for `pstack-15_ship-stack`.
 - Decision log: decisions_pstack-15.tsv
+- 2026-11-17: step 1 done. `ship` Review row ends 2 characters shorter. Stack fix is `gh stack sync`. Step 5 reads back `gh pr view --json state,mergeCommit`.
+  - C1 and C2 proof in `/tmp/p15`: base commit; `feat` with 2 commits; record `RB=$(git merge-base main feat)` and `RH=$(git rev-parse HEAD)`; new commit `other.txt` on `main`; `git rebase main` on `feat`; commit `.ai/x.md` only. Command: `git diff <base> <head> -- . ':!.ai' | git patch-id --stable`.
+  - C1: reviewed pair `95af7a89...` equals rebased pair `95af7a89...` (equal).
+  - C2: after one line changed in `a.txt` and committed, the ID is `25eed666...` (differs).
