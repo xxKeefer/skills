@@ -150,6 +150,9 @@ class BadMarkers(unittest.TestCase):
     def test_unknown_block_name(self):
         self.check("<!-- managed: gamma -->\nx\n<!-- end managed -->\n")
 
+    def test_start_marker_inside_an_open_block(self):
+        self.check("<!-- managed: alpha -->\n<!-- managed: beta -->\nx\n<!-- end managed -->\n")
+
     def test_end_marker_with_no_start(self):
         self.check("x\n<!-- end managed -->\n")
 
@@ -208,6 +211,37 @@ class OldSections(unittest.TestCase):
         self.assertIn("nope", err)
         self.assertEqual(e.read(), self.OLD)
 
+    def test_old_heading_line_number_counts_the_original_file_past_a_block(self):
+        e = Env(self)
+        e.write("<!-- managed: alpha -->\nx\n<!-- end managed -->\nmine\n## Beta heading\nold\n")
+        _, out, _ = e.run()
+        self.assertIn("OLD beta: line 5:", out)
+
+    def test_listed_line_number_ignores_lines_that_a_drop_removes(self):
+        e = Env(self)
+        e.write("## Beta heading\nold\nmore\n# Next\nAlpha old rule\n")
+        _, out, _ = e.run("--drop", "beta")
+        self.assertIn("EDIT alpha: line 5:", out)
+
+    def test_drop_removes_every_copy_of_the_heading(self):
+        e = Env(self)
+        e.write("## Beta heading\na\n# Mid\n## Beta heading\nb\n")
+        e.run("--drop", "beta")
+        self.assertEqual(e.read(), BLOCKS + "\n# Mid\n")
+
+    def test_drop_with_no_old_heading_says_so_and_exits_0(self):
+        e = Env(self)
+        e.write("mine\n")
+        code, out, _ = e.run("--drop", "beta")
+        self.assertEqual(code, 0)
+        self.assertIn("NOT FOUND beta", out)
+
+    def test_hash_line_inside_a_fence_does_not_end_the_section(self):
+        e = Env(self)
+        e.write("## Beta heading\n```\n# not a heading\n```\nstill old\n# Next\n")
+        e.run("--drop", "beta")
+        self.assertEqual(e.read(), BLOCKS + "\n# Next\n")
+
     def test_listed_lines_are_shown_and_never_changed(self):
         e = Env(self)
         e.write("Alpha old rule\nkeep\n")
@@ -216,6 +250,18 @@ class OldSections(unittest.TestCase):
         self.assertIn("EDIT alpha", out)
         self.assertIn("Alpha old rule", out)
         self.assertTrue(e.read().endswith("\nAlpha old rule\nkeep\n"))
+
+
+class BadValues(unittest.TestCase):
+    def test_malformed_values_file_exits_1_with_no_write(self):
+        e = Env(self)
+        with open(e.values, "w") as f:
+            f.write("{nope")
+        e.write("mine\n")
+        code, _, err = e.run()
+        self.assertEqual(code, 1)
+        self.assertIn("not valid JSON", err)
+        self.assertEqual(e.read(), "mine\n")
 
 
 class ShippedSections(unittest.TestCase):

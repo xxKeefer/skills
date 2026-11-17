@@ -63,35 +63,50 @@ def render(sections, values, hydrate_note):
 def parse(text, known):
     items = []
     buffer = []
+    buffer_start = 1
     open_name = None
-    for line in text.splitlines(keepends=True):
+    open_start = 0
+    for number, line in enumerate(text.splitlines(keepends=True), start=1):
         stripped = line.strip()
         start = START.match(stripped)
         if open_name is None and start:
             if start.group(1) not in known:
                 raise Fail(f"unknown managed block `{start.group(1)}`")
             if buffer:
-                items.append(["text", "".join(buffer)])
+                items.append(("text", "".join(buffer), buffer_start))
             buffer = []
             open_name = start.group(1)
+            open_start = number
         elif open_name is not None and start:
             raise Fail(f"managed block `{open_name}` has no end marker")
         elif stripped == END:
             if open_name is None:
                 raise Fail("end marker with no start marker")
-            items.append(["block", open_name])
+            items.append(("block", open_name, open_start))
             open_name = None
+            buffer_start = number + 1
         elif open_name is None:
+            if not buffer:
+                buffer_start = number
             buffer.append(line)
     if open_name is not None:
         raise Fail(f"managed block `{open_name}` has no end marker")
     if buffer:
-        items.append(["text", "".join(buffer)])
+        items.append(("text", "".join(buffer), buffer_start))
     return items
 
 
-def find_heading(lines, heading):
+def heading_lines(lines):
+    in_fence = False
     for index, line in enumerate(lines):
+        if line.lstrip().startswith(("```", "~~~")):
+            in_fence = not in_fence
+        elif not in_fence:
+            yield index, line
+
+
+def find_heading(lines, heading):
+    for index, line in heading_lines(lines):
         if line.rstrip() == heading:
             return index
     return None
@@ -99,10 +114,10 @@ def find_heading(lines, heading):
 
 def section_end(lines, start):
     level = len(HEADING.match(lines[start]).group(1))
-    for index in range(start + 1, len(lines)):
-        m = HEADING.match(lines[index])
+    for index, line in heading_lines(lines[start + 1:]):
+        m = HEADING.match(line)
         if m and len(m.group(1)) <= level:
-            return index
+            return start + 1 + index
     return len(lines)
 
 
@@ -110,73 +125,89 @@ def block_text(name, body):
     return f"<!-- managed: {name} -->\n{body}{END}\n"
 
 
+def scan(items, sections, drops):
+    cleaned = []
+    report = []
+    found = set()
+    for kind, value, first_line in items:
+        if kind == "block":
+            cleaned.append((kind, value))
+            continue
+        lines = value.splitlines(keepends=True)
+        original = list(lines)
+        for name, section in sections.items():
+            for heading in section["replaces"]:
+                while (index := find_heading(lines, heading)) is not None:
+                    end = section_end(lines, index)
+                    found.add(name)
+                    where = first_line + original.index(lines[index])
+                    if name in drops:
+                        report.append(f"DROPPED {name}: `{heading}` ({end - index} lines)")
+                        lines = lines[:index] + lines[end:]
+                    else:
+                        report.append(
+                            f"OLD {name}: line {where}: `{heading}` ({end - index} lines)"
+                        )
+                        break
+            for needle in section["lists"]:
+                for index, line in enumerate(original):
+                    if needle in line:
+                        report.append(
+                            f"EDIT {name}: line {first_line + index}: {line.rstrip()}"
+                        )
+        cleaned.append((kind, "".join(lines)))
+    for name in drops:
+        if name not in found:
+            report.append(f"NOT FOUND {name}: no old heading to drop")
+    return cleaned, report
+
+
+def assemble(items, sections, rendered):
+    present = {value for kind, value in items if kind == "block"}
+    head = "\n".join(block_text(n, rendered[n]) for n in sections if n not in present)
+    rest = "".join(
+        block_text(value, rendered[value]) if kind == "block" else value
+        for kind, value in items
+    )
+    return head + ("\n" if head and rest else "") + rest
+
+
+def write_target(target, original, result):
+    if original is None:
+        os.makedirs(os.path.dirname(os.path.abspath(target)), exist_ok=True)
+        status = "created"
+    elif result == original:
+        return "unchanged"
+    else:
+        shutil.copyfile(target, target + ".bak")
+        status = "updated (backup: AGENTS.md.bak)"
+    with open(target, "wb") as f:
+        f.write(result.encode())
+    return status
+
+
+def load_values(path):
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        raise Fail(f"values file {path} is not valid JSON: {e}")
+
+
 def install(target, values_path, sections_dir, drops):
     sections = load_sections(sections_dir)
     for name in drops:
         if name not in sections or not sections[name]["replaces"]:
             raise Fail(f"cannot drop `{name}`: no section of that name replaces an old heading")
-    values = {}
-    if os.path.exists(values_path):
-        with open(values_path) as f:
-            values = json.load(f)
-    rendered = render(sections, values, "HYDRATE.md")
-
+    rendered = render(sections, load_values(values_path), "HYDRATE.md")
     original = None
     if os.path.exists(target):
         with open(target, "rb") as f:
             original = f.read().decode()
-    items = parse(original or "", sections)
-    report = []
-
-    for name, section in sections.items():
-        line_no = 1
-        for item in items:
-            if item[0] == "block":
-                line_no += 2 + rendered[item[1]].count("\n")
-                continue
-            lines = item[1].splitlines(keepends=True)
-            for heading in section["replaces"]:
-                index = find_heading(lines, heading)
-                if index is None:
-                    continue
-                if name in drops:
-                    end = section_end(lines, index)
-                    report.append(f"DROPPED {name}: `{heading}` ({end - index} lines)")
-                    lines = lines[:index] + lines[end:]
-                else:
-                    end = section_end(lines, index)
-                    report.append(
-                        f"OLD {name}: line {line_no + index}: `{heading}` ({end - index} lines)"
-                    )
-            for needle in section["lists"]:
-                for index, line in enumerate(lines):
-                    if needle in line:
-                        report.append(
-                            f"EDIT {name}: line {line_no + index}: {line.rstrip()}"
-                        )
-            item[1] = "".join(lines)
-            line_no += len(lines)
-
-    present = {item[1] for item in items if item[0] == "block"}
-    head = [block_text(n, rendered[n]) for n in sections if n not in present]
-    out = "\n".join(head)
-    rest = "".join(
-        block_text(item[1], rendered[item[1]]) if item[0] == "block" else item[1]
-        for item in items
-    )
-    result = out + ("\n" if out and rest else "") + rest
-
-    if original is None:
-        os.makedirs(os.path.dirname(os.path.abspath(target)), exist_ok=True)
-        status = "created"
-    elif result == original:
-        status = "unchanged"
-    else:
-        shutil.copyfile(target, target + ".bak")
-        status = "updated (backup: AGENTS.md.bak)"
-    if status != "unchanged":
-        with open(target, "wb") as f:
-            f.write(result.encode())
+    items, report = scan(parse(original or "", sections), sections, drops)
+    status = write_target(target, original, assemble(items, sections, rendered))
     return status, report
 
 
