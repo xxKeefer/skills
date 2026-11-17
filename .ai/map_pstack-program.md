@@ -496,7 +496,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 
 ### [ ] 19. No comments (r1.21)
 
-- `persona-comments`: the two lenses. `scripts/added_comments.py` lists each added comment line.
+- `persona-comments`: the two lenses. The persona reads the added lines of the diff for comments, with no script (D1, 2026-11-17).
 - The ladder and the follow-up flow from Decisions. The `Follow-ups` section from unit 4.
 - The `coding` block in `install-agents-md`: "No comments. Two exceptions: tool directives and comments that lint requires."
 - User note (r1.21): no comment has added value that the user could not get by asking a model.
