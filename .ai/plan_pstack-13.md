@@ -67,7 +67,7 @@ through `/update-plan`. Scope: SCOPED, one PR.
 - [x] **1. Subtract.** Kind: docs.
   - Remove "or context is about to blow out" from the `/update-plan` description. Remove the line "If `/checkpoint` is not installed, ..." from `principle-guard-the-context-window`.
   - Done: `grep -rn "blow out\|not installed" skills/primitives/skills/update-plan skills/engineering/skills/principle-guard-the-context-window` finds nothing.
-- [ ] **2. `/checkpoint`.** Kind: docs.
+- [x] **2. `/checkpoint`.** Kind: docs.
   - Write `skills/primitives/skills/checkpoint/SKILL.md`: stop at a safe point, one `wip:` commit, the note through `/update-plan` (or `/handoff` when no plan exists), and a reply that names the commit, the clean tree, and the command to continue. Take the context trigger into its description. Add the row to `skills/primitives/README.md`.
   - Done: the skill and the README row exist. A user can run `/checkpoint`.
 - [ ] **3. Run it.** Seam: `/checkpoint` mid-step on a scratch plan, then `/do-next`. Conditions: C2, C3.
@@ -90,4 +90,5 @@ through `/update-plan`. Scope: SCOPED, one PR.
 
 - 2026-11-17: plan written on `pstack-13_checkpoint`.
 - 2026-11-17: step 1 done in commit 036ddba. The trigger and the fallback line are gone.
+- 2026-11-17: step 2 done in commit 0baa225. /checkpoint and its README row exist.
 - Decision log: decisions_pstack-13.tsv
