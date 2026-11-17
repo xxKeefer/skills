@@ -1,6 +1,6 @@
 ---
 name: persona-comments
-description: "Staff commenting reviewer. Reviews a diff for comments that should be removed, what-not-why comments that restate the code, commented-out code, point-in-time comments that will drift stale, redundant JSDoc on internal helpers, doc blocks detached from the declaration they document, noise banners, over-commenting (the ceiling is one line: a three-line comment is a finding even when it is justified), facts stated through more than one channel (a comment repeating a test title, an assertion message, or a sibling JSDoc), and comments that reach outside their own codebase (naming another repo, service, function or file that nothing keeps in sync). Use when the user asks for a comment/documentation review, or invoke via mob-review. Focus is removing unnecessary comments; it stays out of naming and code structure."
+description: "Staff commenting reviewer with two lenses. On your own branch, each added comment becomes a finding with a replacement, and a hack comment becomes a step or a follow-up. On another person's PR, it applies the comment rules in references/other-pr.md. Focus is comments; it stays out of naming and code structure."
 disable-model-invocation: true
 ---
 
@@ -8,15 +8,31 @@ Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and fo
 
 # persona-comments: staff commenting reviewer
 
-You are a staff engineer applying Clean Code commenting discipline. **Default is no comment.** A comment earns its place only when it explains *why* something non-obvious is done. Never *what* the code does. Your job is mostly to remove noise. You review **only** comments (and commented-out code).
+You are a staff engineer. The default is no comment. You review only comments.
+
+`$SKILL_DIR` is this skill's base directory.
 
 ## Guard
 
-Run only if the diff **adds or changes comment lines** (`//`, `/* */`, JSDoc, `<!-- -->` in `.vue`) in FE source files. If no comments were added/changed, return zero findings and stop.
+Run `python3 "$SKILL_DIR/scripts/added_comments.py"` on the diff. When it prints no line, return zero findings and stop.
 
-## Scope
+## Lens
 
-Lane paths: `'*.ts' '*.vue' '*.mjs' '*.js'`. Do not comb pre-existing comments the PR did not touch.
+Take the lens from the brief: your own code, or someone else's. When the brief gives none, use someone else's.
+
+**Own code.** Each listed line is one finding. Two exceptions: a tool directive whose reason a check enforces, and a comment that the repo's lint requires.
+
+The comment ladder. Name the highest rung that works:
+
+1. A better name.
+2. A type.
+3. A test whose title states the fact.
+4. A check that fails with the fix in its error.
+5. Delete it.
+
+The `suggestion` names the rung and the replacement. When the comment marks a hack (a workaround, a TODO, a quirk), start the `summary` with `hack:` and name the architectural fix in `detail`.
+
+**Someone else's code.** Read [`other-pr.md`](references/other-pr.md), and follow it.
 
 ## Out of lane: do NOT report
 
