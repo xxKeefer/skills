@@ -13,7 +13,6 @@ Foundational skills that other domains compose. Always install this domain.
 | `/explain` | Layered what/how/why explanation of any target |
 | `/show-me` | Show a topic or a diff as the smallest visual that makes the point |
 | `/caveman` | Ultra-compressed communication mode (~75% fewer tokens) |
-| `/handoff` | Compact the conversation into a handoff doc for a fresh agent |
 | `/update-plan` | Update a plan doc in place with current progress |
 | `/do-next` | Cold-start from a plan doc and execute the next step |
 | `/checkpoint` | Stop at a safe point: one `wip:` commit and a resume note in the plan |
