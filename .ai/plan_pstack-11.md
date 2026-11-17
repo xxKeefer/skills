@@ -99,8 +99,8 @@ live call `/verify`. Scope: SCOPED, one PR.
 - [x] **5. The callers.** Kind: docs.
   - `/test`: after `/happy-path`, run `/verify`, and on `no driver` write that in the plan's `Progress`. `/interrogate`: an adversary may prove a finding through `/verify`. `/blast-radius`: rung 5 runs `/verify`, and drop the sentence about no `/verify` skill. `/qa-screenshots`: when `/verify` has a driver, use it to reach each screen. `/retro`: a `no driver` line in `Progress` proposes `/create-verification-skill`. Add `verify` to the composed-by table.
   - Done: each of the five skills names `/verify`, and `grep -rn "no /verify skill" skills` finds nothing.
-- [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at HEAD 5bd14edc032ae66baa6c8bccfcc835f3cc706e5d. find_drivers 10 tests, check_driver 12, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` and `commit-msg_test.sh` all ok.
 - [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **8. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
@@ -131,3 +131,4 @@ live call `/verify`. Scope: SCOPED, one PR.
   - `find_drivers.py --repo /tmp/verify-demo --base main --home <empty temp folder>` on branch `change-app` (one commit to `src/todo.py`): printed `/tmp/verify-demo/.claude/skills/verify-verify-demo-todo/SKILL.md`. The same command on branch `docs-only` (one commit to `README.md`): printed `no driver`, exit 0.
   - Unproved by the stand-in: none, because the scratch app is the target.
 - 2026-11-17: step 4 done in commit abedfd3. `maintain-verification-skill/SKILL.md` holds locate, index hygiene, source wave, reconcile, live pass, triage, and ship or stop, with the outcomes `clean`, `changed`, and `blocked`. It runs `check_driver.py` by a sibling path. A driver in the repo gets one commit and a draft PR through `/create-pr`. A driver in `~/.claude/skills/` gets an edit in place. The README row is in. Both relative paths resolve. The 7 gates that ran are green. Next: step 5.
+- 2026-11-17: step 6 done. All gates green at 5bd14ed, no file changed except this plan. Next: step 7.
