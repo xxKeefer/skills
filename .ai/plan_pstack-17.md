@@ -41,8 +41,8 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
   - Done: the skill shows the table with the five columns, changes nothing before a pick, applies only the picked rows, and has no bypass. AC A, B, and C hold on a read of the skill.
 - [x] **2. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. `pre-commit_test.sh` and `commit-msg_test.sh` print only `ok` lines.
-- [ ] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-17.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-17.md`. This step changes no code.
+  - Done: `.ai/review_pstack-17_tidy-up-audit.html`, base 54b3f0e, head b170da4 (panel read 5f67ec0). Two nits fixed in b170da4, none open. The fixes change only skill text, so no new round.
 - [ ] **4. Push.** Push-only map: run `git push -u origin pstack-17_tidy-up-audit`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
