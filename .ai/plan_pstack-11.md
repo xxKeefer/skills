@@ -84,7 +84,7 @@ live call `/verify`. Scope: SCOPED, one PR.
 
 ## Steps
 
-- [ ] **1. The `/verify` router.** Seam: `python3 skills/engineering/skills/verify/scripts/find_drivers.py --repo <root> --base <ref>`. Conditions: C1, C2, C3, C4, C5.
+- [x] **1. The `/verify` router.** Seam: `python3 skills/engineering/skills/verify/scripts/find_drivers.py --repo <root> --base <ref>`. Conditions: C1, C2, C3, C4, C5.
   - Write `find_drivers.spec.py` first, red. Then `find_drivers.py`: read the repo name from `origin`, list the diff paths against the base plus the working tree, search `<root>/.claude/skills/verify-<repo>-*/SKILL.md` and `~/.claude/skills/verify-<repo>-*/SKILL.md` (the home folder is an argument, so a test can give a temp folder), and print one driver path per line, or `no driver`. Then `verify/SKILL.md`: run the script, run each matched driver at the `verifier` role, and return the evidence paths or `no driver`. Add the skill to `skills/engineering/README.md` and to the composed-by table in `skills/engineering/CLAUDE.md`.
   - Done: `find_drivers.spec.py` covers C1 to C5 and passes. A user can run `/verify` on a branch and get `no driver` or a driver list.
 - [ ] **2. Create a driver.** Seam: `python3 skills/engineering/skills/create-verification-skill/scripts/check_driver.py <driver dir>`. Conditions: C6, C7, C8, C9.
@@ -123,3 +123,4 @@ live call `/verify`. Scope: SCOPED, one PR.
   - With no owner match, a driver goes in `~/.claude/skills/`. A wrong home folder costs a move, but a wrong repo folder commits a driver into a team repo.
   - The `benchmark` caller waits for unit 24, which adds that skill.
   - The proof run uses a scratch app in `/tmp`, because this repo has no app to drive.
+- 2026-11-17: step 1 done in commit b92bcd1. `find_drivers.spec.py` has 10 tests and passes, and a mutation of the `*` glob made one test red. A driver with no `app-paths` key is named on stderr as `no app-paths: <path>`. `--home` sets the home skills folder. `verify/SKILL.md`, the README row, and the composed-by row are in. Callers join in step 5.
