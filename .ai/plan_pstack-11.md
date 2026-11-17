@@ -142,6 +142,7 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 8 done. All gates green at 9741125, no file changed except this plan. Next: step 9.
 - 2026-11-17: step 9 done. The mob-review panel ran 8 lanes (run 2) against `pstack-inspired`. It found 8 findings, fixed 6 in commit 5d80c91, and left 2 open (r2.1 CR, r2.8 Nit). Next: step 10.
 - 2026-11-17: `/build` rule 7.1 stopped the loop: row r2.1 at tier Change Requested stays open. Entry D1 blocks step 10. The run 2 fix 5d80c91 also changes behaviour (the index-link regex in `check_driver.py`), but rule 7.1 comes first. The QA checklist step is skipped, because an entry is pending.
+- 2026-11-17: `/work-on` stop H3 on D1. Playbook: map, step 4 (`/build` on this plan). Next: answer D1, then `/work-on @.ai/map_pstack-program.md` resumes step 4, which runs `/build` with the ticked rows, then playbook steps 5 to 8.
 
 ## Pending Decisions
 
