@@ -133,7 +133,7 @@ the loop (7.2).
 ## Step 3: Write the QA checklist
 
 Skip this step when the run stopped on a failed check, or `## Pending Decisions` holds an entry.
-Skip it also when each build step is `Kind: docs` and the diff adds no script. The test and review
+Skip it also when the diff changes only docs, skill text, and tests. The test and review
 steps already checked that diff. Step 4 then gives the plan's live-run check, if it has one, in
 place of the QA report.
 
