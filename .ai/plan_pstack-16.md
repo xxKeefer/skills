@@ -107,7 +107,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - [x] **7. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green on 9ffdc2a: statusline.spec.py, watch_prs.spec.py, install_agents_md.spec.py, pre-commit_test.sh, commit-msg_test.sh.
 - [x] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The rows that stay open from `.ai/review_pstack-16_babysit.html` (the three code-quality nits) are not raised again.
-  - Done: the report is  (run 2). Reviewed: base f33d9fd, head 9ffdc2a. Fix commit acf5b53 holds 3 fixes: a failed gh call no longer kills the loop, add keeps a poll result, and the token cache is capped. The 3 nits from run 1 stay open.
+  - Done: the report is `.ai/review_pstack-16_babysit.html` (run 2). Reviewed: base f33d9fd, head 9ffdc2a. Fix commit acf5b53 holds 3 fixes: a failed gh call no longer kills the loop, add keeps a poll result, and the token cache is capped. The 3 nits from run 1 stay open.
 - [ ] **9. Push.** Push the branch with `git push -u origin pstack-16_babysit`. The map is push-only, so open no PR.
   - Done: the pushed branch is in this line.
 
@@ -127,7 +127,8 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: step 2 done in commit f11f7b7. `watch_prs.py` has `add`, `poll`, and `run`. The state file is a JSON list. `add` calls `gh pr view` once, to read the head and base of the PR. `watch_prs.spec.py` passes C3 to C7. Step 3 reads the same list: each entry has `repo`, `number`, `head`, `base`, `state`, `threads`, and `done_at`. The `state` values are done, failed, stale, threads, pending, and ready.
 - 2026-11-17: step 3 done in commit 193baa2. `statusline.sh` draws the chips with one `jq` call, and `refreshInterval: 1` is in the `setup-statusline` SKILL and README. `statusline.spec.py` passes C1, C2, and C8 to C11. The leading spaces in the real status line need the user's eye (step 5 QA).
 - 2026-11-17: step 4 done in commit b1becaf. `babysit/SKILL.md` runs `add` for each PR, then starts one `run` with `nohup`. The Notifier row is in `tools.md`, and `HYDRATE.md` has `notifier_command` and `notifier_notes`. The chips are in the `setup-statusline` SKILL and README. `/babysit` is in the `engineering` README table. All five gates pass.
-- 2026-11-17: step 6 done. Light review in `.ai/review_pstack-16_babysit.html`: base f33d9fd, head 9ffdc2a. Fix commit 9ffdc2a: `poll` no longer loses a PR that `add` writes mid-poll, two classify rows for commit statuses, and the committed pyc is gone. Three code-quality nits stay open.- 2026-11-17: step 8 done. Light review run 2 in : base f33d9fd, head 9ffdc2a. Fix commit acf5b53 (3 fixes, test-first). One reviewer read the code, with no lane subagents.
+- 2026-11-17: step 6 done. Light review in `.ai/review_pstack-16_babysit.html`: base f33d9fd, head 9ffdc2a. Fix commit 9ffdc2a: `poll` no longer loses a PR that `add` writes mid-poll, two classify rows for commit statuses, and the committed pyc is gone. Three code-quality nits stay open.
+- 2026-11-17: step 8 done. Light review run 2 in `.ai/review_pstack-16_babysit.html`: base f33d9fd, head 9ffdc2a. Fix commit acf5b53 (3 fixes, test-first). One reviewer read the code, with no lane subagents.
 
 ## Follow-ups
 
