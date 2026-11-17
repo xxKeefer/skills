@@ -35,7 +35,7 @@ def repo_name(repo):
 def diff_paths(repo, base):
     merge_base = git(repo, "merge-base", base, "HEAD").strip()
     changed = git(repo, "diff", "--name-only", merge_base).splitlines()
-    untracked = git(repo, "ls-files", "--others", "--exclude-standard").splitlines()
+    untracked = git(repo, "ls-files", "--others", "--exclude-standard", "--full-name").splitlines()
     return sorted(set(changed + untracked))
 
 
@@ -72,8 +72,8 @@ def app_paths(skill_md):
             break
         if re.match(r"^app-paths:\s*$", line):
             paths = []
-        elif paths is not None and re.match(r"^\s+-\s+", line):
-            paths.append(re.sub(r"^\s+-\s+", "", line).strip().strip("\"'"))
+        elif paths is not None and re.match(r"^\s*-\s+", line):
+            paths.append(re.sub(r"^\s*-\s+", "", line).strip().strip("\"'"))
         elif re.match(r"^\S", line):
             if paths is not None:
                 break

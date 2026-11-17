@@ -12,17 +12,12 @@ Each error names the file, the missing item, and the fix.
 
 Usage: check_driver.py <driver dir>
 """
-import os
 import re
 import sys
+from pathlib import Path
 
 SECTIONS = ["Launch", "Doctor", "Drive", "Evidence", "Cleanup", "Helpers"]
 FEATURE_H2S = ["Sub-features", "How to get to it (user POV)", "Driving it with", "Gotchas"]
-
-
-def read(path):
-    with open(path) as f:
-        return f.read()
 
 
 def h2_titles(text):
@@ -41,12 +36,12 @@ def frontmatter(text):
     return None
 
 
-def check_skill(root, errors):
-    path = os.path.join(root, "SKILL.md")
-    if not os.path.isfile(path):
-        errors.append("SKILL.md: file is missing. Fix: add SKILL.md to the driver folder.")
-        return
-    text = read(path)
+def check_skill(root):
+    errors = []
+    path = root / "SKILL.md"
+    if not path.is_file():
+        return ["SKILL.md: file is missing. Fix: add SKILL.md to the driver folder."]
+    text = path.read_text()
     block = frontmatter(text)
     if block is None:
         errors.append("SKILL.md: frontmatter is missing. Fix: start the file with a --- block.")
@@ -57,7 +52,7 @@ def check_skill(root, errors):
     items = []
     if start is not None:
         for l in block[start + 1:]:
-            if re.match(r"^\s+-\s+\S", l):
+            if re.match(r"^\s*-\s+\S", l):
                 items.append(l)
             elif re.match(r"^\S", l):
                 break
@@ -67,35 +62,36 @@ def check_skill(root, errors):
     for section in SECTIONS:
         if section not in titles:
             errors.append("SKILL.md: section `## %s` is missing. Fix: add the section." % section)
+    return errors
 
 
-def check_features(root, errors):
-    folder = os.path.join(root, "features")
-    index = os.path.join(folder, "README.md")
-    if not os.path.isfile(index):
-        errors.append("features/README.md: file is missing. Fix: add an index that links each feature file.")
-        return
-    index_text = read(index)
-    for name in sorted(os.listdir(folder)):
-        if not name.endswith(".md") or name == "README.md":
+def check_features(root):
+    errors = []
+    folder = root / "features"
+    index = folder / "README.md"
+    if not index.is_file():
+        return ["features/README.md: file is missing. Fix: add an index that links each feature file."]
+    index_text = index.read_text()
+    for file in sorted(folder.glob("*.md")):
+        name = file.name
+        if name == "README.md":
             continue
-        if name not in index_text:
+        if not re.search(r"\((?:[^)\s]*/)?" + re.escape(name) + r"\)", index_text):
             errors.append("features/README.md: feature file `%s` is not in the index. Fix: add a link to it." % name)
-        titles = h2_titles(read(os.path.join(folder, name)))
+        titles = h2_titles(file.read_text())
         for h2 in FEATURE_H2S:
             if not any(t == h2 or (h2 == "Driving it with" and t.startswith("Driving it with ")) for t in titles):
                 shown = "Driving it with <harness>" if h2 == "Driving it with" else h2
                 errors.append("features/%s: section `## %s` is missing. Fix: add the section." % (name, shown))
+    return errors
 
 
 def main():
     if len(sys.argv) != 2:
         sys.stderr.write("usage: check_driver.py <driver dir>\n")
         sys.exit(2)
-    root = sys.argv[1]
-    errors = []
-    check_skill(root, errors)
-    check_features(root, errors)
+    root = Path(sys.argv[1])
+    errors = check_skill(root) + check_features(root)
     if errors:
         sys.stderr.write("\n".join(errors) + "\n")
         sys.exit(1)

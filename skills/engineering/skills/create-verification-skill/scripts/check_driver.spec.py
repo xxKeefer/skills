@@ -119,6 +119,19 @@ class CheckDriver(unittest.TestCase):
         r = self.run_script()
         self.assertEqual(r.returncode, 0, r.stderr)
 
+    def test_feature_name_that_is_a_tail_of_another_link_exits_1(self):
+        write(os.path.join(self.dir, "features", "README.md"), "# Map\n\n- [Greet](./greet.md)\n- [R](./research.md)\n")
+        write(os.path.join(self.dir, "features", "research.md"), feature())
+        write(os.path.join(self.dir, "features", "search.md"), feature())
+        r = self.run_script()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("search.md", r.stderr)
+
+    def test_unindented_app_paths_dashes_pass(self):
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\napp-paths:\n- src/**\n"))
+        r = self.run_script()
+        self.assertEqual(r.returncode, 0, r.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -130,8 +130,9 @@ evidence, Cleanup. One feature is enough, because the map lets later runs cover 
 4. When you proved it in a stand-in for the real target, list each setup step that the stand-in
    did and the target will not. Those steps stay unproved.
 
-Then run `/verify` on a diff of the app. It must print the path of the driver. If it prints
-`no driver`, the `name` or the `app-paths` is wrong.
+Then run `python3 $SKILL_DIR/../verify/scripts/find_drivers.py --repo <repo root> --base <base>`
+with the app changed. It must print the path of the driver. If it prints `no driver`, the `name`
+or the `app-paths` is wrong.
 
 **Done when:** the run passes, the evidence survives Cleanup, and `/verify` finds the driver.
 

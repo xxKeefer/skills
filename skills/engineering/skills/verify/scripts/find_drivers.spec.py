@@ -58,7 +58,7 @@ class FindDrivers(unittest.TestCase):
         )
 
     def change(self, rel):
-        write(os.path.join(self.repo, rel), "change\n")
+        write(os.path.join(self.repo, rel), "change " + rel + "\n")
         git(self.repo, "add", ".")
         git(self.repo, "commit", "-q", "-m", "change")
 
@@ -133,6 +133,78 @@ class FindDrivers(unittest.TestCase):
         r = self.run_script(base="nope")
         self.assertEqual(r.returncode, 1)
         self.assertIn("nope", r.stderr)
+
+    def test_base_that_moved_after_the_fork_is_ignored(self):
+        git(self.repo, "checkout", "-q", "main")
+        self.change("src/x.py")
+        git(self.repo, "checkout", "-q", "work")
+        driver(self.repo_skills, "verify-demo-cli", ["src/**"])
+        self.change("docs/a.md")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), "no driver")
+
+    def test_leading_double_star_matches_a_root_file(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["**/*.py"])
+        self.change("a.py")
+        self.assertEqual(self.run_script().stdout.strip(), path)
+
+    def test_leading_double_star_matches_a_deep_file(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["**/*.py"])
+        self.change("src/deep/a.py")
+        self.assertEqual(self.run_script().stdout.strip(), path)
+
+    def test_middle_double_star_matches_zero_depth(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["app/**/x.py"])
+        self.change("app/x.py")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), path)
+
+    def test_dot_in_glob_is_literal(self):
+        driver(self.repo_skills, "verify-demo-cli", ["src/*.py"])
+        self.change("src/apy")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), "no driver")
+
+    def test_question_mark_matches_one_character(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["src/?.py"])
+        self.change("src/a.py")
+        self.assertEqual(self.run_script().stdout.strip(), path)
+
+    def test_question_mark_does_not_match_two_characters(self):
+        driver(self.repo_skills, "verify-demo-cli", ["src/?.py"])
+        self.change("src/ab.py")
+        self.assertEqual(self.run_script().stdout.strip(), "no driver")
+
+    def test_quoted_app_paths_match(self):
+        a = driver(self.repo_skills, "verify-demo-cli", ['"src/**"'])
+        b = driver(self.repo_skills, "verify-demo-web", ["'docs/*.md'"])
+        self.change("src/a.py")
+        self.change("docs/a.md")
+        r = self.run_script()
+        self.assertEqual(sorted(r.stdout.split()), sorted([a, b]))
+
+    def test_one_driver_from_repo_and_home_prints_once(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["src/**"])
+        os.symlink(os.path.dirname(path), os.path.join(self.home, "verify-demo-cli"))
+        self.change("src/a.py")
+        r = self.run_script()
+        self.assertEqual(len(r.stdout.split()), 1)
+
+    def test_unindented_dashes_in_app_paths_match(self):
+        path = os.path.join(self.repo_skills, "verify-demo-cli", "SKILL.md")
+        write(path, "---\nname: verify-demo-cli\napp-paths:\n- src/**\n---\n")
+        self.change("src/a.py")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), path)
+
+    def test_untracked_path_is_relative_to_the_repo_root(self):
+        path = driver(self.home, "verify-demo-cli", ["src/**"])
+        write(os.path.join(self.repo, "src", "new.py"), "untracked\n")
+        r = subprocess.run(
+            ["python3", SCRIPT, "--repo", os.path.join(self.repo, "src"), "--base", "main", "--home", self.home],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(r.stdout.strip(), path)
 
 
 if __name__ == "__main__":
