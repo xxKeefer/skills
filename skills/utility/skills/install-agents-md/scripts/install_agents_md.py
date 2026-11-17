@@ -42,20 +42,15 @@ def load_sections(directory):
 
 
 def render(sections, values, hydrate_note):
-    missing = []
     for name, section in sections.items():
         for key in PLACEHOLDER.findall(section["body"]):
             if key not in values:
-                missing.append((name, key))
-    if missing:
-        raise Fail(
-            "\n".join(
-                f"missing value `{key}` for section `{name}`: see its entry in {hydrate_note}"
-                for name, key in missing
-            )
-        )
+                print(
+                    f"warning: missing value `{key}` for section `{name}`, rendered as `none`: see its entry in {hydrate_note}",
+                    file=sys.stderr,
+                )
     return {
-        name: PLACEHOLDER.sub(lambda m: str(values[m.group(1)]), section["body"])
+        name: PLACEHOLDER.sub(lambda m: str(values.get(m.group(1), "none")), section["body"])
         for name, section in sections.items()
     }
 
