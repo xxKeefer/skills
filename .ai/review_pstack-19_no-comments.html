@@ -56,6 +56,136 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "499afdb",
+   "meta": {
+    "Base": "pstack-inspired b86fe6d",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-19.md",
+    "Fixed in": "98c6194"
+   },
+   "answer": "The panel fixed both findings in 98c6194. Each one adds a test. Four lanes are clean, and none stay open. This is the third review step, so the loop stops. This run covers the essential lanes only, plus persona-skills. /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean; added by the build)"
+       ],
+       [
+        "naming, error-handling, architecture, security",
+        "—",
+        "—",
+        "—",
+        "skipped (TypeScript-only guards)"
+       ],
+       [
+        "other lanes and project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:46",
+      "issue": "No test has an unclosed double quote or backtick.",
+      "recommendation": "test_unclosed_double_quote_or_backtick_does_not_hide_a_comment. A closes() that always returns True fails it.",
+      "result": "Fixed"
+     },
+     "id": "r3.1"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:81",
+      "issue": "No test has the no-newline marker line.",
+      "recommendation": "test_no_newline_marker_does_not_move_the_line_number. A walker that counts the marker fails it.",
+      "result": "Fixed"
+     },
+     "id": "r3.2"
+    }
+   ],
+   "run": 3,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "35c34ca",
    "meta": {
     "Base": "pstack-inspired b86fe6d",

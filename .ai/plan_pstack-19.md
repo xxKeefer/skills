@@ -95,8 +95,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: `.ai/review_pstack-19_no-comments.html` run 2, base b86fe6d, head c5dd0ae (panel read 35c34ca). 5 of 5 findings fixed in c5dd0ae. None open. The fix changes the script's behaviour, so round 3 follows. It is the last round: the third review step stops the loop.
 - [x] **11. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at 987ddf7. `added_comments.spec.py` runs 22 tests, OK.
-- [ ] **12. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **12. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
+  - Done: `.ai/review_pstack-19_no-comments.html` run 3, base b86fe6d, head 98c6194 (panel read 499afdb). Two test-design nits, both fixed in 98c6194 with new tests. Four lanes clean. None open. The loop stops at the third review step.
 - [ ] **13. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
