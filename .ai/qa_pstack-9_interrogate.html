@@ -50,197 +50,214 @@
 
     <script type="application/json" id="runs">
 {
-  "title": "Review of pstack-8_principles-tdd-skip",
-  "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-8_principles-tdd-skip.html",
-  "skill": "/engineering:build",
-  "runs": [
+ "title": "QA: interrogate skill",
+ "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/qa_pstack-9_interrogate.html",
+ "skill": "/engineering:fix",
+ "track": [
+  "pass"
+ ],
+ "runs": [
+  {
+   "run": 1,
+   "title": "Happy path",
+   "head": "c793e4d",
+   "date": "2026-11-17",
+   "meta": {
+    "Range": "428f956...HEAD (base pstack-inspired)",
+    "Plan": ".ai/plan_pstack-9.md"
+   },
+   "answer": "This change adds the interrogate skill, its re-run script, and a /work-on step that runs it after the build when /blast-radius finds risk. Set up the state in the first table, then run the items in order. The agent runs the `agent` items and reports each result. You run the `you` items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.",
+   "visuals": [
     {
-      "run": 1,
-      "title": "Light run",
-      "head": "5b77736",
-      "date": "2026-11-17",
-      "meta": {
-        "Base": "pstack-inspired (f7c5914)",
-        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-8.md",
-        "Fixed in": "5b77736"
-      },
-      "answer": "Four findings are fixed in commit 5b77736. One future row stays open, and it needs no fix before the push. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
-      "visuals": [
-        {
-          "question": "Which lanes ran, and what did each find?",
-          "fold": true,
-          "table": {
-            "columns": [
-              "Persona",
-              "CR",
-              "Nit",
-              "Future",
-              "Status"
-            ],
-            "rows": [
-              [
-                "correctness",
-                "0",
-                "0",
-                "0",
-                "ran (clean)"
-              ],
-              [
-                "code-quality",
-                "0",
-                "2",
-                "0",
-                "ran"
-              ],
-              [
-                "test-quality",
-                "0",
-                "0",
-                "0",
-                "ran (clean)"
-              ],
-              [
-                "test-design",
-                "0",
-                "2",
-                "1",
-                "ran"
-              ],
-              [
-                "naming",
-                "-",
-                "-",
-                "-",
-                "skipped (guard: no .ts/.vue/.js changes)"
-              ],
-              [
-                "security",
-                "-",
-                "-",
-                "-",
-                "skipped (guard: no .ts/.vue changes)"
-              ],
-              [
-                "error-handling",
-                "-",
-                "-",
-                "-",
-                "skipped (guard: no failure path in .ts/.vue)"
-              ],
-              [
-                "architecture",
-                "-",
-                "-",
-                "-",
-                "skipped (guard: no .ts/.vue source)"
-              ],
-              [
-                "every other lane and the project rubric",
-                "-",
-                "-",
-                "-",
-                "skipped (not in the light set)"
-              ]
-            ]
-          }
-        }
-      ],
+     "question": "What must be in place before you start?",
+     "table": {
       "columns": [
-        {
-          "key": "tier",
-          "label": "Tier"
-        },
-        {
-          "key": "persona",
-          "label": "Persona"
-        },
-        {
-          "key": "where",
-          "label": "File:line",
-          "mono": true
-        },
-        {
-          "key": "issue",
-          "label": "Issue"
-        },
-        {
-          "key": "recommendation",
-          "label": "Recommendation"
-        },
-        {
-          "key": "result",
-          "label": "Result"
-        }
+       "Item",
+       "Initial state"
       ],
       "rows": [
-        {
-          "id": "r1.1",
-          "ticks": [
-            "fix"
-          ],
-          "cells": {
-            "tier": "Future",
-            "persona": "test-design",
-            "where": "skills/engineering/skills/work-on/scripts/check_principles.py:66",
-            "issue": "Index checks are weaker than the plan wording.\n\nA duplicate entry, or an entry under the wrong group, passes. The effect is a misleading index, not a context load.",
-            "recommendation": "State in the plan that group membership and duplicates are not checked, or add one test with a duplicated entry.",
-            "result": "Open: the choice of which rule to keep needs the user"
-          }
-        },
-        {
-          "id": "r1.2",
-          "ticks": [],
-          "cells": {
-            "tier": "Nit",
-            "persona": "code-quality",
-            "where": "skills/engineering/skills/work-on/scripts/check_principles.py:38",
-            "issue": "main() ran three unrelated checks in one function.",
-            "recommendation": "Split into check_folders, check_frontmatter, and check_index.",
-            "result": "Fixed"
-          }
-        },
-        {
-          "id": "r1.3",
-          "ticks": [],
-          "cells": {
-            "tier": "Nit",
-            "persona": "code-quality",
-            "where": "skills/engineering/skills/work-on/scripts/check_principles.py:39",
-            "issue": "os.path calls were used where pathlib is standard.",
-            "recommendation": "Use pathlib.",
-            "result": "Fixed"
-          }
-        },
-        {
-          "id": "r1.4",
-          "ticks": [],
-          "cells": {
-            "tier": "Nit",
-            "persona": "test-design",
-            "where": "skills/engineering/skills/work-on/scripts/check_principles.py:53",
-            "issue": "A principle folder with no SKILL.md had no test.",
-            "recommendation": "Add a test that asserts exit 1 and the one error line.",
-            "result": "Fixed"
-          }
-        },
-        {
-          "id": "r1.5",
-          "ticks": [],
-          "cells": {
-            "tier": "Nit",
-            "persona": "test-design",
-            "where": "skills/engineering/skills/work-on/scripts/check_principles.py:28",
-            "issue": "A SKILL.md with no frontmatter had no test.",
-            "recommendation": "Add a test that asserts both the name and the flag errors.",
-            "result": "Fixed"
-          }
-        }
+       [
+        "How to run",
+        "Run each command from the root of the worktree on branch pstack-9_interrogate. Python 3 only. No flag or environment variable."
+       ],
+       [
+        "Access",
+        "No account or token. The live run needs a session that can spawn subagents (item 9)."
+       ],
+       [
+        "Data that must exist",
+        "The commits of the branch, and the file skills/engineering/skills/interrogate/SKILL.md."
+       ],
+       [
+        "Data that must not exist",
+        "No adversary worktree under /tmp, and no findings file."
+       ],
+       [
+        "Do not touch",
+        "Do not push, run gh, or commit. Use a throwaway branch for the planted bug."
+       ],
+       [
+        "Cleanup",
+        "Delete the planted-bug branch and any /tmp/interrogate-* folder."
+       ]
       ]
+     }
     }
-  ]
+   ],
+   "columns": [
+    {
+     "key": "area",
+     "label": "Area"
+    },
+    {
+     "key": "by",
+     "label": "By"
+    },
+    {
+     "key": "step",
+     "label": "Step"
+    },
+    {
+     "key": "expect",
+     "label": "Expect"
+    }
+   ],
+   "rows": [
+    {
+     "id": "r1.1",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Re-run script",
+      "by": "agent",
+      "step": "Run python3 skills/engineering/skills/interrogate/scripts/rerun_findings.spec.py",
+      "expect": "23 tests run and the result is OK (C1 to C5: keep, drop, and the planted-bug repo)."
+     }
+    },
+    {
+     "id": "r1.2",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Re-run script",
+      "by": "agent",
+      "step": "Run rerun_findings.py on a file that holds an empty list",
+      "expect": "It prints an empty kept list and an empty dropped list, and exits 0 (r3.3)."
+     }
+    },
+    {
+     "id": "r1.3",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Re-run script",
+      "by": "agent",
+      "step": "Run rerun_findings.py on a file that is not JSON",
+      "expect": "It prints one error line and exits 1."
+     }
+    },
+    {
+     "id": "r1.4",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill text",
+      "by": "agent",
+      "step": "Check that interrogate/SKILL.md holds the six steps, the word-for-word brief, the panel models, the worktree command, and the seven drop reasons",
+      "expect": "All present. Principle paths resolve to files that exist."
+     }
+    },
+    {
+     "id": "r1.5",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill text",
+      "by": "agent",
+      "step": "Check the README row, the PSTACK-LICENSE line, and the CLAUDE.md rows for interrogate and fix",
+      "expect": "Each one names interrogate."
+     }
+    },
+    {
+     "id": "r1.6",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Work-on",
+      "by": "agent",
+      "step": "Compare the step numbers in new-ticket.md and map.md with the push-only overrides and the tick step",
+      "expect": "The new step sits after the build and before /ship. Each override names the right step. No stale reference in work-on."
+     }
+    },
+    {
+     "id": "r1.7",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Gates",
+      "by": "agent",
+      "step": "Run check_principles.spec.py, map_units.spec.py, and .githooks/pre-commit",
+      "expect": "11 and 14 tests OK, and the hook exits 0."
+     }
+    },
+    {
+     "id": "r1.8",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Hygiene",
+      "by": "agent",
+      "step": "Run git diff --check on the range, git status, and git worktree list",
+      "expect": "No whitespace fault, a clean tree before this report, and no adversary worktree."
+     }
+    },
+    {
+     "id": "r1.9",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Live run",
+      "by": "you",
+      "step": "Make a branch with a planted bug and one unproven claim in view. Run /interrogate on it. Open the report.",
+      "expect": "The report keeps the proven finding with its command, output, intent, and adversaries. The Dropped table gives the unproven finding a reason (C7, AC E)."
+     }
+    },
+    {
+     "id": "r1.10",
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Live run",
+      "by": "you",
+      "step": "In the same run, check each adversary worktree and the findings file after the run",
+      "expect": "git worktree list shows no adversary worktree, and no findings file stays."
+     }
+    }
+   ]
+  }
+ ]
 }
-</script>
+    </script>
 
     <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
     <script src="reports.js"></script>

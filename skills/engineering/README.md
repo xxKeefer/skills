@@ -56,6 +56,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/stand-up` | Anytime | Show your day as one table per epic, from your tickets, PRs, review requests, and branches, then write a news bulletin about the day |
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a plan the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a plan, it records the report in the review step |
 | `/light-review` | Review | Run the eight essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, and architecture) and fix and report as `/engineering:mob-review` does, with the same ticks and prompts |
+| `/interrogate` | Review | Send panel adversaries to break the change, each in its own worktree. A script re-runs the command of each finding, and only a proven finding that breaks the intent stays in the report. Each other finding goes to the Dropped list with its reason. Applies no fix: the report's ticks build the `/engineering:fix` prompt |
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/engineering:mob-review` there, then give the report path, whose ticks build the `/engineering:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
 | `/apply-review` | Review | Apply the rows you tick in a review report of your own branch: fix test-first, run the gates, commit once, push once, then reply on and resolve the ticked threads. Adds a result run to the report |
@@ -115,7 +116,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 
 ## Principles
 
-The 24 principles come from pstack, under the MIT licence in [`PSTACK-LICENSE`](PSTACK-LICENSE). Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
+The 24 principles come from pstack. Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
 
 | Principle | Group | Applies when |
 |---|---|---|

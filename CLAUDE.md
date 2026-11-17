@@ -16,8 +16,13 @@ Installable assets, such as hooks, the status line, output styles, and rules, li
 `utility` installer skill, so they ship with the plugin. The root owns only the registry, the commit
 hook, and shared documentation. No skills live at root -- they all live under `skills/`.
 
-`.githooks/` holds the scrub check: a pre-commit hook, its public pattern file, and its tests
-(`sh .githooks/pre-commit_test.sh`).
+`.githooks/` holds two checks, each with its tests:
+
+- The scrub check: a pre-commit hook and its public pattern file (`sh .githooks/pre-commit_test.sh`).
+- The attribution check: a commit-msg hook that blocks a Claude attribution line
+  (`sh .githooks/commit-msg_test.sh`).
+
+Add no licence or notice files. Credit a source in one line of prose in the skill that uses it.
 
 ## Skill Lifecycle
 

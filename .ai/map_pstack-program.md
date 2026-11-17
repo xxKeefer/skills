@@ -23,7 +23,7 @@ Sources:
 
 ## How to run this map
 
-All program work happens in one worktree folder, `pstack-inspiration`, beside the main checkout: `~/studio/code/pstack-inspiration` beside `~/studio/code/xxkeefer-skills`. The main checkout stays on `main` as the fallback. This map lives in the worktree at `.ai/map_pstack-program.md`. Git ignores `.ai/`.
+All program work happens in one worktree folder, `pstack-inspiration`, beside the main checkout: `~/studio/code/pstack-inspiration` beside `~/studio/code/xxkeefer-skills`. The main checkout stays on `main` as the fallback. This map lives in the worktree at `.ai/map_pstack-program.md`. Git tracks `.ai/`, and the repo is public.
 
 ### The branches
 
@@ -31,11 +31,11 @@ All program work happens in one worktree folder, `pstack-inspiration`, beside th
 
 ```
 main                              untouched until the end
- └── pstack-inspired              the trunk: units 1 to 6 are merged here
+ └── pstack-inspired              the trunk: each merged unit lands here
       └── pstack-7_<short-desc>   one PR, merged into the trunk after review
 ```
 
-Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` (PRs #45 to #51). The machine already loads the skills from `pstack-inspiration`, and `enabledPlugins` has no `"experimental@xxkeefer-skills"`.
+Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` (PRs #45 to #51). From unit 7 on, each unit is one PR into the trunk. The machine already loads the skills from `pstack-inspiration`, and `enabledPlugins` has no `"experimental@xxkeefer-skills"`.
 
 ### Two machines
 
@@ -427,7 +427,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.2): keep them skills, so the user can call one on a smell. A rule file gets lost in context drift.
 - Done: `/work-on` on a task names the principle that shaped a choice, and the principle's file was read in that session.
 
-### [ ] 9. `interrogate` (r1.1)
+### [x] 9. `interrogate` (r1.1)
 
 - `engineering/interrogate` (new). Adversaries try to break a change. A finding stays only if a re-run command proves it. Others go to a Dropped list.
 - `/work-on` runs it after the build loop when `blast-radius` finds risk. Uses the panel models.
