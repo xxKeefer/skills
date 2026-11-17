@@ -294,6 +294,16 @@ class ShippedSections(unittest.TestCase):
             e.read(),
         )
 
+    def test_models_block_holds_the_effort_ladder_and_the_ceiling(self):
+        e = Env(self, sections={}, values={})
+        e.sections = REAL_SECTIONS
+        e.run()
+        text = " ".join(e.read().split())
+        self.assertIn("`low`, `medium`, `high`, `xhigh`, `max`", text)
+        self.assertIn("write the premise down and test it", text)
+        self.assertIn("the next step is `opus` at `max`", text)
+        self.assertIn("The ceiling is `opus` at `max`", text)
+
 
 if __name__ == "__main__":
     unittest.main()

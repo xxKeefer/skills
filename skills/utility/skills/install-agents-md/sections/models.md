@@ -15,8 +15,10 @@ no row for a role, use the session model.
 | panel             | a set of views on one question                               | `opus` high, `sonnet` high, the session model | as listed |
 | explorer          | read-only search, source checks                              | `haiku`   | low    |
 
-1. After two failed fixes on one premise, move the next attempt one effort step up. The ceiling is
-   `opus` at max effort. Record each step in the decision log.
+1. After two failed fixes on one premise, write the premise down and test it. Then move the next
+   attempt one effort step up. The effort steps are `low`, `medium`, `high`, `xhigh`, `max`. At
+   `max` on a model below `opus`, the next step is `opus` at `max`. The ceiling is `opus` at `max`.
+   Record each step in the decision log.
 2. Run `fable` only when the user asks, in the prompt or in a plan step.
 3. The user can override a mechanical mark when they approve a plan. A `PANEL.md` line can override
    the reviewer role for one lane.
