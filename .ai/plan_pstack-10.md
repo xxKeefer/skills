@@ -75,7 +75,7 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
 - [x] **2. The `/work-on` step.** Kind: docs.
   - In `work-on/playbooks/new-ticket.md` and `work-on/playbooks/map.md`, remove the skip reason from the blast-radius step, and run `/interrogate` when the verdict is `risk`.
   - Done: both playbooks name the verdict `risk`, and neither holds `skipped: no /blast-radius skill`.
-- [ ] **3. Run it.** Seam: `/blast-radius` on the unit 9 change, `git diff 428f956 7e49a7f -- skills/engineering/skills/interrogate/scripts/rerun_findings.py`. Conditions: C3.
+- [x] **3. Run it.** Seam: `/blast-radius` on the unit 9 change, `git diff 428f956 7e49a7f -- skills/engineering/skills/interrogate/scripts/rerun_findings.py`. Conditions: C3.
   - Follow the skill with no plan path. Record the verdict, the safety fact, the rung, and the command in Progress, then run the command again.
   - Done: Progress names the rung and the command, and the command exits 0 on a re-run.
 - [ ] **4. Test.** Run the gates from Context. This step changes no behaviour.
@@ -101,3 +101,11 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - The `arena` step of pstack goes, because `/work-on` runs `/interrogate` on `risk`.
 - 2026-11-17: step 1 done in 1b89ccc. Added `blast-radius/SKILL.md`, the README row, and the composed-by row. Gates green.
 - 2026-11-17: step 2 done in 158a4c9. Dropped the skip sentence from both playbooks, and they run `/interrogate` when the verdict is `risk`. Gates green.
+- 2026-11-17: step 3 done. Live run of `/blast-radius` on `git diff 428f956 7e49a7f -- skills/engineering/skills/interrogate/scripts/rerun_findings.py` (the unit 9 re-run script), with no plan path.
+  - Verdict: `risk`, because one confirmed risk exists.
+  - Safety fact: `rerun_findings.py` keeps a finding only when its command exits non-zero on re-run and its evidence text is in the output. It drops every other finding, and it exits 0.
+  - Rung: 4 (ran it). The proof script `/tmp/br-proof/prove.py` calls the real script with 7 findings (fail with evidence, pass, evidence missing from output, no evidence field, no command, bad cwd, timeout). It exits 1 unless only the first finding is kept. A mutant (`proc.returncode == 0` check removed) made it exit 1.
+  - Command: `python3 /tmp/br-proof/prove.py skills/engineering/skills/interrogate/scripts/rerun_findings.py` (run from the repo root). First run: exit 0. Re-run: exit 0.
+  - Confirmed risk R1: the `--timeout` is not enforced when a command leaves a child in a new session (`setsid`) that holds the output pipe. `proc.communicate()` in the timeout branch (`rerun_findings.py`, after `os.killpg`) waits for EOF on the pipe, and `killpg` does not reach the child. A command with `--timeout 1` took 8 s. A child that never exits hangs `/interrogate`. Chance: low (a finding command seldom daemonises). Cost: a stuck run. Check: run the script on a finding whose command forks a `setsid` child with `sleep 8`, and time it.
+  - Cleared: callers (only `interrogate/SKILL.md` lines 21 and 71); the file has no change after 7e49a7f; a malformed findings file (exits 1 with a message); a negative exit code from a signal (counts as a failure, correct); output encoding (`errors="replace"`).
+  - Follow-up (not fixed in this unit): R1. Close the pipe or use `communicate(timeout=...)` with a kill of the whole tree, or do not wait on the pipe after the kill, in `rerun_findings.py`.
