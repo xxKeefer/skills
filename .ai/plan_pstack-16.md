@@ -100,8 +100,8 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Add a Notifier row to `install-agents-md/sections/tools.md`, and a `notifier_command` row to `HYDRATE.md`, with an example for Linux and for macOS.
   - Update the `setup-statusline` SKILL and README for the chips and `refreshInterval`, and add `/babysit` to the `engineering` README table.
   - Done: the skill and the docs name the state file, the chip table, and the notifier key, and `install_agents_md.spec.py` passes.
-- [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green: statusline.spec.py, watch_prs.spec.py, install_agents_md.spec.py, pre-commit_test.sh, commit-msg_test.sh all pass.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **7. Push.** Push the branch with `git push -u origin pstack-16_babysit`. The map is push-only, so open no PR.
