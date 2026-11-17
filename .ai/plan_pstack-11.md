@@ -160,3 +160,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 12 done in commit 3fb4f78. `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`. Next: step 13.
 - 2026-11-17: step 13 done. All gates green at 1a81359, no file changed except this plan. Next: step 14.
 - 2026-11-17: step 14 done. Run 3 fixed 4 nits in a3c220c, none open. All gates green. Next: step 15.
+- 2026-11-17: the `/build` loop stopped at its third review step (steps 7, 9, and 14). The run 3 fix a3c220c changes behaviour (the driver name must start with `verify-<repo>-`, and a frontmatter block with no closing line counts as missing), so a new round is not run. No row is open. The coordinator re-ran the step 3 proof at 257565b: `check_driver.py` prints ok, and `find_drivers.py` prints the driver for `change-app` and `no driver` for `docs-only`. Next: the QA checklist.
