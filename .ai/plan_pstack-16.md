@@ -114,6 +114,12 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Done: the report is `.ai/review_pstack-16_babysit.html` (run 3). Reviewed: base f33d9fd, head acf5b53 (branch tip 0cf13f6 adds only plan docs). No finding, so no fix commit.
 - [x] **11. Push.** Push the branch with `git push -u origin pstack-16_babysit`. The map is push-only, so open no PR.
   - Done: pushed `origin/pstack-16_babysit`.
+- [x] **12. Test.** Run the gates from Context, plus `map_units.spec.py`, after the retro commits 7a7f981, 738d489, and 0865096. This step changes no behaviour.
+  - Done: the gates are green on 0865096: map_units.spec.py, install_agents_md.spec.py, watch_prs.spec.py, statusline.spec.py, pre-commit_test.sh, check_principles.py.
+- [ ] **13. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The retro commits since acf5b53 are the new code. The three open code-quality nits of run 1 are not raised again.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **14. Push.** Push the branch and open a draft PR into `pstack-inspired` with `/create-pr @.ai/plan_pstack-16.md`. This machine runs `gh` as the repo owner.
+  - Done: the draft PR URL is in this line.
 
 ## Suggested skills
 
