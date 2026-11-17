@@ -51,8 +51,10 @@ working bar. Stop at four.
      (edit, task end, or CI). A rule with no command is not a constraint. Leave it out.
    - **Measured, not enforced**: the metric, today's value, and the direction it must not move.
    - **Exceptions**: ID, rule, path, reason, owner, and expiry date.
-2. Add each command to the project's own scripts, so that it runs without an agent. Use the tools
-   that the project already has. Add a new tool only for a dimension that the user picked.
+2. Read `$SKILL_DIR/../principle-encode-lessons-in-structure/SKILL.md`. Back each rule at the
+   highest rung of its ladder that works. Add each command to the project's own scripts, so that it
+   runs without an agent. Use the tools that the project already has. Add a new tool only for a
+   dimension that the user picked.
 3. Prove each enforced row. Run its command against a planted violation and against clean code. The
    violation must fail, and the clean code must pass. Remove the planted violation.
 4. Show the user the line to add to the project's agent file: "Read CONSTRAINTS.md before you write
