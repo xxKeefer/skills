@@ -118,8 +118,8 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Done: the gates are green on 0865096: map_units.spec.py, install_agents_md.spec.py, watch_prs.spec.py, statusline.spec.py, pre-commit_test.sh, check_principles.py.
 - [x] **13. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The retro commits since acf5b53 are the new code. The three open code-quality nits of run 1 are not raised again.
   - Done: the report is `.ai/review_pstack-16_babysit.html` (run 4). Reviewed: base f33d9fd, head a336ff2 (panel read 64e6bd1). Four lane subagents ran at sonnet: correctness, code-quality, test-design, test-quality. Fix commit a336ff2 holds 2 nit fixes, and none stay open.
-- [ ] **14. Push.** Push the branch and open a draft PR into `pstack-inspired` with `/create-pr @.ai/plan_pstack-16.md`. This machine runs `gh` as the repo owner.
-  - Done: the draft PR URL is in this line.
+- [x] **14. Push.** Push the branch and open a draft PR into `pstack-inspired` with `/create-pr @.ai/plan_pstack-16.md`. This machine runs `gh` as the repo owner.
+  - Done: draft PR https://github.com/xxKeefer/skills/pull/63 into `pstack-inspired`.
 
 ## Suggested skills
 
@@ -144,6 +144,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: `/ship` checks go: the patch-id of the reviewed head acf5b53 matches HEAD. Pushed `origin/pstack-16_babysit`, and ticked unit 16 on the map. Map playbook: next is step 8, the `/retro` offer (H5).
 - 2026-11-17: `/retro` (H5): the user approved all 9 rows. Rows 1 to 7 are applied in 7a7f981, 738d489, 0865096, and the calibration backlog. Rows 8 and 9 are report only. Next: the home machine opens the PR into `pstack-inspired`, reviews it, and merges it (H4). Then `/work-on @.ai/map_pstack-program.md` starts unit 17.
 - 2026-11-17: step 13 done. Light review run 4 in `.ai/review_pstack-16_babysit.html`: base f33d9fd, head a336ff2 (panel read 64e6bd1). Fix commit a336ff2: a test for `map_units.py show` on the last unit (mutation checked), and one-pass warning in `install_agents_md.py render`.
+- 2026-11-17: `/ship` checks go at a336ff2 (patch-id 5b30ab8 matches the head). Draft PR #63 opened into `pstack-inspired`. Map playbook step 6 is at H4: the user marks the PR ready and merges it.
 
 ## Follow-ups
 
