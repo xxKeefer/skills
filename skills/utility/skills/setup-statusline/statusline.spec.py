@@ -100,6 +100,26 @@ class Spec(unittest.TestCase):
             f.write(transcript_line(3333) + transcript_line(4444))
         self.assertTrue(has_tokens(self.env.render(payload), 4444))
 
+    def test_token_cache_stays_bounded(self):
+        path = os.path.join(self.env.tmp.name, "t.jsonl")
+        payload = (
+            b'{"cwd":"@HOME@","transcript_path":"'
+            + path.encode()
+            + b'","model":{"id":"claude-sonnet-4-6"}}'
+        )
+        cache_dir = os.path.join(self.env.cache, "statusline")
+        os.makedirs(cache_dir)
+        with open(os.path.join(cache_dir, "tokens"), "w") as f:
+            for i in range(300):
+                f.write("/old/%d\t10\t5\n" % i)
+        with open(path, "w") as f:
+            f.write(transcript_line(1111))
+        self.assertTrue(has_tokens(self.env.render(payload), 1111))
+        with open(os.path.join(cache_dir, "tokens")) as f:
+            lines = f.read().splitlines()
+        self.assertLessEqual(len(lines), 50)
+        self.assertTrue(lines[-1].startswith(path + "\t"))
+
     def chips(self, entries, columns, now=1700000000):
         self.env.set_now(now)
         self.env.watch(entries)

@@ -138,7 +138,7 @@ if [ -n "$transcript" ] && [ -f "$transcript" ]; then
     ' 2>/dev/null | head -n 1)
     if [ -n "$t" ] && mkdir -p "$cache_dir" 2>/dev/null; then
       {
-        [ -f "$cache_file" ] && awk -F'\t' -v p="$transcript" '$1 != p' "$cache_file"
+        [ -f "$cache_file" ] && awk -F'\t' -v p="$transcript" '$1 != p' "$cache_file" | tail -n 49
         printf '%s\t%s\t%s\n' "$transcript" "$size" "$t"
       } >"$cache_file.$$" && mv "$cache_file.$$" "$cache_file"
     fi

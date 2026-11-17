@@ -19,8 +19,8 @@ d = os.environ["FAKE_DIR"]
 a = sys.argv[1:]
 with open(os.path.join(d, "calls"), "a") as f:
     f.write(" ".join(a) + "\\n")
-hook = os.path.join(d, "hook")
-if a[0] == "pr" and a[2] == "1" and os.path.exists(hook):
+hook = os.path.join(d, "hook" if a[2:3] == ["1"] else "hook_" + a[2]) if a[0] == "pr" else ""
+if hook and os.path.exists(hook):
     cmd = open(hook).read()
     os.remove(hook)
     os.system(cmd)
@@ -150,6 +150,28 @@ class Concurrent(Env):
             f.write("python3 %s add o/r 2" % SCRIPT)
         self.cli("poll")
         self.assertEqual([p["number"] for p in self.state()], [1, 2])
+
+
+    def test_poll_during_add_is_kept(self):
+        self.pr(1, checks=[{"status": "IN_PROGRESS", "conclusion": ""}])
+        self.pr(2)
+        self.cli("add", "o/r", "1")
+        with open(os.path.join(self.fake, "hook_2"), "w") as f:
+            f.write("python3 %s poll" % SCRIPT)
+        self.cli("add", "o/r", "2")
+        self.assertEqual([p["state"] for p in self.state()], ["pending", None])
+
+
+class GhFailure(Env):
+    def test_failed_gh_call_skips_that_pr_only(self):
+        self.pr(1, checks=[{"status": "IN_PROGRESS", "conclusion": ""}])
+        self.pr(2)
+        self.cli("add", "o/r", "1")
+        self.cli("add", "o/r", "2")
+        os.remove(os.path.join(self.fake, "pr_2.json"))
+        r = self.cli("poll")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual([p["state"] for p in self.state()], ["pending", None])
 
 
 class Stack(Env):

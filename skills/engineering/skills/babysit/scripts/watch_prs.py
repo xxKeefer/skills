@@ -67,10 +67,10 @@ def notify(title, body):
 
 
 def add(repo, number):
-    prs = load()
-    if any(p["repo"] == repo and p["number"] == number for p in prs):
+    if any(p["repo"] == repo and p["number"] == number for p in load()):
         return
     view = gh("pr", "view", str(number), "-R", repo, "--json", FIELDS)
+    prs = load()
     prs.append({"repo": repo, "number": number, "head": view["headRefName"],
                 "base": view["baseRefName"], "state": None, "threads": 0, "done_at": None})
     save(prs)
@@ -83,10 +83,13 @@ def poll():
     for p in live:
         if (p["repo"], p["base"]) in heads:
             continue
-        view = gh("pr", "view", str(p["number"]), "-R", p["repo"], "--json", FIELDS)
         owner, name = p["repo"].split("/")
-        data = gh("api", "graphql", "-f", "query=" + QUERY, "-F", "owner=" + owner,
-                  "-F", "name=" + name, "-F", "number=%d" % p["number"])
+        try:
+            view = gh("pr", "view", str(p["number"]), "-R", p["repo"], "--json", FIELDS)
+            data = gh("api", "graphql", "-f", "query=" + QUERY, "-F", "owner=" + owner,
+                      "-F", "name=" + name, "-F", "number=%d" % p["number"])
+        except (subprocess.CalledProcessError, OSError, ValueError):
+            continue
         nodes = data["data"]["repository"]["pullRequest"]["reviewThreads"]["nodes"]
         p["threads"] = sum(1 for n in nodes if not n["isResolved"])
         new = classify(view, p["threads"])
