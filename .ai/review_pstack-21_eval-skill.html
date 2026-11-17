@@ -56,6 +56,162 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "1c279f4",
+   "meta": {
+    "Base": "caa647d (reviewed range 680ffe7..1c279f4)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-21.md"
+   },
+   "answer": "Reviewed 680ffe7..1c279f4: the panel fixed 0 findings and left 1 open nit. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "comments",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "ac-check and every other lane",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "correctness",
+      "where": "skills/meta/skills/eval-skill/scripts/leak_check.py:12",
+      "issue": "A folder argument that does not exist passes the leak check with exit 0 and no output.\n\nCounterexample: leak_check.py /tmp/typo-folder prompt.txt scans only the prompt, so a mistyped folder reports clean. No caller passes a missing folder today, because Step 2 makes the folders first. The code is from step 1, not from the reviewed range.",
+      "recommendation": "Add an is_dir check that prints the folder and exits 2, with a spec case for a missing folder.",
+      "result": "Open: the review step changes no code, and the line is outside the reviewed range"
+     },
+     "id": "r2.1"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
    "head": "44dee66",
    "meta": {
     "Base": "pstack-20_premise-escalation caa647d",
