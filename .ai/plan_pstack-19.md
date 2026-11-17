@@ -177,6 +177,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
     ```
 - 2026-11-17: `/work-on` map playbook, batch of unit 19. Stopped at H3 on D1, in playbook step 5 (the fix round after `/interrogate`). Steps 1 to 25 are done. Next: answer D1, then `/work-on @.ai/map_pstack-program.md`. That run resumes at playbook step 5: it applies the D1 answer, runs the test and review steps again, then playbook step 6 (`/ship` steps 1 to 3, then `git push -u origin pstack-19_no-comments`) and step 7 (tick unit 19).
 - 2026-11-17: D1 answered (no script). Steps 26 to 29 done. Pushed 5e8fc15. Unit 19 ticked on the map.
+- 2026-11-17: `/ship`: go. Draft PR #66 into `pstack-inspired`: https://github.com/xxKeefer/skills/pull/66. Bot review requested. Next: H4, the user marks it ready and merges.
 
 ## Pending Decisions
 
