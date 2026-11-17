@@ -7,6 +7,7 @@ goal: <one-sentence goal>
 # branch_prefix: <prefix of each unit branch>
 # batch: <units to build in one run, 1 or more>
 # push_only: <true when the build machine opens no PR>
+# subagent_model: <model for every subagent of the run, such as sonnet>
 ---
 
 # Map: <title>
