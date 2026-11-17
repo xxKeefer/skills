@@ -104,7 +104,12 @@ live call `/verify`. Scope: SCOPED, one PR.
 - [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
   - Done: the report is `.ai/review_pstack-11_verify-drivers.html`. Reviewed base 70db663, reviewed head 9db5625 (the panel read 3d2079c). The panel fixed 12 of 12 findings in commit 9db5625. No row is open.
-- [ ] **8. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
+  - Recorded decision: the fix commit 9db5625 changes the behaviour of `find_drivers.py` and `check_driver.py`, so `/build` rule 7.2 adds a new round of test and review (steps 8 and 9).
+- [ ] **8. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **9. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. The last report has no open row.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+- [ ] **10. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
 
 ## Suggested skills
