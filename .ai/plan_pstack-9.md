@@ -79,17 +79,20 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
 
 ## Steps
 
-- [ ] **1. The re-run script.** Seam: `python3 skills/engineering/skills/interrogate/scripts/rerun_findings.py <findings.json>`, which prints JSON `{"kept": [...], "dropped": [...]}` and exits 0, or exits 1 with one error line for a malformed file. Conditions: C1, C2, C3, C4, C5.
+- [x] **1. The re-run script.** Seam: `python3 skills/engineering/skills/interrogate/scripts/rerun_findings.py <findings.json>`, which prints JSON `{"kept": [...], "dropped": [...]}` and exits 0, or exits 1 with one error line for a malformed file. Conditions: C1, C2, C3, C4, C5.
   - Write `rerun_findings.spec.py` first, with fixtures in a temp folder, then `rerun_findings.py`. Input: a JSON list of findings, each with `adversary`, `title`, `command`, `evidence`, and `cwd`. The script runs each command through the shell in its `cwd`, with a timeout (`--timeout`, default 120 seconds). A kept finding gets its `output` and `exit`. A dropped finding gets its `reason`. C5 builds a temp git repo with a planted bug and its tests.
   - Done: `rerun_findings.spec.py` covers C1 to C5 and passes, and a user can run the script on a findings file.
-- [ ] **2. The interrogate skill.** Kind: docs.
+  - Recorded decision: a finding whose `cwd` folder does not exist is dropped with the reason `cwd not found`, so that the script never stops on one bad finding.
+- [x] **2. The interrogate skill.** Kind: docs.
   - Add `skills/engineering/skills/interrogate/SKILL.md`, adapted from pstack. Steps: frame the scope and the intent, fan out the panel adversaries in their own worktrees with the brief, collect each adversary's findings JSON, run `rerun_findings.py`, drop a kept finding that does not break the intent and merge findings with one root cause, write the report with `/write-report` (kind `interrogate`, `skill` `/engineering:fix`), then remove the worktrees. Name **principle-prove-it-works** and **principle-separate-before-serializing-shared-state** with sibling paths. Add the skill to `skills/engineering/README.md`.
   - Done: `SKILL.md` holds every Spec Decision, the README lists `interrogate`, and each principle path resolves.
-- [ ] **3. The `/work-on` step.** Kind: docs.
+  - Recorded decision: the first line of `PSTACK-LICENSE` now names the `interrogate` skill too, because it named only the principles.
+- [x] **3. The `/work-on` step.** Kind: docs.
   - Add a step to `work-on/playbooks/new-ticket.md` after `/build`, and to `work-on/playbooks/map.md` between the build and `/ship`: run `/interrogate @<plan path>` when `/blast-radius` reports risk. When `/blast-radius` does not exist, mark the step skipped with that reason. Its stop: H3, only when a kept finding has no fix step.
   - Done: both playbooks hold the step, and the step numbers in each playbook and in `work-on/SKILL.md` still match.
-- [ ] **4. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+  - Recorded decision: `skills/engineering/CLAUDE.md` gets an `interrogate` row in the composed-by table, and the `fix` row names the `interrogate` report as a caller.
+- [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. At `633666d`: `rerun_findings.spec.py` 15 tests OK, `check_principles.spec.py` 11 tests OK, `map_units.spec.py` 14 tests OK, `.githooks/pre-commit` exit 0.
 - [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-9.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **6. Push.** Push the branch with `git push -u origin pstack-9_interrogate`. Push-only map: open no PR.
@@ -112,3 +115,4 @@ when `blast-radius` finds risk. Scope: SCOPED, one PR.
   - The `/work-on` step names `/blast-radius` as it will be, and is skipped until unit 10 lands.
   - The report ticks build a `/engineering:fix` prompt, because interrogate applies no fix.
   - The cleanup commit `0a4b4b8` deletes the unit 8 files and fixes three stale map lines, at the user's request.
+- 2026-11-17: `/build` ran steps 1 to 4. Commits: `d4cd57b` (step 1, TDD: 15 tests red, then green, and a mutation check on the exit and evidence rules), `6ea2a53` (step 2), `633666d` (step 3). Step 4 changed no file.
