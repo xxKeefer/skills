@@ -26,8 +26,10 @@ Run these four searches. They do not depend on each other, so run them in parall
    `gh search prs --author=@me --state=open --json repository,number,title,url,isDraft,updatedAt`.
 3. **Code host, review requests:** the open PRs that ask the user for a review. With GitHub:
    `gh search prs --review-requested=@me --state=open --json repository,number,title,url,author,updatedAt`.
-4. **Local branches:** each worktree or clone in the user's work folder, with its branch, its last
-   commit, and its count of changed files. The user's instructions name the work folder.
+4. **Local branches:** each worktree or clone in the user's work folder, with its path, its branch,
+   its last commit, its count of changed files, and its commits ahead of and behind its remote.
+   With worktrunk: `wt list --format=json` in each repo. The user's instructions name the work
+   folder.
 
 **Done when:** you have the four lists, or a note for each source that has no tool.
 
@@ -98,8 +100,8 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 ```markdown
 ### [<EPIC-KEY>](<epic-url>) · <epic summary>
 
-| # | repo | key | type | short desc | status | next step |
-| --- | --- | --- | --- | --- | --- | --- |
+| # | repo | key | type | short desc | worktree | status | next step |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 - `#`: the row number. Count from 1 across all tables, so the user can refer to "row 7".
@@ -108,8 +110,11 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 - `type`: the type from Step 4.
 - `short desc`: a short phrase. Link each PR number, such as `[#123](<url>)`. For a stack, start
   with `Stack 2/4:`. For a review, name the author.
+- `worktree`: the folder name of the worktree that holds the PR's head branch. In a stack, the
+  worktree that holds any layer holds each layer. Write `—` when no worktree holds it.
 - `status`: the review state, the failed checks by name, and the ticket status when it is a
-  finding.
+  finding. When the local branch is ahead of or behind its remote, add `local ↑<n> ↓<n>`. For a
+  stack, the next step is `gh stack sync`.
 - `next step`: one action, such as "Fix the unit test shard" or "Mark it ready after #120 merges".
 - Each reference to a ticket or a PR is a link, in every cell and every heading.
 - More than four `PLANNED` tickets in one epic with no change today can share one row. List each

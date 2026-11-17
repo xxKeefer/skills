@@ -35,14 +35,19 @@ local branch and its remote copy as one branch.
 A row matches when its `branch` is the input branch. With only a key, a row matches when its
 `branch` holds the key in any case, with no digit after it.
 
+**The stack.** When `gh stack` runs and you have a branch, run `gh stack view --json` in each
+worktree `path`. A worktree holds a stack when its `currentBranch` is one of the stack's
+`branches[].name`. The worktree on the `trunk` also returns the stack, but it does not hold it.
+
 Use the first line of this table that fits the matching rows:
 
 | Matching rows | Do |
 | --- | --- |
 | A worktree with `is_current` true | Continue there. Its marker is this session's own. |
 | Two or more worktrees, or two or more branches and no worktree | List them with their paths and markers. Continue with the one that the user picks. |
-| One worktree whose `symbols` hold 🤖 or 💬 | Ask about the marker (below). |
+| One worktree, or a worktree that holds the branch's stack, whose `symbols` hold 🤖 or 💬 | Ask about the marker (below). |
 | One worktree | Continue there. |
+| A worktree that holds the branch's stack | Run `gh stack checkout <branch>` there. |
 | One branch | Run `wt switch <branch> --no-cd`. |
 | None, for a PR | Run `wt switch pr:<number> --no-cd`. |
 | None | Create the branch and its worktree (below). |
@@ -64,7 +69,16 @@ the user says that no session is live. Otherwise stop.
 
 Get the path of a new worktree from `wt list --format=json`.
 
-**Done when:** you have one worktree path on the branch, or you stopped and asked.
+**The refusal.** `wt switch` can refuse because another branch has a worktree at the expected
+path. Treat that worktree as the one that holds the stack: ask about its marker, then run
+`gh stack checkout <branch>` there for a stack branch, else `git switch <branch>`.
+
+**The sync.** When the branch is in a stack and its `remote` shows `ahead` or `behind` above 0, run
+`gh stack sync` in the worktree before work starts. The sync pushes each layer, with force after a
+rebase. When another person wrote an open PR in the stack, ask first.
+
+**Done when:** you have one worktree path on the branch, synced when it is in a stack, or you
+stopped and asked.
 
 ## Step 3: Record the claim in the plan
 
@@ -85,7 +99,8 @@ Get the path of a new worktree from `wt list --format=json`.
 
 ## Step 4: Return
 
-Return the worktree path, the branch, the plan path or `none`, and whether the worktree is new.
+Return the worktree path, the branch, the plan path or `none`, whether the worktree is new, and
+whether `gh stack sync` ran.
 A caller that writes a new plan puts the Step 3 keys in its header.
 
 With no calling skill, tell the user to start the next session in the worktree. If a plan
