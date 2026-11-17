@@ -50,53 +50,102 @@
 
     <script type="application/json" id="runs">
 {
- "title": "QA: babysit watcher and status line chips",
- "path": "/home/xxkeefer/studio/code/skills/.ai/qa_pstack-16_babysit.html",
- "skill": "/engineering:fix",
- "track": [
-  "pass"
- ],
+ "title": "Review of pstack-17_tidy-up-audit",
+ "path": "/home/xxkeefer/studio/code/skills/.ai/review_pstack-17_tidy-up-audit.html",
+ "skill": "/engineering:build",
  "runs": [
   {
-   "title": "Happy path",
-   "head": "ec02d5e",
+   "title": "Light run",
+   "head": "5f67ec0",
    "meta": {
-    "Range": "origin/pstack-inspired...HEAD (merge-base f33d9fd)",
-    "Branch": "pstack-16_babysit"
+    "Base": "pstack-inspired 54b3f0e",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-17.md",
+    "Fixed in": "b170da4"
    },
-   "answer": "This branch adds /babysit, a watcher script that writes ~/.cache/babysit/state.json and calls a notifier on a PR state change, and PR chips on line 1 of the status line. Set up the state in the first table, then run the items in order. The agent runs the agent items and reports each result. You run the you items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.",
+   "answer": "No essential lane matched this skill-text diff, so persona-skills ran in their place. It found 2 nits, and commit b170da4 fixes both. No row is open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
    "visuals": [
     {
-     "question": "What must be in place before you start?",
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
      "table": {
       "columns": [
-       "Item",
-       "Initial state"
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
       ],
       "rows": [
        [
-        "How to run",
-        "Agent items: run each command with a temporary HOME, a fake gh first on PATH, and PYTHONDONTWRITEBYTECODE=1. You items: run /setup-statusline from this branch, then use a real Claude Code session."
+        "skills",
+        "0",
+        "2",
+        "0",
+        "ran (no essential lane matched)"
        ],
        [
-        "Account and tokens",
-        "Items Y2 needs a real gh login and one open PR of yours. The agent used no gh command on this machine."
+        "correctness",
+        "-",
+        "-",
+        "-",
+        "skipped (prose only, no executable code)"
        ],
        [
-        "Data that must exist",
-        "Y1: a sample ~/.cache/babysit/state.json with PRs in several states. Y2: ~/.claude/agents-md.values.json with a notifier_command that works on your desktop (for example notify-send)."
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts/.vue source)"
        ],
        [
-        "Data that must not exist",
-        "No run.pid in ~/.cache/babysit from an earlier loop (Y2). No other watcher loop running."
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no failure path)"
        ],
        [
-        "Do not touch",
-        "Do not run /babysit on a PR that is not yours. The agent never touched the real ~/.cache or ~/.claude."
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no non-test source)"
        ],
        [
-        "Cleanup",
-        "Stop the watcher (kill the pid in ~/.cache/babysit/run.pid). Delete ~/.cache/babysit/state.json and the sample file. Run /setup-statusline again only if you want to keep the new status line."
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no identifiers changed)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (no behavioural source)"
+       ],
+       [
+        "test-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no test file)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no app or lib source)"
+       ],
+       [
+        "other lanes, project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
        ]
       ]
      }
@@ -104,152 +153,53 @@
    ],
    "columns": [
     {
-     "key": "area",
-     "label": "Area"
+     "key": "tier",
+     "label": "Tier"
     },
     {
-     "key": "by",
-     "label": "By"
+     "key": "persona",
+     "label": "Persona"
     },
     {
-     "key": "step",
-     "label": "Step"
+     "key": "where",
+     "label": "File:line",
+     "mono": true
     },
     {
-     "key": "expect",
-     "label": "Expect"
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
     }
    ],
    "rows": [
     {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
      "cells": {
-      "area": "Gates",
-      "by": "agent",
-      "step": "A1. Run statusline.spec.py, watch_prs.spec.py and install_agents_md.spec.py with a temporary HOME.",
-      "expect": "PASS by agent. statusline.spec.py: Ran 8 tests, OK. watch_prs.spec.py: Ran 9 tests, OK. install_agents_md.spec.py: Ran 27 tests, OK. The statusline tests cover the byte-equal output and the token cache (C1, C2)."
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/tidy-up/SKILL.md:57",
+      "issue": "The pick `all` is not defined for keep rows.\n\nStep 4 applies only the picked rows, so the agent must guess if `all` takes the keep and fix rows.",
+      "recommendation": "Step 3 says that `all` picks each row whose action is not keep, and that a picked keep row changes nothing.",
+      "result": "Fixed"
      },
      "id": "r1.1"
     },
     {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
      "cells": {
-      "area": "Gates",
-      "by": "agent",
-      "step": "A2. Run sh .githooks/pre-commit_test.sh and sh .githooks/commit-msg_test.sh.",
-      "expect": "PASS by agent. Every line prints ok, and the tracked tree is unchanged."
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/tidy-up/SKILL.md:55",
+      "issue": "No step reads the merged state for the `merged` column.\n\nTwo runs can fill the column from different sources.",
+      "recommendation": "Step 1 reads the merged state of each branch and worktree from `git branch --merged <default branch>`.",
+      "result": "Fixed"
      },
      "id": "r1.2"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Watcher",
-      "by": "agent",
-      "step": "A3. Fake gh (CI SUCCESS), temporary HOME with a notifier script. Run add o/r 7, poll, poll. Then set CI to FAILURE and run poll twice.",
-      "expect": "PASS by agent. After the first poll the state is ready and there is no notify.log. The second poll sends no alert. After CI FAILURE, notify.log holds one line: babysit|o/r#7 is failed. The next poll leaves it at 1 line."
-     },
-     "id": "r1.3"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Watcher",
-      "by": "agent",
-      "step": "A4. Set the PR to done in the state file, then run: python3 watch_prs.py run --interval 1.",
-      "expect": "PASS by agent. Exit code 0 at once, and run.pid is removed (only state.json stays in ~/.cache/babysit)."
-     },
-     "id": "r1.4"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Chips",
-      "by": "agent",
-      "step": "A5. statusline.sh with a temporary HOME, COLUMNS=100, and a state file of PRs failed 2, stale 3, threads 4, pending 6, ready 5, done 8 (100 seconds old), done 9 (700 seconds old).",
-      "expect": "PASS by agent. Line 1 is exactly 100 columns. The chips are on the right in the order x2, !3, diamond 2 4, circle 6, dot 5, done 8. Done 9 is gone. The colour codes run 97;41, 30;48;5;208, 97;44, 30;43, 30;42."
-     },
-     "id": "r1.5"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Chips",
-      "by": "agent",
-      "step": "A6. Same state file with COLUMNS=30. Render three times, one second apart.",
-      "expect": "PASS by agent. Chips x2 and !3 stay at the same place. The window of the other chips moves one column each second (blank, then a diamond appears, then the 2 appears)."
-     },
-     "id": "r1.6"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Chips",
-      "by": "agent",
-      "step": "A7. Render statusline.sh with a temporary HOME that has no state.json.",
-      "expect": "PASS by agent. Line 1 is only the dim cwd, with no chips and no trailing spaces. Line 2 still shows the battery and model."
-     },
-     "id": "r1.7"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Chips",
-      "by": "you",
-      "step": "Y1. Run /setup-statusline from this branch. Write a sample ~/.cache/babysit/state.json with PRs in several states (set done_at to now for any done PR). Open a real Claude Code session.",
-      "expect": "The chips show on the right of line 1, one for each PR, with the right colours. The spaces before each chip, and between the cwd and the chips, are still there (the chips are not stuck to the cwd or to each other). Line 2 is not blank."
-     },
-     "id": "r1.8"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Alert",
-      "by": "you",
-      "step": "Y2. Set notifier_command in ~/.claude/agents-md.values.json. In a real session run /babysit on one real PR of yours. Wait for the first poll, then change its CI (push a commit, or re-run a check).",
-      "expect": "The first poll gives no alert. The CI change fires exactly one desktop notification (babysit, with the PR and the new state), and the chip on line 1 changes to the new state at the next redraw. A second poll with no change gives no new alert."
-     },
-     "id": "r1.9"
-    },
-    {
-     "ticks": [
-      "pass",
-      "fail"
-     ],
-     "cells": {
-      "area": "Chips",
-      "by": "you",
-      "step": "Y3. Narrow the terminal until the chips do not fit (with 3 or more watched PRs in the sample state file).",
-      "expect": "Red and amber chips stay on the left. The other chips scroll one column each second. The line never wraps to a second line."
-     },
-     "id": "r1.10"
     }
    ],
    "run": 1,

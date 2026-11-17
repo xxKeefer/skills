@@ -90,7 +90,7 @@ To go back:
 3. Run `/plugin marketplace update xxkeefer-skills`, then start a new session.
 4. Run the same three installers from `main`.
 
-After the merge, change the marketplace `path` back to the main checkout, and pull `main` there. Then remove the worktree: `git -C ~/studio/code/xxkeefer-skills worktree remove ../pstack-inspiration`.
+After the merge, change the marketplace `path` back to the main checkout, and pull `main` there. Then remove the worktree: `git -C ~/studio/code/skills worktree remove ../skills.pstack-6_work-on`.
 
 ## Decisions
 
@@ -483,7 +483,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.12): it must alert the user, beyond a skill call.
 - Done: a CI change on a watched PR shows a notification and the right chip, and leading spaces survive in the real status line.
 
-### [ ] 17. The `tidy-up` audit table (r1.25)
+### [x] 17. The `tidy-up` audit table (r1.25)
 
 - A read-only table first: size, merged, dirty, PR state, last used. Delete only after the user picks.
 - Done: `/tidy-up` shows the table and deletes nothing until a pick.
