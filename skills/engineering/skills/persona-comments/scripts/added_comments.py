@@ -17,6 +17,30 @@ ROWS = (
 LANGS = {ext: (lines, blocks) for exts, lines, blocks in ROWS for ext in exts.split()}
 
 HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)")
+ESCAPES = {"a": 7, "b": 8, "t": 9, "n": 10, "v": 11, "f": 12, "r": 13, '"': 34, "\\": 92}
+
+
+def unquote(path):
+    if not (len(path) > 1 and path[0] == path[-1] == '"'):
+        return path
+    body = path[1:-1]
+    out = bytearray()
+    i = 0
+    while i < len(body):
+        c = body[i]
+        if c == "\\" and i + 1 < len(body):
+            nxt = body[i + 1]
+            if nxt in "0123":
+                out.append(int(body[i + 1:i + 4], 8))
+                i += 4
+                continue
+            if nxt in ESCAPES:
+                out.append(ESCAPES[nxt])
+                i += 2
+                continue
+        out.extend(c.encode())
+        i += 1
+    return out.decode("utf-8", "replace")
 
 
 def closes(text, i, quote):
@@ -67,7 +91,7 @@ def comments(diff):
     close = None
     for raw in diff.splitlines():
         if raw.startswith("+++ "):
-            path = raw[4:].strip()
+            path = unquote(raw[4:].strip())
             if path.startswith("b/"):
                 path = path[2:]
             lang = LANGS.get(path.rsplit(".", 1)[-1])

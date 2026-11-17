@@ -105,6 +105,16 @@ class Skips(unittest.TestCase):
         self.assertEqual(run(text), (0, "", ""))
 
 
+class Paths(unittest.TestCase):
+    def test_quoted_non_ascii_path_is_decoded_and_scanned(self):
+        text = '+++ "b/caf\\303\\251.py"\n@@ -0,0 +1,1 @@\n+# why\n'
+        self.assertEqual(run(text)[1], "caf\u00e9.py:1: # why\n")
+
+    def test_quoted_path_with_a_quote_or_tab_escape(self):
+        text = '+++ "b/a\\"b\\t.py"\n@@ -0,0 +1,1 @@\n+# why\n'
+        self.assertEqual(run(text)[1], 'a"b\t.py:1: # why\n')
+
+
 class Hunks(unittest.TestCase):
     def test_removed_line_does_not_move_the_line_number(self):
         text = "+++ b/a.py\n@@ -1,2 +1,2 @@\n keep\n-old\n+# why\n"
