@@ -45,8 +45,8 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
   - Done: both skills name the principle path and do not restate the rungs. AC B, C, and E hold on a read.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. `pre-commit_test.sh` and `commit-msg_test.sh` print only `ok` lines, and `check_principles.py` exits 0. No skill outside the principle restates the rungs.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-18.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-18.md`. This step changes no code.
+  - Done: `.ai/review_pstack-18_correct-ladder.html`, base 5790422, head 3014e27 (panel read 04f7bac). Light run: no essential lane matched, so `persona-skills` ran alone. One CR and one nit, both fixed in 3014e27, none open. The fixes change only skill text, so no new round.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-18_correct-ladder`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -62,3 +62,4 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
 - 2026-11-17: step 1 done in commit e43d7f0. The principle holds the ladder. Next: step 2.
 - 2026-11-17: step 2 done in commit dd75f5b. Both skills name the principle path. Next: step 3.
 - Decision log: decisions_pstack-18.tsv
+- 2026-11-17: step 4 done. Build loop stopped by rule 7.3: the review fix changes no runtime behaviour. QA checklist skipped: the diff changes only skill text.
