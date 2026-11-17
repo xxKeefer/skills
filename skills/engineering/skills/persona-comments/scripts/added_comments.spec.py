@@ -104,6 +104,16 @@ class Skips(unittest.TestCase):
         text = "+++ b/a.sh\n@@ -0,0 +1,2 @@\n+echo $#\n+n=${#arr[@]}\n"
         self.assertEqual(run(text), (0, "", ""))
 
+    def test_css_has_no_line_comment(self):
+        text = "+++ b/a.css\n@@ -0,0 +1,1 @@\n+a { background: url(//x.test/a.png); }\n"
+        self.assertEqual(run(text), (0, "", ""))
+
+    def test_css_block_comment_is_listed_and_scss_keeps_slash(self):
+        text = "+++ b/a.css\n@@ -0,0 +1,1 @@\n+a { color: red; } /* why */\n"
+        self.assertEqual(run(text)[1], "a.css:1: /* why */\n")
+        text = "+++ b/a.scss\n@@ -0,0 +1,1 @@\n+a { color: red; } // why\n"
+        self.assertEqual(run(text)[1], "a.scss:1: // why\n")
+
 
 class Paths(unittest.TestCase):
     def test_quoted_non_ascii_path_is_decoded_and_scanned(self):
