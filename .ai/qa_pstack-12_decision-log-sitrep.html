@@ -58,6 +58,174 @@
   ],
   "runs": [
     {
+      "run": 2,
+      "title": "Fix round",
+      "head": "78b74d0",
+      "date": "2026-11-17",
+      "meta": {
+        "Range": "6545078..24d6e87",
+        "Sad path": "skipped: the diff holds no form, field, or key handler"
+      },
+      "answer": "The fix round commits the decision log with the plan edit, makes update-plan log each choice that the caller gives, prints wrapped follow-ups in full, and lets log_decision take dash-leading values and a handoff plan. The agent ran six items and all passed. You run the two you items: tick pass or fail on each, write what happened in the note for a fail, then copy the prompt.",
+      "visuals": [
+        {
+          "question": "What must be in place before you start?",
+          "table": {
+            "columns": [
+              "Item",
+              "Initial state"
+            ],
+            "rows": [
+              [
+                "How to run the change",
+                "Work in the worktree, on branch pstack-12_decision-log-sitrep. Run the scripts with python3. Items 7 and 8 need a new session with the primitives and engineering plugins loaded."
+              ],
+              [
+                "Accounts",
+                "None."
+              ],
+              [
+                "Data that must exist",
+                "Items 7 and 8 need a scratch plan with a decision log in a scratch folder."
+              ],
+              [
+                "Do not touch",
+                "Do not run gh. Do not push from the scratch plan."
+              ],
+              [
+                "Cleanup",
+                "Delete /tmp/qa12r2 and the scratch plans from items 7 and 8."
+              ]
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "key": "area",
+          "label": "Area"
+        },
+        {
+          "key": "by",
+          "label": "By"
+        },
+        {
+          "key": "step",
+          "label": "Step"
+        },
+        {
+          "key": "expect",
+          "label": "Expect"
+        }
+      ],
+      "rows": [
+        {
+          "id": "r2.1",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Gates",
+            "by": "agent",
+            "step": "Run log_decision.spec.py and sitrep.spec.py, then the pre-commit and commit-msg hook tests.",
+            "expect": "Each exits 0. Counts: log_decision 8, sitrep 8. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.2",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Commit",
+            "by": "agent",
+            "step": "Read item 4 of STEP.md and step 4 of the map playbook.",
+            "expect": "Item 4 commits the plan edit and the decision log in one commit. The map playbook commits the decision log with the spec and plan. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.3",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Sitrep",
+            "by": "agent",
+            "step": "In a scratch folder, run sitrep.py on a plan whose Follow-ups hold one bullet that wraps to a second line with a nested note, and one short bullet.",
+            "expect": "Each bullet prints in full: the wrapped line and the nested note show under it. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.4",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Decision log",
+            "by": "agent",
+            "step": "Run log_decision.py with `--decision=-drop the flag`, `--reason=--why`, `--evidence=-x`, and `--result=-ok`.",
+            "expect": "Exit 0. The log row holds each value with its leading dash, and sitrep prints it. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.5",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Decision log",
+            "by": "agent",
+            "step": "Run log_decision.py on handoff_h.md, then on notes_z.md.",
+            "expect": "handoff_h.md makes decisions_h.tsv with the row, and sitrep reads it. notes_z.md exits 1 and names `plan_` or `handoff_`. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.6",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Update-plan",
+            "by": "agent",
+            "step": "Read the log_decision paragraph of update-plan SKILL.md.",
+            "expect": "It names the `--field=value` form, says to log each choice that the caller gives even when the plan records it, and says to skip only a choice that the log holds. Agent run: pass."
+          }
+        },
+        {
+          "id": "r2.7",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Build",
+            "by": "you",
+            "step": "In a new session, run /build on a scratch plan with a step that makes one choice alone.",
+            "expect": "The step commit holds the plan and decisions_<KEY>.tsv, and `git status` is clean after the step returns."
+          }
+        },
+        {
+          "id": "r2.8",
+          "ticks": [
+            "pass",
+            "fail"
+          ],
+          "cells": {
+            "area": "Update-plan",
+            "by": "you",
+            "step": "In a new session, run /update-plan with two choices: one that the plan Progress records and the log lacks, and one that the log already holds.",
+            "expect": "The first choice enters the log. The second adds no row."
+          }
+        }
+      ]
+    },
+    {
       "run": 1,
       "title": "Happy path",
       "head": "78e4ef6",
