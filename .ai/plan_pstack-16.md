@@ -108,7 +108,11 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Done: the gates are green on 9ffdc2a: statusline.spec.py, watch_prs.spec.py, install_agents_md.spec.py, pre-commit_test.sh, commit-msg_test.sh.
 - [x] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The rows that stay open from `.ai/review_pstack-16_babysit.html` (the three code-quality nits) are not raised again.
   - Done: the report is `.ai/review_pstack-16_babysit.html` (run 2). Reviewed: base f33d9fd, head 9ffdc2a. Fix commit acf5b53 holds 3 fixes: a failed gh call no longer kills the loop, add keeps a poll result, and the token cache is capped. The 3 nits from run 1 stay open.
-- [ ] **9. Push.** Push the branch with `git push -u origin pstack-16_babysit`. The map is push-only, so open no PR.
+- [x] **9. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green on acf5b53: statusline.spec.py, watch_prs.spec.py, install_agents_md.spec.py, pre-commit_test.sh, commit-msg_test.sh.
+- [ ] **10. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-16.md`. This step changes no code. The rows that stay open from `.ai/review_pstack-16_babysit.html` (the three code-quality nits) are not raised again.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **11. Push.** Push the branch with `git push -u origin pstack-16_babysit`. The map is push-only, so open no PR.
   - Done: the pushed branch is in this line.
 
 ## Suggested skills
