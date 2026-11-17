@@ -1,5 +1,4 @@
 replaces: ## Tools on this machine
-lists: <repo>.<KEY>/
 
 ## Tools on this machine
 

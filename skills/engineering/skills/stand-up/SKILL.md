@@ -114,7 +114,7 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 - Each reference to a ticket or a PR is a link, in every cell and every heading.
 - More than four `PLANNED` tickets in one epic with no change today can share one row. List each
   key as its own link.
-- An empty cell gets `—`, never a guess.
+- An empty cell gets `—`. A fact that you did not check gets "I did not check", never a guess.
 
 **Done when:** each item from Steps 1 to 3 is in one row, and each reference is a link.
 
@@ -130,11 +130,3 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
    rows by `#`. End with one line called **Suggested order**, which lists the actions in sequence.
 
 If the user asks to keep the result, delegate to `/write-to-file`.
-
-## Principles
-
-- **One row per item.** A PR, a review, or a ticket gets one row, never two.
-- **Unblock first.** A merge that unblocks a stack comes before new work.
-- **Evidence only.** Every cell traces to a ticket, a PR, a check, or a commit. Say "I did not
-  check" before you guess.
-- **Links everywhere.** The user acts from the table, so each key and each PR number opens its page.

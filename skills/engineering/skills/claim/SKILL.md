@@ -69,7 +69,7 @@ Get the path of a new worktree from `wt list --format=json`.
 ## Step 3: Record the claim in the plan
 
 1. Find the plan folder the way `/write-to-file` picks it: the folder that the user's
-   instructions name for plans or plans, else `.ai/` in the parent folder of
+   instructions name for plans, else `.ai/` in the parent folder of
    `git rev-parse --path-format=absolute --git-common-dir`.
 2. Find the plan files in that folder and its subfolders whose name holds the key. If no name
    holds it, find the plan files whose text holds it. A plan file has a name that starts with
