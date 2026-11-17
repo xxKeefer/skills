@@ -11,7 +11,7 @@ goal: <one-sentence goal>
 
 # Map: <title>
 
-<!-- status values: draft, approved. The `## Units` heading is required: `map_units.py next` reads the units under it, and `tick` marks a unit done. Each unit has a `Done:` line. Split a unit into N.1, N.2 when it is too big. -->
+<!-- status values: draft, approved. The `## Units` heading is required, because the map check reads only the units under it. Each unit has a `Done:` line. Split a unit into N.1, N.2 when it is too big. -->
 
 ## Decisions
 
