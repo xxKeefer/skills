@@ -46,7 +46,7 @@ Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` 
 ### Before you start (build machine)
 
 1. Check that the `xxkeefer-skills` marketplace `path` in `~/.claude/settings.json` names `~/studio/code/pstack-inspiration`.
-2. In `pstack-inspiration`, check out `pstack-inspired`, then run `git pull`.
+2. In `pstack-inspiration`, stay on the branch that is checked out. When every unit PR is merged, check out `pstack-inspired`, then run `git pull`. Else see Stacked units.
 3. Start a new session in `pstack-inspiration`, and check that `/work-on` is in the `/` menu. If it is not, run `/plugin marketplace update xxkeefer-skills`, then reinstall `engineering@xxkeefer-skills` with `/plugin`.
 
 ### One unit (build machine)
@@ -61,7 +61,18 @@ Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` 
 2. Review the PR. Commit a review fix on the unit branch, then push it.
 3. Mark the PR ready, then merge it into `pstack-inspired`.
 
-Start the next unit on the build machine only after this merge. Then run `git pull` on `pstack-inspired` first, so that the new branch has the unit below it. If a unit must start before the merge, branch it from the last unit's branch. Then the home machine turns the two PRs into a stack.
+### Stacked units
+
+The build machine does not wait for a merge. Each unit starts from the branch of the unit below it:
+
+1. Stay on the top unit branch. Do not check out or pull `pstack-inspired` while a unit PR is open.
+2. Finish an open unit first: one with a plan and no tick resumes at its plan's next step.
+3. Make the next unit branch from the branch that is checked out, then push it with `git push -u`.
+4. Keep the `.ai/` files of each unit whose PR is not merged.
+
+On the home machine, set each PR's base to the branch of the unit below it. Merge from the bottom up, with a merge commit. A squash or a rebase merge makes the PR above it show the lower unit's commits again.
+
+When every unit PR is merged, check out `pstack-inspired` on the build machine and run `git pull`. The next unit then starts from the trunk, and its first commit deletes the `.ai/` files of the merged units.
 
 ### Rules
 
