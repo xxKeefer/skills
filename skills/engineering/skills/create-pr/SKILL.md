@@ -107,9 +107,12 @@ Use the top sections of [`templates/body.md`](templates/body.md).
      the test name, or show the command output.
    - With no evidence, remove the section. Do not invent output.
 4. **Merge danger.** Name the door and the blast radius, as the rules in the template say.
+5. **Follow-ups.** List each entry of the plan's `Follow-ups` section. With none, remove the
+   section.
 
 **Done when:** the Why gives the goal or is removed, the Summary has a visual, the Evidence shows
-proof or is removed, and the Merge danger names a door and a blast radius.
+proof or is removed, the Merge danger names a door and a blast radius, and the Follow-ups list the
+plan's entries or are removed.
 
 ## Step 5: Write the title and the body
 

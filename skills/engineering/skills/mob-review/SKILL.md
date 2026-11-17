@@ -11,7 +11,7 @@ description: >
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
-`light-review` follows Steps 0 to 7 of this skill with eight lanes only, so a change to a step here also changes `light-review`.
+`light-review` follows Steps 0 to 7 of this skill with nine lanes only, so a change to a step here also changes `light-review`.
 
 ## Step 0: Run the panel in a clean thread
 
@@ -80,7 +80,7 @@ git log --format='%ae' $(git merge-base "$BASE" HEAD)..HEAD | sort -u   # branch
 
 ## Step 2: Select in-scope personas
 
-Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. Note which personas you skipped and why (shown in the final table).
+Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. When the caller names the lanes, launch only those, and mark each other lane `skipped (not named by the caller)`. Note which personas you skipped and why (shown in the final table).
 
 ## Step 3: Spawn the in-scope personas in parallel
 
@@ -102,7 +102,7 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`.
+When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`. Add one line to the `persona-comments` brief from the Step 1 ownership check: `Lens: own code` or `Lens: someone else's code`.
 
 **Project rubric, same message, when the repo has one.** Read [`RUBRIC.md`](RUBRIC.md), and follow its Step 3.
 

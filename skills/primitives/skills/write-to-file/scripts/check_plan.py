@@ -125,6 +125,13 @@ def main(argv):
         check_header(header, err, "plan", HEADER_KEYS, STATUSES)
         check_worktree(header, err)
     found = sections(lines, body_start)
+    seen = set()
+    for i in range(body_start, len(lines)):
+        if lines[i].startswith("## "):
+            name = lines[i][3:].strip()
+            if name in seen:
+                err(i + 1, f"section `## {name}` appears twice", "merge the two sections into one")
+            seen.add(name)
     if "Steps" not in found:
         err(len(lines) or 1, "no `## Steps` section", "add `## Steps` with one checkbox per step")
     else:

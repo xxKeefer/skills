@@ -350,6 +350,10 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - The first run shows the old plain-text sections beside the new blocks, and the user confirms the deletion of the old text.
 - The worktrunk template is a separate step that asks first, because `wt step relocate` moves folders and the plans' `Worktree:` lines need an update.
 
+### Scripts
+
+A script earns its place only when it saves time or tokens, or when its result must be deterministic. A judgement that a model already makes well gets no script. Unit 19 built a comment scanner over five review rounds, then deleted it, because the reviewer reads the diff better (retro, 2026-11-17). Before a unit's plan names a script, apply this test, and name which of the two the script gives. `principle-build-the-lever` holds the same test.
+
 ### Domains and lifecycle
 
 - `experimental` goes away. A new skill lands in its domain.
@@ -494,9 +498,9 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `engineering/constraints` and `engineering/self-improve`: architecture, then types, then a lint whose error names the fix, then a test, docs last. A mistake class counts after two times.
 - Done: a repeated mistake gets a fix at the highest rung that works.
 
-### [ ] 19. No comments (r1.21)
+### [x] 19. No comments (r1.21)
 
-- `persona-comments`: the two lenses. `scripts/added_comments.py` lists each added comment line.
+- `persona-comments`: the two lenses. The persona reads the added lines of the diff for comments, with no script (D1, 2026-11-17).
 - The ladder and the follow-up flow from Decisions. The `Follow-ups` section from unit 4.
 - The `coding` block in `install-agents-md`: "No comments. Two exceptions: tool directives and comments that lint requires."
 - User note (r1.21): no comment has added value that the user could not get by asking a model.
@@ -569,7 +573,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 
 ### [ ] 32. Script audit
 
-- A report that lists each skill step that a script can do (for example, report schema checks, the version bump, the skill table sync). The user ticks the rows to build later.
+- A report that lists each skill step where a script saves time or tokens, or makes a result deterministic (for example, report schema checks, the version bump, the skill table sync), and each existing script that does neither. The user ticks the rows to build or delete later.
 - Done: the report exists, with rows to tick.
 
 ### [ ] 33. Retire list and version bumps
