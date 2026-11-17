@@ -83,8 +83,8 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
 - [x] **5. Fix two names outside the panel.** Kind: docs.
   - `ship` Review row: `<base>` named the reviewed base SHA and the base branch. The diff now uses `<from> <to>`. The map template named the engineering script `map_units.py`, but a primitive depends on no other domain. It now says "the map check".
   - Done: the two lines read as above, and the gates pass.
-- [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The five gates pass on `2756e08`.
 - [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code. Do not raise again a row of the step 4 report.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **8. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.
