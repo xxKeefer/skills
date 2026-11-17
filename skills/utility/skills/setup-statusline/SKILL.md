@@ -74,7 +74,7 @@ re-running sets the same value:
 settings=~/.claude/settings.json
 [ -f "$settings" ] || echo '{}' > "$settings"
 tmp=$(mktemp)
-jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh"}' "$settings" > "$tmp" \
+jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh", refreshInterval: 1}' "$settings" > "$tmp" \
   && mv "$tmp" "$settings"
 ```
 

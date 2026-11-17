@@ -32,7 +32,7 @@ chmod +x ~/.claude/statusline.sh
 settings=~/.claude/settings.json
 [ -f "$settings" ] || echo '{}' > "$settings"
 tmp=$(mktemp)
-jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh"}' "$settings" > "$tmp" && mv "$tmp" "$settings"
+jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh", refreshInterval: 1}' "$settings" > "$tmp" && mv "$tmp" "$settings"
 ```
 
 Restart the session (or wait for a status-line refresh) for it to take effect.
