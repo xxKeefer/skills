@@ -34,6 +34,13 @@ or a file upload changed. It adds its run to the same report.
 
 **Done when:** `/sad-path` ran, or its guard does not match.
 
+## Step 2b: See it live
+
+After `/happy-path`, run `/verify`. On `no driver`, write `no driver` in the `Progress` of the plan,
+when a plan exists.
+
+**Done when:** `/verify` returned evidence, or `no driver` is in the plan.
+
 ## Step 3: Hand on
 
 Give the next command:

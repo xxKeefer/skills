@@ -42,7 +42,8 @@ Ask in one `AskUserQuestion`. Each question names its items.
 
 ## Step 3: Capture
 
-Work in the tab from Step 2.
+Work in the tab from Step 2. Run `/verify` first. When it finds a driver, use the Drive section and
+the feature map of the driver to reach each screen. With `no driver`, use the browser flow below.
 
 - **Sign-in or device check:** stop and tell the user. Use no other browser, and do not go around
   it.

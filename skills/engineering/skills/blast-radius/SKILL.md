@@ -31,7 +31,7 @@ you reached.
 3. **Showed it cannot happen.** You walked the failure step by step, and it does not reach.
 4. **Ran it.** A script or a test calls the real code, and exits non-zero when you are wrong.
 5. **Saw it live.** You reproduced it in the running app, through `/verify` when the repo has a
-   driver. With no `/verify` skill, or no driver, rung 4 is the top rung.
+   driver. With no driver, rung 4 is the top rung.
 
 ```
 read the change → find the safety fact → look past symbol search → rate each risk → prove the fact → verdict → output

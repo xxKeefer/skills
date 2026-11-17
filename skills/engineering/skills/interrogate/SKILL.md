@@ -59,6 +59,8 @@ frame → fan out adversaries → collect findings → rerun_findings.py → int
    > Return a JSON list, and nothing after it. Each item is
    > `{"title": "<one line>", "command": "<the exact shell command>", "evidence": "<one line from its output that shows the failure>", "intent": "<how the failure breaks the intent>"}`.
    > Run each command from the root of your worktree.
+   >
+   > When the repo has a driver, you may prove a finding through `/verify`.
 
 4. Wait for every adversary. When an adversary returns no JSON, record it as a dropout and go on.
 
