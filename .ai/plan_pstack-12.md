@@ -79,7 +79,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **1. The decision log writer.** Seam: `python3 skills/primitives/skills/update-plan/scripts/log_decision.py <plan path> --decision <text> --reason <text> --evidence <text> --result <text>`. Conditions: C1, C2, C3, C4.
   - Write `log_decision.spec.py` first, red. Then `log_decision.py`, with the path rule and the row format in functions that `sitrep.py` can import. Then `update-plan/SKILL.md`: when the caller gives choices made with no user, append each one with the script, and add `- Decision log: decisions_<KEY>.tsv` to `Progress` once.
   - Done: `log_decision.spec.py` covers C1 to C4 and passes. A user can ask `/update-plan` to record a choice, and the log holds it.
-- [ ] **2. `/sitrep`.** Seam: `python3 skills/primitives/skills/sitrep/scripts/sitrep.py <plan path>`. Conditions: C5, C6, C7, C8.
+- [x] **2. `/sitrep`.** Seam: `python3 skills/primitives/skills/sitrep/scripts/sitrep.py <plan path>`. Conditions: C5, C6, C7, C8.
   - Write `sitrep.spec.py` first, red. Then `sitrep.py`: it prints one section each for the open entries, the log rows, the skipped steps, and the follow-ups, and leaves out an empty section. It reads the log through `log_decision.py` by a sibling path. Then `sitrep/SKILL.md`: run the script, then give each item its evidence, its risk (H, M, or L, with the reason), and the agent's pick. Add the row to `skills/primitives/README.md`.
   - Done: `sitrep.spec.py` covers C5 to C8 and passes. A user can run `/sitrep` on a plan.
 - [ ] **3. The build writes the log.** Kind: docs.
@@ -106,6 +106,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 
 - 2026-11-17: plan written on `pstack-12_decision-log-sitrep`.
 - 2026-11-17: step 1 done in fc77509. `log_decision.py` and its spec are in `update-plan/scripts`, and `update-plan/SKILL.md` records choices.
+- 2026-11-17: step 2 done in be3599c. `sitrep.py` and its spec, `sitrep/SKILL.md`, and the README row are in `primitives`.
 - 2026-11-17: judgement calls that the unit does not decide:
   - The scope verdict came from the planner, with no `/scope-ticket` run. The unit is two scripts, one new skill, and caller lines, which the map put in one unit.
   - `log_decision.py` lives in `update-plan`, not in `build`, because `/sitrep` in `primitives` must read the same format, and `primitives` depends on no other domain. Engineering skills already reach `/update-plan` by name.
