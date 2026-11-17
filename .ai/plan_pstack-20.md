@@ -145,6 +145,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
     grep -rn 'After 3 fix attempts' "$R/skills" && { echo "OLD RULE LEFT"; exit 1; }
     echo PASS
     ```
+- 2026-11-18: `/blast-radius` again after step 8: verdict `clear`. The proof above exits 0 and prints PASS at 79b27b4. No `/interrogate` run: no confirmed risk is left, and the safety fact is at rung 4. Step 8 changes only skill text, so no new review round.
 
 ## Pending Decisions
 
