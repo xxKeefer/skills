@@ -23,7 +23,7 @@ Sources:
 
 ## How to run this map
 
-All program work happens in one worktree folder, `pstack-inspiration`, beside the main checkout: `~/studio/code/pstack-inspiration` beside `~/studio/code/xxkeefer-skills`. The main checkout stays on `main` as the fallback. This map lives in the worktree at `.ai/map_pstack-program.md`. Git ignores `.ai/`.
+All program work happens in one worktree folder, `pstack-inspiration`, beside the main checkout: `~/studio/code/pstack-inspiration` beside `~/studio/code/xxkeefer-skills`. The main checkout stays on `main` as the fallback. This map lives in the worktree at `.ai/map_pstack-program.md`. Git tracks `.ai/`, and the repo is public.
 
 ### The branches
 
@@ -31,11 +31,11 @@ All program work happens in one worktree folder, `pstack-inspiration`, beside th
 
 ```
 main                              untouched until the end
- └── pstack-inspired              the trunk: units 1 to 6 are merged here
+ └── pstack-inspired              the trunk: each merged unit lands here
       └── pstack-7_<short-desc>   one PR, merged into the trunk after review
 ```
 
-Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` (PRs #45 to #51). The machine already loads the skills from `pstack-inspiration`, and `enabledPlugins` has no `"experimental@xxkeefer-skills"`.
+Units 1 to 6 were built as six stack layers, then merged into `pstack-inspired` (PRs #45 to #51). From unit 7 on, each unit is one PR into the trunk. The machine already loads the skills from `pstack-inspiration`, and `enabledPlugins` has no `"experimental@xxkeefer-skills"`.
 
 ### Two machines
 
