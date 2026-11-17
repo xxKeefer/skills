@@ -97,7 +97,33 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: the gates are green at 987ddf7. `added_comments.spec.py` runs 22 tests, OK.
 - [x] **12. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
   - Done: `.ai/review_pstack-19_no-comments.html` run 3, base b86fe6d, head 98c6194 (panel read 499afdb). Two test-design nits, both fixed in 98c6194 with new tests. Four lanes clean. None open. The loop stops at the third review step.
-- [ ] **13. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
+- [ ] **13. Review fix r1.1.** A path that git quotes (a non-ASCII name) is skipped at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Decode a C-quoted `+++ "b/..."` path before the extension lookup. Test first with the octal-escaped header.
+- [ ] **14. Review fix r1.2.** An added line inside a block comment that a context line opened, or that spans a context line, is not listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Track the block state on context lines too, and print only added lines. In a `/* */` language, list an added line whose text starts with `*` as a block continuation. Test first: a JSDoc continuation line, and a new block that spans a context line.
+- [ ] **15. Review fix r1.3.** CSS has no line comments, so `url(//...)` is listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Give `css` a row with the `/* */` block only. `scss` keeps `//`. Test first.
+- [ ] **16. Review fix r1.4.** A form feed inside an added line shifts each later line number at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Split the diff on `\n` only, not with `splitlines`. Test first with a form feed.
+- [ ] **17. Review fix r1.5.** A `'"'` char literal hides a trailing comment at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: A `"` with a `'` on each side is a char literal, not a string start. Test first.
+- [ ] **18. Review fix r1.6.** A `#` with no space before it is missed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Replace the word-start rule: a `#` right after `$` or `{` is not a comment; any other `#` is. Keep the `$#` and `${#arr[@]}` tests. Test first with `f(1)# hack`.
+- [ ] **19. Review fix r1.8.** Files with no extension, such as `Dockerfile` and `Makefile`, are never scanned at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Look up the file name when it has no extension. Add `Dockerfile` and `Makefile` to the `#` row. Test first.
+- [ ] **20. Review fix r1.9.** SQL and nix `/* */` block comments are not listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Add the `/* */` block to `sql`, and give `nix` a row with `#` and the `/* */` block. Test first.
+- [ ] **21. Review fix r1.10.** A line inside a Python triple-quoted string that starts with `#` is listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: In `py`, treat a `"""` or `'''` string as a block that the script skips and does not print. Test first.
+- [ ] **22. Review fix r1.7.** The build review step runs `light-review`, which leaves out `persona-comments` at `skills/engineering/skills/light-review/SKILL.md`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Add `persona-comments` to the essential lanes, and change "eight" to "nine" in `light-review/SKILL.md` (description and body), `engineering/CLAUDE.md`, `engineering/README.md`, and `mob-review/SKILL.md`. Kind: docs.
+- [ ] **23. Review fix br.1.** The `PANEL.md` guard of `persona-comments` asks the orchestrator to run a script, but `mob-review` Step 2 matches guards against `files.txt` only at `skills/engineering/skills/mob-review/PANEL.md:16`. Source: `/blast-radius` in Progress.
+  - Done: Make the guard file-based: a changed file whose extension or name the script knows. The persona's own Guard still runs the script. Kind: docs. Source: the `/blast-radius` confirmed risk in Progress.
+- [ ] **24. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **26. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
