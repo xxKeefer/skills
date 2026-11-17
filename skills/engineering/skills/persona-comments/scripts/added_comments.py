@@ -8,7 +8,7 @@ SLASH = ("//",)
 C_BLOCK = ("/*", "*/")
 HTML_BLOCK = ("<!--", "-->")
 ROWS = (
-    ("py sh bash zsh nix yaml yml toml rb pl r", HASH, ()),
+    ("py sh bash zsh nix yaml yml toml rb pl r Dockerfile Makefile", HASH, ()),
     ("ts tsx js jsx mjs cjs java kt go rs c h cpp cs swift scala php scss", SLASH, (C_BLOCK,)),
     ("css", (), (C_BLOCK,)),
     ("vue", SLASH, (C_BLOCK, HTML_BLOCK)),
@@ -102,7 +102,8 @@ def comments(diff):
             path = unquote(raw[4:].strip())
             if path.startswith("b/"):
                 path = path[2:]
-            lang = LANGS.get(path.rsplit(".", 1)[-1])
+            name = path.rsplit("/", 1)[-1]
+            lang = LANGS.get(name) or LANGS.get(name.rsplit(".", 1)[-1])
             close = None
             continue
         m = HUNK.match(raw)

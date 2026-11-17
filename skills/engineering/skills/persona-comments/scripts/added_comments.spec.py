@@ -124,6 +124,11 @@ class Skips(unittest.TestCase):
 
 
 class Paths(unittest.TestCase):
+    def test_extensionless_files_are_scanned_by_name(self):
+        for name in ("Dockerfile", "Makefile", "sub.d/Makefile"):
+            text = "+++ b/%s\n@@ -0,0 +1,2 @@\n+FROM x\n+# why\n" % name
+            self.assertEqual(run(text)[1], "%s:2: # why\n" % name)
+
     def test_quoted_non_ascii_path_is_decoded_and_scanned(self):
         text = '+++ "b/caf\\303\\251.py"\n@@ -0,0 +1,1 @@\n+# why\n'
         self.assertEqual(run(text)[1], "caf\u00e9.py:1: # why\n")
