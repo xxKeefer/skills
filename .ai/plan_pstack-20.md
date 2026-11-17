@@ -86,8 +86,8 @@ After two failed fixes on one premise, the agent writes the premise down and tes
   - Done: `.ai/review_pstack-20_premise-escalation.html` run 1, base ad1a0e3, head 26365e1 (panel read 6caa33e). Light run: test-quality and comments clean, plus `persona-skills`. One nit, fixed in 26365e1. None open. The fix changes only skill text, so no new round.
 - [x] **8. Review fix br.1.** `squash-bugs` still makes 3 fix attempts with no premise and no move up at `skills/engineering/skills/squash-bugs/BUG.md:50`. Source: the `/blast-radius` confirmed risk in Progress. Kind: docs.
   - Done: In `BUG.md` section 4, after 2 fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, and the verdict is `blocked`. In section 6, the `blocked` Fix holds the red gate, its first output lines, the premise and its test result, the 2 attempts, and the effort. In `squash-bugs/SKILL.md` Step 3, a `blocked` return below the ceiling of rule 1 of the `models` block runs the subagent again in the same worktree, one effort step up, with the hunt doc path. At the ceiling, or with no `models` block, the ticket stays `blocked`. The `/blast-radius` proof in Progress exits 0.
-- [ ] **7. Push.** Push-only map: run `git push -u origin pstack-20_premise-escalation`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **7. Push.** Push-only map: run `git push -u origin pstack-20_premise-escalation`, in place of `/create-pr`.
+  - Done: pushed head 56f0567 to `origin/pstack-20_premise-escalation`. Ship: go.
 
 ## Suggested skills
 
@@ -146,6 +146,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
     echo PASS
     ```
 - 2026-11-18: `/blast-radius` again after step 8: verdict `clear`. The proof above exits 0 and prints PASS at 79b27b4. No `/interrogate` run: no confirmed risk is left, and the safety fact is at rung 4. Step 8 changes only skill text, so no new review round.
+- 2026-11-18: `/ship`: go. Pushed 56f0567. Unit 20 ticked on the map. Next: the home machine opens the PR into `pstack-inspired`, reviews it, and merges it.
 
 ## Pending Decisions
 

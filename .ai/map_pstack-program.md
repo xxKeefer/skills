@@ -506,7 +506,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - User note (r1.21): no comment has added value that the user could not get by asking a model.
 - Done: a branch with an added comment gets a finding with the replacement, and a hack gets a step or a follow-up.
 
-### [ ] 20. Two failures and model escalation (r1.13)
+### [x] 20. Two failures and model escalation (r1.13)
 
 - `diagnose` and `fix` cite `principle-attack-the-premise` and `principle-fix-root-causes`.
 - After two failed fixes on one premise, write the premise down, test it, and move one effort step up to Opus max. The log records it.
