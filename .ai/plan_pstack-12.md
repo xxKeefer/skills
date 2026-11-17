@@ -82,7 +82,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **2. `/sitrep`.** Seam: `python3 skills/primitives/skills/sitrep/scripts/sitrep.py <plan path>`. Conditions: C5, C6, C7, C8.
   - Write `sitrep.spec.py` first, red. Then `sitrep.py`: it prints one section each for the open entries, the log rows, the skipped steps, and the follow-ups, and leaves out an empty section. It reads the log through `log_decision.py` by a sibling path. Then `sitrep/SKILL.md`: run the script, then give each item its evidence, its risk (H, M, or L, with the reason), and the agent's pick. Add the row to `skills/primitives/README.md`.
   - Done: `sitrep.spec.py` covers C5 to C8 and passes. A user can run `/sitrep` on a plan.
-- [ ] **3. The build writes the log.** Kind: docs.
+- [x] **3. The build writes the log.** Kind: docs.
   - `build/STEP.md` section 4: give `/update-plan` each choice that the step made and that the plan does not record, with the reason, the evidence, and the result. `build/SKILL.md`: give each recorded decision of Step 1 and Step 2 to `/update-plan` the same way, and name `/sitrep` in Step 4. `work-on/playbooks/map.md` step 3: give each judgement call to `/update-plan` as a choice. `retro/SKILL.md` Step 3: read the log beside the plan, and compare each decision with its result. `skills/engineering/CLAUDE.md`: name the log in the `build` row of the composed-by table.
   - Done: `grep -rn "decision log\|decisions_" skills` finds each of the five files, and each relative path resolves.
 - [ ] **4. Run it.** Seam: one step of `/build` on a scratch plan, then `/sitrep`. Conditions: C10.
@@ -107,6 +107,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - 2026-11-17: plan written on `pstack-12_decision-log-sitrep`.
 - 2026-11-17: step 1 done in fc77509. `log_decision.py` and its spec are in `update-plan/scripts`, and `update-plan/SKILL.md` records choices.
 - 2026-11-17: step 2 done in be3599c. `sitrep.py` and its spec, `sitrep/SKILL.md`, and the README row are in `primitives`.
+- 2026-11-17: step 3 done in ef262bd. `STEP.md`, `build/SKILL.md`, `work-on/playbooks/map.md`, `retro/SKILL.md`, and `engineering/CLAUDE.md` name the decision log.
 - 2026-11-17: judgement calls that the unit does not decide:
   - The scope verdict came from the planner, with no `/scope-ticket` run. The unit is two scripts, one new skill, and caller lines, which the map put in one unit.
   - `log_decision.py` lives in `update-plan`, not in `build`, because `/sitrep` in `primitives` must read the same format, and `primitives` depends on no other domain. Engineering skills already reach `/update-plan` by name.
