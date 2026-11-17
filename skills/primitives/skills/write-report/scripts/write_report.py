@@ -59,7 +59,6 @@ def main():
     with open(TEMPLATE, encoding="utf-8") as f:
         template = f.read()
     text = BLOCK.sub(lambda m: m.group(1) + "\n" + body + "\n" + m.group(3), template, count=1)
-    read_block(text, "written runs block")
 
     with open(report, "w", encoding="utf-8") as f:
         f.write(text)
