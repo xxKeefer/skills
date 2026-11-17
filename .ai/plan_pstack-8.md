@@ -84,10 +84,10 @@ that session. Scope: SCOPED, one PR. Estimate: 3 points. Most of the diff is 24 
 - [x] **3. The TDD skip rule.** Kind: docs.
   - Add a `## When to skip a test` section to `engineering/tdd/SKILL.md`: the three reasons, the closest real check (`/verify` when the repo has a driver), and the skipped plan step `- [-]` with its `Skipped: <reason>` line, which `/sitrep` shows.
   - Done: `tdd/SKILL.md` holds the skip rule, and the plan template's skipped mark matches it.
-- [ ] **4. The domain docs.** Kind: docs.
+- [x] **4. The domain docs.** Kind: docs.
   - Add a Principles table to `skills/engineering/README.md`, and a Principles section to `skills/engineering/CLAUDE.md`: the rules for editing a principle, the check script, and the licence file. Add a "Principle" row to `CONTEXT.md`.
   - Done: the README lists 24 principles, `CLAUDE.md` names the check, and `CONTEXT.md` defines a principle.
-- [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
+- [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-8.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
