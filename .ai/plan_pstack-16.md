@@ -95,7 +95,7 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
   - Set `refreshInterval: 1` in the `statusLine` setting that `/setup-statusline` writes.
   - Add the tests to `statusline.spec.py`.
   - Done: `statusline.spec.py` passes C8 to C11, and C1 still passes.
-- [ ] **4. The skill, the notifier role, and the docs.** Kind: docs.
+- [x] **4. The skill, the notifier role, and the docs.** Kind: docs.
   - Add `engineering/skills/babysit/SKILL.md`: take PR numbers, or a stack, and run `add` for each. Start `run` detached with `nohup`, once. Name the chip table and the state file. Tell the user how to stop it.
   - Add a Notifier row to `install-agents-md/sections/tools.md`, and a `notifier_command` row to `HYDRATE.md`, with an example for Linux and for macOS.
   - Update the `setup-statusline` SKILL and README for the chips and `refreshInterval`, and add `/babysit` to the `engineering` README table.
@@ -122,3 +122,4 @@ Make the status line cheaper first, then add `/babysit`, its watcher script, the
 - 2026-11-17: step 1 done in commit 883c074. `statusline.sh` has one `jq` read and the token cache. `statusline.spec.py` passes C1 and C2. The C1 fixtures are in `skills/utility/skills/setup-statusline/fixtures/`.
 - 2026-11-17: step 2 done in commit f11f7b7. `watch_prs.py` has `add`, `poll`, and `run`. The state file is a JSON list. `add` calls `gh pr view` once, to read the head and base of the PR. `watch_prs.spec.py` passes C3 to C7. Step 3 reads the same list: each entry has `repo`, `number`, `head`, `base`, `state`, `threads`, and `done_at`. The `state` values are done, failed, stale, threads, pending, and ready.
 - 2026-11-17: step 3 done in commit 193baa2. `statusline.sh` draws the chips with one `jq` call, and `refreshInterval: 1` is in the `setup-statusline` SKILL and README. `statusline.spec.py` passes C1, C2, and C8 to C11. The leading spaces in the real status line need the user's eye (step 5 QA).
+- 2026-11-17: step 4 done in commit b1becaf. `babysit/SKILL.md` runs `add` for each PR, then starts one `run` with `nohup`. The Notifier row is in `tools.md`, and `HYDRATE.md` has `notifier_command` and `notifier_notes`. The chips are in the `setup-statusline` SKILL and README. `/babysit` is in the `engineering` README table. All five gates pass.

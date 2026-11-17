@@ -9,3 +9,5 @@ Keep the token cache as one file with lines path, size, tokens: one line for eac
 Run only the gates whose files exist: statusline spec, install_agents_md spec, both githook tests	watch_prs.spec.py comes in a later step	The four existing gates are green	No gap
 The state file is a JSON list, and add reads head and base from gh	Poll needs head and base to find the lowest PR of a stack before it calls gh for the PR	watch_prs.spec.py C5 passes	done
 Draw all chips in the one jq call, with the ticker offset from the epoch second, and merge cells of one colour into runs	No second jq call, no stored ticker state, and short output for a line that redraws each second	statusline.spec.py C8 to C10 pass; a ticker mutation and a done-expiry mutation each turned a test red	pass
+Add a notifier_notes key beside notifier_command	The Tools table has a Notes column, and the other roles have a notes key	sections/tools.md and HYDRATE.md	HYDRATE has two notifier keys
+Put the /babysit row in the engineering README Skills table before /blast-radius, phase Ship	The plan names the table and no row position	engineering/README.md	One new row
