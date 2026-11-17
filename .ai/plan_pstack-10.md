@@ -72,7 +72,7 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
 - [x] **1. The blast-radius skill.** Kind: docs.
   - Add `skills/engineering/skills/blast-radius/SKILL.md`, adapted from pstack. Steps: read the change, find the one safety fact, look where a symbol search stops, rate each risk, prove the safety fact by a run, give the verdict, then write the output. The ladder has the five rungs. Name **principle-prove-it-works** with its sibling path. Add the skill to `skills/engineering/README.md` and to the composed-by table in `skills/engineering/CLAUDE.md`.
   - Done: `SKILL.md` holds every Spec Decision, the README and the composed-by table list `blast-radius`, and each principle path resolves.
-- [ ] **2. The `/work-on` step.** Kind: docs.
+- [x] **2. The `/work-on` step.** Kind: docs.
   - In `work-on/playbooks/new-ticket.md` and `work-on/playbooks/map.md`, remove the skip reason from the blast-radius step, and run `/interrogate` when the verdict is `risk`.
   - Done: both playbooks name the verdict `risk`, and neither holds `skipped: no /blast-radius skill`.
 - [ ] **3. Run it.** Seam: `/blast-radius` on the unit 9 change, `git diff 428f956 7e49a7f -- skills/engineering/skills/interrogate/scripts/rerun_findings.py`. Conditions: C3.
@@ -100,3 +100,4 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - The output goes in the plan's Progress, not in a new `findings` file, so `/interrogate` reads it from the plan that it already takes, and `.ai/` gets no extra file.
   - The `arena` step of pstack goes, because `/work-on` runs `/interrogate` on `risk`.
 - 2026-11-17: step 1 done in 1b89ccc. Added `blast-radius/SKILL.md`, the README row, and the composed-by row. Gates green.
+- 2026-11-17: step 2 done in 158a4c9. Dropped the skip sentence from both playbooks, and they run `/interrogate` when the verdict is `risk`. Gates green.
