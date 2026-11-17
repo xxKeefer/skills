@@ -76,6 +76,7 @@ commit.
 | `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
 | `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `interrogate` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the `/write-report` kind `interrogate` |
+| `blast-radius` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the verdict words `clear` and `risk` |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## light-review

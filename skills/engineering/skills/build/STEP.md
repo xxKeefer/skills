@@ -65,7 +65,9 @@ red, save the work, write a `B` entry, and return.
 ## 4. Commit
 
 1. Stage only the files this step changed.
-2. Commit with the repo's commit convention.
+2. Commit with the repo's commit convention. Before the first commit, read the commit-message
+   rules in the user's and the repo's instructions. When a commit hook rejects the message, fix
+   the message and commit again. Keep the hook on.
 3. Invoke `/update-plan` on the plan to mark the step done.
 
 If the step changed no file except the plan, make no commit. A review step that only records its
