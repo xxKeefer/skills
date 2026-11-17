@@ -26,7 +26,8 @@ Run these in one batch:
 - `git worktree list`, `git branch -vv`, and `git remote prune origin --dry-run`.
 - The local stack records, if the repo uses a stack tool.
 - For each item: its size on disk, its dirty state (worktrees), its last commit date or file time,
-  and its PR state from the code host.
+  and its PR state from the code host. For each branch and worktree, its merged state from
+  `git branch --merged <default branch>`.
 
 **Done when:** you have each item and its path or ref.
 
@@ -54,14 +55,15 @@ Run these in one batch:
 
 Show one numbered table, one row for each item: item, work, size, merged, dirty, PR state, last
 used, proposed action, reason. Write `-` where a column does not apply. Change nothing yet. Ask the
-user to pick rows by number, `all`, or `none`.
+user to pick rows by number, `all`, or `none`. `all` picks each row whose action is not keep. A
+picked keep row changes nothing.
 
 **Done when:** the user picked rows. A pick of `none` ends the skill with no change.
 
 ## Step 4: Apply
 
-Apply only the picked rows. Use the safe form of each command: `git worktree remove` without `--force`, and `git branch -d`,
-not `-D`. On a refusal, keep the item and name it. Touch nothing on the remote.
+Apply only the picked rows. Use the safe form of each command: `git worktree remove` without
+`--force`, and `git branch -d`, not `-D`. On a refusal, keep the item and name it. Touch nothing on the remote.
 
 **Done when:** each action ran or is named as refused.
 
