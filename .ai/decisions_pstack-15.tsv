@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+One whole-branch patch-id with the pathspec ':!.ai' replaces the range-diff rule and the .ai/ rule in the ship Review check.	Subtract before you add. One compare covers a rebase, a clean merge of the base, and a commit to .ai/ only.	The ship Review row holds both old rules.	open: the C1 and C2 runs in step 1.
+Write no check_map.py. The map check stays map_units.py next.	It already checks the Units section, the headings, the Done lines, and batch. The map playbook runs it at step 1, before each batch.	map_units.py cmd_next.	No new script.
+Add a map template to write-to-file, and point split-ticket at it.	The inline map of split-ticket has no Units heading, so map_units.py next exits 1 on it.	split-ticket Step 7, and the no-Units test in map_units.spec.py.	open: the C3 test in step 2.
+create-pr Step 2 keeps its range-diff.	It shows the drift as a warning, not a gate, and it is outside unit 15.	create-pr Step 2.	No change.
