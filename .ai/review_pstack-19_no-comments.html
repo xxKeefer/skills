@@ -56,6 +56,193 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "6dfe6ee",
+   "meta": {
+    "Base": "pstack-inspired b86fe6d",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-19.md",
+    "Fixed in": "e91e147"
+   },
+   "answer": "The panel fixed 4 of 6 findings in e91e147. Two stay open. One Change Requested row is the fifth miss in the quote rules of added_comments.py, so it waits on decision D1 in the plan. The persona-comments lane ran on its own branch for the first time, and it dropped each string line that the script listed. This run covers the nine essential lanes, plus persona-skills.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "comments",
+        "0",
+        "0",
+        "0",
+        "ran (clean; Lens: own code)"
+       ],
+       [
+        "correctness",
+        "2",
+        "0",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean; added by the build)"
+       ],
+       [
+        "naming, error-handling, architecture, security",
+        "—",
+        "—",
+        "—",
+        "skipped (TypeScript-only guards)"
+       ],
+       [
+        "other lanes and project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:84",
+      "issue": "A double quote inside a single-quoted string pairs with a quote in the trailing comment.\n\n`x = 'say \"hi'  # note \"y\"` gives no output.",
+      "recommendation": "See D1 in the plan. Recommended: delete the string rules, list each added line that holds a marker, and let the persona drop a string.",
+      "result": "Open: D1. This is the fifth quote shape that the per-line scan gets wrong, so a sixth narrow rule is a third fix on a failed premise."
+     },
+     "id": "r4.1"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:77",
+      "issue": "`scan` returns tuples of two shapes.",
+      "recommendation": "Return a `Found` named tuple.",
+      "result": "Open: D1 option A deletes the string branch, and the tuple shape with it."
+     },
+     "id": "r4.2"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:13",
+      "issue": "Common extensions have no row: `.cc`, `.hpp`, `.mts`, `.dart`, `.svelte`.",
+      "recommendation": "Add them to the existing rows. Test: `test_more_slash_languages_are_scanned`.",
+      "result": "Fixed"
+     },
+     "id": "r4.3"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:50",
+      "issue": "`closes` repeats `find_close`.",
+      "recommendation": "Delete `closes`, and call `find_close(...) >= 0`.",
+      "result": "Fixed"
+     },
+     "id": "r4.4"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-quality",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.spec.py:163",
+      "issue": "The hunk reset test does not check the line number.",
+      "recommendation": "End the second hunk with a comment, and assert line 21. A mutation that keeps the old line number fails it.",
+      "result": "Fixed"
+     },
+     "id": "r4.5"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/engineering/skills/persona-comments/scripts/added_comments.py:128",
+      "issue": "No test releases an open string at a new hunk or file.",
+      "recommendation": "`test_open_string_is_released_at_a_new_hunk_or_file`. A mutation that drops the release fails it.",
+      "result": "Fixed"
+     },
+     "id": "r4.6"
+    }
+   ],
+   "run": 4,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "499afdb",
    "meta": {
     "Base": "pstack-inspired b86fe6d",

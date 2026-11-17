@@ -121,8 +121,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: Make the guard file-based: a changed file whose extension or name the script knows. The persona's own Guard still runs the script. Kind: docs. Source: the `/blast-radius` confirmed risk in Progress. Done in 8fae289. The guard names the file types in `ROWS` of the script; the persona's own Guard still runs the script. Gates green.
 - [x] **24. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at 5802b5d. `added_comments.spec.py` runs 47 tests, OK.
-- [ ] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code. Rows that stay open from run 1: the `comments` generator split and the `lists:` line. Do not raise them again, and do not raise a row that only repeats them.
+  - Done: `.ai/review_pstack-19_no-comments.html` run 4, base b86fe6d, head e91e147 (panel read 6dfe6ee). Nine light lanes plus `persona-skills`. 4 of 6 findings fixed in e91e147. Two stay open on D1. `persona-comments` ran with `Lens: own code` and dropped each string line that the script listed.
 - [ ] **26. Push.** Push-only map: run `git push -u origin pstack-19_no-comments`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -171,5 +171,12 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
     ```
 
 ## Pending Decisions
+
+### D1: How does `added_comments.py` handle a string that holds a comment marker? (found in step 25)
+- A: Delete the string rules. The script lists each added line that holds a marker, and the persona drops a line that is a string. Remove the string clause from AC A and condition C3. The script loses about a third of its code, and every quote miss goes away. Cost: a URL in a string is listed, so `persona-comments` runs more often. (recommended: five review and interrogate rounds found a new quote shape that the per-line scan gets wrong each time, so the premise is false, and `principle-subtract-before-you-add` says to remove before you add)
+- B: Keep the string rules as a hint only. The persona's Guard becomes file-based, as in `PANEL.md`, and on own code the persona reads every added line for comments, with the script list as a start. Change the spec Decision that the script is the guard for both lenses.
+- C: Keep the design, and add a narrow rule for a double quote inside a single-quoted string. This is a third fix on a failed premise.
+- Work: none. Open report rows: run 4 of `.ai/review_pstack-19_no-comments.html`, the quote row and the `Found` tuple row.
+- Blocks: 26
 
 ## Follow-ups
