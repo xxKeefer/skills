@@ -257,10 +257,95 @@
    ],
    "run": 1,
    "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
+   "head": "9ffdc2a",
+   "meta": {
+    "Base": "origin/pstack-inspired f33d9fd",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-16.md",
+    "Fixed in": "acf5b53"
+   },
+   "answer": "Round 2 read the round-1 fix commit 9ffdc2a and the whole watcher and status line again, as one reviewer. It found 3 items and fixed all 3 in acf5b53, each test-first. The 3 open nits from run 1 are not raised again. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "CR",
+      "persona": "correctness",
+      "where": "skills/engineering/skills/babysit/scripts/watch_prs.py:poll",
+      "issue": "A failed gh call (network drop, rate limit) raised out of poll. run died, and the watcher stopped with no alert and no chip change.",
+      "recommendation": "Catch the call error for that PR, skip it, and poll the rest again next pass.",
+      "result": "Fixed in acf5b53. Test: GhFailure."
+     },
+     "id": "r2.1"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "CR",
+      "persona": "correctness",
+      "where": "skills/engineering/skills/babysit/scripts/watch_prs.py:add",
+      "issue": "add loaded the list, then called gh, then saved. A poll that saved during the gh call was overwritten, so one state change could be lost and its alert missed. This is the mirror of the round-1 fix.",
+      "recommendation": "Load the list again after the gh call.",
+      "result": "Fixed in acf5b53. Test: test_poll_during_add_is_kept."
+     },
+     "id": "r2.2"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "correctness",
+      "where": "skills/utility/skills/setup-statusline/statusline.sh:token cache",
+      "issue": "The token cache kept one line for each transcript ever seen and rewrote all of them on each miss, so it grew without a bound.",
+      "recommendation": "Keep the last 49 other lines.",
+      "result": "Fixed in acf5b53. Test: test_token_cache_stays_bounded."
+     },
+     "id": "r2.3"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-17"
   }
  ]
 }
-</script>
+    </script>
 
     <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
     <script src="reports.js"></script>
