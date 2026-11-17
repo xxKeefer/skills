@@ -26,8 +26,11 @@ Run these four searches. They do not depend on each other, so run them in parall
    `gh search prs --author=@me --state=open --json repository,number,title,url,isDraft,updatedAt`.
 3. **Code host, review requests:** the open PRs that ask the user for a review. With GitHub:
    `gh search prs --review-requested=@me --state=open --json repository,number,title,url,author,updatedAt`.
-4. **Local branches:** each worktree or clone in the user's work folder, with its branch, its last
-   commit, and its count of changed files. The user's instructions name the work folder.
+4. **Local branches:** each worktree or clone in the user's work folder, with its path, its branch,
+   its last commit, its count of changed files, and its commits ahead of and behind its remote.
+   With worktrunk: `wt list --format=json` in each repo. With gh-stack: `gh stack view --json` in
+   each worktree, which lists each layer of the stack that the worktree holds. The user's
+   instructions name the work folder.
 
 **Done when:** you have the four lists, or a note for each source that has no tool.
 
@@ -98,8 +101,8 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 ```markdown
 ### [<EPIC-KEY>](<epic-url>) · <epic summary>
 
-| # | repo | key | type | short desc | status | next step |
-| --- | --- | --- | --- | --- | --- | --- |
+| # | repo | key | type | short desc | worktree | status | next step |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
 - `#`: the row number. Count from 1 across all tables, so the user can refer to "row 7".
@@ -108,13 +111,17 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 - `type`: the type from Step 4.
 - `short desc`: a short phrase. Link each PR number, such as `[#123](<url>)`. For a stack, start
   with `Stack 2/4:`. For a review, name the author.
+- `worktree`: the folder name of the worktree that holds the PR's head branch. In a stack, the
+  worktree that holds any layer holds each layer. Write `—` when no worktree holds it.
 - `status`: the review state, the failed checks by name, and the ticket status when it is a
-  finding.
+  finding. When the local branch is ahead of or behind its remote, add `local ↑<n> ↓<n>`.
 - `next step`: one action, such as "Fix the unit test shard" or "Mark it ready after #120 merges".
+  For the user's own stack PR that differs from its remote, use `gh stack sync` when no failed
+  check comes first.
 - Each reference to a ticket or a PR is a link, in every cell and every heading.
 - More than four `PLANNED` tickets in one epic with no change today can share one row. List each
   key as its own link.
-- An empty cell gets `—`, never a guess.
+- An empty cell gets `—`. A fact that you did not check gets "I did not check", never a guess.
 
 **Done when:** each item from Steps 1 to 3 is in one row, and each reference is a link.
 
@@ -130,11 +137,3 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
    rows by `#`. End with one line called **Suggested order**, which lists the actions in sequence.
 
 If the user asks to keep the result, delegate to `/write-to-file`.
-
-## Principles
-
-- **One row per item.** A PR, a review, or a ticket gets one row, never two.
-- **Unblock first.** A merge that unblocks a stack comes before new work.
-- **Evidence only.** Every cell traces to a ticket, a PR, a check, or a commit. Say "I did not
-  check" before you guess.
-- **Links everywhere.** The user acts from the table, so each key and each PR number opens its page.

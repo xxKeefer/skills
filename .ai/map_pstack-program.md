@@ -458,7 +458,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `primitives/checkpoint` (new): finish or back out the step, make a `wip:` commit, write the resume note as a `Progress` entry.
 - Done: `/checkpoint` mid-step leaves a clean tree, and `/do-next` or `/work-on` resumes from the plan.
 
-### [ ] 14. Stacks in `claim` and `stand-up`
+### [x] 14. Stacks in `claim` and `stand-up`
 
 - From the worktree note, items 2 to 5:
   - `claim`: if the branch is in a gh-stack stack, use the stack's worktree and `gh stack checkout <branch>`. Treat worktrunk's "worktree at the expected path" refusal the same way.

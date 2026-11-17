@@ -23,9 +23,8 @@ import sys
 sys.dont_write_bytecode = True
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "write-to-file", "scripts"))
-from layout import sections  # noqa: E402
+from layout import DECISION_COLUMNS as COLUMNS, sections  # noqa: E402
 
-COLUMNS = ["decision", "reason", "evidence", "result"]
 
 
 def log_path(plan):

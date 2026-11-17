@@ -14,7 +14,7 @@ import sys
 from typing import NamedTuple
 
 sys.dont_write_bytecode = True
-from layout import check_header, read_header, sections  # noqa: E402
+from layout import DECISION_COLUMNS, check_header, read_header, sections  # noqa: E402
 
 HEADER_KEYS = ["doctype", "ticket", "worktree", "branch", "status", "goal"]
 STATUSES = ["draft", "approved", "building", "done"]
@@ -81,6 +81,25 @@ def check_step(step, err):
         err(line, f"step {sid} changes behaviour and names no tests", "add `Conditions: <IDs>`")
 
 
+def check_decision_log(path, lines, found, err):
+    name = os.path.basename(path)
+    m = re.match(r"(?:plan|handoff)_(.+)\.md$", name)
+    if not m:
+        return
+    log_name = f"decisions_{m.group(1)}.tsv"
+    log_path = os.path.join(os.path.dirname(os.path.abspath(path)), log_name)
+    if not os.path.exists(log_path):
+        return
+    with open(log_path) as f:
+        header = f.readline().rstrip("\n").split("\t")
+    if header != DECISION_COLUMNS:
+        err(1, f"{log_name} has the header `{' '.join(header)}`",
+            f"write each row with `log_decision.py`, under the header `{' '.join(DECISION_COLUMNS)}`")
+    begin, end = found.get("Progress", (len(lines), len(lines)))
+    if not any(lines[i].startswith("- Decision log:") for i in range(begin, end)):
+        err(begin or 1, "`## Progress` has no `Decision log:` line", f"add `- Decision log: {log_name}`")
+
+
 def count_open(lines, span):
     if span is None:
         return 0
@@ -111,6 +130,7 @@ def main(argv):
     else:
         for step in parse_steps(lines, *found["Steps"], err):
             check_step(step, err)
+    check_decision_log(path, lines, found, err)
     for e in errors:
         print(e)
     print(f"open decisions: {count_open(lines, found.get('Pending Decisions'))}")

@@ -60,7 +60,27 @@ those lines to the user. Never apply them.
 
 **Done when:** the user has seen every `EDIT` line, or the script printed none.
 
-## Step 5: Verify
+## Step 5: Offer the worktrunk template
+
+Skip this step when `wt` does not run. [`worktrunk.toml`](worktrunk.toml) names a worktree by
+the ticket key in its branch, so each layer of a stack resolves to one folder. A branch with no key
+keeps its own name. Ask first, because the move changes folder paths. On a no, skip the step.
+
+1. Read `~/.config/worktrunk/config.toml`. Show its `worktree-path` line, if it has one.
+2. Put the line from `worktrunk.toml` above the first `[table]` header. Replace the old
+   `worktree-path` line. A key below a table header belongs to that table, and worktrunk ignores
+   it with no error.
+3. In each repo of the user's work folder, run `wt step relocate --dry-run`. Show the moves, and
+   ask once. On a yes, run `wt step relocate`.
+4. For each moved worktree, set the new path in each plan that names the old path, in its
+   `worktree:` key or its `Worktree:` line.
+5. Find each line in `~/.claude/AGENTS.md` that holds `<repo>.<branch>/`. Show it beside the same
+   line with `<repo>.<KEY>/`. Never apply it.
+
+**Done when:** the user said no, or the template is in the config, the worktrees moved, and the
+user has seen each system map line.
+
+## Step 6: Verify
 
 Run the script a second time, with no `--drop`. The output must say `unchanged`.
 

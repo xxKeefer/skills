@@ -6,6 +6,7 @@ loads the same coding rule, tool table, and model table.
 - **Source:** `sections/*.md` in this folder (one block for each file)
 - **Writes to:** `~/.claude/AGENTS.md`, with the previous bytes in `AGENTS.md.bak`
 - **Machine facts:** `{{key}}` placeholders, filled from `~/.claude/agents-md.values.json` (see `HYDRATE.md`)
+- **Worktrunk template:** `worktrunk.toml`, offered after the blocks (Step 5 of the skill)
 - **Dependency:** `python3`
 
 Run the skill: **`/install-agents-md`**. The script does every file change. Test it with

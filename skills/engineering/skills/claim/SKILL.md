@@ -35,14 +35,20 @@ local branch and its remote copy as one branch.
 A row matches when its `branch` is the input branch. With only a key, a row matches when its
 `branch` holds the key in any case, with no digit after it.
 
+**The stack.** When `gh stack` runs and the input gives a branch, run `gh stack view --json` in
+each worktree `path`. A worktree holds the branch's stack when both its `currentBranch` and the
+input branch are in `branches[].name`. The worktree on the `trunk` also returns the stack, but it
+does not hold it.
+
 Use the first line of this table that fits the matching rows:
 
 | Matching rows | Do |
 | --- | --- |
-| A worktree with `is_current` true | Continue there. Its marker is this session's own. |
+| A worktree with `is_current` true that matches, or that holds the branch's stack | Continue there, with `gh stack checkout <branch>` for a stack. Its marker is this session's own. |
 | Two or more worktrees, or two or more branches and no worktree | List them with their paths and markers. Continue with the one that the user picks. |
-| One worktree whose `symbols` hold 🤖 or 💬 | Ask about the marker (below). |
+| One worktree, or a worktree that holds the branch's stack, whose `symbols` hold 🤖 or 💬 | Ask about the marker (below). |
 | One worktree | Continue there. |
+| A worktree that holds the branch's stack | Run `gh stack checkout <branch>` there. |
 | One branch | Run `wt switch <branch> --no-cd`. |
 | None, for a PR | Run `wt switch pr:<number> --no-cd`. |
 | None | Create the branch and its worktree (below). |
@@ -64,12 +70,24 @@ the user says that no session is live. Otherwise stop.
 
 Get the path of a new worktree from `wt list --format=json`.
 
-**Done when:** you have one worktree path on the branch, or you stopped and asked.
+**The refusal.** `wt switch` can refuse because another branch has a worktree at the expected
+path. Use that worktree: ask about its marker, then run
+`gh stack checkout <branch>` there for a stack branch. Else run `git switch <branch>` for an
+existing branch, or `git switch --create <branch> <remote>/<default>` for a new one.
+
+**The sync.** Skip it for a PR input, because each PR caller syncs in its own step. When a ticket
+key or branch input is in a stack, run
+`git rev-list --left-right --count <branch>...<remote>/<branch>`. When a count is above 0, run
+`gh stack sync` in the worktree before work starts. The sync can force-push. When
+`gh pr view <number> --json author` names another person for an open PR in the stack, ask first.
+
+**Done when:** you have one worktree path on the branch, synced when it is in a stack, or you
+stopped and asked.
 
 ## Step 3: Record the claim in the plan
 
 1. Find the plan folder the way `/write-to-file` picks it: the folder that the user's
-   instructions name for plans or plans, else `.ai/` in the parent folder of
+   instructions name for plans, else `.ai/` in the parent folder of
    `git rev-parse --path-format=absolute --git-common-dir`.
 2. Find the plan files in that folder and its subfolders whose name holds the key. If no name
    holds it, find the plan files whose text holds it. A plan file has a name that starts with
