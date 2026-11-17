@@ -115,6 +115,8 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - `/retro` reads the log in this unit, because the map's flow says so and no later unit adds it.
   - The map playbook's judgement calls also go to the log, so `/sitrep` shows them.
   - The live run uses a scratch plan in `/tmp`, so the proof does not depend on the choices of this unit's own build.
+- Decision log: decisions_pstack-12.tsv
+- 2026-11-17: the six judgement calls above went into the decision log after step 4, by map playbook step 3. The log did not exist at planning time.
 - 2026-11-17: step 4 done. The live run needed one attempt, and no repo fix.
   - Commands: built `/tmp/sitrep-demo` (git repo, branch `demo-greeting`, plan `.ai/plan_DEMO-1.md`, one docs step with no wording set). `check_plan.py` on it printed `open decisions: 0`. One fresh general-purpose subagent ran step 1 with only the plan path, the step ID, the goal, and `build/STEP.md`. It was not told what to choose or that a log was expected.
   - Result of the subagent: `Status: done`, commits `c6635a6` (GREETING.md) and `e5e5f08` (`docs(ai): mark step 1 done`), tree clean.

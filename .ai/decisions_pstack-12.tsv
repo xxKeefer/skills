@@ -1,0 +1,7 @@
+decision	reason	evidence	result
+Scope verdict SCOPED, one PR, with no /scope-ticket run	The unit is two scripts, one new skill, and caller lines, which the map put in one unit	plan Progress, planning	steps 1 to 4 built in one branch
+log_decision.py lives in update-plan, not in build	sitrep in primitives reads the same format, and primitives depends on no other domain	plan Progress, planning	sitrep.py imports it by a sibling path, step 2
+The log has the four map columns and no step column	The evidence field names the step	plan Progress, planning	the scratch log row in step 4 names its step in the evidence field
+retro reads the log in this unit	The map flow says so, and no later unit adds it	plan Progress, planning	retro Step 3 has a Bad choice row, step 3
+The map playbook judgement calls also go to the log	So that sitrep shows them	plan Progress, planning	map.md step 3 gives each call to /update-plan, step 3
+The live run uses a scratch plan in /tmp	The proof must not depend on the choices of this unit's own build	plan Progress, planning	step 4 passed on the first attempt
