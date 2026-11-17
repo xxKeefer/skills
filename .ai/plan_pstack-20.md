@@ -147,6 +147,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
     ```
 - 2026-11-18: `/blast-radius` again after step 8: verdict `clear`. The proof above exits 0 and prints PASS at 79b27b4. No `/interrogate` run: no confirmed risk is left, and the safety fact is at rung 4. Step 8 changes only skill text, so no new review round.
 - 2026-11-18: `/ship`: go. Pushed 56f0567. Unit 20 ticked on the map. Next: the home machine opens the PR into `pstack-inspired`, reviews it, and merges it.
+- 2026-11-18: `/work-on` map playbook, batch of unit 20. Stopped at H5: the `/retro` offer. Next: run `/retro`, or say no, then `/work-on @.ai/map_pstack-program.md` after the merge of this unit.
 
 ## Pending Decisions
 
