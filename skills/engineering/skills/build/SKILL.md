@@ -97,6 +97,11 @@ For each remaining step, in plan order:
    To save subagents, give one subagent a batch: a run of consecutive review fix steps from the
    same round, at most four. Pick steps that are small or that touch the same files. Give it the
    list of step IDs in place of one ID. Any other step gets its own subagent.
+   Two kinds of step run in this thread, with no step subagent:
+   - A `Test.` step whose gates are only commands. Run them, then mark the step done with the
+     result.
+   - A step whose check needs fresh agents, such as a live run of a skill. Dispatch those agents
+     from this thread, so that no agent starts an agent of its own.
 4. Wait for it to return. Run one subagent at a time, because the steps share one working tree.
 5. Check the result against the repo, not the summary. For a batch, check each step on its own,
    in order. For status `done`, the plan marks the step done, and `git log` holds the commit it
