@@ -120,8 +120,8 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Done: the gates are green at HEAD 1a8135971e0e20297fcfd10cd2ced169f4c22831. find_drivers 25 tests, check_driver 17, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` 11 ok, `commit-msg_test.sh` 8 ok.
 - [x] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. Rows r2.1 and r2.8 are fixed in steps 10 and 11. Do not raise the rows of runs 1 and 2 again.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
-- [ ] **15. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
-  - Done: the pushed SHA is in this line.
+- [x] **15. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
+  - Done: pushed `eb83d2d` to `origin/pstack-11_verify-drivers`.
 
 ## Suggested skills
 
@@ -162,3 +162,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 14 done. Run 3 fixed 4 nits in a3c220c, none open. All gates green. Next: step 15.
 - 2026-11-17: the `/build` loop stopped at its third review step (steps 7, 9, and 14). The run 3 fix a3c220c changes behaviour (the driver name must start with `verify-<repo>-`, and a frontmatter block with no closing line counts as missing), so a new round is not run. No row is open. The coordinator re-ran the step 3 proof at 257565b: `check_driver.py` prints ok, and `find_drivers.py` prints the driver for `change-app` and `no driver` for `docs-only`. Next: the QA checklist.
 - 2026-11-17: `/blast-radius` run on the unit 11 change. Verdict: clear. Safety fact: `check_driver.py` imports `find_drivers.py` by a path built from its own file location, so the import does not depend on the current folder or on a symlink to the script. Rung 4 (this repo has no driver of its own, so rung 5 is out of reach). Command: `cd / && python3 -I <repo>/skills/engineering/skills/create-verification-skill/scripts/check_driver.py /tmp/verify-demo/.claude/skills/verify-verify-demo-todo`, which printed `ok` with exit 0 from another folder and through a symlink. Control: a copy of `create-verification-skill` alone fails with `ModuleNotFoundError`, so the sibling folder `verify` must ship with it. Confirmed risks: none. Cleared: the sibling-folder rule (all skills of `engineering` ship in one plugin, and `blast-radius` already uses `../` paths to a sibling skill); `find_drivers.py` import side effects (`main()` is guarded, and bytecode writing is off); the `verify-<repo>-*` glob matching a longer repo name (the `repo:` key rejects it); the removed `/verify` sentence in `blast-radius` (no other file reads it).
+- 2026-11-17: `/ship` steps 1 to 3 gave go (plan, tests, review, tree; no stack check in push-only mode, no `CONSTRAINTS.md`). Pushed `eb83d2d`. Map unit 11 is ticked. Next: the home machine opens the PR into `pstack-inspired`. Playbook: map, step 8 (offer `/retro`).
