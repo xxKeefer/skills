@@ -155,14 +155,21 @@ class Paths(unittest.TestCase):
         self.assertEqual(run(text)[1], 'a"b\t.py:1: # why\n')
 
 
+class Extensions(unittest.TestCase):
+    def test_more_slash_languages_are_scanned(self):
+        for ext in ("cc", "cxx", "hpp", "hh", "mts", "cts", "dart", "svelte"):
+            text = "+++ b/a.%s\n@@ -0,0 +1,1 @@\n+// c\n" % ext
+            self.assertEqual(run(text)[1], "a.%s:1: // c\n" % ext)
+
+
 class Hunks(unittest.TestCase):
     def test_removed_line_does_not_move_the_line_number(self):
         text = "+++ b/a.py\n@@ -1,2 +1,2 @@\n keep\n-old\n+# why\n"
         self.assertEqual(run(text)[1], "a.py:2: # why\n")
 
     def test_new_hunk_resets_the_line_and_an_open_block(self):
-        text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+/* open\n@@ -10,0 +20,1 @@\n+const a = 1\n"
-        self.assertEqual(run(text)[1], "a.ts:1: /* open\n")
+        text = "+++ b/a.ts\n@@ -0,0 +1,1 @@\n+/* open\n@@ -10,0 +20,2 @@\n+const a = 1\n+// why\n"
+        self.assertEqual(run(text)[1], "a.ts:1: /* open\na.ts:21: // why\n")
 
     def test_no_newline_marker_does_not_move_the_line_number(self):
         text = "+++ b/a.py\n@@ -1,1 +1,2 @@\n-old\n\\ No newline at end of file\n+x = 1\n+# why\n"
@@ -203,6 +210,11 @@ class Blocks(unittest.TestCase):
 
 
 class PythonStrings(unittest.TestCase):
+    def test_open_string_is_released_at_a_new_hunk_or_file(self):
+        head = "+++ b/a.py\n@@ -0,0 +1,2 @@\n+s = \"\"\"\n+# in\n"
+        for tail in ("@@ -10,0 +20,1 @@\n+x = 1\n", "+++ b/b.py\n@@ -0,0 +1,1 @@\n+x = 1\n"):
+            self.assertEqual(run(head + tail)[1], "a.py:2: # in\n")
+
     def test_hash_line_inside_a_triple_quoted_string_is_skipped(self):
         for q in ('"""', "'''"):
             text = "+++ b/cli.py\n@@ -0,0 +1,5 @@\n+USAGE = %s\n+# Usage\n+  run it\n+%s\n+x = 1\n" % (q, q)

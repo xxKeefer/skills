@@ -10,9 +10,9 @@ HTML_BLOCK = ("<!--", "-->")
 ROWS = (
     ("py sh bash zsh yaml yml toml rb pl r Dockerfile Makefile", HASH, ()),
     ("nix", HASH, (C_BLOCK,)),
-    ("ts tsx js jsx mjs cjs java kt go rs c h cpp cs swift scala php scss", SLASH, (C_BLOCK,)),
+    ("ts tsx mts cts js jsx mjs cjs java kt go rs c h cc cxx cpp hh hpp cs swift scala php dart scss", SLASH, (C_BLOCK,)),
     ("css", (), (C_BLOCK,)),
-    ("vue", SLASH, (C_BLOCK, HTML_BLOCK)),
+    ("vue svelte", SLASH, (C_BLOCK, HTML_BLOCK)),
     ("html", (), (HTML_BLOCK,)),
     ("sql", ("--",), (C_BLOCK,)),
     ("lua hs", ("--",), ()),
@@ -45,17 +45,6 @@ def unquote(path):
         out.extend(c.encode())
         i += 1
     return out.decode("utf-8", "replace")
-
-
-def closes(text, i, quote):
-    while i < len(text):
-        if text[i] == "\\":
-            i += 2
-            continue
-        if text[i] == quote:
-            return True
-        i += 1
-    return False
 
 
 def find_close(text, i, tok):
@@ -91,7 +80,7 @@ def scan(text, lines, blocks, strings, i=0):
         if c == '"' and text[i - 1:i] == "'" and text[i + 1:i + 2] == "'":
             i += 1
             continue
-        if c in "\"`" and closes(text, i + 1, c):
+        if c in "\"`" and find_close(text, i + 1, c) >= 0:
             quote = c
             i += 1
             continue
