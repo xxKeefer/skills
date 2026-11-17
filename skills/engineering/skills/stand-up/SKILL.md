@@ -28,8 +28,9 @@ Run these four searches. They do not depend on each other, so run them in parall
    `gh search prs --review-requested=@me --state=open --json repository,number,title,url,author,updatedAt`.
 4. **Local branches:** each worktree or clone in the user's work folder, with its path, its branch,
    its last commit, its count of changed files, and its commits ahead of and behind its remote.
-   With worktrunk: `wt list --format=json` in each repo. The user's instructions name the work
-   folder.
+   With worktrunk: `wt list --format=json` in each repo. With gh-stack: `gh stack view --json` in
+   each worktree, which lists each layer of the stack that the worktree holds. The user's
+   instructions name the work folder.
 
 **Done when:** you have the four lists, or a note for each source that has no tool.
 
@@ -113,9 +114,10 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
 - `worktree`: the folder name of the worktree that holds the PR's head branch. In a stack, the
   worktree that holds any layer holds each layer. Write `—` when no worktree holds it.
 - `status`: the review state, the failed checks by name, and the ticket status when it is a
-  finding. When the local branch is ahead of or behind its remote, add `local ↑<n> ↓<n>`. For a
-  stack, the next step is `gh stack sync`.
+  finding. When the local branch is ahead of or behind its remote, add `local ↑<n> ↓<n>`.
 - `next step`: one action, such as "Fix the unit test shard" or "Mark it ready after #120 merges".
+  For the user's own stack PR that differs from its remote, use `gh stack sync` when no failed
+  check comes first.
 - Each reference to a ticket or a PR is a link, in every cell and every heading.
 - More than four `PLANNED` tickets in one epic with no change today can share one row. List each
   key as its own link.
