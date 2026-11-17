@@ -105,8 +105,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: Give `css` a row with the `/* */` block only. `scss` keeps `//`. Test first. Done in cc9ba4c. Two new tests in `added_comments.spec.py`, 33 tests OK; the `url(//...)` test went red on the old script.
 - [x] **16. Review fix r1.4.** A form feed inside an added line shifts each later line number at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: Split the diff on `\n` only, not with `splitlines`. Test first with a form feed. Done in 18bfeae. One new test, 34 tests OK; it went red on the old script.
-- [ ] **17. Review fix r1.5.** A `'"'` char literal hides a trailing comment at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
-  - Done: A `"` with a `'` on each side is a char literal, not a string start. Test first.
+- [x] **17. Review fix r1.5.** A `'"'` char literal hides a trailing comment at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: A `"` with a `'` on each side is a char literal, not a string start. Test first. Done in 9a186be. One new test, 35 tests OK; it went red on the old script.
 - [ ] **18. Review fix r1.6.** A `#` with no space before it is missed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: Replace the word-start rule: a `#` right after `$` or `{` is not a comment; any other `#` is. Keep the `$#` and `${#arr[@]}` tests. Test first with `f(1)# hack`.
 - [ ] **19. Review fix r1.8.** Files with no extension, such as `Dockerfile` and `Makefile`, are never scanned at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
