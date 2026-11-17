@@ -70,7 +70,9 @@ prompt. A fix round adds a new test and review only when the round can change be
    To add a new round, add a new test step and a new review step after the last review step. Copy
    the text of the last test step and the last review step. In the new review step, add the row
    IDs that stay open in the last report. Tell the panel not to raise those rows again, and not to
-   raise any row that only repeats them.
+   raise any row that only repeats them. Also name the lanes to run: each lane that raised a
+   finding in the last run, and each lane whose guard matches a file that changed after the last
+   reviewed head. A clean lane whose files did not change does not run again.
 8. Write the changes with `/update-plan`. Give it each recorded decision of items 1.3 and 1.4 as a
    choice: the decision, the reason, the evidence, and the result. It adds each one to the decision
    log.
@@ -94,9 +96,10 @@ For each remaining step, in plan order:
    to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`. Run it at the `worker` role of the
    `models` block in `~/.claude/AGENTS.md`, or at the `mechanical worker` role for a step that the
    plan marks mechanical. With no `models` block, use the session model.
-   To save subagents, give one subagent a batch: a run of consecutive review fix steps from the
-   same round, at most four. Pick steps that are small or that touch the same files. Give it the
-   list of step IDs in place of one ID. Any other step gets its own subagent.
+   To save subagents, give one subagent a batch of at most four consecutive steps: review fix
+   steps from the same round, or steps that the plan marks `Kind: docs` or `Kind: mechanical`.
+   Pick steps that are small or that touch the same files. Give it the list of step IDs in place
+   of one ID. Any other step gets its own subagent.
    Two kinds of step run in this thread, with no step subagent:
    - A `Test.` step whose gates are only commands. Run them, then mark the step done with the
      result.

@@ -66,7 +66,7 @@ read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can als
 - `principle-outcome-oriented-execution`. A planned rewrite or migration with phase boundaries. Converge on the target, and keep no throwaway compatibility state.
 - `principle-experience-first`. A product, UX, or feature-scope tradeoff. Choose user delight over implementation convenience.
 - `principle-exhaust-the-design-space`. A new interaction or architecture decision with no precedent. Build two or three prototypes and compare them.
-- `principle-build-the-lever`. Any non-trivial work. Build the tool that does the work or proves it, so that a reviewer can run it again.
+- `principle-build-the-lever`. Any non-trivial work. Build a tool only when it saves time or tokens, or when the result must be deterministic.
 
 **Architecture**
 

@@ -80,7 +80,7 @@ git log --format='%ae' $(git merge-base "$BASE" HEAD)..HEAD | sort -u   # branch
 
 ## Step 2: Select in-scope personas
 
-Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. Note which personas you skipped and why (shown in the final table).
+Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. When the caller names the lanes, launch only those, and mark each other lane `skipped (not named by the caller)`. Note which personas you skipped and why (shown in the final table).
 
 ## Step 3: Spawn the in-scope personas in parallel
 
