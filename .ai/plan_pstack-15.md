@@ -70,7 +70,7 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - Step 5: merge, then `gh pr view <number> --json state,mergeCommit` must show `MERGED`. Watch the run of that `mergeCommit`.
   - Prove C1 and C2 in a `/tmp` repo with the exact commands.
   - Done: ACs A, C, and D hold when you read `ship`, and the C1 and C2 runs are in Progress.
-- [ ] **2. The map template.** Seam: `map_units.py next`. Conditions: C3, C4.
+- [x] **2. The map template.** Seam: `map_units.py next`. Conditions: C3, C4.
   - Add `write-to-file/templates/map.md`: the header (`doctype`, `status`, `goal`, optional `branch_prefix`, `batch`, `push_only`), `## Decisions`, and `## Units` with one `### [ ] N. Title` unit and its `- Done:` line. Point the `map` row of `write-to-file` at it.
   - `split-ticket` Step 7: write the map in the template layout. Keep only its unit bullets inline. Delete the rest of its block.
   - Refresh the fixture from the current map header and unit headings. Add a test for C3 with the `split-ticket` unit fields, and change the fixture test for C4.
@@ -98,3 +98,6 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - C1 and C2 proof in `/tmp/p15`: base commit; `feat` with 2 commits; record `RB=$(git merge-base main feat)` and `RH=$(git rev-parse HEAD)`; new commit `other.txt` on `main`; `git rebase main` on `feat`; commit `.ai/x.md` only. Command: `git diff <base> <head> -- . ':!.ai' | git patch-id --stable`.
   - C1: reviewed pair `95af7a89...` equals rebased pair `95af7a89...` (equal).
   - C2: after one line changed in `a.txt` and committed, the ID is `25eed666...` (differs).
+- 2026-11-17: step 2 done, commit `6735290`. `write-to-file/templates/map.md` holds the header, `## Decisions`, and `## Units`. Optional header keys are comment lines, because a placeholder `batch` fails `map_units.py next`. The `map` row of `write-to-file` points at the template. `split-ticket` Step 7 has the unit bullets only. The fixture has the current unit headings, each with `Done: x.`.
+  - C3: a template map with the `split-ticket` unit fields passes `map_units.py next`. C4: the fixture lists unit 15 first. `map_units.spec.py` runs 19 tests, all pass. `map_units.py next` on the real map exits 0.
+  - Mutation check: the template with `## Units` renamed turns C3 red.
