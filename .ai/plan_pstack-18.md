@@ -43,8 +43,8 @@ Write the fix ladder once, in `principle-encode-lessons-in-structure`, and make 
   - Done: the principle holds the ordered ladder and the two-times count, and `check_principles.py` exits 0. AC A holds.
 - [x] **2. Point `constraints` and `self-improve` at the ladder.** Kind: docs. In `skills/engineering/skills/constraints/SKILL.md` Step 4 item 2: back each rule at the highest rung of the ladder in `$SKILL_DIR/../principle-encode-lessons-in-structure/SKILL.md` that works; read it first. In `skills/engineering/skills/self-improve/SKILL.md` Step 3: the row "Specific to this codebase or team" picks its target by the same ladder, with the agent file (`CLAUDE.md`, `AGENTS.md`) last; read the principle by path. Do not copy the rungs into either skill. Do not change the self-improve theme threshold.
   - Done: both skills name the principle path and do not restate the rungs. AC B, C, and E hold on a read.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. `pre-commit_test.sh` and `commit-msg_test.sh` print only `ok` lines, and `check_principles.py` exits 0. No skill outside the principle restates the rungs.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-18.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-18_correct-ladder`, in place of `/create-pr`.
