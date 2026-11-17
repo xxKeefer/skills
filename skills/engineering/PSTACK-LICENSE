@@ -1,4 +1,5 @@
-The `principle-*` skills in `skills/engineering/skills/` are adapted from the pstack plugin,
+The `principle-*` skills and the `interrogate` skill in `skills/engineering/skills/` are adapted
+from the pstack plugin,
 https://github.com/cursor/plugins/tree/main/pstack/skills
 
 MIT License
