@@ -10,7 +10,8 @@ argument-hint: "@path/to/plan.md"
 Stop the work so that a fresh session can continue from the plan. Push nothing, and open no PR.
 
 1. Find the plan. Use the @-tagged file, else the plan in `.ai/` for the current branch. If no plan
-   exists, run `/handoff` to write one, and use it.
+   exists, write one with `/write-to-file`, doctype `plan`, from this conversation: the goal, each
+   step that is done or left with its done line, and `Progress`. Reference other files by path.
 2. Reach a safe point. Finish the part that you are in, or back it out. Do not leave a half-made
    edit. Leave each file in a state that you can describe in one line.
 3. Run `/update-plan` on the plan. In `Progress`, write what is done, the part that is open, and
