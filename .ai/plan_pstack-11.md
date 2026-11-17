@@ -141,3 +141,15 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 7 done. The mob-review panel ran 8 lanes against `pstack-inspired`. It found 12 findings and fixed all of them in commit 9db5625. No row is open. Next: step 8.
 - 2026-11-17: step 8 done. All gates green at 9741125, no file changed except this plan. Next: step 9.
 - 2026-11-17: step 9 done. The mob-review panel ran 8 lanes (run 2) against `pstack-inspired`. It found 8 findings, fixed 6 in commit 5d80c91, and left 2 open (r2.1 CR, r2.8 Nit). Next: step 10.
+- 2026-11-17: `/build` rule 7.1 stopped the loop: row r2.1 at tier Change Requested stays open. Entry D1 blocks step 10. The run 2 fix 5d80c91 also changes behaviour (the index-link regex in `check_driver.py`), but rule 7.1 comes first. The QA checklist step is skipped, because an entry is pending.
+
+## Pending Decisions
+
+### D1: Fix the open rows of review run 2? (found in step 9)
+- Rows: r2.1 (Change Requested): the glob `verify-<repo>-*` in `find_drivers.py` also matches a driver of a longer repo name, such as `verify-app-web-ui` for repo `app`, so `/verify` can drive the wrong app. r2.8 (Nit): `find_drivers.py` and `check_driver.py` each parse `app-paths`, with different quote handling. Report: `.ai/review_pstack-11_verify-drivers.html`.
+- Also found by the coordinator in 5d80c91: `qa-screenshots` Step 3 calls `python3 ../verify/scripts/find_drivers.py`. That path resolves from the current folder, not from the skill folder, so the call fails outside the skill folder.
+- A: Tick r2.1 and r2.8, and run the report's prompt. r2.1 adds a `repo:` frontmatter key that `/create-verification-skill` writes, `check_driver.py` checks, and `find_drivers.py` matches, with a spec case for `verify-app-x` and `verify-app-web-x`. r2.8 makes `find_drivers.py` the one parse, and `check_driver.py` imports it by a sibling path. The fix round also adds `$SKILL_DIR` to the `qa-screenshots` path. (recommended: a wrong driver runs the wrong app with no error, and the `repo:` key removes the ambiguity at the source.)
+- B: Tick only r2.1, plus the `qa-screenshots` path. Leave r2.8 open as a Nit with the reason "two skills, one small parse".
+- C: Leave both rows open, each with a reason, and push as is.
+- Work: none
+- Blocks: 10
