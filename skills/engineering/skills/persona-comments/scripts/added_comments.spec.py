@@ -145,6 +145,10 @@ class Hunks(unittest.TestCase):
         )
         self.assertEqual(run(text)[1], "a.py:2: # one\nb.py:5: # two\n")
 
+    def test_form_feed_in_a_line_does_not_shift_line_numbers(self):
+        text = "+++ b/a.py\n@@ -0,0 +1,3 @@\n+x = 1\n+y = '\x0c'\n+# real\n"
+        self.assertEqual(run(text)[1], "a.py:3: # real\n")
+
 
 class Blocks(unittest.TestCase):
     def test_added_line_inside_a_block_that_a_context_line_opened(self):

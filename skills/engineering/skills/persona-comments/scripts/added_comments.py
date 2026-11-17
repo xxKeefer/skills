@@ -90,7 +90,7 @@ def comments(diff):
     lang = None
     num = 0
     close = None
-    for raw in diff.splitlines():
+    for raw in diff.split("\n"):
         if raw.startswith("diff "):
             lang = None
             close = None
