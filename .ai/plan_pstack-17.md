@@ -37,7 +37,7 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
 
 ## Steps
 
-- [ ] **1. Rewrite the table and the pick in `tidy-up`.** Kind: docs. In `skills/engineering/skills/tidy-up/SKILL.md`: remove the repeated "plans" in the opening list. In Step 1, add the reads for the table columns: the size of each worktree and file, the dirty state of each worktree, the last commit date or file time, and the PR state from the code host. In Step 3, replace the table and the single yes: show one numbered row for each item with the columns item, work, size, merged, dirty, PR state, last used, proposed action, and reason, with `-` where a column does not apply. Change nothing in this step. Ask the user to pick rows by number, `all`, or `none`. Remove the bypass for a cleanup asked for by name. In Step 4, apply only the picked rows. Keep the description and the `README.md` row unless their words become false.
+- [x] **1. Rewrite the table and the pick in `tidy-up`.** Kind: docs. In `skills/engineering/skills/tidy-up/SKILL.md`: remove the repeated "plans" in the opening list. In Step 1, add the reads for the table columns: the size of each worktree and file, the dirty state of each worktree, the last commit date or file time, and the PR state from the code host. In Step 3, replace the table and the single yes: show one numbered row for each item with the columns item, work, size, merged, dirty, PR state, last used, proposed action, and reason, with `-` where a column does not apply. Change nothing in this step. Ask the user to pick rows by number, `all`, or `none`. Remove the bypass for a cleanup asked for by name. In Step 4, apply only the picked rows. Keep the description and the `README.md` row unless their words become false.
   - Done: the skill shows the table with the five columns, changes nothing before a pick, applies only the picked rows, and has no bypass. AC A, B, and C hold on a read of the skill.
 - [ ] **2. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -55,3 +55,5 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
 ## Progress
 
 - 2026-11-17: plan written on `pstack-inspired`, for the branch `pstack-17_tidy-up-audit`.
+- 2026-11-17: step 1 done in commit d682824. Gates green.
+- Decision log: decisions_pstack-17.tsv
