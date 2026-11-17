@@ -96,7 +96,7 @@ live call `/verify`. Scope: SCOPED, one PR.
 - [x] **4. Maintain a driver.** Kind: docs.
   - `maintain-verification-skill/SKILL.md`, adapted from pstack: locate, index hygiene, source wave, reconcile, live pass, triage, ship or stop. The outcome is `clean`, `changed`, or `blocked`. It runs `check_driver.py`. The ship step follows the Spec Decision. Add the skill to the README.
   - Done: the skill holds every step and the three outcomes, and each relative path in it resolves.
-- [ ] **5. The callers.** Kind: docs.
+- [x] **5. The callers.** Kind: docs.
   - `/test`: after `/happy-path`, run `/verify`, and on `no driver` write that in the plan's `Progress`. `/interrogate`: an adversary may prove a finding through `/verify`. `/blast-radius`: rung 5 runs `/verify`, and drop the sentence about no `/verify` skill. `/qa-screenshots`: when `/verify` has a driver, use it to reach each screen. `/retro`: a `no driver` line in `Progress` proposes `/create-verification-skill`. Add `verify` to the composed-by table.
   - Done: each of the five skills names `/verify`, and `grep -rn "no /verify skill" skills` finds nothing.
 - [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
