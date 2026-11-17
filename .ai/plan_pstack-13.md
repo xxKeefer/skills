@@ -91,10 +91,6 @@ through `/update-plan`. Scope: SCOPED, one PR.
 - 2026-11-17: plan written on `pstack-13_checkpoint`.
 - 2026-11-17: step 1 done in commit 036ddba. The trigger and the fallback line are gone.
 - 2026-11-17: step 2 done in commit 0baa225. /checkpoint and its README row exist.
-- 2026-11-17: step 3 done. Proof from `/tmp/checkpoint-demo` (one plan, one two-part docs step), two fresh subagents:
-  - Subagent 1 did part one only (`notes.md` holds `# Notes`), then followed `/checkpoint`. After it, `git status --porcelain` printed nothing. `git log --oneline` held `2dacf40 wip: 1 part one done, notes.md holds the title line` on top of `e272288 docs: add demo plan`. The plan Progress held the resume note: part one done, part two open, next action, file `notes.md`.
-  - Subagent 2 followed `/do-next` on the same plan. It appended `End of notes.` (part two), marked step 1 done, and committed `b209917 docs: step 1 done, notes.md holds both lines`. Final `git status --porcelain` printed nothing. `notes.md` holds `# Notes` then `End of notes.`.
-  - C2 and C3 hold.
 - Decision log: decisions_pstack-13.tsv
 - 2026-11-17: step 3 done. The live run needed two attempts, and no repo fix.
   - Setup: scratch repo `/tmp/checkpoint-demo`, branch `demo-branch`, plan `.ai/plan_demo.md` with one docs step in two parts (part one writes `# Notes` to `notes.md`, part two appends `End of notes.`).
@@ -102,3 +98,7 @@ through `/update-plan`. Scope: SCOPED, one PR.
   - Attempt 1 of the resume did not count. The step subagent returned before its nested subagents were done, and a nested `/do-next` that it started finished the step while the main thread ran its own. The main thread reset the scratch repo to `2dacf40`.
   - Resume (C3): one fresh subagent, given only `do-next/SKILL.md` and the plan path, read the checkpoint note, ran only part two, and committed `f45fa47`. `notes.md` holds `# Notes` and `End of notes.`, and `git status --porcelain` printed nothing.
 - 2026-11-17: step 5 done. Light run on 1978660 against pstack-inspired (3919d30): 0 findings. Report `.ai/review_pstack-13.html`.
+- 2026-11-17: blast radius: `clear`.
+  - Safety fact: no file reads the two removed lines, and `checkpoint` is the only skill with that name in the repo, `~/.claude/skills`, and `~/.claude/plugins`. Rung 4: a Python script walks every `*.md` outside `.git` and `.ai` for the removed text, and every `SKILL.md` for `name: checkpoint`. It printed `ok: removed lines unread, one checkpoint skill` and exited 0.
+  - Cleared: `/update-plan` keeps its "update plan" triggers, and `principle-guard-the-context-window` sends the context case to `/checkpoint`, which calls `/update-plan`. The primitives `plugin.json` lists no skills, so the new folder loads at the next `/reload-plugins` (ADR 0001). `/checkpoint` step 4 stages every change, but it pushes nothing, so a wrong `wip:` commit stays local and can be amended.
+  - Confirmed risks: none.
