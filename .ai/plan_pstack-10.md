@@ -80,8 +80,8 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - Done: Progress names the rung and the command, and the command exits 0 on a re-run.
 - [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. At HEAD 6774593: check_principles 11 tests OK, map_units 14 tests OK, rerun_findings 23 tests OK, `.githooks/pre-commit` exit 0.
-- [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-10.md`. This step changes no code.
+  - Done: report `.ai/review_pstack-10_blast-radius.html`, reviewed base 7e49a7f, head 3eb07de. No finding, and no fix commit.
 - [ ] **6. Push.** Push the branch with `git push -u origin pstack-10_blast-radius`. Push-only map: open no PR.
   - Done: the pushed head SHA is in this line.
 
@@ -110,3 +110,4 @@ and runs `/interrogate` on the verdict `risk`. Scope: SCOPED, one PR.
   - Cleared: callers (only `interrogate/SKILL.md` lines 21 and 71); the file has no change after 7e49a7f; a malformed findings file (exits 1 with a message); a negative exit code from a signal (counts as a failure, correct); output encoding (`errors="replace"`).
   - Follow-up (not fixed in this unit): R1. Close the pipe or use `communicate(timeout=...)` with a kill of the whole tree, or do not wait on the pipe after the kill, in `rerun_findings.py`.
 - 2026-11-17: step 4 done. Gates green at HEAD 6774593: 11, 14, and 23 tests OK, pre-commit exit 0.
+- 2026-11-17: step 5 done. Light review found nothing: no essential lane guard matched a diff of Markdown only. Report `.ai/review_pstack-10_blast-radius.html`, base 7e49a7f, head 3eb07de.
