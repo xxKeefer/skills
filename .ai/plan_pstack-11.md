@@ -105,8 +105,8 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
   - Done: the report is `.ai/review_pstack-11_verify-drivers.html`. Reviewed base 70db663, reviewed head 9db5625 (the panel read 3d2079c). The panel fixed 12 of 12 findings in commit 9db5625. No row is open.
   - Recorded decision: the fix commit 9db5625 changes the behaviour of `find_drivers.py` and `check_driver.py`, so `/build` rule 7.2 adds a new round of test and review (steps 8 and 9).
-- [ ] **8. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **8. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at HEAD 9741125b33d04e0333c5894b15979a36c6b20f45. find_drivers 21 tests, check_driver 14, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` 11 ok, `commit-msg_test.sh` 8 ok.
 - [ ] **9. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. The last report has no open row.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **10. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
@@ -139,3 +139,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 4 done in commit abedfd3. `maintain-verification-skill/SKILL.md` holds locate, index hygiene, source wave, reconcile, live pass, triage, and ship or stop, with the outcomes `clean`, `changed`, and `blocked`. It runs `check_driver.py` by a sibling path. A driver in the repo gets one commit and a draft PR through `/create-pr`. A driver in `~/.claude/skills/` gets an edit in place. The README row is in. Both relative paths resolve. The 7 gates that ran are green. Next: step 5.
 - 2026-11-17: step 6 done. All gates green at 5bd14ed, no file changed except this plan. Next: step 7.
 - 2026-11-17: step 7 done. The mob-review panel ran 8 lanes against `pstack-inspired`. It found 12 findings and fixed all of them in commit 9db5625. No row is open. Next: step 8.
+- 2026-11-17: step 8 done. All gates green at 9741125, no file changed except this plan. Next: step 9.
