@@ -56,6 +56,157 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "06ef709",
+   "meta": {
+    "Base": "pstack-inspired 5790422",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-18.md",
+    "Fixed in": "55485c9"
+   },
+   "answer": "This run reviews the whole branch, with the retro changes. Four lanes ran. They found 2 nits, and commit 55485c9 fixes both. No finding is open. This run covers the essential lanes only. /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts or .vue source)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts or .vue failure path)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts, .vue, or .js identifiers)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no app or library source)"
+       ],
+       [
+        "other panel lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": ".githooks/pre-commit:29",
+      "issue": "The dir check writes the prefix strip two times.\n\nA later change can update one copy and not the other.",
+      "recommendation": "Set p once at the top of the loop, and use it in both lines.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": ".githooks/pre-commit:29",
+      "issue": "No test runs the dir check on a revision.\n\nOnly a revision uses the prefix strip, so a broken strip passes every test.",
+      "recommendation": "Add two revision tests: an undefined $SKILL_DIR path fails, and a defined one passes.",
+      "result": "Fixed"
+     },
+     "id": "r2.2"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "04f7bac",
    "meta": {
     "Base": "pstack-inspired 5790422",
