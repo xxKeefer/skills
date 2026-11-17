@@ -49,8 +49,470 @@
     </main>
 
     <script type="application/json" id="runs">
-{"title": "QA: verify and the drivers", "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/qa_pstack-11_verify-drivers.html", "skill": "/engineering:fix", "track": ["pass"], "runs": [{"run": 1, "title": "Happy path", "head": "8d1cf62", "date": "2026-11-17", "meta": {"Range": "pstack-inspired...HEAD (merge-base 70db663)"}, "answer": "This branch adds /verify, /create-verification-skill, and /maintain-verification-skill, with two Python scripts and caller lines in five skills. The agent ran each agent row and all of them passed. Set up the state in the first table, then run the you items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.", "visuals": [{"question": "What must be in place before you start?", "table": {"columns": ["Item", "Initial state"], "rows": [["Run the change", "The agent items need only git and python3. Run them from the repo root on branch pstack-11_verify-drivers."], ["Scratch app", "/tmp/verify-demo has branches main, change-app, and docs-only, and a proved driver in .claude/skills/verify-verify-demo-todo/. Its driver SKILL.md has an uncommitted edit (the repo: key)."], ["Accounts", "None. No gh command, no push, no token."], ["Do not touch", "~/.claude/skills/. No driver may go there during this test."], ["Cleanup", "Delete /tmp/todo-verify-evidence/qa1. Leave /tmp/verify-demo on branch main."], ["Sad path", "Not run. The diff holds skills Markdown and two Python CLI scripts. It has no form control, schema rule, key handler, or .vue/.ts file, so neither persona Guard matches."]]}}], "columns": [{"key": "area", "label": "Area"}, {"key": "by", "label": "By"}, {"key": "step", "label": "Step"}, {"key": "expect", "label": "Expect"}], "rows": [{"id": "r1.1", "ticks": ["pass", "fail"], "cells": {"area": "verify", "by": "agent", "step": "On branch change-app of /tmp/verify-demo (one commit to src/todo.py), run find_drivers.py --repo /tmp/verify-demo --base main --home <empty folder>.", "expect": "It prints the driver SKILL.md path. PASS: printed /tmp/verify-demo/.claude/skills/verify-verify-demo-todo/SKILL.md, exit 0."}}, {"id": "r1.2", "ticks": ["pass", "fail"], "cells": {"area": "verify", "by": "agent", "step": "On branch docs-only (one commit to README.md), run the same command.", "expect": "It prints no driver and exits 0. PASS: printed no driver, exit 0."}}, {"id": "r1.3", "ticks": ["pass", "fail"], "cells": {"area": "verify", "by": "agent", "step": "Run find_drivers.spec.py (25 tests). It includes the case verify-demo-x against verify-demo-web-x.", "expect": "All tests pass, and a driver of a longer repo name is not matched. PASS: 25 tests OK."}}, {"id": "r1.4", "ticks": ["pass", "fail"], "cells": {"area": "driver check", "by": "agent", "step": "Run check_driver.py on the demo driver folder.", "expect": "It prints ok and exits 0. PASS: ok, exit 0."}}, {"id": "r1.5", "ticks": ["pass", "fail"], "cells": {"area": "driver check", "by": "agent", "step": "Copy the demo driver, delete its Cleanup section, run check_driver.py on the copy.", "expect": "Exit 1, and the output names the section. PASS: 'SKILL.md: section `## Cleanup` is missing. Fix: add the section.', exit 1."}}, {"id": "r1.6", "ticks": ["pass", "fail"], "cells": {"area": "driver check", "by": "agent", "step": "Run check_driver.spec.py (18 tests).", "expect": "All tests pass. PASS: 18 tests OK."}}, {"id": "r1.7", "ticks": ["pass", "fail"], "cells": {"area": "create skill", "by": "agent", "step": "Run the proof run of the demo driver: doctor.sh, then drive-add-list.sh with a new evidence folder.", "expect": "Doctor prints doctor ok. The drive adds, lists, and marks done, and evidence stays. PASS: doctor ok, added 1, done 1, exit 0, transcript.txt and todo.json in /tmp/todo-verify-evidence/qa1. Nothing in ~/.claude/skills (0 verify- folders)."}}, {"id": "r1.8", "ticks": ["pass", "fail"], "cells": {"area": "create skill", "by": "agent", "step": "Read create-verification-skill/SKILL.md for the interview, the six sections, the owner rule, the check, and the proof run.", "expect": "Each part is present. PASS: Steps 1 to 7 cover interview, name and place, write, feature map, layout check, proof run, handover. Step 2 holds the owner rule with the AGENTS.md owner and the ~/.claude/skills fallback."}}, {"id": "r1.9", "ticks": ["pass", "fail"], "cells": {"area": "maintain skill", "by": "agent", "step": "Read maintain-verification-skill/SKILL.md for the three outcomes, and resolve each relative link.", "expect": "clean, changed, and blocked appear, and each link resolves. PASS: all 3 outcomes found, the 1 relative link resolves."}}, {"id": "r1.10", "ticks": ["pass", "fail"], "cells": {"area": "callers", "by": "agent", "step": "Count /verify or create-verification-skill lines in test, interrogate, blast-radius, qa-screenshots, and retro. Grep for 'no /verify skill'.", "expect": "Each skill names it, and the grep finds nothing. PASS: 3, 1, 1, 2, 2 lines. Grep found nothing (exit 1)."}}, {"id": "r1.11", "ticks": ["pass", "fail"], "cells": {"area": "gates", "by": "agent", "step": "Run the other four spec files, .githooks/pre-commit, pre-commit_test.sh, and commit-msg_test.sh.", "expect": "All pass. PASS: check_principles 11, map_units 14, rerun_findings 23, all OK. pre-commit exit 0. Both hook test files end in ok lines."}}, {"id": "r1.12", "ticks": ["pass", "fail"], "cells": {"area": "live", "by": "you", "step": "In a fresh session, open the demo repo, run /verify on branch change-app, and watch the agent run the driver.", "expect": "The agent finds the driver from the diff, runs it at the verifier role, and shows the evidence path."}}, {"id": "r1.13", "ticks": ["pass", "fail"], "cells": {"area": "live", "by": "you", "step": "Run /create-verification-skill on a real app of your own, and read the driver and feature map that it writes.", "expect": "The interview questions fit the app, the driver passes its own proof run, and it lands in the right folder for the repo owner."}}, {"id": "r1.14", "ticks": ["pass", "fail"], "cells": {"area": "push", "by": "you", "step": "On the home machine, run the push step (step 15), then open the draft PR into pstack-inspired.", "expect": "The branch is on the remote, and the PR targets pstack-inspired."}}]}]}
-    </script>
+{
+ "title": "Review of pstack-12_decision-log-sitrep",
+ "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-12_decision-log-sitrep.html",
+ "skill": "/engineering:build",
+ "runs": [
+  {
+   "run": 3,
+   "title": "Panel run",
+   "head": "3fa230c",
+   "date": "2026-11-17",
+   "meta": {
+    "Base": "pstack-inspired 400344b",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Spec": ".ai/plan_pstack-12.md",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
+   },
+   "answer": "The panel found 1 Future finding and no Change Requested. It fixed none. 1 stays open: a test for a skipped step that has no reason. Row r2.1 from run 2 stays open.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "decisions-log",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "0",
+        "1",
+        "ran"
+       ],
+       [
+        "ac-check",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "all other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (repo names none)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "id": "r3.1",
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Future",
+      "persona": "test-design",
+      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:42",
+      "issue": "A skipped step with no `- Skipped:` line has no test.\n\n`skipped_steps` gives an empty reason, and `render_skipped` prints the title with a blank reason. A change to that fallback would pass every test. The risk is low, because the output is read-only text.",
+      "recommendation": "Add one test in `sitrep.spec.py`: a `[-]` step with no `- Skipped:` line still shows its title under `## Skipped steps`.",
+      "result": "Open: the persona marked it Future."
+     }
+    }
+   ]
+  },
+  {
+   "run": 2,
+   "title": "Panel run",
+   "head": "a8757d8",
+   "date": "2026-11-17",
+   "meta": {
+    "Base": "pstack-inspired 400344b",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Spec": ".ai/plan_pstack-12.md",
+    "Fixed in": "a8757d8",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
+   },
+   "answer": "The panel found 2 nits and no Change Requested. It fixed 1 in commit a8757d8. 1 stays open: the size of build/SKILL.md, which was over the limit before this branch.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "decisions-log",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "ac-check",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "all other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (repo names none)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "id": "r2.1",
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/build/SKILL.md:74",
+      "issue": "`build/SKILL.md` is 11,608 bytes, over the 10 KB limit.\n\nThe file was 11,295 bytes on `pstack-inspired`. This branch adds 313 bytes for the decision log lines.",
+      "recommendation": "Move the fix-round rules of Step 1 item 1 and Step 5 to a reference file, with one line that says when to read it. Keep the decision log lines inline.",
+      "result": "Open: the file was over the limit before this branch. The fix restructures `build` and the rules that Step 2 item 7.2 cites, and it is outside this unit."
+     }
+    },
+    {
+     "id": "r2.2",
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/primitives/skills/update-plan/scripts/log_decision.py:23",
+      "issue": "A plan name with no `.md` suffix had no test.\n\nDropping the suffix check passed every test, so `plan_x.txt` would give the log `decisions_x.t.tsv`.",
+      "recommendation": "Add a test that a name with no `.md` suffix exits 1. A mutation check showed that the test goes red without the check.",
+      "result": "Fixed"
+     }
+    }
+   ]
+  },
+  {
+   "run": 1,
+   "title": "Panel run",
+   "head": "9d3fe88",
+   "date": "2026-11-17",
+   "meta": {
+    "Base": "pstack-inspired 400344b",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Spec": ".ai/plan_pstack-12.md",
+    "Fixed in": "9d3fe88",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-12.md"
+   },
+   "answer": "The panel found 1 Change Requested and 3 nits. It fixed all 4 in commit 9d3fe88. No finding is open.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "decisions-log",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "1",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "ac-check",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "all other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (no frontend, shell, CI, or API changes; diff has no files they guard)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (repo names none)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "id": "r1.1",
+     "ticks": [],
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "test-design",
+      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:75",
+      "issue": "A plan name with no `plan_` prefix drops the decision log with no sign. The reader had no test.\n\n`/sitrep` printed `Nothing is pending.` while a log could exist.",
+      "recommendation": "Print a warning to stderr, keep the other sections, and pin the behaviour with a test.",
+      "result": "Fixed"
+     }
+    },
+    {
+     "id": "r1.2",
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/primitives/skills/update-plan/scripts/log_decision.py:46",
+      "issue": "A log row with fewer than four fields had no test.\n\nA hand-edited row could crash `/sitrep` if the padding went.",
+      "recommendation": "Add a test with a two-field row. A mutation check showed that the test goes red without the padding.",
+      "result": "Fixed"
+     }
+    },
+    {
+     "id": "r1.3",
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:55",
+      "issue": "`main()` built four sections inline.",
+      "recommendation": "Split into one render function for each section.",
+      "result": "Fixed"
+     }
+    },
+    {
+     "id": "r1.4",
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/primitives/skills/sitrep/scripts/sitrep.py:25",
+      "issue": "The same `span is None` guard sat in three helpers.",
+      "recommendation": "Pass an empty span when a section is absent, and drop the guards.",
+      "result": "Fixed"
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 
     <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
     <script src="reports.js"></script>

@@ -22,6 +22,12 @@ skill's base directory. Run it after the edit. A plan has `doctype: plan` in its
 with `plan_` or `handoff_`. On exit 1, stop, and give each error line. For a file with no YAML header, say that
 `/write-to-file` can migrate it to the plan layout.
 
+When the caller gives choices that the agent made with no user, record each one. Run
+`python3 $SKILL_DIR/scripts/log_decision.py <absolute plan path> --decision=<text> --reason=<text> --evidence=<text> --result=<text>`
+once for each choice. Write each flag as `--field=value`, so that a value that starts with a dash is not read as a flag. The script writes `decisions_<KEY>.tsv` beside the plan. On the first call, the script adds `- Decision log: decisions_<KEY>.tsv` to `Progress`, so do not add it. A choice whose result is not known yet gets `--result=open: <what settles it>`. When the result is known, run
+`python3 $SKILL_DIR/scripts/log_decision.py result <absolute plan path> <row> --result=<text>`. `<row>` is the number of the row in the log, counted from 1, with the header not counted. `/sitrep` prints this number for each open row. Log each choice that the caller gives, even when the plan already records it. Skip only a choice
+that the log already holds.
+
 The reader is a cold agent with none of this conversation's context. Write so it can pick up
 and continue without asking.
 

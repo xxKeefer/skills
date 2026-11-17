@@ -51,6 +51,7 @@ call, or the user's words. No candidate without one.
 | --- | --- |
 | **Skill gap** | The user did a task by hand that a skill could own, or a skill was missing a step that the agent had to work out. |
 | **Skill misfire** | A skill step misled the agent, ran in the wrong order, contradicted another skill, or did not trigger when it should have. |
+| **Bad choice** | A row in the decision log, `decisions_<KEY>.tsv` beside the plan of the session. Compare the `decision` and `reason` of each row with its `result`. A choice that the result shows was wrong is a candidate. |
 | **Missing driver** | A `no driver` line in the `Progress` of a plan. Propose `/create-verification-skill` for that app. |
 | **Navigation** | The agent took long to find a file or a fact. A pointer in a skill, a reference, or a steering file would have saved the search. |
 | **Automated check** | The agent made a mistake that a check could catch: a hook, a pre-commit check, a lint rule, a test. First read the checks that exist (`.githooks/`, the lint config, the CI workflow). A check that exists but is not wired, or is broken, is the finding. |

@@ -68,20 +68,23 @@ red, save the work, write a `B` entry, and return.
 2. Commit with the repo's commit convention. Before the first commit, read the commit-message
    rules in the user's and the repo's instructions. When a commit hook rejects the message, fix
    the message and commit again. Keep the hook on.
-3. Invoke `/update-plan` on the plan to mark the step done.
+3. Invoke `/update-plan` on the plan to mark the step done. Give it each choice that this step
+   made alone and that the plan does not record. For each choice, give the decision, the reason, the
+   evidence, and the result. `/update-plan` adds each one to the decision log.
 
-4. Commit the plan edit alone, with the message `docs(ai): mark step <id> done`, so the tree is
-   clean when you return.
+4. Commit the plan edit, and the decision log if `/update-plan` wrote or changed it, with the
+   message `docs(ai): mark step <id> done`, so the tree is clean when you return.
 
-If the step changed no file except the plan, make only the commit of item 4. A test step or a
+If the step changed no file except the plan and the decision log, make only the commit of item 4. A test step or a
 review step that only records its report is an example. Return `Commit: none`.
 
 **Done when:** the plan marks the step done, the tree has no modified or staged files, and the
-commit exists or the step changed no file except the plan.
+commit exists or the step changed no file except the plan and the decision log.
 
 ## 5. Return
 
-Return these five lines, once for each step of a batch:
+Before you return, wait for each background task that you started to end, or stop it. Then return
+these five lines once, for each step of a batch:
 
 ```
 Status: done | <entry ID>

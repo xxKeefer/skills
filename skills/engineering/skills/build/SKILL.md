@@ -71,7 +71,9 @@ prompt. A fix round adds a new test and review only when the round can change be
    the text of the last test step and the last review step. In the new review step, add the row
    IDs that stay open in the last report. Tell the panel not to raise those rows again, and not to
    raise any row that only repeats them.
-8. Write the changes with `/update-plan`.
+8. Write the changes with `/update-plan`. Give it each recorded decision of items 1.3 and 1.4 as a
+   choice: the decision, the reason, the evidence, and the result. It adds each one to the decision
+   log.
 9. List the remaining steps in plan order. Leave out the push step.
 
 **Done when:** for a report, the plan holds a fix step for each ticked row, and either a new
@@ -152,6 +154,9 @@ subagent wrote, `skipped (<entry ID>)`, the failed check, or `not run`.
 
 Below the table, name the rule that stopped the loop, from the Step 2 done line. Name each skipped
 step with the rule that allowed the skip.
+
+Then name the decision log, `decisions_<KEY>.tsv` beside the plan, when it exists. Say that `/sitrep`
+lists the choices that the agent made alone.
 
 Then give the next command:
 

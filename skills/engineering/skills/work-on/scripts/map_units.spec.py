@@ -81,6 +81,29 @@ class MapUnits(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual(r.stdout, "2\tSecond\n3\tThird\n")
 
+    def test_next_uses_the_batch_key_of_the_map(self):
+        self.write(MAP.replace("doctype: map\n", "doctype: map\nbatch: 1\n"))
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout, "2\tSecond\n")
+
+    def test_batch_flag_overrides_the_batch_key(self):
+        self.write(MAP.replace("doctype: map\n", "doctype: map\nbatch: 1\n"))
+        r = run("next", self.map, "--batch", "2")
+        self.assertEqual(r.stdout, "2\tSecond\n3\tThird\n")
+
+    def test_next_with_no_batch_key_lists_five(self):
+        extra = "".join(f"\n### [ ] {n}. Unit {n}\n\n- Done: x.\n" for n in range(6, 10))
+        self.write(MAP + extra)
+        r = run("next", self.map)
+        self.assertEqual(len(r.stdout.splitlines()), 5)
+
+    def test_next_rejects_a_batch_key_below_1(self):
+        self.write(MAP.replace("doctype: map\n", "doctype: map\nbatch: 0\n"))
+        r = run("next", self.map)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("batch", r.stderr)
+
     def test_next_with_every_unit_ticked_prints_nothing(self):
         self.write(MAP.replace("### [ ]", "### [x]"))
         r = run("next", self.map)
