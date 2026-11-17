@@ -34,11 +34,18 @@ or a file upload changed. It adds its run to the same report.
 
 **Done when:** `/sad-path` ran, or its guard does not match.
 
+## Step 2b: See it live
+
+After `/happy-path`, run `/verify`. `/verify` records `no driver` in the plan.
+
+**Done when:** `/verify` returned a result, or `/happy-path` did not run.
+
 ## Step 3: Hand on
 
 Give the next command:
 
 - QA items failed: the `/fix` prompt that the report builds.
+- `/verify` gave `fail` or `blocked`: `/fix` with the evidence path of the driver.
 - Everything passed: `/review`.
 
 **Done when:** the user has the next command.

@@ -28,6 +28,8 @@ Rules:
 - Keep it under 15 items total. To stay under the cap, merge related changes into one item.
 - Give each item a runner. `agent`: a command shows the result, such as a push, a CI status, log
   text, or an API reply. `you`: the result needs eyes on a UI or a dashboard.
+- Take each push or PR item from the plan's push step, when a plan exists. When that step is
+  done, or says to open no PR, write no item for it.
 - On a branch in a stack (`gh stack view` succeeds), write each push as `gh stack push` and each
   rebase as `gh stack rebase`. A step that drops a commit resets the branch, then runs
   `gh stack push`. That command force-pushes with a lease and keeps the stack in order.

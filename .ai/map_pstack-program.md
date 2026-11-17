@@ -438,7 +438,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - `engineering/blast-radius` (new). The ladder: said it, pointed at the line, walked it, ran it, saw it live. Prove by a run the one fact that makes the change safe. List what was cleared.
 - Done: on a change, the output names the rung reached and the command that proved it.
 
-### [ ] 11. `/verify` and the drivers (r1.5)
+### [x] 11. `/verify` and the drivers (r1.5)
 
 - `engineering/verify` (the thin router), `create-verification-skill`, and `maintain-verification-skill`, as in Decisions.
 - `/test`, `interrogate`, `blast-radius`, `qa-screenshots`, and the benchmark skill call `/verify`.

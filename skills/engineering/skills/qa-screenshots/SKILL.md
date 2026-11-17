@@ -16,6 +16,8 @@ shared environment is one that the user approved.
 > to reach the right tab, take a screenshot, and save it to disk. The code host is GitHub, through
 > `gh`. If either tool is missing, stop and say which one.
 
+`$SKILL_DIR` is this skill's base directory.
+
 **Inputs:** a PR number, or the PR of the current branch. The QA report is the `qa` report that
 `/engineering:happy-path` wrote for the branch, in the folder that `/write-to-file` uses for
 reports.
@@ -42,7 +44,9 @@ Ask in one `AskUserQuestion`. Each question names its items.
 
 ## Step 3: Capture
 
-Work in the tab from Step 2.
+Work in the tab from Step 2. Run `python3 $SKILL_DIR/../verify/scripts/find_drivers.py --repo <repo root> --base <base>`. The base is the base branch of the PR or the plan, else the default branch of the repo. When it prints a
+driver path, read the feature map of that driver for the user path to each screen, and drive the screens in this tab. Do not run `/verify` here: it drives its own
+instance, not your tab. With no driver, use the browser flow below.
 
 - **Sign-in or device check:** stop and tell the user. Use no other browser, and do not go around
   it.

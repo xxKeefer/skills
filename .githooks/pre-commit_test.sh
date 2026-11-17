@@ -93,4 +93,23 @@ expect 'a revision with a ticket key fails' block $?
 (cd "$repo" && .githooks/pre-commit HEAD~1 > /dev/null 2>&1)
 expect 'a clean revision passes' pass $?
 
+try_skill() {
+  mkdir -p "$repo/skills/demo"
+  printf '%s\n' "$1" > "$repo/skills/demo/SKILL.md"
+  git -C "$repo" add -A
+  git -C "$repo" commit -q -m test > /dev/null 2>&1
+}
+
+new_repo
+try_skill 'Run `python3 ../other/scripts/check.py`.'
+expect 'a script path from the current folder in a SKILL.md blocks the commit' block $?
+
+new_repo
+try_skill 'Run `python3 $SKILL_DIR/../other/scripts/check.py`.'
+expect 'a script path from $SKILL_DIR in a SKILL.md commits' pass $?
+
+new_repo
+try_commit 'Run `python3 ../other/scripts/check.py`.'
+expect 'a script path from the current folder outside a SKILL.md commits' pass $?
+
 exit "$failed"

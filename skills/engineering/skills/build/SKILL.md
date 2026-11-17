@@ -98,7 +98,7 @@ For each remaining step, in plan order:
 4. Wait for it to return. Run one subagent at a time, because the steps share one working tree.
 5. Check the result against the repo, not the summary. For a batch, check each step on its own,
    in order. For status `done`, the plan marks the step done, and `git log` holds the commit it
-   names. With `Commit: none`, `HEAD` is still the SHA from before that step. For an entry ID,
+   names. With `Commit: none`, each commit after the SHA from before that step changes only the plan. For an entry ID,
    the plan holds that entry. For both, the tree has no modified or staged files. A batch
    stops at the first step that writes an entry. Mark each later step of the batch `not run`,
    and dispatch it again in a later pass. For a review step, the report must hold the JSON `runs`
@@ -115,8 +115,8 @@ For each remaining step, in plan order:
       behaviour rule as Step 1 item 1.3.
    3. Else stop the loop.
 
-   Stop the loop after the third review step of this run, even if a fix changed behaviour. Say so
-   in the report.
+   Stop the loop after the third review step that the plan holds since its approval, even if a
+   fix changed behaviour. A run after Step 5 continues the count. Say so in the report.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
 failed check, and the loop stopped. You can name the rule that stopped the loop: 7.1, 7.3, the

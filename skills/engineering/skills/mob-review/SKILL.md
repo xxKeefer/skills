@@ -107,7 +107,7 @@ When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and 
 
 ## Step 4: Aggregate
 
-Collect each persona's JSON, skip any that failed, and combine all `findings`. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
+Wait until every persona subagent has returned, then collect each persona's JSON. Skip any that failed, and combine all `findings`. Write no report while a persona still runs. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
 
 When the rubric ran, follow Step 4 of [`RUBRIC.md`](RUBRIC.md).
 
