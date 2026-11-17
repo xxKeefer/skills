@@ -11,6 +11,8 @@ def main(folder, prompt_file):
     hits = []
     for path in sorted(Path(folder).rglob("*")):
         rel = path.relative_to(folder).as_posix()
+        if rel.startswith(".claude/skills/"):
+            continue
         for w in dict.fromkeys(m.lower() for m in PATTERN.findall(rel)):
             hits.append(f"{rel}: {w}")
     with open(prompt_file) as f:

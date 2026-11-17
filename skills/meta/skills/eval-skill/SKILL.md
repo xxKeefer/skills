@@ -13,6 +13,7 @@ value is the skill to trial, and can name two versions.
 ## Rules for blinding
 
 - A candidate sees no word from `$SKILL_DIR/scripts/leak_check.py`, in any folder, file, or prompt.
+- The copied skill folder, `.claude/skills/<name>/`, is exempt from the leak check, because the trial must not change the skill. The leak check skips each path under `.claude/skills/`.
 - The prompt reads like a request from a user. It states the goal, never the purpose of the run.
 - The prompt never asks which skills, rules, or files the candidate used.
 - No candidate learns that another candidate exists.

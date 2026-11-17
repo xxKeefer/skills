@@ -64,6 +64,20 @@ class WholeWordsOnly(unittest.TestCase):
         self.assertEqual(out, "")
 
 
+class SkillFolderExempt(unittest.TestCase):
+    def test_a_banned_word_in_the_skill_folder_name_is_not_listed(self):
+        code, out = Env(self, [".claude/skills/test/SKILL.md", ".claude/skills/eval-skill/scripts/x.py"]).run()
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "")
+
+    def test_a_banned_word_outside_the_skill_folder_is_still_listed(self):
+        code, out = Env(self, [".claude/skills/test/SKILL.md", ".claude/test/f.txt", "test/f.txt"]).run()
+        self.assertEqual(code, 1)
+        self.assertIn(".claude/test: test", out)
+        self.assertIn("test: test", out)
+        self.assertNotIn("skills", out)
+
+
 class CleanInput(unittest.TestCase):
     def test_clean_names_and_prompt_exit_0_with_no_output(self):
         code, out = Env(self, ["src/upload_client.py", "README.md"]).run()
