@@ -12,7 +12,7 @@ Write the given content to the output folder for its doctype.
 
 | Doctype | Holds | Template |
 |---|---|---|
-| `map` | the order of many units, shared decisions, a tick per unit | none yet |
+| `map` | the order of many units, shared decisions, a tick per unit | [`templates/map.md`](templates/map.md) |
 | `spec` | what to build for one change, and why | [`templates/spec.md`](templates/spec.md) |
 | `plan` | goal, steps, progress, pending decisions, follow-ups | [`templates/plan.md`](templates/plan.md) |
 | `findings` | a question, its answer, the evidence, open points | none yet |

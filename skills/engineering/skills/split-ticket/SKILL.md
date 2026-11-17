@@ -123,26 +123,15 @@ Write `map_<KEY>.md` with `/write-to-file`, doctype `map`, into the folder of th
 `/start-ticket <SUBKEY>` reads its unit from the map, then writes its plan. Write in Simplified
 Technical English. Read [`STE.md`](../../STE.md) first, and follow every rule in it.
 
-```markdown
----
-doctype: map
-ticket: <KEY>
-status: approved
-goal: <the goal of the parent ticket>
----
+Use the map template. Set `ticket` to `<KEY>`, and `goal` to the goal of the parent ticket. Add
+the line `Split report: <path>.` under the title. Write each unit as `### [ ] N. <SUBKEY> <title>`,
+with these bullets, and the `Done:` line last:
 
-# Map: <KEY> <title>
-
-Split report: <path>.
-
-### [ ] 1. <SUBKEY> <title>
-
-- Wave <w>. Estimate: <points>. Parent ACs: <letters>.
-- builds_on: <SUBKEY list, or none>
-- merge: <after <SUBKEY list>, or alone>
-- Files or areas: <from Step 2>.
-- Done: the ACs of <SUBKEY> hold, and its PR is merged.
-```
+- `Wave <w>. Estimate: <points>. Parent ACs: <letters>.`
+- `builds_on: <SUBKEY list, or none>`
+- `merge: <after <SUBKEY list>, or alone>`
+- `Files or areas: <from Step 2>.`
+- `Done: the ACs of <SUBKEY> hold, and its PR is merged.`
 
 `/start-ticket` copies `builds_on` and `merge` into the header of the plan. `/create-pr` reads
 `merge` there.
