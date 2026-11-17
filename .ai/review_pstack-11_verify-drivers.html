@@ -50,501 +50,671 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Review of pstack-11_verify-drivers",
- "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-11_verify-drivers.html",
- "skill": "/engineering:build",
- "runs": [
-  {
-   "run": 1,
-   "title": "Panel run",
-   "head": "3d2079c",
-   "date": "2026-11-17",
-   "meta": {
-    "Base": "pstack-inspired 70db663",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-11.md",
-    "Fixed in": "9db5625"
-   },
-   "answer": "The panel found 12 findings and fixed all 12 in commit 9db5625. No row is open. All gates are green after the fixes.",
-   "visuals": [
+  "title": "Review of pstack-11_verify-drivers",
+  "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-11_verify-drivers.html",
+  "skill": "/engineering:build",
+  "runs": [
     {
-     "question": "Which lanes ran, and what did each find?",
-     "fold": true,
-     "table": {
+      "run": 3,
+      "title": "Panel run",
+      "head": "895224f",
+      "date": "2026-11-17",
+      "meta": {
+        "Base": "pstack-inspired 70db663",
+        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-11.md",
+        "Fixed in": "a3c220c"
+      },
+      "answer": "The panel found 4 findings, all nits, and fixed all 4 in commit a3c220c. No row is open. All gates are green after the fixes.",
+      "visuals": [
+        {
+          "question": "Which lanes ran, and what did each find?",
+          "fold": true,
+          "table": {
+            "columns": [
+              "Persona",
+              "CR",
+              "Nit",
+              "Future",
+              "Status"
+            ],
+            "rows": [
+              [
+                "code-quality",
+                "0",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "test-design",
+                "0",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "skills",
+                "0",
+                "2",
+                "0",
+                "ran"
+              ],
+              [
+                "correctness",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "ac-check",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "decisions-log",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "test-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "pr-size",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "a11y, i18n, vue-reactivity, design-system, tanstack, vitest, comments, naming, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, architecture, security, best-practice, typing, github-actions, shell, api-spec, api-integrity, integration-test, browser-e2e, production-protector, bundle-size, analytics",
+                "-",
+                "-",
+                "-",
+                "skipped (no frontend, TypeScript, or workflow changes)"
+              ]
+            ]
+          }
+        }
+      ],
       "columns": [
-       "Persona",
-       "CR",
-       "Nit",
-       "Future",
-       "Status"
+        {
+          "key": "tier",
+          "label": "Tier"
+        },
+        {
+          "key": "persona",
+          "label": "Persona"
+        },
+        {
+          "key": "where",
+          "label": "File:line",
+          "mono": true
+        },
+        {
+          "key": "issue",
+          "label": "Issue"
+        },
+        {
+          "key": "recommendation",
+          "label": "Recommendation"
+        },
+        {
+          "key": "result",
+          "label": "Result"
+        }
       ],
       "rows": [
-       [
-        "correctness",
-        "1",
-        "2",
-        "0",
-        "ran"
-       ],
-       [
-        "test-design",
-        "2",
-        "3",
-        "0",
-        "ran"
-       ],
-       [
-        "code-quality",
-        "0",
-        "2",
-        "0",
-        "ran"
-       ],
-       [
-        "skills",
-        "0",
-        "2",
-        "0",
-        "ran"
-       ],
-       [
-        "ac-check",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "decisions-log",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "pr-size",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "a11y, i18n, vue-reactivity, design-system, tanstack, vitest, comments, naming, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, architecture, security, best-practice, typing, github-actions, shell, api-spec, api-integrity, integration-test, browser-e2e, production-protector, bundle-size, analytics",
-        "-",
-        "-",
-        "-",
-        "skipped (no frontend, TypeScript, or workflow changes)"
-       ]
+        {
+          "id": "r3.1",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "code-quality",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:31",
+            "issue": "The frontmatter parse is written three times.\n\ncheck_driver.py has its own `frontmatter`. find_drivers.py has the fence walk in both `app_paths` and `repo_key`. A change to the fence rule needs three edits.",
+            "recommendation": "find_drivers.py now holds one `frontmatter`, and `app_paths`, `repo_key`, and `name_key` read from it. check_driver.py imports them.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r3.2",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:55",
+            "issue": "No test covers a `repo` key that differs from the `name` prefix.\n\nSuch a driver passes the layout check, and then `/verify` never finds it.",
+            "recommendation": "A spec case covers it. check_driver.py now rejects a `name` that does not start with `verify-<repo>-`. The test went red first.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r3.3",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "skills",
+            "where": "skills/engineering/skills/qa-screenshots/SKILL.md:47",
+            "issue": "Step 3 gives find_drivers.py a base with no rule for it.\n\nOn a stacked branch, the agent can guess `main`.",
+            "recommendation": "Step 3 now says: use the base branch of the PR or the plan, else the default branch of the repo.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r3.4",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "skills",
+            "where": "skills/engineering/skills/verify/SKILL.md:38",
+            "issue": "Only `/test` writes `no driver` to Progress. The other callers do not, so `/retro` misses their result.",
+            "recommendation": "`/verify` Step 1 writes `no driver` in the plan Progress when a plan exists. `/test` Step 2b no longer writes it.",
+            "result": "Fixed"
+          }
+        }
       ]
-     }
-    }
-   ],
-   "columns": [
-    {
-     "key": "tier",
-     "label": "Tier"
     },
     {
-     "key": "persona",
-     "label": "Persona"
-    },
-    {
-     "key": "where",
-     "label": "File:line",
-     "mono": true
-    },
-    {
-     "key": "issue",
-     "label": "Issue"
-    },
-    {
-     "key": "recommendation",
-     "label": "Recommendation"
-    },
-    {
-     "key": "result",
-     "label": "Result"
-    }
-   ],
-   "rows": [
-    {
-     "id": "r1.1",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "correctness",
-      "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:82",
-      "issue": "The index check tests a substring, so a feature file passes when its name is only the tail of another link.\n\nWith research.md linked, search.md passes as indexed.",
-      "recommendation": "Match the name as a whole link target. A spec case covers it.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.2",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:36",
-      "issue": "A diff from the merge-base, not from the base tip, has no test.\n\nA change that diffs against the base directly passed every test.",
-      "recommendation": "Added a test where the base moves after the fork. A mutation turned it red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.3",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:46",
-      "issue": "The `**/` glob branch has no test.\n\nDropping the optional group left every test green.",
-      "recommendation": "Added root-file, deep-file, and zero-depth tests. A mutation turned them red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.4",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:59",
-      "issue": "Literal escaping and the `?` wildcard have no test.",
-      "recommendation": "Added a test for each. A mutation that drops the escape turned one red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.5",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:76",
-      "issue": "Quoted `app-paths` items have no test.",
-      "recommendation": "Added a test with double and single quotes. A mutation turned it red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.6",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:100",
-      "issue": "De-duplication of one driver found in the repo and home folders has no test.",
-      "recommendation": "Added a symlink test. A mutation turned it red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.7",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "correctness",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:75",
-      "issue": "An `app-paths` list with unindented dashes reads as empty, so the driver is skipped.",
-      "recommendation": "Accept leading space or none in both scripts. Tests cover both.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.8",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "correctness",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:38",
-      "issue": "Untracked paths are relative to the cwd, but diff paths are relative to the repo root.",
-      "recommendation": "Added `--full-name` to the `ls-files` call. A test runs from a subfolder.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.9",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "code-quality",
-      "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:44",
-      "issue": "check_skill and check_features append to a list that the caller owns.",
-      "recommendation": "Each check now returns its errors, and main joins them.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.10",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "code-quality",
-      "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:73",
-      "issue": "Hand-built os.path calls where pathlib fits.",
-      "recommendation": "Moved the script to pathlib and dropped the read helper.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.11",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "skills",
-      "where": "skills/engineering/skills/create-verification-skill/SKILL.md",
-      "issue": "Step 6 runs a full /verify, which runs the driver a second time, to prove the find step.",
-      "recommendation": "The step now runs find_drivers.py by a sibling path.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r1.12",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "skills",
-      "where": "skills/engineering/skills/interrogate/SKILL.md",
-      "issue": "A /verify proof gives evidence paths, not a command that exits non-zero, so the finding is dropped.",
-      "recommendation": "The brief now asks for a replay script that exits 1, and for one /verify run at a time.",
-      "result": "Fixed"
-     }
-    }
-   ]
-  },
-  {
-   "run": 2,
-   "title": "Panel run",
-   "head": "63ed0de",
-   "date": "2026-11-17",
-   "meta": {
-    "Base": "pstack-inspired 70db663",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-11.md",
-    "Fixed in": "5d80c91"
-   },
-   "answer": "The panel found 8 findings, fixed 6 in commit 5d80c91, and left 2 open. Both open rows need a design answer. All gates are green after the fixes.",
-   "visuals": [
-    {
-     "question": "Which lanes ran, and what did each find?",
-     "fold": true,
-     "table": {
+      "run": 1,
+      "title": "Panel run",
+      "head": "3d2079c",
+      "date": "2026-11-17",
+      "meta": {
+        "Base": "pstack-inspired 70db663",
+        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-11.md",
+        "Fixed in": "9db5625"
+      },
+      "answer": "The panel found 12 findings and fixed all 12 in commit 9db5625. No row is open. All gates are green after the fixes.",
+      "visuals": [
+        {
+          "question": "Which lanes ran, and what did each find?",
+          "fold": true,
+          "table": {
+            "columns": [
+              "Persona",
+              "CR",
+              "Nit",
+              "Future",
+              "Status"
+            ],
+            "rows": [
+              [
+                "correctness",
+                "1",
+                "2",
+                "0",
+                "ran"
+              ],
+              [
+                "test-design",
+                "2",
+                "3",
+                "0",
+                "ran"
+              ],
+              [
+                "code-quality",
+                "0",
+                "2",
+                "0",
+                "ran"
+              ],
+              [
+                "skills",
+                "0",
+                "2",
+                "0",
+                "ran"
+              ],
+              [
+                "ac-check",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "decisions-log",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "test-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "pr-size",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "a11y, i18n, vue-reactivity, design-system, tanstack, vitest, comments, naming, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, architecture, security, best-practice, typing, github-actions, shell, api-spec, api-integrity, integration-test, browser-e2e, production-protector, bundle-size, analytics",
+                "-",
+                "-",
+                "-",
+                "skipped (no frontend, TypeScript, or workflow changes)"
+              ]
+            ]
+          }
+        }
+      ],
       "columns": [
-       "Persona",
-       "CR",
-       "Nit",
-       "Future",
-       "Status"
+        {
+          "key": "tier",
+          "label": "Tier"
+        },
+        {
+          "key": "persona",
+          "label": "Persona"
+        },
+        {
+          "key": "where",
+          "label": "File:line",
+          "mono": true
+        },
+        {
+          "key": "issue",
+          "label": "Issue"
+        },
+        {
+          "key": "recommendation",
+          "label": "Recommendation"
+        },
+        {
+          "key": "result",
+          "label": "Result"
+        }
       ],
       "rows": [
-       [
-        "correctness",
-        "1",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "test-design",
-        "1",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "code-quality",
-        "0",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "skills",
-        "2",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "ac-check",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "decisions-log",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "pr-size",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "a11y, i18n, vue-reactivity, design-system, tanstack, vitest, comments, naming, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, architecture, security, best-practice, typing, github-actions, shell, api-spec, api-integrity, integration-test, browser-e2e, production-protector, bundle-size, analytics",
-        "-",
-        "-",
-        "-",
-        "skipped (no frontend, TypeScript, or workflow changes)"
-       ]
+        {
+          "id": "r1.1",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:82",
+            "issue": "The index check tests a substring, so a feature file passes when its name is only the tail of another link.\n\nWith research.md linked, search.md passes as indexed.",
+            "recommendation": "Match the name as a whole link target. A spec case covers it.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.2",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:36",
+            "issue": "A diff from the merge-base, not from the base tip, has no test.\n\nA change that diffs against the base directly passed every test.",
+            "recommendation": "Added a test where the base moves after the fork. A mutation turned it red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.3",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:46",
+            "issue": "The `**/` glob branch has no test.\n\nDropping the optional group left every test green.",
+            "recommendation": "Added root-file, deep-file, and zero-depth tests. A mutation turned them red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.4",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:59",
+            "issue": "Literal escaping and the `?` wildcard have no test.",
+            "recommendation": "Added a test for each. A mutation that drops the escape turned one red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.5",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:76",
+            "issue": "Quoted `app-paths` items have no test.",
+            "recommendation": "Added a test with double and single quotes. A mutation turned it red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.6",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:100",
+            "issue": "De-duplication of one driver found in the repo and home folders has no test.",
+            "recommendation": "Added a symlink test. A mutation turned it red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.7",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:75",
+            "issue": "An `app-paths` list with unindented dashes reads as empty, so the driver is skipped.",
+            "recommendation": "Accept leading space or none in both scripts. Tests cover both.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.8",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:38",
+            "issue": "Untracked paths are relative to the cwd, but diff paths are relative to the repo root.",
+            "recommendation": "Added `--full-name` to the `ls-files` call. A test runs from a subfolder.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.9",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "code-quality",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:44",
+            "issue": "check_skill and check_features append to a list that the caller owns.",
+            "recommendation": "Each check now returns its errors, and main joins them.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.10",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "code-quality",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:73",
+            "issue": "Hand-built os.path calls where pathlib fits.",
+            "recommendation": "Moved the script to pathlib and dropped the read helper.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.11",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "skills",
+            "where": "skills/engineering/skills/create-verification-skill/SKILL.md",
+            "issue": "Step 6 runs a full /verify, which runs the driver a second time, to prove the find step.",
+            "recommendation": "The step now runs find_drivers.py by a sibling path.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r1.12",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "skills",
+            "where": "skills/engineering/skills/interrogate/SKILL.md",
+            "issue": "A /verify proof gives evidence paths, not a command that exits non-zero, so the finding is dropped.",
+            "recommendation": "The brief now asks for a replay script that exits 1, and for one /verify run at a time.",
+            "result": "Fixed"
+          }
+        }
       ]
-     }
+    },
+    {
+      "run": 2,
+      "title": "Panel run",
+      "head": "63ed0de",
+      "date": "2026-11-17",
+      "meta": {
+        "Base": "pstack-inspired 70db663",
+        "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+        "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-11.md",
+        "Fixed in": "5d80c91"
+      },
+      "answer": "The panel found 8 findings, fixed 6 in commit 5d80c91, and left 2 open. Both open rows need a design answer. All gates are green after the fixes.",
+      "visuals": [
+        {
+          "question": "Which lanes ran, and what did each find?",
+          "fold": true,
+          "table": {
+            "columns": [
+              "Persona",
+              "CR",
+              "Nit",
+              "Future",
+              "Status"
+            ],
+            "rows": [
+              [
+                "correctness",
+                "1",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "test-design",
+                "1",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "code-quality",
+                "0",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "skills",
+                "2",
+                "1",
+                "0",
+                "ran"
+              ],
+              [
+                "ac-check",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "decisions-log",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "test-quality",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "pr-size",
+                "0",
+                "0",
+                "0",
+                "ran (clean)"
+              ],
+              [
+                "a11y, i18n, vue-reactivity, design-system, tanstack, vitest, comments, naming, error-handling, async-state, form-behaviour, text-input, url-state, value-display, resilience, charts, file-upload, architecture, security, best-practice, typing, github-actions, shell, api-spec, api-integrity, integration-test, browser-e2e, production-protector, bundle-size, analytics",
+                "-",
+                "-",
+                "-",
+                "skipped (no frontend, TypeScript, or workflow changes)"
+              ]
+            ]
+          }
+        }
+      ],
+      "columns": [
+        {
+          "key": "tier",
+          "label": "Tier"
+        },
+        {
+          "key": "persona",
+          "label": "Persona"
+        },
+        {
+          "key": "where",
+          "label": "File:line",
+          "mono": true
+        },
+        {
+          "key": "issue",
+          "label": "Issue"
+        },
+        {
+          "key": "recommendation",
+          "label": "Recommendation"
+        },
+        {
+          "key": "result",
+          "label": "Result"
+        }
+      ],
+      "rows": [
+        {
+          "id": "r2.1",
+          "ticks": [
+            "fix"
+          ],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:97",
+            "issue": "The driver glob `verify-<repo>-*` also matches the drivers of a repo whose name extends this repo's name, so the wrong driver runs.\n\nRepo `app` finds `verify-app-web-main`, which belongs to repo `app-web`, because the home folder is shared. `/verify` then drives the wrong app. The prefix rule is also in maintain-verification-skill Step 1.",
+            "recommendation": "Add a `repo:` frontmatter key to each driver, write it in /create-verification-skill, check it in check_driver.py, and match it in find_drivers.py. Add a spec case with `verify-app-x` and `verify-app-web-x` for repo `app`.",
+            "result": "Open: the fix changes the driver format, so it needs a design answer on the new key."
+          }
+        },
+        {
+          "id": "r2.2",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:77",
+            "issue": "The end of the app-paths list at the next frontmatter key had no test. Mutating the `break` to `pass` left all 21 tests green.",
+            "recommendation": "Added test_items_of_a_later_key_are_not_app_paths. The mutation now turns it red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.3",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "skills",
+            "where": "skills/engineering/skills/retro/SKILL.md:54",
+            "issue": "The Missing driver kind told retro to propose a new skill row, and the route table had no row for it. The only new-skill route writes into the public skills repo, but a driver belongs in the app repo.",
+            "recommendation": "Added a Missing driver route row: /create-verification-skill in the app repo, no commit in the skills repo. Reworded the kind line.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.4",
+          "ticks": [],
+          "cells": {
+            "tier": "Change Requested",
+            "persona": "skills",
+            "where": "skills/engineering/skills/qa-screenshots/SKILL.md:45",
+            "issue": "qa-screenshots ran /verify and then used the driver's Drive section in the user's tab. A driver drives its own instance and cleans it up, so the tab does not fit.",
+            "recommendation": "Step 3 now runs find_drivers.py, reads the feature map for the user path, and drives the screens in the user's tab. It does not run /verify. Updated the verify row in engineering/CLAUDE.md.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.5",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "correctness",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:87",
+            "issue": "The index link check rejected a valid link with an anchor or a title.",
+            "recommendation": "The link pattern accepts an optional anchor or title. A spec case covers both.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.6",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "test-design",
+            "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:57",
+            "issue": "An empty app-paths followed by another list key had no test. Mutating the `break` to `pass` left all 14 tests green.",
+            "recommendation": "Added test_empty_app_paths_before_another_list_key_exits_1. The mutation now turns it red.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.7",
+          "ticks": [],
+          "cells": {
+            "tier": "Nit",
+            "persona": "skills",
+            "where": "skills/engineering/skills/test/SKILL.md:42",
+            "issue": "The Step 2b done line could not hold when Step 1 routed to /tdd, and Step 3 had no route for a fail or blocked result.",
+            "recommendation": "The done line reads `/verify returned a result, or /happy-path did not run.` Step 3 routes fail or blocked to /fix.",
+            "result": "Fixed"
+          }
+        },
+        {
+          "id": "r2.8",
+          "ticks": [
+            "fix"
+          ],
+          "cells": {
+            "tier": "Nit",
+            "persona": "code-quality",
+            "where": "skills/engineering/skills/verify/scripts/find_drivers.py:64",
+            "issue": "The app-paths frontmatter parse is written twice, in find_drivers.py and check_driver.py, with different quote handling.",
+            "recommendation": "Keep one parse and import or copy it as one tested shape.",
+            "result": "Open: the shared code needs a decision on where one parse lives across two skills."
+          }
+        }
+      ]
     }
-   ],
-   "columns": [
-    {
-     "key": "tier",
-     "label": "Tier"
-    },
-    {
-     "key": "persona",
-     "label": "Persona"
-    },
-    {
-     "key": "where",
-     "label": "File:line",
-     "mono": true
-    },
-    {
-     "key": "issue",
-     "label": "Issue"
-    },
-    {
-     "key": "recommendation",
-     "label": "Recommendation"
-    },
-    {
-     "key": "result",
-     "label": "Result"
-    }
-   ],
-   "rows": [
-    {
-     "id": "r2.1",
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "correctness",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:97",
-      "issue": "The driver glob `verify-<repo>-*` also matches the drivers of a repo whose name extends this repo's name, so the wrong driver runs.\n\nRepo `app` finds `verify-app-web-main`, which belongs to repo `app-web`, because the home folder is shared. `/verify` then drives the wrong app. The prefix rule is also in maintain-verification-skill Step 1.",
-      "recommendation": "Add a `repo:` frontmatter key to each driver, write it in /create-verification-skill, check it in check_driver.py, and match it in find_drivers.py. Add a spec case with `verify-app-x` and `verify-app-web-x` for repo `app`.",
-      "result": "Open: the fix changes the driver format, so it needs a design answer on the new key."
-     }
-    },
-    {
-     "id": "r2.2",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:77",
-      "issue": "The end of the app-paths list at the next frontmatter key had no test. Mutating the `break` to `pass` left all 21 tests green.",
-      "recommendation": "Added test_items_of_a_later_key_are_not_app_paths. The mutation now turns it red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.3",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "skills",
-      "where": "skills/engineering/skills/retro/SKILL.md:54",
-      "issue": "The Missing driver kind told retro to propose a new skill row, and the route table had no row for it. The only new-skill route writes into the public skills repo, but a driver belongs in the app repo.",
-      "recommendation": "Added a Missing driver route row: /create-verification-skill in the app repo, no commit in the skills repo. Reworded the kind line.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.4",
-     "ticks": [],
-     "cells": {
-      "tier": "Change Requested",
-      "persona": "skills",
-      "where": "skills/engineering/skills/qa-screenshots/SKILL.md:45",
-      "issue": "qa-screenshots ran /verify and then used the driver's Drive section in the user's tab. A driver drives its own instance and cleans it up, so the tab does not fit.",
-      "recommendation": "Step 3 now runs find_drivers.py, reads the feature map for the user path, and drives the screens in the user's tab. It does not run /verify. Updated the verify row in engineering/CLAUDE.md.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.5",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "correctness",
-      "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:87",
-      "issue": "The index link check rejected a valid link with an anchor or a title.",
-      "recommendation": "The link pattern accepts an optional anchor or title. A spec case covers both.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.6",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "test-design",
-      "where": "skills/engineering/skills/create-verification-skill/scripts/check_driver.py:57",
-      "issue": "An empty app-paths followed by another list key had no test. Mutating the `break` to `pass` left all 14 tests green.",
-      "recommendation": "Added test_empty_app_paths_before_another_list_key_exits_1. The mutation now turns it red.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.7",
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "skills",
-      "where": "skills/engineering/skills/test/SKILL.md:42",
-      "issue": "The Step 2b done line could not hold when Step 1 routed to /tdd, and Step 3 had no route for a fail or blocked result.",
-      "recommendation": "The done line reads `/verify returned a result, or /happy-path did not run.` Step 3 routes fail or blocked to /fix.",
-      "result": "Fixed"
-     }
-    },
-    {
-     "id": "r2.8",
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "tier": "Nit",
-      "persona": "code-quality",
-      "where": "skills/engineering/skills/verify/scripts/find_drivers.py:64",
-      "issue": "The app-paths frontmatter parse is written twice, in find_drivers.py and check_driver.py, with different quote handling.",
-      "recommendation": "Keep one parse and import or copy it as one tested shape.",
-      "result": "Open: the shared code needs a decision on where one parse lives across two skills."
-     }
-    }
-   ]
-  }
- ]
+  ]
 }
-    </script>
+</script>
 
     <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
     <script src="reports.js"></script>

@@ -102,7 +102,7 @@ live call `/verify`. Scope: SCOPED, one PR.
 - [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at HEAD 5bd14edc032ae66baa6c8bccfcc835f3cc706e5d. find_drivers 10 tests, check_driver 12, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` and `commit-msg_test.sh` all ok.
 - [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`.
-  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+  - Done: the report is `.ai/review_pstack-11_verify-drivers.html` (run 3). Reviewed base 70db663, reviewed head a3c220c (the panel read 895224f). The panel fixed 4 of 4 findings, all nits, in commit a3c220c. No row is open. Fix commit a3c220c changes runtime behaviour in `check_driver.py`: it rejects a `name` that does not start with `verify-<repo>-`.
   - Done: the report is `.ai/review_pstack-11_verify-drivers.html`. Reviewed base 70db663, reviewed head 9db5625 (the panel read 3d2079c). The panel fixed 12 of 12 findings in commit 9db5625. No row is open.
   - Recorded decision: the fix commit 9db5625 changes the behaviour of `find_drivers.py` and `check_driver.py`, so `/build` rule 7.2 adds a new round of test and review (steps 8 and 9).
 - [x] **8. Test.** Run the gates from Context. This step changes no behaviour.
@@ -118,7 +118,7 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Done: `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`.
 - [x] **13. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green at HEAD 1a8135971e0e20297fcfd10cd2ced169f4c22831. find_drivers 25 tests, check_driver 17, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` 11 ok, `commit-msg_test.sh` 8 ok.
-- [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. Rows r2.1 and r2.8 are fixed in steps 10 and 11. Do not raise the rows of runs 1 and 2 again.
+- [x] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. Rows r2.1 and r2.8 are fixed in steps 10 and 11. Do not raise the rows of runs 1 and 2 again.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **15. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
@@ -159,3 +159,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 11 done in commit 04139ac. `check_driver.py` imports `app_paths` from `find_drivers.py` by a path built from its own file location. A mutation of the shared parse made 3 check_driver tests red. Both specs pass (25 and 17 tests).
 - 2026-11-17: step 12 done in commit 3fb4f78. `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`. Next: step 13.
 - 2026-11-17: step 13 done. All gates green at 1a81359, no file changed except this plan. Next: step 14.
+- 2026-11-17: step 14 done. Run 3 fixed 4 nits in a3c220c, none open. All gates green. Next: step 15.
