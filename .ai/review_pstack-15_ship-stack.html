@@ -56,6 +56,140 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "cbd5350",
+   "meta": {
+    "Base": "pstack-inspired c78ec66",
+    "Fixed in": "bfb4067",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-15.md"
+   },
+   "answer": "Two lanes ran. They found one nit, and the panel fixed it in bfb4067. 0 findings stay open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Lane",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "1",
+        "0",
+        "ran (1 fixed)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no guard match)"
+       ],
+       [
+        "every other lane, project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-quality",
+      "where": "skills/engineering/skills/work-on/scripts/map_units.spec.py:217",
+      "issue": "The fixture test checked only the first unit ID. A wrong or short list still passed.",
+      "recommendation": "Assert the full list of five unit IDs. The fixture is a frozen copy, so the list is stable.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "65cc83c",
    "meta": {
     "Base": "pstack-inspired c78ec66",

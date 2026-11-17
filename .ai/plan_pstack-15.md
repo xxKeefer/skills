@@ -85,8 +85,9 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - Done: the two lines read as above, and the gates pass.
 - [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The five gates pass on `2756e08`.
-- [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code. Do not raise again a row of the step 4 report.
+- [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code. Do not raise again a row of the step 4 report.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: report `.ai/review_pstack-15_ship-stack.html`, run 2. Reviewed base `c78ec66` (`pstack-inspired`), head `bfb4067` (panel read `cbd5350`). Light run: 1 finding, 1 fixed, 0 open.
 - [ ] **8. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.
   - Done: the branch is on the remote.
 
@@ -110,3 +111,4 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
   - C3: a template map with the `split-ticket` unit fields passes `map_units.py next`. C4: the fixture lists unit 15 first. `map_units.spec.py` runs 19 tests, all pass. `map_units.py next` on the real map exits 0.
   - Mutation check: the template with `## Units` renamed turns C3 red.
 - 2026-11-17: step 4 done. Light run of `correctness` and `test-quality` found nothing. No fix commit. Report: `.ai/review_pstack-15_ship-stack.html`, base `c78ec66`, head `65cc83c`.
+- 2026-11-17: step 7 done. Light run of `correctness` and `test-quality` found one nit: the fixture test checked only the first unit ID. Fixed in `bfb4067`, which asserts the full list. Report: `.ai/review_pstack-15_ship-stack.html`, base `c78ec66`, head `bfb4067`.
