@@ -24,7 +24,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 - [x] **A.** Read `meta/eval-skill` → it frames the change with a rubric that only the judge sees, sets up folders and one prompt with no eval words, runs two candidates for each version, and has one blind judge score all outputs in one pass.
 - [x] **B.** Read `/retro` → its summary offers `/eval-skill` for each applied row that edits a skill that a `work-on` playbook calls, and never requires it.
 - [x] **C.** Run the leak check of `eval-skill` on a folder and a prompt that hold an eval word → it names the word and the path. On clean names → it prints nothing.
-- [ ] **D.** Run `eval-skill` on two versions of a skill → it reports a winner or "no difference".
+- [x] **D.** Run `eval-skill` on two versions of a skill → it reports a winner or "no difference".
 
 ## Context
 
@@ -75,10 +75,10 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   - Done: AC A holds on a read, and the pre-commit `$SKILL_DIR` check passes.
 - [x] **3. `/retro` offers it.** Kind: docs. In `skills/engineering/skills/retro/SKILL.md` Step 7, add: for each applied row that edits a skill that a `work-on` playbook calls, offer `/eval-skill <skill>`. Never run it unasked.
   - Done: AC B holds on a read.
-- [ ] **4. Live run.** Kind: config. Conditions: C5. Run `/eval-skill` on `skills/primitives/skills/tabular-analysis`: version A is `HEAD`, version B is a scratch copy with Step 1 cut. Dispatch the candidates and the judge from this thread. Write the verdict and the scores in this Done line. Delete the scratch copy.
-  - Done: AC D holds.
-- [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **4. Live run.** Kind: config. Conditions: C5. Run `/eval-skill` on `skills/primitives/skills/tabular-analysis`: version A is `HEAD`, version B is a scratch copy with Step 1 cut. Dispatch the candidates and the judge from this thread. Write the verdict and the scores in this Done line. Delete the scratch copy.
+  - Done: AC D holds. Verdict: version B (Step 1 cut) wins. Judge totals out of 25: B 24 and 24, A 19 and 20. The scratch copy and the four folders are deleted.
+- [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, `leak_check.spec.py` (6 tests), and `check_principles.py` each exit 0.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
@@ -98,7 +98,11 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 - 2026-11-18: step 3 done: `retro` Step 7 offers `/eval-skill`.
 - Decision log: decisions_pstack-21.tsv
 - 2026-11-18: checkpoint. Steps 1 to 3 are done, and the tree is clean. The step 2 and step 3 subagent ran only the pre-commit test; step 5 runs every gate. Open: step 4, the live run, which touches only a scratch copy of `skills/primitives/skills/tabular-analysis/SKILL.md` and temp folders. Next action: `/work-on @.ai/map_pstack-program.md`. It finds unit 21 open, skips the spec and plan (they exist), and resumes `/build @.ai/plan_pstack-21.md` at step 4 in the main thread, then `/blast-radius`, the ship checks, the push, and the tick. This branch starts from `pstack-20_premise-escalation` (pushed, not merged); keep the unit 20 `.ai/` files.
+- 2026-11-18: step 4 done: live run on `tabular-analysis`. Candidates ran on `sonnet`, and the judge ran on `opus`. The judge scored each version on 5 criteria. Both B runs named the framework in each row, and both A runs left the rows unnamed with a key in the prose, which cost A on row identity and prose. My read: the gap comes from the Step 4 rule "don't invent a name column", which both versions hold, not from the cut Step 1. The run proves that the judge separates two versions, not that the cut made the skill better.
+- 2026-11-18: step 5 done: every gate is green.
 
 ## Pending Decisions
 
 ## Follow-ups
+
+- `tabular-analysis` Step 4 says not to invent a name column. When the headers hold no name column, the rows lose their identity. The live run of step 4 showed this in both runs of the `HEAD` version. Offer the fix at the next `/retro`.
