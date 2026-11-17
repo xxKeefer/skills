@@ -130,4 +130,7 @@ changes nothing.
 Print the count of rows applied and dropped, the commits, and each steering file outside the repo
 that changed.
 
+For each applied row that edits a skill that a `work-on` playbook calls, offer
+`/eval-skill <skill>`. Never run it unasked.
+
 **Done when:** the user has the summary.
