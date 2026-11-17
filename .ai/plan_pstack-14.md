@@ -99,3 +99,4 @@ Remove the dead and repeated text in `claim`, `stand-up`, and `install-agents-md
 - Not done: `/plan` and `/build` were not invoked. The agent wrote the spec and plan in the unit 13 layout, ran each step in the main thread, and used one review subagent in place of `/light-review`. `/blast-radius` was folded into that review, which read each caller of `claim`.
 - Step 7: pushed `pstack-14_stack-claim`. Unit 14 ticked on the map.
 - Next: the home machine opens the PR into `pstack-inspired`. Then `/retro` on unit 14, or no.
+- Decision log: decisions_pstack-14.tsv
