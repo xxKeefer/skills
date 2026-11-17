@@ -83,7 +83,8 @@ commit exists or the step changed no file except the plan and the decision log.
 
 ## 5. Return
 
-Return these five lines, once for each step of a batch:
+Before you return, wait for each background task that you started to end, or stop it. Then return
+these five lines once, for each step of a batch:
 
 ```
 Status: done | <entry ID>
