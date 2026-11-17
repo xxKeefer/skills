@@ -56,6 +56,118 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "406667f",
+   "meta": {
+    "Base": "pstack-inspired b86fe6d",
+    "Folder": "/home/xxkeefer/studio/code/skills",
+    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-19.md",
+    "Fixed in": "525c726"
+   },
+   "answer": "The panel fixed the one finding in 525c726. None stay open. The user dropped added_comments.py (D1), so persona-comments now reads the added lines of the diff. It found no added code comment on this branch. This run covers the light lanes whose guards match, plus persona-skills.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "comments",
+        "0",
+        "0",
+        "0",
+        "ran (out of scope: no added code comment)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "skills",
+        "1",
+        "0",
+        "0",
+        "ran (added by the build)"
+       ],
+       [
+        "correctness, code-quality, test-design",
+        "—",
+        "—",
+        "—",
+        "skipped (only prose and a test changed since the script left)"
+       ],
+       [
+        "naming, error-handling, architecture, security",
+        "—",
+        "—",
+        "—",
+        "skipped (TypeScript-only guards)"
+       ],
+       [
+        "other lanes and project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/mob-review/FIX.md:22",
+      "issue": "The hack step gives the plan path first, and the no-plan case after it, so a run with no plan reads both.",
+      "recommendation": "Put the no-plan case first: mark the finding open with the architectural fix as the reason, and stop there.",
+      "result": "Fixed"
+     },
+     "id": "r5.1"
+    }
+   ],
+   "run": 5,
+   "date": "2026-11-17"
+  },
+  {
+   "title": "Light run",
    "head": "6dfe6ee",
    "meta": {
     "Base": "pstack-inspired b86fe6d",
