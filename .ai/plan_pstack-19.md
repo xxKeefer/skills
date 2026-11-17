@@ -107,8 +107,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: Split the diff on `\n` only, not with `splitlines`. Test first with a form feed. Done in 18bfeae. One new test, 34 tests OK; it went red on the old script.
 - [x] **17. Review fix r1.5.** A `'"'` char literal hides a trailing comment at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: A `"` with a `'` on each side is a char literal, not a string start. Test first. Done in 9a186be. One new test, 35 tests OK; it went red on the old script.
-- [ ] **18. Review fix r1.6.** A `#` with no space before it is missed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
-  - Done: Replace the word-start rule: a `#` right after `$` or `{` is not a comment; any other `#` is. Keep the `$#` and `${#arr[@]}` tests. Test first with `f(1)# hack`.
+- [x] **18. Review fix r1.6.** A `#` with no space before it is missed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
+  - Done: Replace the word-start rule: a `#` right after `$` or `{` is not a comment; any other `#` is. Keep the `$#` and `${#arr[@]}` tests. Test first with `f(1)# hack`. Done in 720f410. One new test, 36 tests OK; it went red on the old script. A `#` inside a word, such as `a#b`, is now listed: the rule fails toward listing.
 - [ ] **19. Review fix r1.8.** Files with no extension, such as `Dockerfile` and `Makefile`, are never scanned at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
   - Done: Look up the file name when it has no extension. Add `Dockerfile` and `Makefile` to the `#` row. Test first.
 - [ ] **20. Review fix r1.9.** SQL and nix `/* */` block comments are not listed at `skills/engineering/skills/persona-comments/scripts/added_comments.py`. Report: `.ai/interrogate_pstack-19_no-comments.html`.
