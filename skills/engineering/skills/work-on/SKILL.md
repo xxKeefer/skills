@@ -15,6 +15,9 @@ does not copy their routing.
 
 `$SKILL_DIR` is this skill's base directory.
 
+Run at the `judgement` role of the `models` block in `~/.claude/AGENTS.md`. With no `models` block,
+use the session model.
+
 ## The stops
 
 Stop only at these points. Between two stops, run with no input from the user.

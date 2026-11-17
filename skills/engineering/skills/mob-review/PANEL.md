@@ -47,7 +47,7 @@ describe the same condition.
 
 ## Model
 
-A persona reads a bounded diff and answers against a written rubric, so pass `model: "sonnet"` on the `Agent` call for every persona *except* the following, which stay on the default model because their misses are silent and expensive:
+A persona reads a bounded diff and answers against a written rubric, so run every persona at the `mechanical reviewer` role *except* the following, which run at the `reviewer` role because their misses are silent and expensive. A lane can name its own role in this table as an override.
 
 - `persona-security`
 - `persona-production-protector`

@@ -87,7 +87,9 @@ For each remaining step, in plan order:
    `[-]`, and add `  - Skipped: blocked by <entry ID>` under it. Go to the next step.
 3. Record the `HEAD` SHA. Dispatch one fresh `general-purpose` subagent. Give it the plan
    path, the step ID, the `goal` key of the plan's header word for word, and the absolute path
-   to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`.
+   to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`. Run it at the `worker` role of the
+   `models` block in `~/.claude/AGENTS.md`, or at the `mechanical worker` role for a step that the
+   plan marks mechanical. With no `models` block, use the session model.
    To save subagents, give one subagent a batch: a run of consecutive review fix steps from the
    same round, at most four. Pick steps that are small or that touch the same files. Give it the
    list of step IDs in place of one ID. Any other step gets its own subagent.

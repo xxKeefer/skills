@@ -85,7 +85,7 @@ Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard c
 
 Launch **one subagent per in-scope persona, all in a single message** (multiple `Agent` tool calls) so they run concurrently. Use the `general-purpose` agent type. The harness runs at most 20 subagents at once and refuses the rest; when the panel exceeds that, launch the overflow as the first reports come back.
 
-**Model per persona.** Set the `model` of each `Agent` call as the Model section of [`PANEL.md`](PANEL.md) says.
+**Role per persona.** Set the `model` of each `Agent` call to the model of the persona's role in the `models` block of `~/.claude/AGENTS.md`, as the Model section of [`PANEL.md`](PANEL.md) says. With no `models` block, leave `model` unset, so that the session model runs.
 
 Ticket context in the brief is fine. Pass an author's claim about behaviour only as something to verify, or leave it out. A persona that takes it as fact skips its check.
 
