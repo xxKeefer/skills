@@ -5,6 +5,10 @@ The log is `decisions_<KEY>.tsv` for the plan `plan_<KEY>.md` or `handoff_<KEY>.
 row for each choice. Print the log path. Exit 1 on an empty field or a plan name that does not
 start with `plan_` or `handoff_`.
 
+On an append, add `- Decision log: decisions_<KEY>.tsv` as the last line of the `## Progress`
+section of the plan, when that section has no such line. A plan with no `## Progress` section
+stays unchanged.
+
 The `result` form sets the result of one row, counted from 1 with the header not counted. Exit 1
 on a row out of range or an empty result.
 
@@ -17,6 +21,9 @@ import re
 import sys
 
 sys.dont_write_bytecode = True
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, "..", "..", "write-to-file", "scripts"))
+from layout import sections  # noqa: E402
 
 COLUMNS = ["decision", "reason", "evidence", "result"]
 
@@ -51,6 +58,21 @@ def read_log(path):
         parts += [""] * (len(COLUMNS) - len(parts))
         rows.append(dict(zip(COLUMNS, parts)))
     return rows
+
+
+def link_log(plan, log):
+    """Adds the decision log link as the last line of `## Progress`, unless that section has one."""
+    if not os.path.exists(plan):
+        return
+    with open(plan) as f:
+        lines = f.read().split("\n")
+    span = sections(lines, 0).get("Progress")
+    if span is None or any(l.startswith("- Decision log:") for l in lines[span[0]:span[1]]):
+        return
+    last = max((i for i in range(*span) if lines[i].strip()), default=span[0] - 1)
+    lines.insert(last + 1, f"- Decision log: {os.path.basename(log)}")
+    with open(plan, "w") as f:
+        f.write("\n".join(lines))
 
 
 def set_result(argv):
@@ -103,6 +125,7 @@ def main():
         if new:
             f.write("\t".join(COLUMNS) + "\n")
         f.write(format_row(fields) + "\n")
+    link_log(args.plan, path)
     print(path)
     return 0
 

@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 import unittest
 
+CHECK_PLAN = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "write-to-file", "scripts", "check_plan.py")
 SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "log_decision.py")
 HEADER = "decision\treason\tevidence\tresult"
 
@@ -26,6 +27,36 @@ def run_result(plan, row, result="done"):
         text=True,
         env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
     )
+
+
+PLAN = """---
+doctype: plan
+ticket: none
+worktree: WORKTREE
+branch: x_branch
+status: building
+goal: make x work
+---
+
+# Plan: x
+
+## Goal
+
+Make x work.
+
+## Steps
+
+- [ ] **1. Add x.** Seam: the CLI `x`. Conditions: C1.
+  - Done: x passes.
+
+## Progress
+
+- 2026-11-16: written.
+
+## Follow-ups
+
+- Decision log: a later idea.
+"""
 
 
 class LogDecision(unittest.TestCase):
@@ -123,6 +154,54 @@ class LogDecision(unittest.TestCase):
         self.assertIn("result", r.stderr)
         self.assertEqual(self.read()[1].split("\t")[3], "x")
 
+    # decision log link
+    def write_plan(self, text=PLAN):
+        with open(self.plan, "w") as f:
+            f.write(text.replace("WORKTREE", self.dir))
+
+    def read_plan(self):
+        with open(self.plan) as f:
+            return f.read()
+
+    def test_append_adds_the_link_as_last_line_of_progress(self):
+        self.write_plan()
+        run(self.plan, "one")
+        self.assertIn("## Progress\n\n- 2026-11-16: written.\n- Decision log: decisions_demo-1.tsv\n\n## Follow-ups", self.read_plan())
+
+    def test_second_append_adds_the_link_once(self):
+        self.write_plan()
+        run(self.plan, "one")
+        run(self.plan, "two")
+        self.assertEqual(self.read_plan().count("- Decision log: decisions_demo-1.tsv"), 1)
+
+    def test_decision_log_line_outside_progress_does_not_stop_the_link(self):
+        self.write_plan()
+        run(self.plan, "one")
+        self.assertIn("- Decision log: decisions_demo-1.tsv", self.read_plan().split("## Progress")[1].split("## Follow-ups")[0])
+
+    def test_plan_with_no_progress_section_stays_unchanged(self):
+        text = PLAN.replace("## Progress\n\n- 2026-11-16: written.\n\n", "")
+        self.write_plan(text)
+        r = run(self.plan, "one")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read_plan(), text.replace("WORKTREE", self.dir))
+
+    def test_missing_plan_file_still_logs(self):
+        r = run(self.plan, "one")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertFalse(os.path.exists(self.plan))
+
+    def test_progress_as_last_section_gets_the_link(self):
+        self.write_plan(PLAN.split("## Follow-ups")[0].rstrip("\n") + "\n")
+        run(self.plan, "one")
+        self.assertTrue(self.read_plan().endswith("- 2026-11-16: written.\n- Decision log: decisions_demo-1.tsv\n"))
+
+    def test_plan_still_passes_check_plan_after_the_edit(self):
+        self.write_plan()
+        run(self.plan, "one")
+        r = subprocess.run(["python3", CHECK_PLAN, self.plan], capture_output=True, text=True,
+                           env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
 
 if __name__ == "__main__":
