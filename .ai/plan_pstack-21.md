@@ -23,7 +23,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 
 - [ ] **A.** Read `meta/eval-skill` → it frames the change with a rubric that only the judge sees, sets up folders and one prompt with no eval words, runs two candidates for each version, and has one blind judge score all outputs in one pass.
 - [ ] **B.** Read `/retro` → its summary offers `/eval-skill` for each applied row that edits a skill that a `work-on` playbook calls, and never requires it.
-- [ ] **C.** Run the leak check of `eval-skill` on a folder and a prompt that hold an eval word → it names the word and the path. On clean names → it prints nothing.
+- [x] **C.** Run the leak check of `eval-skill` on a folder and a prompt that hold an eval word → it names the word and the path. On clean names → it prints nothing.
 - [ ] **D.** Run `eval-skill` on two versions of a skill → it reports a winner or "no difference".
 
 ## Context
@@ -69,7 +69,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 
 ## Steps
 
-- [ ] **1. The leak check, test first.** Seam: `skills/meta/skills/eval-skill/scripts/leak_check.py <folder> <prompt file>`. Conditions: C1, C2, C3, C4. Write `leak_check.spec.py` first, in the style of `skills/utility/skills/install-agents-md/scripts/install_agents_md.spec.py`, and see it fail. Then write the script: walk every path under the folder, relative to it, and read the prompt file. Print `<path or "prompt">: <word>` for each match. Exit 1 on a match, else exit 0 with no output. Add no other option.
+- [x] **1. The leak check, test first.** Seam: `skills/meta/skills/eval-skill/scripts/leak_check.py <folder> <prompt file>`. Conditions: C1, C2, C3, C4. Write `leak_check.spec.py` first, in the style of `skills/utility/skills/install-agents-md/scripts/install_agents_md.spec.py`, and see it fail. Then write the script: walk every path under the folder, relative to it, and read the prompt file. Print `<path or "prompt">: <word>` for each match. Exit 1 on a match, else exit 0 with no output. Add no other option.
   - Done: `leak_check.spec.py` passes, C1 to C4. AC C holds.
 - [ ] **2. The `eval-skill` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/meta/skills/eval-skill/SKILL.md`, model-invoked. Say what `$SKILL_DIR` is. Steps, each with a done line: 1. Frame: the skill, versions A and B (defaults in the spec), what success looks like, and a rubric of 3 to 6 criteria that only the judge sees. 2. Set up four folders with project-shaped names under the temp folder, two for each version, with the version's `SKILL.md` and its sibling files at `.claude/skills/<name>/`, plus any project files an organic task needs. 3. Write one organic prompt to a file. Run the leak check on each folder and the prompt; fix each match. 4. Run the four candidates in parallel, with the same brief. 5. Run one judge: the rubric, and the four outputs under labels `P`, `Q`, `R`, `S` in a shuffled order; it scores each criterion for each output in one pass. 6. Read every output yourself, and say where you disagree with the judge. 7. Report: the versions, the rubric, the scores by version, the verdict (a winner, or "no difference", by the spec rule), and your read. Delete the four folders. Credit pstack in one line. Add a row to `skills/meta/README.md`.
   - Done: AC A holds on a read, and the pre-commit `$SKILL_DIR` check passes.
@@ -93,6 +93,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 ## Progress
 
 - 2026-11-18: plan written on `pstack-21_eval-skill`.
+- 2026-11-18: step 1 done: `leak_check.py` and its spec, 6 tests green (commit 93ef4aa).
 - Decision log: decisions_pstack-21.tsv
 
 ## Pending Decisions
