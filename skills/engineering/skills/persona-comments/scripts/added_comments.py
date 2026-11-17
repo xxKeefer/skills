@@ -90,6 +90,10 @@ def comments(diff):
     num = 0
     close = None
     for raw in diff.splitlines():
+        if raw.startswith("diff "):
+            lang = None
+            close = None
+            continue
         if raw.startswith("+++ "):
             path = unquote(raw[4:].strip())
             if path.startswith("b/"):
@@ -104,10 +108,7 @@ def comments(diff):
             continue
         if raw.startswith("-") or raw.startswith("\\"):
             continue
-        if not raw.startswith("+"):
-            num += 1
-            close = None
-            continue
+        added = raw.startswith("+")
         text = raw[1:]
         here = num
         num += 1
@@ -117,14 +118,18 @@ def comments(diff):
             end = text.find(close)
             if end >= 0:
                 close = None
-            yield path, here, text.strip()
+            if added:
+                yield path, here, text.strip()
             continue
-        if here == 1 and text.startswith("#!"):
+        if added and here == 1 and text.startswith("#!"):
             continue
         found = scan(text, *lang)
         if found:
             start, close, stop = found
-            yield path, here, text[start:stop].strip()
+            if added:
+                yield path, here, text[start:stop].strip()
+        elif added and text.lstrip().startswith("*") and C_BLOCK in lang[1]:
+            yield path, here, text.strip()
 
 
 def main():

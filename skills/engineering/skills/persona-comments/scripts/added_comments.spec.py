@@ -136,6 +136,28 @@ class Hunks(unittest.TestCase):
         self.assertEqual(run(text)[1], "a.py:2: # one\nb.py:5: # two\n")
 
 
+class Blocks(unittest.TestCase):
+    def test_added_line_inside_a_block_that_a_context_line_opened(self):
+        text = "+++ b/a.ts\n@@ -1,3 +1,4 @@\n /**\n  * old\n+ * added\n  */\n"
+        self.assertEqual(run(text)[1], "a.ts:3: * added\n")
+
+    def test_added_line_in_a_block_with_no_open_in_the_hunk(self):
+        text = "+++ b/a.ts\n@@ -5,1 +5,2 @@\n+ * added\n  */\n"
+        self.assertEqual(run(text)[1], "a.ts:5: * added\n")
+
+    def test_block_that_spans_a_context_line(self):
+        text = "+++ b/a.ts\n@@ -1,1 +1,3 @@\n+/* open\n keep\n+ close */\n"
+        self.assertEqual(run(text)[1], "a.ts:1: /* open\na.ts:3: close */\n")
+
+    def test_context_lines_are_never_printed(self):
+        text = "+++ b/a.ts\n@@ -1,3 +1,3 @@\n /* old\n  old */\n // old\n"
+        self.assertEqual(run(text), (0, "", ""))
+
+    def test_star_line_is_not_listed_in_a_hash_language(self):
+        text = "+++ b/a.py\n@@ -0,0 +1,1 @@\n+*a, b = c\n"
+        self.assertEqual(run(text), (0, "", ""))
+
+
 class Input(unittest.TestCase):
     def test_empty_diff_exits_zero_with_no_output(self):
         self.assertEqual(run(""), (0, "", ""))
