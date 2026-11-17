@@ -43,8 +43,8 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
   - Done: the gates are green. `pre-commit_test.sh` and `commit-msg_test.sh` print only `ok` lines.
 - [x] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-17.md`. This step changes no code.
   - Done: `.ai/review_pstack-17_tidy-up-audit.html`, base 54b3f0e, head b170da4 (panel read 5f67ec0). Two nits fixed in b170da4, none open. The fixes change only skill text, so no new round.
-- [ ] **4. Push.** Push-only map: run `git push -u origin pstack-17_tidy-up-audit`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **4. Push.** Push-only map: run `git push -u origin pstack-17_tidy-up-audit`, in place of `/create-pr`.
+  - Done: pushed head 046b10d to `origin/pstack-17_tidy-up-audit`. Ship: go.
 
 ## Suggested skills
 
@@ -69,3 +69,4 @@ Change `/tidy-up` so that it shows a read-only audit table first, and applies on
   grep -q 'or at once when the' "$f" && { echo "bypass still present"; exit 1; }
   grep -q 'Apply only the picked rows' "$f" || { echo "no pick rule"; exit 1; }
   ```
+- 2026-11-17: ship go, pushed 046b10d. Map unit 17 ticked. Next: the home machine opens the PR into `pstack-inspired`.
