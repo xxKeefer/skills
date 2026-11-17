@@ -1,0 +1,6 @@
+decision	reason	evidence	result
+Replace the eight jq reads of stdin in statusline.sh with one, before the chips	principle-subtract-before-you-add; the 1-second refresh makes each jq call cost 3600 runs an hour	statusline.sh reads $input with jq eight times	open: step 1
+A PR with review required or changes requested and green CI shows pending (yellow)	the map chip table has no state for it, and ready needs approved or no review	map Decisions, Status line chips	open: step 2
+The notifier is a shell command in agents-md.values.json key notifier_command, not a product name	the watcher must run it with no agent; one values file, no new config	install-agents-md HYDRATE.md	open: step 2
+The ticker offset is the epoch second; no ticker state is stored	principle-subtract-before-you-add; a redraw each second moves one column	map Decisions, ticker	open: step 3
+Stack detection by base and head branches of the watched PRs, with no gh stack call	push-only machines and repos without gh-stack still work	spec Decisions	open: step 2
