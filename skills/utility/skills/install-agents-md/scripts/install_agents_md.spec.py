@@ -285,6 +285,15 @@ class ShippedSections(unittest.TestCase):
         e.run()
         self.assertEqual(e.read(), first)
 
+    def test_coding_block_holds_the_comments_rule(self):
+        e = Env(self, sections={}, values={})
+        e.sections = REAL_SECTIONS
+        e.run()
+        self.assertIn(
+            "No comments. Two exceptions: tool directives and comments that lint requires.",
+            e.read(),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
