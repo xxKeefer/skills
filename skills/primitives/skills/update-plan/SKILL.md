@@ -23,8 +23,8 @@ with `plan_` or `handoff_`. On exit 1, stop, and give each error line. For a fil
 `/write-to-file` can migrate it to the plan layout.
 
 When the caller gives choices that the agent made with no user, record each one. Run
-`python3 $SKILL_DIR/scripts/log_decision.py <absolute plan path> --decision <text> --reason <text> --evidence <text> --result <text>`
-once for each choice. The script writes `decisions_<KEY>.tsv` beside the plan. The first time, add
+`python3 $SKILL_DIR/scripts/log_decision.py <absolute plan path> --decision=<text> --reason=<text> --evidence=<text> --result=<text>`
+once for each choice. Write each flag as `--field=value`, so that a value that starts with a dash is not read as a flag. The script writes `decisions_<KEY>.tsv` beside the plan. The first time, add
 `- Decision log: decisions_<KEY>.tsv` to `Progress`. Log each choice that the caller gives, even when the plan already records it. Skip only a choice
 that the log already holds.
 

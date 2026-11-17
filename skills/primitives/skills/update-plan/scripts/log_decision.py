@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Append one choice to the decision log beside a plan.
 
-The log is `decisions_<KEY>.tsv` for the plan `plan_<KEY>.md`. It has one header row and one
+The log is `decisions_<KEY>.tsv` for the plan `plan_<KEY>.md` or `handoff_<KEY>.md`. It has one header row and one
 row for each choice. Print the log path. Exit 1 on an empty field or a plan name that does not
-start with `plan_`.
+start with `plan_` or `handoff_`.
 
 Usage: log_decision.py <plan> --decision <text> --reason <text> --evidence <text> --result <text>
 """
@@ -18,11 +18,12 @@ COLUMNS = ["decision", "reason", "evidence", "result"]
 
 
 def log_path(plan):
-    """Returns the log path beside the plan, or raises ValueError when the name has no `plan_` prefix."""
+    """Returns the log path beside the plan, or raises ValueError when the name has no `plan_` or `handoff_` prefix."""
     name = os.path.basename(plan)
-    if not (name.startswith("plan_") and name.endswith(".md")):
-        raise ValueError(f"plan file name `{name}` must start with `plan_` and end with `.md`")
-    return os.path.join(os.path.dirname(os.path.abspath(plan)), "decisions_" + name[5:-3] + ".tsv")
+    prefix = next((p for p in ("plan_", "handoff_") if name.startswith(p)), None)
+    if not (prefix and name.endswith(".md")):
+        raise ValueError(f"plan file name `{name}` must start with `plan_` or `handoff_` and end with `.md`")
+    return os.path.join(os.path.dirname(os.path.abspath(plan)), "decisions_" + name[len(prefix):-3] + ".tsv")
 
 
 def clean(value):

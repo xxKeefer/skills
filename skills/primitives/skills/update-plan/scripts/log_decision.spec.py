@@ -55,6 +55,21 @@ class LogDecision(unittest.TestCase):
         self.assertIn("reason", r.stderr)
         self.assertFalse(os.path.exists(self.log))
 
+    def test_handoff_plan_logs_beside_it(self):
+        plan = os.path.join(self.dir, "handoff_demo-2.md")
+        r = run(plan, "pick A")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout.strip(), os.path.join(self.dir, "decisions_demo-2.tsv"))
+
+    def test_value_that_starts_with_a_dash_records_in_equals_form(self):
+        r = subprocess.run(
+            ["python3", SCRIPT, self.plan, "--decision=-1 means off", "--reason=r",
+             "--evidence=e", "--result=x"],
+            capture_output=True, text=True, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(self.read()[1].split("\t")[0], "-1 means off")
+
     def test_plan_name_without_prefix_exits_1(self):
         r = run(os.path.join(self.dir, "notes_x.md"))
         self.assertEqual(r.returncode, 1)
