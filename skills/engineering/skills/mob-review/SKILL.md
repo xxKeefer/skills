@@ -18,7 +18,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 **The panel is cheap. The thread it runs in is not.** A review needs the diff, the ticket, and the repo, not the conversation that made the change. At the end of a long session, each orchestration turn pays for that whole history. One measured run: the persona subagents cost a fifth of the review, and the orchestrator at ~320K context cost the rest.
 
 - **Arriving from a session that just wrote the code** → the implementation is committed, so the branch is the whole handoff. Ask the user to `/clear` and re-run `mob-review`; nothing is lost, since the branch carries the state.
-- **Already in a fresh or short thread** (a session opened to review) → straight to Step 1.
+- **Already in a fresh or short thread** (a session opened to review), **or run by another skill** (the review step of `/build`) → straight to Step 1.
 - **User declines** → run anyway. Say once that it will cost several times more, then drop it.
 
 ## Step 1: Resolve target and compute the diff scope
@@ -29,38 +29,39 @@ Accept an optional target: a PR number/URL, a branch name, or nothing. Also acce
 
 A caller can name the repo folder, such as the worktree that `/engineering:review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
 
+Set `BASE` to `origin/<base>`. The base is the plan's base branch when the plan names one, else the PR's base (`gh pr view --json baseRefName`), else `main`.
+
 ```bash
-git fetch origin main --quiet
+git fetch origin "${BASE#origin/}" --quiet
 ```
 
-- **No arg / branch:** review the current (or named) branch vs `origin/main`.
-- **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `origin/main`.
+- **No arg / branch:** review the current (or named) branch vs `$BASE`.
+- **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `$BASE`.
 
 Read [`SCOPE-CASES.md`](SCOPE-CASES.md) before you compute the diff when one of these is true:
 
-- The PR's base (`gh pr view --json baseRefName`) is not `main`.
-- The branch has no commits ahead of `origin/main`, and the working tree has changes.
-- `git rev-list --count HEAD..origin/main` is not zero.
+- The branch has no commits ahead of `$BASE`, and the working tree has changes.
+- `git rev-list --count HEAD..$BASE` is not zero.
 
 Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
 
 ```bash
 SCRATCH="${TMPDIR:-/tmp}/mob-$(git rev-parse --abbrev-ref HEAD | tr / -)-$(git rev-parse --short HEAD)"
 mkdir -p "$SCRATCH"
-git diff --name-only --merge-base origin/main HEAD > "$SCRATCH/files.txt"
-git diff        --merge-base origin/main HEAD > "$SCRATCH/diff.patch"
-git diff --stat --merge-base origin/main HEAD | tail -1
+git diff --name-only --merge-base "$BASE" HEAD > "$SCRATCH/files.txt"
+git diff        --merge-base "$BASE" HEAD > "$SCRATCH/diff.patch"
+git diff --stat --merge-base "$BASE" HEAD | tail -1
 cat "$SCRATCH/files.txt"
 ```
 
 The path holds the branch and the SHA, so a run after a fix commit never reads a stale patch.
 
-If `files.txt` is empty, report "no changes vs origin/main" and stop.
+If `files.txt` is empty, report "no changes vs $BASE" and stop.
 
 Record the two SHAs the panel reads. Step 5 prints them, so a later push step can compare the branch with what the panel read:
 
 ```bash
-git rev-parse --short "$(git merge-base origin/main HEAD)"   # base
+git rev-parse --short "$(git merge-base "$BASE" HEAD)"   # base
 git rev-parse --short HEAD                                   # head
 ```
 
@@ -70,7 +71,7 @@ Also record **whose code this is**. It decides the ticks and the prompt of the r
 
 ```bash
 git config user.email                                          # you
-git log --format='%ae' $(git merge-base origin/main HEAD)..HEAD | sort -u   # branch authors
+git log --format='%ae' $(git merge-base "$BASE" HEAD)..HEAD | sort -u   # branch authors
 ```
 
 **Own code** = every commit on the branch is authored by the current git user. Anything else (a commit by another author, or a PR you checked out from someone else) is **someone else's code**. When in doubt, treat it as someone else's.
@@ -97,7 +98,7 @@ Give each the same diff context and this exact brief:
 >
 > Return the JSON that the contract's "When a caller asks for JSON" section gives, as your final message.
 >
-> Diff scope: branch vs `origin/main`, already computed: **do not recompute it**.
+> Diff scope: branch vs `<BASE>`, already computed: **do not recompute it**.
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
