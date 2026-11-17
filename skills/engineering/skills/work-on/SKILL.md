@@ -92,7 +92,7 @@ read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can als
 
 **Meta**
 
-- `principle-encode-lessons-in-structure`. You write the same instruction a second time. Encode it as a lint, a flag, a runtime check, or a script.
+- `principle-encode-lessons-in-structure`. You write the same instruction a second time. Fix it at the highest rung of the ladder that works, with docs last.
 
 ## Step 1: Pick the playbook
 
