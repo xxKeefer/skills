@@ -79,8 +79,8 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
   - Done: AC D holds. Verdict: version B (Step 1 cut) wins. Judge totals out of 25: B 24 and 24, A 19 and 20. The scratch copy and the four folders are deleted.
 - [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, `leak_check.spec.py` (6 tests), and `check_principles.py` each exit 0.
-- [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-21.md`. This step changes no code.
+  - Done: report `.ai/review_pstack-21_eval-skill.html`. Reviewed: base caa647d, head 680ffe7 (panel read 44dee66). The fix commit 680ffe7 holds 3 findings, 0 open.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-21_eval-skill`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -100,6 +100,7 @@ A new `meta/eval-skill` runs a blind A/B test of two versions of one skill, and 
 - 2026-11-18: checkpoint. Steps 1 to 3 are done, and the tree is clean. The step 2 and step 3 subagent ran only the pre-commit test; step 5 runs every gate. Open: step 4, the live run, which touches only a scratch copy of `skills/primitives/skills/tabular-analysis/SKILL.md` and temp folders. Next action: `/work-on @.ai/map_pstack-program.md`. It finds unit 21 open, skips the spec and plan (they exist), and resumes `/build @.ai/plan_pstack-21.md` at step 4 in the main thread, then `/blast-radius`, the ship checks, the push, and the tick. This branch starts from `pstack-20_premise-escalation` (pushed, not merged); keep the unit 20 `.ai/` files.
 - 2026-11-18: step 4 done: live run on `tabular-analysis`. Candidates ran on `sonnet`, and the judge ran on `opus`. The judge scored each version on 5 criteria. Both B runs named the framework in each row, and both A runs left the rows unnamed with a key in the prose, which cost A on row identity and prose. My read: the gap comes from the Step 4 rule "don't invent a name column", which both versions hold, not from the cut Step 1. The run proves that the judge separates two versions, not that the cut made the skill better.
 - 2026-11-18: step 5 done: every gate is green.
+- 2026-11-18: step 6 done: light review fixed 3 findings in 680ffe7, 0 open.
 
 ## Pending Decisions
 
