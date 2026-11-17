@@ -73,8 +73,10 @@ Get the path of a new worktree from `wt list --format=json`.
 path. Treat that worktree as the one that holds the stack: ask about its marker, then run
 `gh stack checkout <branch>` there for a stack branch, else `git switch <branch>`.
 
-**The sync.** When the branch is in a stack and its `remote` shows `ahead` or `behind` above 0, run
-`gh stack sync` in the worktree before work starts. The sync pushes each layer, with force after a
+**The sync.** When the branch is in a stack, run
+`git rev-list --left-right --count <branch>...<remote>/<branch>`. When a count is above 0, run
+`gh stack sync` in the worktree before work starts. `wt list` gives no `remote` counts for a branch
+with no worktree, so use git. The sync pushes each layer, with force after a
 rebase. When another person wrote an open PR in the stack, ask first.
 
 **Done when:** you have one worktree path on the branch, synced when it is in a stack, or you
