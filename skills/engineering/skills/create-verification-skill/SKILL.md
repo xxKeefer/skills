@@ -58,22 +58,25 @@ written on a broken base teaches wrong steps.
      folder costs a move. A wrong repo folder commits a driver into a team repo.
 3. Tell the user the place, and the reason, in one line.
 
-`/verify` finds the driver from the name and from `app-paths`, so keep both exact.
+`/verify` finds the driver from the name, `repo`, and `app-paths`, so keep all three exact.
 
 **Done when:** you have the name and the folder.
 
 ## Step 3: Write the driver
 
-Write `<folder>/SKILL.md`. The frontmatter holds three keys:
+Write `<folder>/SKILL.md`. The frontmatter holds four keys:
 
 - `name`: the name from step 2.
 - `description`: names the app, the surface, and when to use the driver.
+- `repo`: the `<repo>` from step 2. `/verify` matches a driver only when this value equals the repo
+  name, so a repo with a longer name that starts the same way does not match.
 - `app-paths`: a list of globs from the repo root that cover the app's source. `/verify` matches
   the diff against them. `*` matches inside one folder. `**` matches across folders.
 
 ```
 ---
 name: verify-<repo>-<app>
+repo: <repo>
 description: <the app, the surface, when to use it>
 app-paths:
   - src/**

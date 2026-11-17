@@ -30,8 +30,9 @@ find the drivers → run each driver → return the evidence
 2. Run `python3 $SKILL_DIR/scripts/find_drivers.py --repo <repo root> --base <base>`.
    The script reads the repo name from `git remote get-url origin`. It lists the diff paths from
    the merge base with the base, plus the working tree. It prints one driver path per line.
-3. A line `no app-paths: <path>` on stderr names a driver that has no `app-paths` key. Tell the user
-   that the driver cannot match, and keep going.
+3. A line `no app-paths: <path>` on stderr names a driver that has no `app-paths` key. A line
+   `no repo: <path>` names a driver whose `repo` key is missing or names another repo. Tell the
+   user that the driver cannot match, and keep going.
 4. When the output is `no driver`, return `no driver` and stop. Do not write a driver here. The
    caller writes `no driver` in the plan's `Progress`, and `/retro` proposes
    `/create-verification-skill`.

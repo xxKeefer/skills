@@ -43,8 +43,9 @@ do not hide it in the docs.
 
 ## Step 1: Locate the driver
 
-1. Find each driver for this repo by the name `verify-<repo>-*`. `<repo>` is the last part of
-   `git remote get-url origin`, with no `.git`. Search `<repo root>/.claude/skills/` and
+1. Find each driver for this repo by the name `verify-<repo>-*` and the frontmatter key
+   `repo: <repo>`. `<repo>` is the last part of `git remote get-url origin`, with no `.git`. Skip a
+   driver whose `repo` value differs. Search `<repo root>/.claude/skills/` and
    `~/.claude/skills/`. These are the places that `/verify` searches.
 2. The argument can name the driver. With several matches and no argument, ask the user which one.
 3. With no match, stop. Point the user at `/create-verification-skill`. Do not invent a target.

@@ -27,8 +27,10 @@ def write(path, text):
         f.write(text)
 
 
-def driver(root, name, paths):
+def driver(root, name, paths, repo="demo"):
     head = "---\nname: %s\n" % name
+    if repo is not None:
+        head += "repo: %s\n" % repo
     if paths is not None:
         head += "app-paths:\n" + "".join("  - %s\n" % p for p in paths)
     write(os.path.join(root, name, "SKILL.md"), head + "---\n\n# Driver\n")
@@ -85,7 +87,7 @@ class FindDrivers(unittest.TestCase):
     def test_repo_and_home_drivers_found_and_other_repo_skipped(self):
         a = driver(self.repo_skills, "verify-demo-cli", ["src/**"])
         b = driver(self.home, "verify-demo-web", ["src/*.py"])
-        driver(self.home, "verify-other-cli", ["src/**"])
+        driver(self.home, "verify-other-cli", ["src/**"], repo="other")
         self.change("src/a.py")
         r = self.run_script()
         self.assertEqual(sorted(r.stdout.split()), sorted([a, b]))
@@ -110,6 +112,27 @@ class FindDrivers(unittest.TestCase):
         r = self.run_script()
         self.assertEqual(r.stdout.strip(), "no driver")
         self.assertIn("no app-paths: " + path, r.stderr)
+
+    def test_driver_of_a_longer_repo_name_is_not_matched(self):
+        a = driver(self.repo_skills, "verify-demo-x", ["src/**"])
+        driver(self.repo_skills, "verify-demo-web-x", ["src/**"], repo="demo-web")
+        self.change("src/a.py")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), a)
+
+    def test_driver_with_no_repo_key_is_named_and_not_matched(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["src/**"], repo=None)
+        self.change("src/a.py")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), "no driver")
+        self.assertIn("no repo: " + path, r.stderr)
+
+    def test_driver_with_another_repo_value_is_named_and_not_matched(self):
+        path = driver(self.repo_skills, "verify-demo-cli", ["src/**"], repo="other")
+        self.change("src/a.py")
+        r = self.run_script()
+        self.assertEqual(r.stdout.strip(), "no driver")
+        self.assertIn("no repo: " + path, r.stderr)
 
     def test_working_tree_changes_count(self):
         path = driver(self.repo_skills, "verify-demo-cli", ["src/**"])
@@ -192,7 +215,7 @@ class FindDrivers(unittest.TestCase):
 
     def test_unindented_dashes_in_app_paths_match(self):
         path = os.path.join(self.repo_skills, "verify-demo-cli", "SKILL.md")
-        write(path, "---\nname: verify-demo-cli\napp-paths:\n- src/**\n---\n")
+        write(path, "---\nname: verify-demo-cli\nrepo: demo\napp-paths:\n- src/**\n---\n")
         self.change("src/a.py")
         r = self.run_script()
         self.assertEqual(r.stdout.strip(), path)
@@ -208,7 +231,7 @@ class FindDrivers(unittest.TestCase):
 
     def test_items_of_a_later_key_are_not_app_paths(self):
         path = os.path.join(self.repo_skills, "verify-demo-cli", "SKILL.md")
-        write(path, "---\nname: verify-demo-cli\napp-paths:\n  - src/**\ntags:\n  - docs/**\n---\n")
+        write(path, "---\nname: verify-demo-cli\nrepo: demo\napp-paths:\n  - src/**\ntags:\n  - docs/**\n---\n")
         self.change("docs/a.md")
         r = self.run_script()
         self.assertEqual(r.stdout.strip(), "no driver")

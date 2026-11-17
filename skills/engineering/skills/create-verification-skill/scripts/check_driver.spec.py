@@ -19,7 +19,7 @@ def write(path, text):
         f.write(text)
 
 
-def skill_md(sections=SECTIONS, frontmatter="name: verify-demo-cli\napp-paths:\n  - src/**\n"):
+def skill_md(sections=SECTIONS, frontmatter="name: verify-demo-cli\nrepo: demo\napp-paths:\n  - src/**\n"):
     body = "".join("## %s\n\nText.\n\n" % s for s in sections)
     return "---\n%sdescription: Drives the demo CLI.\n---\n\n# Driver\n\n%s" % (frontmatter, body)
 
@@ -89,10 +89,17 @@ class CheckDriver(unittest.TestCase):
         self.assertEqual(self.run_script().returncode, 0)
 
     def test_missing_name_key_exits_1(self):
-        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="app-paths:\n  - src/**\n"))
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="repo: demo\napp-paths:\n  - src/**\n"))
         r = self.run_script()
         self.assertEqual(r.returncode, 1)
         self.assertIn("name", r.stderr)
+
+    def test_missing_repo_key_exits_1(self):
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\napp-paths:\n  - src/**\n"))
+        r = self.run_script()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("repo", r.stderr)
+        self.assertIn("SKILL.md", r.stderr)
 
     def test_missing_app_paths_key_exits_1(self):
         write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\n"))
@@ -101,7 +108,7 @@ class CheckDriver(unittest.TestCase):
         self.assertIn("app-paths", r.stderr)
 
     def test_empty_app_paths_exits_1(self):
-        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\napp-paths:\n"))
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\nrepo: demo\napp-paths:\n"))
         r = self.run_script()
         self.assertEqual(r.returncode, 1)
         self.assertIn("app-paths", r.stderr)
@@ -109,7 +116,7 @@ class CheckDriver(unittest.TestCase):
     def test_empty_app_paths_before_another_list_key_exits_1(self):
         write(
             os.path.join(self.dir, "SKILL.md"),
-            skill_md(frontmatter="name: verify-demo-cli\napp-paths:\nallowed-tools:\n  - Bash\n"),
+            skill_md(frontmatter="name: verify-demo-cli\nrepo: demo\napp-paths:\nallowed-tools:\n  - Bash\n"),
         )
         r = self.run_script()
         self.assertEqual(r.returncode, 1)
@@ -144,7 +151,7 @@ class CheckDriver(unittest.TestCase):
         self.assertIn("search.md", r.stderr)
 
     def test_unindented_app_paths_dashes_pass(self):
-        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\napp-paths:\n- src/**\n"))
+        write(os.path.join(self.dir, "SKILL.md"), skill_md(frontmatter="name: verify-demo-cli\nrepo: demo\napp-paths:\n- src/**\n"))
         r = self.run_script()
         self.assertEqual(r.returncode, 0, r.stderr)
 

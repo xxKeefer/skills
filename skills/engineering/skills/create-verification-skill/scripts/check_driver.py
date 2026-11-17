@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Check the layout of a verification driver.
 
-A driver folder holds `SKILL.md` with the frontmatter keys `name` and
-`app-paths`, and the H2 sections Launch, Doctor, Drive, Evidence, Cleanup, and
+A driver folder holds `SKILL.md` with the frontmatter keys `name`,
+`repo`, and `app-paths`, and the H2 sections Launch, Doctor, Drive, Evidence, Cleanup, and
 Helpers. It also holds `features/README.md`, which links each other file in
 `features/`. Each feature file has the H2 sections `Sub-features`,
 `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`.
@@ -48,6 +48,8 @@ def check_skill(root):
         block = []
     if not any(re.match(r"^name:\s*\S", l) for l in block):
         errors.append("SKILL.md: frontmatter key `name` is missing. Fix: add `name: verify-<repo>-<app>`.")
+    if not any(re.match(r"^repo:\s*\S", l) for l in block):
+        errors.append("SKILL.md: frontmatter key `repo` is missing. Fix: add `repo: <repo>`, the last part of `git remote get-url origin` with no `.git`.")
     start = next((i for i, l in enumerate(block) if re.match(r"^app-paths:\s*$", l)), None)
     items = []
     if start is not None:

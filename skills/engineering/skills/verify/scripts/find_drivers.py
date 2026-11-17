@@ -5,8 +5,11 @@ A driver is `verify-<repo>-<app>/SKILL.md` in `<repo root>/.claude/skills/` or i
 the home skills folder. Its frontmatter key `app-paths:` is a list of globs from
 the repo root. `*` matches within one folder. `**` matches across folders.
 
-Prints one driver path per line, or `no driver`. A driver with no `app-paths`
-key is not matched, and a `no app-paths: <path>` line goes to stderr.
+Its frontmatter key `repo:` names the repo. Prints one driver path per line, or
+`no driver`. A driver with no `app-paths` key is not matched, and a
+`no app-paths: <path>` line goes to stderr. A driver whose `repo:` key is
+missing or differs from the repo name is not matched, and a `no repo: <path>`
+line goes to stderr.
 
 Usage: find_drivers.py --repo <root> --base <ref> [--home ~/.claude/skills]
 """
@@ -80,6 +83,20 @@ def app_paths(skill_md):
     return paths
 
 
+def repo_key(skill_md):
+    with open(skill_md) as f:
+        lines = f.read().split("\n")
+    if not lines or lines[0].strip() != "---":
+        return None
+    for line in lines[1:]:
+        if line.strip() == "---":
+            break
+        m = re.match(r"^repo:\s*(\S.*?)\s*$", line)
+        if m:
+            return m.group(1).strip("\"'")
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
@@ -100,6 +117,9 @@ def main():
             if real in seen:
                 continue
             seen.add(real)
+            if repo_key(skill_md) != name:
+                sys.stderr.write("no repo: %s\n" % skill_md)
+                continue
             globs = app_paths(skill_md)
             if not globs:
                 sys.stderr.write("no app-paths: %s\n" % skill_md)
