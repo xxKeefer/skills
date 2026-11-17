@@ -102,7 +102,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - Done: STEP.md section 4 item 4 commits the decision log with the plan edit. Map playbook step 4 commits the log with the spec and the plan when the log exists.
 - [x] **10. Review fix r1.2.** Callers give `/update-plan` choices that are already in the plan, and `/update-plan` says not to log those, at `skills/primitives/skills/update-plan/SKILL.md`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
   - Done: `/update-plan` logs each choice that the caller gives, and skips only a choice that the log already holds.
-- [ ] **11. Review fix r1.3.** `sitrep.py` drops the wrapped or nested lines of a Follow-ups bullet, at `skills/primitives/skills/sitrep/scripts/sitrep.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
+- [x] **11. Review fix r1.3.** `sitrep.py` drops the wrapped or nested lines of a Follow-ups bullet, at `skills/primitives/skills/sitrep/scripts/sitrep.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
   - Done: a Follow-ups item that wraps to more lines prints in full. A spec case covers it.
 - [ ] **12. Review fix r1.4.** `log_decision.py` cannot record a field value that starts with a dash, at `skills/primitives/skills/update-plan/scripts/log_decision.py`. Report: `.ai/interrogate_pstack-12_decision-log-sitrep.html`.
   - Done: `update-plan/SKILL.md` writes the command line in the `--field=value` form, and a spec case records a value that starts with a dash. `log_decision.py` also accepts a plan named `handoff_<KEY>.md`, with the log `decisions_<KEY>.tsv` (the blast-radius risk). A spec case covers it.
@@ -157,3 +157,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - Cleared: a caller that gives no choices runs no log script, so `/do-next` and the vault plans keep their old behaviour. `sitrep.py` imports `check_plan.py` and `layout.py`, and the `sitrep.spec.py` gate covers a change to either. `check_plan.py` passes on a plan whose `Progress` links the log.
 - 2026-11-17: step 9 done. `STEP.md` section 4 item 4 and map playbook step 4 commit the decision log.
 - 2026-11-17: step 10 done. `/update-plan` logs each choice that the caller gives, and skips only a choice that the log holds.
+- 2026-11-17: step 11 done. `sitrep.py` joins the wrapped and nested lines of a Follow-ups bullet, and a spec case covers it.
