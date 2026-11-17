@@ -1,6 +1,7 @@
 #!/bin/sh
 # Scrub check. Fail when a tracked file matches an employer pattern.
 # Path check. Fail when a SKILL.md runs a script by a path from the current folder.
+# Dir check. Fail when a SKILL.md uses a $SKILL_DIR/ path and does not say what $SKILL_DIR is.
 # With no argument, check the staged tree. With a revision, check the tree of that revision.
 # The git config key scrub.patterns names a private pattern file to add to the public list.
 set -u
@@ -22,6 +23,13 @@ status=$?
 
 git grep -n -I -E -e 'python3 \.\./' "$target" -- '*SKILL.md'
 status=$?
-[ "$status" -eq 1 ] && exit 0
 [ "$status" -eq 0 ] && echo "path check: start each script path above with \$SKILL_DIR/." >&2
+[ "$status" -eq 1 ] || exit 1
+
+undefined=$(git grep -l -I -F -e '$SKILL_DIR/' "$target" -- '*SKILL.md' | while IFS= read -r f; do
+  git grep -q -I -E -e '`\$SKILL_DIR[^`]*` (is|means)' "$target" -- "${f#"$target":}" || echo "${f#"$target":}"
+done)
+[ -z "$undefined" ] && exit 0
+echo "$undefined" >&2
+echo "dir check: say what \$SKILL_DIR is in each SKILL.md above, or use a relative link." >&2
 exit 1
