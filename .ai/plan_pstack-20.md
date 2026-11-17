@@ -96,4 +96,12 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 
 ## Pending Decisions
 
+### D1: How does the step that runs again get the work and the premise of the `B` entry? (found in step 4)
+- Gap: the trace of `build/SKILL.md` Step 2 item 8 and `STEP.md` section 1 shows that attempt 3 does not start with the premise and the saved work. Item 8 says "with the `B` entry as its start". Item 3, which lists what the dispatch prompt holds, does not name the `B` entry. `STEP.md` section 1 item 2 applies a patch only when the plan says to resume from it. Item 8 does not write that into the plan, and Step 5 item 2 does that only for an entry that the user answers. Item 8 also deletes the `B` entry after the record, so the `Work` patch path and the `Premise` line can be lost before the subagent reads them. A subagent also cannot read its own effort, so item 8 does not say whether "one effort step up" comes from the `Effort` line of the entry or from the effort that the parent dispatched.
+- A: leave the text. The subagent finds the `B` entry by chance.
+- B: change `build/SKILL.md` Step 2 item 8 (recommended: it closes every gap with one edit). Order: first write the resume into the plan as a recorded decision, with the patch path and the `Premise` line, through `/update-plan`. Then delete the `B` entry. Then dispatch the step again, with the premise in the prompt and the effort that the parent dispatched, moved one step up by rule 1. The parent takes the effort from its own dispatch record, not from the `Effort` line.
+- C: change `STEP.md` section 1 item 2 to read the `Work` line of a `B` entry for the step, and keep item 8 as it is.
+- Work: none
+- Blocks: 4, 6, 7
+
 ## Follow-ups
