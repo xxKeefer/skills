@@ -26,7 +26,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - [x] **D.** Read `mob-review` `FIX.md` → a hack finding runs `/blast-radius` on the architectural fix, and becomes a new plan step when small and in scope, else a `Follow-ups` entry.
 - [x] **E.** Read `create-pr` → the PR body lists the plan's Follow-ups, and removes the section when there are none.
 - [x] **F.** Run `install_agents_md.py` against a scratch home → the `coding` block holds "No comments. Two exceptions: tool directives and comments that lint requires."
-- [ ] **G.** Review a branch with an added comment → it gets a finding with the replacement, and a hack gets a step or a follow-up.
+- [x] **G.** Review a branch with an added comment → it gets a finding with the replacement, and a hack gets a step or a follow-up.
 
 ## Context
 
@@ -83,8 +83,8 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
   - Done: AC D and E hold on a read.
 - [x] **5. The `coding` block.** Seam: `install-agents-md/sections/coding.md`. Conditions: C5. Add a test to `install_agents_md.spec.py` that renders the real `coding` section and finds the rule, and see it fail. Then add to `coding.md` a `## Comments` section: "No comments. Two exceptions: tool directives and comments that lint requires." Add a `lists:` header line for the old wording that it repeats, such as "comments sparingly", if the `lists` match works on a substring; read the script to check.
   - Done: `install_agents_md.spec.py` passes, C5. AC F holds.
-- [ ] **6. End-to-end check.** Kind: config. Conditions: C6. On a scratch git repo in `/tmp`, commit a file, then add a `.py` file with a plain comment and a `# HACK:` comment on a branch. Run `added_comments.py` on `git diff main...HEAD`, and confirm two lines. Read `persona-comments` and `FIX.md` for each line, and write in this Done line the rung and the outcome (plan step or Follow-up). Delete the scratch repo.
-  - Done: AC G holds: the output and the two outcomes are in this line.
+- [x] **6. End-to-end check.** Kind: config. Conditions: C6. On a scratch git repo in `/tmp`, commit a file, then add a `.py` file with a plain comment and a `# HACK:` comment on a branch. Run `added_comments.py` on `git diff main...HEAD`, and confirm two lines. Read `persona-comments` and `FIX.md` for each line, and write in this Done line the rung and the outcome (plan step or Follow-up). Delete the scratch repo.
+  - Done: AC G holds. Scratch run printed `b.py:2: # this sets the retry count` and `b.py:4: # HACK: sleep because the api races`. Line 2: ladder rung 1 (a better name, such as `retry_count`), else rung 5 (delete); a finding, not a hack, so no plan step and no Follow-up. Line 4: a `hack:` finding with rung 4 (a check that fails with the fix in its error) applied now; FIX.md item 6 then runs `/blast-radius` and gives a plan step when the architectural fix (remove the race at the api) is small and in scope, else a Follow-ups entry. The text does not say which case a given hack falls in beyond "small and inside the change's scope"; the outcome is set at run time.
 - [ ] **7. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **8. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-19.md`. This step changes no code.
@@ -106,6 +106,7 @@ On the user's own branch, `persona-comments` turns each added comment into a fin
 - 2026-11-17: step 3 done in b224d5d. `persona-comments` has the Guard, Lens, and ladder; `PANEL.md` trigger changed; AC B and C hold.
 - 2026-11-17: step 4 done in 6e58afc. `FIX.md` item 6 handles `hack:` findings; `create-pr` and its body template list Follow-ups; AC D and E hold.
 - 2026-11-17: step 5 done in b7e820e. `coding.md` has a `## Comments` section and two `lists:` lines; 28 tests pass; AC F holds.
+- 2026-11-17: step 6 done. Scratch run listed both comments; each maps to a rung and an outcome. AC G holds.
 - Decision log: decisions_pstack-19.tsv
 
 ## Pending Decisions
