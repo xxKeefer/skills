@@ -88,8 +88,8 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **4. Run it.** Seam: one step of `/build` on a scratch plan, then `/sitrep`. Conditions: C10.
   - Make a git repo in `/tmp/sitrep-demo` with a plan whose one docs step leaves a choice open, such as the wording of a file. Dispatch one fresh subagent on that step with `build/STEP.md`, as `/build` Step 2 does. Then run `/sitrep` on that plan. Record the commands and the output in Progress.
   - Done: the scratch plan's `Progress` links `decisions_<KEY>.tsv`, the log holds the choice, and `/sitrep` lists it with its evidence, risk, and pick.
-- [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at HEAD d334c85. Tests: log_decision 5, sitrep 5, check_plan 33, check_principles 11, map_units 14. The pre-commit hook, `pre-commit_test.sh`, and `commit-msg_test.sh` pass.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-12.md`. This step changes no code. Use `/engineering:mob-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
 - [ ] **7. Push.** Push the branch with `git push -u origin pstack-12_decision-log-sitrep`. Push-only map: open no PR.
@@ -128,3 +128,4 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
     - result: GREETING.md has a heading, a welcome line, a pointer to README.md, and a line that invites questions.
   - `python3 skills/primitives/skills/sitrep/scripts/sitrep.py /tmp/sitrep-demo/.ai/plan_DEMO-1.md` printed one section, `## Choices made alone`, with that decision, reason, evidence, and result.
   - Judgement by `/sitrep` Step 2: Evidence: `/tmp/sitrep-demo/GREETING.md` (four lines, matches the result) and commit `c6635a6`. Risk: L, because the file is copy only and the plan left the wording open. Pick: keep, because it welcomes a new reader and points to `README.md`.
+- 2026-11-17: step 5 done at d334c85. All eight gates green, and the step changed no file except this plan.
