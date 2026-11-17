@@ -47,8 +47,9 @@ Run the gates and the test scope that the repo guidance names.
 If a spec outside your change goes red, look first for state that leaks between tests: a toast, a
 global store, a timer, or a mock that a test does not reset.
 
-If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
-red, the verdict is `blocked`. Leave the work uncommitted, and go to step 6.
+If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
+a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then the
+verdict is `blocked`. Leave the work uncommitted, and go to step 6.
 
 When every gate is green, the verdict is `fixed`, unless it is already `trivial`.
 
@@ -89,7 +90,8 @@ The location, what happens, and why. For `not a bug` and `cannot reproduce`, the
 ## Fix
 
 What changed, and at which layer. For `decision`, options A, B, and C, with the one you recommend
-and the reason. For `blocked`, the red gate, the first lines of its output, and the 3 attempts.
+and the reason. For `blocked`, the red gate, the first lines of its output, the premise and the result of its
+test, the 2 attempts, and the effort that the parent gave you.
 
 ## Risk
 
