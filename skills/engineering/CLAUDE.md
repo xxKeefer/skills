@@ -69,7 +69,7 @@ commit.
 | Skill | Called by | Must keep |
 |---|---|---|
 | `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, plan), the `worktree` and `branch` header keys that `/do-next` reads, and the search for a plan whose file name holds the key |
-| `build` | `mob-review`, and the prompt of its report in a plan | The `D` and `N` entry format in `STEP.md`, and the `Plan` meta key that it reads from the report |
+| `build` | `mob-review`, and the prompt of its report in a plan | The `D` and `N` entry format in `STEP.md`, the `Plan` meta key that it reads from the report, and the decision log (`decisions_<KEY>.tsv`) that its steps write through `/update-plan` and that `/sitrep` and `/retro` read |
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path`, the `interrogate` report | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
