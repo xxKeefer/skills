@@ -109,7 +109,18 @@ live call `/verify`. Scope: SCOPED, one PR.
   - Done: the gates are green at HEAD 9741125b33d04e0333c5894b15979a36c6b20f45. find_drivers 21 tests, check_driver 14, check_principles 11, map_units 14, rerun_findings 23, `.githooks/pre-commit` exit 0, `pre-commit_test.sh` 11 ok, `commit-msg_test.sh` 8 ok.
 - [x] **9. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. The last report has no open row.
   - Done: the report is `.ai/review_pstack-11_verify-drivers.html` (run 2). Reviewed base 70db663, reviewed head 5d80c91 (the panel read 63ed0de). The panel fixed 6 of 8 findings in commit 5d80c91. Two rows are open: r2.1 (Change Requested, the `verify-<repo>-*` glob matches a repo whose name extends this one) and r2.8 (Nit, the app-paths parse is written twice).
-- [ ] **10. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
+  - Recorded decision (D1 = A, 2026-11-17): fix r2.1 and r2.8, and the `qa-screenshots` path. Steps 10 to 12 hold the fixes. r2.1 and r2.8 change runtime behaviour, so steps 13 and 14 add a new round of test and review. No row of run 2 stays unticked.
+- [ ] **10. Review fix r2.1.** The glob `verify-<repo>-*` also matches a driver of a longer repo name, at `skills/engineering/skills/verify/scripts/find_drivers.py:97`. Report: `.ai/review_pstack-11_verify-drivers.html`.
+  - Done: each driver has a `repo:` frontmatter key. `/create-verification-skill` writes it, `check_driver.py` checks it, and `find_drivers.py` matches it. A spec case with `verify-app-x` and `verify-app-web-x` for repo `app` finds only `verify-app-x`. `maintain-verification-skill` Step 1 uses the same rule.
+- [ ] **11. Review fix r2.8.** The `app-paths` parse is written twice, at `skills/engineering/skills/verify/scripts/find_drivers.py:64` and in `check_driver.py`. Report: `.ai/review_pstack-11_verify-drivers.html`.
+  - Done: `find_drivers.py` holds the one parse, and `check_driver.py` imports it by a sibling path. The specs of both scripts pass.
+- [ ] **12. Review fix D1 path.** Kind: docs. `qa-screenshots` Step 3 calls `python3 ../verify/scripts/find_drivers.py`, which resolves from the current folder.
+  - Done: `qa-screenshots/SKILL.md` defines `$SKILL_DIR` and calls `python3 $SKILL_DIR/../verify/scripts/find_drivers.py`.
+- [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-11.md`. This step changes no code. Use `/engineering:mob-review`. Rows r2.1 and r2.8 are fixed in steps 10 and 11. Do not raise the rows of runs 1 and 2 again.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Before the push step, the user ticks the rows to fix in the report and runs its prompt.
+- [ ] **15. Push.** Push the branch with `git push -u origin pstack-11_verify-drivers`. Push-only map: open no PR.
   - Done: the pushed SHA is in this line.
 
 ## Suggested skills
@@ -143,14 +154,4 @@ live call `/verify`. Scope: SCOPED, one PR.
 - 2026-11-17: step 9 done. The mob-review panel ran 8 lanes (run 2) against `pstack-inspired`. It found 8 findings, fixed 6 in commit 5d80c91, and left 2 open (r2.1 CR, r2.8 Nit). Next: step 10.
 - 2026-11-17: `/build` rule 7.1 stopped the loop: row r2.1 at tier Change Requested stays open. Entry D1 blocks step 10. The run 2 fix 5d80c91 also changes behaviour (the index-link regex in `check_driver.py`), but rule 7.1 comes first. The QA checklist step is skipped, because an entry is pending.
 - 2026-11-17: `/work-on` stop H3 on D1. Playbook: map, step 4 (`/build` on this plan). Next: answer D1, then `/work-on @.ai/map_pstack-program.md` resumes step 4, which runs `/build` with the ticked rows, then playbook steps 5 to 8.
-
-## Pending Decisions
-
-### D1: Fix the open rows of review run 2? (found in step 9)
-- Rows: r2.1 (Change Requested): the glob `verify-<repo>-*` in `find_drivers.py` also matches a driver of a longer repo name, such as `verify-app-web-ui` for repo `app`, so `/verify` can drive the wrong app. r2.8 (Nit): `find_drivers.py` and `check_driver.py` each parse `app-paths`, with different quote handling. Report: `.ai/review_pstack-11_verify-drivers.html`.
-- Also found by the coordinator in 5d80c91: `qa-screenshots` Step 3 calls `python3 ../verify/scripts/find_drivers.py`. That path resolves from the current folder, not from the skill folder, so the call fails outside the skill folder.
-- A: Tick r2.1 and r2.8, and run the report's prompt. r2.1 adds a `repo:` frontmatter key that `/create-verification-skill` writes, `check_driver.py` checks, and `find_drivers.py` matches, with a spec case for `verify-app-x` and `verify-app-web-x`. r2.8 makes `find_drivers.py` the one parse, and `check_driver.py` imports it by a sibling path. The fix round also adds `$SKILL_DIR` to the `qa-screenshots` path. (recommended: a wrong driver runs the wrong app with no error, and the `repo:` key removes the ambiguity at the source.)
-- B: Tick only r2.1, plus the `qa-screenshots` path. Leave r2.8 open as a Nit with the reason "two skills, one small parse".
-- C: Leave both rows open, each with a reason, and push as is.
-- Work: none
-- Blocks: 10
+- 2026-11-17: D1 answered A. Steps 10 to 14 added, push is step 15. Playbook: map, step 4 resumes `/build`.
