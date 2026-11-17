@@ -80,8 +80,8 @@ After two failed fixes on one premise, the agent writes the premise down and tes
     - `STEP.md` section 1 item 2 applies the patch. Attempt 3 at `sonnet` high starts with the written premise.
     - Later `B` entries climb to `xhigh`, `max`, then `opus` max.
     - At `opus` max, attempts 1 and 2 fail on one premise, and the step returns a `B` entry with the premise. Item 8 is at the ceiling, so the `B` entry stands, the step is blocked by it, and the run goes on. No gap found.
-- [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green at 2f16b0b. Both hook tests print only `ok` lines, `install_agents_md.spec.py` prints OK, and `check_principles.py` exits 0.
 - [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-20.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-20_premise-escalation`, in place of `/create-pr`.
@@ -102,6 +102,8 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - 2026-11-18: step 3 done. `STEP.md` and `build/SKILL.md` agree on the `B` format and the escalation.
 - 2026-11-18: step 4 done. The trace of `STEP.md` and `build/SKILL.md` found no gap. AC D holds.
 - Decision log: decisions_pstack-20.tsv
+
+- 2026-11-18: step 5 done. The gates are green.
 
 ## Pending Decisions
 
