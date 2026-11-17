@@ -23,6 +23,9 @@ Everything else goes.
 Delete with no stop. Each file here is the agent's own working output, and git history is the
 archive. List the deleted files in the reply.
 
+An untracked file has no archive in git, so the pause list holds its deletion. List each untracked
+file of a merged unit in the reply, and delete it only after the user says yes.
+
 ## Before you delete
 
 Move a fact that must outlive the work out of `.ai/` first:

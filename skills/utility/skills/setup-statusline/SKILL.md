@@ -14,7 +14,7 @@ one committed source.
 
 It renders two lines:
 
-- Line 1: git branch, then fish-style abbreviated cwd.
+- Line 1: git branch, then fish-style abbreviated cwd. When `~/.cache/babysit/state.json` exists (`/babysit` writes it), one chip for each watched PR sits on the right. A done chip goes after 10 minutes. With no file, line 1 has no chips.
 - Line 2: context battery, context tokens (%), then ◀ session (5h) usage (reset), ▶ weekly
   (7d) usage (reset), and ● model//effort. The session/weekly widgets come from stdin
   `rate_limits` and are dropped cleanly when absent (API-key auth, or before the first API
@@ -74,7 +74,7 @@ re-running sets the same value:
 settings=~/.claude/settings.json
 [ -f "$settings" ] || echo '{}' > "$settings"
 tmp=$(mktemp)
-jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh"}' "$settings" > "$tmp" \
+jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh", refreshInterval: 1}' "$settings" > "$tmp" \
   && mv "$tmp" "$settings"
 ```
 

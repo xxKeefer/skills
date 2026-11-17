@@ -1,0 +1,1 @@
+{"cwd":"@HOME@/proj/sub","model":{"id":"claude-opus-4-8[1m]","display_name":"Opus 4.8"},"effort":{"level":"high"},"rate_limits":{"five_hour":{"used_percentage":23.5,"resets_at":1700003600},"seven_day":{"used_percentage":41.2,"resets_at":1700086400}}}

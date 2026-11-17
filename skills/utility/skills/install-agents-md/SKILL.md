@@ -31,8 +31,8 @@ The script copies the file to `AGENTS.md.bak` before each write. A first run put
 top. A later run replaces only the text inside the markers. A run with no change writes nothing, and
 keeps the earlier backup.
 
-A missing value stops the script with exit 1, and nothing is written. Go back to Step 1 for the
-key that the error names.
+A missing value renders as `none`, and the script prints a warning that names the key. Go back to
+Step 1 for that key, then run the script again.
 
 **Done when:** the script exits 0, and prints `created`, `updated`, or `unchanged`.
 

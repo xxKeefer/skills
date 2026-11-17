@@ -475,7 +475,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - User note (r1.11): the workflow uses gh-stack and must cover its sync and rebase.
 - Done: `/ship` on a rebased stack layer accepts the old review when the patch-id matches.
 
-### [ ] 16. `babysit` and the status line chips (r1.12)
+### [x] 16. `babysit` and the status line chips (r1.12)
 
 - `engineering/babysit` (new). `scripts/watch_prs.py` polls `gh`, writes `~/.cache/babysit/state.json`, and calls the notifier on a change only. For a stack, it watches only the lowest PR not merged.
 - The notifier tool role in the `tools` block, hydrated on the machine.

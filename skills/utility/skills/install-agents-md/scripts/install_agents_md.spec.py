@@ -116,22 +116,23 @@ class SecondRun(unittest.TestCase):
 
 
 class Hydration(unittest.TestCase):
-    def test_missing_value_exits_1_names_the_key_and_writes_nothing(self):
+    def test_missing_value_renders_none_and_warns_with_the_key(self):
         e = Env(self, values={})
         e.write("mine\n")
         code, _, err = e.run()
-        self.assertEqual(code, 1)
+        self.assertEqual(code, 0)
         self.assertIn("beta_tool", err)
         self.assertIn("HYDRATE.md", err)
-        self.assertEqual(e.read(), "mine\n")
-        self.assertFalse(os.path.exists(e.bak))
+        self.assertIn("Tool is none.", e.read())
+        self.assertTrue(e.read().endswith("mine\n"))
 
     def test_missing_values_file_counts_as_no_values(self):
         e = Env(self, values=None)
         e.write("mine\n")
         code, _, err = e.run()
-        self.assertEqual(code, 1)
+        self.assertEqual(code, 0)
         self.assertIn("beta_tool", err)
+        self.assertIn("Tool is none.", e.read())
 
 
 class BadMarkers(unittest.TestCase):
