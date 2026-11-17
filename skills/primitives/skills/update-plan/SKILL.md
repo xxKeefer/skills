@@ -17,8 +17,8 @@ fresh agent for a cold start.
   diffs) — reference them by path or URL.
 - Redact anything sensitive (keys, passwords, PII).
 
-If the file is a plan, run `python3 ../write-to-file/scripts/check_plan.py <absolute plan path>` from this
-skill's folder after the edit. A plan has `doctype: plan` in its YAML header, or a name that starts
+If the file is a plan, run `python3 $SKILL_DIR/../write-to-file/scripts/check_plan.py <absolute plan path>`. `$SKILL_DIR` is this
+skill's base directory. Run it after the edit. A plan has `doctype: plan` in its YAML header, or a name that starts
 with `plan_` or `handoff_`. On exit 1, stop, and give each error line. For a file with no YAML header, say that
 `/write-to-file` can migrate it to the plan layout.
 
