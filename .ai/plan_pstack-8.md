@@ -75,13 +75,13 @@ that session. Scope: SCOPED, one PR. Estimate: 3 points. Most of the diff is 24 
 
 ## Steps
 
-- [ ] **1. The 24 principle skills, the `/work-on` index, and the check.** Seam: `python3 skills/engineering/skills/work-on/scripts/check_principles.py <repo root>`, exit 0 or 1, one error line per fault. Conditions: C1, C2, C3.
+- [x] **1. The 24 principle skills, the `/work-on` index, and the check.** Seam: `python3 skills/engineering/skills/work-on/scripts/check_principles.py <repo root>`, exit 0 or 1, one error line per fault. Conditions: C1, C2, C3.
   - Write `check_principles.spec.py` first, with fixtures in a temp folder, then `check_principles.py`. Then add `skills/engineering/skills/principle-*/SKILL.md` for the 24 pstack names, each with `disable-model-invocation: true` and a one-line human description. Adapt `principle-never-block-on-the-human` to point at the `pause-list.md` rule, and `principle-guard-the-context-window` to point at subagents and `/checkpoint`. Add a `## Principles` section to `work-on/SKILL.md`: the five groups, one entry per principle with its folder name and one "when it applies" line, the read-it-first rule, and the reply rule. Add the pstack MIT licence notice as `skills/engineering/PSTACK-LICENSE`.
   - Done: `check_principles.spec.py` covers C1 to C3 and passes, `check_principles.py` exits 0 on the repo, and a user can type each `/principle-*` after `/reload-plugins`.
-- [ ] **2. Skills that run without the router name their principles.** Kind: docs.
+- [x] **2. Skills that run without the router name their principles.** Kind: docs.
   - Name the principles in bold with a sibling path in the skills that apply them alone: `diagnose` and `fix` (fix-root-causes), `tdd` (test-behavior-not-implementation), `code-simplify` (laziness-protocol, minimize-reader-load), `prototype` (exhaust-the-design-space), `build` (prove-it-works, sequence-verifiable-units), `webperf` (explain-the-number).
   - Done: each named skill has one line with the bold principle names and their sibling paths, and each path resolves.
-- [ ] **3. The TDD skip rule.** Kind: docs.
+- [x] **3. The TDD skip rule.** Kind: docs.
   - Add a `## When to skip a test` section to `engineering/tdd/SKILL.md`: the three reasons, the closest real check (`/verify` when the repo has a driver), and the skipped plan step `- [-]` with its `Skipped: <reason>` line, which `/sitrep` shows.
   - Done: `tdd/SKILL.md` holds the skip rule, and the plan template's skipped mark matches it.
 - [ ] **4. The domain docs.** Kind: docs.
