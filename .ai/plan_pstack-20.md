@@ -22,7 +22,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 
 - [ ] **A.** Read `diagnose` and `fix` → each cites `principle-attack-the-premise` and `principle-fix-root-causes` by sibling path.
 - [ ] **B.** Read `build` `STEP.md` and `build` `SKILL.md` → after two failed fixes on one premise, the step writes the premise down, tests it, and returns it, and `build` runs the next attempt one effort step up, to a ceiling of `opus` max, and logs the step through `/update-plan`.
-- [ ] **C.** Run `install_agents_md.py` against a scratch home → the `models` block holds the effort ladder in rule 1.
+- [x] **C.** Run `install_agents_md.py` against a scratch home → the `models` block holds the effort ladder in rule 1.
 - [ ] **D.** Fail a fix twice on one premise → the third fix attempt starts with a written premise and a higher effort.
 
 ## Context
@@ -64,7 +64,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 
 ## Steps
 
-- [ ] **1. The ladder in the `models` block.** Seam: `install-agents-md/sections/models.md`. Conditions: C1. Add a test to `install_agents_md.spec.py` that renders the real `models` section and finds the ladder, and see it fail. Then rewrite rule 1: after two failed fixes on one premise, write the premise down and test it, then move the next attempt one effort step up. Give the ladder `low`, `medium`, `high`, `xhigh`, `max`; at `max` on a model below `opus`, the next step is `opus` at `max`; the ceiling is `opus` at `max`. Record each step in the decision log.
+- [x] **1. The ladder in the `models` block.** Seam: `install-agents-md/sections/models.md`. Conditions: C1. Add a test to `install_agents_md.spec.py` that renders the real `models` section and finds the ladder, and see it fail. Then rewrite rule 1: after two failed fixes on one premise, write the premise down and test it, then move the next attempt one effort step up. Give the ladder `low`, `medium`, `high`, `xhigh`, `max`; at `max` on a model below `opus`, the next step is `opus` at `max`; the ceiling is `opus` at `max`. Record each step in the decision log.
   - Done: `install_agents_md.spec.py` passes, C1. AC C holds.
 - [ ] **2. `diagnose` and `fix` cite both principles.** Kind: docs. Change the `Principle:` line of each to a `Principles:` line that names **principle-attack-the-premise** and **principle-fix-root-causes**, each with its sibling path, in the form of `build/SKILL.md`. In `fix` Step 3, add: after two failed fixes on one premise, write the premise down and test it, as `principle-attack-the-premise` says. Then run the third attempt in a subagent one effort step up, by rule 1 of the `models` block, and record the step with `/update-plan` when a plan exists. In `diagnose` Step 3, add: when two hypotheses that share one premise fail, write the premise down and test it before the next.
   - Done: AC A holds on a read, and `check_principles.py` exits 0.
@@ -89,6 +89,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 ## Progress
 
 - 2026-11-18: plan written on `pstack-20_premise-escalation`.
+- 2026-11-18: step 1 done. The `models` rule 1 holds the ladder and the premise rule.
 - Decision log: decisions_pstack-20.tsv
 
 ## Pending Decisions
