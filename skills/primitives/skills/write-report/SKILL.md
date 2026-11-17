@@ -122,7 +122,6 @@ Follow these rules:
    - It copies `template.html` with no change, except the `runs` block. On a re-run, it writes
      the whole file again from the current template.
    - It writes `</` as `<\/` in the JSON, so a `</script>` in the data does not close the block.
-   - It reads the written block back. If the block does not parse, it exits 1 with a message.
    - It writes `reports.js` in the same folder. The file lists each `.html` file there, this
      report included, newest first, in this form: `window.REPORTS = ["a.html", "b.html"];`. The
      page shows the other names as links in a fold at the top. A browser cannot list a local
