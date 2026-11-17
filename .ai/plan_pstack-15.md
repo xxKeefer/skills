@@ -88,8 +88,9 @@ Replace the `range-diff` rule and the manual rebase in `ship` with one patch-id 
 - [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-15.md`. This step changes no code. Do not raise again a row of the step 4 report.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_pstack-15_ship-stack.html`, run 2. Reviewed base `c78ec66` (`pstack-inspired`), head `bfb4067` (panel read `cbd5350`). Light run: 1 finding, 1 fixed, 0 open.
-- [ ] **8. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.
+- [x] **8. Push.** `git push -u origin pstack-15_ship-stack`. Push-only map: open no PR.
   - Done: the branch is on the remote.
+  - Result: pushed `pstack-15_ship-stack` to `origin`.
 
 ## Suggested skills
 
@@ -136,3 +137,12 @@ C4=$(pid $(git merge-base main HEAD) HEAD); echo "C4 base edit 2 lines from a re
 git diff nosuchsha HEAD >/dev/null 2>&1 && exit 1 || echo "C5 reviewed SHA missing: git diff exits non-zero"
 echo PROOF OK
 ```
+
+### 2026-11-17: ship and push (playbook `map`, unit 15)
+
+- `/interrogate` skipped: the `/blast-radius` verdict is `clear`.
+- QA checklist (`/build` Step 3) skipped: the diff adds no script, and the live checks C1 to C5 and the spec tests cover each AC. Step 2 is not `Kind: docs`, so this skip is a judgement call.
+- `/ship` steps 1 to 3: go. Plan, Tests, and Tree pass. Constraints: not found. Stack: skipped, push-only map. Review: the report of `bfb4067` passes by the new rule, because the patch-id of the reviewed diff and of the head diff is `be6e4ec106a0` for both.
+- The acted-on review report is deleted, as `.ai/CLAUDE.md` says.
+- Pushed `pstack-15_ship-stack`. Unit 15 is ticked on the map.
+- Next: the home machine opens the PR into `pstack-inspired`. Then `/retro` on unit 15, or no.

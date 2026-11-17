@@ -468,7 +468,7 @@ t=2   ...xxkeefer-skills   [× 101] |2 102] [○ 103] [● 104|
 - Reason: a stack once got a second worktree, built from a stale branch.
 - Done: `claim` on a branch inside a stack returns the stack's worktree, synced.
 
-### [ ] 15. `ship` with gh-stack, and the map layout (r1.11)
+### [x] 15. `ship` with gh-stack, and the map layout (r1.11)
 
 - `engineering/ship`: `gh stack sync` and rebase with the tool, compare `git patch-id` so a review verdict still describes the head after a rebase, read the PR back after the merge.
 - The `map` layout and its check. Use this file as the test fixture. The map playbook from unit 6 already reads this shape, so the layout must keep it. The playbook then runs the check before each batch.
