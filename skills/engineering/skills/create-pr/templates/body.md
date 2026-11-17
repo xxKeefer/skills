@@ -25,6 +25,10 @@ writes the AC block.
 
 **Door:** <one-way | two-way>. <why, when not obvious>
 **Blast radius:** <one word, such as localised, module, app, or consumers>. <what can break>
+
+## Follow-ups
+
+- <each entry of the plan's Follow-ups section>
 ```
 
 ### Merge danger rules
