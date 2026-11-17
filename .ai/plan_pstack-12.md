@@ -85,7 +85,7 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
 - [x] **3. The build writes the log.** Kind: docs.
   - `build/STEP.md` section 4: give `/update-plan` each choice that the step made and that the plan does not record, with the reason, the evidence, and the result. `build/SKILL.md`: give each recorded decision of Step 1 and Step 2 to `/update-plan` the same way, and name `/sitrep` in Step 4. `work-on/playbooks/map.md` step 3: give each judgement call to `/update-plan` as a choice. `retro/SKILL.md` Step 3: read the log beside the plan, and compare each decision with its result. `skills/engineering/CLAUDE.md`: name the log in the `build` row of the composed-by table.
   - Done: `grep -rn "decision log\|decisions_" skills` finds each of the five files, and each relative path resolves.
-- [ ] **4. Run it.** Seam: one step of `/build` on a scratch plan, then `/sitrep`. Conditions: C10.
+- [x] **4. Run it.** Seam: one step of `/build` on a scratch plan, then `/sitrep`. Conditions: C10.
   - Make a git repo in `/tmp/sitrep-demo` with a plan whose one docs step leaves a choice open, such as the wording of a file. Dispatch one fresh subagent on that step with `build/STEP.md`, as `/build` Step 2 does. Then run `/sitrep` on that plan. Record the commands and the output in Progress.
   - Done: the scratch plan's `Progress` links `decisions_<KEY>.tsv`, the log holds the choice, and `/sitrep` lists it with its evidence, risk, and pick.
 - [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
@@ -115,3 +115,14 @@ the skipped steps, and the follow-ups of a plan. Scope: SCOPED, one PR.
   - `/retro` reads the log in this unit, because the map's flow says so and no later unit adds it.
   - The map playbook's judgement calls also go to the log, so `/sitrep` shows them.
   - The live run uses a scratch plan in `/tmp`, so the proof does not depend on the choices of this unit's own build.
+- 2026-11-17: step 4 done. The live run needed one attempt, and no repo fix.
+  - Commands: built `/tmp/sitrep-demo` (git repo, branch `demo-greeting`, plan `.ai/plan_DEMO-1.md`, one docs step with no wording set). `check_plan.py` on it printed `open decisions: 0`. One fresh general-purpose subagent ran step 1 with only the plan path, the step ID, the goal, and `build/STEP.md`. It was not told what to choose or that a log was expected.
+  - Result of the subagent: `Status: done`, commits `c6635a6` (GREETING.md) and `e5e5f08` (`docs(ai): mark step 1 done`), tree clean.
+  - Scratch plan `Progress` holds `- Decision log: decisions_DEMO-1.tsv`.
+  - Log `decisions_DEMO-1.tsv` (header, then one row):
+    - decision: Write GREETING.md as a short, friendly welcome of four lines that points to README.md
+    - reason: The plan sets no wording, tone, or length. A short pointer serves the goal of welcoming a new reader.
+    - evidence: Plan step 1 says the plan sets no wording, no tone, and no length.
+    - result: GREETING.md has a heading, a welcome line, a pointer to README.md, and a line that invites questions.
+  - `python3 skills/primitives/skills/sitrep/scripts/sitrep.py /tmp/sitrep-demo/.ai/plan_DEMO-1.md` printed one section, `## Choices made alone`, with that decision, reason, evidence, and result.
+  - Judgement by `/sitrep` Step 2: Evidence: `/tmp/sitrep-demo/GREETING.md` (four lines, matches the result) and commit `c6635a6`. Risk: L, because the file is copy only and the plan left the wording open. Pick: keep, because it welcomes a new reader and points to `README.md`.
