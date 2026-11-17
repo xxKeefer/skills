@@ -216,7 +216,10 @@ class MapUnits(unittest.TestCase):
     def test_program_map_fixture_lists_unit_15_first(self):
         r = run("next", FIXTURE)
         self.assertEqual(r.returncode, 0, r.stderr)
-        self.assertEqual(r.stdout.splitlines()[0].split("\t")[0], "15")
+        self.assertEqual(
+            [line.split("\t")[0] for line in r.stdout.splitlines()],
+            ["15", "16", "17", "18", "19"],
+        )
 
 
 if __name__ == "__main__":
