@@ -64,7 +64,7 @@ through `/update-plan`. Scope: SCOPED, one PR.
 
 ## Steps
 
-- [ ] **1. Subtract.** Kind: docs.
+- [x] **1. Subtract.** Kind: docs.
   - Remove "or context is about to blow out" from the `/update-plan` description. Remove the line "If `/checkpoint` is not installed, ..." from `principle-guard-the-context-window`.
   - Done: `grep -rn "blow out\|not installed" skills/primitives/skills/update-plan skills/engineering/skills/principle-guard-the-context-window` finds nothing.
 - [ ] **2. `/checkpoint`.** Kind: docs.
@@ -89,4 +89,5 @@ through `/update-plan`. Scope: SCOPED, one PR.
 ## Progress
 
 - 2026-11-17: plan written on `pstack-13_checkpoint`.
+- 2026-11-17: step 1 done in commit 036ddba. The trigger and the fallback line are gone.
 - Decision log: decisions_pstack-13.tsv
