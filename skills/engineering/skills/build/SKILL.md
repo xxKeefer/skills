@@ -128,10 +128,15 @@ For each remaining step, in plan order:
 
    Stop the loop after the third review step that the plan holds since its approval, even if a
    fix changed behaviour. A run after Step 5 continues the count. Say so in the report.
-8. When a step returns a `B` entry below the ceiling, dispatch the step again one effort step up,
-   by rule 1 of the `models` block in `~/.claude/AGENTS.md`, with the `B` entry as its start.
-   Record the step with `/update-plan` as a choice, then delete the `B` entry. At the ceiling,
-   the `B` entry stands.
+8. When a step returns a `B` entry, take the effort that you gave its subagent. Below the ceiling
+   of rule 1 of the `models` block in `~/.claude/AGENTS.md`, do these steps:
+   1. With `/update-plan`, write under the step: resume from the patch on the entry's `Work`
+      line, and the entry's `Premise` line. Give it the new effort as a choice.
+   2. Delete the `B` entry.
+   3. Dispatch the step again as item 3 says, one effort step up by rule 1. Put the `Premise`
+      line in the prompt.
+
+   At the ceiling, the `B` entry stands.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
 failed check, and the loop stopped. You can name the rule that stopped the loop: 7.1, 7.3, the

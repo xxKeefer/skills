@@ -71,6 +71,7 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - [x] **3. Escalation in `build`.** Kind: docs. In `build/STEP.md` section 3, replace "After 3 fix attempts" with: after two fix attempts on one premise leave a gate red, write the premise down and test it, as `principle-attack-the-premise` says, then save the work, write a `B` entry, and return. Add `- Premise: <the sentence>, tested by <observation>: <result>` and `- Effort: <model> <effort>` to the `B` format, and change `Tried` to two attempts. In `build/SKILL.md` Step 2, add one item after the check: when a step returns a `B` entry below the ceiling, dispatch the step again one effort step up, by rule 1 of the `models` block, with the `B` entry as its start. Record the step with `/update-plan` as a choice, then delete the `B` entry. At the ceiling, the `B` entry stands. Keep the `D` and `N` formats as they are.
   - Done: AC B holds on a read. `STEP.md` and `SKILL.md` agree on the `B` format.
 - [ ] **4. End-to-end trace.** Kind: config. Conditions: C2. Trace a gate that stays red through `STEP.md` and `build/SKILL.md` at `sonnet` medium, and write each attempt, its effort, and the premise line in this Done line. Then trace the same at `opus` max, and confirm the `B` entry stands.
+  - Decision (agent, 2026-11-18): D1 answered B. `build/SKILL.md` Step 2 item 8 writes the resume patch and the premise into the plan, deletes the `B` entry, then dispatches again one effort step up from the effort the parent gave, with the premise in the prompt.
   - Done: AC D holds.
 - [ ] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -95,13 +96,5 @@ After two failed fixes on one premise, the agent writes the premise down and tes
 - Decision log: decisions_pstack-20.tsv
 
 ## Pending Decisions
-
-### D1: How does the step that runs again get the work and the premise of the `B` entry? (found in step 4)
-- Gap: the trace of `build/SKILL.md` Step 2 item 8 and `STEP.md` section 1 shows that attempt 3 does not start with the premise and the saved work. Item 8 says "with the `B` entry as its start". Item 3, which lists what the dispatch prompt holds, does not name the `B` entry. `STEP.md` section 1 item 2 applies a patch only when the plan says to resume from it. Item 8 does not write that into the plan, and Step 5 item 2 does that only for an entry that the user answers. Item 8 also deletes the `B` entry after the record, so the `Work` patch path and the `Premise` line can be lost before the subagent reads them. A subagent also cannot read its own effort, so item 8 does not say whether "one effort step up" comes from the `Effort` line of the entry or from the effort that the parent dispatched.
-- A: leave the text. The subagent finds the `B` entry by chance.
-- B: change `build/SKILL.md` Step 2 item 8 (recommended: it closes every gap with one edit). Order: first write the resume into the plan as a recorded decision, with the patch path and the `Premise` line, through `/update-plan`. Then delete the `B` entry. Then dispatch the step again, with the premise in the prompt and the effort that the parent dispatched, moved one step up by rule 1. The parent takes the effort from its own dispatch record, not from the `Effort` line.
-- C: change `STEP.md` section 1 item 2 to read the `Work` line of a `B` entry for the step, and keep item 8 as it is.
-- Work: none
-- Blocks: 4, 6, 7
 
 ## Follow-ups
