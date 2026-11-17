@@ -1,0 +1,2 @@
+decision	reason	evidence	result
+Changed the description of the principle to "Fix the cause in the code, not in more text"	The old words named the removed list	check_principles.py exit 0	The description matches the ladder
