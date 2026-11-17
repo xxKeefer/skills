@@ -8,7 +8,7 @@ stops in [`SKILL.md`](../SKILL.md).
 | 1 | `/spec <ticket key>` or `/spec <idea>`. Skip it when the ticket already has lettered ACs and a plain summary, or when the user gives a spec. | H1: the user says yes to the spec. `/refine-ticket` writes the ticket back, so that write is also an H4 stop. |
 | 2 | `/plan <ticket key>` or `/plan @<spec path>`. | H2: the user approves the plan. |
 | 3 | `/build @<plan path>`. | H3, only when the plan has an open `D` entry at the end of the build. |
-| 4 | Run `/blast-radius @<plan path>`. When it reports risk, run `/interrogate @<plan path>`, which runs its adversaries at the `panel` models. Until the `blast-radius` skill exists, skip the step with the reason `skipped: no /blast-radius skill`. | H3, only when the report keeps a finding and the plan has no fix step for it. |
+| 4 | Run `/blast-radius @<plan path>`. When the verdict is `risk`, run `/interrogate @<plan path>`, which runs its adversaries at the `panel` models. | H3, only when the report keeps a finding and the plan has no fix step for it. |
 | 5 | `/ship @<plan path>`. It opens a draft PR with no stop. | H4, only before an action on the pause list, such as mark the PR ready or merge. |
 | 6 | Offer `/retro` on the session. The user runs it, or says no. | H5, when the user runs `/retro`: the user picks the skill edits. |
 
