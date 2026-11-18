@@ -100,6 +100,12 @@ class CheckFindings(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout)
         self.assertEqual(r.stdout, "open points: 0\n")
 
+    def test_unfilled_template_fails(self):
+        template = os.path.join(os.path.dirname(SCRIPT), "..", "templates", "findings.md")
+        r = run(template)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("has no body", r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

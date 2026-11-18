@@ -109,6 +109,11 @@ class CheckReport(unittest.TestCase):
         self.save(data)
         self.fails("cells")
 
+        data = self.data()
+        data["runs"][0]["rows"][0]["ticks"] = "reply"
+        self.save(data)
+        self.fails("bad `ticks`")
+
 
 if __name__ == "__main__":
     unittest.main()

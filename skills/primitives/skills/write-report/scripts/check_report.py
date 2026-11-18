@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check the runs block of an HTML report. Usage: check_report.py <report path>"""
+import argparse
 import json
 import re
 import sys
@@ -7,88 +8,96 @@ import sys
 BLOCK = re.compile(r'(<script type="application/json" id="runs">)(.*?)(</script>)', re.S)
 
 
-def problems(data):
+def check_row(row, label, seen):
+    if not isinstance(row, dict):
+        return [(f"{label}: a row is not an object", "make each row an object")]
     found = []
+    row_id = row.get("id")
+    if not isinstance(row_id, str):
+        found.append((f"{label}: a row has no string `id`", "set `id` to a string"))
+    else:
+        if row_id in seen:
+            found.append((f"duplicate row id `{row_id}`", "give each row a unique `id`"))
+        seen.add(row_id)
+    if not isinstance(row.get("cells"), dict):
+        found.append((f"{label}: row `{row_id}` has no `cells` object", "set `cells` to an object"))
+    ticks = row.get("ticks")
+    if not (ticks is None or (isinstance(ticks, list) and all(isinstance(t, str) for t in ticks))):
+        found.append((f"{label}: row `{row_id}` has bad `ticks`", "make `ticks` a list of strings"))
+    return found
 
-    def need(ok, problem, fix):
-        if not ok:
-            found.append((problem, fix))
 
+def check_run(run, seen):
+    if not isinstance(run, dict):
+        return None, [("a run is not an object", "make each run an object")]
+    found = []
+    number = run.get("run")
+    ok = isinstance(number, int) and not isinstance(number, bool)
+    if not ok:
+        found.append(("a run has no integer `run`", "set `run` to an integer"))
+    label = f"run {number}"
+    for key in ("title", "date", "answer"):
+        if not isinstance(run.get(key), str):
+            found.append((f"{label}: `{key}` is missing or not a string", f"set `{key}` to a string"))
+    rows = run.get("rows")
+    if rows:
+        columns = run.get("columns")
+        good = isinstance(columns, list) and columns and all(
+            isinstance(c, dict) and "key" in c and "label" in c for c in columns
+        )
+        if not good:
+            found.append((f"{label}: rows have no valid `columns`", "give `columns` a list of objects with `key` and `label`"))
+        for row in rows:
+            found.extend(check_row(row, label, seen))
+    return (number if ok else None), found
+
+
+def problems(data):
     if not isinstance(data, dict):
         return [("the runs block is not an object", "write an object with title, path, skill, and runs")]
+    found = []
     for key in ("title", "path", "skill"):
-        need(isinstance(data.get(key), str), f"top key `{key}` is missing or not a string", f"set `{key}` to a string")
+        if not isinstance(data.get(key), str):
+            found.append((f"top key `{key}` is missing or not a string", f"set `{key}` to a string"))
     runs = data.get("runs")
     if not isinstance(runs, list):
-        need(False, "top key `runs` is missing or not a list", "set `runs` to a list of runs")
+        found.append(("top key `runs` is missing or not a list", "set `runs` to a list of runs"))
         return found
     numbers = []
     seen = set()
     for run in runs:
-        if not isinstance(run, dict):
-            need(False, "a run is not an object", "make each run an object")
-            continue
-        number = run.get("run")
-        ok = isinstance(number, int) and not isinstance(number, bool)
-        need(ok, "a run has no integer `run`", "set `run` to an integer")
-        if ok:
+        number, run_found = check_run(run, seen)
+        found.extend(run_found)
+        if number is not None:
             numbers.append(number)
-        label = f"run {number}"
-        for key in ("title", "date", "answer"):
-            need(isinstance(run.get(key), str), f"{label}: `{key}` is missing or not a string", f"set `{key}` to a string")
-        rows = run.get("rows")
-        if rows:
-            columns = run.get("columns")
-            good = isinstance(columns, list) and columns and all(
-                isinstance(c, dict) and "key" in c and "label" in c for c in columns
-            )
-            need(good, f"{label}: rows have no valid `columns`", "give `columns` a list of objects with `key` and `label`")
-            for row in rows:
-                if not isinstance(row, dict):
-                    need(False, f"{label}: a row is not an object", "make each row an object")
-                    continue
-                row_id = row.get("id")
-                need(isinstance(row_id, str), f"{label}: a row has no string `id`", "set `id` to a string")
-                if isinstance(row_id, str):
-                    need(row_id not in seen, f"duplicate row id `{row_id}`", "give each row a unique `id`")
-                    seen.add(row_id)
-                need(isinstance(row.get("cells"), dict), f"{label}: row `{row_id}` has no `cells` object", "set `cells` to an object")
-                ticks = row.get("ticks")
-                need(
-                    ticks is None or (isinstance(ticks, list) and all(isinstance(t, str) for t in ticks)),
-                    f"{label}: row `{row_id}` has bad `ticks`",
-                    "make `ticks` a list of strings",
-                )
-    need(
-        len(set(numbers)) == len(numbers) and numbers == sorted(numbers, reverse=True),
-        "run numbers are not unique and in falling order",
-        "number the runs, newest first",
-    )
+    if len(set(numbers)) != len(numbers) or numbers != sorted(numbers, reverse=True):
+        found.append(("run numbers are not unique and in falling order", "number the runs, newest first"))
     return found
 
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: check_report.py <report path>", file=sys.stderr)
-        sys.exit(1)
-    path = sys.argv[1]
+def main(argv):
+    parser = argparse.ArgumentParser(prog="check_report.py", description="Check the runs block of an HTML report.")
+    parser.add_argument("report")
+    path = parser.parse_args(argv[1:]).report
     with open(path, encoding="utf-8") as f:
         text = f.read()
     match = BLOCK.search(text)
     if not match:
         print(f"{path}: no runs block found. Fix: write the file with write_report.py.")
-        sys.exit(1)
+        return 1
     try:
         data = json.loads(match.group(2))
     except ValueError as error:
         print(f"{path}: the runs block does not parse: {error}. Fix: correct the JSON in the block.")
-        sys.exit(1)
+        return 1
     found = problems(data)
     for problem, fix in found:
         print(f"{path}: {problem}. Fix: {fix}.")
     if found:
-        sys.exit(1)
+        return 1
     print("ok")
+    return 0
 
 
-main()
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

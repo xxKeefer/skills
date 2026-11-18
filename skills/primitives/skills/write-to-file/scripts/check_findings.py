@@ -52,7 +52,7 @@ def main(argv):
         if index < highest:
             err(begin, f"`## {name}` is out of order", "put the sections in the order " + ", ".join(f"`## {s}`" for s in SECTIONS))
         highest = max(highest, index)
-        if not any(lines[i].strip() for i in range(begin, end)):
+        if not any(lines[i].strip() and not lines[i].lstrip().startswith("<!--") for i in range(begin, end)):
             err(begin, f"`## {name}` has no body", "write text, or `none`")
     for e in errors:
         print(e)
