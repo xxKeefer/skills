@@ -217,14 +217,14 @@ bad:
 
 ```ts
 type User = { id: string; name?: string };
-function load(input: any): User {}
+declare function load(input: any): User;
 ```
 
 good:
 
 ```ts
 type User = { id: string; name: string };
-function load(input: unknown): User {}
+declare function load(input: unknown): User;
 ```
 
 Principle: `principle-minimize-reader-load`.
