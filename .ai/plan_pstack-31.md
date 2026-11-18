@@ -136,3 +136,4 @@ builds_on: pstack-30
 - 2026-11-18: build loop rule 7.2: review fix e620966 changes how `check_findings.py` strips comments, so steps 10 (Test) and 11 (Review) are a third round, the last that the loop allows. Push is now step 12. Next: step 10.
 - 2026-11-18: step 10 done: the seven gates each exit 0. Next: step 11, review round 3.
 - 2026-11-18: step 11 done: light review round 3, three fixes in c199831, none open. The build loop stops here. Next: step 12, push.
+- 2026-11-18: build loop stopped after the third review step (step 11). No row is open from runs 2 and 3. Rows r1.1 (Nit: no skill sets `status: consumed`) and r1.2 (Future: small test gaps) stay open from run 1. QA report `.ai/qa_pstack-31_findings-report.html` (ab32e68): 12 agent rows pass. Its push row is not run: the push is playbook step 6. Next: playbook step 5, `/blast-radius`.
