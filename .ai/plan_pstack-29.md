@@ -70,11 +70,11 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - [x] **1. The skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/engineering/skills/codebase-news/SKILL.md` first. Write `skills/engineering/skills/why/SKILL.md` with `name: why`, the sources and the answer shape from Context, and one line of prose that credits pstack `why`. Add a `/why` row to the Skills table in `skills/engineering/README.md`.
   - Seam: `skills/engineering/skills/why/SKILL.md`.
   - Done: ACs A, B, and C hold on a read, and the pre-commit test passes.
-- [ ] **2. Live run.** Kind: config. Conditions: C1. Pick one line of this repo that two or more commits touched. Give a fresh agent the new `why/SKILL.md` and that line. Copy the result in short form into this Done line.
+- [x] **2. Live run.** Kind: config. Conditions: C1. Pick one line of this repo that two or more commits touched. Give a fresh agent the new `why/SKILL.md` and that line. Copy the result in short form into this Done line.
   - Seam: the `why` skill text, as an agent follows it.
-  - Done: AC D holds, and the run is in this line.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+  - Done: AC D holds. Run 1 on `codebase-news/SKILL.md:3-5` found a defect: the merge lookup read the newest merges (PRs 64 to 66). Fix 0a325e9 reads the first merge with `--reverse`. Run 2 cited f9d72c5, cfacd58, and bc205ca with author xxKeefer, and PR 32 and PR 39, which match a manual check. It listed the unread PR threads and the bc205ca reason as unanswered.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-29.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-29_why`, in place of `/create-pr`.
@@ -92,3 +92,5 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - Decision log: decisions_pstack-29.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done (c8ee6a3): `why/SKILL.md` and the README row. Pre-commit test passes. Next: step 2, live run.
+- 2026-11-18: step 1 done (c8ee6a3). Step 2 done: run 1 found the merge lookup defect, fix 0a325e9, run 2 passed.
+- 2026-11-18: step 3 done: the gates each exit 0.
