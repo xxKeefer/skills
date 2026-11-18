@@ -75,8 +75,8 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
   - Done: AC D holds. Run 1 on `codebase-news/SKILL.md:3-5` found a defect: the merge lookup read the newest merges (PRs 64 to 66). Fix 0a325e9 reads the first merge with `--reverse`. Run 2 cited f9d72c5, cfacd58, and bc205ca with author xxKeefer, and PR 32 and PR 39, which match a manual check. It listed the unread PR threads and the bc205ca reason as unanswered.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-29.md`. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-29.md`. This step changes no code. Name `/engineering:light-review`.
+  - Done: report `.ai/review_pstack-29_why.html`, base e85b601, head fdf4f62. Light run: persona-skills ran clean, no finding, no fix.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-29_why`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -94,3 +94,4 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - 2026-11-18: step 1 done (c8ee6a3): `why/SKILL.md` and the README row. Pre-commit test passes. Next: step 2, live run.
 - 2026-11-18: step 1 done (c8ee6a3). Step 2 done: run 1 found the merge lookup defect, fix 0a325e9, run 2 passed.
 - 2026-11-18: step 3 done: the gates each exit 0.
+- 2026-11-18: step 4 done: light review, persona-skills clean, base e85b601, head fdf4f62.
