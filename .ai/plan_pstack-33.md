@@ -101,6 +101,7 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
   ```
 
   Cleared: a cached plugin copy keyed by version. ADR 0001 says a relative-path plugin loads in place, so a bump changes no load. Confirmed risks: none.
+- Run: playbook `map`, unit 33 of the last batch. Pushed, ticked, and the map deleted in 8f7435b. Stop: H5, the `/retro` offer. Next: the user runs `/retro`, or says no. The map has no unit left, so no batch follows.
 
 ## Pending Decisions
 
