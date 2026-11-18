@@ -21,8 +21,8 @@ builds_on: pstack-30
 
 ## Acceptance criteria
 
-- [ ] **A.** Ask `/write-to-file` for a `findings` file → it writes the file from a `findings` template, then runs the findings check and gives its result to the caller.
-- [ ] **B.** Run the findings check on a findings file → it passes a file in the template layout, and fails a file with a missing header key or section, with the line and a fix.
+- [x] **A.** Ask `/write-to-file` for a `findings` file → it writes the file from a `findings` template, then runs the findings check and gives its result to the caller.
+- [x] **B.** Run the findings check on a findings file → it passes a file in the template layout, and fails a file with a missing header key or section, with the line and a fix.
 - [ ] **C.** Run the report check on a report HTML file → it passes a file whose `runs` block has the `/write-report` shape, and fails a file whose block is missing, does not parse, or breaks the shape, with the problem and a fix.
 - [ ] **D.** Run `/diagnose` to the end of its hunt → it writes `findings_<KEY>.md` in the findings layout, not the old hunt layout.
 - [ ] **E.** Run `/diagnose` on a bug, then run the findings check on its file → the check passes.
@@ -82,7 +82,7 @@ builds_on: pstack-30
 
 ## Steps
 
-- [ ] **1. The findings layout.** Seam: the `check_findings.py` command line. Conditions: C1, C2, C3, C4. Write the tests first and see them fail. Then write `templates/findings.md` and `scripts/check_findings.py` by the findings layout and the findings check in Context. Update `write-to-file/SKILL.md` as Context says.
+- [x] **1. The findings layout.** Seam: the `check_findings.py` command line. Conditions: C1, C2, C3, C4. Write the tests first and see them fail. Then write `templates/findings.md` and `scripts/check_findings.py` by the findings layout and the findings check in Context. Update `write-to-file/SKILL.md` as Context says.
   - Done: `check_findings.spec.py` adds the four tests in the Conditions table, and each passes. A and B hold.
 - [ ] **2. The report check.** Seam: the `check_report.py` command line. Conditions: C5, C6, C7. Write the tests first and see them fail. Then write `write-report/scripts/check_report.py` by the report check in Context. Add the check to `write-report` Step 3.
   - Done: `check_report.spec.py` adds the three tests in the Conditions table, and each passes. C holds.
@@ -111,3 +111,4 @@ builds_on: pstack-30
 - 2026-11-18: plan written on `pstack-30_text-diagrams`, for the branch `pstack-31_findings-report`.
 - Decision log: decisions_pstack-31.tsv
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: `check_findings.py`, its four tests, `templates/findings.md`, and the `write-to-file` text. Mutation check went red.
