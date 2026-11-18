@@ -1,7 +1,7 @@
 ---
 name: light-review
 description: >
-  Run the nine essential lanes of the review panel over a PR or branch, into the same report as
+  Run the essential lanes of the review panel over a PR or branch, into the same report as
   /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
   lanes than the full panel.
 argument-hint: "[PR number or URL | branch] [plan or spec path]"
@@ -9,7 +9,7 @@ argument-hint: "[PR number or URL | branch] [plan or spec path]"
 
 # Light Review: the essential lanes of the panel
 
-Run nine persona lanes over one diff, not the full panel. The steps, the guards, and the report
+Run the essential persona lanes over one diff, not the full panel. The steps, the guards, and the report
 are those of `mob-review`. The other lanes do not run, so a clean light run is not a clean full
 panel.
 
@@ -24,6 +24,7 @@ panel.
 - `persona-test-quality`
 - `persona-architecture`
 - `persona-comments`
+- `persona-skills`
 
 ## Steps
 

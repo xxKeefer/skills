@@ -21,6 +21,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |
 | `/roleplay` | Play a narrative scene in character from `🎬 ACTION! 🥸` to `OK_STOP`, then debrief what the play surfaced |
 | `/simulate` | Stand in for a technical system from `⚙️ RUNNING! 🧪` to `OK_STOP`, then debrief where the render cheated |
+| `/sharpen` | Rewrite a prompt to go deeper, not wider, with the same task |
 
 ## Installation
 

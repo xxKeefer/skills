@@ -22,6 +22,8 @@ Scope comes before the claim. When a ticket splits into sub-tasks, the run stops
 **No questions.** When the user says to ask no questions, follow
 [`references/inputs.md`](references/inputs.md#no-questions).
 
+**Before a question.** Before a question to the user, classify it by the `/grill` fork rule.
+
 ## Step 1: Read the ticket
 
 1. Read the key from `$ARGUMENTS`. If it is not there, ask for it. When `/plan` gives a spec in
@@ -89,7 +91,8 @@ ticket that is further along. Say in one line what you did.
 ## Step 5: Draft the plan
 
 Plan only the scope from Step 2. Read the code in the worktree from Step 3. If the area that
-changes is unknown, send one search subagent to find it. Its brief names no model.
+changes is unknown, send one search subagent to find it. Its brief names no model. When a step
+rewrites a rule, search the repo for the rule's old words, and give each copy a step.
 
 The plan holds:
 

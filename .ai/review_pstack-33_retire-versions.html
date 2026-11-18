@@ -50,45 +50,115 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Interrogate pstack-19_no-comments",
- "path": "/home/xxkeefer/studio/code/skills/.ai/interrogate_pstack-19_no-comments.html",
- "skill": "/engineering:fix",
+ "title": "Review of pstack-33_retire-versions",
+ "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-33_retire-versions.html",
+ "skill": "/engineering:build",
  "runs": [
   {
-   "title": "Run 1",
-   "head": "d73d7f6",
+   "title": "Light run",
+   "head": "d6e0f4f",
    "meta": {
-    "Base": "pstack-inspired b86fe6d",
-    "Scope": "branch diff from the merge base",
-    "Intent": "Each added comment line on the user's own branch reaches persona-comments as a finding with a ladder replacement; a hack becomes a plan step or a Follow-up; added_comments.py lists each added comment line with its new-file line number.",
-    "Adversaries": "opus (high), sonnet (high), session model",
-    "Plan": "/home/xxkeefer/studio/code/skills/.ai/plan_pstack-19.md"
+    "Base": "pstack-32_script-audit (6601371)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-33.md"
    },
-   "answer": "10 proven findings, from 15 raw findings that the re-run kept. Nine are in added_comments.py, and one is in the review wiring. Next: a fix round with /build on these rows.",
+   "answer": "The branch has no change-requested findings. The four version lines match the plan targets, and the vault note and card meet AC A. One nit in the vault note is fixed, and one future row stays open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
    "visuals": [
     {
-     "question": "What did each adversary drop, and why?",
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
      "table": {
       "columns": [
-       "Adversary",
-       "Dropped",
-       "Reasons"
+       "Lane",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
       ],
       "rows": [
        [
-        "opus (high)",
+        "skills",
         "0",
-        "none"
+        "0",
+        "0",
+        "ran (clean)"
        ],
        [
-        "sonnet (high)",
+        "comments",
         "0",
-        "none"
+        "0",
+        "0",
+        "ran (clean)"
        ],
        [
-        "session model",
+        "correctness",
+        "-",
+        "-",
+        "-",
+        "skipped (no executable code changed)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no ts or vue source)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no failure path changed)"
+       ],
+       [
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no non-test source changed)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no ts, vue, or js change)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (no behavioural source changed)"
+       ],
+       [
+        "test-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no test file changed)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no app or library source changed)"
+       ],
+       [
+        "other lanes and project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "vault note and card",
         "0",
-        "none"
+        "1",
+        "0",
+        "read by hand against AC A and the plan Context"
        ]
       ]
      }
@@ -96,27 +166,29 @@
    ],
    "columns": [
     {
-     "key": "title",
-     "label": "Title"
+     "key": "tier",
+     "label": "Tier"
     },
     {
-     "key": "command",
-     "label": "Command",
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
      "mono": true
     },
     {
-     "key": "output",
-     "label": "Output",
-     "mono": true,
-     "fold": true
+     "key": "issue",
+     "label": "Issue"
     },
     {
-     "key": "intent",
-     "label": "Intent"
+     "key": "recommendation",
+     "label": "Recommendation"
     },
     {
-     "key": "adversaries",
-     "label": "Adversaries"
+     "key": "result",
+     "label": "Result"
     }
    ],
    "rows": [
@@ -125,134 +197,29 @@
       "fix"
      ],
      "cells": {
-      "title": "A path that git quotes (a non-ASCII name) is skipped, because the extension reads as `py\"`",
-      "command": "(cd /tmp/interrogate-pstack-19-2 && sh repro/qpath.sh)\n(cd /tmp/interrogate-pstack-19-3 && sh repro/quoted_path.sh)\n(cd /tmp/interrogate-pstack-19-1 && python3 repro/quoted_path.py)",
-      "output": "+++ \"b/caf\\303\\251.py\"\nout=[]",
-      "intent": "A quoted path breaks the extension lookup, so the comment is dropped.",
-      "adversaries": "opus, session, sonnet"
+      "tier": "Future",
+      "persona": "skills",
+      "where": ".ai/plan_pstack-33.md:7",
+      "issue": "The goal says only this unit changed a plugin.json, but commits abdb836 and 519effb on this branch also changed one.\n\nThe decision log records the choice: the count is against main. The goal text cannot hold word for word.",
+      "recommendation": "Keep the plan as it is. The decision log holds the reason, and the versions match the targets.",
+      "result": "Open: the goal wording needs a decision from the user, not a code fix"
      },
      "id": "r1.1"
     },
     {
-     "ticks": [
-      "fix"
-     ],
      "cells": {
-      "title": "An added line inside a block comment that a context line opened, or that spans a context line, is not listed",
-      "command": "(cd /tmp/interrogate-pstack-19-3 && sh repro/jsdoc_context.sh)\n(cd /tmp/interrogate-pstack-19-1 && python3 repro/jsdoc_middle.py)\n(cd /tmp/interrogate-pstack-19-1 && python3 repro/block_across_context.py)",
-      "output": "output: []\nFAIL: added line inside an existing block comment is not listed",
-      "intent": "An added line in a block opened on a context line is missed.",
-      "adversaries": "opus, session"
+      "tier": "Nit",
+      "persona": "vault note",
+      "where": "tasks/Trial the pstack program.md:25",
+      "issue": "The Trial section had two blank lines under its heading.",
+      "recommendation": "Remove one blank line.",
+      "result": "Fixed (vault file, outside the repo, so no commit)"
      },
      "id": "r1.2"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "CSS is in the `//` row, but CSS has no line comments, so `url(//...)` is listed",
-      "command": "(cd /tmp/interrogate-pstack-19-3 && sh repro/css_url.sh)\n(cd /tmp/interrogate-pstack-19-1 && python3 repro/css_url.py)",
-      "output": "output: [a.css:1: //x.test/a.png); }]\nFAIL: CSS url() listed as a comment",
-      "intent": "CSS has no line comments, so a url is listed as a comment.",
-      "adversaries": "opus, session"
-     },
-     "id": "r1.3"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "A form feed or another `splitlines` separator inside an added line shifts each later line number",
-      "command": "(cd /tmp/interrogate-pstack-19-2 && sh repro/ff.sh)",
-      "output": "x.py:4: # real comment on line 3",
-      "intent": "splitlines() splits an added line that holds a form feed, so later comments get the wrong line number.",
-      "adversaries": "sonnet"
-     },
-     "id": "r1.4"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "A `'\"'` char literal pairs its double quote with one in a trailing comment, and the comment is missed",
-      "command": "(cd /tmp/interrogate-pstack-19-2 && sh repro/chr.sh)",
-      "output": "--- /dev/null\n+++ b/a.go\n@@ -0,0 +1,1 @@\n+if c == '\"' { // handle \"quoted\" input\nout=[]",
-      "intent": "The double quote in a char literal pairs with one in the comment, so the comment is missed.",
-      "adversaries": "sonnet"
-     },
-     "id": "r1.5"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "A `#` with no space before it (`f(1)# hack`) is missed",
-      "command": "(cd /tmp/interrogate-pstack-19-3 && sh repro/py_nospace.sh)",
-      "output": "output: []\nFAIL: python comment with no space before # not listed",
-      "intent": "x = f(1)# hack is a real comment and is missed.",
-      "adversaries": "session"
-     },
-     "id": "r1.6"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "The `/build` review step runs `light-review`, whose lanes leave out `persona-comments`, so the build loop never applies the no-comments rule",
-      "command": "(cd /tmp/interrogate-pstack-19-3 && sh repro/light_review_lane.sh)",
-      "output": "68:     Name `/engineering:light-review`.\nFAIL: /build review step runs light-review, whose essential lanes omit persona-comments",
-      "intent": "light-review omits persona-comments, so the build loop never applies the no-comments rule.",
-      "adversaries": "session"
-     },
-     "id": "r1.7"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "Files with no extension, such as `Dockerfile` and `Makefile`, are never scanned",
-      "command": "(cd /tmp/interrogate-pstack-19-1 && python3 repro/extensionless.py)",
-      "output": "output: ''\nTraceback (most recent call last):\n  File \"/tmp/interrogate-pstack-19-1/repro/extensionless.py\", line 18, in <module>\n    assert \"Dockerfile:2:\" in out and \"Makefile:2:\" in out, \"comments in Dockerfile/Makefile are not listed\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: comments in Dockerfile/Makefile are not listed",
-      "intent": "Comments in a Dockerfile or Makefile are missed.",
-      "adversaries": "opus"
-     },
-     "id": "r1.8"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "SQL and nix `/* */` block comments are not listed",
-      "command": "(cd /tmp/interrogate-pstack-19-1 && python3 repro/sql_block.py)",
-      "output": "output: ''\nTraceback (most recent call last):\n  File \"/tmp/interrogate-pstack-19-1/repro/sql_block.py\", line 20, in <module>\n    assert \"db/q.sql:2:\" in out and \"db/q.sql:3:\" in out and \"f.nix:2:\" in out, \"SQL/nix /* */ block comments are not listed\"\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: SQL/nix /* */ block comments are not listed",
-      "intent": "Block comments in SQL and nix are missed.",
-      "adversaries": "opus"
-     },
-     "id": "r1.9"
-    },
-    {
-     "ticks": [
-      "fix"
-     ],
-     "cells": {
-      "title": "A line inside a Python triple-quoted string that starts with `#` is listed as a comment",
-      "command": "(cd /tmp/interrogate-pstack-19-1 && python3 repro/py_string.py)",
-      "output": "output: 'cli.py:3: # Usage\\n'\nTraceback (most recent call last):\n  File \"/tmp/interrogate-pstack-19-1/repro/py_string.py\", line 15, in <module>\n    assert out == \"\", \"a line inside a Python triple-quoted string is listed as a comment\"\n           ^^^^^^^^^\nAssertionError: a line inside a Python triple-quoted string is listed as a comment",
-      "intent": "String data is listed as a comment.",
-      "adversaries": "opus"
-     },
-     "id": "r1.10"
     }
    ],
    "run": 1,
-   "date": "2026-11-17"
+   "date": "2026-11-18"
   }
  ]
 }

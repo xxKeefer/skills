@@ -57,8 +57,9 @@ guidance sets.
 
 Run the gates in every step. Run them also in a step that changes no file, such as a review step.
 
-If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
-red, save the work, write a `B` entry, and return.
+If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
+a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then save
+the work, write a `B` entry, and return.
 
 **Done when:** every gate is green.
 
@@ -68,11 +69,10 @@ red, save the work, write a `B` entry, and return.
 2. Commit with the repo's commit convention. Before the first commit, read the commit-message
    rules in the user's and the repo's instructions. When a commit hook rejects the message, fix
    the message and commit again. Keep the hook on.
-3. Invoke `/update-plan` on the plan to mark the step done, and each AC whose letter the done
-   line names. Give it each choice that this step
-   made alone and that the plan does not record. For each choice, give the decision, the reason, the
-   evidence, and the result. `/update-plan` adds each one to the decision log.
-
+3. Edit the plan: mark the step done, mark each AC whose letter the done line names, and add one
+   `Progress` line. Ask `/write-to-file` to check the plan. For each choice that this step made
+   alone and that the plan does not record, give `/update-plan` the decision, the reason, the
+   evidence, and the result. It adds each one to the decision log.
 4. Commit the plan edit, and the decision log if `/update-plan` wrote or changed it, with the
    message `docs(ai): mark step <id> done`, so the tree is clean when you return.
 
@@ -133,7 +133,9 @@ In an `N` entry, when the outside action is the whole step, the Action line is
 
 ### B1: step <id>, <gate> stays red
 - Failure: <first lines of the failing output>
-- Tried: <attempt 1>, <attempt 2>, <attempt 3>
+- Premise: <the sentence>, tested by <observation>: <result>
+- Tried: <attempt 1>, <attempt 2>
+- Effort: <model> <effort>
 - Work: <patch path>
 - Blocks: <step IDs>
 

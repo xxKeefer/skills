@@ -7,6 +7,12 @@ Interview me relentlessly about every aspect of this plan until we reach a share
 
 Ask the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.
 
-If a _fact_ can be found by exploring the corpus, look it up rather than asking me. The _decisions_, though, are mine — put each one to me and wait for my answer.
+Before each question, classify it:
+
+- A _fact_ that the corpus holds: look it up. Do not ask me.
+- A _fact_ that a run or a prototype can settle: run it, and report what it showed.
+- A _decision_: put it to me with your recommended answer, and wait for my answer.
+
+The fork rule comes from pstack's `poteto-mode`.
 
 Do not enact the plan until I confirm we have reached a shared understanding.

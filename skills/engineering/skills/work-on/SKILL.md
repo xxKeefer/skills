@@ -116,8 +116,9 @@ do not drop a step.
 When you skip a step, keep it in the list. Mark it done, and add the reason, such as
 `skipped: the ticket has a spec`.
 
-When the session has no todo tool, list the playbook steps in the reply, with the same marks.
-Keep the list current in each later reply.
+When the session has no todo tool, list the playbook steps once in the reply, with the same marks.
+Then, as each step ends, write the step and its mark in the plan's `## Progress`, when a plan
+exists.
 
 **Done when:** the todo list, or the list in the reply, holds every playbook step.
 

@@ -95,7 +95,8 @@ For each remaining step, in plan order:
    path, the step ID, the `goal` key of the plan's header word for word, and the absolute path
    to [`STEP.md`](STEP.md). Tell it to follow `STEP.md`. Run it at the `worker` role of the
    `models` block in `~/.claude/AGENTS.md`, or at the `mechanical worker` role for a step that the
-   plan marks mechanical. With no `models` block, use the session model.
+   plan marks mechanical. With no `models` block, use the session model. When the plan's Context
+   names a subagent model, use that model in place of the role.
    To save subagents, give one subagent a batch of at most four consecutive steps: review fix
    steps from the same round, or steps that the plan marks `Kind: docs` or `Kind: mechanical`.
    Pick steps that are small or that touch the same files. Give it the list of step IDs in place
@@ -128,6 +129,15 @@ For each remaining step, in plan order:
 
    Stop the loop after the third review step that the plan holds since its approval, even if a
    fix changed behaviour. A run after Step 5 continues the count. Say so in the report.
+8. When a step returns a `B` entry, take the effort that you gave its subagent. Below the ceiling
+   of rule 1 of the `models` block in `~/.claude/AGENTS.md`, do these steps:
+   1. With `/update-plan`, write under the step: resume from the patch on the entry's `Work`
+      line, and the entry's `Premise` line. Give it the new effort as a choice.
+   2. Delete the `B` entry.
+   3. Dispatch the step again as item 3 says, one effort step up by rule 1. Put the `Premise`
+      line in the prompt.
+
+   At the ceiling, or with no `models` block, the `B` entry stands.
 
 **Done when:** every remaining step is done, skipped with an entry ID, or the run stopped on a
 failed check, and the loop stopped. You can name the rule that stopped the loop: 7.1, 7.3, the

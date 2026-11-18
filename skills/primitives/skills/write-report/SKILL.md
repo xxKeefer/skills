@@ -130,12 +130,15 @@ Follow these rules:
 
    If the script exits 1, read its message, fix the temp file, and run it again. Put no HTML
    comment in a string.
-2. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
+2. Run `python3 $SKILL_DIR/scripts/check_report.py <path>`. It prints `ok` and exits 0, or prints
+   one line for each error in the `runs` block, with a fix, and exits 1. On exit 1, fix the temp
+   file, and run both scripts again.
+3. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
    on Linux. If the command fails, go on.
-3. Return the `file://` URL that the script printed, not a bare path. A caller shows this URL to
+4. Return the `file://` URL that the script printed, not a bare path. A caller shows this URL to
    the user, because an editor opens a bare path.
 
-**Done when:** the script exits 0, and you return the `file://` URL.
+**Done when:** both scripts exit 0, and you return the `file://` URL.
 
 ## The prompt
 

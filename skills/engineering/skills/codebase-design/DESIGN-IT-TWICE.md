@@ -2,6 +2,8 @@
 
 When the user wants to explore alternative interfaces for a chosen deepening candidate, use this parallel sub-agent pattern. Based on "Design It Twice" (Ousterhout) — your first idea is unlikely to be the best.
 
+The rubric, the scrap check, and the base with grafts are adapted from pstack `arena` and `architect`.
+
 Uses the vocabulary in [SKILL.md](SKILL.md) — **module**, **interface**, **seam**, **adapter**, **leverage**.
 
 ## Process
@@ -14,7 +16,11 @@ Before spawning sub-agents, write a user-facing explanation of the problem space
 - The dependencies it would rely on, and which category they fall into (see [DEEPENING.md](DEEPENING.md))
 - A rough illustrative code sketch to ground the constraints — not a proposal, just a way to make the constraints concrete
 
-Show this to the user, then immediately proceed to Step 2. The user reads and thinks while the sub-agents work in parallel.
+Then sketch the caller. Write the caller's code as it would read with an ideal interface, before any design. This is the **caller sketch**. A design must serve it.
+
+Then write the **rubric**: three to five criteria, each with a weight. Take the criteria from the vocabulary in [SKILL.md](SKILL.md) (depth, locality, seam placement, testability through the interface) and from the constraints of this problem. Write the rubric now, so that no returned design can shape it.
+
+Show the problem space, the caller sketch, and the rubric to the user, then immediately proceed to Step 2. The user reads and thinks while the sub-agents work in parallel.
 
 ### 2. Spawn sub-agents
 
@@ -27,6 +33,8 @@ Prompt each sub-agent with a separate technical brief (file paths, coupling deta
 - Agent 3: "Optimise for the most common caller — make the default case trivial."
 - Agent 4 (if applicable): "Design around ports & adapters for cross-seam dependencies."
 
+Add the caller sketch and the rubric to each brief.
+
 Include both [SKILL.md](SKILL.md) vocabulary and CONTEXT.md vocabulary in the brief so each sub-agent names things consistently with the architecture language and the project's domain language.
 
 Each sub-agent outputs:
@@ -37,8 +45,21 @@ Each sub-agent outputs:
 4. Dependency strategy and adapters (see [DEEPENING.md](DEEPENING.md))
 5. Trade-offs — where leverage is high, where it's thin
 
-### 3. Present and compare
+### 3. Scrap, score, and graft
 
-Present designs sequentially so the user can absorb each one, then compare them in prose. Contrast by **depth** (leverage at the interface), **locality** (where change concentrates), and **seam placement**.
+Scrap each design that shows a known tell. Name the tell for each scrapped design. Known tells:
 
-After comparing, give your own recommendation: which design you think is strongest and why. If elements from different designs would combine well, propose a hybrid. Be opinionated — the user wants a strong read, not a menu.
+- It needs a cast to compile.
+- The caller must know the order of calls.
+- The interface is as wide as its implementation.
+- The caller sketch does not run against it unchanged. Rewrite the sketch with the design's interface. If the sketch loses a call, or needs a new call, a new step, a changed call order, or a value the caller must build, scrap the design.
+
+If every design is scrapped, show the tells to the user and run Step 2 once more, with the tells added to each brief. If every design is scrapped again, stop and ask the user whether to change the caller sketch or the rubric.
+
+Score each design that survives against the rubric. Show a table with one row per design, one column per criterion, and the weighted total.
+
+Pick the design with the top score as the **base**. Do not pick by taste.
+
+Then graft. Name each strong part of another design that the base lacks. Give the reason for each graft, and say what the graft changes in the base interface. If no part is worth a graft, say so.
+
+Present the rubric, the scores, the scrapped designs with their tells, the base, and each graft, so the user can absorb each one. Be opinionated — the user wants a strong read, not a menu.

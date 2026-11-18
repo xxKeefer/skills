@@ -1,0 +1,4 @@
+decision	reason	evidence	result
+grill holds the fork rule, and spec and start-ticket point at it	one source for one rule, and spec Step 3 already follows /grill	spec/SKILL.md Step 3: Follow /grill	in plan steps 1 and 2
+the plan route line goes into start-ticket, not plan	plan holds no steps of its own, and the engineering CLAUDE.md says a command holds no step that a skill below it holds	plan/SKILL.md: /start-ticket does the work	in plan step 2
+the live run gives a fresh agent the grill text and a sample plan, and asks for its questions and lookups in one reply	a subagent cannot wait for the user's answers, so one reply shows the classification	grill asks one question at a time and waits	in plan step 3

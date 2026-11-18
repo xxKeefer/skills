@@ -94,10 +94,11 @@ STE already spent Orwell's rules on voice and jargon; hunt the remaining delta:
 - **Rule 2** -- long words with short equivalents ("optionality" -> "the option").
 - **Rule 3** -- every word that can come out of a sentence Grice kept ("explicitly out of scope",
   "quietly queues", "actual deliverable").
+- **Tells** -- hunt each tell in [`UNSLOP.md`](../../UNSLOP.md) that no earlier pass or rule here flagged. Skip S3, which Pass 3 owns. When a Rule 1 to 3 finding is also a tell, report it once and add the tell ID. Name each tell that you flag by its ID (`V3`, `P1`).
 - **Rule 6** -- the guardrail: break any rule sooner than write something barbarous. Keep what a
   cut would make worse, and say which keeps you made.
 
-Present the delta only, gate y/n with **AskUserQuestion**, apply.
+Present the delta only, with the ID on each tell finding, gate y/n with **AskUserQuestion**, apply.
 
 ## Summary
 

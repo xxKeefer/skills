@@ -46,7 +46,8 @@ Follow `/grill`, with these rules on top:
    constraint.
 3. When an answer sounds like what a good answer should be ("scalable", "the standard way"), ask:
    "If you did not have to justify this to anyone, what would you want?"
-4. Stop when you can predict the user's reaction to your next three questions. If you still cannot
+4. Classify each gap by the `/grill` fork rule first, and ask only the decisions.
+5. Stop when you can predict the user's reaction to your next three questions. If you still cannot
    after eight questions, say that something basic is missing, and ask to step back.
 
 **Done when:** you can predict the next three answers, or the user stepped back.

@@ -53,7 +53,7 @@ def main():
     data = {"title": given.get("title", "Report"), "path": report, "skill": given.get("skill", "")}
     if "track" in given:
         data["track"] = given["track"]
-    data["runs"] = [new_run] + earlier
+    data["runs"] = sorted([new_run] + earlier, key=lambda r: r["run"], reverse=True)
 
     body = json.dumps(data, indent=1, ensure_ascii=False).replace("</", "<\\/")
     with open(TEMPLATE, encoding="utf-8") as f:

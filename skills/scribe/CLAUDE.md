@@ -28,6 +28,8 @@ A procedure file is a small collection of related procedures for one area (e.g. 
 The rules for every edit, starting with Obsidian syntax, live in [`HARD-RULES.md`](HARD-RULES.md).
 The four proof-read skills link that file. Change a shared rule there, not in a skill.
 
+[`UNSLOP.md`](UNSLOP.md) holds the catalogue of AI tells, each with a stable ID. `proof-read` names a tell by its ID. Never renumber or reuse an ID.
+
 ## Dependencies
 
 Scribe skills reference `/grill` from the `primitives` plugin for HITL coaching mechanics, and

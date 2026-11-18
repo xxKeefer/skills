@@ -15,8 +15,8 @@ Write the given content to the output folder for its doctype.
 | `map` | the order of many units, shared decisions, a tick per unit | [`templates/map.md`](templates/map.md) |
 | `spec` | what to build for one change, and why | [`templates/spec.md`](templates/spec.md) |
 | `plan` | goal, steps, progress, pending decisions, follow-ups | [`templates/plan.md`](templates/plan.md) |
-| `findings` | a question, its answer, the evidence, open points | none yet |
-| `report` | a review or audit result, often HTML with a JSON `runs` block and rows to tick | none yet |
+| `findings` | a question, its answer, the evidence, open points | [`templates/findings.md`](templates/findings.md) |
+| `report` | a review or audit result, HTML with a JSON `runs` block and rows to tick. `/write-report` writes it, and runs its own check | none |
 | `scratch` | anything | none |
 
 Refuse any other doctype. Write no file, and reply with the six doctypes above. When the caller
@@ -24,9 +24,10 @@ names no doctype, use `scratch`.
 
 A file with a template has the template's layout. After you write a `plan`, run
 `python3 scripts/check_plan.py <absolute plan path>` from this skill's folder. After you write a
-`spec`, run `python3 scripts/check_spec.py <absolute spec path>` from this skill's folder. On exit
-1, fix each line that it names, and run it again. Give the last line of the check, the open count,
-to the caller.
+`spec`, run `python3 scripts/check_spec.py <absolute spec path>` from this skill's folder. After you write a
+`findings` file, run `python3 scripts/check_findings.py <absolute findings path>` from this skill's folder. On exit
+1, fix each line that it names, and run it again. Give the last line of the check, the open count
+(`open points: <n>` for a findings file), to the caller.
 
 ## Behaviour
 
@@ -39,10 +40,10 @@ to the caller.
    current working directory.
 3. Ensure the folder exists
 4. Write the file to `{folder}/{filename}`
-5. For a `plan` or a `spec`, run its check
+5. For a `plan`, a `spec`, or a `findings` file, run its check
 6. Report the written path so the user can load it with `@{path}`
 
-**Done when:** the file exists at the path you reported, and a `plan` or a `spec` passes its check. For a
+**Done when:** the file exists at the path you reported, and a `plan`, a `spec`, or a `findings` file passes its check. For a
 doctype outside the set, you wrote no file and named the set.
 
 ## Check a plan
@@ -59,6 +60,14 @@ request (below) moves it to the plan layout.
 A caller can ask you to check a spec. Run `python3 scripts/check_spec.py <absolute spec path>` from this skill's
 folder. Change no line of the spec. Return the exit code, each error line, and the
 `open questions: <n>` line.
+
+**Done when:** you returned the exit code and the errors.
+
+## Check a findings file
+
+A caller can ask you to check a findings file. Run `python3 scripts/check_findings.py <absolute findings path>` from
+this skill's folder. Change no line of the file. Return the exit code, each error line, and the
+`open points: <n>` line.
 
 **Done when:** you returned the exit code and the errors.
 

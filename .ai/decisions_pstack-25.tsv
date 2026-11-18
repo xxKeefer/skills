@@ -1,0 +1,4 @@
+decision	reason	evidence	result
+the rewritten prompt comes back in one code block, ready to paste	the user pastes the result into a new task, and a code block keeps it apart from the four answers	pstack sharpen says only 'rewrite my prompt'. Map unit 25 Done line asks for a deeper version	in plan step 1
+the live run uses a sample prompt in this thread, not a new session	a user-only skill cannot be called by the agent, so the agent follows its text, as unit 24 did for webperf	disable-model-invocation: true on the skill	in plan step 2
+no other skill calls sharpen, and grill does not change	the unit names only the new skill, and the research row says grill covers a different lens	map unit 25 bullet, research row r1.15	Out of scope in the spec
