@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+Write the audit report to .ai/audit_pstack-32_script-audit.html	The repo Working files rule puts every doctype in .ai/ of the worktree, and the report must travel with the branch to the home machine	CLAUDE.md Working files; .ai/CLAUDE.md keeps a report with unticked rows	plan Context names the path
+Report skill is /engineering:spec, with build and delete ticks	A ticked row is the input to a later unit, and the unit itself changes no script	map unit 32: the user ticks the rows to build or delete later	open: the review step reads the prompt
+List no keep row, and put the kept scripts in one folded table	The user wants actionable rows only, and the folded table still shows the coverage	user feedback memory reports-show-only-actionable	plan Context, condition C2
+One build step, not one per row group	The report is the one artifact a user can exercise, and write_report.py adds a new run on each call	write-report SKILL.md Runs rule	plan step 1
