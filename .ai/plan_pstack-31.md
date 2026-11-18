@@ -25,8 +25,8 @@ builds_on: pstack-30
 - [x] **B.** Run the findings check on a findings file → it passes a file in the template layout, and fails a file with a missing header key or section, with the line and a fix.
 - [x] **C.** Run the report check on a report HTML file → it passes a file whose `runs` block has the `/write-report` shape, and fails a file whose block is missing, does not parse, or breaks the shape, with the problem and a fix.
 - [x] **D.** Run `/diagnose` to the end of its hunt → it writes `findings_<KEY>.md` in the findings layout, not the old hunt layout.
-- [ ] **E.** Run `/diagnose` on a bug, then run the findings check on its file → the check passes.
-- [ ] **F.** A `squash-bugs` subagent writes its hunt doc → the file is in the findings layout, keeps its verdict line, and passes the findings check.
+- [x] **E.** Run `/diagnose` on a bug, then run the findings check on its file → the check passes.
+- [x] **F.** A `squash-bugs` subagent writes its hunt doc → the file is in the findings layout, keeps its verdict line, and passes the findings check.
 
 ## Context
 
@@ -90,8 +90,9 @@ builds_on: pstack-30
   - Done: D holds on a read, and the pre-commit test passes.
 - [x] **4. `squash-bugs` writes findings.** Kind: docs. Edit `squash-bugs/BUG.md` step 6 as Context says.
   - Done: the step 6 template is in the findings layout, and the verdict is the first line of `## Answer`. The pre-commit test passes.
-- [ ] **5. Live run.** Kind: config. Conditions: C8, C9. In a temp git repo, seed a small bug with a clear root cause. Give one fresh agent `diagnose/SKILL.md` and the bug report, and tell it to stop after Step 4. Give a second fresh agent `BUG.md` step 6 and the same bug, with the verdict `fixed`. Run the findings check on each file. Copy the result in short form into this Done line.
+- [x] **5. Live run.** Kind: config. Conditions: C8, C9. In a temp git repo, seed a small bug with a clear root cause. Give one fresh agent `diagnose/SKILL.md` and the bug report, and tell it to stop after Step 4. Give a second fresh agent `BUG.md` step 6 and the same bug, with the verdict `fixed`. Run the findings check on each file. Copy the result in short form into this Done line.
   - Done: E and F hold. Each file passes the check.
+  - Result: seeded bug: `cart.py` divides a discount by 10, not 100. A fresh agent on `diagnose/SKILL.md` wrote `findings_save15-charges-zero.md`, `status: answered`. The check printed `open points: 2`, exit 0. The agent also found that the seeded report gave the wrong charge (0.0, not -50.0), and logged it as an open point. A fresh agent on `BUG.md` step 6 wrote `findings_bug-1.md`. The check printed `open points: 0`, exit 0, and `**Verdict:** fixed` is the first line of `## Answer`. A re-run of the check in this thread gave the same results.
 - [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code.
@@ -115,3 +116,4 @@ builds_on: pstack-30
 - 2026-11-18: step 2 done: `check_report.py`, its three tests, and the `write-report` Step 3 text. Mutation check went red.
 - 2026-11-18: step 3 done: `diagnose/SKILL.md` Step 4 is the findings layout, and the `engineering/CLAUDE.md` row says findings file.
 - 2026-11-18: step 4 done: `BUG.md` step 6 is the findings layout, with the verdict as the first line of `## Answer`.
+- 2026-11-18: step 5 done: both live-run files pass the findings check. Next: step 6, the gates.
