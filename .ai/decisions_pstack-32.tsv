@@ -3,3 +3,5 @@ Write the audit report to .ai/audit_pstack-32_script-audit.html	The repo Working
 Report skill is /engineering:spec, with build and delete ticks	A ticked row is the input to a later unit, and the unit itself changes no script	map unit 32: the user ticks the rows to build or delete later	open: the review step reads the prompt
 List no keep row, and put the kept scripts in one folded table	The user wants actionable rows only, and the folded table still shows the coverage	user feedback memory reports-show-only-actionable	plan Context, condition C2
 One build step, not one per row group	The report is the one artifact a user can exercise, and write_report.py adds a new run on each call	write-report SKILL.md Runs rule	plan step 1
+Run step 1 in the build thread with four read-only sonnet subagents	The step needs a fan-out, and build says no agent starts an agent of its own	build SKILL.md Step 2 item 3	four sweeps returned; report written
+Add scripts/obsidian/scripts/*.js to the audited scripts	They are scripts in the repo, outside skills/ and .githooks/	find scripts -type f	12 Templater scripts audited, prompt_boolean.js is the one delete row

@@ -21,9 +21,9 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 
 ## Acceptance criteria
 
-- [ ] **A.** Read the audit report → it has one row for each skill step where a new script saves time or tokens, or makes a result deterministic, and each row names which of the two it gives.
-- [ ] **B.** Read the audit report → it has one row for each existing script that gives neither, with the reason, so the user can tick it for deletion.
-- [ ] **C.** Run the report check on the audit report → it passes, and each row has a tick box.
+- [x] **A.** Read the audit report → it has one row for each skill step where a new script saves time or tokens, or makes a result deterministic, and each row names which of the two it gives.
+- [x] **B.** Read the audit report → it has one row for each existing script that gives neither, with the reason, so the user can tick it for deletion.
+- [x] **C.** Run the report check on the audit report → it passes, and each row has a tick box.
 
 ## Context
 
@@ -69,8 +69,9 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 
 ## Steps
 
-- [ ] **1. The script audit report.** Kind: docs. Conditions: C1, C2, C3. Read `principle-build-the-lever` and the Scripts decision. Send the fan-out in Context. Check each delete row's caller search in this thread. Write the report with `/write-report` as Context says.
+- [x] **1. The script audit report.** Kind: docs. Conditions: C1, C2, C3. Read `principle-build-the-lever` and the Scripts decision. Send the fan-out in Context. Check each delete row's caller search in this thread. Write the report with `/write-report` as Context says.
   - Done: `.ai/audit_pstack-32_script-audit.html` exists, `check_report.py` prints `ok`, and the counts in the run answer match the rows. A, B, and C hold.
+  - Result: `.ai/audit_pstack-32_script-audit.html`, run 1. 13 build rows and 1 delete row (`prompt_boolean.js`), each with a tick. The kept table lists 42 scripts, so 43 scripts in total. The four sweeps read 63 skill files. `check_report.py` prints `ok`. A re-run of the `prompt_boolean` caller search in this thread found the same six hits and no caller.
 - [ ] **2. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
@@ -89,3 +90,4 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - 2026-11-18: plan written on `pstack-31_findings-report`, for the branch `pstack-32_script-audit`.
 - Decision log: decisions_pstack-32.tsv
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 ran in the build thread, not in a step subagent, because its fan-out needs subagents and no agent starts an agent of its own. The sweep added `scripts/obsidian/scripts/*.js` to the existing scripts, because they are scripts in the repo outside `skills/`. Next: step 2, the gates.
