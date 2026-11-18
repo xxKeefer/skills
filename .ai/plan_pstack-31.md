@@ -74,6 +74,7 @@ builds_on: pstack-30
 | C6 | C | no block, a block that does not parse, and a missing top key each fail | EP | Unit | `test_block_errors` |
 | C7 | C | a duplicate row ID, a run number out of order, rows with no `columns`, and a row with no `cells` each fail | EP | Unit | `test_shape_errors` |
 | C8 | E | a fresh agent follows `diagnose/SKILL.md` on a seeded bug, and the check passes on its file | EP | Manual | the live run in step 5 |
+| C10 | C | a re-run on a report whose runs are stored oldest first writes the runs newest first, and the report check passes | EP | Unit | `test_rerun_sorts_runs_newest_first` |
 | C9 | F | a fresh agent follows `BUG.md` step 6 on the same bug, and the check passes, with the verdict as the first line of `## Answer` | EP | Manual | the live run in step 5 |
 
 ### Not testing
@@ -108,7 +109,13 @@ builds_on: pstack-30
 - [x] **11. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with these lanes only: correctness and code-quality, which raised findings in run 2, and test-design, whose guard matches the spec file that e620966 changed. Rows r1.1 (the `consumed` setter in `fix`) and r1.2 (small test gaps) stay open from run 1: do not raise them again, or a row that only repeats them. This is the third review step: the build loop stops after it.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_pstack-31_findings-report.html`, run 3, base 85bb3a5, reviewed head c199831 (panel read 899d50f). Three findings fixed, none open.
-- [ ] **12. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
+- [ ] **12. Blast-radius fix: sort the runs.** Seam: the `write_report.py` command line. Conditions: C10. `write_report.py` keeps earlier runs in their stored order, and two real reports store them oldest first. A re-run then writes `[3, 1, 2]`, and the new report check fails on a block that the agent cannot fix from its temp JSON. Write the test first and see it fail: an existing report with runs 1 and 2, oldest first, gets a re-run, and the file then holds runs 3, 2, 1 and passes `check_report.py`. Then sort every run by `run`, newest first, in `write_report.py`. Keep each earlier run unchanged apart from its place.
+  - Done: `write_report.spec.py` adds `test_rerun_sorts_runs_newest_first`, which fails before the fix and passes after it. The blast-radius proof script in Progress exits 0.
+- [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with the correctness and test-design lanes only, on the step 12 change to `write_report.py` and its spec. Rows r1.1 and r1.2 stay open from run 1: do not raise them again.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **15. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -137,3 +144,24 @@ builds_on: pstack-30
 - 2026-11-18: step 10 done: the seven gates each exit 0. Next: step 11, review round 3.
 - 2026-11-18: step 11 done: light review round 3, three fixes in c199831, none open. The build loop stops here. Next: step 12, push.
 - 2026-11-18: build loop stopped after the third review step (step 11). No row is open from runs 2 and 3. Rows r1.1 (Nit: no skill sets `status: consumed`) and r1.2 (Future: small test gaps) stay open from run 1. QA report `.ai/qa_pstack-31_findings-report.html` (ab32e68): 12 agent rows pass. Its push row is not run: the push is playbook step 6. Next: playbook step 5, `/blast-radius`.
+- 2026-11-18: `/blast-radius`: verdict `risk`. Safety fact: every report that `write_report.py` writes passes `check_report.py`, because `write-report` Step 3 now runs the check after each write. Rung 4, and false. The check passed 42 of 44 real reports on the build machine. The 2 that fail store their runs oldest first (1, 2). A re-run keeps that order behind the new run (3, 1, 2), so the check fails, and the agent cannot fix earlier runs from its temp JSON. Confirmed risk: `skills/primitives/skills/write-report/scripts/write_report.py:56` (`data["runs"] = [new_run] + earlier`). Chance: medium, for each re-run on an old report. Cost: the report skill loops on a check that it cannot pass. Clear fix: sort the runs newest first in `write_report.py`, added as step 12. Cleared: `squash-bugs` still reads `**Verdict:**` and `## Decisions`, which the findings layout keeps (`BUG.md` step 6). Cleared: only `write-to-file` and `write-report` run the new checks. No hook and no CI runs `*.spec.py` by a glob. Cleared: an old hunt doc in flight is checked only after a write, and the writer then moves it to the new layout. Proof, from the repo root (exit 1 before step 12, exit 0 after it):
+  ```
+  python3 - <<'EOF'
+  import json, os, subprocess, sys, tempfile
+  d = "skills/primitives/skills/write-report/"
+  tpl = open(d + "template.html").read()
+  old = {"title": "R", "path": "", "skill": "", "runs": [
+      {"run": n, "title": "Light run", "date": "2026-11-17", "answer": "a", "columns": [{"key": "k", "label": "K"}],
+       "rows": [{"id": f"r{n}.1", "cells": {"k": "x"}}]} for n in (1, 2)]}
+  tmp = tempfile.mkdtemp()
+  rep = os.path.join(tmp, "review_x.html")
+  open(rep, "w").write(tpl.replace('{"title": "Report", "path": "", "skill": "", "runs": []}', json.dumps(old)))
+  run = os.path.join(tmp, "run.json")
+  json.dump({"title": "R", "skill": "", "run": {"title": "Light run", "answer": "a", "columns": [{"key": "k", "label": "K"}], "rows": [{"cells": {"k": "y"}}]}}, open(run, "w"))
+  w = subprocess.run(["python3", d + "scripts/write_report.py", rep, run], capture_output=True, text=True)
+  c = subprocess.run(["python3", d + "scripts/check_report.py", rep], capture_output=True, text=True)
+  print("write exit", w.returncode, "| check exit", c.returncode, "|", c.stdout.strip().split(": ", 1)[-1])
+  sys.exit(c.returncode)
+  EOF
+  ```
+  Output now: `write exit 0 | check exit 1 | run numbers are not unique and in falling order. Fix: number the runs, newest first.`, exit 1. Next: `/build` runs step 12.
