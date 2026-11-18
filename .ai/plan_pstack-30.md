@@ -109,3 +109,26 @@ builds_on: pstack-29
 - 2026-11-18: step 6 done: the skill says a route turns with `╭ ╮ ╰ ╯`, and the description is wrapped. A turning route and the skill example each print `ok`.
 - 2026-11-18: step 7 done: two tests added (9 tests). Breaking the length guard and the line number each turned one test red. Next: step 8, push.
 - 2026-11-18: build loop stopped by rule 7.3: no Change Requested row is open, and fix round a6be2f3 and b81f7e3 changes only skill text and tests. QA report `.ai/qa_pstack-30_text-diagrams.html` (4776330): seven agent rows pass. Its push row is not run: the push is playbook step 6. The four gates each exit 0 on cf63a49. Next: playbook step 5, `/blast-radius`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch changes four files, all in `show-me/`. Only those files name `check_diagram`. The `SKILL.md` diff removes only the two `description` lines that it rewraps, so each old view is unchanged. Rung 4. No confirmed risk. Cleared: `create-pr` Summary runs `/show-me` with "a text view or Mermaid", so it can now draw a text diagram and run the check. The check reads stdin and writes nothing, and a fenced block of box-drawing characters renders in a PR body. Cleared: no CI and no hook runs `*.spec.py` by a glob. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'EOF'
+  import re, subprocess, sys
+  base = "pstack-29_why"
+  run = lambda *a, **k: subprocess.run(list(a), capture_output=True, text=True, **k)
+  bad = []
+  d = "skills/primitives/skills/show-me/"
+  files = set(run("git", "diff", "--name-only", base, "HEAD", "--", ".", ":!.ai").stdout.split())
+  if files != {d + f for f in ("SKILL.md", "CREDITS.md", "scripts/check_diagram.py", "scripts/check_diagram.spec.py")}: bad.append(f"diff files: {files}")
+  diff = run("git", "diff", "-U0", base, "HEAD", "--", d + "SKILL.md").stdout
+  removed = [l[1:] for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
+  if any(not l.startswith("  ") or "Mermaid, a shaped diff" not in l and '"diagram this"' not in l for l in removed): bad.append(f"removed: {removed}")
+  refs = run("git", "grep", "-l", "check_diagram", "HEAD", "--", ".", ":!.ai").stdout.split()
+  if sorted(r.split(":", 1)[1] for r in refs) != sorted([d + "SKILL.md", d + "scripts/check_diagram.py", d + "scripts/check_diagram.spec.py"]): bad.append(f"refs: {refs}")
+  ex = re.search(r"```text\n(┌.*?)```", open(d + "SKILL.md").read(), re.S).group(1)
+  if run("python3", d + "scripts/check_diagram.py", "-", input=ex).stdout.strip() != "ok": bad.append("skill example fails the check")
+  if run("python3", d + "scripts/check_diagram.spec.py").returncode: bad.append("spec fails")
+  if subprocess.run(["sh", ".githooks/pre-commit"]).returncode: bad.append("pre-commit hook fails")
+  print(bad or f"ok: {len(files)} files, all in show-me; {len(removed)} removed lines, all description"); sys.exit(1 if bad else 0)
+  EOF
+  ```
+  Output: `ok: 4 files, all in show-me; 2 removed lines, all description`, exit 0.
