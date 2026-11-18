@@ -68,7 +68,7 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - [x] **2. Live run.** Kind: config. Conditions: C1. Make a scratch folder in a temp path with one HTML page that loads a large unsized image or a render-blocking script. Serve it with a local static server. Run the `/webperf` steps on it from this thread, with a lab tool run through `npx`, and one fix. Copy the verdict, the limiter or the gap, and the run count into this Done line. Stop the server, and delete the scratch folder. When no browser can run the lab tool, record the skip and its reason in Progress, and run the `/benchmark` checks on a scratch A/B command in its place.
   - Seam: the `webperf` and `benchmark` skill text, as an agent follows it.
   - Done: AC B holds. Page: a 2.1 MB script in `<head>`, fixed with `defer`, Lighthouse 12 through `npx`, mobile simulated throttling, 12 cores at load 3.2. Verdict: faster. LCP p50 11368 ms to 600 ms, 5 alternating runs for each side, range 11220 to 11371 ms before and 600 to 601 ms after. Limiter: the render-blocking script on the throttled network. The render-blocking audit gives 10.6 s for it, and 2.1 MB at the simulated 1.6 Mbps is about 10.5 s, so the gap is inside the limit (check 3). Check 4: no runtime error, and the script returned 200 on each run. Check 7: each run transferred the 2.1 MB script and ran it. TBT p50 67 ms to 84 ms, ranges 0 to 70 ms and 68 to 101 ms: close, with no clear change. CLS 0 on both sides. Server stopped, scratch folder deleted.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
@@ -88,3 +88,4 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `benchmark` skill, `webperf` calls it in Steps 1 and 3, README row added.
 - 2026-11-18: step 2 done: the live `/webperf` run gave the verdict faster, with its limiter. See the step 2 Done line.
+- 2026-11-18: step 3 done: the pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
