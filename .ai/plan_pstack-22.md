@@ -21,10 +21,10 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `engineering/loop-until` → before any change, it names a repro case, one metric, the direction that is better, and a predicate with a target and a floor on tries.
-- [ ] **B.** Read `engineering/loop-until` → it proves that the harness separates a contrast case from the target case, records the baseline and a green gate, then freezes the harness.
-- [ ] **C.** Read `engineering/loop-until` → each try makes one change and measures it with the frozen harness. It keeps the change as one commit only past noise with the gate green, else reverts in full. Each try logs one row either way.
-- [ ] **D.** Read `engineering/loop-until` → a run of rejected tries makes it change approach, it stops only on the predicate or a surfaced dead end, and it never relaxes the predicate.
+- [x] **A.** Read `engineering/loop-until` → before any change, it names a repro case, one metric, the direction that is better, and a predicate with a target and a floor on tries.
+- [x] **B.** Read `engineering/loop-until` → it proves that the harness separates a contrast case from the target case, records the baseline and a green gate, then freezes the harness.
+- [x] **C.** Read `engineering/loop-until` → each try makes one change and measures it with the frozen harness. It keeps the change as one commit only past noise with the gate green, else reverts in full. Each try logs one row either way.
+- [x] **D.** Read `engineering/loop-until` → a run of rejected tries makes it change approach, it stops only on the predicate or a surfaced dead end, and it never relaxes the predicate.
 - [ ] **E.** Run `loop-until` on a small metric → it stops at the predicate, with one log row per try.
 
 ## Context
@@ -68,7 +68,7 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
 
 ## Steps
 
-- [ ] **1. The `loop-until` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/engineering/skills/loop-until/SKILL.md`, model-invoked, with no ★. Steps, each with a done line: 1. Frame: the repro case, one metric, the better direction, the predicate (a target and a floor on tries), and the regression gate. With no plan, write one with `/write-to-file`, doctype `plan`, and put the frame in its Context. 2. Prove and freeze the harness: one command that prints the metric as the median of N runs; show that it separates a contrast case from the target case; record the baseline and a green gate; then change the harness no more. 3. Loop, one hypothesis per try: name the mechanism; one fresh subagent at the `worker` role makes the change; measure with the frozen harness and run the gate; keep only past noise with the gate green, as one commit that stages only the changed files; else revert in full; give the try to `/update-plan` as a choice either way. 4. Plateau: after three rejected tries in a row, change the kind of change. 5. Stop: when the predicate holds; or report a dead end as a `D` entry. Never relax the predicate. 6. Report: the metric and predicate, baseline to final, the tries kept and reverted, each kept commit, and the next idea. Credit pstack in one line. Add a row to `skills/engineering/README.md`.
+- [x] **1. The `loop-until` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/engineering/skills/loop-until/SKILL.md`, model-invoked, with no ★. Steps, each with a done line: 1. Frame: the repro case, one metric, the better direction, the predicate (a target and a floor on tries), and the regression gate. With no plan, write one with `/write-to-file`, doctype `plan`, and put the frame in its Context. 2. Prove and freeze the harness: one command that prints the metric as the median of N runs; show that it separates a contrast case from the target case; record the baseline and a green gate; then change the harness no more. 3. Loop, one hypothesis per try: name the mechanism; one fresh subagent at the `worker` role makes the change; measure with the frozen harness and run the gate; keep only past noise with the gate green, as one commit that stages only the changed files; else revert in full; give the try to `/update-plan` as a choice either way. 4. Plateau: after three rejected tries in a row, change the kind of change. 5. Stop: when the predicate holds; or report a dead end as a `D` entry. Never relax the predicate. 6. Report: the metric and predicate, baseline to final, the tries kept and reverted, each kept commit, and the next idea. Credit pstack in one line. Add a row to `skills/engineering/README.md`.
   - Done: AC A, B, C, and D hold on a read, and the pre-commit test passes.
 - [ ] **2. Live run.** Kind: config. Conditions: C1, C2. Make a scratch git repo in a temp folder with one slow function, a test file as the gate, and a harness that prints the median runtime of five runs. Run `/loop-until` on it from this thread, with a predicate such as "at most half the baseline, after at least three tries". The scratch repo takes the plan and the decision log of the loop, so this plan's log gets no try rows. Copy the loop's log rows and the final numbers into this Done line. Delete the scratch repo.
   - Done: AC E holds. The verdict, the numbers, and the count of log rows are in this line.
@@ -88,4 +88,5 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
 
 - 2026-11-18: plan written on `pstack-22_loop-until`.
 - 2026-11-18: playbook `map`, step 3: five choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: `loop-until` skill and README row written (e801432).
 - Decision log: decisions_pstack-22.tsv
