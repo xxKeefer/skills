@@ -1,0 +1,6 @@
+decision	reason	evidence	result
+Branch unit 22 from pstack-21_eval-skill, not the trunk.	The unit 20 and unit 21 PRs are not merged, and the map says to stack the next unit on the top unit branch.	Map, Stacked units: make the next unit branch from the branch that is checked out.	The unit 22 PR base is pstack-21_eval-skill.
+Write the tries to the existing decision log through /update-plan, and add no script.	/sitrep and /retro already read that log, and a script earns its place only for speed or determinism.	Map Decisions, Scripts; spec_pstack-22 Decisions.	Step 1 names /update-plan, not a script path.
+A loop with no plan writes one with /write-to-file to hold the frame.	log_decision.py writes only beside a plan_ file, and a plan lets a fresh agent resume the loop.	log_decision.py log_path raises ValueError without a plan_ prefix.	Step 1 writes it.
+Three rejected tries in a row count as a plateau.	pstack says several rejects in a row; a fixed count makes the step checkable.	hillclimb.md step 6.	Step 1 writes it.
+The live run loops on the median runtime of a slow function in a scratch git repo.	Runtime has noise, so the run tests the past-noise rule; a scratch repo keeps the loop's commits off this branch.	principle-explain-the-number; step 2 conditions C1 and C2.	Step 2 runs it.
