@@ -21,9 +21,9 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
 
 ## Acceptance criteria
 
-- [ ] **A.** Read the retire list → it names `/do-next` as the skill to retire after the trial, and `/do-next` is still in `primitives`.
-- [ ] **B.** Compare each domain's `plugin.json` version with `main` → `engineering` is 3.0.0, and each other domain with a change since `main` is one minor version over `main`.
-- [ ] **C.** Compare each `plugin.json` with `main` → each changed domain has one new version, and a domain with no change keeps its `main` version.
+- [x] **A.** Read the retire list → it names `/do-next` as the skill to retire after the trial, and `/do-next` is still in `primitives`.
+- [x] **B.** Compare each domain's `plugin.json` version with `main` → `engineering` is 3.0.0, and each other domain with a change since `main` is one minor version over `main`.
+- [x] **C.** Compare each `plugin.json` with `main` → each changed domain has one new version, and a domain with no change keeps its `main` version.
 
 ## Context
 
@@ -64,9 +64,9 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
 
 ## Steps
 
-- [ ] **1. Version bumps.** Kind: mechanical. Conditions: C2. Set the versions in Context. Run the C2 loop.
+- [x] **1. Version bumps.** Kind: mechanical. Conditions: C2. Set the versions in Context. Run the C2 loop.
   - Done: the C2 loop prints one line for each domain, and each line passes. B and C hold.
-- [ ] **2. Retire list.** Kind: docs. Conditions: C1. Write the vault task note and its `Backlog` card, as Context says.
+- [x] **2. Retire list.** Kind: docs. Conditions: C1. Write the vault task note and its `Backlog` card, as Context says.
   - Done: the note names `/do-next` and holds the Trial steps. The card links to the note. `/do-next` is still in `primitives`. A holds.
 - [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -76,6 +76,9 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
   - Done: the pushed head SHA is in this line.
 
 ## Progress
+
+- Step 1 is done in 4002875: the C2 loop passes for all nine domains (engineering 3.0.0, projects 0.12.0, scribe 1.27.0, utility 1.26.0).
+- Step 2 is done: the vault note `Trial the pstack program` holds the retire list and the Trial steps, and the Backlog card links to it. `/do-next` is still in `primitives`.
 
 ## Pending Decisions
 
