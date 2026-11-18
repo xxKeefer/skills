@@ -106,6 +106,17 @@ class CheckFindings(unittest.TestCase):
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn("has no body", r.stdout)
 
+    def test_multiline_comment_body_fails(self):
+        self.sections["Answer"] = ["<!--", "fill this in", "-->"]
+        r = self.write()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("`## Answer` has no body", r.stdout)
+
+    def test_text_after_comment_passes(self):
+        self.sections["Answer"] = ["<!-- draft --> The cache is stale."]
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

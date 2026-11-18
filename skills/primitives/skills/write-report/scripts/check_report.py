@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check the runs block of an HTML report. Usage: check_report.py <report path>"""
 import argparse
+import collections
 import json
 import re
 import sys
@@ -8,17 +9,13 @@ import sys
 BLOCK = re.compile(r'(<script type="application/json" id="runs">)(.*?)(</script>)', re.S)
 
 
-def check_row(row, label, seen):
+def check_row(row, label):
     if not isinstance(row, dict):
         return [(f"{label}: a row is not an object", "make each row an object")]
     found = []
     row_id = row.get("id")
     if not isinstance(row_id, str):
         found.append((f"{label}: a row has no string `id`", "set `id` to a string"))
-    else:
-        if row_id in seen:
-            found.append((f"duplicate row id `{row_id}`", "give each row a unique `id`"))
-        seen.add(row_id)
     if not isinstance(row.get("cells"), dict):
         found.append((f"{label}: row `{row_id}` has no `cells` object", "set `cells` to an object"))
     ticks = row.get("ticks")
@@ -27,7 +24,7 @@ def check_row(row, label, seen):
     return found
 
 
-def check_run(run, seen):
+def check_run(run):
     if not isinstance(run, dict):
         return None, [("a run is not an object", "make each run an object")]
     found = []
@@ -48,7 +45,7 @@ def check_run(run, seen):
         if not good:
             found.append((f"{label}: rows have no valid `columns`", "give `columns` a list of objects with `key` and `label`"))
         for row in rows:
-            found.extend(check_row(row, label, seen))
+            found.extend(check_row(row, label))
     return (number if ok else None), found
 
 
@@ -64,12 +61,21 @@ def problems(data):
         found.append(("top key `runs` is missing or not a list", "set `runs` to a list of runs"))
         return found
     numbers = []
-    seen = set()
     for run in runs:
-        number, run_found = check_run(run, seen)
+        number, run_found = check_run(run)
         found.extend(run_found)
         if number is not None:
             numbers.append(number)
+    ids = collections.Counter(
+        row["id"]
+        for run in runs
+        if isinstance(run, dict)
+        for row in run.get("rows") or []
+        if isinstance(row, dict) and isinstance(row.get("id"), str)
+    )
+    for row_id, count in ids.items():
+        if count > 1:
+            found.append((f"duplicate row id `{row_id}`", "give each row a unique `id`"))
     if len(set(numbers)) != len(numbers) or numbers != sorted(numbers, reverse=True):
         found.append(("run numbers are not unique and in falling order", "number the runs, newest first"))
     return found

@@ -8,6 +8,7 @@ any error, else exit 0.
 Usage: check_findings.py <findings>
 """
 import argparse
+import re
 import sys
 
 sys.dont_write_bytecode = True
@@ -52,7 +53,8 @@ def main(argv):
         if index < highest:
             err(begin, f"`## {name}` is out of order", "put the sections in the order " + ", ".join(f"`## {s}`" for s in SECTIONS))
         highest = max(highest, index)
-        if not any(lines[i].strip() and not lines[i].lstrip().startswith("<!--") for i in range(begin, end)):
+        text = re.sub(r"<!--.*?-->", "", "\n".join(lines[begin:end]), flags=re.S)
+        if not text.strip():
             err(begin, f"`## {name}` has no body", "write text, or `none`")
     for e in errors:
         print(e)
