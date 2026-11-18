@@ -2,3 +2,4 @@ decision	reason	evidence	result
 a base and named grafts replace the free-form hybrid in Step 3	r1.19 asks for a base and grafts, and a free-form hybrid hides which design won	DESIGN-IT-TWICE.md Step 3: propose a hybrid	in plan step 1
 the rubric is shown to the user before the sub-agents return	the designs cannot shape the criteria that judge them	research row r1.19: a rubric before the fan-out	in plan step 1
 the live run agent writes the designs itself, not through sub-agents	a subagent cannot start its own subagents	Agent tool: only the main thread starts subagents	in plan step 2
+add 'loses a call' to the caller-sketch scrap tell, with no new review round	a second live run kept a design that drops show, because the trigger list named no missing call. The fix is skill text, so it changes no runtime behaviour	second live run on map_units.py after review fix 7b3e6f8: A and B scrapped on their tells, C kept although it drops show	commit 1acc789. The gates each exit 0

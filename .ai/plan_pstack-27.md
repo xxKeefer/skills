@@ -89,3 +89,5 @@ builds_on: pstack-26
 - 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
 - 2026-11-18: step 4 done: light review, 2 findings fixed in 7b3e6f8, none open.
+- 2026-11-18: step 4 done: light review, one lane (`persona-skills`). Both rows fixed in 7b3e6f8, no row open.
+- 2026-11-18: second live run on the review fix: the new tell scrapped A (changed call shape) and B (call order, width). It kept C, which drops `show`, because the trigger list named no missing call. Fix 1acc789 adds "loses a call". The gates each exit 0. The build loop stops by rule 7.3: no Change Requested row is open, and each fix changes only skill text. QA checklist skipped: the diff changes only skill text.
