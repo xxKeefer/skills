@@ -86,3 +86,31 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 - 2026-11-18: step 2 done: a fresh agent followed the skill on the sample prompt and returned a deeper prompt. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
 - 2026-11-18: step 4 done: light review of 71ff207..f94c393 found no defect. Report: `.ai/review_pstack-25_sharpen.html`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch adds only the `sharpen` skill and one row in the primitives README. `sharpen` is the only skill with that name, it is user-only with no ★, its links resolve, and no file outside `primitives` calls it. Rung 4. No confirmed risk. Cleared: the root README lists domains, not skills. `find_drivers.py` matches only `verify-*` folders, and `due.py` reads only `deprecated` skills. The `sharpen` hits in `domain-modeling`, `retro`, `self-improve`, and `writing-great-skills` use the plain word. The test fixture `work-on/scripts/fixtures/map_program.md` copies the map heading only. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import glob, os, re, subprocess, sys
+  bad = []
+  files = subprocess.run(["git","diff","--name-only","71ff207","HEAD","--",".",":!.ai"],capture_output=True,text=True).stdout.split()
+  want = {"skills/primitives/README.md","skills/primitives/skills/sharpen/SKILL.md"}
+  bad += [] if set(files) == want else [f"diff files: {files}"]
+  names = {}
+  for f in glob.glob("skills/*/skills/*/SKILL.md"):
+      m = re.search(r"^name:\s*(\S+)", open(f).read(), re.M)
+      names.setdefault(m.group(1) if m else None, []).append(f)
+  s = "skills/primitives/skills/sharpen/SKILL.md"
+  bad += [] if names.get("sharpen") == [s] else [f"sharpen name: {names.get('sharpen')}"]
+  t = open(s).read()
+  fm = t.split("---")[1]
+  bad += [] if re.search(r"^disable-model-invocation:\s*true$", fm, re.M) and "★" not in t else ["not user-only, or has a star"]
+  for link in re.findall(r"\]\(([^)]+\.md)\)", t):
+      p = os.path.normpath(os.path.join(os.path.dirname(s), link))
+      bad += [] if os.path.exists(p) else [f"broken link: {link}"]
+  callers = subprocess.run(["git","grep","-n","-E","/sharpen\\b|primitives:sharpen","--",".",":!.ai",":!skills/primitives"],capture_output=True,text=True).stdout
+  bad += [] if not callers else [f"callers: {callers}"]
+  r = open("skills/primitives/README.md").read()
+  bad += [] if r.count("`/sharpen`") == 1 else ["README row count"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok`, exit 0.
