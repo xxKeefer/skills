@@ -56,6 +56,140 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "0bf61e6",
+   "meta": {
+    "Base": "pstack-30_text-diagrams (85bb3a5)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-31.md",
+    "Fixed in": "e620966"
+   },
+   "answer": "Three findings are fixed in e620966 and none stay open. The findings check passed a multi-line comment as a body and failed a line of a comment then text. This run covers four lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Lane",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "2",
+        "0",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not named by the caller)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/primitives/skills/write-to-file/scripts/check_findings.py:55",
+      "issue": "A multi-line HTML comment still counts as a body.\n\nA section with `<!--`, `fill this in`, `-->` on three lines passed the body check.",
+      "recommendation": "Strip comment spans from the joined section text before the empty test. A new test covers it.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/primitives/skills/write-to-file/scripts/check_findings.py:55",
+      "issue": "A line that starts with a comment and then has text was treated as empty.\n\nThe line `<!-- draft --> The cache is stale.` gave `has no body`.",
+      "recommendation": "Strip comment spans first, then test for text. A new test covers it.",
+      "result": "Fixed"
+     },
+     "id": "r2.2"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/primitives/skills/write-report/scripts/check_report.py:21",
+      "issue": "check_row changed the caller's `seen` set to find duplicate row IDs.\n\nThe set passed through check_run, so the row check was not pure.",
+      "recommendation": "Count the row IDs with collections.Counter in problems(), and drop `seen` from both row functions.",
+      "result": "Fixed"
+     },
+     "id": "r2.3"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
    "head": "c91c6aa",
    "meta": {
     "Base": "pstack-30_text-diagrams (85bb3a5)",
