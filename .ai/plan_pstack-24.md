@@ -104,3 +104,29 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - 2026-11-18: step 4d done: the persona-skills lane found two nits in `webperf` Step 3 (no alternating baseline runs, no exit for an open metric). Both fixed in 5f3c53c, with no new gate failure.
 - 2026-11-18: step 4d fixed r2.1 and r2.2 in 5f3c53c, after the reviewed head 7b65f69. The fix changes skill text, so a third round (4e, 4f) runs.
 - 2026-11-18: step 4f done: the persona-skills lane found one nit in `webperf` Step 3 (no way to keep the pre-fix baseline for the alternating runs). It stays open in run 3 of the report. The review loop stops here.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch changes only the new `benchmark` skill, `webperf`, and one README row. `benchmark` is the only skill with that name, it is model-invocable with no ★, it links its principle, and it names no tool product. No file outside `.ai/` still says that `webperf` takes three runs. Rung 4. No confirmed risk. Cleared: the root README, ADR 0013, both plugin descriptions, and `engineering/CLAUDE.md` name `webperf` only as one of the nine commands, and `benchmark` adds no tenth, because it has no ★. `loop-until/SKILL.md:16` names `/webperf` only to contrast it. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import glob, re, subprocess, sys
+  bad = []
+  files = subprocess.run(["git","diff","--name-only","bbddd96","HEAD","--",".",":!.ai"],capture_output=True,text=True).stdout.split()
+  want = {"skills/engineering/README.md","skills/engineering/skills/benchmark/SKILL.md","skills/engineering/skills/webperf/SKILL.md"}
+  bad += [] if set(files) == want else [f"diff files: {files}"]
+  names = {}
+  for f in glob.glob("skills/*/skills/*/SKILL.md"):
+      m = re.search(r"^name:\s*(\S+)", open(f).read(), re.M)
+      names.setdefault(m.group(1) if m else None, []).append(f)
+  bad += [] if names.get("benchmark") == ["skills/engineering/skills/benchmark/SKILL.md"] else [f"benchmark name: {names.get('benchmark')}"]
+  b = open("skills/engineering/skills/benchmark/SKILL.md").read()
+  bad += [] if "disable-model-invocation" not in b and "★" not in b else ["benchmark not model-invocable or has a star"]
+  bad += [] if "../principle-explain-the-number/SKILL.md" in b else ["no principle link"]
+  tools = re.findall(r"\b(Lighthouse|pidstat|py-spy|strace|top|perf|nproc|uptime)\b", b)
+  bad += [] if not tools else [f"tool names: {tools}"]
+  w = open("skills/engineering/skills/webperf/SKILL.md").read()
+  bad += [] if w.count("/benchmark") >= 3 and "three times" not in w else ["webperf call or stale run count"]
+  stale = subprocess.run(["git","grep","-n","-i","-E","median of three|three runs","--",".",":!.ai"],capture_output=True,text=True).stdout
+  bad += [] if not stale else [f"stale: {stale}"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok`, exit 0.
