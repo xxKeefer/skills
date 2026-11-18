@@ -52,8 +52,9 @@ Before each try, read the decision log. Then:
 
 1. Name one hypothesis and its mechanism, in the code, with the file. "Try some caching" is not a
    mechanism.
-2. Give the change to one fresh subagent at the `worker` role, with a tight scope. It makes one
-   change.
+2. Give the change to one fresh subagent at the `worker` role of the `models` block in
+   `~/.claude/AGENTS.md`, or at the session model when there is no `models` block, with a tight
+   scope. It makes one change.
 3. Measure with the frozen harness, and run the gate.
 4. Keep the change only when the metric moves in the better direction by more than the noise and the
    gate is green. Commit it as one commit that stages only the changed files. Else revert in full.
