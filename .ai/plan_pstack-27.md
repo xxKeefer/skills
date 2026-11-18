@@ -69,8 +69,8 @@ builds_on: pstack-26
   - Done: AC B holds. A fresh agent followed the file on `map_units.py`, and wrote three designs itself. Its output showed the caller sketch, a rubric of four weighted criteria before the designs, design B scrapped on the tell "interface as wide as its implementation", a score table (A 480, C 360), base A, and one graft from C (an all-or-none `tick` of several units) with its reason. Weak spot: the agent kept design C although C drops `show` from the caller sketch. It read the tell "does not serve the caller sketch" as soft.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-27.md`. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path, the reviewed base and head, and the open rows are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-27.md`. This step changes no code. Name `/engineering:light-review`.
+  - Done: report `.ai/review_pstack-27_design-it-twice.html`. Reviewed base 0c89d35, head 7b3e6f8 (panel read f07b322, fix commit 7b3e6f8). Open rows: none. The scrap tell for the caller sketch now runs as a check, and Step 3 says what to do when every design is scrapped.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-27_design-it-twice`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -88,3 +88,4 @@ builds_on: pstack-26
 - Decision log: decisions_pstack-27.tsv
 - 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
+- 2026-11-18: step 4 done: light review, 2 findings fixed in 7b3e6f8, none open.
