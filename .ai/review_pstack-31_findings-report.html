@@ -56,6 +56,133 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "899d50f",
+   "meta": {
+    "Base": "pstack-30_text-diagrams (85bb3a5)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-31.md",
+    "Fixed in": "c199831"
+   },
+   "answer": "Three findings are fixed in c199831 and none stay open. The report check crashed on a `rows` value that is not a list. This run covers three lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Lane",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "1",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not named by the caller)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/primitives/skills/write-report/scripts/check_report.py:42",
+      "issue": "A run whose `rows` is a truthy non-list crashed the checker.\n\nInput `\"rows\": 5` raised a TypeError with no `Fix:` line.",
+      "recommendation": "Report `rows` as not a list, skip its row loop, and skip it in the duplicate id count. A new test covers it.",
+      "result": "Fixed"
+     },
+     "id": "r3.1"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "correctness",
+      "where": "skills/primitives/skills/write-to-file/scripts/check_findings.py:61",
+      "issue": "The open-points count included `- ` lines inside HTML comments.\n\nThe body check strips comments, but the count did not.",
+      "recommendation": "Strip comment spans before the count. A new test covers it.",
+      "result": "Fixed"
+     },
+     "id": "r3.2"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/primitives/skills/write-to-file/scripts/check_findings.py:28",
+      "issue": "main() mixed file reading, validation, and output.\n\nThe sibling check_report.py already splits problems() from main().",
+      "recommendation": "Extract problems(lines) that returns the errors and the count, and leave main() to read and print.",
+      "result": "Fixed"
+     },
+     "id": "r3.3"
+    }
+   ],
+   "run": 3,
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
    "head": "0bf61e6",
    "meta": {
     "Base": "pstack-30_text-diagrams (85bb3a5)",
