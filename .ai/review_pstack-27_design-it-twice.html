@@ -56,6 +56,97 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "9910dcc",
+   "meta": {
+    "Base": "pstack-26_fork-rule (0c89d35)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-27.md",
+    "Fixed in": "77ecef5"
+   },
+   "answer": "The panel found one change-requested finding and fixed it in 77ecef5. The retry after a full scrap now runs once, then asks the user. No row is open. This run covers the lane named by the plan (persona-skills) only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "1",
+        "0",
+        "0",
+        "ran"
+       ],
+       [
+        "all other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (not named by the caller)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md:57",
+      "issue": "The branch for a full scrap runs Step 2 again with no bound and no stop for the user, so it can loop.\n\nStep 1 says to go straight to Step 2. If no interface can meet the caller sketch, each round fails the same tell, and the agent starts new sub-agents on each pass.",
+      "recommendation": "Changed to one retry. If every design is scrapped again, stop and ask the user whether to change the caller sketch or the rubric.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
    "head": "f07b322",
    "meta": {
     "Base": "pstack-26_fork-rule (0c89d35)",

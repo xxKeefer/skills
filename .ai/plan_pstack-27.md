@@ -73,8 +73,8 @@ builds_on: pstack-26
   - Done: report `.ai/review_pstack-27_design-it-twice.html`. Reviewed base 0c89d35, head 7b3e6f8 (panel read f07b322, fix commit 7b3e6f8). Open rows: none. The scrap tell for the caller sketch now runs as a check, and Step 3 says what to do when every design is scrapped.
 - [x] **5. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green on 1acc789. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-27.md`. This step changes no code. Name `/engineering:light-review`. Lanes: `persona-skills`, because it raised the findings of the last run and `DESIGN-IT-TWICE.md` changed after its reviewed head 7b3e6f8. No row stays open from the last report.
-  - Done: the report path, the reviewed base and head, and the open rows are in this line.
+- [x] **6. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-27.md`. This step changes no code. Name `/engineering:light-review`. Lanes: `persona-skills`, because it raised the findings of the last run and `DESIGN-IT-TWICE.md` changed after its reviewed head 7b3e6f8. No row stays open from the last report.
+  - Done: report `.ai/review_pstack-27_design-it-twice.html`, run 2. Reviewed base 0c89d35, head 77ecef5 (panel read 9910dcc, fix commit 77ecef5). Open rows: none. The retry after a full scrap now runs once, then asks the user.
 - [ ] **7. Push.** Push-only map: run `git push -u origin pstack-27_design-it-twice`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -123,3 +123,4 @@ builds_on: pstack-26
   ```
   Output: `ok`, exit 0.
 - 2026-11-18: `/ship` check: Review fails, because fix 1acc789 is after the reviewed head 7b3e6f8. Added round 2: step 5 (gates, green) and step 6 (review). The push step is now step 7.
+- 2026-11-18: step 6 done: light review, lane `persona-skills`. One Change Requested row fixed in 77ecef5 (bound the rescrap retry). No row open. TDD skipped: the fix is skill text, and the gates are the closest check.
