@@ -85,8 +85,8 @@ builds_on: pstack-29
   - Result: `printf '╭──► a\n│\n│\n▼\nb\n'` and the skill example each piped to `check_diagram.py -` printed `ok`. The pre-commit test passes.
 - [x] **7. Review fix r1.2.** No test for a bottom row shorter than the `┐` column, and none for the line number in the `┘` error, at `skills/primitives/skills/show-me/scripts/check_diagram.spec.py`. Report: `.ai/review_pstack-30_text-diagrams.html`. Add both tests.
   - Done: `check_diagram.spec.py` has a test for a short bottom row and a test that asserts the line number in the `┘` error. Each test fails when its check breaks, and passes on the current code.
-- [ ] **8. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **8. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 74e3b69 to `origin/pstack-30_text-diagrams`.
 
 ## Suggested skills
 
@@ -133,3 +133,4 @@ builds_on: pstack-29
   ```
   Output: `ok: 4 files, all in show-me; 2 removed lines, all description`, exit 0.
 - 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the four gates each exit 0 on the head. Review: report head ecebc67, and each later commit outside `.ai/` is review fix step 6 (a6be2f3) or 7 (b81f7e3). Constraints: no `CONSTRAINTS.md`. Tree: clean.
+- 2026-11-18: unit 30 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

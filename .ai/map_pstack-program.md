@@ -570,7 +570,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - User note (r1.22): name the skill `why`.
 - Done: `/why` on a line returns its history with citations.
 
-### [ ] 30. Text diagrams in `show-me`
+### [x] 30. Text diagrams in `show-me`
 
 - A new view: hand-drawn box diagrams for a flow or a dependency graph. Box-drawing characters and ASCII only, no emoji, one route per line, a label on each line. Mermaid stays for the HTML view.
 - `show-me/scripts/check_diagram.py`: each character is one column wide, and box corners line up.
