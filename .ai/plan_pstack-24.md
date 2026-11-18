@@ -72,6 +72,12 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`. Base bbddd96, head 424d2c8. Two open rows, both in `webperf`.
+- [x] **4b. Review fixes r1.1 and r1.2.** Kind: docs. `webperf` Step 1 asked `/benchmark` for a verdict on a one-sided baseline, and Step 3 had no exit on inconclusive. Report: `.ai/review_pstack-24_benchmark.html`.
+  - Done: fixed in 89265c3. Step 1 runs checks 1, 3, 4, and 7 on the baseline and records its limiter, with no verdict. Step 3 closes an inconclusive gap once, else reverts the fix, marks it open with its gap, and goes to the next metric.
+- [x] **4c. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
+- [ ] **4d. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 424d2c8. Do not raise r1.1 or r1.2 again. This step changes no code. Name `/engineering:light-review`.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-24_benchmark`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -90,3 +96,4 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - 2026-11-18: step 2 done: the live `/webperf` run gave the verdict faster, with its limiter. See the step 2 Done line.
 - 2026-11-18: step 3 done: the pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - 2026-11-18: step 4 done: light review wrote `.ai/review_pstack-24_benchmark.html`. Two open rows (webperf Step 1 baseline verdict, webperf Step 3 inconclusive loop). The step changes no code, so no fix was made.
+- 2026-11-18: step 4 review found two Change Requested rows in `webperf`. The `/work-on` loop fixes review rows with no stop, so step 4b fixed both in 89265c3. The fix changes skill text that an agent follows, so a new round (4c, 4d) runs.
