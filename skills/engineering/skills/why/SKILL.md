@@ -30,8 +30,10 @@ Read these sources in order:
    range, with renames followed.
 3. `git show --no-patch --format='%h %an%n%B' <sha>` gives the message of each commit. Read the
    diff only when the message does not say why.
-4. Find the PR that merged each commit. Read the PR number from the merge commit subject, or from
-   `git log --merges --ancestry-path --format=%s <sha>..HEAD`. Else ask the code host.
+4. Find the PR that merged each commit. The first line of
+   `git log --merges --ancestry-path --reverse --format='%h %s' <sha>..HEAD` is the merge that
+   brought the commit in. Read the PR number from its subject. A later merge is not this PR. Else
+   ask the code host.
 5. Read the description and the review threads of each PR through the code host tool role. Find
    the tool as the engineering `CLAUDE.md` says.
 
