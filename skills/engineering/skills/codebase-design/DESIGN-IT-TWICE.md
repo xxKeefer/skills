@@ -54,7 +54,7 @@ Scrap each design that shows a known tell. Name the tell for each scrapped desig
 - The interface is as wide as its implementation.
 - The caller sketch does not run against it unchanged. Rewrite the sketch with the design's interface. If the sketch loses a call, or needs a new call, a new step, a changed call order, or a value the caller must build, scrap the design.
 
-If every design is scrapped, show the tells to the user and run Step 2 again, with the tells added to each brief.
+If every design is scrapped, show the tells to the user and run Step 2 once more, with the tells added to each brief. If every design is scrapped again, stop and ask the user whether to change the caller sketch or the rubric.
 
 Score each design that survives against the rubric. Show a table with one row per design, one column per criterion, and the weighted total.
 
