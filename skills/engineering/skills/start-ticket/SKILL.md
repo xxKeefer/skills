@@ -102,6 +102,9 @@ The plan holds:
   each AC that it proves. Each AC has one step.
 - **The production gate.** Name the flag, permission, or setting that gates the change, and what a
   user without it sees. If nothing gates it, say why that is safe.
+- **The design note.** Only when the change adds a library, a public API, or a seam between apps.
+  In ten lines or fewer, give the public interface, the dependencies, and each option you rejected
+  with its reason.
 - **The Test approach.** Read [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md)
   and follow it: rate each AC, derive the conditions, and give each condition the cheapest level.
   Use its section format, with the `ID` column. When a flag gates the change, the flag-off path is
@@ -119,7 +122,8 @@ the Conditions list of a step or under Not testing.
 ## Step 6: Plan gate
 
 Show the draft plan in the Step 7 format. Revise it with the user until they approve it. The
-user approves the steps and the Test approach together.
+user approves the steps and the Test approach together. When the plan has a design note, tell the
+user to get one reviewer's yes on the note before they approve.
 
 If the plan is much bigger than the `/scope-ticket` estimate, say so before the approval. Give the
 size that the plan shows and the points that it should have had. Then ask whether to keep the

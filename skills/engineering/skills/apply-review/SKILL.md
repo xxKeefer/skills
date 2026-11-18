@@ -114,12 +114,17 @@ Do this step for the rows with a `reply` or a `resolve` tick. Read
 
 1. List the threads of the PR. Match each row to its thread by the comment id in its `thread`
    URL. When no thread matches, skip the row and say which.
-2. For each `reply` tick, apply the note of the row to its `draft`. When the row also has a `fix`
+2. For each row with a `fix` tick, run `git show <short hash> -- <path>`, and find the code that
+   `issue` names in the removed lines. Then read `<path>` at HEAD, and confirm that the code is
+   gone or changed. When either check fails, post no reply for the row, and say that the fix did
+   not land.
+3. For each `reply` tick, apply the note of the row to its `draft`. When the row also has a `fix`
    tick, end the reply with `Fixed in <short hash>.` With no draft, the reply is that line alone.
    Post the reply on the thread.
-3. For each `resolve` tick, resolve the thread after its reply.
+4. For each `resolve` tick, resolve the thread after its reply.
 
-**Done when:** each `reply` tick has a posted reply, and each `resolve` tick has a resolved thread.
+**Done when:** each `Fixed in` reply has its change in the commit and at HEAD, each `reply` tick
+has a posted reply, and each `resolve` tick has a resolved thread.
 
 ## Step 7: Record the results
 
