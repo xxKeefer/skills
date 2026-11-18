@@ -69,8 +69,8 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   - Done: AC C holds. The Step 4 check prints no `MISMATCH` line.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-23_typescript-rules.html`. Base d0d44a5, head d3c0a07.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -87,3 +87,4 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 - 2026-11-18: step 1 done: `## Types` section added with six rules, each naming its principle.
 - 2026-11-18: step 2 done: install run with a temp HOME printed no MISMATCH line; temp folder deleted.
 - 2026-11-18: step 3 done: the gates are green.
+- 2026-11-18: step 4 done: light review ran persona-skills only, with no finding; report `.ai/review_pstack-23_typescript-rules.html`, base d0d44a5, head d3c0a07.
