@@ -104,6 +104,131 @@ function findWidgetByName(name: string) {
 }
 ```
 
+## Types
+
+Make the compiler reject impossible states.
+
+### Brand semantic primitives
+
+Two values that share a primitive type but mean different things get different types. Validate once, when you create the value.
+
+bad:
+
+```ts
+function transfer(from: string, to: string, amount: number) {}
+```
+
+good:
+
+```ts
+type AccountId = string & { readonly __brand: "AccountId" };
+type Cents = number & { readonly __brand: "Cents" };
+
+function transfer(from: AccountId, to: AccountId, amount: Cents) {}
+```
+
+Principle: `principle-type-system-discipline`.
+
+### Model variants as a discriminated union
+
+Do not use flags that must stay in sync. One `kind` field decides which other fields exist.
+
+bad:
+
+```ts
+type Request = { loading: boolean; error?: Error; data?: Order };
+```
+
+good:
+
+```ts
+type Request =
+  | { kind: "loading" }
+  | { kind: "failed"; error: Error }
+  | { kind: "loaded"; data: Order };
+```
+
+Principle: `principle-model-the-domain`.
+
+### End each switch on a union with a `never` check
+
+A new variant then fails at compile time, not at run time.
+
+```ts
+function label(request: Request): string {
+  switch (request.kind) {
+    case "loading":
+      return "Loading";
+    case "failed":
+      return request.error.message;
+    case "loaded":
+      return request.data.id;
+    default: {
+      const unreachable: never = request;
+      throw new Error(`Unhandled variant: ${JSON.stringify(unreachable)}`);
+    }
+  }
+}
+```
+
+Principle: `principle-type-system-discipline`.
+
+### Use `satisfies` before `as`
+
+`satisfies` checks the shape and keeps the narrow type. `as` turns the check off. Use `as` only when no other form works, and write the reason beside it.
+
+bad:
+
+```ts
+const routes = { home: "/", orders: "/orders" } as Record<string, string>;
+```
+
+good:
+
+```ts
+const routes = { home: "/", orders: "/orders" } as const satisfies Record<string, string>;
+```
+
+Principle: `principle-type-system-discipline`.
+
+### Parse at the boundary, then trust the type
+
+JSON, API responses, URL params, storage, and environment variables are untyped until a parse function returns the typed model. Inside the boundary, do not validate again and do not cast.
+
+bad:
+
+```ts
+const order = (await response.json()) as Order;
+```
+
+good:
+
+```ts
+const order = parseOrder(await response.json());
+```
+
+Principle: `principle-boundary-discipline`.
+
+### Use the simplest type that covers every value
+
+Do not use an optional field that is always set. Do not use `any`; use `unknown` and narrow it. Do not add a generic or a wrapper type that removes no invalid state.
+
+bad:
+
+```ts
+type User = { id: string; name?: string };
+function load(input: any): User {}
+```
+
+good:
+
+```ts
+type User = { id: string; name: string };
+function load(input: unknown): User {}
+```
+
+Principle: `principle-minimize-reader-load`.
+
 ## Separation of Concerns
 
 - Vue `<script setup>` = **component UI logic only** (state, refs, event handlers, computed display values)
