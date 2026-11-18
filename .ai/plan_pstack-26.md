@@ -22,7 +22,7 @@ builds_on: pstack-25
 ## Acceptance criteria
 
 - [x] **A.** Read `grill`, `spec`, and `plan` → each classifies a question before it asks: an observable fact goes to a lookup or a prototype, and only a decision goes to the user.
-- [ ] **B.** Run a grill on a plan that turns on a fact in the corpus → the grill looks up the fact and does not ask it.
+- [x] **B.** Run a grill on a plan that turns on a fact in the corpus → the grill looks up the fact and does not ask it.
 
 ## Context
 
@@ -66,11 +66,11 @@ builds_on: pstack-25
 - [x] **2. `spec` and the plan route.** Kind: docs. In `skills/engineering/skills/spec/SKILL.md` Step 3, add one rule: classify each gap by the `/grill` fork rule first, and ask only the decisions. In `skills/engineering/skills/start-ticket/SKILL.md`, beside the "No questions" rule, add one line: before a question to the user, classify it by the `/grill` fork rule. Search the repo for other copies of the old `grill` fact line, and update each one.
   - Seam: the two skill files.
   - Done: AC A holds for `spec` and the plan route on a read.
-- [ ] **3. Live run.** Kind: config. Conditions: C1. Give a fresh agent the `grill` text and this plan: "Add a `## See also` section to every skill in the `primitives` domain." Tell it to return the questions it would ask, and each fact it looked up instead, with the file it read. Copy the result in short form into this Done line.
+- [x] **3. Live run.** Kind: config. Conditions: C1. Give a fresh agent the `grill` text and this plan: "Add a `## See also` section to every skill in the `primitives` domain." Tell it to return the questions it would ask, and each fact it looked up instead, with the file it read. Copy the result in short form into this Done line.
   - Seam: the `grill` skill text, as an agent follows it.
-  - Done: AC B holds. The agent looked up at least one fact in the repo, and asked only decisions.
-- [ ] **4. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+  - Done: AC B holds. A fresh agent followed the `grill` text on the sample plan. It looked up six facts and asked none of them: 16 primitives skills (`ls`), no `See also` section in any skill (`grep`), no deprecated primitive, the section headings in use, the base-layer rule in `skills/primitives/CLAUDE.md`, and the credit convention. It needed no run. It asked six decisions, each with a recommended answer: which skills, what an entry holds, links to other domains, where the section goes, who keeps links true, and the README.
+- [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-26.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: the report path, the reviewed base and head, and the result are in this line.
 - [ ] **6. Push.** Push-only map: run `git push -u origin pstack-26_fork-rule`, in place of `/create-pr`.
@@ -89,3 +89,5 @@ builds_on: pstack-25
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: fork rule in grill.
 - 2026-11-18: step 2 done: fork rule in spec and start-ticket. No other copies of the old fact line.
+- 2026-11-18: step 3 done: the live run proves AC B. See the step 3 Done line.
+- 2026-11-18: step 4 done: the gates each exit 0.
