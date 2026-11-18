@@ -42,14 +42,16 @@ After the user says yes:
 
 1. Make the fix.
 2. Run the project's tests.
-3. Measure again with the same tool and the same conditions. Vet the comparison with `/benchmark`.
+3. Measure again with the same tool and the same conditions. Run the fixed page and the baseline
+   in alternation, at least five runs each, and vet the comparison with `/benchmark`.
 4. Read the verdict. Keep the fix if the verdict is faster and no other metric got worse. Revert it
    on slower or no measurable difference, and say so. On inconclusive, report the gap that
    `/benchmark` names. Close it once and measure again if you can. Else revert the fix, mark it
    open with its gap, and go to the next metric.
 5. Commit a kept fix, with the before and after numbers in the commit message.
 
-Go back to Step 2 for the next worst metric, until each metric is inside its limit or the user stops.
+Go back to Step 2 for the next worst metric that is not open, until each metric is inside its limit
+or open, or the user stops.
 
 **Done when:** each fix is kept with its verdict and limiter or reverted, and the user has a table
 of each metric before and after. A fix with an inconclusive verdict is open, with its gap named.
