@@ -73,8 +73,8 @@ builds_on: pstack-25
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-26.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: report `.ai/review_pstack-26_fork-rule.html`. Reviewed base 8d3326c, head d06734a. Light run: 0 change requested, 1 nit open. The nit: `start-ticket/SKILL.md` is 10,014 bytes, over the 10 KB threshold.
-- [ ] **6. Push.** Push-only map: run `git push -u origin pstack-26_fork-rule`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **6. Push.** Push-only map: run `git push -u origin pstack-26_fork-rule`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 48281ca to `origin/pstack-26_fork-rule`.
 
 ## Suggested skills
 
@@ -119,3 +119,5 @@ builds_on: pstack-25
   PY
   ```
   Output: `ok`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). The review covers the head: `git patch-id --stable` gives one ID for the reviewed range and the branch range, outside `.ai/`. Pushed 48281ca.
+- 2026-11-18: unit 26 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

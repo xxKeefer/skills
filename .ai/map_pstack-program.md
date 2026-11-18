@@ -549,7 +549,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `primitives/sharpen` (new, user-only): rewrite a prompt to go deeper, not wider.
 - Done: `/sharpen` on a prompt returns a deeper version.
 
-### [ ] 26. The fork rule (r1.18)
+### [x] 26. The fork rule (r1.18)
 
 - `grill`, `spec`, and `plan` classify a question first. An observable fact goes to a prototype or a lookup, not the user. The pause list is already in unit 1.
 - Done: a grill looks up a fact instead of asking it.
