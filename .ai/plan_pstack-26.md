@@ -71,8 +71,8 @@ builds_on: pstack-25
   - Done: AC B holds. A fresh agent followed the `grill` text on the sample plan. It looked up six facts and asked none of them: 16 primitives skills (`ls`), no `See also` section in any skill (`grep`), no deprecated primitive, the section headings in use, the base-layer rule in `skills/primitives/CLAUDE.md`, and the credit convention. It needed no run. It asked six decisions, each with a recommended answer: which skills, what an entry holds, links to other domains, where the section goes, who keeps links true, and the README.
 - [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-26.md`. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path, the reviewed base and head, and the result are in this line.
+- [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-26.md`. This step changes no code. Name `/engineering:light-review`.
+  - Done: report `.ai/review_pstack-26_fork-rule.html`. Reviewed base 8d3326c, head d06734a. Light run: 0 change requested, 1 nit open. The nit: `start-ticket/SKILL.md` is 10,014 bytes, over the 10 KB threshold.
 - [ ] **6. Push.** Push-only map: run `git push -u origin pstack-26_fork-rule`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -91,3 +91,4 @@ builds_on: pstack-25
 - 2026-11-18: step 2 done: fork rule in spec and start-ticket. No other copies of the old fact line.
 - 2026-11-18: step 3 done: the live run proves AC B. See the step 3 Done line.
 - 2026-11-18: step 4 done: the gates each exit 0.
+- 2026-11-18: step 5 done: light review of 8d3326c..d06734a. 1 nit open, in the report.
