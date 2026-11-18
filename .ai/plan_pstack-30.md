@@ -132,3 +132,4 @@ builds_on: pstack-29
   EOF
   ```
   Output: `ok: 4 files, all in show-me; 2 removed lines, all description`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the four gates each exit 0 on the head. Review: report head ecebc67, and each later commit outside `.ai/` is review fix step 6 (a6be2f3) or 7 (b81f7e3). Constraints: no `CONSTRAINTS.md`. Tree: clean.
