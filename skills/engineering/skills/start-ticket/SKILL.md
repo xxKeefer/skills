@@ -22,6 +22,8 @@ Scope comes before the claim. When a ticket splits into sub-tasks, the run stops
 **No questions.** When the user says to ask no questions, follow
 [`references/inputs.md`](references/inputs.md#no-questions).
 
+**Before a question.** Before a question to the user, classify it by the `/grill` fork rule.
+
 ## Step 1: Read the ticket
 
 1. Read the key from `$ARGUMENTS`. If it is not there, ask for it. When `/plan` gives a spec in
