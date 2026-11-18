@@ -76,8 +76,8 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
   - Done: fixed in 89265c3. Step 1 runs checks 1, 3, 4, and 7 on the baseline and records its limiter, with no verdict. Step 3 closes an inconclusive gap once, else reverts the fix, marks it open with its gap, and goes to the next metric.
 - [x] **4c. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4d. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 424d2c8. Do not raise r1.1 or r1.2 again. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4d. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 424d2c8. Do not raise r1.1 or r1.2 again. This step changes no code. Name `/engineering:light-review`.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`, run 2. Base bbddd96, reviewed head 7b65f69, fixed in 5f3c53c. Two nit rows, both fixed.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-24_benchmark`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -97,3 +97,4 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - 2026-11-18: step 3 done: the pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - 2026-11-18: step 4 done: light review wrote `.ai/review_pstack-24_benchmark.html`. Two open rows (webperf Step 1 baseline verdict, webperf Step 3 inconclusive loop). The step changes no code, so no fix was made.
 - 2026-11-18: step 4 review found two Change Requested rows in `webperf`. The `/work-on` loop fixes review rows with no stop, so step 4b fixed both in 89265c3. The fix changes skill text that an agent follows, so a new round (4c, 4d) runs.
+- 2026-11-18: step 4d done: the persona-skills lane found two nits in `webperf` Step 3 (no alternating baseline runs, no exit for an open metric). Both fixed in 5f3c53c, with no new gate failure.

@@ -223,6 +223,177 @@
    ],
    "run": 1,
    "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
+   "head": "5f3c53c",
+   "meta": {
+    "Base": "pstack-23_typescript-rules (bbddd96)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-24.md",
+    "Fixed in": "5f3c53c"
+   },
+   "answer": "Two nits, both in the webperf call to benchmark, are fixed in 5f3c53c. The skills lane ran alone. Rows r1.1 and r1.2 were not raised again. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "0",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "correctness",
+        "-",
+        "-",
+        "-",
+        "skipped (no executable code changed)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts/.vue source changed)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no failure path changed)"
+       ],
+       [
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no non-test source changed)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no code identifiers changed)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (no behavioural source changed)"
+       ],
+       [
+        "test-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no test file changed)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts/.vue source changed)"
+       ],
+       [
+        "comments",
+        "-",
+        "-",
+        "-",
+        "skipped (only prose changed)"
+       ],
+       [
+        "every other lane",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/webperf/SKILL.md:49",
+      "issue": "webperf Step 3 measures the fixed page again, but /benchmark check 5 needs alternating runs of both sides. Step 1 ran the baseline alone, earlier, so the agent has no alternating baseline runs and either skips check 5 or marks the fix inconclusive.",
+      "recommendation": "Step 3 item 3 now says to run the fixed page and the baseline in alternation, at least five runs each.",
+      "result": "Fixed"
+     },
+     "id": "r2.1"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/webperf/SKILL.md:55",
+      "issue": "The Step 3 loop returns to Step 2 for the worst metric until each metric is inside its limit. A fix left open with its gap keeps its metric outside the limit, so Step 2 picks the same metric and the same fix again, and the loop has no exit.",
+      "recommendation": "The loop line now skips a metric that is open, and ends when each metric is inside its limit or open.",
+      "result": "Fixed"
+     },
+     "id": "r2.2"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-18"
   }
  ]
 }
