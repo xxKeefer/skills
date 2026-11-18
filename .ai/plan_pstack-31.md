@@ -93,8 +93,8 @@ builds_on: pstack-30
 - [x] **5. Live run.** Kind: config. Conditions: C8, C9. In a temp git repo, seed a small bug with a clear root cause. Give one fresh agent `diagnose/SKILL.md` and the bug report, and tell it to stop after Step 4. Give a second fresh agent `BUG.md` step 6 and the same bug, with the verdict `fixed`. Run the findings check on each file. Copy the result in short form into this Done line.
   - Done: E and F hold. Each file passes the check.
   - Result: seeded bug: `cart.py` divides a discount by 10, not 100. A fresh agent on `diagnose/SKILL.md` wrote `findings_save15-charges-zero.md`, `status: answered`. The check printed `open points: 2`, exit 0. The agent also found that the seeded report gave the wrong charge (0.0, not -50.0), and logged it as an open point. A fresh agent on `BUG.md` step 6 wrote `findings_bug-1.md`. The check printed `open points: 0`, exit 0, and `**Verdict:** fixed` is the first line of `## Answer`. A re-run of the check in this thread gave the same results.
-- [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. All seven gates exit 0 on 33e8e8b.
 - [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **8. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
@@ -117,3 +117,4 @@ builds_on: pstack-30
 - 2026-11-18: step 3 done: `diagnose/SKILL.md` Step 4 is the findings layout, and the `engineering/CLAUDE.md` row says findings file.
 - 2026-11-18: step 4 done: `BUG.md` step 6 is the findings layout, with the verdict as the first line of `## Answer`.
 - 2026-11-18: step 5 done: both live-run files pass the findings check. Next: step 6, the gates.
+- 2026-11-18: step 6 done: the seven gates each exit 0. Next: step 7, review.
