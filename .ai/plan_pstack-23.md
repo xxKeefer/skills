@@ -67,8 +67,8 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   - Done: AC A and B hold on a read, and the pre-commit test passes.
 - [x] **2. Install check.** Kind: config. Conditions: C1. Run the commands of `/install-rules` Steps 1, 3, and 4 with `HOME` set to a new temp folder and `CLAUDE_SKILL_DIR` set to the skill folder. Delete the temp folder.
   - Done: AC C holds. The Step 4 check prints no `MISMATCH` line.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
@@ -86,3 +86,4 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `## Types` section added with six rules, each naming its principle.
 - 2026-11-18: step 2 done: install run with a temp HOME printed no MISMATCH line; temp folder deleted.
+- 2026-11-18: step 3 done: the gates are green.
