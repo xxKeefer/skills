@@ -74,8 +74,8 @@ One HTML report lists each skill step where a new script saves time or tokens, o
   - Result: `.ai/audit_pstack-32_script-audit.html`, run 1. 13 build rows and 1 delete row (`prompt_boolean.js`), each with a tick. The kept table lists 42 scripts, so 43 scripts in total. The four sweeps read 63 skill files. `check_report.py` prints `ok`. A re-run of the `prompt_boolean` caller search in this thread found the same six hits and no caller.
 - [x] **2. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. All four gates exit 0 on c6e1ab0.
-- [ ] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report `.ai/review_pstack-32_script-audit.html`, base f4cb380, head c36a5fe (panel read 1fabac6). `persona-ac-check` ran (no essential lane matched) and found 3 Nit cites, all fixed in c36a5fe.
 - [ ] **4. Push.** Push-only map: run `git push -u origin pstack-32_script-audit`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -93,3 +93,4 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - 2026-11-18: step 1 ran in the build thread, not in a step subagent, because its fan-out needs subagents and no agent starts an agent of its own. The sweep added `scripts/obsidian/scripts/*.js` to the existing scripts, because they are scripts in the repo outside `skills/`. Next: step 2, the gates.
 - 2026-11-18: step 2 done: the four gates each exit 0. Next: step 3, review.
 - 2026-11-18: step 3 reopened. The first run wrote no report and ran no lane, so it fails the build check for a review step. Its hand check found two weak cites: r1.1 (`retire-a-skill/SKILL.md:30` is a heading) and r1.13 (`retro-note/SKILL.md:45` is a date line). `persona-ac-check` matches this diff, because the review gets a plan path. Next: step 3 again, with that lane.
+- 2026-11-18: step 3 done: `persona-ac-check` ran as the one lane. Its 3 weak cites (r1.1, r1.11, r1.13) are fixed in the audit report in c36a5fe, and `check_report.py` prints `ok`. Next: step 4, push.
