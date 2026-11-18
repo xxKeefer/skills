@@ -76,7 +76,7 @@ One HTML report lists each skill step where a new script saves time or tokens, o
   - Done: the gates are green. All four gates exit 0 on c6e1ab0.
 - [x] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report `.ai/review_pstack-32_script-audit.html`, base f4cb380, head c36a5fe (panel read 1fabac6). `persona-ac-check` ran (no essential lane matched) and found 3 Nit cites, all fixed in c36a5fe.
-- [ ] **4. Push.** Push-only map: run `git push -u origin pstack-32_script-audit`, in place of `/create-pr`.
+- [x] **4. Push.** Push-only map: run `git push -u origin pstack-32_script-audit`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -108,3 +108,4 @@ One HTML report lists each skill step where a new script saves time or tokens, o
   PY
   ```
   Output: `outside .ai: [] | reports.js matches html: True | report checks: [0, 0]`, exit 0. `/interrogate` skipped by playbook step 5: no confirmed risk, and the safety fact is at rung 4. Next: playbook step 6, `/ship`.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the four gates each exit 0 on 03a3284. Review: report run 1 covers head c36a5fe, and each later commit changes only `.ai/` (empty patch-id on both diffs outside `.ai/`). Constraints: no `CONSTRAINTS.md`. Tree: clean.
