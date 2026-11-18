@@ -68,8 +68,8 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
   - Done: the C2 loop prints one line for each domain, and each line passes. B and C hold.
 - [x] **2. Retire list.** Kind: docs. Conditions: C1. Write the vault task note and its `Backlog` card, as Context says.
   - Done: the note names `/do-next` and holds the Trial steps. The card links to the note. `/do-next` is still in `primitives`. A holds.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` exit 0 on 2a0bd0e. Each `plugin.json` parses as JSON. The C2 loop passed in step 1.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-33.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-33_retire-versions`, in place of `/create-pr`.
