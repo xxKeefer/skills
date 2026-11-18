@@ -293,7 +293,7 @@
      ],
      "cells": {
       "kind": "Build",
-      "where": "skills/meta/skills/migrate-a-skill/SKILL.md:68; skills/meta/skills/retire-a-skill/SKILL.md:30; skills/meta/skills/write-a-skill/SKILL.md:108; skills/meta/skills/write-a-hook/SKILL.md:126; skills/engineering/skills/retro/SKILL.md:119",
+      "where": "skills/meta/skills/migrate-a-skill/SKILL.md:68; skills/meta/skills/retire-a-skill/SKILL.md:36; skills/meta/skills/write-a-skill/SKILL.md:108; skills/meta/skills/write-a-hook/SKILL.md:126; skills/engineering/skills/retro/SKILL.md:119",
       "what": "A skill registry script with subcommands: add or remove a README skill row, bump a domain version in plugin.json, set the deprecated frontmatter, find a skill's domain, and check that each README table matches its skills folders.",
       "gives": "both",
       "why": "Five skills make the same table edit and semver bump by hand on each add, move, retire, or skill edit. migrate-a-skill says 'Minor-bump the version ... for both domains'. A missed bump or row drifts with no error. A check can also run in the pre-commit hook.",
@@ -433,7 +433,7 @@
      ],
      "cells": {
       "kind": "Build",
-      "where": "skills/engineering/skills/update-personas/SKILL.md:37",
+      "where": "skills/engineering/skills/update-personas/SKILL.md:37; skills/engineering/skills/update-personas/SKILL.md:60",
       "what": "A version drift script that reads the installed versions from package.json and the lockfile, and prints each persona-best-practice reference whose 'written against' version differs.",
       "gives": "tokens",
       "why": "A1 reads the installed versions and A4 updates the version line on each refresh. The parse and the compare repeat, and only the rule rewrites need judgement.",
@@ -461,7 +461,7 @@
      ],
      "cells": {
       "kind": "Build",
-      "where": "skills/scribe/skills/triage-notes/SKILL.md:90; skills/scribe/skills/take-a-note/SKILL.md:25; skills/scribe/skills/retro-note/SKILL.md:45",
+      "where": "skills/scribe/skills/triage-notes/SKILL.md:90; skills/scribe/skills/take-a-note/SKILL.md:25; skills/scribe/skills/triage-notes/SKILL.md:97",
       "what": "A note metadata script that makes a new note file name and frontmatter, and on promote moves the file, drops #raw, and sets created and updated or archived.",
       "gives": "both",
       "why": "triage-notes says 'Standardise frontmatter every time'. The slug, date, and field set are the same mechanical edit on each run, and a date slip breaks the vault convention.",
