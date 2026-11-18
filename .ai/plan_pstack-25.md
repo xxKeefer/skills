@@ -68,8 +68,8 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-25.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: the report is `.ai/review_pstack-25_sharpen.html`. Reviewed base 71ff207, head f94c393. The light run found no defect.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-25_sharpen`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-25_sharpen`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 6fde9cd to `origin/pstack-25_sharpen`.
 
 ## Suggested skills
 
@@ -114,3 +114,5 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
   PY
   ```
   Output: `ok`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). The review covers the head: `git patch-id --stable` gives one ID for the reviewed range and the branch range, outside `.ai/`. Pushed 6fde9cd.
+- 2026-11-18: unit 25 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

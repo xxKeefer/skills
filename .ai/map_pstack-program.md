@@ -544,7 +544,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `engineering/benchmark` (new), called by `webperf`. Seven checks on a perf number: name the limiter, alternate A/B runs, count errors, confirm the work ran inside the timed region. Inconclusive is a valid verdict. Cites `principle-explain-the-number`.
 - Done: `webperf` reports a verdict with its limiter, or "inconclusive".
 
-### [ ] 25. `sharpen` (r1.15)
+### [x] 25. `sharpen` (r1.15)
 
 - `primitives/sharpen` (new, user-only): rewrite a prompt to go deeper, not wider.
 - Done: `/sharpen` on a prompt returns a deeper version.
