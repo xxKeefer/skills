@@ -21,7 +21,7 @@ builds_on: pstack-29
 
 ## Acceptance criteria
 
-- [ ] **A.** Ask `/show-me` for a flow or a dependency graph in a text view → it draws a box diagram with box-drawing characters and ASCII only, no emoji, one route per line, and a label on each line. Mermaid stays the HTML view.
+- [x] **A.** Ask `/show-me` for a flow or a dependency graph in a text view → it draws a box diagram with box-drawing characters and ASCII only, no emoji, one route per line, and a label on each line. Mermaid stays the HTML view.
 - [x] **B.** Run `show-me/scripts/check_diagram.py` on a diagram → it passes when each character is one column wide and the box corners line up, and fails when either is false.
 - [ ] **C.** Run `/show-me` on a flow, then run the check on its diagram → the check passes.
 
@@ -71,7 +71,7 @@ builds_on: pstack-29
 
 - [x] **1. The check.** Seam: the `check_diagram.py` command line. Conditions: C1, C2, C3, C4. Write the tests first and see them fail. Then write `skills/primitives/skills/show-me/scripts/check_diagram.py` by the character set, the corner rule, and the interface in Context.
   - Done: `check_diagram.spec.py` adds the four tests in the Conditions table, and each passes. AC B holds.
-- [ ] **2. The view.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Add the text diagram view to `show-me/SKILL.md` as Context says, and name the check as the last action of the view. Update the `description` to name the new view. Add one line to `CREDITS.md`: the text diagram view is new here.
+- [x] **2. The view.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Add the text diagram view to `show-me/SKILL.md` as Context says, and name the check as the last action of the view. Update the `description` to name the new view. Add one line to `CREDITS.md`: the text diagram view is new here.
   - Done: AC A holds on a read, and the pre-commit test passes.
 - [ ] **3. Live run.** Kind: config. Conditions: C5. Give a fresh agent the new `show-me/SKILL.md` and one flow of this repo, such as the stops of `/work-on`. Run the check on its diagram. Copy the result in short form into this Done line.
   - Done: AC C holds.
@@ -95,3 +95,4 @@ builds_on: pstack-29
 - Decision log: decisions_pstack-30.tsv
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `check_diagram.py` and its four tests, commit fa411ef. AC B holds.
+- 2026-11-18: step 2 done: text diagram view in `show-me/SKILL.md`, commit 8edd8cc. AC A holds. The example passes the check.
