@@ -22,7 +22,7 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 ## Acceptance criteria
 
 - [x] **A.** Read `primitives/sharpen/SKILL.md` → it is a new user-only skill with `disable-model-invocation: true`, and it rewrites a prompt to go deeper, not wider.
-- [ ] **B.** Run `/sharpen` on a prompt → it returns a deeper version of the prompt.
+- [x] **B.** Run `/sharpen` on a prompt → it returns a deeper version of the prompt.
 
 ## Context
 
@@ -61,11 +61,11 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 - [x] **1. The `sharpen` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/primitives/skills/sharpen/SKILL.md`, with `disable-model-invocation: true` and no ★. Keep it short, in the size of the pstack source. Adapt its four questions and its rewrite rule, as Context says. Return the rewritten prompt in one code block, ready to paste. Name no tool product. Add a row to `skills/primitives/README.md`.
   - Seam: `skills/primitives/skills/sharpen/SKILL.md`.
   - Done: AC A holds on a read, and the pre-commit test passes.
-- [ ] **2. Live run.** Kind: config. Conditions: C1. In this thread, follow the `sharpen` skill text on the sample prompt "Find out why the test suite is slow." Copy the four answers in short form and the first line of the rewritten prompt into this Done line.
+- [x] **2. Live run.** Kind: config. Conditions: C1. In this thread, follow the `sharpen` skill text on the sample prompt "Find out why the test suite is slow." Copy the four answers in short form and the first line of the rewritten prompt into this Done line.
   - Seam: the `sharpen` skill text, as an agent follows it.
-  - Done: AC B holds.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+  - Done: AC B holds. A fresh agent followed the skill text on the sample prompt. Answers: 1, measure before a guess: the slowest tests, phases, and shared resources, and whether the slowness is new. 2, a timed full run with per-test and per-phase times, the CI run history, and the commit history. 3, the runner's duration report, a profiler, a trace of database, network, and disk calls, serial against parallel runs, one test alone against the full suite, and a bisect. 4, CI wall-clock times before and after, from repeated runs with the spread, a clean machine, and the same pass rate. The rewrite came in one code block. First line: "Find out why the test suite is slow." It keeps the one task, prototypes the measurable choices, and leaves the choice to remove tests or change tools to the user.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-25.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-25_sharpen`, in place of `/create-pr`.
@@ -83,3 +83,5 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 - Decision log: decisions_pstack-25.tsv
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `sharpen` skill and README row added.
+- 2026-11-18: step 2 done: a fresh agent followed the skill on the sample prompt and returned a deeper prompt. See the step 2 Done line.
+- 2026-11-18: step 3 done: the gates each exit 0.
