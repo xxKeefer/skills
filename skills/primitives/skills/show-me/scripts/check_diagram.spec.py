@@ -112,6 +112,26 @@ class CheckDiagramTest(unittest.TestCase):
         self.assertIn("line 1", result.stdout)
         self.assertIn("column 1", result.stdout)
 
+    def test_missing_top_right_corner_fails(self):
+        result = run_text("┌───\n│ a │\n└───┘\n")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("line 1", result.stdout)
+        self.assertIn("column 1", result.stdout)
+        self.assertIn("no ┐", result.stdout)
+
+    def test_character_set_edges(self):
+        self.assertEqual(run_text("▲\u257f\n").returncode, 0)
+        for bad, column in (("\u2580", "column 1"), ("\x7f", "column 1")):
+            result = run_text(bad + "\n")
+            self.assertEqual(result.returncode, 1, repr(bad))
+            self.assertIn("line 1", result.stdout)
+            self.assertIn(column, result.stdout)
+
+    def test_no_argument_reads_stdin(self):
+        result = subprocess.run([sys.executable, SCRIPT], input=GOOD_BOX, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(), "ok")
+
     def test_stdin(self):
         path = os.path.join(HERE, "_good_box.tmp")
         with open(path, "w", encoding="utf-8") as f:
