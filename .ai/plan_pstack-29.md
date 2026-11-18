@@ -119,3 +119,4 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
   PY
   ```
   Output: `ok: 180 skill names, why unique`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the three gates each exit 0 on the head. Review: `git patch-id --stable` gives one ID for the reviewed range e85b601..fdf4f62 and the branch range, outside `.ai/`. Constraints: no `CONSTRAINTS.md`. Tree: clean.
