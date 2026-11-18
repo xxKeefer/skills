@@ -80,7 +80,11 @@ builds_on: pstack-29
 - [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-30.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_pstack-30_text-diagrams.html`, base 92d6a47, reviewed head ecebc67 (panel read ba25e7c). The fix commit ecebc67 holds 3 fixes. 2 rows stay open: a turning route at a `┌` fails the check (needs a design answer), and one future test row.
-- [ ] **6. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
+- [ ] **6. Review fix r1.1.** Kind: docs. A route that turns at `┌` fails the check, at `skills/primitives/skills/show-me/scripts/check_diagram.py:27`. Report: `.ai/review_pstack-30_text-diagrams.html`. In `show-me/SKILL.md`, say that `┌ ┐ └ ┘` mark the corners of a box only, and that a route turns with `╭ ╮ ╰ ╯` or joins with `├ ┤ ┬ ┴`. Do not change the corner rule of the check. Also wrap the `description` lines to the width of their neighbours.
+  - Done: the skill text says how a route turns. A route drawn by that text, such as `╭──► a` with `│` below, passes the check, and the skill example still passes. The pre-commit test passes.
+- [ ] **7. Review fix r1.2.** No test for a bottom row shorter than the `┐` column, and none for the line number in the `┘` error, at `skills/primitives/skills/show-me/scripts/check_diagram.spec.py`. Report: `.ai/review_pstack-30_text-diagrams.html`. Add both tests.
+  - Done: `check_diagram.spec.py` has a test for a short bottom row and a test that asserts the line number in the `┘` error. Each test fails when its check breaks, and passes on the current code.
+- [ ] **8. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -100,3 +104,4 @@ builds_on: pstack-29
 - 2026-11-18: step 3 done: the live run passed the check on the first draw. Next: step 4, the gates.
 - 2026-11-18: step 4 done: the four gates each exit 0. Next: step 5, review.
 - 2026-11-18: step 5 done: light review, 3 findings fixed in ecebc67, 2 open in the report. Next: step 6, push.
+- 2026-11-18: build loop: review step 5 left r1.1 (Change Requested) and r1.2 (Future) open. The agent decided r1.1, so it added fix steps 6 and 7 with no `D` entry. Next: step 6.
