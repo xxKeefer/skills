@@ -70,8 +70,8 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
   - Done: the note names `/do-next` and holds the Trial steps. The card links to the note. `/do-next` is still in `primitives`. A holds.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` exit 0 on 2a0bd0e. Each `plugin.json` parses as JSON. The C2 loop passed in step 1.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-33.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-33.md`. This step changes no code.
+  - Done: the report is `.ai/review_pstack-33_retire-versions.html`. Reviewed base 6601371, head d6e0f4f. No change-requested finding. One future row is open.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-33_retire-versions`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -79,6 +79,7 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
 
 - Step 1 is done in 4002875: the C2 loop passes for all nine domains (engineering 3.0.0, projects 0.12.0, scribe 1.27.0, utility 1.26.0).
 - Step 2 is done: the vault note `Trial the pstack program` holds the retire list and the Trial steps, and the Backlog card links to it. `/do-next` is still in `primitives`.
+- Step 4 is done: the light review found no change-requested finding. The vault note and card meet AC A. One nit in the vault note is fixed.
 
 ## Pending Decisions
 
