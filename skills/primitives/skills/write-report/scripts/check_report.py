@@ -37,7 +37,9 @@ def check_run(run):
         if not isinstance(run.get(key), str):
             found.append((f"{label}: `{key}` is missing or not a string", f"set `{key}` to a string"))
     rows = run.get("rows")
-    if rows:
+    if rows and not isinstance(rows, list):
+        found.append((f"{label}: `rows` is not a list", "set `rows` to a list"))
+    elif rows:
         columns = run.get("columns")
         good = isinstance(columns, list) and columns and all(
             isinstance(c, dict) and "key" in c and "label" in c for c in columns
@@ -70,7 +72,7 @@ def problems(data):
         row["id"]
         for run in runs
         if isinstance(run, dict)
-        for row in run.get("rows") or []
+        for row in (run.get("rows") if isinstance(run.get("rows"), list) else [])
         if isinstance(row, dict) and isinstance(row.get("id"), str)
     )
     for row_id, count in ids.items():

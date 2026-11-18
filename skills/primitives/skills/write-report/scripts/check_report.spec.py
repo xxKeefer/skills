@@ -114,6 +114,11 @@ class CheckReport(unittest.TestCase):
         self.save(data)
         self.fails("bad `ticks`")
 
+        data = self.data()
+        data["runs"][0]["rows"] = 5
+        self.save(data)
+        self.fails("`rows` is not a list")
+
 
 if __name__ == "__main__":
     unittest.main()

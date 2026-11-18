@@ -19,22 +19,21 @@ STATUSES = ["open", "answered", "consumed"]
 SECTIONS = ["Question", "Answer", "Evidence", "Open points"]
 
 
+COMMENT = re.compile(r"<!--.*?-->", re.S)
+
+
 def items(lines, span):
     if span is None:
         return 0
-    return sum(1 for i in range(*span) if lines[i].startswith("- "))
+    text = COMMENT.sub("", "\n".join(lines[span[0]:span[1]]))
+    return sum(1 for line in text.splitlines() if line.startswith("- "))
 
 
-def main(argv):
-    parser = argparse.ArgumentParser(prog="check_findings.py", description="Check that a findings file has the findings layout.")
-    parser.add_argument("findings")
-    path = parser.parse_args(argv[1:]).findings
-    with open(path) as f:
-        lines = f.read().splitlines()
+def problems(lines):
     errors = []
 
     def err(line, problem, fix):
-        errors.append(f"{path}:{line}: {problem}. Fix: {fix}.")
+        errors.append((line, problem, fix))
 
     header, body_start = read_header(lines)
     if header is None:
@@ -53,12 +52,21 @@ def main(argv):
         if index < highest:
             err(begin, f"`## {name}` is out of order", "put the sections in the order " + ", ".join(f"`## {s}`" for s in SECTIONS))
         highest = max(highest, index)
-        text = re.sub(r"<!--.*?-->", "", "\n".join(lines[begin:end]), flags=re.S)
-        if not text.strip():
+        if not COMMENT.sub("", "\n".join(lines[begin:end])).strip():
             err(begin, f"`## {name}` has no body", "write text, or `none`")
-    for e in errors:
-        print(e)
-    print(f"open points: {items(lines, found.get('Open points'))}")
+    return errors, items(lines, found.get("Open points"))
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(prog="check_findings.py", description="Check that a findings file has the findings layout.")
+    parser.add_argument("findings")
+    path = parser.parse_args(argv[1:]).findings
+    with open(path) as f:
+        lines = f.read().splitlines()
+    errors, count = problems(lines)
+    for line, problem, fix in errors:
+        print(f"{path}:{line}: {problem}. Fix: {fix}.")
+    print(f"open points: {count}")
     return 1 if errors else 0
 
 

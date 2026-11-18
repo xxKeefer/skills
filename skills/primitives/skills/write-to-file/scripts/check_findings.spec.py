@@ -117,6 +117,12 @@ class CheckFindings(unittest.TestCase):
         r = self.write()
         self.assertEqual(r.returncode, 0, r.stdout)
 
+    def test_commented_item_not_counted(self):
+        self.sections["Open points"] = ["none", "<!--", "- old point", "-->", "<!-- - inline -->"]
+        r = self.write()
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertEqual(r.stdout, "open points: 0\n")
+
 
 if __name__ == "__main__":
     unittest.main()
