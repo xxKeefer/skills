@@ -88,3 +88,4 @@ builds_on: pstack-25
 - Decision log: decisions_pstack-26.tsv
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: fork rule in grill.
+- 2026-11-18: step 2 done: fork rule in spec and start-ticket. No other copies of the old fact line.
