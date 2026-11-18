@@ -22,7 +22,7 @@ builds_on: pstack-26
 ## Acceptance criteria
 
 - [x] **A.** Read `DESIGN-IT-TWICE.md` → it writes a rubric before the fan-out, sketches the caller's usage first, picks a base, grafts the strong parts of the other designs, and scraps a design on a known tell.
-- [ ] **B.** Run design-it-twice on a module → the output shows the rubric, the score of each design, the base, and each graft.
+- [x] **B.** Run design-it-twice on a module → the output shows the rubric, the score of each design, the base, and each graft.
 
 ## Context
 
@@ -64,9 +64,9 @@ builds_on: pstack-26
 - [x] **1. The rubric in `DESIGN-IT-TWICE.md`.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. In `skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md`: in Step 1, add a sketch of the caller's code as it would read with an ideal interface, before any design. Then write a rubric of three to five weighted criteria, and show it to the user before the fan-out. In Step 2, add the caller sketch and the rubric to each brief. Add a scrap check after the fan-out: scrap a design on a known tell, such as a cast that it needs to compile, a caller that must know the order of calls, or an interface as wide as its implementation. Replace the free-form hybrid in Step 3: score each design that survives against the rubric in a table, pick the top score as the base, and name each graft from another design with its reason. Credit pstack `arena` and `architect` in one line of prose. Update the "Exploring alternative interfaces" line in `codebase-design/SKILL.md` to name the rubric and the grafts. Search the repo for other copies of the old Step 3 words ("propose a hybrid"), and update each one.
   - Seam: `skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md`.
   - Done: AC A holds on a read, and the pre-commit test passes.
-- [ ] **2. Live run.** Kind: config. Conditions: C1. Give a fresh agent the new `DESIGN-IT-TWICE.md` and `codebase-design/SKILL.md`, and one small module of this repo, such as `skills/engineering/skills/work-on/scripts/map_units.py`. The agent writes the designs itself in place of sub-agents, because a subagent cannot start its own. Tell it to return its output in the shape that the file asks for. Copy the result in short form into this Done line.
+- [x] **2. Live run.** Kind: config. Conditions: C1. Give a fresh agent the new `DESIGN-IT-TWICE.md` and `codebase-design/SKILL.md`, and one small module of this repo, such as `skills/engineering/skills/work-on/scripts/map_units.py`. The agent writes the designs itself in place of sub-agents, because a subagent cannot start its own. Tell it to return its output in the shape that the file asks for. Copy the result in short form into this Done line.
   - Seam: the `DESIGN-IT-TWICE.md` text, as an agent follows it.
-  - Done: AC B holds.
+  - Done: AC B holds. A fresh agent followed the file on `map_units.py`, and wrote three designs itself. Its output showed the caller sketch, a rubric of four weighted criteria before the designs, design B scrapped on the tell "interface as wide as its implementation", a score table (A 480, C 360), base A, and one graft from C (an all-or-none `tick` of several units) with its reason. Weak spot: the agent kept design C although C drops `show` from the caller sketch. It read the tell "does not serve the caller sketch" as soft.
 - [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-27.md`. This step changes no code. Name `/engineering:light-review`.
@@ -86,3 +86,4 @@ builds_on: pstack-26
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: caller sketch, rubric, scrap check, base, and grafts in `DESIGN-IT-TWICE.md`, and the `SKILL.md` line.
 - Decision log: decisions_pstack-27.tsv
+- 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
