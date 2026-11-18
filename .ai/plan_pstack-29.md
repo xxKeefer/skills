@@ -24,7 +24,7 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - [x] **A.** Read `engineering/why` → it is a new skill that answers why from the commits and the PR threads of the target.
 - [x] **B.** Read `engineering/why` → it cites the author of each source, and says what the record does not answer.
 - [x] **C.** Run `/why` → the skill name is `why`.
-- [ ] **D.** Run `/why` on a line → it returns the history of the line, with a citation for each claim.
+- [x] **D.** Run `/why` on a line → it returns the history of the line, with a citation for each claim.
 
 ## Context
 
@@ -92,7 +92,30 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - Decision log: decisions_pstack-29.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done (c8ee6a3): `why/SKILL.md` and the README row. Pre-commit test passes. Next: step 2, live run.
-- 2026-11-18: step 1 done (c8ee6a3). Step 2 done: run 1 found the merge lookup defect, fix 0a325e9, run 2 passed.
+- 2026-11-18: step 2 done: run 1 found the merge lookup defect, fix 0a325e9, run 2 passed.
 - 2026-11-18: step 3 done: the gates each exit 0.
-- 2026-11-18: step 4 done: light review, persona-skills clean, base e85b601, head fdf4f62.
 - 2026-11-18: step 4 done: light review ran the `persona-skills` lane, clean. Build loop stopped by rule 7.3. QA checklist skipped: the diff changes only skill text. Next: playbook step 5, `/blast-radius`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch adds one model-invocable skill with a unique name `why`, and one README row with the same column count as its neighbours. No script reads the engineering README table. Rung 4. No confirmed risk. Cleared: the `why` description can match a general "why" question about code, but the skill only reads, so the cost is one unneeded history read. The pre-commit hook passes on the tree. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import re, subprocess, sys, glob
+  base = "pstack-28_unslop"
+  run = lambda *a: subprocess.run(list(a), capture_output=True, text=True).stdout
+  bad = []
+  files = set(run("git", "diff", "--name-only", base, "HEAD", "--", ".", ":!.ai").split())
+  if files != {"skills/engineering/skills/why/SKILL.md", "skills/engineering/README.md"}: bad.append(f"diff files: {files}")
+  readme = run("git", "diff", "-U0", base, "HEAD", "--", "skills/engineering/README.md")
+  changed = [l for l in readme.splitlines() if l[:1] in "+-" and not l.startswith(("+++", "---"))]
+  if len(changed) != 1 or not changed[0].startswith("+| `/why` |"): bad.append(f"README change: {changed}")
+  cols = lambda l: len(l.strip().strip("|").split("|"))
+  near = [l for l in open("skills/engineering/README.md") if l.startswith(("| `/work-on`", "| `/why`"))]
+  if len({cols(l) for l in near}) != 1: bad.append("README row has a different column count")
+  fm = open("skills/engineering/skills/why/SKILL.md").read().split("---")[1]
+  if not re.search(r"^name: why$", fm, re.M) or "disable-model-invocation" in fm: bad.append("frontmatter")
+  names = [m.group(1) for f in glob.glob("skills/*/skills/*/SKILL.md") if (m := re.search(r"^name: (\S+)", open(f).read(), re.M))]
+  if names.count("why") != 1: bad.append("name why not unique")
+  if subprocess.run(["sh", ".githooks/pre-commit"]).returncode: bad.append("pre-commit hook fails")
+  print(bad or f"ok: {len(names)} skill names, why unique"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok: 180 skill names, why unique`, exit 0.
