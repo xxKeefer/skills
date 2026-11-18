@@ -64,7 +64,7 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
 
 ## Steps
 
-- [ ] **1. Version bumps.** Kind: config. Conditions: C2. Set the versions in Context. Run the C2 loop.
+- [ ] **1. Version bumps.** Kind: mechanical. Conditions: C2. Set the versions in Context. Run the C2 loop.
   - Done: the C2 loop prints one line for each domain, and each line passes. B and C hold.
 - [ ] **2. Retire list.** Kind: docs. Conditions: C1. Write the vault task note and its `Backlog` card, as Context says.
   - Done: the note names `/do-next` and holds the Trial steps. The card links to the note. `/do-next` is still in `primitives`. A holds.
