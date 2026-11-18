@@ -21,9 +21,9 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `engineering/why` → it is a new skill that answers why from the commits and the PR threads of the target.
-- [ ] **B.** Read `engineering/why` → it cites the author of each source, and says what the record does not answer.
-- [ ] **C.** Run `/why` → the skill name is `why`.
+- [x] **A.** Read `engineering/why` → it is a new skill that answers why from the commits and the PR threads of the target.
+- [x] **B.** Read `engineering/why` → it cites the author of each source, and says what the record does not answer.
+- [x] **C.** Run `/why` → the skill name is `why`.
 - [ ] **D.** Run `/why` on a line → it returns the history of the line, with a citation for each claim.
 
 ## Context
@@ -67,7 +67,7 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 
 ## Steps
 
-- [ ] **1. The skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/engineering/skills/codebase-news/SKILL.md` first. Write `skills/engineering/skills/why/SKILL.md` with `name: why`, the sources and the answer shape from Context, and one line of prose that credits pstack `why`. Add a `/why` row to the Skills table in `skills/engineering/README.md`.
+- [x] **1. The skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/engineering/skills/codebase-news/SKILL.md` first. Write `skills/engineering/skills/why/SKILL.md` with `name: why`, the sources and the answer shape from Context, and one line of prose that credits pstack `why`. Add a `/why` row to the Skills table in `skills/engineering/README.md`.
   - Seam: `skills/engineering/skills/why/SKILL.md`.
   - Done: ACs A, B, and C hold on a read, and the pre-commit test passes.
 - [ ] **2. Live run.** Kind: config. Conditions: C1. Pick one line of this repo that two or more commits touched. Give a fresh agent the new `why/SKILL.md` and that line. Copy the result in short form into this Done line.
@@ -91,3 +91,4 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - 2026-11-18: plan written on `pstack-28_unslop`, for the branch `pstack-29_why`.
 - Decision log: decisions_pstack-29.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done (c8ee6a3): `why/SKILL.md` and the README row. Pre-commit test passes. Next: step 2, live run.
