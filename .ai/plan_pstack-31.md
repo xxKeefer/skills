@@ -103,7 +103,11 @@ builds_on: pstack-30
 - [x] **9. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with these lanes only: test-design, code-quality, and skills, which raised findings in run 1, and correctness, whose guard matches the scripts that 8154bd2 changed. Rows r1.1 (the `consumed` setter in `fix`) and r1.2 (small test gaps) stay open from run 1: do not raise them again, or a row that only repeats them.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_pstack-31_findings-report.html`, run 2, base 85bb3a5, reviewed head e620966 (panel read 0bf61e6). Three findings fixed, none open.
-- [ ] **10. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
+- [x] **10. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. All seven gates exit 0 on 67d5fec.
+- [ ] **11. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with these lanes only: correctness and code-quality, which raised findings in run 2, and test-design, whose guard matches the spec file that e620966 changed. Rows r1.1 (the `consumed` setter in `fix`) and r1.2 (small test gaps) stay open from run 1: do not raise them again, or a row that only repeats them. This is the third review step: the build loop stops after it.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **12. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Suggested skills
@@ -128,3 +132,5 @@ builds_on: pstack-30
 - 2026-11-18: build loop rule 7.2: review fix 8154bd2 changes how `check_findings.py` reads a section body, so steps 8 (Test) and 9 (Review) are a new round. Push is now step 10. Next: step 8.
 - 2026-11-18: step 8 done: the seven gates each exit 0. Next: step 9, review round 2.
 - 2026-11-18: step 9 done: light review round 2, three fixes in e620966, none open. Next: step 10, push.
+- 2026-11-18: build loop rule 7.2: review fix e620966 changes how `check_findings.py` strips comments, so steps 10 (Test) and 11 (Review) are a third round, the last that the loop allows. Push is now step 12. Next: step 10.
+- 2026-11-18: step 10 done: the seven gates each exit 0. Next: step 11, review round 3.
