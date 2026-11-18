@@ -75,17 +75,31 @@ instructions give one folder per ticket, use the ticket key for it. On a rerun, 
 that the parent gave you.
 
 ```markdown
-# Hunt: <ticket> <symptom>
+---
+doctype: findings
+ticket: <ticket>
+status: answered
+---
 
-**Verdict:** fixed | trivial | not a bug | cannot reproduce | decision | blocked
+# Findings: <ticket> <symptom>
 
-## Symptom
+## Question
 
 What the ticket reports, and what the spec shows.
 
-## Root cause
+## Answer
+
+**Verdict:** fixed | trivial | not a bug | cannot reproduce | decision | blocked
 
 The location, what happens, and why. For `not a bug` and `cannot reproduce`, the evidence.
+
+## Evidence
+
+The spec run and the code path that show the root cause.
+
+## Open points
+
+What a `decision` or `blocked` verdict needs, as `- ` lines. Else the word `none`.
 
 ## Fix
 
@@ -102,10 +116,12 @@ What else the fix touches: other providers, flows, and callers of the changed co
 The user's answers. The parent writes this section.
 ```
 
+The verdict stays the first line of `## Answer`. Use `status: open` for `decision` and `blocked`.
+
 Write in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before you write, and
 follow every rule in it.
 
-**Done when:** the hunt doc exists, and each section holds its content or "none".
+**Done when:** the hunt doc exists, it passes the findings check, and each section holds its content or "none".
 
 ## 7. Commit
 
