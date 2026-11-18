@@ -1,0 +1,113 @@
+---
+doctype: plan
+ticket: none
+worktree: /Users/danielkeefer/studio/code/pstack-inspiration
+branch: pstack-31_findings-report
+status: approved
+goal: "`/diagnose` writes a findings file that passes the check."
+spec: .ai/spec_pstack-31.md
+builds_on: pstack-30
+---
+
+# Plan: pstack-31 `findings` and `report` layouts
+
+## Goal
+
+`primitives/write-to-file` gets a `findings` template and a findings check. `primitives/write-report` gets a check for the JSON `runs` block. `engineering/diagnose` and the `squash-bugs` subagent write findings files in the new layout. Scope: SCOPED, one PR: two scripts with their tests, one template, and three skill text edits.
+
+## Spec
+
+`.ai/spec_pstack-31.md`. This plan builds all of it, and adds AC F.
+
+## Acceptance criteria
+
+- [ ] **A.** Ask `/write-to-file` for a `findings` file → it writes the file from a `findings` template, then runs the findings check and gives its result to the caller.
+- [ ] **B.** Run the findings check on a findings file → it passes a file in the template layout, and fails a file with a missing header key or section, with the line and a fix.
+- [ ] **C.** Run the report check on a report HTML file → it passes a file whose `runs` block has the `/write-report` shape, and fails a file whose block is missing, does not parse, or breaks the shape, with the problem and a fix.
+- [ ] **D.** Run `/diagnose` to the end of its hunt → it writes `findings_<KEY>.md` in the findings layout, not the old hunt layout.
+- [ ] **E.** Run `/diagnose` on a bug, then run the findings check on its file → the check passes.
+- [ ] **F.** A `squash-bugs` subagent writes its hunt doc → the file is in the findings layout, keeps its verdict line, and passes the findings check.
+
+## Context
+
+- Map: `.ai/map_pstack-program.md`, unit 31. Done line: `/diagnose` writes a findings file that passes the check.
+- Approval: the map (H0).
+- Stack: this branch starts from `pstack-30_text-diagrams`, because the unit 20 to 30 PRs are not merged. The home machine sets the unit 31 PR base to that branch. Keep the unit 20 to 30 `.ai/` files.
+- Intent: see the spec. A `findings` file holds a question, its answer, the evidence, and open points. It replaces the `hunt`, `spike`, `risks`, and `research` files.
+- Decisions: File types (map). Five parsed layouts plus `scratch`. Each markdown layout keeps its header in YAML frontmatter. `report` is HTML with a JSON `runs` block, written by `/write-report`.
+- Findings layout: header keys `doctype` (`findings`), `ticket`, and `status`. Status values: `open` (no proven answer yet), `answered`, and `consumed` (a fix or a plan used it). Required sections, in this order: `## Question`, `## Answer`, `## Evidence`, `## Open points`. Each required section has a body: text, or the word `none`. A writer can add more `## ` sections after `## Open points`, such as `## Ruled out` or `## Fix direction`. The file has no `goal` key, because the question is in the body.
+- Findings check: `skills/primitives/skills/write-to-file/scripts/check_findings.py <path>`. It uses `layout.py`, as `check_spec.py` does. Each error prints as `<path>:<line>: <problem>. Fix: <fix>.` The last line is `open points: <n>`, the count of `- ` items under `## Open points`. A section whose body is only `none` counts 0. Exit 1 on any error, else 0. It checks the header keys, the doctype, the status, the four sections, their order, and an empty section body.
+- Report check: `skills/primitives/skills/write-report/scripts/check_report.py <path>`. It prints `ok` and exits 0, or prints one line for each error, `<path>: <problem>. Fix: <fix>.`, and exits 1. It checks what `template.html` and the prompt readers use: the block exists and parses; top keys `title` (string), `path` (string), `skill` (string), `runs` (list); each run has an integer `run`, a string `title`, `date`, and `answer`; the run numbers are unique and in falling order; a run with rows has `columns`, each with `key` and `label`; each row has a string `id` that is unique in the file, and a `cells` object; `ticks`, when given, is a list of strings. It reuses the `BLOCK` pattern of `write_report.py` by copying the one regex line, because `write_report.py` runs `main()` on import.
+- `write-report` Step 3 runs the report check after `write_report.py`. On exit 1, fix the temp JSON and run both again.
+- `diagnose` Step 4: the template becomes the findings layout. Map the old sections: Report → `## Question` (the symptom, the confidence, and the reporter's read). Root Cause → `## Answer` (one-line root cause, location, what happens, why). Evidence → `## Evidence`. Then `## Open points` (what the hunt could not prove, and the blast radius items still to check). Keep `## Ruled out` and `## Fix direction` as added sections after `## Open points`. An unproven cause gets `status: open`, and its Answer starts with `Hypothesis:`. The fixer sets `status: consumed`, in place of deleting the file at once. Keep the rule that the consumer deletes the file: it marks it `consumed`, and `.ai/` clean-up deletes it. Drop the old `**Status:** active | consumed` line. Rename "hunt doc" and "Hunt Artifact" to "findings file" in `diagnose/SKILL.md`, including the description.
+- `squash-bugs/BUG.md` step 6: the same layout. `**Verdict:** ...` stays as the first line of `## Answer`, so the parent check "holds the same verdict" still reads it. Symptom → `## Question`. Root cause → `## Answer`. The spec run and the code path → `## Evidence`. `## Open points` holds what a `decision` or `blocked` verdict needs. `## Fix`, `## Risk`, and `## Decisions` stay as added sections. Keep the words "hunt doc" in `squash-bugs`: they name the role, and the doctype is `findings`.
+- `write-to-file/SKILL.md`: the `findings` row names `templates/findings.md`. Add the findings check beside the plan and spec checks, with the `open points: <n>` line in place of the open count. Add a `## Check a findings file` section, as `## Check a spec`. The `report` row says `/write-report` writes it and names its check.
+- Defect hotspots: none recorded for this repo.
+- Model: each build subagent runs at `sonnet`, by the map's `subagent_model`.
+- Production gate: none. A skill edit loads at the next session start.
+- Push-only map: the push step runs `git push -u origin pstack-31_findings-report`. Run no `gh` command.
+- Commit convention: conventional commits with the domain as scope. No Claude attribution line. Change no `plugin.json` version.
+- Gates: `sh .githooks/pre-commit_test.sh`, `sh .githooks/commit-msg_test.sh`, `python3 skills/engineering/skills/work-on/scripts/check_principles.py .`, `python3 skills/primitives/skills/write-to-file/scripts/check_findings.spec.py`, `python3 skills/primitives/skills/write-to-file/scripts/check_spec.spec.py`, `python3 skills/primitives/skills/write-report/scripts/check_report.spec.py`, and `python3 skills/primitives/skills/write-report/scripts/write_report.spec.py`.
+
+## Test approach
+
+### Risks
+
+| AC | Behaviour | Risk | Why |
+| --- | --- | --- | --- |
+| A | `/write-to-file` writes a findings file from the template and runs the check | L | skill text and one template |
+| B | the findings check passes a good file and fails a bad one | H | new logic, with section order and empty-body edge cases |
+| C | the report check passes a written report and fails a bad block | H | new logic, and three skills parse the block it guards |
+| D | `/diagnose` writes the findings layout | L | skill text |
+| E | a `/diagnose` file passes the check | M | behaviour that an agent must follow. A text read cannot prove it. |
+| F | a `squash-bugs` hunt doc is in the findings layout and keeps its verdict | M | the parent reads the verdict line, and the check now runs on the file |
+
+### Conditions
+
+| ID | AC | Condition | Technique | Level | Planned test |
+| --- | --- | --- | --- | --- | --- |
+| C1 | B | the template, filled, passes, and prints `open points: <n>` with the item count | EP | Unit | `test_template_layout_passes` |
+| C2 | B | each missing header key, a wrong doctype, and a bad status fail with a line and a fix | EP | Unit | `test_header_errors` |
+| C3 | B | a missing section, sections out of order, and an empty section body each fail with a line | EP | Unit | `test_section_errors` |
+| C4 | B | an added section after `## Open points` passes, and `none` counts 0 open points | BVA | Unit | `test_added_section_and_none` |
+| C5 | C | a report that `write_report.py` writes, with two runs, passes | EP | Unit | `test_written_report_passes` |
+| C6 | C | no block, a block that does not parse, and a missing top key each fail | EP | Unit | `test_block_errors` |
+| C7 | C | a duplicate row ID, a run number out of order, rows with no `columns`, and a row with no `cells` each fail | EP | Unit | `test_shape_errors` |
+| C8 | E | a fresh agent follows `diagnose/SKILL.md` on a seeded bug, and the check passes on its file | EP | Manual | the live run in step 5 |
+| C9 | F | a fresh agent follows `BUG.md` step 6 on the same bug, and the check passes, with the verdict as the first line of `## Answer` | EP | Manual | the live run in step 5 |
+
+### Not testing
+
+- A, D: skill text. The review step reads it against its AC.
+
+## Steps
+
+- [ ] **1. The findings layout.** Seam: the `check_findings.py` command line. Conditions: C1, C2, C3, C4. Write the tests first and see them fail. Then write `templates/findings.md` and `scripts/check_findings.py` by the findings layout and the findings check in Context. Update `write-to-file/SKILL.md` as Context says.
+  - Done: `check_findings.spec.py` adds the four tests in the Conditions table, and each passes. A and B hold.
+- [ ] **2. The report check.** Seam: the `check_report.py` command line. Conditions: C5, C6, C7. Write the tests first and see them fail. Then write `write-report/scripts/check_report.py` by the report check in Context. Add the check to `write-report` Step 3.
+  - Done: `check_report.spec.py` adds the three tests in the Conditions table, and each passes. C holds.
+- [ ] **3. `diagnose` writes findings.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Edit `diagnose/SKILL.md` as Context says. Update the `diagnose` row in `skills/engineering/CLAUDE.md` when its words change.
+  - Done: D holds on a read, and the pre-commit test passes.
+- [ ] **4. `squash-bugs` writes findings.** Kind: docs. Edit `squash-bugs/BUG.md` step 6 as Context says.
+  - Done: the step 6 template is in the findings layout, and the verdict is the first line of `## Answer`. The pre-commit test passes.
+- [ ] **5. Live run.** Kind: config. Conditions: C8, C9. In a temp git repo, seed a small bug with a clear root cause. Give one fresh agent `diagnose/SKILL.md` and the bug report, and tell it to stop after Step 4. Give a second fresh agent `BUG.md` step 6 and the same bug, with the verdict `fixed`. Run the findings check on each file. Copy the result in short form into this Done line.
+  - Done: E and F hold. Each file passes the check.
+- [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **8. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line.
+
+## Suggested skills
+
+- `/build @.ai/plan_pstack-31.md`: every step, then the test and review loop, from the worktree.
+- `/implement @.ai/plan_pstack-31.md`: one step per session, from the worktree.
+- `/tdd`: steps 1 and 2.
+- `/engineering:light-review`: the review step.
+
+## Progress
+
+- 2026-11-18: plan written on `pstack-30_text-diagrams`, for the branch `pstack-31_findings-report`.
+- Decision log: decisions_pstack-31.tsv
+- 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
