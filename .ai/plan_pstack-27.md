@@ -88,6 +88,33 @@ builds_on: pstack-26
 - Decision log: decisions_pstack-27.tsv
 - 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
-- 2026-11-18: step 4 done: light review, 2 findings fixed in 7b3e6f8, none open.
 - 2026-11-18: step 4 done: light review, one lane (`persona-skills`). Both rows fixed in 7b3e6f8, no row open.
 - 2026-11-18: second live run on the review fix: the new tell scrapped A (changed call shape) and B (call order, width). It kept C, which drops `show`, because the trigger list named no missing call. Fix 1acc789 adds "loses a call". The gates each exit 0. The build loop stops by rule 7.3: no Change Requested row is open, and each fix changes only skill text. QA checklist skipped: the diff changes only skill text.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch changes only prose in `DESIGN-IT-TWICE.md` and one line of `codebase-design/SKILL.md`. No file cites the old Step 3 heading or its hybrid words, and the two other pointers (`improve-codebase-architecture` line 72, the `work-on` map fixture) stay true. Rung 4. No confirmed risk. Cleared: `improve-codebase-architecture` names only the "parallel sub-agent pattern", which still holds. The map fixture is test data for `map_units.py` and reads only the unit title. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import re, subprocess, sys
+  base = "pstack-26_fork-rule"
+  bad = []
+  run = lambda *a: subprocess.run(list(a), capture_output=True, text=True).stdout
+  show = lambda rev, f: run("git", "show", f"{rev}:{f}")
+  files = run("git", "diff", "--name-only", base, "HEAD", "--", ".", ":!.ai").split()
+  want = {"skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md", "skills/engineering/skills/codebase-design/SKILL.md"}
+  bad += [] if set(files) == want else [f"diff files: {files}"]
+  s = "skills/engineering/skills/codebase-design/SKILL.md"
+  if show(base, s).split("---")[1] != show("HEAD", s).split("---")[1]: bad.append("SKILL.md frontmatter changed")
+  h = lambda t: re.findall(r"^#+ .*$", t, re.M)
+  if h(show(base, s)) != h(show("HEAD", s)): bad.append("SKILL.md headings changed")
+  for old in ["Present and compare", "propose a hybrid"]:
+      hits = run("git", "grep", "-n", "-F", old, "--", ".", ":!.ai")
+      bad += [] if not hits else [f"stale cite of {old!r}: {hits}"]
+  cites = run("git", "grep", "-n", "-i", "-E", "DESIGN-IT-TWICE|design-it-twice", "--", ".", ":!.ai", ":!skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md")
+  for line in cites.splitlines():
+      if re.search(r"(Step|step) [0-9]|hybrid|compare", line) and "score each" not in line: bad.append(f"cite may be stale: {line}")
+  d = show("HEAD", "skills/engineering/skills/codebase-design/DESIGN-IT-TWICE.md")
+  for need in ["caller sketch", "rubric", "Scrap", "base", "graft", "pstack `arena` and `architect`", "loses a call"]:
+      bad += [] if need in d else [f"missing: {need}"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok`, exit 0.
