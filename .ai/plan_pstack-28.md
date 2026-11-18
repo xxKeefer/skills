@@ -71,8 +71,8 @@ builds_on: pstack-27
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-28.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: report `.ai/review_pstack-28_unslop.html`, reviewed base 9224398, head 19f88e7 (panel read 04914f6). One open row: the `/orwells-six` standalone lens has no Tells rule. Its fix edits `orwells-six`, which is out of scope. One nit fixed in 19f88e7.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-28_unslop`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-28_unslop`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 74c3cf2 to `origin/pstack-28_unslop`.
 
 ## Suggested skills
 
@@ -123,3 +123,4 @@ builds_on: pstack-27
   ```
   Output: `ok: 31 IDs`, exit 0.
 - 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the three gates each exit 0 on the head. Review: `git patch-id --stable` gives one ID for the reviewed range 9224398..19f88e7 and the branch range, outside `.ai/`. Constraints: no `CONSTRAINTS.md`. Tree: clean.
+- 2026-11-18: unit 28 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

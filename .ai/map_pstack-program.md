@@ -559,7 +559,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `codebase-design/DESIGN-IT-TWICE.md`: a rubric before the fan-out, pick a base, graft the strong parts of the losers, sketch the caller's usage first, scrap on known tells.
 - Done: a design-it-twice run shows the rubric and the grafts.
 
-### [ ] 28. `UNSLOP.md` (r1.20)
+### [x] 28. `UNSLOP.md` (r1.20)
 
 - `scribe/UNSLOP.md`: a numbered catalogue of AI tells with stable IDs. `proof-read` cites it.
 - Done: `proof-read` flags a tell by its ID.
