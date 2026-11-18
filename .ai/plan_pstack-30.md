@@ -23,7 +23,7 @@ builds_on: pstack-29
 
 - [x] **A.** Ask `/show-me` for a flow or a dependency graph in a text view → it draws a box diagram with box-drawing characters and ASCII only, no emoji, one route per line, and a label on each line. Mermaid stays the HTML view.
 - [x] **B.** Run `show-me/scripts/check_diagram.py` on a diagram → it passes when each character is one column wide and the box corners line up, and fails when either is false.
-- [ ] **C.** Run `/show-me` on a flow, then run the check on its diagram → the check passes.
+- [x] **C.** Run `/show-me` on a flow, then run the check on its diagram → the check passes.
 
 ## Context
 
@@ -73,10 +73,10 @@ builds_on: pstack-29
   - Done: `check_diagram.spec.py` adds the four tests in the Conditions table, and each passes. AC B holds.
 - [x] **2. The view.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Add the text diagram view to `show-me/SKILL.md` as Context says, and name the check as the last action of the view. Update the `description` to name the new view. Add one line to `CREDITS.md`: the text diagram view is new here.
   - Done: AC A holds on a read, and the pre-commit test passes.
-- [ ] **3. Live run.** Kind: config. Conditions: C5. Give a fresh agent the new `show-me/SKILL.md` and one flow of this repo, such as the stops of `/work-on`. Run the check on its diagram. Copy the result in short form into this Done line.
-  - Done: AC C holds.
-- [ ] **4. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Live run.** Kind: config. Conditions: C5. Give a fresh agent the new `show-me/SKILL.md` and one flow of this repo, such as the stops of `/work-on`. Run the check on its diagram. Copy the result in short form into this Done line.
+  - Done: AC C holds. A fresh agent followed `show-me/SKILL.md` on the stops of `/work-on`. It drew six boxes, H0 to H5, with a label on each route. The check printed `ok` on the first draw, and again on a re-run in this thread. The agent noted that a straight chain hides the conditions on each stop.
+- [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, `check_principles.py`, and `check_diagram.spec.py` (4 tests) each exit 0.
 - [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-30.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **6. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
@@ -96,3 +96,5 @@ builds_on: pstack-29
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `check_diagram.py` and its four tests, commit fa411ef. AC B holds.
 - 2026-11-18: step 2 done: text diagram view in `show-me/SKILL.md`, commit 8edd8cc. AC A holds. The example passes the check.
+- 2026-11-18: step 3 done: the live run passed the check on the first draw. Next: step 4, the gates.
+- 2026-11-18: step 4 done: the four gates each exit 0. Next: step 5, review.
