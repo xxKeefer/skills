@@ -394,6 +394,162 @@
    ],
    "run": 2,
    "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
+   "head": "3ee3354",
+   "meta": {
+    "Base": "pstack-23_typescript-rules (bbddd96)",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-24.md"
+   },
+   "answer": "One nit stays open, in the webperf call to benchmark. The skills lane ran alone. Rows r1.1, r1.2, r2.1, and r2.2 were not raised again. The plan review step changes no code, so the panel made no fix: tick the row to fix, then copy the prompt. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "correctness",
+        "-",
+        "-",
+        "-",
+        "skipped (no executable code changed)"
+       ],
+       [
+        "security",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts/.vue source changed)"
+       ],
+       [
+        "error-handling",
+        "-",
+        "-",
+        "-",
+        "skipped (no failure path changed)"
+       ],
+       [
+        "code-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no non-test source changed)"
+       ],
+       [
+        "naming",
+        "-",
+        "-",
+        "-",
+        "skipped (no code identifiers changed)"
+       ],
+       [
+        "test-design",
+        "-",
+        "-",
+        "-",
+        "skipped (no behavioural source changed)"
+       ],
+       [
+        "test-quality",
+        "-",
+        "-",
+        "-",
+        "skipped (no test file changed)"
+       ],
+       [
+        "architecture",
+        "-",
+        "-",
+        "-",
+        "skipped (no .ts/.vue source changed)"
+       ],
+       [
+        "comments",
+        "-",
+        "-",
+        "-",
+        "skipped (only prose changed)"
+       ],
+       [
+        "every other lane",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/webperf/SKILL.md:45",
+      "issue": "webperf Step 3 makes the fix in item 1, then item 3 runs the fixed page and the baseline in alternation. The baseline is the page before the fix, and the skill does not say how to keep it. If the fix edits the one served page, the baseline is gone, so the agent runs only the fixed page or reuses the Step 1 runs, and check 5 of /benchmark has no alternating runs.",
+      "recommendation": "In Step 3 item 3, say to serve the baseline from the pre-fix build or the unmodified commit, next to the fixed page, and alternate the runs between the two.",
+      "result": "Open: the review step changes no code"
+     },
+     "id": "r3.1"
+    }
+   ],
+   "run": 3,
+   "date": "2026-11-18"
   }
  ]
 }
