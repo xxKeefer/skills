@@ -529,7 +529,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `/retro` offers it when it proposes an edit to a skill that `/work-on` calls. Never a required step.
 - Done: one run compares two versions of a skill and reports a winner or "no difference".
 
-### [ ] 22. `loop-until` (r1.9)
+### [x] 22. `loop-until` (r1.9)
 
 - `engineering/loop-until` (new): one change, one measure, keep or revert. Prove the harness can fail, then freeze it. A plateau means a new approach. Writes the decision log.
 - Done: a loop on a small metric stops at the predicate, with one log row per try.

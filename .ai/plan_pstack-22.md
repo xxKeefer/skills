@@ -78,8 +78,8 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-22.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-22_loop-until.html`, base 51455c7, reviewed head cf0adc2 (panel read 73a54a7). One nit fixed in cf0adc2, none open.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-22_loop-until`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-22_loop-until`, in place of `/create-pr`.
+  - Done: pushed head 8799027 to `origin/pstack-22_loop-until`.
 
 ## Suggested skills
 
@@ -108,3 +108,5 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
   print(bad or "ok"); sys.exit(1 if bad else 0)
   PY
   ```
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Pushed 8799027.
+- 2026-11-18: unit 22 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.
