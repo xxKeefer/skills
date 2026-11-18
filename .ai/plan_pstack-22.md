@@ -95,3 +95,16 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
 - Decision log: decisions_pstack-22.tsv
 - 2026-11-18: step 2 done: live run of `/loop-until` in a scratch repo, driven from this thread, with each try in a `sonnet` subagent. Two gaps found in the skill text: the noise is recorded once, but after a big kept try it must be measured again at the new level; and the loop plan fails the plan check until its step names `Seam:` and `Conditions:`. Step 2a fixes both.
 - 2026-11-18: step 2a done: `loop-until` re-measures the noise after each kept try, and the loop step names `Seam:` and `Conditions:`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/` and the new skill folder, the branch adds one line (`skills/engineering/README.md:62`) and deletes none; `loop-until` is the only skill of that name; each relative link in the skill resolves. Rung 4. No confirmed risk. Cleared: no script parses the engineering `README.md`; `plugin.json` lists no skills; no other skill calls `loop-until`. Not proven: the revert path of Step 3, because no live try was reverted. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import os, re, subprocess, sys
+  num = subprocess.run(["git","diff","--numstat","51455c7","HEAD","--",".",":!.ai",":!skills/engineering/skills/loop-until"],capture_output=True,text=True).stdout.split("\n")
+  bad = [l for l in num if l and l.split("\t")[1] != "0"]
+  names = [n for d in os.listdir("skills") if os.path.isdir(f"skills/{d}/skills") for n in os.listdir(f"skills/{d}/skills")]
+  s = "skills/engineering/skills/loop-until/SKILL.md"
+  bad += [l for l in re.findall(r"\]\((\.\./[^)#]+)", open(s).read()) if not os.path.exists(os.path.join(os.path.dirname(s), l))]
+  bad += [] if names.count("loop-until") == 1 else ["name clash"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
