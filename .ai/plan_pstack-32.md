@@ -77,7 +77,7 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - [x] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report `.ai/review_pstack-32_script-audit.html`, base f4cb380, head c36a5fe (panel read 1fabac6). `persona-ac-check` ran (no essential lane matched) and found 3 Nit cites, all fixed in c36a5fe.
 - [x] **4. Push.** Push-only map: run `git push -u origin pstack-32_script-audit`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+  - Done: the pushed head SHA is in this line. Pushed head f272df1 to `origin/pstack-32_script-audit`.
 
 ## Suggested skills
 
