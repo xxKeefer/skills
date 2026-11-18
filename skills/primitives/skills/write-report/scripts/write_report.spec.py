@@ -164,6 +164,27 @@ class WriteReport(unittest.TestCase):
         self.assertNotIn("Traceback", result.stderr)
         self.assertFalse(os.path.exists(self.path))
 
+    def test_rerun_sorts_runs_newest_first(self):
+        run(self.path, self.payload)
+        run(self.path, self.payload)
+        data = runs_of(self.path)
+        data["runs"].reverse()
+        with open(self.path, encoding="utf-8") as f:
+            text = f.read()
+        text = BLOCK.sub(lambda m: m.group(1) + json.dumps(data) + m.group(3), text, count=1)
+        with open(self.path, "w", encoding="utf-8") as f:
+            f.write(text)
+        result = run(self.path, self.payload)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual([r["run"] for r in runs_of(self.path)["runs"]], [3, 2, 1])
+        check = subprocess.run(
+            ["python3", os.path.join(HERE, "check_report.py"), self.path],
+            capture_output=True,
+            text=True,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        self.assertEqual(check.returncode, 0, check.stdout)
+
     def test_unparsable_runs_block_in_the_existing_file_exits_1_and_keeps_it(self):
         run(self.path, self.payload)
         with open(self.path, encoding="utf-8") as f:
