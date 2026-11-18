@@ -52,7 +52,7 @@ Scrap each design that shows a known tell. Name the tell for each scrapped desig
 - It needs a cast to compile.
 - The caller must know the order of calls.
 - The interface is as wide as its implementation.
-- The caller sketch does not run against it unchanged. Rewrite the sketch with the design's interface. If the sketch needs a new call, a new step, a changed call order, or a value the caller must build, scrap the design.
+- The caller sketch does not run against it unchanged. Rewrite the sketch with the design's interface. If the sketch loses a call, or needs a new call, a new step, a changed call order, or a value the caller must build, scrap the design.
 
 If every design is scrapped, show the tells to the user and run Step 2 again, with the tells added to each brief.
 
