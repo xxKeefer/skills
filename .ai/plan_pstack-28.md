@@ -122,3 +122,4 @@ builds_on: pstack-27
   EOF
   ```
   Output: `ok: 31 IDs`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the three gates each exit 0 on the head. Review: `git patch-id --stable` gives one ID for the reviewed range 9224398..19f88e7 and the branch range, outside `.ai/`. Constraints: no `CONSTRAINTS.md`. Tree: clean.
