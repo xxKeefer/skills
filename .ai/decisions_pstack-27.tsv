@@ -1,0 +1,4 @@
+decision	reason	evidence	result
+a base and named grafts replace the free-form hybrid in Step 3	r1.19 asks for a base and grafts, and a free-form hybrid hides which design won	DESIGN-IT-TWICE.md Step 3: propose a hybrid	in plan step 1
+the rubric is shown to the user before the sub-agents return	the designs cannot shape the criteria that judge them	research row r1.19: a rubric before the fan-out	in plan step 1
+the live run agent writes the designs itself, not through sub-agents	a subagent cannot start its own subagents	Agent tool: only the main thread starts subagents	in plan step 2
