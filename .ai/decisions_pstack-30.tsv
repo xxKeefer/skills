@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+The check allows ASCII, the box-drawing block U+2500 to U+257F, and the arrow heads ▲ ► ▼ ◄.	The map diagrams are the examples of the view, and they use these arrow heads. A check for box-drawing and ASCII only fails the examples.	The diagram blocks in .ai/map_pstack-program.md.	The allowlist in the plan Context.
+Corner rule: the first ┐ to the right of ┌ on its line, the first └ down its column, and ┘ on the └ line in the ┐ column.	The build loop box in the map has a label in its top edge.	The second diagram in .ai/map_pstack-program.md.	The corner rule in the plan Context.
+The check reads the diagram alone, from a file or stdin. It does not parse markdown fences.	This is the smallest interface that the Done line needs.	The unit 30 Done line.	The interface in the plan Context.
+The branch starts from pstack-29_why.	The unit 20 to 29 PRs are not merged.	git merge-base --is-ancestor against origin/pstack-inspired fails for each unit branch 20 to 29.	The Stack line in the plan Context.
