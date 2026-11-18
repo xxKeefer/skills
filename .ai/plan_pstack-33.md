@@ -77,9 +77,30 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
 
 ## Progress
 
+- Decision log: decisions_pstack-33.tsv
 - Step 1 is done in 4002875: the C2 loop passes for all nine domains (engineering 3.0.0, projects 0.12.0, scribe 1.27.0, utility 1.26.0).
 - Step 2 is done: the vault note `Trial the pstack program` holds the retire list and the Trial steps, and the Backlog card links to it. `/do-next` is still in `primitives`.
 - Step 4 is done: the light review found no change-requested finding. The vault note and card meet AC A. One nit in the vault note is fixed.
+- Build loop: stopped by rule 7.3 after the first review. No row at Change Requested is open, and no fix changed behaviour.
+- QA checklist: skipped. The diff changes only four version records and `.ai/` files, and the marketplace loads each domain in place (ADR 0001), so no runtime behaviour changed.
+- Choice: leave the review's Future row on the goal wording open. Reason: the goal is the map's Done line word for word, and unit 2 bumped four versions in 519effb before the map rule existed. Evidence: `decisions_pstack-33.tsv` row 1. Result: the count is against `main`, and the row stays open for the user.
+- Blast radius: `clear`. Safety fact: no script or hook in the repo reads a `plugin.json`, and each marketplace plugin has a matching name and a valid version. Rung 4. Proof, run from the repo root, exit 0 (`plugins 9 readers [] fail []`):
+
+  ```python
+  import json, pathlib, re, subprocess, sys
+  market = {p["name"]: p["source"] for p in json.load(open(".claude-plugin/marketplace.json"))["plugins"]}
+  fail = []
+  for name, src in market.items():
+      pj = json.load(open(pathlib.Path(src) / ".claude-plugin/plugin.json"))
+      if pj["name"] != name or not re.fullmatch(r"\d+\.\d+\.\d+", pj["version"]):
+          fail.append(f"{name}: {pj['name']} {pj['version']}")
+  readers = subprocess.run(["git", "grep", "-l", "-E", r"plugin\.json", "--", "*.py", "*.sh", "*.js", ".githooks"], capture_output=True, text=True).stdout.split()
+  fail += [f"reader: {r}" for r in readers]
+  print("plugins", len(market), "readers", readers, "fail", fail)
+  sys.exit(1 if fail else 0)
+  ```
+
+  Cleared: a cached plugin copy keyed by version. ADR 0001 says a relative-path plugin loads in place, so a bump changes no load. Confirmed risks: none.
 
 ## Pending Decisions
 
