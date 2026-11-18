@@ -82,8 +82,8 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4f. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 7b65f69. Do not raise r1.1, r1.2, r2.1, or r2.2 again. This step changes no code. Name `/engineering:light-review`. This is the third review step, so the loop stops after it.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`, run 3. Base bbddd96, reviewed head 3ee3354. One nit row (r3.1), open.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-24_benchmark`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-24_benchmark`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 64039f8 to `origin/pstack-24_benchmark`.
 
 ## Suggested skills
 
@@ -130,3 +130,5 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
   PY
   ```
   Output: `ok`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). The review covers the head: `git patch-id --stable` gives one ID for the reviewed range and the branch range, outside `.ai/`. Pushed 64039f8. Review row r3.1 (nit) stays open for the user: `webperf` Step 3 does not say how to keep the pre-fix page for the alternating runs.
+- 2026-11-18: unit 24 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

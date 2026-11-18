@@ -539,7 +539,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `install-rules/rules/typescript-conventions.md`: branded primitives, discriminated unions, exhaustive checks with `never`, `satisfies` before `as`, parse at the boundary, the simplest total type. Cite the principles.
 - Done: `/install-rules` installs the rule.
 
-### [ ] 24. `benchmark` (r1.7)
+### [x] 24. `benchmark` (r1.7)
 
 - `engineering/benchmark` (new), called by `webperf`. Seven checks on a perf number: name the limiter, alternate A/B runs, count errors, confirm the work ran inside the timed region. Inconclusive is a valid verdict. Cites `principle-explain-the-number`.
 - Done: `webperf` reports a verdict with its limiter, or "inconclusive".
