@@ -19,10 +19,12 @@ Principle: **principle-explain-the-number** ([`../principle-explain-the-number/S
    CLI or a library, stop and say that this command does not apply.
 2. Use the project's own performance tool when it has one. Else use a lab tool such as Lighthouse,
    if it is installed. If no tool is installed, ask before you install one.
-3. Run the tool three times, and use the median. Record the Core Web Vitals and their limits:
+3. Run the tool, and vet each measurement with `/benchmark`. It sets the run count: at least five
+   alternating runs for each side of a comparison. Record the Core Web Vitals and their limits:
    LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1. Record the bytes shipped and the main-thread time too.
 
-**Done when:** you have the median of three runs for each metric.
+**Done when:** you have the median for each metric, and `/benchmark` has given its verdict on the
+baseline.
 
 ## Step 2: Find the bottleneck
 
@@ -40,14 +42,16 @@ After the user says yes:
 
 1. Make the fix.
 2. Run the project's tests.
-3. Measure again with the same tool, three runs, and the same conditions.
-4. Keep the fix if the metric got better and no other metric got worse. Else revert it, and say so.
+3. Measure again with the same tool and the same conditions. Vet the comparison with `/benchmark`.
+4. Read the verdict. Keep the fix if the verdict is faster and no other metric got worse. Revert it
+   on slower or no measurable difference, and say so. On inconclusive, keep nothing: report the
+   gap that `/benchmark` names, close it, and measure again.
 5. Commit a kept fix, with the before and after numbers in the commit message.
 
 Go back to Step 2 for the next worst metric, until each metric is inside its limit or the user stops.
 
-**Done when:** each fix is kept with numbers or reverted, and the user has a table of each metric
-before and after.
+**Done when:** each fix is kept with its verdict and limiter or reverted, and the user has a table
+of each metric before and after. A fix with an inconclusive verdict is open, with its gap named.
 
 ## Step 4: Guard
 
