@@ -95,3 +95,4 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
 - 2026-11-18: step 1 done (c8ee6a3). Step 2 done: run 1 found the merge lookup defect, fix 0a325e9, run 2 passed.
 - 2026-11-18: step 3 done: the gates each exit 0.
 - 2026-11-18: step 4 done: light review, persona-skills clean, base e85b601, head fdf4f62.
+- 2026-11-18: step 4 done: light review ran the `persona-skills` lane, clean. Build loop stopped by rule 7.3. QA checklist skipped: the diff changes only skill text. Next: playbook step 5, `/blast-radius`.
