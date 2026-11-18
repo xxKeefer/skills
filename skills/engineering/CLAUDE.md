@@ -74,7 +74,7 @@ commit.
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
 | `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path`, the `interrogate` report | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
 | `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
-| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
+| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The findings file `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `interrogate` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the `/write-report` kind `interrogate` |
 | `blast-radius` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the verdict words `clear` and `risk` |
 | `verify` | `test`, `interrogate`, `blast-radius`; `qa-screenshots` runs only its `find_drivers.py` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
