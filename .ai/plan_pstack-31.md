@@ -95,8 +95,9 @@ builds_on: pstack-30
   - Result: seeded bug: `cart.py` divides a discount by 10, not 100. A fresh agent on `diagnose/SKILL.md` wrote `findings_save15-charges-zero.md`, `status: answered`. The check printed `open points: 2`, exit 0. The agent also found that the seeded report gave the wrong charge (0.0, not -50.0), and logged it as an open point. A fresh agent on `BUG.md` step 6 wrote `findings_bug-1.md`. The check printed `open points: 0`, exit 0, and `**Verdict:** fixed` is the first line of `## Answer`. A re-run of the check in this thread gave the same results.
 - [x] **6. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. All seven gates exit 0 on 33e8e8b.
-- [ ] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code.
+- [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: report `.ai/review_pstack-31_findings-report.html`, base 85bb3a5, reviewed head 8154bd2 (panel read c91c6aa). Four findings fixed, two open (a `consumed` setter in `fix`, and small test gaps).
 - [ ] **8. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -118,3 +119,4 @@ builds_on: pstack-30
 - 2026-11-18: step 4 done: `BUG.md` step 6 is the findings layout, with the verdict as the first line of `## Answer`.
 - 2026-11-18: step 5 done: both live-run files pass the findings check. Next: step 6, the gates.
 - 2026-11-18: step 6 done: the seven gates each exit 0. Next: step 7, review.
+- 2026-11-18: step 7 done: light review, four fixes in 8154bd2, two open rows in the report. Next: step 8, push.
