@@ -28,10 +28,11 @@ Write these down before any change:
    floor.
 4. The regression gate: the command that must stay green.
 
-With no plan, write one with `/write-to-file`, doctype `plan`, and put the frame in its Context.
+With no plan, write one with `/write-to-file`, doctype `plan`, and put the frame in its Context. Its
+loop step names `Seam:` (the code under the metric) and `Conditions:` (an ID for the gate).
 
 **Done when:** the plan holds the repro case, the metric, the direction, the predicate, and the
-gate command.
+gate command, and its loop step names `Seam:` and `Conditions:`.
 
 ## Step 2: Prove and freeze the harness
 
@@ -56,6 +57,7 @@ Before each try, read the decision log. Then:
 3. Measure with the frozen harness, and run the gate.
 4. Keep the change only when the metric moves in the better direction by more than the noise and the
    gate is green. Commit it as one commit that stages only the changed files. Else revert in full.
+   After a kept try, measure the noise again at the new level. Judge the next try against it.
 5. Give the try to `/update-plan` as a choice, whether kept or reverted: `decision` is the try
    number and the change, `reason` is the mechanism, `evidence` is the metric before and after and
    the gate result, and `result` is `kept <sha>` or `reverted`.
@@ -63,7 +65,8 @@ Before each try, read the decision log. Then:
 A change that breaks behaviour is reverted, even when the number improves. A simplification that
 holds the number is kept.
 
-**Done when:** each try has one log row, and the tree holds only kept commits.
+**Done when:** each try has one log row, the tree holds only kept commits, and the noise is
+measured again after each kept try.
 
 ## Step 4: Plateau
 
