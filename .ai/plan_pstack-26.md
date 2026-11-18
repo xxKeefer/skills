@@ -92,3 +92,30 @@ builds_on: pstack-25
 - 2026-11-18: step 3 done: the live run proves AC B. See the step 3 Done line.
 - 2026-11-18: step 4 done: the gates each exit 0.
 - 2026-11-18: step 5 done: light review of 8d3326c..d06734a. 1 nit open, in the report.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch changes only prose in `grill`, `spec`, and `start-ticket`. No frontmatter or heading changes, and no file cites the old `grill` fact line or a `spec` Step 3 rule number. Rung 4. No confirmed risk. Cleared: each other `/grill` caller (`diagnose`, `refine-ticket`, `do-next`, the journal, scribe, meta, and projects skills) now gets the fork rule too. That is the intent. A run that settles a fact is still under the `pause-list.md` rule. The `rule 4` hits in the persona `diff-signals.md` files cite persona rules, not `spec`. Open nit from the review: `start-ticket/SKILL.md` is 10,014 bytes. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import re, subprocess, sys
+  base = "8d3326c"
+  bad = []
+  def show(rev, f):
+      return subprocess.run(["git","show",f"{rev}:{f}"],capture_output=True,text=True).stdout
+  files = subprocess.run(["git","diff","--name-only",base,"HEAD","--",".",":!.ai"],capture_output=True,text=True).stdout.split()
+  want = {"skills/primitives/skills/grill/SKILL.md","skills/engineering/skills/spec/SKILL.md","skills/engineering/skills/start-ticket/SKILL.md"}
+  bad += [] if set(files) == want else [f"diff files: {files}"]
+  for f in files:
+      old, new = show(base, f), show("HEAD", f)
+      if old.split("---")[1] != new.split("---")[1]: bad.append(f"frontmatter changed: {f}")
+      h = lambda t: re.findall(r"^#+ .*$", t, re.M)
+      if h(old) != h(new): bad.append(f"headings changed: {f}")
+  hits = subprocess.run(["git","grep","-n","-F","If a _fact_ can be found by exploring the corpus","--",".",":!.ai"],capture_output=True,text=True).stdout
+  bad += [] if not hits else [f"old line cited: {hits}"]
+  cite = subprocess.run(["git","grep","-n","-i","-E","spec.{0,40}(rule|item) [45]","--",".",":!.ai"],capture_output=True,text=True).stdout
+  bad += [] if not cite else [f"spec rule cited: {cite}"]
+  for f in ["skills/engineering/skills/spec/SKILL.md","skills/engineering/skills/start-ticket/SKILL.md"]:
+      bad += [] if "`/grill` fork rule" in show("HEAD", f) else [f"no fork-rule pointer: {f}"]
+  bad += [] if "Before each question, classify it" in show("HEAD","skills/primitives/skills/grill/SKILL.md") else ["grill has no fork rule"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok`, exit 0.
