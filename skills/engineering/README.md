@@ -52,6 +52,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/pr-news` | Anytime | Table what happened over a time period on your open PRs and your review requests, one table per repo |
 | `/codebase-news` | Anytime | Table the notable changes in the current repo over a time period, from the changelogs first, then the commit history |
+| `/why` | Anytime | Answer why a line, a block, or a file is the way it is, from its commits and PR threads. Cites the author of each source and lists what the record does not answer. Only reads |
 | `/codebase-design` | Anytime | Deep-module vocabulary the architecture skills compose |
 | `/stand-up` | Anytime | Show your day as one table per epic, from your tickets, PRs, review requests, and branches, then write a news bulletin about the day |
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a plan the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a plan, it records the report in the review step |
