@@ -109,7 +109,7 @@ builds_on: pstack-30
 - [x] **11. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with these lanes only: correctness and code-quality, which raised findings in run 2, and test-design, whose guard matches the spec file that e620966 changed. Rows r1.1 (the `consumed` setter in `fix`) and r1.2 (small test gaps) stay open from run 1: do not raise them again, or a row that only repeats them. This is the third review step: the build loop stops after it.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_pstack-31_findings-report.html`, run 3, base 85bb3a5, reviewed head c199831 (panel read 899d50f). Three findings fixed, none open.
-- [ ] **12. Blast-radius fix: sort the runs.** Seam: the `write_report.py` command line. Conditions: C10. `write_report.py` keeps earlier runs in their stored order, and two real reports store them oldest first. A re-run then writes `[3, 1, 2]`, and the new report check fails on a block that the agent cannot fix from its temp JSON. Write the test first and see it fail: an existing report with runs 1 and 2, oldest first, gets a re-run, and the file then holds runs 3, 2, 1 and passes `check_report.py`. Then sort every run by `run`, newest first, in `write_report.py`. Keep each earlier run unchanged apart from its place.
+- [x] **12. Blast-radius fix: sort the runs.** Seam: the `write_report.py` command line. Conditions: C10. `write_report.py` keeps earlier runs in their stored order, and two real reports store them oldest first. A re-run then writes `[3, 1, 2]`, and the new report check fails on a block that the agent cannot fix from its temp JSON. Write the test first and see it fail: an existing report with runs 1 and 2, oldest first, gets a re-run, and the file then holds runs 3, 2, 1 and passes `check_report.py`. Then sort every run by `run`, newest first, in `write_report.py`. Keep each earlier run unchanged apart from its place.
   - Done: `write_report.spec.py` adds `test_rerun_sorts_runs_newest_first`, which fails before the fix and passes after it. The blast-radius proof script in Progress exits 0.
 - [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -165,3 +165,4 @@ builds_on: pstack-30
   EOF
   ```
   Output now: `write exit 0 | check exit 1 | run numbers are not unique and in falling order. Fix: number the runs, newest first.`, exit 1. Next: `/build` runs step 12.
+- 2026-11-18: step 12 done: `write_report.py` sorts runs newest first, `test_rerun_sorts_runs_newest_first` red before and green after, blast-radius proof exits 0. Next: step 13.
