@@ -113,8 +113,9 @@ builds_on: pstack-30
   - Done: `write_report.spec.py` adds `test_rerun_sorts_runs_newest_first`, which fails before the fix and passes after it. The blast-radius proof script in Progress exits 0.
 - [x] **13. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. All seven gates exit 0 on b2efdb4, and the blast-radius proof script exits 0.
-- [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with the correctness and test-design lanes only, on the step 12 change to `write_report.py` and its spec. Rows r1.1 and r1.2 stay open from run 1: do not raise them again.
+- [x] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with the correctness and test-design lanes only, on the step 12 change to `write_report.py` and its spec. Rows r1.1 and r1.2 stay open from run 1: do not raise them again.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: report `.ai/review_pstack-31_findings-report.html`, run 4, base 85bb3a5, reviewed head 27f9621 (the lanes read the step 12 change, ead8090). No finding, none open.
 - [ ] **15. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -167,3 +168,4 @@ builds_on: pstack-30
   Output now: `write exit 0 | check exit 1 | run numbers are not unique and in falling order. Fix: number the runs, newest first.`, exit 1. Next: `/build` runs step 12.
 - 2026-11-18: step 12 done: `write_report.py` sorts runs newest first, `test_rerun_sorts_runs_newest_first` red before and green after, blast-radius proof exits 0. Next: step 13.
 - 2026-11-18: step 13 done: the seven gates each exit 0, and the blast-radius proof script prints `write exit 0 | check exit 0 | ok`, exit 0. Next: step 14, review.
+- 2026-11-18: step 14 done: light review run 4, correctness and test-design on ead8090, no finding. Rows r1.1 and r1.2 stay open from run 1. Next: step 15, push.
