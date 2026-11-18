@@ -66,8 +66,8 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
   - Done: AC B holds. A fresh agent followed the skill text on the sample prompt. Answers: 1, measure before a guess: the slowest tests, phases, and shared resources, and whether the slowness is new. 2, a timed full run with per-test and per-phase times, the CI run history, and the commit history. 3, the runner's duration report, a profiler, a trace of database, network, and disk calls, serial against parallel runs, one test alone against the full suite, and a bisect. 4, CI wall-clock times before and after, from repeated runs with the spread, a clean machine, and the same pass rate. The rewrite came in one code block. First line: "Find out why the test suite is slow." It keeps the one task, prototypes the measurable choices, and leaves the choice to remove tests or change tools to the user.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-25.md`. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-25.md`. This step changes no code. Name `/engineering:light-review`.
+  - Done: the report is `.ai/review_pstack-25_sharpen.html`. Reviewed base 71ff207, head f94c393. The light run found no defect.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-25_sharpen`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -85,3 +85,4 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 - 2026-11-18: step 1 done: `sharpen` skill and README row added.
 - 2026-11-18: step 2 done: a fresh agent followed the skill on the sample prompt and returned a deeper prompt. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
+- 2026-11-18: step 4 done: light review of 71ff207..f94c393 found no defect. Report: `.ai/review_pstack-25_sharpen.html`.
