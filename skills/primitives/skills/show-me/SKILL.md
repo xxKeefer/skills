@@ -2,8 +2,8 @@
 name: show-me
 description: >
   Show the current topic or a diff as the smallest visual that makes the point: pseudocode, a
-  tree, Mermaid, a text diagram, a shaped diff, or one HTML file. Use when the user says "show me", "draw it", or
-  "diagram this", or when another skill must show a change.
+  tree, Mermaid, a text diagram, a shaped diff, or one HTML file. Use when the user says "show
+  me", "draw it", or "diagram this", or when another skill must show a change.
 ---
 
 Show the target visually. Skip the preamble and keep prose brief. Pick the smallest view that
@@ -64,7 +64,8 @@ sequenceDiagram
   diagram. Draw each box with box-drawing characters, and each arrow with a box-drawing line and
   one arrow head from `▲ ► ▼ ◄`. Use only ASCII, box-drawing characters, and these four arrow
   heads: no emoji, no `·`, no `×`, no `◆`. Draw one route on each line, and put a label on each
-  route. Mermaid stays the view for an HTML file.
+  route. Use `┌ ┐ └ ┘` for the corners of a box only. A route turns with `╭ ╮ ╰ ╯`, and joins
+  a box or another route with `├ ┤ ┬ ┴`. Mermaid stays the view for an HTML file.
 
 ```text
 ┌───────┐  pass   ┌──────┐
