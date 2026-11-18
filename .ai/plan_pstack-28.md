@@ -85,7 +85,40 @@ builds_on: pstack-27
 - 2026-11-18: plan written on `pstack-27_design-it-twice`, for the branch `pstack-28_unslop`.
 - Decision log: decisions_pstack-28.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
-- 2026-11-18: step 1 done (85bd015): `UNSLOP.md` holds 32 tells in four groups (V, P, S, H); `proof-read` Pass 4 hunts them and names each by ID.
+- 2026-11-18: step 1 done (85bd015): `UNSLOP.md` holds 31 tells in four groups (V, P, S, H); `proof-read` Pass 4 hunts them and names each by ID.
 - 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
 - 2026-11-18: step 4 done: light review ran the `persona-skills` lane. One nit fixed (19f88e7), one row open.
+- 2026-11-18: build loop stopped by rule 7.3: no Change Requested row is open, and fix 19f88e7 changes only skill text. QA checklist skipped: the diff changes only skill text. Open review row r1.1 (`/orwells-six` has no Tells rule) stays open: its fix edits `orwells-six`, which is out of scope.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch adds one reference file and changes only prose in `proof-read/SKILL.md` and `scribe/CLAUDE.md`. No script or hook reads a scribe root file, every new link resolves, and each ID that `proof-read` cites exists and is unique. Rung 4. No confirmed risk. Cleared: `pre-commit` and the repo scripts read only `SKILL.md` files or other folders. ADR 0003 already links shared scribe files by a relative path, as `UNSLOP.md` is linked. No `plugin.json` changed. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'EOF'
+  import re, subprocess, sys, os
+  base = "pstack-27_design-it-twice"
+  run = lambda *a: subprocess.run(list(a), capture_output=True, text=True).stdout
+  show = lambda rev, f: run("git", "show", f"{rev}:{f}")
+  bad = []
+  files = set(run("git", "diff", "--name-only", base, "HEAD", "--", ".", ":!.ai").split())
+  want = {"skills/scribe/UNSLOP.md", "skills/scribe/CLAUDE.md", "skills/scribe/skills/proof-read/SKILL.md"}
+  if files != want: bad.append(f"diff files: {files}")
+  p = "skills/scribe/skills/proof-read/SKILL.md"
+  if show(base, p).split("---")[1] != show("HEAD", p).split("---")[1]: bad.append("proof-read frontmatter changed")
+  h = lambda t: re.findall(r"^#+ .*$", t, re.M)
+  if h(show(base, p)) != h(show("HEAD", p)): bad.append("proof-read headings changed")
+  for f in want:
+      for link in re.findall(r"\]\(([^)#:]+\.md)\)", show("HEAD", f)):
+          if not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(f), link))): bad.append(f"broken link {link} in {f}")
+  u = show("HEAD", "skills/scribe/UNSLOP.md")
+  ids = re.findall(r"^\| ([A-Z]\d+) \|", u, re.M)
+  if len(ids) != len(set(ids)): bad.append("duplicate ID")
+  for g in set(i[0] for i in ids):
+      n = sorted(int(i[1:]) for i in ids if i[0] == g)
+      if n != list(range(1, len(n) + 1)): bad.append(f"gap in group {g}")
+  for cited in set(re.findall(r"\b([VPSH]\d+)\b", show("HEAD", p))):
+      if cited not in ids: bad.append(f"proof-read cites unknown ID {cited}")
+  readers = run("git", "grep", "-l", "-E", "UNSLOP|scribe/[A-Z-]+\\.md", "--", "*.py", "*.sh", ".githooks")
+  if readers.strip(): bad.append(f"a script reads a scribe root file: {readers}")
+  print(bad or f"ok: {len(ids)} IDs"); sys.exit(1 if bad else 0)
+  EOF
+  ```
+  Output: `ok: 31 IDs`, exit 0.
