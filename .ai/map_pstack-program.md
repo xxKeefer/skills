@@ -564,7 +564,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `scribe/UNSLOP.md`: a numbered catalogue of AI tells with stable IDs. `proof-read` cites it.
 - Done: `proof-read` flags a tell by its ID.
 
-### [ ] 29. `/why` (r1.22)
+### [x] 29. `/why` (r1.22)
 
 - `engineering/why` (new): answer why from commits and PR threads, cite the authors, say what the record does not answer.
 - User note (r1.22): name the skill `why`.

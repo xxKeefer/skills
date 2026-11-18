@@ -77,8 +77,8 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-29.md`. This step changes no code. Name `/engineering:light-review`.
   - Done: report `.ai/review_pstack-29_why.html`, base e85b601, head fdf4f62. Light run: persona-skills ran clean, no finding, no fix.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-29_why`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-29_why`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 4b0005e to `origin/pstack-29_why`.
 
 ## Suggested skills
 
@@ -120,3 +120,4 @@ A new skill, `skills/engineering/skills/why/SKILL.md`, answers why a line, a blo
   ```
   Output: `ok: 180 skill names, why unique`, exit 0.
 - 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Plan: each build step done, no Pending Decisions. Tests: the three gates each exit 0 on the head. Review: `git patch-id --stable` gives one ID for the reviewed range e85b601..fdf4f62 and the branch range, outside `.ai/`. Constraints: no `CONSTRAINTS.md`. Tree: clean.
+- 2026-11-18: unit 29 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.
