@@ -21,7 +21,7 @@ builds_on: pstack-25
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `grill`, `spec`, and `plan` → each classifies a question before it asks: an observable fact goes to a lookup or a prototype, and only a decision goes to the user.
+- [x] **A.** Read `grill`, `spec`, and `plan` → each classifies a question before it asks: an observable fact goes to a lookup or a prototype, and only a decision goes to the user.
 - [ ] **B.** Run a grill on a plan that turns on a fact in the corpus → the grill looks up the fact and does not ask it.
 
 ## Context
@@ -60,10 +60,10 @@ builds_on: pstack-25
 
 ## Steps
 
-- [ ] **1. The fork rule in `grill`.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. In `skills/primitives/skills/grill/SKILL.md`, replace the fact line with the fork rule: before each question, classify it. A fact that the corpus holds: look it up. A fact that a run or a prototype can settle: run it, and report what it showed. A decision: ask the user, with a recommended answer. Credit pstack's `poteto-mode` in one line of prose. Keep the skill short and everything-agnostic.
+- [x] **1. The fork rule in `grill`.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. In `skills/primitives/skills/grill/SKILL.md`, replace the fact line with the fork rule: before each question, classify it. A fact that the corpus holds: look it up. A fact that a run or a prototype can settle: run it, and report what it showed. A decision: ask the user, with a recommended answer. Credit pstack's `poteto-mode` in one line of prose. Keep the skill short and everything-agnostic.
   - Seam: `skills/primitives/skills/grill/SKILL.md`.
   - Done: AC A holds for `grill` on a read, and the pre-commit test passes.
-- [ ] **2. `spec` and the plan route.** Kind: docs. In `skills/engineering/skills/spec/SKILL.md` Step 3, add one rule: classify each gap by the `/grill` fork rule first, and ask only the decisions. In `skills/engineering/skills/start-ticket/SKILL.md`, beside the "No questions" rule, add one line: before a question to the user, classify it by the `/grill` fork rule. Search the repo for other copies of the old `grill` fact line, and update each one.
+- [x] **2. `spec` and the plan route.** Kind: docs. In `skills/engineering/skills/spec/SKILL.md` Step 3, add one rule: classify each gap by the `/grill` fork rule first, and ask only the decisions. In `skills/engineering/skills/start-ticket/SKILL.md`, beside the "No questions" rule, add one line: before a question to the user, classify it by the `/grill` fork rule. Search the repo for other copies of the old `grill` fact line, and update each one.
   - Seam: the two skill files.
   - Done: AC A holds for `spec` and the plan route on a read.
 - [ ] **3. Live run.** Kind: config. Conditions: C1. Give a fresh agent the `grill` text and this plan: "Add a `## See also` section to every skill in the `primitives` domain." Tell it to return the questions it would ask, and each fact it looked up instead, with the file it read. Copy the result in short form into this Done line.
@@ -87,3 +87,4 @@ builds_on: pstack-25
 - 2026-11-18: plan written on `pstack-25_sharpen`, for the branch `pstack-26_fork-rule`.
 - Decision log: decisions_pstack-26.tsv
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: fork rule in grill.
