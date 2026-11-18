@@ -21,8 +21,8 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `typescript-conventions.md` → it has a type section with six rules: branded primitives, discriminated unions, exhaustive checks with `never`, `satisfies` before `as`, parse at the boundary, and the simplest total type.
-- [ ] **B.** Read `typescript-conventions.md` → each of the six rules names the principle behind it.
+- [x] **A.** Read `typescript-conventions.md` → it has a type section with six rules: branded primitives, discriminated unions, exhaustive checks with `never`, `satisfies` before `as`, parse at the boundary, and the simplest total type.
+- [x] **B.** Read `typescript-conventions.md` → each of the six rules names the principle behind it.
 - [ ] **C.** Run the `/install-rules` steps → the installed `typescript-conventions.md` matches the source, byte for byte.
 
 ## Context
@@ -63,7 +63,7 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 
 ## Steps
 
-- [ ] **1. The type section.** Kind: docs. Read the four principles in Context first. In `skills/utility/skills/install-rules/rules/typescript-conventions.md`, add a `## Types` section after `## Code Style`. One short rule for each: brand a semantic primitive; model variants as a discriminated union, not as flags; end each `switch` on a union with an exhaustive `never` check; use `satisfies` before `as`, and give a reason for each `as`; parse external data at the boundary into a typed model, then trust the type; use the simplest type that covers every value, with no optional field that is always set and no `any`. Give each rule one short bad and good TypeScript example where the rule is not clear without one. End each rule with the principle name it follows.
+- [x] **1. The type section.** Kind: docs. Read the four principles in Context first. In `skills/utility/skills/install-rules/rules/typescript-conventions.md`, add a `## Types` section after `## Code Style`. One short rule for each: brand a semantic primitive; model variants as a discriminated union, not as flags; end each `switch` on a union with an exhaustive `never` check; use `satisfies` before `as`, and give a reason for each `as`; parse external data at the boundary into a typed model, then trust the type; use the simplest type that covers every value, with no optional field that is always set and no `any`. Give each rule one short bad and good TypeScript example where the rule is not clear without one. End each rule with the principle name it follows.
   - Done: AC A and B hold on a read, and the pre-commit test passes.
 - [ ] **2. Install check.** Kind: config. Conditions: C1. Run the commands of `/install-rules` Steps 1, 3, and 4 with `HOME` set to a new temp folder and `CLAUDE_SKILL_DIR` set to the skill folder. Delete the temp folder.
   - Done: AC C holds. The Step 4 check prints no `MISMATCH` line.
@@ -84,3 +84,4 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 - 2026-11-18: plan written on `pstack-23_typescript-rules`.
 - Decision log: decisions_pstack-23.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: `## Types` section added with six rules, each naming its principle.
