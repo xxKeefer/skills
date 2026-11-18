@@ -88,3 +88,4 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 - 2026-11-18: step 2 done: install run with a temp HOME printed no MISMATCH line; temp folder deleted.
 - 2026-11-18: step 3 done: the gates are green.
 - 2026-11-18: step 4 done: light review ran persona-skills only, with no finding; report `.ai/review_pstack-23_typescript-rules.html`, base d0d44a5, head d3c0a07.
+- 2026-11-18: build loop stopped at rule 7.3: the review has no open row. QA checklist skipped: the diff changes only rule text. After the review, a `tsc --strict` run on the Types examples found that the good `load` example did not compile (TS2355, a `User` return with an empty body). Fixed in 8176215: both `load` examples are now declarations. Each good example compiles. Next: playbook step 5, `/blast-radius`.
