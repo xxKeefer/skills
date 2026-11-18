@@ -73,8 +73,8 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-23_typescript-rules.html`. Base d0d44a5, head d3c0a07.
 - [x] **4a. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. Run the `persona-skills` lane, and each lane whose guard matches a file that changed after d3c0a07. This step changes no code. Name `/engineering:light-review`.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-23_typescript-rules.html`. Base d0d44a5, head 1f39448.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 4c21dbb to `origin/pstack-23_typescript-rules`.
 
 ## Suggested skills
 
@@ -122,3 +122,5 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   Output: `good examples: 6`, `ok`, exit 0.
 - 2026-11-18: `/ship` check gave no-go on Review: 8176215 changed the rule after the reviewed head d3c0a07. Step 4a added: a new review round on the current head.
 - 2026-11-18: step 4a done: light review ran persona-skills only, with one open nit (row r2.1: add a line that says where the principles live); report `.ai/review_pstack-23_typescript-rules.html`, base d0d44a5, head 1f39448. The step changes no code, so the row stays open.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). Pushed 4c21dbb. Review row r2.1 (nit) stays open for the user: the bare `Principle:` lines give an agent with only the `utility` plugin no path to the principle.
+- 2026-11-18: unit 23 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

@@ -534,7 +534,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `engineering/loop-until` (new): one change, one measure, keep or revert. Prove the harness can fail, then freeze it. A plateau means a new approach. Writes the decision log.
 - Done: a loop on a small metric stops at the predicate, with one log row per try.
 
-### [ ] 23. TypeScript rules (r1.14)
+### [x] 23. TypeScript rules (r1.14)
 
 - `install-rules/rules/typescript-conventions.md`: branded primitives, discriminated unions, exhaustive checks with `never`, `satisfies` before `as`, parse at the boundary, the simplest total type. Cite the principles.
 - Done: `/install-rules` installs the rule.
