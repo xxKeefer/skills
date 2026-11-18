@@ -3,3 +3,4 @@ Add AC F: the squash-bugs subagent writes its hunt doc in the findings layout.	B
 The findings header has no goal key. Its keys are doctype, ticket, and status (open, answered, consumed).	The question is in the body.	Map File types row findings.	Plan Context, Findings layout.
 A findings file can add sections after Open points.	diagnose keeps Ruled out and Fix direction. squash-bugs keeps Fix, Risk, and Decisions.	diagnose/SKILL.md Step 4 and BUG.md step 6.	Condition C4.
 check_report.py copies the BLOCK regex line and does not import write_report.py.	write_report.py runs main() on import.	The last line of write_report.py.	Plan Context, Report check.
+squash-bugs hunt doc sets status answered, and open for a decision or blocked verdict.	The check has no verdict-aware status, and a decision or blocked file has no proven answer.	skills/engineering/skills/squash-bugs/BUG.md step 6.	Status line in the step 6 template.

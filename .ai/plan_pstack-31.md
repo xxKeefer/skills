@@ -24,7 +24,7 @@ builds_on: pstack-30
 - [x] **A.** Ask `/write-to-file` for a `findings` file → it writes the file from a `findings` template, then runs the findings check and gives its result to the caller.
 - [x] **B.** Run the findings check on a findings file → it passes a file in the template layout, and fails a file with a missing header key or section, with the line and a fix.
 - [x] **C.** Run the report check on a report HTML file → it passes a file whose `runs` block has the `/write-report` shape, and fails a file whose block is missing, does not parse, or breaks the shape, with the problem and a fix.
-- [ ] **D.** Run `/diagnose` to the end of its hunt → it writes `findings_<KEY>.md` in the findings layout, not the old hunt layout.
+- [x] **D.** Run `/diagnose` to the end of its hunt → it writes `findings_<KEY>.md` in the findings layout, not the old hunt layout.
 - [ ] **E.** Run `/diagnose` on a bug, then run the findings check on its file → the check passes.
 - [ ] **F.** A `squash-bugs` subagent writes its hunt doc → the file is in the findings layout, keeps its verdict line, and passes the findings check.
 
@@ -86,9 +86,9 @@ builds_on: pstack-30
   - Done: `check_findings.spec.py` adds the four tests in the Conditions table, and each passes. A and B hold.
 - [x] **2. The report check.** Seam: the `check_report.py` command line. Conditions: C5, C6, C7. Write the tests first and see them fail. Then write `write-report/scripts/check_report.py` by the report check in Context. Add the check to `write-report` Step 3.
   - Done: `check_report.spec.py` adds the three tests in the Conditions table, and each passes. C holds.
-- [ ] **3. `diagnose` writes findings.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Edit `diagnose/SKILL.md` as Context says. Update the `diagnose` row in `skills/engineering/CLAUDE.md` when its words change.
+- [x] **3. `diagnose` writes findings.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Edit `diagnose/SKILL.md` as Context says. Update the `diagnose` row in `skills/engineering/CLAUDE.md` when its words change.
   - Done: D holds on a read, and the pre-commit test passes.
-- [ ] **4. `squash-bugs` writes findings.** Kind: docs. Edit `squash-bugs/BUG.md` step 6 as Context says.
+- [x] **4. `squash-bugs` writes findings.** Kind: docs. Edit `squash-bugs/BUG.md` step 6 as Context says.
   - Done: the step 6 template is in the findings layout, and the verdict is the first line of `## Answer`. The pre-commit test passes.
 - [ ] **5. Live run.** Kind: config. Conditions: C8, C9. In a temp git repo, seed a small bug with a clear root cause. Give one fresh agent `diagnose/SKILL.md` and the bug report, and tell it to stop after Step 4. Give a second fresh agent `BUG.md` step 6 and the same bug, with the verdict `fixed`. Run the findings check on each file. Copy the result in short form into this Done line.
   - Done: E and F hold. Each file passes the check.
@@ -113,3 +113,5 @@ builds_on: pstack-30
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `check_findings.py`, its four tests, `templates/findings.md`, and the `write-to-file` text. Mutation check went red.
 - 2026-11-18: step 2 done: `check_report.py`, its three tests, and the `write-report` Step 3 text. Mutation check went red.
+- 2026-11-18: step 3 done: `diagnose/SKILL.md` Step 4 is the findings layout, and the `engineering/CLAUDE.md` row says findings file.
+- 2026-11-18: step 4 done: `BUG.md` step 6 is the findings layout, with the verdict as the first line of `## Answer`.
