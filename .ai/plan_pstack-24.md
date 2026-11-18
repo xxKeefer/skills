@@ -22,7 +22,7 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 ## Acceptance criteria
 
 - [x] **A.** Read `engineering/benchmark/SKILL.md` → it holds seven checks on a perf number, among them name the limiter, alternate A/B runs, count errors, and confirm that the work ran inside the timed region. It allows the verdict "inconclusive", cites `principle-explain-the-number`, and `webperf` calls it.
-- [ ] **B.** Follow the `webperf` steps on a measured page → the report gives a verdict with its limiter, or "inconclusive" with the gap named.
+- [x] **B.** Follow the `webperf` steps on a measured page → the report gives a verdict with its limiter, or "inconclusive" with the gap named.
 
 ## Context
 
@@ -65,9 +65,9 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - [x] **1. The `benchmark` skill and the `webperf` call.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md`, `skills/meta/skills/write-a-skill/SKILL.md`, and `skills/engineering/skills/principle-explain-the-number/SKILL.md` first. Write `skills/engineering/skills/benchmark/SKILL.md`, model-invoked, with no ★. Steps, each with a done line: 1. Before the run: write the claim in the words you would ship, read the harness, and check that the machine is quiet. 2. The seven checks, each answered with evidence from a run. 3. The verdict: faster, slower, no measurable difference, or inconclusive, with the number, its unit, the run count, the range, and the limiter. Name the gap for inconclusive. Allow one run for a ballpark the user asked for, with checks 4 and 7 still run. Name no tool product. In `webperf`, call `/benchmark` on each measurement in Step 1 and Step 3, and make the keep-or-revert in Step 3 read the verdict. Add a row to `skills/engineering/README.md`.
   - Seam: `skills/engineering/skills/benchmark/SKILL.md` and `skills/engineering/skills/webperf/SKILL.md`.
   - Done: AC A holds on a read, and the pre-commit test passes.
-- [ ] **2. Live run.** Kind: config. Conditions: C1. Make a scratch folder in a temp path with one HTML page that loads a large unsized image or a render-blocking script. Serve it with a local static server. Run the `/webperf` steps on it from this thread, with a lab tool run through `npx`, and one fix. Copy the verdict, the limiter or the gap, and the run count into this Done line. Stop the server, and delete the scratch folder. When no browser can run the lab tool, record the skip and its reason in Progress, and run the `/benchmark` checks on a scratch A/B command in its place.
+- [x] **2. Live run.** Kind: config. Conditions: C1. Make a scratch folder in a temp path with one HTML page that loads a large unsized image or a render-blocking script. Serve it with a local static server. Run the `/webperf` steps on it from this thread, with a lab tool run through `npx`, and one fix. Copy the verdict, the limiter or the gap, and the run count into this Done line. Stop the server, and delete the scratch folder. When no browser can run the lab tool, record the skip and its reason in Progress, and run the `/benchmark` checks on a scratch A/B command in its place.
   - Seam: the `webperf` and `benchmark` skill text, as an agent follows it.
-  - Done: AC B holds, with the verdict and the limiter or gap copied into this line.
+  - Done: AC B holds. Page: a 2.1 MB script in `<head>`, fixed with `defer`, Lighthouse 12 through `npx`, mobile simulated throttling, 12 cores at load 3.2. Verdict: faster. LCP p50 11368 ms to 600 ms, 5 alternating runs for each side, range 11220 to 11371 ms before and 600 to 601 ms after. Limiter: the render-blocking script on the throttled network. The render-blocking audit gives 10.6 s for it, and 2.1 MB at the simulated 1.6 Mbps is about 10.5 s, so the gap is inside the limit (check 3). Check 4: no runtime error, and the script returned 200 on each run. Check 7: each run transferred the 2.1 MB script and ran it. TBT p50 67 ms to 84 ms, ranges 0 to 70 ms and 68 to 101 ms: close, with no clear change. CLS 0 on both sides. Server stopped, scratch folder deleted.
 - [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. This step changes no code.
@@ -87,3 +87,4 @@ Add `engineering/benchmark`, a skill with seven checks on a perf number, and mak
 - Decision log: decisions_pstack-24.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `benchmark` skill, `webperf` calls it in Steps 1 and 3, README row added.
+- 2026-11-18: step 2 done: the live `/webperf` run gave the verdict faster, with its limiter. See the step 2 Done line.
