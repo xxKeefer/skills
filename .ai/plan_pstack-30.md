@@ -108,3 +108,4 @@ builds_on: pstack-29
 - 2026-11-18: build loop: review step 5 left r1.1 (Change Requested) and r1.2 (Future) open. The agent decided r1.1, so it added fix steps 6 and 7 with no `D` entry. Next: step 6.
 - 2026-11-18: step 6 done: the skill says a route turns with `╭ ╮ ╰ ╯`, and the description is wrapped. A turning route and the skill example each print `ok`.
 - 2026-11-18: step 7 done: two tests added (9 tests). Breaking the length guard and the line number each turned one test red. Next: step 8, push.
+- 2026-11-18: build loop stopped by rule 7.3: no Change Requested row is open, and fix round a6be2f3 and b81f7e3 changes only skill text and tests. QA report `.ai/qa_pstack-30_text-diagrams.html` (4776330): seven agent rows pass. Its push row is not run: the push is playbook step 6. The four gates each exit 0 on cf63a49. Next: playbook step 5, `/blast-radius`.
