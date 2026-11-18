@@ -77,8 +77,9 @@ builds_on: pstack-29
   - Done: AC C holds. A fresh agent followed `show-me/SKILL.md` on the stops of `/work-on`. It drew six boxes, H0 to H5, with a label on each route. The check printed `ok` on the first draw, and again on a re-run in this thread. The agent noted that a straight chain hides the conditions on each stop.
 - [x] **4. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, `check_principles.py`, and `check_diagram.spec.py` (4 tests) each exit 0.
-- [ ] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-30.md`. This step changes no code.
+- [x] **5. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-30.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: report `.ai/review_pstack-30_text-diagrams.html`, base 92d6a47, reviewed head ecebc67 (panel read ba25e7c). The fix commit ecebc67 holds 3 fixes. 2 rows stay open: a turning route at a `┌` fails the check (needs a design answer), and one future test row.
 - [ ] **6. Push.** Push-only map: run `git push -u origin pstack-30_text-diagrams`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -98,3 +99,4 @@ builds_on: pstack-29
 - 2026-11-18: step 2 done: text diagram view in `show-me/SKILL.md`, commit 8edd8cc. AC A holds. The example passes the check.
 - 2026-11-18: step 3 done: the live run passed the check on the first draw. Next: step 4, the gates.
 - 2026-11-18: step 4 done: the four gates each exit 0. Next: step 5, review.
+- 2026-11-18: step 5 done: light review, 3 findings fixed in ecebc67, 2 open in the report. Next: step 6, push.
