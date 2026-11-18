@@ -93,5 +93,18 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - 2026-11-18: step 1 ran in the build thread, not in a step subagent, because its fan-out needs subagents and no agent starts an agent of its own. The sweep added `scripts/obsidian/scripts/*.js` to the existing scripts, because they are scripts in the repo outside `skills/`. Next: step 2, the gates.
 - 2026-11-18: step 2 done: the four gates each exit 0. Next: step 3, review.
 - 2026-11-18: step 3 reopened. The first run wrote no report and ran no lane, so it fails the build check for a review step. Its hand check found two weak cites: r1.1 (`retire-a-skill/SKILL.md:30` is a heading) and r1.13 (`retro-note/SKILL.md:45` is a date line). `persona-ac-check` matches this diff, because the review gets a plan path. Next: step 3 again, with that lane.
-- 2026-11-18: step 3 done: `persona-ac-check` ran as the one lane. Its 3 weak cites (r1.1, r1.11, r1.13) are fixed in the audit report in c36a5fe, and `check_report.py` prints `ok`. Next: step 4, push.
 - 2026-11-18: step 3 done: light review run 1, `persona-ac-check` ran, three Nit cites fixed in c36a5fe, none open. Build loop stopped by rule 7.3: the fix changes no runtime behaviour. QA checklist skipped: the diff changes only `.ai/` docs. Next: playbook step 5, `/blast-radius`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. The branch changes only `.ai/` files: the spec, the plan, the decision log, two reports, and `reports.js`. No skill, hook, or script reads a unit file. `write_report.py` rewrites `reports.js` on each report write, and `template.html` loads it for the report list. Safety fact: no file outside `.ai/` changes, `reports.js` lists each `.html` file in `.ai/`, and both new reports pass `check_report.py`. Rung 4. Cleared: no `plugin.json` changes, so the map rule that only unit 33 bumps a version holds. Cleared: the scrub hook ran on each commit, so no work fact is in the public `.ai/` files. Proof, from the repo root (exit 0):
+  ```
+  python3 - <<'PY'
+  import json, os, re, subprocess, sys
+  files = subprocess.run(["git", "diff", "--name-only", "f4cb380", "HEAD"], capture_output=True, text=True).stdout.split()
+  outside = [f for f in files if not f.startswith(".ai/")]
+  listed = set(json.loads(re.search(r"window\.REPORTS = (\[.*\]);", open(".ai/reports.js").read()).group(1)))
+  html = {f for f in os.listdir(".ai") if f.endswith(".html")}
+  checks = [subprocess.run(["python3", "skills/primitives/skills/write-report/scripts/check_report.py", ".ai/" + f], capture_output=True).returncode for f in ("audit_pstack-32_script-audit.html", "review_pstack-32_script-audit.html")]
+  print("outside .ai:", outside, "| reports.js matches html:", listed == html, "| report checks:", checks)
+  sys.exit(1 if outside or listed != html or any(checks) else 0)
+  PY
+  ```
+  Output: `outside .ai: [] | reports.js matches html: True | report checks: [0, 0]`, exit 0. `/interrogate` skipped by playbook step 5: no confirmed risk, and the safety fact is at rung 4. Next: playbook step 6, `/ship`.
