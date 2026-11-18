@@ -582,7 +582,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `diagnose` writes `findings`.
 - Done: `/diagnose` writes a findings file that passes the check.
 
-### [ ] 32. Script audit
+### [x] 32. Script audit
 
 - A report that lists each skill step where a script saves time or tokens, or makes a result deterministic (for example, report schema checks, the version bump, the skill table sync), and each existing script that does neither. The user ticks the rows to build or delete later.
 - Done: the report exists, with rows to tick.
