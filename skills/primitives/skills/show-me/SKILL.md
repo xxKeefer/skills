@@ -2,7 +2,7 @@
 name: show-me
 description: >
   Show the current topic or a diff as the smallest visual that makes the point: pseudocode, a
-  tree, Mermaid, a shaped diff, or one HTML file. Use when the user says "show me", "draw it", or
+  tree, Mermaid, a text diagram, a shaped diff, or one HTML file. Use when the user says "show me", "draw it", or
   "diagram this", or when another skill must show a change.
 ---
 
@@ -59,6 +59,27 @@ sequenceDiagram
     UI->>Daemon: send expanded prompt
     Daemon-->>UI: stream result
 ```
+
+- Show a flow or a dependency graph in plain text, where Mermaid does not render, as a text
+  diagram. Draw each box with box-drawing characters, and each arrow with a box-drawing line and
+  one arrow head from `▲ ► ▼ ◄`. Use only ASCII, box-drawing characters, and these four arrow
+  heads: no emoji, no `·`, no `×`, no `◆`. Draw one route on each line, and put a label on each
+  route. Mermaid stays the view for an HTML file.
+
+```text
+┌───────┐  pass   ┌──────┐
+│ build ├────────►│ ship │
+└───┬───┘         └──────┘
+    │ fail
+    ▼
+┌───────┐
+│ fix   │
+└───────┘
+```
+
+  Last, run the check on the diagram alone. `$SKILL_DIR` is this skill's base directory. Pipe the
+  diagram to `python3 $SKILL_DIR/scripts/check_diagram.py -`, or give it a file path. Draw again
+  until it prints `ok`.
 
 - Use `diff` when the point is what changes and the surrounding shape already exists. Match the
   diff shape to the topic.
