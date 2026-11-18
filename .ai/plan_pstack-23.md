@@ -71,6 +71,8 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-23_typescript-rules.html`. Base d0d44a5, head d3c0a07.
+- [ ] **4a. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. Run the `persona-skills` lane, and each lane whose guard matches a file that changed after d3c0a07. This step changes no code. Name `/engineering:light-review`.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -118,3 +120,4 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
   PY
   ```
   Output: `good examples: 6`, `ok`, exit 0.
+- 2026-11-18: `/ship` check gave no-go on Review: 8176215 changed the rule after the reviewed head d3c0a07. Step 4a added: a new review round on the current head.
