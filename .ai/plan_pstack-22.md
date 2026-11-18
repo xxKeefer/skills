@@ -74,8 +74,8 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
   - Done: AC E holds. The loop on `count_primes(4000)` stopped at the predicate (at most 16.7 ms, at least three tries) after three tries, with three log rows: try 1, isqrt bound, 33.5 to 1.8 ms, kept; try 2, a counter in place of a list, 1.8 to 1.8 ms inside the noise, kept as a simplification; try 3, a plain loop in place of `all()`, 1.8 to 1.0 ms, kept. Final: 1.0 ms, 97% faster than the baseline. The contrast case gave 0.3 ms against 33.1 ms (C2). No try was reverted, so the revert path did not run. The scratch repo is deleted.
 - [x] **2a. Live-run fix: noise and the plan check.** Kind: docs. In `loop-until/SKILL.md`, Step 3: after each kept try, measure the noise again at the new level, and judge the next try against it. Step 1: the loop step of a new plan names `Seam:` (the code under the metric) and `Conditions:` (an ID for the gate), so that the plan check passes.
   - Done: both lines are in the skill, and the pre-commit test passes.
-- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
 - [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-22.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-22_loop-until`, in place of `/create-pr`.
