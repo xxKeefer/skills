@@ -72,8 +72,8 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - [x] **1. The script audit report.** Kind: docs. Conditions: C1, C2, C3. Read `principle-build-the-lever` and the Scripts decision. Send the fan-out in Context. Check each delete row's caller search in this thread. Write the report with `/write-report` as Context says.
   - Done: `.ai/audit_pstack-32_script-audit.html` exists, `check_report.py` prints `ok`, and the counts in the run answer match the rows. A, B, and C hold.
   - Result: `.ai/audit_pstack-32_script-audit.html`, run 1. 13 build rows and 1 delete row (`prompt_boolean.js`), each with a tick. The kept table lists 42 scripts, so 43 scripts in total. The four sweeps read 63 skill files. `check_report.py` prints `ok`. A re-run of the `prompt_boolean` caller search in this thread found the same six hits and no caller.
-- [ ] **2. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **2. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. All four gates exit 0 on c6e1ab0.
 - [ ] **3. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-32.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **4. Push.** Push-only map: run `git push -u origin pstack-32_script-audit`, in place of `/create-pr`.
@@ -91,3 +91,4 @@ One HTML report lists each skill step where a new script saves time or tokens, o
 - Decision log: decisions_pstack-32.tsv
 - 2026-11-18: playbook `map`, step 3: plan status `approved`, four choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 ran in the build thread, not in a step subagent, because its fan-out needs subagents and no agent starts an agent of its own. The sweep added `scripts/obsidian/scripts/*.js` to the existing scripts, because they are scripts in the repo outside `skills/`. Next: step 2, the gates.
+- 2026-11-18: step 2 done: the four gates each exit 0. Next: step 3, review.
