@@ -554,7 +554,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `grill`, `spec`, and `plan` classify a question first. An observable fact goes to a prototype or a lookup, not the user. The pause list is already in unit 1.
 - Done: a grill looks up a fact instead of asking it.
 
-### [ ] 27. Design-it-twice rubric (r1.19)
+### [x] 27. Design-it-twice rubric (r1.19)
 
 - `codebase-design/DESIGN-IT-TWICE.md`: a rubric before the fan-out, pick a base, graft the strong parts of the losers, sketch the caller's usage first, scrap on known tells.
 - Done: a design-it-twice run shows the rubric and the grafts.
