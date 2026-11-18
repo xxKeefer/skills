@@ -76,8 +76,8 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
   - Done: both lines are in the skill, and the pre-commit test passes.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-22.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-22.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-22_loop-until.html`, base 51455c7, reviewed head cf0adc2 (panel read 73a54a7). One nit fixed in cf0adc2, none open.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-22_loop-until`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -91,6 +91,7 @@ A new `engineering/loop-until` improves one measured number to a stated predicat
 - 2026-11-18: plan written on `pstack-22_loop-until`.
 - 2026-11-18: playbook `map`, step 3: five choices logged. Next: step 4, branch and `/build`.
 - 2026-11-18: step 1 done: `loop-until` skill and README row written (e801432).
+- 2026-11-18: step 4 done: light review, one nit fixed (cf0adc2), none open.
 - Decision log: decisions_pstack-22.tsv
 - 2026-11-18: step 2 done: live run of `/loop-until` in a scratch repo, driven from this thread, with each try in a `sonnet` subagent. Two gaps found in the skill text: the noise is recorded once, but after a big kept try it must be measured again at the new level; and the loop plan fails the plan check until its step names `Seam:` and `Conditions:`. Step 2a fixes both.
 - 2026-11-18: step 2a done: `loop-until` re-measures the noise after each kept try, and the loop step names `Seam:` and `Conditions:`.
