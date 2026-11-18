@@ -1,0 +1,86 @@
+---
+doctype: plan
+ticket: none
+worktree: /Users/danielkeefer/studio/code/pstack-inspiration
+branch: pstack-23_typescript-rules
+status: approved
+goal: "`/install-rules` installs the TypeScript rule."
+spec: .ai/spec_pstack-23.md
+builds_on: pstack-22
+---
+
+# Plan: pstack-23 TypeScript rules
+
+## Goal
+
+Add a type section to `install-rules/rules/typescript-conventions.md`: six type rules, each with the principle behind it. Scope: SCOPED, one PR: one rule file edit.
+
+## Spec
+
+`.ai/spec_pstack-23.md`. This plan builds all of it.
+
+## Acceptance criteria
+
+- [ ] **A.** Read `typescript-conventions.md` → it has a type section with six rules: branded primitives, discriminated unions, exhaustive checks with `never`, `satisfies` before `as`, parse at the boundary, and the simplest total type.
+- [ ] **B.** Read `typescript-conventions.md` → each of the six rules names the principle behind it.
+- [ ] **C.** Run the `/install-rules` steps → the installed `typescript-conventions.md` matches the source, byte for byte.
+
+## Context
+
+- Map: `.ai/map_pstack-program.md`, unit 23. Done line: `/install-rules` installs the rule.
+- Approval: the map (H0).
+- Stack: this branch starts from `pstack-22_loop-until`, because the unit 20 to 22 PRs are not merged. The home machine sets the unit 23 PR base to that branch. Keep the unit 20 to 22 `.ai/` files.
+- Intent and Decisions: see the spec. Extend the existing file. Cite each principle by name, not by path, because the rule installs to `~/.claude/rules/`.
+- Principles to cite: `principle-type-system-discipline` (brands, unions, parse at the boundary), `principle-model-the-domain` (discriminated unions in place of flags), `principle-boundary-discipline` (parse at the boundary, trust inside), `principle-laziness-protocol` or `principle-minimize-reader-load` (the simplest total type). Read each one before the step cites it.
+- Fit with the existing file: the `as const` object pattern and the bang-operator section stay. `satisfies` before `as` matches the user's rule that a cast is a last resort and needs a reason.
+- The rule names no employer code, and no library that only one project uses. The scrub hook checks the names.
+- Model: each build subagent runs at `sonnet`, by the map's `subagent_model`.
+- Production gate: none. A rule changes only after the user runs `/install-rules`, and loads at the next session start.
+- Push-only map: the push step runs `git push -u origin pstack-23_typescript-rules`.
+- Commit convention: conventional commits with the domain as scope. No Claude attribution line. Change no `plugin.json` version.
+- Gates: `sh .githooks/pre-commit_test.sh`, `sh .githooks/commit-msg_test.sh`, and `python3 skills/engineering/skills/work-on/scripts/check_principles.py .`.
+
+## Test approach
+
+### Risks
+
+| AC | Behaviour | Risk | Why |
+| --- | --- | --- | --- |
+| A | the rule holds the six type rules | L | rule text |
+| B | each rule names its principle | L | rule text |
+| C | the install copies the rule unchanged | L | `cp` of a file that the skill already installs |
+
+### Conditions
+
+| ID | AC | Condition | Technique | Level | Planned test |
+| --- | --- | --- | --- | --- | --- |
+| C1 | C | the `/install-rules` steps, run with `HOME` set to a temp folder, leave a `typescript-conventions.md` that `cmp` finds equal to the source | EP | Manual | the install check in step 2 |
+
+### Not testing
+
+- A and B: rule text. The review step reads each against its AC.
+- The install into the real `~/.claude/rules/`: the map Trial runs `/install-rules` after the last unit. A temp `HOME` runs the same commands with no change to the live rules.
+
+## Steps
+
+- [ ] **1. The type section.** Kind: docs. Read the four principles in Context first. In `skills/utility/skills/install-rules/rules/typescript-conventions.md`, add a `## Types` section after `## Code Style`. One short rule for each: brand a semantic primitive; model variants as a discriminated union, not as flags; end each `switch` on a union with an exhaustive `never` check; use `satisfies` before `as`, and give a reason for each `as`; parse external data at the boundary into a typed model, then trust the type; use the simplest type that covers every value, with no optional field that is always set and no `any`. Give each rule one short bad and good TypeScript example where the rule is not clear without one. End each rule with the principle name it follows.
+  - Done: AC A and B hold on a read, and the pre-commit test passes.
+- [ ] **2. Install check.** Kind: config. Conditions: C1. Run the commands of `/install-rules` Steps 1, 3, and 4 with `HOME` set to a new temp folder and `CLAUDE_SKILL_DIR` set to the skill folder. Delete the temp folder.
+  - Done: AC C holds. The Step 4 check prints no `MISMATCH` line.
+- [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-23.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-23_typescript-rules`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line.
+
+## Suggested skills
+
+- `/build @.ai/plan_pstack-23.md`: every step, then the test and review loop, from the worktree.
+- `/engineering:light-review`: the review step.
+
+## Progress
+
+- 2026-11-18: plan written on `pstack-23_typescript-rules`.
+- Decision log: decisions_pstack-23.tsv
+- 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
