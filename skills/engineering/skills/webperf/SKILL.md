@@ -19,12 +19,12 @@ Principle: **principle-explain-the-number** ([`../principle-explain-the-number/S
    CLI or a library, stop and say that this command does not apply.
 2. Use the project's own performance tool when it has one. Else use a lab tool such as Lighthouse,
    if it is installed. If no tool is installed, ask before you install one.
-3. Run the tool, and vet each measurement with `/benchmark`. It sets the run count: at least five
-   alternating runs for each side of a comparison. Record the Core Web Vitals and their limits:
-   LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1. Record the bytes shipped and the main-thread time too.
+3. Run the tool at least five times. Record the Core Web Vitals and their limits: LCP ≤ 2.5 s,
+   INP ≤ 200 ms, CLS ≤ 0.1. Record the bytes shipped and the main-thread time too.
+4. Vet the baseline with `/benchmark` checks 1, 3, 4, and 7. A baseline has one side, so it gets no
+   verdict. Record its limiter.
 
-**Done when:** you have the median for each metric, and `/benchmark` has given its verdict on the
-baseline.
+**Done when:** you have the median and the range for each metric, and the limiter of the baseline.
 
 ## Step 2: Find the bottleneck
 
@@ -44,8 +44,9 @@ After the user says yes:
 2. Run the project's tests.
 3. Measure again with the same tool and the same conditions. Vet the comparison with `/benchmark`.
 4. Read the verdict. Keep the fix if the verdict is faster and no other metric got worse. Revert it
-   on slower or no measurable difference, and say so. On inconclusive, keep nothing: report the
-   gap that `/benchmark` names, close it, and measure again.
+   on slower or no measurable difference, and say so. On inconclusive, report the gap that
+   `/benchmark` names. Close it once and measure again if you can. Else revert the fix, mark it
+   open with its gap, and go to the next metric.
 5. Commit a kept fix, with the before and after numbers in the commit message.
 
 Go back to Step 2 for the next worst metric, until each metric is inside its limit or the user stops.
