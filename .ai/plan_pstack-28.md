@@ -21,7 +21,7 @@ builds_on: pstack-27
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `scribe/UNSLOP.md` → it is a numbered catalogue of AI tells, each with a stable ID, and `proof-read` cites it.
+- [x] **A.** Read `scribe/UNSLOP.md` → it is a numbered catalogue of AI tells, each with a stable ID, and `proof-read` cites it.
 - [ ] **B.** Run `proof-read` on a text that holds a catalogued tell → the finding names the tell by its ID.
 
 ## Context
@@ -61,7 +61,7 @@ builds_on: pstack-27
 
 ## Steps
 
-- [ ] **1. The catalogue and its cite.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Write `skills/scribe/UNSLOP.md`: a short intro, the ID rule from Context, and tells in groups, each group with a letter prefix (such as vocabulary, stock phrases, structure, and hedging). Each tell has an ID, the tell, one example, and the plain fix. Credit pstack `unslop` in one line of prose. In `skills/scribe/skills/proof-read/SKILL.md`, Pass 4: hunt each tell in `UNSLOP.md`, and name each tell finding by its ID. Add one line to `skills/scribe/CLAUDE.md` under Editing that names `UNSLOP.md`.
+- [x] **1. The catalogue and its cite.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` first. Write `skills/scribe/UNSLOP.md`: a short intro, the ID rule from Context, and tells in groups, each group with a letter prefix (such as vocabulary, stock phrases, structure, and hedging). Each tell has an ID, the tell, one example, and the plain fix. Credit pstack `unslop` in one line of prose. In `skills/scribe/skills/proof-read/SKILL.md`, Pass 4: hunt each tell in `UNSLOP.md`, and name each tell finding by its ID. Add one line to `skills/scribe/CLAUDE.md` under Editing that names `UNSLOP.md`.
   - Seam: `skills/scribe/UNSLOP.md` and `proof-read` Pass 4.
   - Done: AC A holds on a read, and the pre-commit test passes.
 - [ ] **2. Live run.** Kind: config. Conditions: C1. Give a fresh agent the new `proof-read/SKILL.md`, `HARD-RULES.md`, and `UNSLOP.md`, and a short text that holds at least three catalogued tells. Tell it to run Pass 4 only and return its findings, with no gate. Copy the result in short form into this Done line.
@@ -85,3 +85,4 @@ builds_on: pstack-27
 - 2026-11-18: plan written on `pstack-27_design-it-twice`, for the branch `pstack-28_unslop`.
 - Decision log: decisions_pstack-28.tsv
 - 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done (85bd015): `UNSLOP.md` holds 32 tells in four groups (V, P, S, H); `proof-read` Pass 4 hunts them and names each by ID.
