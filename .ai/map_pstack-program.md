@@ -576,7 +576,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - `show-me/scripts/check_diagram.py`: each character is one column wide, and box corners line up.
 - Done: `/show-me` draws a flow that the check passes. The diagrams in this map are the examples.
 
-### [ ] 31. `findings` and `report` layouts
+### [x] 31. `findings` and `report` layouts
 
 - Template and check for `findings`. A check for the JSON `runs` block of `report`.
 - `diagnose` writes `findings`.
