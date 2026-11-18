@@ -89,3 +89,32 @@ Add a type section to `install-rules/rules/typescript-conventions.md`: six type 
 - 2026-11-18: step 3 done: the gates are green.
 - 2026-11-18: step 4 done: light review ran persona-skills only, with no finding; report `.ai/review_pstack-23_typescript-rules.html`, base d0d44a5, head d3c0a07.
 - 2026-11-18: build loop stopped at rule 7.3: the review has no open row. QA checklist skipped: the diff changes only rule text. After the review, a `tsc --strict` run on the Types examples found that the good `load` example did not compile (TS2355, a `User` return with an empty body). Fixed in 8176215: both `load` examples are now declarations. Each good example compiles. Next: playbook step 5, `/blast-radius`.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch only adds lines to `typescript-conventions.md` and keeps its `paths:` frontmatter, so the rule loads for the same files as before; each principle that the Types section names exists; and each good example compiles under `tsc --strict`. Rung 4. No confirmed risk. Cleared: the only reader of the rule outside `.ai/` is the pointer in `principle-type-system-discipline/SKILL.md:16`, which the new section now fills; no script parses the rule; `/install-rules` copies `rules/*.md` byte for byte (step 2); the `satisfies` rule agrees with the user's rule that a cast is a last resort. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import os, re, subprocess, sys, tempfile
+  F = "skills/utility/skills/install-rules/rules/typescript-conventions.md"
+  bad = []
+  num = subprocess.run(["git","diff","--numstat","d0d44a5","HEAD","--",".",":!.ai"],capture_output=True,text=True).stdout.split()
+  bad += [] if num == ["125","0",F] else [f"diff outside one add-only file: {num}"]
+  s = open(F).read()
+  old = subprocess.run(["git","show",f"d0d44a5:{F}"],capture_output=True,text=True).stdout
+  bad += [] if s.split("---")[1] == old.split("---")[1] else ["paths frontmatter changed"]
+  sec = s[s.index("\n## Types\n"):s.index("## Separation of Concerns")]
+  bad += [f"missing {p}" for p in set(re.findall(r"`(principle-[a-z-]+)`", sec)) if not os.path.exists(f"skills/engineering/skills/{p}/SKILL.md")]
+  lab, good = None, []
+  for part in re.split(r"(bad:\n|good:\n)", sec):
+      if part in ("bad:\n","good:\n"): lab = part; continue
+      for b in re.findall(r"```ts\n(.*?)```", part, re.S):
+          if lab != "bad:\n": good.append(b)
+          lab = None
+  src = "type Order = { id: string };\ndeclare function parseOrder(x: unknown): Order;\n" + "\n".join(good)
+  src = src.replace("type Request","type Req").replace("request: Request","request: Req")
+  src = src.replace("const order = parseOrder(await response.json());","async function f(response: Response) { return parseOrder(await response.json()); }")
+  d = tempfile.mkdtemp(); open(f"{d}/t.ts","w").write(src + "\nexport {};\n")
+  r = subprocess.run(["npx","-y","-p","typescript","tsc","--noEmit","--strict","--target","es2022","--lib","es2022,dom",f"{d}/t.ts"],capture_output=True,text=True)
+  bad += [] if r.returncode == 0 else ["tsc: " + r.stdout]
+  print(f"good examples: {len(good)}"); print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `good examples: 6`, `ok`, exit 0.
