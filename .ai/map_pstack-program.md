@@ -587,7 +587,7 @@ A script earns its place only when it saves time or tokens, or when its result m
 - A report that lists each skill step where a script saves time or tokens, or makes a result deterministic (for example, report schema checks, the version bump, the skill table sync), and each existing script that does neither. The user ticks the rows to build or delete later.
 - Done: the report exists, with rows to tick.
 
-### [ ] 33. Retire list and version bumps
+### [x] 33. Retire list and version bumps
 
 - List the skills to retire after the trial: `/do-next`. Do not move them.
 - Bump the version of each domain that changed. `engineering` goes to 3.0.0, because callable skills and the rename break existing prompts.

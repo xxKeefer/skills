@@ -72,8 +72,8 @@ List `/do-next` as the skill to retire after the trial, in a place that outlives
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` exit 0 on 2a0bd0e. Each `plugin.json` parses as JSON. The C2 loop passed in step 1.
 - [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-33.md`. This step changes no code.
   - Done: the report is `.ai/review_pstack-33_retire-versions.html`. Reviewed base 6601371, head d6e0f4f. No change-requested finding. One future row is open.
-- [ ] **5. Push.** Push-only map: run `git push -u origin pstack-33_retire-versions`, in place of `/create-pr`.
-  - Done: the pushed head SHA is in this line.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-33_retire-versions`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 6e8a64c to `origin/pstack-33_retire-versions`.
 
 ## Progress
 
