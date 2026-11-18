@@ -56,6 +56,169 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "1f39448",
+   "meta": {
+    "Base": "pstack-22_loop-until d0d44a5",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-23.md"
+   },
+   "answer": "The persona-skills lane found one nit. It stays open: step 4a changes no code, and the plan records the choice to cite each principle by name. Tick the row to fix it later. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "correctness",
+        "—",
+        "—",
+        "—",
+        "skipped (no executable code changed)"
+       ],
+       [
+        "security",
+        "—",
+        "—",
+        "—",
+        "skipped (no .ts/.vue source changed)"
+       ],
+       [
+        "error-handling",
+        "—",
+        "—",
+        "—",
+        "skipped (no failure path in non-test .ts/.vue)"
+       ],
+       [
+        "code-quality",
+        "—",
+        "—",
+        "—",
+        "skipped (no non-test source changed)"
+       ],
+       [
+        "naming",
+        "—",
+        "—",
+        "—",
+        "skipped (no .ts/.vue/.js identifiers changed)"
+       ],
+       [
+        "test-design",
+        "—",
+        "—",
+        "—",
+        "skipped (no behavioural source changed)"
+       ],
+       [
+        "test-quality",
+        "—",
+        "—",
+        "—",
+        "skipped (no test file changed)"
+       ],
+       [
+        "architecture",
+        "—",
+        "—",
+        "—",
+        "skipped (no app or library source changed)"
+       ],
+       [
+        "comments",
+        "—",
+        "—",
+        "—",
+        "skipped (no source, script, or config changed)"
+       ],
+       [
+        "skills",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "every other panel lane",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ],
+       [
+        "ac-check",
+        "—",
+        "—",
+        "—",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/utility/skills/install-rules/rules/typescript-conventions.md:132",
+      "issue": "Each rule in the Types section ends with a bare principle name. The rule installs alone, so an agent with only the utility plugin has no path to the principle.\n\nThe principle skills ship in the engineering plugin and cannot run as skills. The same bare name ends the rules at lines 132, 150, 173, 192, 210 and 231.",
+      "recommendation": "Add one line near the top of the Types section. It says that the principles are in the engineering plugin at skills/principle-*/SKILL.md, that the agent reads them by path and does not run them, and that the Principle lines do not apply when the engineering plugin is not installed.",
+      "result": "Open: step 4a changes no code, and the plan decision to cite by name needs a check before the fix."
+     },
+     "id": "r2.1"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-18"
+  },
+  {
+   "title": "Light run",
    "head": "d3c0a07",
    "meta": {
     "Base": "pstack-22_loop-until d0d44a5",
