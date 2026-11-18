@@ -69,8 +69,8 @@ builds_on: pstack-27
   - Done: AC B holds. A fresh agent ran Pass 4 on a four-sentence text with ten planted tells. It returned ten findings, each with its ID: P2, V6, P1, V2, V4, V7, H5, H1, P4, S2. It asked for the author's fact in place of an invented one (V6, V4, V7), kept "may" by Rule 6, and listed the IDs with no hit.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-28.md`. This step changes no code. Name `/engineering:light-review`.
-  - Done: the report path, the reviewed base and head, and no open row.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-28.md`. This step changes no code. Name `/engineering:light-review`.
+  - Done: report `.ai/review_pstack-28_unslop.html`, reviewed base 9224398, head 19f88e7 (panel read 04914f6). One open row: the `/orwells-six` standalone lens has no Tells rule. Its fix edits `orwells-six`, which is out of scope. One nit fixed in 19f88e7.
 - [ ] **5. Push.** Push-only map: run `git push -u origin pstack-28_unslop`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -88,3 +88,4 @@ builds_on: pstack-27
 - 2026-11-18: step 1 done (85bd015): `UNSLOP.md` holds 32 tells in four groups (V, P, S, H); `proof-read` Pass 4 hunts them and names each by ID.
 - 2026-11-18: step 2 done: the live run proves AC B. See the step 2 Done line.
 - 2026-11-18: step 3 done: the gates each exit 0.
+- 2026-11-18: step 4 done: light review ran the `persona-skills` lane. One nit fixed (19f88e7), one row open.
