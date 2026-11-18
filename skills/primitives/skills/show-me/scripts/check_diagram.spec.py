@@ -112,6 +112,19 @@ class CheckDiagramTest(unittest.TestCase):
         self.assertIn("line 1", result.stdout)
         self.assertIn("column 1", result.stdout)
 
+    def test_short_bottom_row_fails(self):
+        result = run_text("┌───┐\n│ a │\n└──\n")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("line 1", result.stdout)
+        self.assertIn("column 1", result.stdout)
+        self.assertIn("no ┘", result.stdout)
+
+    def test_corner_error_names_the_bottom_line(self):
+        result = run_text("x\ny\n┌───┐\n│ a │\n│ b │\n└────┘\n")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("line 3, column 1", result.stdout)
+        self.assertIn("on line 6", result.stdout)
+
     def test_missing_top_right_corner_fails(self):
         result = run_text("┌───\n│ a │\n└───┘\n")
         self.assertEqual(result.returncode, 1)
