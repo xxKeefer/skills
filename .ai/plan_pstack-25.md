@@ -21,7 +21,7 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 
 ## Acceptance criteria
 
-- [ ] **A.** Read `primitives/sharpen/SKILL.md` → it is a new user-only skill with `disable-model-invocation: true`, and it rewrites a prompt to go deeper, not wider.
+- [x] **A.** Read `primitives/sharpen/SKILL.md` → it is a new user-only skill with `disable-model-invocation: true`, and it rewrites a prompt to go deeper, not wider.
 - [ ] **B.** Run `/sharpen` on a prompt → it returns a deeper version of the prompt.
 
 ## Context
@@ -58,7 +58,7 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 
 ## Steps
 
-- [ ] **1. The `sharpen` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/primitives/skills/sharpen/SKILL.md`, with `disable-model-invocation: true` and no ★. Keep it short, in the size of the pstack source. Adapt its four questions and its rewrite rule, as Context says. Return the rewritten prompt in one code block, ready to paste. Name no tool product. Add a row to `skills/primitives/README.md`.
+- [x] **1. The `sharpen` skill.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md` and `skills/meta/skills/write-a-skill/SKILL.md` first. Write `skills/primitives/skills/sharpen/SKILL.md`, with `disable-model-invocation: true` and no ★. Keep it short, in the size of the pstack source. Adapt its four questions and its rewrite rule, as Context says. Return the rewritten prompt in one code block, ready to paste. Name no tool product. Add a row to `skills/primitives/README.md`.
   - Seam: `skills/primitives/skills/sharpen/SKILL.md`.
   - Done: AC A holds on a read, and the pre-commit test passes.
 - [ ] **2. Live run.** Kind: config. Conditions: C1. In this thread, follow the `sharpen` skill text on the sample prompt "Find out why the test suite is slow." Copy the four answers in short form and the first line of the rewritten prompt into this Done line.
@@ -82,3 +82,4 @@ Add `primitives/sharpen`, a user-only skill that rewrites a prompt to go deeper,
 - 2026-11-18: plan written on `pstack-24_benchmark`, for the branch `pstack-25_sharpen`.
 - Decision log: decisions_pstack-25.tsv
 - 2026-11-18: playbook `map`, step 3: three choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: `sharpen` skill and README row added.
