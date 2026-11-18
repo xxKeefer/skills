@@ -111,8 +111,8 @@ builds_on: pstack-30
   - Result: report `.ai/review_pstack-31_findings-report.html`, run 3, base 85bb3a5, reviewed head c199831 (panel read 899d50f). Three findings fixed, none open.
 - [x] **12. Blast-radius fix: sort the runs.** Seam: the `write_report.py` command line. Conditions: C10. `write_report.py` keeps earlier runs in their stored order, and two real reports store them oldest first. A re-run then writes `[3, 1, 2]`, and the new report check fails on a block that the agent cannot fix from its temp JSON. Write the test first and see it fail: an existing report with runs 1 and 2, oldest first, gets a re-run, and the file then holds runs 3, 2, 1 and passes `check_report.py`. Then sort every run by `run`, newest first, in `write_report.py`. Keep each earlier run unchanged apart from its place.
   - Done: `write_report.spec.py` adds `test_rerun_sorts_runs_newest_first`, which fails before the fix and passes after it. The blast-radius proof script in Progress exits 0.
-- [ ] **13. Test.** Run the gates from Context. This step changes no behaviour.
-  - Done: the gates are green.
+- [x] **13. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. All seven gates exit 0 on b2efdb4, and the blast-radius proof script exits 0.
 - [ ] **14. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-31.md`. This step changes no code. Run `/engineering:light-review` with the correctness and test-design lanes only, on the step 12 change to `write_report.py` and its spec. Rows r1.1 and r1.2 stay open from run 1: do not raise them again.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **15. Push.** Push-only map: run `git push -u origin pstack-31_findings-report`, in place of `/create-pr`.
@@ -166,3 +166,4 @@ builds_on: pstack-30
   ```
   Output now: `write exit 0 | check exit 1 | run numbers are not unique and in falling order. Fix: number the runs, newest first.`, exit 1. Next: `/build` runs step 12.
 - 2026-11-18: step 12 done: `write_report.py` sorts runs newest first, `test_rerun_sorts_runs_newest_first` red before and green after, blast-radius proof exits 0. Next: step 13.
+- 2026-11-18: step 13 done: the seven gates each exit 0, and the blast-radius proof script prints `write exit 0 | check exit 0 | ok`, exit 0. Next: step 14, review.
