@@ -81,7 +81,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
   - Done: each of the five has the flag or a logged reason, and the gates are green.
 - [x] **3. Leading words.** Kind: docs. Conditions: C5. Row 20. Swap each spelled-out passage for its term: benchmark (`Amdahl's law`, `interleaved A/B runs`, `apples-to-apples`), loop-until (`ratchet`, `negative control`, `pin`, `re-baseline`), constraints (`ratchet`), code-simplify (`Chesterton's fence`, `behaviour-preserving`), persona-test-quality (`change-detector test`, `tautological assertion`, `vacuous test`), resolve-conflicts (`trivial merge`, `semantic conflict`), interrogate (`reproduced`, `unreproduced`). Keep a passage when the term loses a condition that the passage states, and log it.
   - Done: each swap is made or logged, and the gates are green.
-- [ ] **4. Catalogue sources.** Kind: mechanical. Conditions: C5. Row 23. Delete the `**Sources:**` lines from the catalogues of persona-value-display, persona-url-state, persona-text-input, and persona-resilience. Keep each `###` heading and each Fix line, because `/sad-path` reads them.
+- [x] **4. Catalogue sources.** Kind: mechanical. Conditions: C5. Row 23. Delete the `**Sources:**` lines from the catalogues of persona-value-display, persona-url-state, persona-text-input, and persona-resilience. Keep each `###` heading and each Fix line, because `/sad-path` reads them.
   - Done: no `**Sources:**` line remains in those four folders, and `/sad-path`'s catalogue reads still find their headings.
 
 ### Tier 2: lane cuts, then a recall check
@@ -157,5 +157,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 1 done (1bc0bbc). Persona guard, unchanged-line, read-only, and generic output lines cut to `PERSONA-CONTRACT.md`; "Judge the hunks, not the file" now in contract Scope rule 4 and the PANEL.md header; the principle read-and-name line now in the domain `CLAUDE.md`; pstack attribution lines cut. Next step: 2.
 - 2026-11-19: step 2 done (5eceed5). gazette, pick-next-task, tidy-up, sync-docs, and qa-screenshots have `disable-model-invocation: true` and a one-line description. No caller in `skills/` for any of the five. Next step: 3.
 - 2026-11-19: step 3 done (36f3882). Terms swapped in benchmark, loop-until, constraints, code-simplify, persona-test-quality (and its persona-vitest pointer), resolve-conflicts, and interrogate. Six kept passages are in the decision log. Next step: 4.
+- 2026-11-19: step 4 done (f5f297a). 258 `**Sources:**` lines cut from the value-display, url-state, text-input, and resilience catalogues (about 46,000 B). Each `###` heading and each Fix line stays, so the `/sad-path` heading list and Fix read of the text-input catalogue still work. Next step: 5.
 
 ## Follow-ups
