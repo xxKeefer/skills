@@ -144,8 +144,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 ### Tier 4: merges, then trigger checks
 
-- [ ] **15. Principles 24 → 15.** Kind: docs. Conditions: C5. Row 17. Merge attack-the-premise into fix-root-causes, outcome-oriented-execution and migrate-callers-then-delete-legacy-apis into redesign-from-first-principles, laziness-protocol into subtract-before-you-add, and boundary-discipline into type-system-discipline. Fold explain-the-number into benchmark, exhaust-the-design-space into prototype, test-behavior-not-implementation into tdd, and never-block-on-the-human into work-on. Retire foundational-thinking. Repoint each citer. Update `EXPECTED`, its spec, and the work-on index in the same commit.
+- [x] **15. Principles 24 → 15.** Kind: docs. Conditions: C5. Row 17. Merge attack-the-premise into fix-root-causes, outcome-oriented-execution and migrate-callers-then-delete-legacy-apis into redesign-from-first-principles, laziness-protocol into subtract-before-you-add, and boundary-discipline into type-system-discipline. Fold explain-the-number into benchmark, exhaust-the-design-space into prototype, test-behavior-not-implementation into tdd, and never-block-on-the-human into work-on. Retire foundational-thinking. Repoint each citer. Update `EXPECTED`, its spec, and the work-on index in the same commit.
   - Done: 15 principle folders, `check_principles.py` exits 0, and a grep finds no citer of a removed name.
+  - Result (35d6d68): 14 principle folders, not 15, because the step names ten removals. The ten folders are in `deprecated`, and `check_principles.py` and its spec exit 0.
 - [ ] **16. work-on principle index.** Kind: docs. Conditions: C5. Row 16. Cut each index entry to the principle name and its trigger in at most ten words. When `check_principles.py` reads more than the name, change the script and its spec.
   - Done: `work-on/SKILL.md` drops about 3,000 B, and `check_principles.py` exits 0.
 - [ ] **17. light-review into mob-review.** Kind: docs. Conditions: C4, C5. Row 6. Add a `light` mode to mob-review. Put the ten-lane list in a `light` column of PANEL.md. Point `/review` and `/build` to `mob-review light`. Retire light-review.
@@ -192,6 +193,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 12 done (b87bdcc). create-pr 10,030 → 8,605 B: Step 1 items 3 to 8 are in `references/read.md` behind an each-run pointer, and Step 5 item 7 drops the line that DRAFT-SCAN holds. work-on 8,834 → 8,553 B: H4 points to the `pause-list.md` rule. Next step: 13.
 - 2026-11-19: step 13 done (ef79058). The prompt read, the `runs` parse, the run `meta` keys, and the `git -C` and `-R` rule are once in the Consume a report section of `mob-review/REPORT.md`. apply-review, post-review-comments, and the build fix round point to it and keep their own stops and row cells. resolve-feedback names it in its cell-change note. Next step: 14.
 - 2026-11-19: step 14 done. Pointer trials: build and start-ticket no difference, mob-review a B win. No revert. Next step: 15.
+- 2026-11-19: step 15 done (35d6d68). Principles 24 → 14. Five merged into their receiving principle as rule text, four folded into benchmark, prototype, tdd, and work-on, and foundational-thinking retired with its rules in model-the-domain and sequence-verifiable-units. All ten moved to `deprecated`. Each citer, the README table, CONTEXT.md, and the typescript-conventions rule source point to the new homes. Next step: 16.
 
 ## Follow-ups
 
