@@ -31,7 +31,7 @@ Accept an optional target: a PR number/URL, a branch name, or nothing. Also acce
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
-A caller can name the repo folder, such as the worktree that `/engineering:review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
+A caller can name the repo folder, such as the worktree that `/engineering:pickup --review` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
 
 Set `BASE` to `origin/<base>`. The base is the plan's base branch when the plan names one, else the PR's base (`gh pr view --json baseRefName`), else `main`.
 

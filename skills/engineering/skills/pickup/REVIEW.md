@@ -1,15 +1,7 @@
----
-name: review-pr
-description: >
-  Review an open PR in its own worktree: claim the worktree, sync it, and run /engineering:mob-
-  review there. Use when the user asks to review a PR from its number, URL, branch, or ticket key.
-argument-hint: "<PR number or URL | branch | ticket key>"
----
-
-# Review PR
+# Review mode
 
 Put an open PR in its own worktree and run the review panel on it. The user's current folder and
-branch do not change. This skill posts nothing. The user ticks rows in the report, and the prompt
+branch do not change. This mode posts nothing. The user ticks rows in the report, and the prompt
 that the report builds runs `/engineering:post-review-comments` on those rows only.
 
 ```
@@ -18,7 +10,8 @@ resolve → show → /claim → sync → /engineering:mob-review → point to th
 
 ## Step 1: Resolve the PR
 
-1. Follow "Resolve the PR" in [`PR-HANDLE.md`](../../PR-HANDLE.md).
+1. Follow "Resolve the PR" in [`PR-HANDLE.md`](../../PR-HANDLE.md), with the handle that is left
+   when you drop `--review` from the arguments.
 2. Run `gh pr view <n> --json number,title,url,state,isDraft,author,headRefName,headRefOid,baseRefName`.
 3. If `state` is not `OPEN`, stop and give the state.
 
@@ -73,7 +66,7 @@ Skip this step on the user's own code, and when the report has no finding.
 On someone else's code, give the report path. Tell the user to tick the rows to post in the
 report, then paste the prompt that the report builds. The prompt runs
 `/engineering:post-review-comments`, which shows each draft before it posts. Do not offer a post, and
-do not run `/engineering:post-review-comments` from this skill.
+do not run `/engineering:post-review-comments` from this mode.
 
 **Done when:** the user has the report path and knows to tick the rows and paste the prompt.
 

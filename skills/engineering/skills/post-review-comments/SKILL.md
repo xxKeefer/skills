@@ -45,7 +45,7 @@ Run `gh pr view <n> -R <owner>/<repo> --json state,headRefOid,baseRefName`.
 - If `state` is not `OPEN`, stop and give the state.
 - If `headRefOid` starts with the head of each run that holds a ticked row, continue.
 - Else the author pushed after the review, or a ticked row comes from an older run. Ask once:
-  map the rows to the PR head, or review again with `/engineering:review-pr`.
+  map the rows to the PR head, or review again with `/engineering:pickup --review`.
 
 To map, run `git fetch origin pull/<n>/head`. Read each file at the PR head with
 `git show "<PR head>:<path>"`, find the code of each row, and take its new line. Drop each row

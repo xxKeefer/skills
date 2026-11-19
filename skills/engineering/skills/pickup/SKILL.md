@@ -2,8 +2,11 @@
 name: pickup
 description: >
   Pick up an open PR: claim its worktree, sync it, and assess its open review threads into a
-  report. Use when the user asks to pick up a PR from its number, URL, branch, or ticket key.
-argument-hint: "<PR number or URL | branch | ticket key>"
+  report. The `--review` mode claims and syncs the PR's worktree, then runs /engineering:mob-review
+  there. Use when the user asks to pick up a PR from its number, URL, branch, or ticket key; for
+  the review mode, when the user asks to review a PR, such as "review PR 123", from the same
+  handles.
+argument-hint: "[--review] <PR number or URL | branch | ticket key>"
 ---
 
 # Pickup
@@ -11,6 +14,10 @@ argument-hint: "<PR number or URL | branch | ticket key>"
 Get onto an open PR with no lost work, and assess its open review threads into a review report.
 The user ticks the rows to act on, and the prompt of the report runs `/engineering:apply-review`. This
 skill ends at the report. It never pushes, never posts, and never discards a change.
+
+**Review mode.** When the arguments hold `--review`, or the user asks to review a PR rather than
+pick it up, read [`REVIEW.md`](REVIEW.md) and follow it in place of the steps below. Otherwise run
+the pickup steps.
 
 ```
 resolve → confirm → /claim → sync → assess the threads → return

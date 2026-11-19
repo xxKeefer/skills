@@ -1,6 +1,7 @@
 # PR handle
 
-`review-pr` and `pickup` both start from a PR handle. This file holds the two steps they share.
+`pickup` and its review mode (`REVIEW.md`) both start from a PR handle. This file holds the two
+steps they share.
 
 ## Resolve the PR
 

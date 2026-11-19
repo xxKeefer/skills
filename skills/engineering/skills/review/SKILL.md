@@ -1,9 +1,9 @@
 ---
 name: review
 description: >
-  ★ Review: review a branch or a PR. The current branch gets /mob-review light, or /mob-review when you
-  say full. A PR number, URL, or ticket key goes to /review-pr. Use when the user says "review", or
-  asks to review a branch, a PR, or a ticket key.
+  ★ Review: review a branch or a PR. The current branch gets /mob-review light, or /mob-review
+  when you say full. A PR number, URL, or ticket key goes to /pickup --review. Use when the user
+  says "review", or asks to review a branch, a PR, or a ticket key.
 argument-hint: "[full] [<PR number | URL | ticket key>]"
 ---
 
@@ -15,7 +15,7 @@ Review code before it merges. The review skills do the work. This command picks 
 
 | `$ARGUMENTS` | Run |
 |---|---|
-| A PR number, a PR URL, a branch name, or a ticket key | `/review-pr` with it. |
+| A PR number, a PR URL, a branch name, or a ticket key | `/pickup --review` with it. |
 | `full` and nothing else | `/mob-review` on the current branch. |
 | Empty | `/mob-review light` on the current branch. |
 
