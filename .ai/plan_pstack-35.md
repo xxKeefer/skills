@@ -129,11 +129,18 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **13. Consume a report.** Kind: docs. Conditions: C5. Row 19. Put one "Consume a report" section in `mob-review/REPORT.md`: read the prompt, parse the `runs` JSON, and find each row ID. Point apply-review Step 1, post-review-comments Step 1, and resolve-feedback Step 2 to it, and keep each skill's own stop conditions.
   - Done: the parse steps exist once, and the gates are green.
   - Result (ef79058): `mob-review/REPORT.md` has a Consume a report section. apply-review 7,506 → 7,082 B, post-review-comments 7,257 → 6,771 B, resolve-feedback 7,584 → 7,654 B (pointer only), and `build/FIX-ROUND.md` item 1 points to it too.
-- [ ] **14. Pointer trials.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C3. Run `/eval-skill` three times. Version A is the commit before step 9, and version B is HEAD. The rubric scores only the result, never the wording of the edit. A trial that gives the win to A is a loss.
+- [x] **14. Pointer trials.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C3. Run `/eval-skill` three times. Version A is the commit before step 9, and version B is HEAD. The rubric scores only the result, never the wording of the edit. A trial that gives the win to A is a loss.
   - `build`: a small project with a plan and a review report whose pasted prompt ticks two rows. The run must take the fix-round branch. Rubric: each ticked row gets a fix step and a commit, each behaviour fix has a test that went red then green, the plan records each step, and the report to the user is true.
   - `start-ticket`: a ticket given as a file, with no tracker. Rubric: vertical slices, a Test approach with condition IDs, the plan template layout with its header keys, lettered ACs, and no false claim of approval.
   - `mob-review`: a small diff with three seeded defects. Rubric: each defect found at its tier, a report with a `runs` block and a coverage table, and no finding on an unchanged line.
   - Done: the three verdicts and totals are in this line, with each loss reverted.
+  - Result: version A at 05fcd6c, version B at 96c0241. Each candidate folder held the domain and primitives skills of its version in `.claude/skills/`. Four opus candidates per trial, one sonnet judge, labels shuffled. No trial gives the win to A, so no revert.
+
+    | Trial | A totals | B totals | Verdict | Note |
+    | --- | --- | --- | --- | --- |
+    | build (fix round) | 19, 20 (of 20) | 17, 19 | no difference | all four took the fix-round branch through FIX-ROUND.md or the old Step 1. The B 17 is a reply that called the tree clean with the QA report uncommitted. One A run also left the QA report uncommitted. |
+    | start-ticket | 22, 24 (of 25) | 22, 25 | no difference | the first prompt stopped all four at the same refine question. The second prompt gave the answers up front. All four plans are `draft`, pass the plan check, and claim no approval. |
+    | mob-review | 20, 19 (of 25) | 21, 21 | B wins | all four found the three seeds and ran the light set. The gap is only in fix detail. The key's Nit tier for the wrong comment was the key's error, and it marked down every output. |
 
 ### Tier 4: merges, then trigger checks
 
@@ -184,5 +191,10 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 11 done (d0a4422). mob-review 10,464 → 9,213 B. Step 0 rationale is one line, the Step 1 commands are in `SCOPE-CASES.md` behind an each-run pointer, and the Notes bullet is cut. Next step: 12.
 - 2026-11-19: step 12 done (b87bdcc). create-pr 10,030 → 8,605 B: Step 1 items 3 to 8 are in `references/read.md` behind an each-run pointer, and Step 5 item 7 drops the line that DRAFT-SCAN holds. work-on 8,834 → 8,553 B: H4 points to the `pause-list.md` rule. Next step: 13.
 - 2026-11-19: step 13 done (ef79058). The prompt read, the `runs` parse, the run `meta` keys, and the `git -C` and `-R` rule are once in the Consume a report section of `mob-review/REPORT.md`. apply-review, post-review-comments, and the build fix round point to it and keep their own stops and row cells. resolve-feedback names it in its cell-change note. Next step: 14.
+- 2026-11-19: step 14 done. Pointer trials: build and start-ticket no difference, mob-review a B win. No revert. Next step: 15.
 
 ## Follow-ups
+
+- The review panel writes the diff files to the system temp folder, and two trial runs found a lane that could not read them. Write them under `.ai/scratch/` of the repo.
+- PANEL.md Known overlaps does not name test-design and test-quality. Both lanes flagged the same self-comparing test in every trial run.
+- The comments lane flagged comments inside the generated review report under `.ai/`. Its guard should skip generated report files.
