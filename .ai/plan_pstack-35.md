@@ -147,8 +147,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **15. Principles 24 → 15.** Kind: docs. Conditions: C5. Row 17. Merge attack-the-premise into fix-root-causes, outcome-oriented-execution and migrate-callers-then-delete-legacy-apis into redesign-from-first-principles, laziness-protocol into subtract-before-you-add, and boundary-discipline into type-system-discipline. Fold explain-the-number into benchmark, exhaust-the-design-space into prototype, test-behavior-not-implementation into tdd, and never-block-on-the-human into work-on. Retire foundational-thinking. Repoint each citer. Update `EXPECTED`, its spec, and the work-on index in the same commit.
   - Done: 15 principle folders, `check_principles.py` exits 0, and a grep finds no citer of a removed name.
   - Result (35d6d68): 14 principle folders, not 15, because the step names ten removals. The ten folders are in `deprecated`, and `check_principles.py` and its spec exit 0.
-- [ ] **16. work-on principle index.** Kind: docs. Conditions: C5. Row 16. Cut each index entry to the principle name and its trigger in at most ten words. When `check_principles.py` reads more than the name, change the script and its spec.
+- [x] **16. work-on principle index.** Kind: docs. Conditions: C5. Row 16. Cut each index entry to the principle name and its trigger in at most ten words. When `check_principles.py` reads more than the name, change the script and its spec.
   - Done: `work-on/SKILL.md` drops about 3,000 B, and `check_principles.py` exits 0.
+  - Result (f73d285): the index 3,671 → 1,289 B, each entry a name and a trigger of at most ten words. `work-on/SKILL.md` 8,553 → 6,786 B over steps 15 and 16, after the never-block rules moved in. The script reads only the name, so it and its spec do not change.
 - [ ] **17. light-review into mob-review.** Kind: docs. Conditions: C4, C5. Row 6. Add a `light` mode to mob-review. Put the ten-lane list in a `light` column of PANEL.md. Point `/review` and `/build` to `mob-review light`. Retire light-review.
   - Done: no file names `/light-review` outside `deprecated`, and the gates are green.
 - [ ] **18. sad-path into happy-path.** Kind: docs. Conditions: C3, C4, C5. Row 7. Add a `sad` mode to happy-path. Put the shared setup block and report arguments in a new `skills/engineering/QA-REPORT.md`, and add it to the shared-files table of the domain `CLAUDE.md`. Point `/test` and `/build` to `happy-path sad`. Retire sad-path.
@@ -194,6 +195,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 13 done (ef79058). The prompt read, the `runs` parse, the run `meta` keys, and the `git -C` and `-R` rule are once in the Consume a report section of `mob-review/REPORT.md`. apply-review, post-review-comments, and the build fix round point to it and keep their own stops and row cells. resolve-feedback names it in its cell-change note. Next step: 14.
 - 2026-11-19: step 14 done. Pointer trials: build and start-ticket no difference, mob-review a B win. No revert. Next step: 15.
 - 2026-11-19: step 15 done (35d6d68). Principles 24 → 14. Five merged into their receiving principle as rule text, four folded into benchmark, prototype, tdd, and work-on, and foundational-thinking retired with its rules in model-the-domain and sequence-verifiable-units. All ten moved to `deprecated`. Each citer, the README table, CONTEXT.md, and the typescript-conventions rule source point to the new homes. Next step: 16.
+- 2026-11-19: step 16 done (f73d285). Each principle index entry is its name and a trigger of at most ten words. Index 3,671 → 1,289 B; work-on 7,942 → 6,786 B. `check_principles.py` reads only the name, so no script change. Next step: 17.
 
 ## Follow-ups
 
