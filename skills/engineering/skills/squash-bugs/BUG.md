@@ -48,7 +48,7 @@ If a spec outside your change goes red, look first for state that leaks between 
 global store, a timer, or a mock that a test does not reset.
 
 If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
-a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then the
+a gate red, write the premise down and test it, as `principle-fix-root-causes` says. Then the
 verdict is `blocked`. Leave the work uncommitted, and go to step 6.
 
 When every gate is green, the verdict is `fixed`, unless it is already `trivial`.

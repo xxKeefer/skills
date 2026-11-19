@@ -9,7 +9,7 @@ description: >
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
-Principle: **principle-exhaust-the-design-space** ([`../principle-exhaust-the-design-space/SKILL.md`](../principle-exhaust-the-design-space/SKILL.md)).
+When a decision has no precedent in the codebase, do not pick the first design. Build two or three competing prototypes, compare them side by side, then commit to one. This applies to a new UI interaction, to an architecture decision, and to a product decision where the user experience depends on feel, not on logic. A throwaway prototype is cheaper than a wrong production design.
 
 ## Pick a branch
 

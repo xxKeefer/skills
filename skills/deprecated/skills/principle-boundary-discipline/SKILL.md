@@ -1,7 +1,8 @@
 ---
 name: principle-boundary-discipline
-description: "Apply when wiring validation, error handling, or framework adapters. Put guards at system boundaries, trust internal types, and keep business logic in pure functions."
+description: "Merged into principle-type-system-discipline."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Boundary Discipline

@@ -49,7 +49,7 @@ straight descriptive kebab-case verb, like every skill in this repo.
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |
 | **Everything-agnostic** | The north star: skills encode how to think about problems, not how to use specific frameworks, languages, or tools. |
 | **Tool role** | A kind of tool that a skill needs, such as the tracker, the code host, or the browser. A skill names the role, and the repo's `## Agent skills` block or the machine's `## Tools on this machine` block names the product. |
-| **Principle** | One of the 24 pstack `principle-*` skills in `engineering`, each a short rule with `disable-model-invocation: true`. `/work-on` indexes them in five groups. The agent reads a principle by path before it applies it, and names it in the reply. |
+| **Principle** | One of the 14 pstack `principle-*` skills in `engineering`, each a short rule with `disable-model-invocation: true`. `/work-on` indexes them in five groups. The agent reads a principle by path before it applies it, and names it in the reply. |
 | **Durability** | Issue content must survive radical codebase changes -- no file paths, domain language, behavioural criteria. |
 
 ## Domain terms

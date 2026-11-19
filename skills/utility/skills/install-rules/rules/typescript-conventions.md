@@ -207,7 +207,7 @@ good:
 const order = parseOrder(await response.json());
 ```
 
-Principle: `principle-boundary-discipline`.
+Principle: `principle-type-system-discipline`.
 
 ### Use the simplest type that covers every value
 

@@ -1,7 +1,8 @@
 ---
 name: principle-never-block-on-the-human
-description: "Apply when you want to ask whether to do something on reversible work. Proceed, present the result, and stop for the user only at an action on the pause list."
+description: "Folded into /work-on."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Never Block on the Human

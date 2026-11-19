@@ -1,7 +1,8 @@
 ---
 name: principle-exhaust-the-design-space
-description: "Apply when a new interaction or architecture decision has no precedent in the codebase. Build two or three competing prototypes and compare them side by side before you commit."
+description: "Folded into /prototype."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Exhaust the Design Space

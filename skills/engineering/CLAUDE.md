@@ -155,7 +155,7 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
 
 ## Principles
 
-A principle is one of the 24 pstack `principle-*` skills in this domain. Rules:
+A principle is one of the 14 pstack `principle-*` skills in this domain. Rules:
 
 - Each principle keeps `disable-model-invocation: true`, and a `name` equal to its folder name. A principle is never a rule file, because a rule loads into every session.
 - A principle is a short rule with a test question. Keep its body under 2 KB, in STE and Australian English.
@@ -163,7 +163,7 @@ A principle is one of the 24 pstack `principle-*` skills in this domain. Rules:
 - Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py <repo root>` after each change. It checks the folder set, the flag, the name, and the index. A change to the folder set also needs a change to its spec and its `EXPECTED` list.
 - A skill that applies a principle without the router names it in bold, with a sibling path such as `../principle-fix-root-causes/SKILL.md`. A rename needs the same change in each such skill.
 - When a skill names a principle, read the principle's file before you apply it, and name it in the reply when it shaped a choice.
-- `never-block-on-the-human` points at the `pause-list.md` rule. `guard-the-context-window` points at subagents and `/checkpoint`.
+- `guard-the-context-window` points at subagents and `/checkpoint`. The never-block rules live in `work-on`, next to its stops, and point at the `pause-list.md` rule.
 
 ## Loading
 

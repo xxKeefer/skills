@@ -12,8 +12,6 @@ argument-hint: "[the claim to vet]"
 A performance number can measure something other than the work. This skill gives seven checks that
 rule that out. Answer each check with evidence from a run, not with a guess about the code.
 
-Principle: **principle-explain-the-number** ([`../principle-explain-the-number/SKILL.md`](../principle-explain-the-number/SKILL.md)).
-
 ## Step 1: Before the run
 
 1. Write the claim in the words you would ship, such as "export is 30% faster at p50 on the 60k-row
@@ -21,6 +19,8 @@ Principle: **principle-explain-the-number** ([`../principle-explain-the-number/S
 2. Read the measurement script. Note what it times, what it counts, and what it ignores.
 3. Check the load average and the core count. If the machine is busy, find what runs on it. If you
    cannot stop it, interleave the sides so both see the same noise, and say so in the report.
+4. Write the decision before you run. Name the result that would change the decision, and name the
+   noise floor. Stop when the spread between runs is larger than the effect.
 
 **Done when:** the claim is written, the script is read, and the machine state is known.
 
@@ -57,6 +57,9 @@ Principle: **principle-explain-the-number** ([`../principle-explain-the-number/S
 For a quick ballpark that the user asked for, one run is enough. Still run checks 4 and 7, and say
 that it is one run. Skip the other checks unless the run looks wrong. A choice between options is
 never a ballpark.
+
+For an eval result, ask three things. Did every run do the task? Does the gap hold across trials
+and models? Does the scenario matter?
 
 **Done when:** each check has an answer with evidence, or the ballpark rule names the checks that
 you skipped.

@@ -1,7 +1,8 @@
 ---
 name: principle-outcome-oriented-execution
-description: "Apply during a planned rewrite or migration with explicit phase boundaries. Converge on the target architecture, and do not keep a stable middle state with throwaway compatibility code."
+description: "Merged into principle-redesign-from-first-principles."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Outcome-Oriented Execution

@@ -1,7 +1,8 @@
 ---
 name: principle-laziness-protocol
-description: "Apply when you refactor, size a diff, or want to add an abstraction, a layer, or a signal that threads through the code. Prefer deletion and the smallest change that solves the problem."
+description: "Merged into principle-subtract-before-you-add."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Laziness Protocol

@@ -10,7 +10,7 @@ description: >
 
 Resolve a broken behaviour reported from manual QA. Find the fault, fix it, prove it.
 
-Principles: **principle-attack-the-premise** ([`../principle-attack-the-premise/SKILL.md`](../principle-attack-the-premise/SKILL.md)) and **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)).
+Principle: **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)).
 
 ## Step 1: Understand the Problem
 
@@ -66,7 +66,7 @@ When `$ARGUMENTS` starts with a report path and row IDs, do these steps:
 4. Run typecheck for affected projects
 5. Commit following project git conventions. With a QA report, make one commit for each problem.
 6. After two failed fixes on one premise, write the premise down and test it, as
-   `principle-attack-the-premise` says. Then run the third attempt in a subagent one effort step up,
+   `principle-fix-root-causes` says. Then run the third attempt in a subagent one effort step up,
    by rule 1 of the `models` block in `~/.claude/AGENTS.md`. When a plan exists, record the step
    with `/update-plan`. At the ceiling, or with no `models` block, stop and give the premise and
    both attempts to the user.

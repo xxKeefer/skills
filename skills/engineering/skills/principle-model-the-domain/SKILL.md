@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Encode the domain in a data structure, not in scattered conditionals. The right structure makes an invalid state impossible to represent, and it deletes branches.
 
+Get the data shape right before you write logic. Define the core types early, trace every access pattern, and choose the structures that match the dominant paths.
+
 Use a state machine, not scattered booleans or phase checks. Use a typed model, not loose parameters. Use a map, a registry, or a discriminated union, not branching spread over files. Use a reducer, not ad hoc mutations. Use an index, a queue, or a normalised collection where the access pattern needs one.
 
 Do not force it. Keep plain code when the shape is clear, local, and unlikely to grow. Distrust an abstraction that adds indirection and removes no branch or invalid state.

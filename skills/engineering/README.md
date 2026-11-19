@@ -125,33 +125,23 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 
 ## Principles
 
-The 24 principles come from pstack. Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
+The 14 principles come from pstack. Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
 
 | Principle | Group | Applies when |
 |---|---|---|
-| `/principle-laziness-protocol` | Core | Refactoring, or about to add an abstraction or a layer |
-| `/principle-foundational-thinking` | Core | Before logic: core types, data shape, and what concurrent actors share |
-| `/principle-redesign-from-first-principles` | Core | A new requirement in an existing design |
-| `/principle-attack-the-premise` | Core | Two fixes that share one premise failed the same gate |
-| `/principle-subtract-before-you-add` | Core | Ordering an addition, a refactor, or a rewrite |
+| `/principle-redesign-from-first-principles` | Core | A new requirement in an existing design, a rewrite, or a migration |
+| `/principle-subtract-before-you-add` | Core | Ordering an addition, a refactor, or a rewrite, or sizing a diff |
 | `/principle-minimize-reader-load` | Core | Code that is hard to trace |
-| `/principle-outcome-oriented-execution` | Core | A planned rewrite or migration |
 | `/principle-experience-first` | Core | A product, UX, or scope tradeoff |
-| `/principle-exhaust-the-design-space` | Core | A decision with no precedent |
 | `/principle-build-the-lever` | Core | Any non-trivial work |
 | `/principle-model-the-domain` | Architecture | Stateful logic, or code with many branches |
-| `/principle-boundary-discipline` | Architecture | Validation, error handling, and adapters |
-| `/principle-type-system-discipline` | Architecture | Types and signatures in a typed language |
+| `/principle-type-system-discipline` | Architecture | Types, signatures, validation, and adapters |
 | `/principle-make-operations-idempotent` | Architecture | Commands and loops that run amid crashes and retries |
-| `/principle-migrate-callers-then-delete-legacy-apis` | Architecture | A new internal API while old callers exist |
 | `/principle-separate-before-serializing-shared-state` | Architecture | Concurrent writers to one target |
 | `/principle-prove-it-works` | Verification | Before you say a task is done |
-| `/principle-fix-root-causes` | Verification | Debugging |
+| `/principle-fix-root-causes` | Verification | Debugging, and fixes that fail on one premise |
 | `/principle-sequence-verifiable-units` | Verification | Multi-step work, and stacked commits and PRs |
-| `/principle-test-behavior-not-implementation` | Verification | Writing, changing, or keeping a test |
-| `/principle-explain-the-number` | Verification | Before you trust a measured number |
 | `/principle-guard-the-context-window` | Delegation | Context is filling up |
-| `/principle-never-block-on-the-human` | Delegation | About to ask on reversible work |
 | `/principle-encode-lessons-in-structure` | Meta | The same instruction written a second time |
 
 ## Installation

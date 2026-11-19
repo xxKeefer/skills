@@ -58,7 +58,7 @@ guidance sets.
 Run the gates in every step. Run them also in a step that changes no file, such as a review step.
 
 If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
-a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then save
+a gate red, write the premise down and test it, as `principle-fix-root-causes` says. Then save
 the work, write a `B` entry, and return.
 
 **Done when:** every gate is green.

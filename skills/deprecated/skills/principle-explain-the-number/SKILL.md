@@ -1,7 +1,8 @@
 ---
 name: principle-explain-the-number
-description: "Apply before you measure, and before you trust, report, or act on a measured number such as a speedup, a latency, or an eval result. Find what limits it, and rule out that it measured something else."
+description: "Folded into /benchmark."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Explain the Number

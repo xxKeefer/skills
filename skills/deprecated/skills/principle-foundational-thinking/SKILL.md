@@ -1,7 +1,8 @@
 ---
 name: principle-foundational-thinking
-description: "Apply before you write logic: when you choose core types and data structures, order scaffold and feature work, or ask what concurrent actors share."
+description: "Retired. Its rules live in principle-model-the-domain and principle-sequence-verifiable-units."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Foundational Thinking

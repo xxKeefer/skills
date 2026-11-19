@@ -1,7 +1,8 @@
 ---
 name: principle-test-behavior-not-implementation
-description: "Apply when you write, change, or keep a test. Assert what the users of the code can observe, so that the test fails when that behaviour breaks and passes when only the internals change."
+description: "Folded into /tdd."
 disable-model-invocation: true
+deprecated: 2026-11-19
 ---
 
 # Test Behavior, Not Implementation
