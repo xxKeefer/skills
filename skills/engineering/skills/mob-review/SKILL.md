@@ -15,7 +15,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 0: Run the panel in a clean thread
 
-**The panel is cheap. The thread it runs in is not.** A review needs the diff, the ticket, and the repo, not the conversation that made the change. At the end of a long session, each orchestration turn pays for that whole history. One measured run: the persona subagents cost a fifth of the review, and the orchestrator at ~320K context cost the rest.
+**The panel is cheap. The thread it runs in is not:** each orchestration turn pays for the whole history of a long session.
 
 - **Arriving from a session that just wrote the code** → the implementation is committed, so the branch is the whole handoff. Ask the user to `/clear` and re-run `mob-review`; nothing is lost, since the branch carries the state.
 - **Already in a fresh or short thread** (a session opened to review), **or run by another skill** (the review step of `/build`) → straight to Step 1.
@@ -38,43 +38,16 @@ git fetch origin "${BASE#origin/}" --quiet
 - **No arg / branch:** review the current (or named) branch vs `$BASE`.
 - **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `$BASE`.
 
-Read [`SCOPE-CASES.md`](SCOPE-CASES.md) before you compute the diff when one of these is true:
+Read [`SCOPE-CASES.md`](SCOPE-CASES.md) on each run, and run its commands. They write the changed-file list and the diff to `$SCRATCH`, and record the base and head SHAs and the branch authors. Use its special cases when one of these is true:
 
 - The branch has no commits ahead of `$BASE`, and the working tree has changes.
 - `git rev-list --count HEAD..$BASE` is not zero.
 
-Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
-
-```bash
-SCRATCH="${TMPDIR:-/tmp}/mob-$(git rev-parse --abbrev-ref HEAD | tr / -)-$(git rev-parse --short HEAD)"
-mkdir -p "$SCRATCH"
-git diff --name-only --merge-base "$BASE" HEAD > "$SCRATCH/files.txt"
-git diff        --merge-base "$BASE" HEAD > "$SCRATCH/diff.patch"
-git diff --stat --merge-base "$BASE" HEAD | tail -1
-cat "$SCRATCH/files.txt"
-```
-
-The path holds the branch and the SHA, so a run after a fix commit never reads a stale patch.
-
 If `files.txt` is empty, report "no changes vs $BASE" and stop.
-
-Record the two SHAs the panel reads. Step 5 prints them, so a later push step can compare the branch with what the panel read:
-
-```bash
-git rev-parse --short "$(git merge-base "$BASE" HEAD)"   # base
-git rev-parse --short HEAD                                   # head
-```
 
 **Never print the patch body into this thread.** The personas read `diff.patch` themselves. A diff in this thread is sent again on every later turn.
 
-Also record **whose code this is**. It decides the ticks and the prompt of the report in Step 5:
-
-```bash
-git config user.email                                          # you
-git log --format='%ae' $(git merge-base "$BASE" HEAD)..HEAD | sort -u   # branch authors
-```
-
-**Own code** = every commit on the branch is authored by the current git user. Anything else (a commit by another author, or a PR you checked out from someone else) is **someone else's code**. When in doubt, treat it as someone else's.
+Whose code this is decides the ticks and the prompt of the report in Step 5. **Own code** = every commit on the branch is authored by the current git user. Anything else (a commit by another author, or a PR you checked out from someone else) is **someone else's code**. When in doubt, treat it as someone else's.
 
 **What Copilot already said.** When the branch has a PR, read [`COPILOT.md`](COPILOT.md) and follow its Step 1. With no PR, or for uncommitted work, skip it.
 
@@ -165,7 +138,3 @@ persona or this skill got something wrong. Change no persona and no part of this
 
 End the summary with the entries this run added or extended. If nothing surfaced, say "no
 calibration signals."
-
-## Notes
-
-- Personas are independently invocable too (e.g. run just `persona-tanstack`). This skill is for the full sweep.
