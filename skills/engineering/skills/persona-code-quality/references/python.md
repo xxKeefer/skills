@@ -2,8 +2,8 @@
 
 ### Python (scripts and tooling)
 
-1. **Stdlib reuse (Change Requested / Nit).** Hand-rolled logic the stdlib already has: `pathlib` over `os.path` string joins, `collections.Counter`/`defaultdict` over manual count dicts, `itertools` (`groupby`, `chain`, `pairwise`, `batched`) over index loops, `json`/`csv` over string splitting, `subprocess.run(..., check=True)` over hand-checked return codes, `datetime`/`timedelta` over string date arithmetic, `argparse` over manual `sys.argv` parsing.
-2. **Oversized / multi-responsibility functions (Change Requested / Nit).** One function = one thing. A `main()` that fetches, transforms, plots and prints is several functions. Split fetch / transform / render so each can be read (and cached or tested) alone.
+1. **Stdlib reuse (Nit).** Hand-rolled logic the stdlib already has: `pathlib` over `os.path` string joins, `collections.Counter`/`defaultdict` over manual count dicts, `itertools` (`groupby`, `chain`, `pairwise`, `batched`) over index loops, `json`/`csv` over string splitting, `subprocess.run(..., check=True)` over hand-checked return codes, `datetime`/`timedelta` over string date arithmetic, `argparse` over manual `sys.argv` parsing.
+2. **Oversized / multi-responsibility functions (Change Requested when the function is genuinely oversized and multi-purpose, else Nit).** One function = one thing. A `main()` that fetches, transforms, plots and prints is several functions. Split fetch / transform / render so each can be read (and cached or tested) alone.
 3. **Duplication (Nit).** The same query, request loop, or parsing block pasted with small changes (e.g. three near-identical GraphQL pagination loops) → one parameterised helper.
 4. **Mutation and shared state (Nit).** Module-level mutable globals written from functions; mutable default arguments (`def f(x=[])` is Change Requested. It is shared across calls); in-place mutation of a caller's list/dict where returning a new value works.
 5. **Imperative accumulation (Nit).** `for` loops that only build a list/dict/set → comprehensions; `any()`/`all()`/`sum()`/`max(key=…)` over flag-and-break loops.

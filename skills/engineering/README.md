@@ -115,7 +115,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 | `persona-typing` | Casts, type gymnastics, and missing `readonly` |
 | `persona-url-state` | What refresh, a shared link, Back, and Forward do |
 | `persona-value-display` | Missing, zero, huge, and awkward values on screen |
-| `persona-vitest` | Unit-test quality, selectors, builders, and flaky tests |
+| `persona-vitest` | Selectors, builders, mock leakage, waits, and flaky tests |
 | `persona-vue-reactivity` | Computed, ref, and watch correctness, and composable call sites |
 
 ## Principles

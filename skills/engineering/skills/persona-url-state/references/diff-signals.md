@@ -1,6 +1,6 @@
 # persona-url-state diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
 
 ## [persona-url-state catalogue](catalogue.md)
 
@@ -14,6 +14,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - NV-C5: `scrollBehavior` with no `to.hash` branch, `el: to.hash` with no offset, or `:id` built from data used as a hash target → `{ el: to.hash, top: headerHeight }` or `scroll-margin-top`; wait for the target [default: nit]
 - NV-C6: `useInfiniteQuery` with `gcTime: 0`, or a "Load more" handler appending pages to a local `ref([])` → Keep the infinite query cached, or the loaded count in the URL [default: nit] (rule 8)
 - NV-D4: `router.push({ path: '/x', params: { id } })`, or params not declared in the route's path used to pass state → Use `name` with params, or query or history state [default: nit]
+- NV-D5: `route.params.id as number`, or `Number(route.params.id)` with no `NaN` check → Parse and validate the param [default: nit] (rule 4)
 - NV-D7: `route.path === '/services'`, or `startsWith` on `route.path` for active nav or logic → Compare `route.name`; pick one canonical path [default: nit]
 - NV-E1: `redirect: to.path` in an auth guard, or `` `/login?redirect=${to.fullPath}` `` built without encoding → Store `to.fullPath` through `query: { redirect }` [default: nit] (rule 9)
 - NV-E3: Guard returning a redirect to a route that the same guard also rejects, with no `to.name` exemption, or `next()` called twice → Exempt the target route; return a location instead of calling `next` [default: change-requested]

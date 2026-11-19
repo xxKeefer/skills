@@ -84,7 +84,7 @@ lane that owns a check in the panel table of `$SKILL_DIR/../mob-review/PANEL.md`
 |---|---|---|
 | General, and a reviewer can check it on a changed line | Persona rule, in the lane that owns it | The backlog entry goes to `approved`, and Step 5 applies it |
 | General, and no changed line shows it | A rule in the `install-rules` sources | Report only: the rule text |
-| Specific to this codebase or team | The highest rung that works, by **principle-encode-lessons-in-structure** ([`../principle-encode-lessons-in-structure/SKILL.md`](../principle-encode-lessons-in-structure/SKILL.md)). The agent file (`CLAUDE.md`, `AGENTS.md`) is last | Your repo: Step 5 makes the edit. Another repo: report only |
+| Specific to this codebase or team | The highest rung that works, by **principle-encode-lessons-in-structure** ([`../principle-encode-lessons-in-structure/SKILL.md`](../principle-encode-lessons-in-structure/SKILL.md)) (read it). The agent file (`CLAUDE.md`, `AGENTS.md`) is last | Your repo: Step 5 makes the edit. Another repo: report only |
 | Checkable on a changed line, and no lane owns it | Candidate new lane | Report only |
 | A bot theme that is mostly ignored | Narrow or remove the persona rule that checks the same thing. With no such rule, report only | The backlog entry goes to `approved`, and Step 5 applies it |
 | A flaky CI theme | The job and the step that flake | Report only |

@@ -1,6 +1,6 @@
 # persona-value-display diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
 
 ## [persona-value-display catalogue](catalogue.md)
 

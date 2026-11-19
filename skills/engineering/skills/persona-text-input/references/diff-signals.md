@@ -1,9 +1,10 @@
 # persona-text-input diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
 
 ## [persona-text-input catalogue](catalogue.md)
 
+- IN-A3: `@input` assigning `$event.target.value`, or `watch(search)` feeding a query key with no debounce or composition guard; `ComboboxInput` driving a remote query → Native `v-model`, or emit on `compositionend`; debounce the key [default: nit] (rule 9)
 - IN-A4: Submit handler bound to `mousedown` or `pointerdown` that reads `form.value.x` synchronously → Submit on `click` or `submit`, not `mousedown` [default: change-requested] (rule 9)
 - IN-B4: `split(' ')`, `replace(' ', ...)`, or a regex or allowlist with a literal space instead of `\s` on user text → Normalise all Unicode spaces; use `replaceAll` for string patterns [default: nit] (rule 1)
 - IN-B6: A single-line value feeding CSV export, an HTTP header, a filename or Terraform output with no CR/LF handling → Replace or reject line breaks on paste [default: nit] (rule 5)
@@ -12,6 +13,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - IN-C8: A uniqueness check, or other users' names or emails shown in an admin or approval flow, with no mixed-script handling → Confusable skeleton check on the server; show punycode for IDNs [default: nit]
 - IN-D4: `@paste.prevent` or `onpaste="return false"` on a password or confirmation field → Remove the paste block [default: nit]
 - IN-D5: `contenteditable` or a WYSIWYG editor with default paste handling → Insert `text/plain` on paste, or sanitise on save [default: nit]
+- IN-D6: `maxlength` on a field holding a key, token, ID or URL → Drop `maxlength`; validate length with a visible error [default: change-requested] (rule 10)
 - IN-D7: An array of single-character inputs with `maxlength=1` and no paste handler, or no `autocomplete="one-time-code"` → Spread pasted digits across boxes; add `one-time-code` [default: nit]
 - IN-F3: `type="email"` beside a separate schema that disagrees, or a `novalidate` form relying on the native check → One source of truth for email validity [default: nit]
 - IN-F5: `new RegExp(userInput)`, manual `escapeHtml` before `{{ }}`, or `encodeURIComponent` applied twice → Escape for regex or use `includes`; let Vue escape once [default: change-requested] (rule 7)
@@ -25,6 +27,9 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - IN-J7: Filter updates bound to `@keyup`, or a clear button that resets display state but not the model → Bind to `input`; clear the model, not just the text [default: nit]
 - IN-J10: A validator regex with nested quantifiers (`(x+)*`, `(x|xy)+`) and no length check before matching → Bound the length first; rewrite the regex [default: change-requested] (rule 7)
 - IN-J14: `isDirty` computed by `JSON.stringify` comparison after input transforms that aren't applied to the initial value → Normalise the initial value the same way; make transforms idempotent [default: change-requested]
+- IN-K1: An IPv4 regex with `\d{1,3}` and no leading-zero check, `parseInt(octet)` with no radix check, or IPs compared as strings → Reject leading zeros or use a strict parser; compare canonical forms [default: change-requested] (rule 13)
+- IN-K3: `===` or `includes` on IPv6 strings, or `toLowerCase()` as the only normalisation → Canonicalise to RFC 5952 before comparing and displaying [default: change-requested] (rule 13)
+- IN-K7: `:href="profile.website"` with no normalisation, or a URL schema accepting bare hostnames with nothing adding `https://` → Normalise with `new URL()` on save; store the absolute URL [default: change-requested] (rule 15)
 
 ## [persona-url-state catalogue](../../persona-url-state/references/catalogue.md)
 

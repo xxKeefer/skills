@@ -31,7 +31,7 @@ Ask: *it's 2am, this change is breaking prod: what's the fix?*
 
 Run only if the diff changes **shipped** non-test source: `.ts`/`.vue`/`.css` under `apps/**` or `libs/**`, or app config/bootstrap. Return zero findings and stop for diffs that are only tests, docs, mocks, stories, or CI (`.github/**` → `persona-github-actions`).
 
-**One test-code exception.** Also run if a test/e2e diff provisions privileged accounts, grants roles, or writes state into a shared environment it does not own, e.g. creating users in a shared tenant, assigning admin roles, or mutating a database reused across runs. Those have a blast radius even though nothing ships: ask what happens if the suite is pointed at a non-CI target, whether the code asserts it is talking to CI, and whether the state it creates can be undone. Nothing else about test quality is yours (`persona-vitest` / `persona-browser-e2e` own that).
+**One test-code exception.** Also run if a test/e2e diff provisions privileged accounts, grants roles, or writes state into a shared environment it does not own, e.g. creating users in a shared tenant, assigning admin roles, or mutating a database reused across runs. Those have a blast radius even though nothing ships: ask what happens if the suite is pointed at a non-CI target, whether the code asserts it is talking to CI, and whether the state it creates can be undone. Nothing else about test quality is yours (`persona-test-quality` / `persona-vitest` / `persona-browser-e2e` own that).
 
 ## Scope
 
@@ -71,7 +71,7 @@ When the diff changes shared code, defaults, global scope, persisted data, contr
 - The design of an API change (field shape, versioning) → not this lane. You keep the client blast radius of the change.
 - Deploy windows, staging-before-production and service deploy pairing in deploy workflows are not reviewed by any persona. `.github/**` is outside this guard, and `persona-github-actions` leaves environment ordering out of lane.
 
-- Test quality, selectors, flakiness → `persona-vitest` / `persona-integration-test`. (You may ask for a flag-off assertion: that's exposure, not test craft.) Every other untested condition, and risk-based test depth → `persona-test-design`; the flag-off path stays yours (rule 5).
+- Assertion quality and mocks of the project's own code → `persona-test-quality`. Selectors and flakiness → `persona-vitest` / `persona-integration-test`. (You may ask for a flag-off assertion: that's exposure, not test craft.) Every other untested condition, and risk-based test depth → `persona-test-design`; the flag-off path stays yours (rule 5).
 - Code correctness, naming, comments, typing style, design tokens → the matching `persona-*`.
 - **A duplicated flag literal on its own** → `persona-code-quality`. Report the *gate* (fail-open, flipped default, hide-without-show), not the fact that the flag string was written twice. Only claim the duplication when you can show the two copies actually diverging in production (e.g. one gate reads a renamed flag and the other does not).
 

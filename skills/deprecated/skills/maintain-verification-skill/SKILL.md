@@ -54,8 +54,16 @@ do not hide it in the docs.
 
 1. Read `<driver>/features/README.md`, and list the files in `features/`.
 2. Fix each missing, extra, duplicate, or dead entry in the index.
-3. Run `python3 $SKILL_DIR/../../../engineering/skills/create-verification-skill/scripts/check_driver.py <driver dir>`. Fix
-   each error that it names, and run it again.
+3. Find the `check_driver.py` of the engineering plugin, and run it. The first path is a repo
+   checkout, and the second is the newest engineering version in the plugin cache:
+
+   ```bash
+   CHECK="$SKILL_DIR/../../../engineering/skills/create-verification-skill/scripts/check_driver.py"
+   [ -f "$CHECK" ] || CHECK="$(ls -d "$SKILL_DIR"/../../../../engineering/*/ | sort -V | tail -1)skills/create-verification-skill/scripts/check_driver.py"
+   python3 "$CHECK" <driver dir>
+   ```
+
+   Fix each error that it names, and run it again.
 
 **Done when:** the index matches the files, and the script prints `ok`.
 

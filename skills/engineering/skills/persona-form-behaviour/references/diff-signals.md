@@ -1,6 +1,6 @@
 # persona-form-behaviour diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. The numbered rules hold every case that has no line here. Each line gives only the signal. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold every other case. Each line gives only the signal. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
 
 ## [persona-form-behaviour catalogue](catalogue.md)
 
@@ -15,7 +15,9 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - FM-B6: Dialog form guards Escape or outside click on dirty, but no `onBeforeRouteLeave` covers that dirty state [default: nit]
 - FM-C4: `:disabled="!meta.valid"` or `:disabled="!isFormValid"` on Submit with no visible errors [default: nit]
 - FM-C5: `router.push` in hook-level `useMutation({ onSuccess })` or after `await mutateAsync()`, with no current-route check [default: nit]
+- FM-D5: `<input type="number">` in a long scrolling form, or `NumberField` with no wheel option set [default: nit] (rule 9)
 - FM-D7: `parseFloat(input)` or `Number(input)` on user-typed decimals, so `1,5` parses wrong; `.toFixed()` in templates [default: change-requested]
+- FM-D8: `watch(model, v => model.value = round(v))`, `:value="Number(x)"`, or formatting inside `@input` [default: change-requested] (rule 8)
 - FM-D11: `type="number"` with `min` set but no `step`, and no `novalidate`, so decimals are blocked [default: change-requested]
 - FM-D16: `/^\d+$/`, `/^[0-9]+$/` or `replace(/[^0-9]/g, '')` on typed text with no `normalize('NFKC')` first [default: nit]
 - FM-D18: `Number(v)`, `parseInt(v)` or `z.coerce.number()` on typed text with no strip of spaces, separators or units [default: nit]
@@ -32,6 +34,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - FM-F15: Submit-failure banner rendered with `v-if` and no `role="alert"` or `aria-live` [default: nit]
 - FM-F16: `toast.success(...)` next to `mutate()` rather than in `onSuccess`, or an `onMutate` optimistic write with no message in `onError` [default: nit]
 - FM-F17: Stricter rule (lower `.max()`, new `.regex()`) on an edit form that loads existing records [default: nit]
+- FM-G1: `new FormData(form)` building the payload, or a PUT built from enabled fields only, so disabled values are dropped [default: change-requested] (rule 14)
 - FM-G4: Watcher on a toggle or parent field that resets a whole sub-section on every change [default: change-requested]
 - FM-G7: `:aria-disabled` control whose click or key handler has no `if (disabled) return` [default: nit]
 - FM-H1: Page tracks dirty state but has no `onBeforeRouteLeave` / `beforeunload` (or `useSaveBarLeaveGuard`) [default: nit]
@@ -39,6 +42,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - FM-H3: Dirty check via `JSON.stringify(a) !== JSON.stringify(b)` or reference equality, or defaults applied by a watcher after init [default: nit]
 - FM-H4: `initial = form` with no clone, or a `reactive` baseline shared with the model, so edits never count as dirty [default: nit]
 - FM-H5: `isDirty.value = true` set from an input handler or deep watcher instead of comparing to the baseline [default: nit]
+- FM-H7: Form init only in `setup` or `onMounted` with no watch on `route.params.id`, and no `:key` on `<RouterView>` [default: change-requested] (rule 13)
 - FM-H9: `autofocus` on a field mounted after page load, or `focus()` after a `v-if` flag with no `await nextTick()` [default: nit]
 - FM-H10: Step data in local `ref`s or `useForm()` inside step components that unmount on step change [default: nit]
 - FM-I1: `<select v-model>` with no disabled placeholder option, or `options[0]` set as a silent default [default: change-requested]
