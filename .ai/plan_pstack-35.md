@@ -195,8 +195,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **26. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
   - Result: at 7a7b1a6, each gate exits 0: pre-commit test, commit-msg test, `check_principles.py`, the plan check, and the link check with the five retired skill names.
-- [ ] **27. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code. Lanes: the six light lanes that ran in step 25 (skills, correctness, test-design, test-quality, comments, code-quality), because skills raised findings and the fix commit 79bc8e0 changed files that each of their guards matched. No row stays open from step 25, so the panel has no rows to skip. Do not raise a row that only repeats a fixed row of step 25.
+- [x] **27. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code. Lanes: the six light lanes that ran in step 25 (skills, correctness, test-design, test-quality, comments, code-quality), because skills raised findings and the fix commit 79bc8e0 changed files that each of their guards matched. No row stays open from step 25, so the panel has no rows to skip. Do not raise a row that only repeats a fixed row of step 25.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: `/engineering:mob-review light`, run 2 of report `.ai/review_pstack-35_engineering-compress.html`. Reviewed base 17b2b61 (`pstack-34_pr-feedback-retro`), panel read 6ca57a5, reviewed head 25792c3 (the fix commit). persona-skills ran in seven shards, one of them on 79bc8e0 only. 13 findings (8 Change Requested, 5 Nit), all fixed, none open. Each `SKILL.md` is at most 10,000 B.
 - [ ] **28. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -231,6 +232,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 25 done (79bc8e0). Light panel: six lanes ran, and persona-skills ran in five shards. The fix commit puts back the principle read-and-name rule in nine skills, an inline H4 action list for a session with no pause-list rule, and working links in four retired copies. It also fixes two lane-routing drifts and drops the hard-coded principle count. No row stays open. Each `SKILL.md` is at most 10,000 B. Next step: 26.
 - 2026-11-19: build round 2. The step 25 fix changes skill behaviour, so build rule 7.2 adds a new round: step 26 Test and step 27 Review. Push is now step 28. Next step: 26.
 - 2026-11-19: step 26 done. Every gate is green after the step 25 fix. Next step: 27.
+- 2026-11-19: step 27 done (25792c3). Light panel run 2: six lanes ran, and persona-skills ran in seven shards. The fix commit puts back ten sweep lines that lazy rule files did not cover, a retired principle rule, a principle read rule, and two persona tier conditions. It also makes the retired maintain-verification-skill find its script in the plugin cache, and fixes test-lane routing and Future-line rule drift. No row stays open. The fix changes skill behaviour, so build rule 7.2 applies. Next step: 28.
 
 ## Follow-ups
 
@@ -239,3 +241,5 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - The review panel writes the diff files to the system temp folder, and two trial runs found a lane that could not read them. Write them under `.ai/scratch/` of the repo.
 - PANEL.md Known overlaps does not name test-design and test-quality. Both lanes flagged the same self-comparing test in every trial run.
 - The comments lane flagged comments inside the generated review report under `.ai/`. Its guard should skip generated report files.
+- The retired copies of light-review, review-pr, and sad-path link into the engineering plugin by relative paths. These links resolve in a repo checkout only, because each installed plugin has its own version folder. The step 27 fix covers the maintain-verification-skill script path only.
+- The step 8 recall check did not cover url-state, text-input sweep lines in rule files that load on demand, or form-behaviour read-when triggers. Step 27 found ten sweep lines that the cut lost.
