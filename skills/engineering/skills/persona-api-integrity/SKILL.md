@@ -48,15 +48,17 @@ Write down the call as the frontend sends it: **method, path template, path para
 ### 1. Contract match
 
 1. **Request the server will reject (Change Requested).** Method, path or path-param shape that doesn't match the operation; a query param or body field the spec doesn't have (misspelled, or the wrong casing: `companyUid` vs `company_uid`); a required body field or query param the frontend never sends; a value outside the spec's enum, format or bounds that the frontend can send. Name the spec line and the handler's validation that will 400 it (a Zod or Joi schema, a required-field check). An option list built as "every client enum value minus a hidden list", for a value another service validates, is this rule too: the next value the client adds reaches the select, and the server, before that service accepts it. Ask for an allow list of the values the service accepts, with a link to its enum. Also check the **source of each path param and id**: the field the frontend reads it from must exist, be required and be the right id (uid vs numeric id, person vs employment) in the response that feeds it.
-2. **Operation missing from the spec, or spec contradicting the handler (Change Requested / Nit).** The frontend calls a path no spec documents (Nit, since you can only verify against the handler; ask for the spec), or the spec and the handler disagree on something the frontend depends on (Change Requested). Say which one the frontend matches. The runtime truth is the handler. The spec fix is a backend ticket, so recommend one, and don't ask the frontend to match a spec the server doesn't honour.
+2. **Operation missing from the spec, or spec contradicting the handler (Nit; Change Requested when the spec and the handler disagree on something the frontend depends on).** The frontend calls a path no spec documents (Nit, since you can only verify against the handler; ask for the spec), or the spec and the handler disagree on something the frontend depends on (Change Requested). Say which one the frontend matches. The runtime truth is the handler. The spec fix is a backend ticket, so recommend one, and don't ask the frontend to match a spec the server doesn't honour.
 3. **Response schema stricter than the contract (Change Requested).** The frontend's Zod schema requires a field the spec marks optional or nullable, or that the handler can omit (a nullable column, a serializer that drops null fields). Or it enumerates fewer values than the spec or the backing enum, with no fallback. Under `z.looseObject()` a parse failure throws, so one absent field breaks the whole query for every user. Check the actual response type and enum, not just the spec. **Exception: a legacy API client** that runs its schemas as validators only (it `safeParse`s, reports a mismatch through a callback and returns the raw data): the impact there is an error-tracker parse report, not a broken query. Say that in `detail`, and lower the finding to Nit when the gap is already on `main`.
-4. **Response schema looser or wrong (Nit / Change Requested).** A field typed as the wrong primitive (a `number` the spec says is a string uid, an epoch-millis `number` parsed as an ISO `string`), or a field the frontend reads that the response doesn't contain (Change Requested: it's always `undefined`). A field marked optional that the contract always returns is a Nit, since it only costs type-narrowing.
+4. **Response schema looser or wrong (Nit; Change Requested when the frontend reads a field that never arrives).** A field typed as the wrong primitive (a `number` the spec says is a string uid, an epoch-millis `number` parsed as an ISO `string`), or a field the frontend reads that the response doesn't contain (Change Requested: it's always `undefined`). A field marked optional that the contract always returns is a Nit, since it only costs type-narrowing.
 
 When the diff changes how the frontend handles a response status or envelope, or changes a provenance link, read [references/status-and-provenance-rules.md](references/status-and-provenance-rules.md). It holds rules 5 and 6.
 
 When the diff changes a permission gate, or you must check who may call an endpoint, read [references/authorisation-and-spec-rules.md](references/authorisation-and-spec-rules.md). It holds the authorisation model and rules 7 to 11, 14 and 16.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
+
+**Future:** a spec or permission cleanup in the backend that the frontend doesn't depend on today.
 
 ## Out of lane: do NOT report
 
@@ -69,13 +71,6 @@ When the diff changes a permission gate, or you must check who may call an endpo
 - XSS, secrets, tabnabbing, backend vulnerabilities unrelated to who may call this endpoint → `persona-security`.
 - Whether the feature is behind a flag at all, and its rollout → `persona-production-protector`. You only check that the flag gating the call matches the backend's availability (rule 9).
 - Whether the authorisation paths are *tested* → `persona-test-design`.
-
-## Severity
-
-- **Change Requested:** 1, 3, 7, 9, 10, 11, 14; 2 when the spec and the handler disagree on something the frontend depends on; 4 when the frontend reads a field that never arrives; 5 when the frontend mishandles a status the server sends for a normal case; 8 when the gate contradicts the ACs or the feature's own permission.
-- **Nit:** 2 (unspecced operation), 4 (optional-but-always-present), 5 (unhandled rare documented status, or a server that masks failures as 200), 6, 16, 8 (deliberate narrowing); 7 when the 403 is handled on purpose.
-- **Future:** a spec or permission cleanup in the backend that the frontend doesn't depend on today.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

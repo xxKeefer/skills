@@ -36,7 +36,7 @@ Read the type definitions involved before proposing a fix. A "better" type that 
 
 1. **`as unknown as X` (Change Requested).** The double cast says the two types have nothing in common and the author overruled the compiler, so the line no longer tells the reader what the value is. Find why they diverge and name the readable fix: widen the target type at its definition, have the producing function return the shape consumers actually need, or write a real mapping function. If the same cast appears at several call sites, it belongs once behind a named helper with a readable signature (`sessionExpiredRedirect(reason): RouteLocationRaw`); say which module owns it. Count call sites across the whole repo to judge how established the pattern is, but anchor the finding on a line **this branch** touched; if the branch adds copy number four, that's the one you file. When the branch adds the same cast in several files, file **one** finding for the set: anchor it on one line and name the siblings in the detail. Verifying that your proposed helper signature actually compiles is required here, not optional: read the lib's `.d.ts` (e.g. vue-router's `HistoryState` index signature) before asserting the cast can be dropped or relocated.
 
-2. **`as X` where the type could just be stated (Nit).** On a fresh object literal, `as` is usually "check this against `X`": write `satisfies X` (checks it, keeps the literal types) or annotate `const x: X = {…}`. On a function result, it usually means the function's declared return type is wrong: fix that instead, so every caller reads correctly. `as any`, `as unknown`, `as never` always obscure; flag them. **Exception:** a Storybook `Meta<typeof X>` for a generic SFC (`<script setup generic="…">`): neither an annotation nor `satisfies` compiles there, so `{ … } as Meta<typeof X>` is the accepted form; don't flag it.
+2. **`as X` where the type could just be stated (Nit; Change Requested for `as any`, `as unknown`, `as never`, or the same cast at 3+ call sites).** On a fresh object literal, `as` is usually "check this against `X`": write `satisfies X` (checks it, keeps the literal types) or annotate `const x: X = {…}`. On a function result, it usually means the function's declared return type is wrong: fix that instead, so every caller reads correctly. `as any`, `as unknown`, `as never` always obscure; flag them. **Exception:** a Storybook `Meta<typeof X>` for a generic SFC (`<script setup generic="…">`): neither an annotation nor `satisfies` compiles there, so `{ … } as Meta<typeof X>` is the accepted form; don't flag it.
 
 3. **`!` on something that can be absent (Nit, Change Requested when the invariant isn't stated).** `foo!.bar`, `arr[0]!`, `map.get(k)!` tell the reader "trust me" and nothing else. Prefer a guard that reads as the rule (`if (!clientId) { throw new Error('clientId is required') }`), a default, or a type where absence is impossible. A `!` resting on a startup-validated invariant is fine **with** a one-line comment naming that invariant; the missing comment is the finding.
 
@@ -45,6 +45,8 @@ Read the type definitions involved before proposing a fix. A "better" type that 
 10. **`@ts-ignore` / `@ts-expect-error` (Change Requested for `@ts-ignore`).** A suppression tells the reader nothing about the type. `@ts-expect-error` plus a one-line reason at a known-broken lib boundary is the acceptable form. Never propose a suppression as the fix for your own finding.
 
 When the changed lines add a generic helper, an interface, a const array, a catch that reads error fields, a public param type, an icon prop, or an `Omit`/`Partial` type, read [references/shape-and-contract-rules.md](references/shape-and-contract-rules.md). It holds rules 5 to 9, 11 and 12.
+
+**Future:** larger type-model work (branded/nominal ids, generifying a whole store).
 
 ## Out of lane: do NOT report
 
@@ -55,12 +57,6 @@ When the changed lines add a generic helper, an interface, a const array, a catc
 - Runtime mutation (`arr.push`, mutating a prop, clone-and-derive) → `persona-code-quality`. You own `readonly`/`as const` at the *type* level; it owns mutation at the *value* level.
 - Where a type or helper should *live* → `persona-architecture`. You may say "this cast belongs once in the module that owns the type"; don't file layering findings. When your whole finding reduces to "hoist this into the shared lib", it is theirs. File only if the cast is unreadable **where it is**, and lead with the type, not the location.
 - Zod/schema correctness, API contract drift → out of scope.
-
-## Severity
-
-- **Change Requested:** `as unknown as`, `as any`/`as unknown`/`as never`, `@ts-ignore`, the same cast at 3+ call sites, a helper whose every caller must cast, nested `Omit<Omit<…>>`, an icon prop typed `Component`/`LucideIcon` instead of the design system's icon-source type, a `!` whose invariant is nowhere stated.
-- **Nit:** single `as` where `satisfies`/an annotation reads better, one-level `Omit`/`Partial` that composition would name, `ReturnType<typeof …>` in a signature, missing `as const`/`readonly`, unused generic parameter, all-optional interface that wants a union.
-- **Future:** larger type-model work (branded/nominal ids, generifying a whole store).
 
 ## Output
 

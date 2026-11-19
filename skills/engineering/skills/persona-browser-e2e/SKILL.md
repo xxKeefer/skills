@@ -45,18 +45,14 @@ Lane paths: `'src/**' 'playwright.config.ts'`.
 
     Generalise the method, not just these two cases: grep the package for the error string, and check whether the API short-circuits on current state before it waits.
 
+**Future:** larger fixture/POM restructures that affect test reliability, API-helper reorganisation. (Pure dedup/extraction is `persona-code-quality`.)
+
 ## Out of lane: do NOT report
 
 - In-app `apps/*/tests/integration` Playwright/MSW → `persona-integration-test`.
 - Which conditions *should* be tested, and whether e2e is the right level for them → `persona-test-design`. You review the specs that exist.
 - Product/source quality, naming, comments: not this suite's concern here; other personas own the app repos. (This suite has no Vue/component code.)
 - Generic code duplication / extraction refactors, even across page objects → `persona-code-quality`. Flag POM/fixture changes here only when they affect e2e *correctness* (flakiness, isolation, backend mocking, selector resilience), not for dedup alone.
-
-## Severity
-
-- **Change Requested:** hard waits, non-retrying assertions, backend mocking, `@playwright/test` import bypass in a spec, broken isolation, a change built on an unverified claim about Playwright behaviour.
-- **Nit:** brittle-but-working selectors, POM/fixture bypass, missing ready-gate, diagnostic-logger removal.
-- **Future:** larger fixture/POM restructures that affect test reliability, API-helper reorganisation. (Pure dedup/extraction is `persona-code-quality`.)
 
 ## Output
 

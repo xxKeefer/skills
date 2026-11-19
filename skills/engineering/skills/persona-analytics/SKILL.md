@@ -49,6 +49,8 @@ When the diff adds, renames or retypes an event name, read [references/event-nam
 
 When the diff imports or calls a Segment client, read [references/platform-split.md](references/platform-split.md). It holds rule 25.
 
+**Future:** migrating a touched legacy untyped capture call site to the typed map; an untracked existing flow next to the diff.
+
 ## Out of lane: do NOT report
 
 - **Analytics firing while a flag gate hides the template** (setup-level side effects under `v-if`), a gate that fails open, flipped defaults → `persona-production-protector`.
@@ -60,13 +62,6 @@ When the diff imports or calls a Segment client, read [references/platform-split
 - **`as` casts and typing gymnastics** in the event map → `persona-typing`.
 
 Before you report, read [references/calibration.md](references/calibration.md). It holds the rules on noise.
-
-## Severity
-
-- **Change Requested:** hot-path volume; duplicate of page view / existing navigation-tracking call / existing event; free-text property; identity or PII or base-event field passed by hand; sensitive param added to the page-view allowlist; untyped `captureEvent`/`posthog.*` in new code; inline vocabulary literal or untyped step, shipped `GenericEvent`; variable segment in a name; wrong charset, `$` prefix, version suffix or placeholder name; rename or retype of an existing name (no re-point plan); `_progress`/`_settled`/`_click` misuse; duplicate of an existing fact under another name; broken flow lifecycle; new flow with no milestone **when the AC ask for tracking**; experiment with no exposure signal; weakened lib gate; stamped-field or lib-event change.
-- **Nit:** backend-measurable event with no client-only context; raw number or unjustified opaque id as a property; benign page-view param added; suffix synonym, wrong tense or widget word in a name; domain prefix off; name not declared as a `<DOMAIN>_EVENT` constant or missing its one-line comment; split-outcome shape; new event not asserted; new flow with no milestone (AC silent); browser-only signal missing on a tracked flow; entry point not attributed.
-- **Future:** migrating a touched legacy untyped capture call site to the typed map; an untracked existing flow next to the diff.
-- **Platform split:** Nit 25.
 
 ## Output
 

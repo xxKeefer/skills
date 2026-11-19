@@ -33,7 +33,7 @@ Lane paths: `'apps/**' 'libs/**' 'package.json' ':!*.spec.ts' ':!*.test.ts' ':!*
 
 ### A. Load timing: lazy loading
 
-1. **Heavy, rarely-rendered component statically imported (Change Requested / Nit).** A component rendered behind a `v-if` / `<component :is>` / tab / modal / drawer / flag / permission / error-or-empty branch, imported with a plain `import X from './X.vue'`. The fix is `const X = defineAsyncComponent(() => import('./X.vue'))`, a drop-in replacement since props and slots pass through. Flag it when **both** hold:
+1. **Heavy, rarely-rendered component statically imported (Nit; Change Requested when heavy and rare).** A component rendered behind a `v-if` / `<component :is>` / tab / modal / drawer / flag / permission / error-or-empty branch, imported with a plain `import X from './X.vue'`. The fix is `const X = defineAsyncComponent(() => import('./X.vue'))`, a drop-in replacement since props and slots pass through. Flag it when **both** hold:
    - **Rarely rendered:**
      - flag-off for most users (a feature flag not yet at 100%);
      - an admin/staff/permission-only audience;
@@ -60,6 +60,12 @@ When the diff adds or changes an import of a library, a JSON file, a mock, or a 
 
 When the diff changes `package.json` dependencies, adds an asset, or changes `vite.config.*`, read [references/dependencies-and-build.md](references/dependencies-and-build.md). It holds rules 10 to 13.
 
+**Future:**
+
+- missing `sideEffects` on a lib;
+- existing eager debt on the import or boundary this diff edits;
+- a repo-level guard (size-limit CI gate, a `no-restricted-imports` rule for heavy libs) when the diff shows the gap biting.
+
 ## Out of lane: do NOT report
 
 - **Template gated by `v-if` while setup-level side effects still run** (a `useQuery` fires, a watcher attaches, analytics reports), or a flag gate that leaks or fails open → `persona-production-protector`. You own only "flag-off users still *download* it". When both apply to the same component, report the bytes and leave the gate to them.
@@ -72,37 +78,6 @@ When the diff changes `package.json` dependencies, adds an asset, or changes `vi
 - **PR too big to review** → `persona-pr-size`.
 
 Before you report a finding, read [references/calibration.md](references/calibration.md). It holds the rules on noise and on proof that a split pays.
-
-## Severity
-
-- **Change Requested:**
-  - heavy + rare component statically imported;
-  - static route component;
-  - heavy library imported top-level on an eager path for handler-only use;
-  - eager glob, top-level prefetch, per-render async wrapper, or chunk rule defeating a split;
-  - non-tree-shakable import of a heavy or eager library;
-  - side effect in a `sideEffects: false` lib, or a new lib without `sideEffects`;
-  - whole-locale import bypassing the tier split;
-  - dev-only code on a prod path;
-  - heavy-eager, duplicate, CJS-only or polyfill dependency;
-  - dependency inlined into a lib `dist`;
-  - whole icon set;
-  - prod devtools/hydration flag, Options API re-enabled, runtime compiler, or a chunk rule pulling lazy code eager.
-- **Nit:**
-  - rare but moderate component statically imported;
-  - top-level heavy import in an already-lazy module;
-  - async-component failure UX;
-  - module-scope work blocking tree-shaking;
-  - default import of large JSON;
-  - small or lazy new dependency;
-  - large inlined asset, or a raised inline limit;
-  - raised `chunkSizeWarningLimit`, or inline prod sourcemaps;
-  - Rollup-shaped chunk config in Vite 8;
-  - Codecov bundle analysis missing or removed.
-- **Future:**
-  - missing `sideEffects` on a lib;
-  - existing eager debt on the import or boundary this diff edits;
-  - a repo-level guard (size-limit CI gate, a `no-restricted-imports` rule for heavy libs) when the diff shows the gap biting.
 
 ## Output
 

@@ -2,13 +2,13 @@
 
 ### B. Tree-shaking
 
-6. **Non-tree-shakable import of a dependency (Change Requested / Nit).**
+6. **Non-tree-shakable import of a dependency (Nit; Change Requested when the lib is heavy or the import is on an eager path).**
    - `import * as X from '<lib>'` or a default import of a whole utility/icon/date library where named imports exist.
    - A CommonJS-only package where an ESM build or sibling exists (`lodash` → `es-toolkit` where the project already uses it).
    - A deep `dist/` bundle path that bypasses the package's ESM `exports`.
 
    **Change Requested** when the lib is heavy or the import is on an eager path, **Nit** otherwise. Namespace imports of small first-party modules (`import * as Sentry` in a Sentry setup file) are fine; don't flag them.
-7. **Side effects vs `sideEffects` (Change Requested / Future).**
+7. **Side effects vs `sideEffects` (Change Requested / Nit / Future).**
    - **Change Requested:** a new lib `package.json` without a `sideEffects` field.
    - **Change Requested:** a module with a real top-level side effect (global registration, `window.*` assignment, a polyfill, `app.use`, CSS import) added to a lib declared `"sideEffects": false`. This is a correctness risk as well as a size one, because the bundler may drop the side effect.
    - **Nit:** new module-scope work in shared lib code that blocks tree-shaking, such as `const x = createThing()` at top level. Wrap it in a function or annotate it `/* @__PURE__ */`.

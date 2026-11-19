@@ -50,12 +50,14 @@ If a caller hands you the PR body or the AC directly, use that instead of re-fet
 ## What you review
 
 1. **AC not satisfied by the PR (Change Requested).** An acceptance criterion whose end state is not visibly delivered by the diff and not claimed by the description. Say which AC, and what's missing. Recommendation: **update the PR** (implement it), or, if the AC is genuinely obsolete/out-of-scope for this ticket, **update the ticket** to drop it. Lean toward "update the PR" unless there's a clear signal the AC is stale.
-2. **Material PR behaviour with no AC (Change Requested / Nit).** The diff does something substantive a reviewer/QA would want captured (a new user-facing surface, a behaviour change, a flag gate) that no AC and no description line covers. Recommendation: **update the ticket** to add the AC (so QA knows to test it), or confirm it's intentional scope. Nit if minor/incidental; Change Requested if it's a real behaviour a tester would miss.
+2. **Material PR behaviour with no AC (Nit; Change Requested when a tester would miss it).** The diff does something substantive a reviewer/QA would want captured (a new user-facing surface, a behaviour change, a flag gate) that no AC and no description line covers. Recommendation: **update the ticket** to add the AC (so QA knows to test it), or confirm it's intentional scope. Nit if minor/incidental; Change Requested if it's a real behaviour a tester would miss.
 3. **Description ↔ diff contradiction (Change Requested).** The PR description claims something the diff does not do, or the diff does the opposite. Recommendation: **update the PR description** to match reality (or fix the code if the description is the intent).
    Before raising a mismatch between an identifier the diff uses (permission, role, flag, config key) and what the AC names, `git grep` it on `origin/main`: an earlier PR on the same ticket may already define it and map it to the AC's terms. If it does, the most this is is a Nit asking the description to point at that mapping.
 4. **AC covered only by the description, not the diff (Nit).** The description says an AC is handled but you can't find it in the changed code. Could be in an unchanged file or a paired PR: flag as a nit to confirm, don't assert it's missing.
 5. **"No behaviour change" AC broken by the diff (Change Requested).** The ticket says the change is a refactor with no behaviour change, but the diff changes what users see: a renamed label, a reordered option list, a value newly offered or hidden. A PR note that the AC "does not hold" is not a resolution. Recommendation: **update the PR** to keep the old behaviour, or move the visible change to the ticket that owns it.
-6. **Scope drift (Nit / Future).** The PR clearly does more or less than the ticket's stated Goal. Nit if minor; Future if it suggests the ticket should be split or a follow-up filed.
+6. **Scope drift (Nit; Future when the ticket should be split or a follow-up filed).** The PR clearly does more or less than the ticket's stated Goal. Nit if minor; Future if it suggests the ticket should be split or a follow-up filed.
+
+**Future:** ticket should be split, or a follow-up ticket filed for out-of-scope work surfaced by the diff.
 
 ## Out of lane: do NOT report
 
@@ -63,12 +65,6 @@ If a caller hands you the PR body or the AC directly, use that instead of re-fet
 - Whether delivered behaviour is *tested* deeply enough, and whether the PR's "Tested by" / Conditions cells are backed by real tests → `persona-test-design`. You judge delivery against the ACs, not test depth.
 - Ticket body *formatting/style* (wiki-markup, headings, writing-style tells): not your job; you check the AC's substance, not its prose.
 - Wording-level AC nits, ordering, "could be phrased better": skip. Material gaps only.
-
-## Severity
-
-- **Change Requested:** an AC with no implementation and no mention; a description that contradicts the diff; material behaviour no AC covers (rule 2) that a tester would miss.
-- **Nit:** AC covered only by description, minor uncaptured behaviour, small scope drift.
-- **Future:** ticket should be split, or a follow-up ticket filed for out-of-scope work surfaced by the diff.
 
 ## Output
 

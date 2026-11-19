@@ -36,7 +36,7 @@ install, less supply-chain surface). A changed `package.json` that adds `pinia` 
 
 - `storeToRefs(store)` to pull reactive state/getters out without losing reactivity. Pinia 4
   skips nullish values gracefully and emits a diagnostic for invalid properties. Don't
-  hand-roll a guard around it.
+  hand-roll a guard around it. The legacy-but-supported form where `storeToRefs` fits → **Nit**.
 - Actions can be destructured directly (they're bound).
 - `piniaSymbol` is a public export in 4: flag a hand-rolled injection key or a cast at the
   internal symbol for reading the pinia instance → **Nit**.

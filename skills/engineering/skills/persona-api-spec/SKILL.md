@@ -37,7 +37,7 @@ Read the **current** spec around anything the diff touches, not just the diff li
 2. **Endpoint in code but not in the spec, or in the spec but not in code (Change Requested).** A new route (a router call, a route decorator, a mux registration) with no path item; a documented path with no handler. Also check the method set: a handler that accepts `PUT` where the spec documents only `PATCH`.
 3. **Presence / nullability claims that no longer hold (Change Requested).** Spec text like "Present on X and Y", `required:`, or `nullable:` that the handler contradicts. A field now omitted for a status the spec lists, or newly present for one it doesn't. Trace the actual body construction, not the type declaration; conditional spreads, keys added inside an `if`, and builder calls are where this drifts.
 4. **Status codes (Change Requested).** Codes the handler can return that the spec omits (and vice versa), including the error paths: error middleware and exception handlers, thrown HTTP errors, validation failures, and auth middleware rejections.
-5. **Request contract (Change Requested / Nit).** Parameter names, `required`, types, defaults, and enum values, against how the handler actually reads and validates the request: a schema validator (Zod, Joi, JSON Schema), direct `req.query`/`req.params` reads, binding decorators, and their constraints (length, pattern, required). An optional parameter documented as required is a broken contract in the safe direction; the reverse breaks callers.
+5. **Request contract (Nit; Change Requested when a consumer generating a client or branching on a documented value would be wrong).** Parameter names, `required`, types, defaults, and enum values, against how the handler actually reads and validates the request: a schema validator (Zod, Joi, JSON Schema), direct `req.query`/`req.params` reads, binding decorators, and their constraints (length, pattern, required). An optional parameter documented as required is a broken contract in the safe direction; the reverse breaks callers.
 6. **Error-body shape and error codes (Change Requested).** If the service has a house error format (a `code|message` reason string, an RFC 9457 problem-details body, a named constant catalogue), confirm the spec documents the shape and that any **changed** code string is reflected. A silently renamed error code is an API break even when the HTTP status is unchanged.
 7. **Hand-edited generated files (Change Requested).** Generated API interfaces and models must never be edited by hand. The next regeneration silently reverts the edit. Find the output path in the generator config (openapi-generator, openapi-typescript, orval, or similar). If the diff touches them, that is a finding regardless of how correct the edit looks; the change belongs in the spec.
 8. **Spec changed without regenerating (Change Requested).** A spec edit that should have produced new/changed generated code, with no corresponding regeneration in the diff. Conversely, a regeneration diff far larger than the spec change suggests the branch was stale.
@@ -70,6 +70,8 @@ Never infer the contract from the DTO alone. Follow the value to where the respo
 - Status codes → read the handler *and* the error middleware or exception handlers it reaches.
 - Then state the concrete consumer-visible consequence.
 
+**Future:** structural spec debt: prose lists that should become real `enum:`s across the whole spec, missing schemas, a spec split that no longer matches the service.
+
 ## Out of lane: do NOT report
 
 - A frontend call checked against the backend (request/response shape, permission alignment) → `persona-api-integrity`. You review backend diffs against their own spec. It starts from an FE call.
@@ -80,12 +82,6 @@ Never infer the contract from the DTO alone. Follow the value to where the respo
 - Copy quality of user-facing message strings → `persona-decisions-log` / `persona-i18n`.
 - Pre-existing spec violations the diff did not touch or worsen. Say so once in `detail` if useful; do not open findings.
 - Whether the API *design* is right (casing, versioning, methods and status-code choice, formats, pagination), and public-contract and deprecation rules → not this lane. You own whether the spec *matches* the server. Hand-edited generated files, regeneration, stale or mistyped examples, and undocumented status codes stay with you.
-
-## Severity
-
-- **Change Requested:** a consumer generating a client or branching on a documented value would be wrong: missing endpoint, missing/renamed enum or error code, contradicted presence/required, undocumented status code, hand-edited generated file, unregenerated spec change.
-- **Nit:** stale example, prose that over-claims, an undocumented additive field.
-- **Future:** structural spec debt: prose lists that should become real `enum:`s across the whole spec, missing schemas, a spec split that no longer matches the service.
 
 ## Output
 

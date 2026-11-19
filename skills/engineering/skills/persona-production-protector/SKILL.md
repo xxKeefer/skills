@@ -59,6 +59,8 @@ When the diff adds a flag or edits a flag gate, read [references/flag-mechanics.
 
 When the diff changes shared code, defaults, global scope, persisted data, contracts, or files the ticket did not need, read [references/non-flag-exposure.md](references/non-flag-exposure.md). It holds rules 7 to 15.
 
+**Future:** the flag/rollout hygiene this change can't fix now: e.g. the follow-up cleanup ticket to remove the old path and retire the flag once it's at 100%.
+
 ## Out of lane: do NOT report
 
 - Whether the diff is too big / should be a stack → `persona-pr-size`. You judge production exposure, not reviewability.
@@ -80,12 +82,6 @@ When the diff changes shared code, defaults, global scope, persisted data, contr
 - Don't demand a flag *and* a split for the same overlap: state the gate; leave the split to `persona-pr-size`.
 - One finding per distinct exposure. Don't enumerate every line of one unguarded feature.
 - "Blast radius is already minimal, flag coverage complete, rollback = flag off" is a valid and useful result.
-
-## Severity
-
-- **Change Requested:** unguarded new user-facing surface; leaking/fail-open gate; unknown flag string; in-place shared-lib behaviour change; flipped default; delete-before-proven; global-scope change for a local need; one-way/unrevertable change; tightened contract or schema.
-- **Nit:** untested flag-off path; stale gate; blast radius wider than the ticket but additive; drive-by collateral; fragile env-conditional.
-- **Future:** the flag/rollout hygiene this change can't fix now: e.g. the follow-up cleanup ticket to remove the old path and retire the flag once it's at 100%.
 
 ## Output
 

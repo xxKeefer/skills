@@ -20,14 +20,14 @@ Lane paths: `. ':!*.spec.*' ':!*.test.*' ':!test_*.py' ':!*_test.*' ':!*/tests/*
 
 ## What you review
 
-1. **Hand-rolled logic that a standard lib already provides (Change Requested / Nit).** Where the project standardises on `es-toolkit`, flag any `lodash`/`lodash-es` import. Prefer `@vueuse/core` for anything reactive/lifecycle-bound (returns refs, auto-cleanup); `es-toolkit` for pure data transforms:
+1. **Hand-rolled logic that a standard lib already provides (Change Requested for a `lodash` import; Nit for another hand-rolled helper with a lib equivalent).** Where the project standardises on `es-toolkit`, flag any `lodash`/`lodash-es` import. Prefer `@vueuse/core` for anything reactive/lifecycle-bound (returns refs, auto-cleanup); `es-toolkit` for pure data transforms:
 
    When a changed line looks like hand-rolled debounce, throttle, clone, event, storage, grouping, dedupe, equality, merge, omit, case, nil, clamp, or date logic, read [references/lib-replacements.md](references/lib-replacements.md). It holds the replacement table for rule 1.
 
-2. **Oversized / multi-responsibility functions or components (Change Requested / Nit).** One function = one thing. If the name (or the code) has an "and", split it. Extract cohesive blocks into named helpers. **Applies to Vue components too:** a template doing several distinct jobs should extract child components (e.g. a banner rendering group lists + a status indicator → `<XEventGroups>`, `<XGroup>`, `<StatusIndicator>`).
+2. **Oversized / multi-responsibility functions or components (Change Requested when the function is genuinely oversized and multi-purpose, else Nit).** One function = one thing. If the name (or the code) has an "and", split it. Extract cohesive blocks into named helpers. **Applies to Vue components too:** a template doing several distinct jobs should extract child components (e.g. a banner rendering group lists + a status indicator → `<XEventGroups>`, `<XGroup>`, `<StatusIndicator>`).
 3. **Utility extraction (Nit).** Logic duplicated across the diff, or a non-trivial pure helper defined inline, should be extracted to `utilities/`/`utils/` and unit-testable. When the duplicate is a **type guard reused inside a `.find`/`.filter`/`.some` callback**, the suggestion must carry the explicit predicate annotation (`.find((x): x is T => isT(x) && ...)`). TypeScript does not infer a predicate through a delegated call inside `&&`, so a bare reuse silently loses the narrowing the guard existed for.
 4. **Misplaced code (Nit).** A helper defined in a component that has no component-local dependency belongs in a shared utility; domain logic living in a view; a type defined next to a component that belongs in `types/`. **Derived domain state** computed in a component (e.g. `activeGroups`, dismiss id-lists) that the feature's composable should own → push it into the composable; components consume derived state, they don't derive it.
-5. **Immutability (Change Requested / Nit).** `const` only: flag `let`/`var` where a derivation works. Flag in-place mutation (`arr.push`/`splice`/`sort`/`reverse`, `Object.assign(target,...)`, mutating a prop or a function arg): clone-and-derive instead (`{...obj}`, `[...arr]`, `toSorted`/`with`, `cloneDeep`).
+5. **Immutability (Change Requested for a mutation of props or shared state, else Nit, such as `let` to `const`).** `const` only: flag `let`/`var` where a derivation works. Flag in-place mutation (`arr.push`/`splice`/`sort`/`reverse`, `Object.assign(target,...)`, mutating a prop or a function arg): clone-and-derive instead (`{...obj}`, `[...arr]`, `toSorted`/`with`, `cloneDeep`).
 6. **Imperative loops with accumulators (Nit).** `for`/`while` mutating an accumulator → `map`/`filter`/`reduce`/`flatMap`/`some`/`every`. Keep explicit loops only where early-exit or side-effects genuinely read clearer.
 7. **Boolean flag parameters (Nit).** Split into separate functions or a 2-value union (`direction: 'LEFT' | 'RIGHT'`, not `isLeft: boolean`).
 
@@ -54,6 +54,9 @@ Rules 12 to 21 are the Fowler code smells (_Refactoring_, chapter 3) that no oth
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+
+**Future:** larger structural moves (container/presentational split, cross-module extraction).
+
 ## Out of lane: do NOT report
 
 - Naming of files/vars/exports/units, and a name that does not say what a thing does (Mysterious Name) → `persona-naming`.
@@ -67,13 +70,6 @@ Rules 12 to 21 are the Fowler code smells (_Refactoring_, chapter 3) that no oth
 - Type shape: casts, `as unknown as`, generics, `Omit<>`/`ReturnType<>`, `readonly`/`as const` → `persona-typing`.
 - A wrapper or factory whose **signature advertises an option it then ignores** (spread-then-override, a parameter type wider than what the function honours) → `persona-typing`. The fix is a narrowed parameter type, so it lands there even though it reads as an API-design smell.
 - **Python:** type-hint style and naming → not this lane (`persona-naming` for names); shell embedded via `subprocess` → `persona-shell` only when it is a standalone script.
-
-## Severity
-
-- **Change Requested:** `lodash` import, mutation of props/shared state, a genuinely oversized multi-purpose function, uncleaned lifecycle resource (leak), truthiness guard that drops a valid `0`/`''`.
-- **Nit:** hand-rolled helper with a lib equivalent, extraction/dedup, `let`→`const`, imperative→functional, boolean flag param, another formatter for a unit that already has one (11), every code smell (12 to 21).
-- **Future:** larger structural moves (container/presentational split, cross-module extraction).
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

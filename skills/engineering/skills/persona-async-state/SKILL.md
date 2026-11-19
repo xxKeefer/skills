@@ -45,6 +45,10 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a hand-rolled fetch that is race-safe today but would be simpler as a `useQuery`: suggest, never block.
+
+**Never:** a race you cannot name both writers (or the outliving writer and its lost context) for; a `useQuery` read keyed on the changing input (already safe); a deliberate fire-and-forget whose result is never written to state.
+
 ## Out of lane: do NOT report
 
 - **Session expiry, cross-tab logout, account or company switch, offline and hung requests, retries, stale chunks after a deploy** → `persona-resilience`. You keep races between two requests in one tab.
@@ -55,14 +59,6 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 - **Timers, listeners, observers left running after unmount** → `persona-code-quality`.
 - **Null/undefined and `0`/`''` truthiness bugs** → `persona-code-quality`.
 - **Whether the race has a test** → `persona-test-design` (how an existing race test is written → `persona-vitest` / `persona-integration-test`).
-
-## Severity
-
-- **Change Requested:** last-response-wins write (1), colliding sequence guard (2), conflicting write enabled on the same entity (3), in-flight write into reset state (4), reactive context re-read after an await (5), partial reset whose leftover can be submitted (6), `initialData` faking a loaded state (8), last good data kept and still submittable after a failure (9).
-- **Nit:** double-submit on an idempotent action (3), partial reset with no submit path (6), load waiting on one of two inputs (7), stale data shown but not actionable after a failure (9), empty-on-error fallback (10).
-- **Future:** a hand-rolled fetch that is race-safe today but would be simpler as a `useQuery`: suggest, never block.
-- **Never:** a race you cannot name both writers (or the outliving writer and its lost context) for; a `useQuery` read keyed on the changing input (already safe); a deliberate fire-and-forget whose result is never written to state.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

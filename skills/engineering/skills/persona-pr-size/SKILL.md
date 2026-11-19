@@ -48,6 +48,12 @@ Weigh these together: no single one decides it:
 
 If none of these fire, it's one cohesive change: **do not flag**.
 
+Give the verdict one tier:
+
+- **Change Requested:** the diff bundles clearly separable concerns AND you can hand back a clean split plan where each slice stands alone. (Still advisory: the author decides, but it's a real reviewability problem.)
+- **Nit:** borderline; a split is defensible but optional (such as one slightly-large but mostly-cohesive change with one extractable pure refactor).
+- **Future:** the PR is huge but *not* cleanly splittable now because the code isn't factored for it: note the future refactor that would make the next change splittable, don't demand a split of this one.
+
 ### Split shape: stack vs siblings
 
 - **Sequential / dependent → a stack.** Slice B imports or builds on slice A. Order bottom→top: the narrowest end-to-end path at the bottom, and each slice above widens it. A pure refactor or rename of code that already ships can sit below them. This is the `gh stack` case.
@@ -81,12 +87,6 @@ The author can build this with `gh stack init/add/submit`.
 - Whether the code inside a slice is correct/clean/well-named/tested → the other `persona-*` reviewers. You size and slice; you don't review the contents.
 - Commit *granularity* within a single PR (squash/rebase hygiene). You split PRs, not commits.
 - Whether the PR matches the ticket's acceptance criteria → `persona-ac-check`.
-
-## Severity
-
-- **Change Requested:** the diff bundles clearly separable concerns AND you can hand back a clean split plan where each slice stands alone. (Still advisory: the author decides, but it's a real reviewability problem.)
-- **Nit:** borderline; a split is defensible but optional (such as one slightly-large but mostly-cohesive change with one extractable pure refactor).
-- **Future:** the PR is huge but *not* cleanly splittable now because the code isn't factored for it: note the future refactor that would make the next change splittable, don't demand a split of this one.
 
 ## Output
 

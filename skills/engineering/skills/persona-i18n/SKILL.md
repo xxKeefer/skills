@@ -48,6 +48,8 @@ Find the project's own values in the repo (`CLAUDE.md`, `AGENTS.md`, the i18n co
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** consolidating scattered near-duplicate keys beyond this diff.
+
 ## Out of lane: do NOT report
 
 - **Number, date, and money formatting** (date components, money formatters, `Intl`, timezones) → `persona-value-display`. You own the copy around the value.
@@ -55,13 +57,6 @@ Find the project's own values in the repo (`CLAUDE.md`, `AGENTS.md`, the i18n co
 - Variable/const naming in the code → `persona-naming`.
 - `notes` field wording quality is fine to mention, but code-comment quality → `persona-comments`.
 - **Which** product name the copy should use: acronym vs full name, term micro-copy, "Cancel" vs "Close" → `persona-decisions-log`. You own the plumbing: a literal that should be a `[%key:product-names.X%]` ref. Once it *is* a ref, whether the acronym key or the full-name key was the right pick is their call.
-
-## Severity
-
-- **Change Requested:** hardcoded strings, missing key for a callsite, hardcoded product names, dynamic keys, new namespace, wrong leaf format, depth>4, HTML in strings, editing a non-`en` locale.
-- **Nit:** concatenated sentences, duplicate/near-duplicate keys, orphan keys, new context-dependent leaf missing `notes`.
-- **Future:** consolidating scattered near-duplicate keys beyond this diff.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

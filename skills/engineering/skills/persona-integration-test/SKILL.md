@@ -30,24 +30,20 @@ Lane paths: `'apps/*/tests/integration/**'`.
 
 1. **Hard waits (Change Requested).** `page.waitForTimeout(...)` / arbitrary sleeps. Reject any new one. Use web-first assertions or `waitForResponse`/locator waits.
 2. **Non-retrying assertions (Change Requested).** Asserting on `.textContent()`/`.count()`/`.isVisible()` return values instead of auto-retrying `expect(locator).toBeVisible()`/`toHaveText`/`toHaveCount`.
-3. **Brittle selectors (Change Requested / Nit).** CSS class / xpath / `>>` chains / `nth` index. Push to `getByRole(name, { exact })`, `getByLabel`, `getByText`; testid only for table/pagination internals.
+3. **Brittle selectors (Nit when the selector works, else Change Requested).** CSS class / xpath / `>>` chains / `nth` index. Push to `getByRole(name, { exact })`, `getByLabel`, `getByText`; testid only for table/pagination internals.
 4. **MSW isolation (Change Requested).** Never mutate the shared `handlers` array in a test; rely on the per-test fixture reset and `server.use` for overrides. Each test must self-seed its data. No dependence on another test's state (suite is `fullyParallel`).
 5. **Weakening safety nets (Change Requested).** Flag PRs that broaden `ignoredConsoleErrors`, remove/bypass the 501 unmocked-request fallback, disable the `unmockedRequests`/`consoleErrors` fixtures, or import `test` from `@playwright/test` directly (bypasses all auto-fixtures).
 6. **Not using POM/fixtures (Nit).** Raw `page.locator(...)` in spec bodies instead of a page-object method; inline flows that belong in `helpers/`.
 7. **`page.waitForSelector` overuse (Nit).** Prefer a locator + web-first assertion.
 8. **Missing ready-gate (Nit).** A `goto()`/navigation not followed by an `expect(...).toBeVisible()` gate before interaction.
 
+**Future:** larger fixture/POM refactors, handler reorganisation.
+
 ## Out of lane: do NOT report
 
 - Vitest unit tests / component tests → `persona-vitest`.
 - Which conditions *should* be tested (missing edge cases, uncovered role/flag combinations, FE test-level choice, PR "Tested by" claims) → `persona-test-design`.
 - Product source quality → other personas.
-
-## Severity
-
-- **Change Requested:** hard waits, non-retrying assertions, broken test isolation, weakened safety nets, direct `@playwright/test` import.
-- **Nit:** brittle-but-working selectors, POM/fixture bypass, `waitForSelector` overuse, missing ready-gate.
-- **Future:** larger fixture/POM refactors, handler reorganisation.
 
 ## Output
 

@@ -56,12 +56,6 @@ Each lane below owns its class of defect in its own file types. A plain logic er
 - Whether a test covers the case → `persona-test-design`. Test code → `persona-vitest`.
 - Whether the change does what the ticket or spec asks → `persona-ac-check`.
 
-## Severity
-
-- **Change Requested:** rules 1 to 8. A counterexample from an input the code can receive gives a wrong result or a crash.
-- **Nit:** rule 9. The counterexample needs an input that no caller passes today.
-- **Future:** rule 10. A bug in unchanged code beside the change.
-
 ## Output
 
 - `category`: `correctness`.

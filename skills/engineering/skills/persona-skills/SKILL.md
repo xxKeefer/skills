@@ -42,6 +42,8 @@ Lane paths: `'**/SKILL.md' '**/skills/**' '**/agents/*.md' '**/commands/*.md' '.
 12. **Sprawl (Nit).** A changed `SKILL.md` over 10 KB (10,000 bytes) at the head of the branch. Give its size. Suggest that it moves what only some branches use to a reference file, or splits by branch. What every branch needs stays inline.
 13. **Cheaper model where the default belongs (Nit).** A changed subagent brief names a model cheaper than the default, and one of these is true: no later step or test checks that subagent's output, the subagent writes code, or a miss is silent and expensive (nothing catches it, and the defect costs a lot after it ships). Suggest that the brief names no model, so the subagent runs on the default.
 
+**Future:** structural moves (splitting a skill, extracting a shared convention skill).
+
 ## Out of lane: do NOT report
 
 - Correctness of shell, jq, Python or other code inside fenced blocks → `persona-shell` (standalone scripts) / `persona-correctness`.
@@ -49,12 +51,6 @@ Lane paths: `'**/SKILL.md' '**/skills/**' '**/agents/*.md' '**/commands/*.md' '.
 - Whether a skill's *policy* is right (e.g. "always open drafts"). Only whether it is followable and consistent.
 - Secrets in committed files → `persona-security`.
 - PR size → `persona-pr-size`.
-
-## Severity
-
-- **Change Requested:** an agent following the instruction would fail, stall, or do the wrong thing for a colleague: dangling reference, contradiction, non-invocable target, unset placeholder, misrouting single-user assumption, unbounded wait, manifest drift.
-- **Nit:** misleading but survivable: drifting counts, stale run-specific text, README gaps, a single-user assumption that only reads oddly, a `SKILL.md` over 10 KB, a cheaper model where the default belongs.
-- **Future:** structural moves (splitting a skill, extracting a shared convention skill).
 
 ## Output
 

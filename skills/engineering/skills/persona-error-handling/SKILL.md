@@ -30,40 +30,44 @@ Before you flag a hand-rolled error helper, read [references/error-infrastructur
 
 **Swallowed failures**
 
-1. **Empty catch.** `catch {}` or `catch (e) {}` with no body: the failure vanishes. Change Requested.
-2. **Catch that only logs.** A catch whose entire body is a `console.*` call. The user sees nothing and Sentry learns nothing. Change Requested.
-3. **Catch that returns a masking default.** Returning `[]`, `null`, `0`, or `''` from a catch so the caller can't distinguish "no data" from "the request failed", with nothing reported. Change Requested. (Returning an empty collection is fine *if* the failure is still surfaced.)
-4. **Broad catch with no rethrow**: `catch (e)` around a whole block where only one call was expected to fail, so unrelated bugs get absorbed. Nit.
+1. **Empty catch (Change Requested).** `catch {}` or `catch (e) {}` with no body: the failure vanishes.
+2. **Catch that only logs (Change Requested).** A catch whose entire body is a `console.*` call. The user sees nothing and Sentry learns nothing.
+3. **Catch that returns a masking default (Change Requested).** Returning `[]`, `null`, `0`, or `''` from a catch so the caller can't distinguish "no data" from "the request failed", with nothing reported. (Returning an empty collection is fine *if* the failure is still surfaced.)
+4. **Broad catch with no rethrow (Nit)**: `catch (e)` around a whole block where only one call was expected to fail, so unrelated bugs get absorbed.
 
 **Routing: Sentry for engineers, toast for users**
 
-5. **`console.*` as the reporting mechanism** on a changed error path. Engineers get it via `captureException`; users get it via the toast helper. A `console.error` is neither. Change Requested.
-6. **Local `try/catch` + toast around a TanStack query or mutation** that duplicates the global handler, giving the user two toasts for one failure. The opt-out is the project's per-query flag, not a hand-rolled catch. Change Requested.
-7. **A failure the user caused and can fix that is reported to Sentry but never shown** (validation, a rejected form value): wrong audience. And the converse: an internal invariant breach toasted at the user in raw form. Nit.
+5. **`console.*` as the reporting mechanism (Change Requested)** on a changed error path. Engineers get it via `captureException`; users get it via the toast helper. A `console.error` is neither.
+6. **Local `try/catch` + toast around a TanStack query or mutation (Change Requested)** that duplicates the global handler, giving the user two toasts for one failure. The opt-out is the project's per-query flag, not a hand-rolled catch.
+7. **A failure the user caused and can fix that is reported to Sentry but never shown (Nit)** (validation, a rejected form value): wrong audience. And the converse: an internal invariant breach toasted at the user in raw form.
 
 **Context and taxonomy**
 
-8. **`throw new Error('...')` with no context**: the message must say what failed, why, and with what input. `throw new Error('Invalid response')` is unactionable in Sentry. Change Requested.
-9. **A new operational error type that doesn't extend the project's base error**, where the project has an error taxonomy: it loses its context and the trace id, so the report can't be joined to the backend trace. Change Requested.
-10. **Re-wrapping a typed error in a bare `Error`**, discarding an HTTP error's status or the trace id. Rethrow the original, or wrap with `cause`. Change Requested.
+8. **`throw new Error('...')` with no context (Change Requested)**: the message must say what failed, why, and with what input. `throw new Error('Invalid response')` is unactionable in Sentry.
+9. **A new operational error type that doesn't extend the project's base error (Change Requested)**, where the project has an error taxonomy: it loses its context and the trace id, so the report can't be joined to the backend trace.
+10. **Re-wrapping a typed error in a bare `Error` (Change Requested)**, discarding an HTTP error's status or the trace id. Rethrow the original, or wrap with `cause`.
 
 **Cancellation is not a failure**
 
-11. **A `CanceledError` / `AbortError` routed to Sentry or a toast.** An aborted request is expected: rethrow it or return early before any reporting. Change Requested.
+11. **A `CanceledError` / `AbortError` routed to Sentry or a toast (Change Requested).** An aborted request is expected: rethrow it or return early before any reporting.
 
 **Raw HTTP**
 
-12. **`fetch()` without a `response.ok` check.** `fetch` does not reject on 4xx/5xx, so the subsequent `.json()` parses an error body as if it were data. Change Requested.
+12. **`fetch()` without a `response.ok` check (Change Requested).** `fetch` does not reject on 4xx/5xx, so the subsequent `.json()` parses an error body as if it were data.
 
 **Unhandled async**
 
-13. **Floating promise**: an async call neither awaited, `.catch()`-ed, nor explicitly `void`-marked. `@typescript-eslint/no-floating-promises` catches some of this; flag where it doesn't reach (async work started in `onMounted`, a watcher callback, or a template handler). Change Requested.
-14. **`.then()` with no `.catch()`** on a chain that can reject. Change Requested.
-15. **`async` template handler** (`@click="save"` where `save` is async) whose rejection has nowhere to go: it becomes an unhandled rejection rather than a toast. Nit.
+13. **Floating promise (Change Requested)**: an async call neither awaited, `.catch()`-ed, nor explicitly `void`-marked. `@typescript-eslint/no-floating-promises` catches some of this; flag where it doesn't reach (async work started in `onMounted`, a watcher callback, or a template handler).
+14. **`.then()` with no `.catch()` (Change Requested)** on a chain that can reject.
+15. **`async` template handler (Nit)** (`@click="save"` where `save` is async) whose rejection has nowhere to go: it becomes an unhandled rejection rather than a toast.
 
 When the changed lines add a retry loop, or build a failure message that a later step could overwrite, or return a failure outcome, read [references/retry-and-lost-causes.md](references/retry-and-lost-causes.md). It holds rules 16 to 18.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
+
+**Future:** a failure path that is handled correctly but would read better through an existing helper: raise it as a suggestion, never a blocker.
+
+**Never:** a `console.*` on an unchanged line; a deliberate `void somePromise()`; a catch that rethrows after adding context (that is the correct pattern); a `CanceledError` rethrown untouched.
 
 ## Out of lane: do NOT report
 
@@ -79,14 +83,6 @@ When the changed lines add a retry loop, or build a failure message that a later
 - **Lifecycle cleanup leaks** (timers, observers, listeners, object URLs without teardown) → `persona-code-quality`.
 - **Swallowed *exit statuses* in shell** (`.sh`/`.bash`, a workflow `run:` block) → `persona-shell`. Same failure shape, different language, and that lane proves its claims by running them.
 - **`console.*` inside a test, or `vi.spyOn(console, …)` used to silence a real warning** → `persona-vitest` (`failOnConsole` is on). Your scope is non-test source.
-
-## Severity
-
-- **Change Requested:** empty catch (1), catch that only logs (2), masking default with nothing reported (3), `console.*` as the reporting mechanism (5), local catch duplicating the global query handler (6), context-free `throw new Error` (8), new error type off the project's error taxonomy (9), typed error re-wrapped in a bare `Error` (10), `CanceledError`/`AbortError` reported (11), `fetch` without `response.ok` (12), floating promise (13), `.then()` without `.catch()` (14), specific failure message overwritten (17), failure outcome never acted on (18).
-- **Nit:** broad catch with no rethrow (4), wrong-audience routing (7), async template handler with nowhere for a rejection to go (15), hand-rolled retry (16).
-- **Future:** a failure path that is handled correctly but would read better through an existing helper: raise it as a suggestion, never a blocker.
-- **Never:** a `console.*` on an unchanged line; a deliberate `void somePromise()`; a catch that rethrows after adding context (that is the correct pattern); a `CanceledError` rethrown untouched.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

@@ -25,7 +25,7 @@ Read the argument:
 ## Rules that apply to every edit
 
 - **Never copy the persona contract into a persona.** The shared Scope, findings, and output rules live in `$SKILL_DIR/../../PERSONA-CONTRACT.md`, and `mob-review` parses its JSON. Do not change that JSON unless you change `mob-review` Steps 4 and 5 in the same pass.
-- Keep the frontmatter fields (`name`, `description`, `disable-model-invocation: true` on every `persona-*`) and the section order: Guard → Scope → What you review → Out of lane → Severity → Output.
+- Keep the frontmatter fields (`name`, `description`, `disable-model-invocation: true` on every `persona-*`) and the section order: Guard → Scope → What you review → Out of lane → Output.
 - **Adding** a rule is routine. **Removing** a rule, dropping a lane, or deleting a persona needs the user's OK first. State what you'd remove and why.
 - Every rule must be checkable against a changed line in a diff. If you can't say what the reviewer greps for, don't add it.
 - When a persona's `description`, guard, or existence changes, update the matching row in `mob-review/PANEL.md` in the same pass.
@@ -84,7 +84,7 @@ For each persona in scope, verify and fix:
 2. **Guard matches the panel.** The guard sentence in the persona and the Guard column in `mob-review/PANEL.md` must describe the same condition.
 3. **Contract pointer intact.** The first line under the frontmatter is the pointer, word for word: "Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it." The Output section names the `category` slug. The persona holds no copy of contract text: no git fallback block, no Code references paragraph, no JSON line.
 4. **No lane overlap.** For each rule, check no other persona claims it. If two do, the narrower one keeps it and the other gains an "Out of lane" line pointing at it.
-5. **Severity list covers every rule**: each rule appears in exactly one tier.
+5. **Each rule heading holds its tier**, with the condition when a rule has two tiers. What you review ends with the Future line. No Severity section repeats the headings.
 6. **Dead references**: a `references/` file nothing links to, or a link to a file that doesn't exist.
 7. **Calibration backlog.** `mob-review` Step 7 records edits from real runs in `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/improve-personas.md`. Apply each entry with `Status: approved`, then delete that entry from the backlog. Leave `open` and `rejected` entries as they are.
 8. **Scrub check clean.** Stage the persona changes, then run `.githooks/pre-commit` from the root of the marketplace checkout. It must print nothing.

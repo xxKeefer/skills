@@ -43,6 +43,8 @@ Never quote a secret value in a finding. Name the file, the line and the kind of
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** broader hardening beyond the diff (CSP, sanitizer adoption).
+
 ## Out of lane: do NOT report
 
 - **SVG accepted where a raster image is meant, and upload type checks** → `persona-file-upload`. You keep rendering uploaded content through `v-html`/`innerHTML`.
@@ -53,13 +55,6 @@ Never quote a secret value in a finding. Name the file, the line and the kind of
 - Secret **literals** in a workflow's `env:`/`with:` blocks and secret handling in `run:` → `persona-github-actions`.
 - PII in analytics event and profile payloads → `persona-analytics`.
 - Auth-**protocol** design choices beyond the diff (token lifetimes, grant/flow selection, key rotation) and pure infra/network config (firewall, TLS termination, load-balancer rules) → out of scope.
-
-## Severity
-
-- **Change Requested:** `window.open` reverse-tabnabbing, `v-html` XSS sink, wildcard/unvalidated `postMessage`, dev-flag override readable in prod, secret/PII to Sentry, CSV formula injection on export.
-- **Nit:** unconstrained redirect / oversized OIDC state, unescaped shell interpolation in tooling.
-- **Future:** broader hardening beyond the diff (CSP, sanitizer adoption).
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

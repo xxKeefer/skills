@@ -53,6 +53,10 @@ When the diff touches a list fetch's page size or limit, an export or download, 
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** sort and page in the URL for the design system's data table; a shared URL-filter composable. Suggest, never block.
+
+**Never:** "should be in the URL" for a transient UI toggle (an expanded row, a hover, an open tooltip).
+
 ## Out of lane: do NOT report
 
 - **A logout or company switch in another tab that this tab never hears about** → `persona-resilience`.
@@ -64,14 +68,6 @@ When the diff touches a list fetch's page size or limit, an export or download, 
 - **A blank page or endless spinner for an unknown id** → `persona-error-handling`.
 - **Empty-state copy** → `persona-i18n` / `persona-decisions-log`. **Which empty-state component** → `persona-design-system`.
 - **Whether a Back or refresh test exists** → `persona-test-design`.
-
-## Severity
-
-- **Change Requested:** URL state moved into a ref or store (1), query read once (2), query write drops params (3), unparsed query value (4), wrong history mode (6), `router.back()` with no fallback (7), page or selection not reset, or rows hidden (10), sort by string (11), a list or export silently capped (13), an API download that skips the client's headers (14), a permission check that allows while loading (15).
-- **Nit:** new list page with state not in the URL (1), URL noise (5), Back with overlays or scroll (8), context lost on the way back (9), shared empty state (12), a forbidden deep link that shows the page or "not found" (16).
-- **Future:** sort and page in the URL for the design system's data table; a shared URL-filter composable. Suggest, never block.
-- **Never:** "should be in the URL" for a transient UI toggle (an expanded row, a hover, an open tooltip).
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

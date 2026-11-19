@@ -1,8 +1,8 @@
 # Routes and async boundaries
 
 2. **Static route component (Change Requested).** A route `component:` that is a static import, or a `defineAsyncComponent(...)` used *as* the route component (Vue Router: "do not use async components as route components"). Use `component: () => import('...')`, or a file-based page. Where the app is otherwise fully lazy-routed, any static route is a regression.
-3. **Heavy library imported at module top level for a handler-only use (Change Requested / Nit).** `import { jsPDF } from 'jspdf'` (or similar) at the top of a component or composable when the library runs only in an event handler, export action or rare branch. Fix: `const { jsPDF } = await import('jspdf')` inside the handler. **Change Requested** when the library is heavy and the importing module sits on an eager path. **Nit** when the module is already lazy.
-4. **Defeated split (Change Requested / Nit).**
+3. **Heavy library imported at module top level for a handler-only use (Nit; Change Requested when the library is heavy and the importing module sits on an eager path).** `import { jsPDF } from 'jspdf'` (or similar) at the top of a component or composable when the library runs only in an event handler, export action or rare branch. Fix: `const { jsPDF } = await import('jspdf')` inside the handler. **Change Requested** when the library is heavy and the importing module sits on an eager path. **Nit** when the module is already lazy.
+4. **Defeated split (Change Requested).**
    - `import.meta.glob(..., { eager: true })` over more than a handful of modules or assets, which inlines every match into the importer's chunk.
    - A top-level `import()` call, or a prefetch fired at module load, that pulls a "lazy" chunk on startup.
    - A `defineAsyncComponent` created inside a `computed`, a render function or a loop. It makes a new wrapper every evaluation, so the subtree remounts. Hoist it to module or `<script setup>` top level.

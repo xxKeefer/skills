@@ -44,6 +44,10 @@ When the diff adds a chart container, sets a chart width, builds a chart with `n
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a shared chart wrapper in the project's UI library with the empty state, per-series null handling, zone-aware ticks, and container width built in. Suggest, never block.
+
+**Never:** a dataset the API can't return for this chart; a finding you can't tie to a dataset or step; library advice for Chart.js or ECharts.
+
 ## Out of lane: do NOT report
 
 - **Number, byte, rate, and date formatting in general, and hand-written `max - min` scaling** → `persona-value-display` (DS-L6). **Layout measured once outside charts** (textareas, popovers, virtual lists) → `persona-value-display` (DS-M4). You own the chart's axis, tick, and tooltip settings.
@@ -53,14 +57,6 @@ When the diff adds a chart container, sets a chart width, builds a chart with `n
 - **Query keys, `staleTime`, `select`, and refetch settings in the telemetry data composables** → `persona-tanstack`.
 - **Unescaped series names in an HTML tooltip template** → `persona-security`.
 - **Whether a chart test or story covers C1 to C17** → `persona-test-design`. You name the defect; they name the missing test.
-
-## Severity
-
-- **Change Requested:** empty data with no empty state (1), a single point that draws nothing (2), a gap drawn as zero or bridged (3), a chart time zone that differs from the page (5), fixed-step, range-blind, or hidden partial buckets (6), a wrong or cut-off tooltip (8), and a chart that doesn't follow its container or outlives it (9).
-- **Nit:** a misleading y axis on flat or spiky data (4), mixed, missing, or unreadable axis units (7), and series told apart by colour alone or colours that break in dark mode (10).
-- **Future:** a shared chart wrapper in the project's UI library with the empty state, per-series null handling, zone-aware ticks, and container width built in. Suggest, never block.
-- **Never:** a dataset the API can't return for this chart; a finding you can't tie to a dataset or step; library advice for Chart.js or ECharts.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

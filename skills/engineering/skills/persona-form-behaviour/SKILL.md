@@ -46,6 +46,10 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a shared number-field component with bounds, wheel handling and empty-value handling built in. Suggest, never block.
+
+**Never:** a rule you can't tie to a concrete input or keypress; a theoretical bound on a value the user can't edit.
+
 ## Out of lane: do NOT report
 
 - **File pickers, drop zones and CSV imports** → `persona-file-upload`. **Work lost when the session expires mid-form** → `persona-resilience`.
@@ -56,13 +60,6 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 - **`!value` treating a real 0 as missing** → `persona-code-quality` #10.
 - **Whether a boundary or Enter test exists** → `persona-test-design`. You name the defect; they name the missing test.
 - **Error message wording** → `persona-i18n` / `persona-decisions-log`. **Which form component to use** → `persona-design-system`.
-
-## Severity
-
-- **Change Requested:** `@keydown.enter` on a design-system input (1), Enter action with no IME guard (2), raw button with no type in a form (3), Enter submitting something unchosen (4), Escape discarding a create/edit dialog (5), missing bound (6), contradictory bound (7), number input for an identifier or an unhandled empty number (8), stale hidden-field state (10), cross-field rule not re-run (11), typed date bypassing the picker (12), submit losing the user's work (13), `z.coerce.number()` on a form field (15), `.optional()` rejecting an empty string (16), a field registered with an undefined name (17), a form bound to query data or a prop (18), a parent key handler swallowing typing (19), and a wizard step reachable by URL (20).
-- **Nit:** Enter doing nothing (4), Escape discarding a small form (5), wheel or arrow changing a value (9), and disabled where readonly was meant (14).
-- **Future:** a shared number-field component with bounds, wheel handling and empty-value handling built in. Suggest, never block.
-- **Never:** a rule you can't tie to a concrete input or keypress; a theoretical bound on a value the user can't edit.
 
 ## Output
 

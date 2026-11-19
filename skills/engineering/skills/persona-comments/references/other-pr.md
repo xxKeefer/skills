@@ -1,10 +1,10 @@
 ## What you review
 
-1. **What-not-why comments (Change Requested / Nit).** A comment that restates what the code plainly does adds noise and drifts out of sync. Remove it, or if the code needed explaining, the fix is clearer code (defer that to structure/naming: you just flag the comment).
+1. **What-not-why comments (Change Requested when a what-comment on a non-trivial block misleads, else Nit).** A comment that restates what the code plainly does adds noise and drifts out of sync. Remove it, or if the code needed explaining, the fix is clearer code (defer that to structure/naming: you just flag the comment).
    - `// loop over users` above a `users.map(...)`; `// set loading to true`; `// increment counter`.
 2. **Commented-out code (Change Requested).** Never commit commented-out code: git has history. Remove it.
-3. **Point-in-time comments that will drift stale (Change Requested / Nit).** Comments stating a fact true only *now*: references to specific line numbers, "currently…", "for now", "temporary", counts ("there are 17 namespaces"), "new" / "recently added", version numbers, or "see the function above/below". These rot. Remove or rewrite to a durable rationale.
-4. **`TODO`/`FIXME` without a ticket, and ticket/AC refs on ordinary comments (Nit / Change Requested).** A bare TODO with no ticket reference is untracked debt. Flag it (link a ticket or remove). Conversely, flag **acceptance-criteria references** (`// (AC4)`, `// AC: …`) and **ticket numbers sprinkled on non-TODO comments**: ACs live in the test suite and the tracker, not the code; a ticket number is only legitimate inside a `TODO(<ticket>)`.
+3. **Point-in-time comments that will drift stale (Nit).** Comments stating a fact true only *now*: references to specific line numbers, "currently…", "for now", "temporary", counts ("there are 17 namespaces"), "new" / "recently added", version numbers, or "see the function above/below". These rot. Remove or rewrite to a durable rationale.
+4. **`TODO`/`FIXME` without a ticket, and ticket/AC refs on ordinary comments (Nit for a bare TODO; Change Requested for an AC reference).** A bare TODO with no ticket reference is untracked debt. Flag it (link a ticket or remove). Conversely, flag **acceptance-criteria references** (`// (AC4)`, `// AC: …`) and **ticket numbers sprinkled on non-TODO comments**: ACs live in the test suite and the tracker, not the code; a ticket number is only legitimate inside a `TODO(<ticket>)`.
 5. **Redundant JSDoc (Nit).** JSDoc is warranted only on **exported/public API** (lib entry points, shared composables/utilities consumed across modules). Flag JSDoc on internal/local functions, component-local helpers, or anything self-evident, and JSDoc that merely repeats the signature (`@param id the id`).
 6. **Banner / section-divider noise (Nit).** `// ===== HELPERS =====`, decorative separators, `// end of function`: remove.
 7. **Missing *why* on a genuine non-obvious hack (Nit: the one add-a-comment case).** If the diff introduces a non-obvious constraint (external quirk, deliberate not-the-obvious-thing, ordering dependency) with **no** explanatory comment, suggest a one-line *why*. Use sparingly: most code needs none.
@@ -25,12 +25,8 @@ When an added comment gives a reason for code that the diff did not write, or ca
 
 Before calling a comment orphaned or dangling ("Likewise", "as above", "the same applies"), read the file around the hunk, not only the patch: the comment it leans on often sits on an unchanged line just outside the hunk.
 
+**Future:** documentation-debt sweeps beyond this diff.
+
 ## Out of lane (exception)
 
 - **Exception: e2e page objects and setup helpers carry full JSDoc with `@param`/`@returns` by house convention**, and the repo's lint config may enforce it (`jsdoc/require-param` fails the build without them). Do not flag those **tags** as redundant restatement there. The exception covers the tags only: the **prose** in the same block is in lane and is held to the ceiling in rule 9, and a JSDoc claim that is *false* is always yours.
-
-## Severity
-
-- **Change Requested:** a made-up reason for an existing pattern (17), commented-out code, comments/JSDoc already drifted from the code, a doc block detached from its declaration, AC references on comments, what-comments on non-trivial blocks that mislead, a comment of three or more lines that a shorter one would carry, a fact repeated across channels (comment + assertion message + test title), and a comment that reaches outside its own codebase (naming another repo, service, or file the reader cannot see from where it sits).
-- **Nit:** comment prose style (18), a marker on an unremarkable comment (19), redundant what-comments, redundant JSDoc, point-in-time phrasing, bare TODO, banner noise, a missing why on a subtle hack, a two-line comment that one line would carry, prose arguing the change to a reviewer.
-- **Future:** documentation-debt sweeps beyond this diff.

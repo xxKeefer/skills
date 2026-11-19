@@ -46,6 +46,8 @@ When you judge a test against the interface, read
    Suggest that the unit takes the dependency as a parameter. Anchor the finding at the patch in
    the test.
 
+**Future:** a suite-wide move from mocks of internals to tests at the interface.
+
 ## Out of lane: do NOT report
 
 - Rules 3 and 4 on a Vitest unit test (`*.spec.ts` / `*.test.ts` in a project that runs Vitest)
@@ -57,13 +59,6 @@ When you judge a test against the interface, read
 - Quality of the source under test → `persona-code-quality`. Module boundaries and coupling in the
   source → `persona-architecture`.
 - Names of tests and test files → `persona-naming`.
-
-## Severity
-
-- **Change Requested:** a change-detector test (1), a mock of the project's own code (2), a
-  tautological assertion (3), and a vacuous test (4).
-- **Nit:** a unit that a test can reach only by patching a global (5).
-- **Future:** a suite-wide move from mocks of internals to tests at the interface.
 
 ## Output
 

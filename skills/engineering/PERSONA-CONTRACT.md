@@ -1,8 +1,8 @@
 # Persona contract
 
 Every `persona-*` skill follows this contract. The persona file holds its lane: the Guard, the
-lane paths and lane reads in Scope, the rules, Out of lane, Severity, and an Output section with
-the category slug. This file holds the rules that every lane shares. Where a persona gives a lane
+lane paths and lane reads in Scope, the rules, Out of lane, and an Output section with the
+category slug. Each rule heading holds its tier. This file holds the rules that every lane shares. Where a persona gives a lane
 rule that differs from this file, the persona rule wins for that lane.
 
 ## Guard
@@ -37,8 +37,9 @@ line why the lane does not apply. When a caller asks for JSON, return `inScope: 
 
 - Verify each finding against the changed lines. Do not speculate.
 - Stay in your lane. Out of lane names the persona that owns the rest.
-- Give each finding one tier from the persona's Severity section: Change Requested, Nit, or
-  Future.
+- Give each finding one tier: Change Requested, Nit, or Future. A rule's tier is in its heading.
+  A catalogue sweep match takes the line's default tier, unless a rule also applies. Future is for
+  the work that the persona's Future line names.
 - `file` and `line` point at the changed line, unless the persona's Output section names another
   anchor. `line` is the line number in the file on the branch (the `+` side of the hunk), never a
   line number in the patch file. Use line 0 for a finding about the whole diff.

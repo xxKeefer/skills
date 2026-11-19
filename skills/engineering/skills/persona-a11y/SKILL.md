@@ -44,6 +44,8 @@ When the diff changes a server-rendered `.html` or Thymeleaf template, read [ref
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** broader semantic-structure or focus-order improvements beyond the diff.
+
 ## Out of lane: do NOT report
 
 - **What Enter, Escape, and submit do** in a form (IME Enter, `@keydown.enter` on a text input component, a raw button with no type that submits the form) → `persona-form-behaviour`. You own whether the control can be reached and operated.
@@ -58,13 +60,6 @@ The finding is only as useful as the fix it points at, and a wrong mechanism sen
 - **Check the element that actually paints, not its wrapper.** FontAwesome and icon components render `<svg><path fill="currentColor">`, so the inherited colour lands on the `<path>`: `getComputedStyle(svg).fill` reports the SVG default (opaque black) and will tell you the icon is fine when it is invisible. Read the `<path>`.
 - **Confirm the class you are prescribing actually generates a rule.** A Tailwind class can sit in `class` with no CSS behind it: `text-[var(--x)]` is read as a font-size and silently produces nothing; a colour needs `text-[color:var(--x)]` or a token. Assert the computed value changed, not that the class is present.
 - Say which element and which computed property you read. "The icon is invisible" is a claim; "the `<path>` computes `fill: rgba(0,0,0,0)`" is a finding.
-
-## Severity
-
-- **Change Requested:** clickable div/span, navigation rendered as a button, icon-only control with no accessible name, unlabelled input, hand-rolled focus/keyboard for a Reka-solved widget, non-focusable tooltip trigger, duplicate/hardcoded id or focusable-but-`aria-hidden`, invalid interactive nesting.
-- **Nit:** decorative-icon markup, missing landmark, heading-order skip, missing/incorrect `alt`, colour-only state.
-- **Future:** broader semantic-structure or focus-order improvements beyond the diff.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

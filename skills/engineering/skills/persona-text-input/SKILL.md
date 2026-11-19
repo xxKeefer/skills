@@ -44,6 +44,10 @@ When the diff touches an IP, CIDR, MAC, or ASN validator, or binds a user-entere
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a shared `trimmedName()` zod primitive for name fields. Suggest, never block.
+
+**Never:** a string you can't name; a field the user can't type into.
+
 ## Out of lane: do NOT report
 
 - **CSV import parsing (line endings, quoted commas, values converted before validation)** → `persona-file-upload`. You keep CSV export quoting and encoding.
@@ -54,14 +58,6 @@ When the diff touches an IP, CIDR, MAC, or ASN validator, or binds a user-entere
 - **Null or `undefined` shown on screen** → `persona-value-display`.
 - **Label, placeholder, and error copy** → `persona-i18n` / `persona-decisions-log`. **Hand-rolled debounce** → `persona-code-quality`.
 - **Whether a test covers the awkward string** → `persona-test-design`.
-
-## Severity
-
-- **Change Requested:** whitespace-only passes required (1), trim on a secret (2), validator rejects real input (3), a uniqueness check that ignores case or normalisation (4), slicing user text by code unit (6), unescaped URL, regex or query (7), CSV quoting or encoding (11), a network address accepted in more than one spelling (13), a network identifier validator that rejects a valid format (14), a user-entered URL with no scheme bound to `:href` (15).
-- **Nit:** comparisons in search that ignore case or accents (4), code-like field treated as prose (5), length counter in UTF-16 (6), no direction isolation (8), IME firing search (9), masks that break typing or paste (10), filename from user text (12).
-- **Future:** a shared `trimmedName()` zod primitive for name fields. Suggest, never block.
-- **Never:** a string you can't name; a field the user can't type into.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

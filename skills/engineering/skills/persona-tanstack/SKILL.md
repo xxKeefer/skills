@@ -53,6 +53,8 @@ Find the project's own conventions in the repo (`CLAUDE.md`, `AGENTS.md`, the ex
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** introducing a key factory for a sprawling feature, migrating a family of queries to `queryOptions`.
+
 ## Out of lane: do NOT report
 
 - **Retry, `networkMode` and polling defaults judged by what the user sees offline or when the server fails** → `persona-resilience`. You keep whether the query is configured correctly.
@@ -63,13 +65,6 @@ Find the project's own conventions in the repo (`CLAUDE.md`, `AGENTS.md`, the ex
 - Naming of keys/composables/files → `persona-naming`.
 - Non-query reactivity (`computed`/`watch` unrelated to queries) → `persona-vue-reactivity`.
 - Test mocking of queries → `persona-vitest`.
-
-## Severity
-
-- **Change Requested:** missing key deps, unintended key edits where the key is the URL, mutation that never invalidates, unsafe optimistic update, broken reactive args / non-getter `enabled`, awaiting a query in setup, schema stripping consumed backend keys.
-- **Nit:** `refetch` vs `enabled`, staleTime hygiene, `onMounted` fetch in new code, v5 API currency, `queryOptions` adoption.
-- **Future:** introducing a key factory for a sprawling feature, migrating a family of queries to `queryOptions`.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

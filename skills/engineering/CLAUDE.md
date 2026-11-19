@@ -128,7 +128,8 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
   `mob-review` panel table ([`PANEL.md`](skills/mob-review/PANEL.md)).
 - Every `persona-*` keeps `disable-model-invocation: true`. Only `mob-review` or the user starts
   one.
-- Keep the section order: Guard, Scope, What you review, Out of lane, Severity, Output.
+- Keep the section order: Guard, Scope, What you review, Out of lane, Output. Each rule heading
+  holds its tier. What you review ends with the Future line and any Never line.
 - Every persona follows [`PERSONA-CONTRACT.md`](PERSONA-CONTRACT.md). The first line under the
   frontmatter is this pointer, word for word: "Read
   [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in

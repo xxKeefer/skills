@@ -40,10 +40,14 @@ Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and t
 
 ## What you review
 
+Severity comes from the **risk of the behaviour**, not from the rule. The same missing boundary is Change Requested on a price and is not reported at all on a tooltip.
+
 1. **High-risk condition with no test (Change Requested).** An H behaviour whose invalid partition, boundary, permission-denied, error or invalid-transition condition has no test anywhere, and isn't listed under the PR's **Gaps** or the plan's *Not testing*. Name the condition, the technique that produced it, the surviving mutation if you found one, and the cheapest level that would prove it.
 2. **Medium-risk condition with no test (Nit).** Same as 1 for an M behaviour, limited to its happy path and most likely failure. Don't ask for M boundaries.
 When the PR has an AC table, the plan has a test approach, or a rating looks low, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md). It holds rules 3, 4 and 5.
 When a behaviour branches on two or more dimensions, a test sits at the wrong level, the source has an encode/decode pair or a new flag, or the diff changes backend service code, read [references/combinations-test-level-and-reverse-paths.md](references/combinations-test-level-and-reverse-paths.md). It holds rules 6, 7, 8 and 9.
+
+**Future:** the overflow beyond the five-finding cap; L-risk gaps worth a follow-up; a suite-wide `test.each` matrix the area would benefit from.
 
 ## Out of lane: do NOT report
 
@@ -54,14 +58,6 @@ When a behaviour branches on two or more dimensions, a test sits at the wrong le
 - A new analytics event with no assertion → `persona-analytics` rule 11.
 - A correctness bug in the source itself → `persona-correctness`. If your mutation reasoning finds the code is actually wrong, not just untested, that is **not** a test-design finding: don't report it as an untested condition, and don't raise it in your own lane at all. Mention it in one line of `detail` on a related finding if you have one, otherwise drop it. That lane runs on every diff.
 - Backend test-hygiene rules (class-level test data, "didn't throw" assertions, `@Disabled` without a ticket, `*IT` edge-case sweeps) → not this lane.
-
-## Severity
-
-- **Change Requested:** 1, 3; 4 and 6 when the behaviour is H; 8's reverse-direction bullet whenever the source guarantees the round-trip; 8's new-flag/branch bullet when the behaviour is H.
-- **Nit:** 2, 5, 7, 9; 4 and 6 when the behaviour is M; 8's parameterised-table bullet (always); 8's new-flag/branch bullet when the behaviour is M.
-- **Future:** the overflow beyond the five-finding cap; L-risk gaps worth a follow-up; a suite-wide `test.each` matrix the area would benefit from.
-
-Severity comes from the **risk of the behaviour**, not from the rule. The same missing boundary is Change Requested on a price and is not reported at all on a tooltip.
 
 ## Output
 

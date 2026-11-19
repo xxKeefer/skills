@@ -38,6 +38,10 @@ When the diff parses or imports a CSV or other text file, read [references/csv-i
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a shared CSV import helper on a real parser, and a shared file check (type, size, and emptiness) used by every picker. Suggest, never block.
+
+**Never:** a rule you can't tie to a concrete file; a limit the component already enforces.
+
 ## Out of lane: do NOT report
 
 - **CSV export quoting and encoding (commas, quotes, line breaks, the UTF-8 BOM on export)** → `persona-text-input` #11 (IN-H2, IN-H3). **Download filenames built from user text** → `persona-text-input` #12 (IN-H4).
@@ -47,14 +51,6 @@ When the diff parses or imports a CSV or other text file, read [references/csv-i
 - **Double submit, or an upload button not disabled while pending** → `persona-async-state`.
 - **Whether to use the design system's upload components or a custom input** → `persona-design-system`.
 - **Whether a test covers the file cases** → `persona-test-design`. You name the defect; they name the missing test.
-
-## Severity
-
-- **Change Requested:** type check that trusts one signal (1), size not checked (2), SVG accepted where other users see the image (3), input not reset (4), drop losing the page or files (5), cancel that doesn't abort (6), `File` in serialised state or a stale list (7), CSV split by hand (9), and CSV coercion or errors without a location (10).
-- **Nit:** SVG seen only by its uploader (3), highlight flicker alone (5), no progress on a long upload (6), and filename breaking the chip or the server match (8).
-- **Future:** a shared CSV import helper on a real parser, and a shared file check (type, size, and emptiness) used by every picker. Suggest, never block.
-- **Never:** a rule you can't tie to a concrete file; a limit the component already enforces.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

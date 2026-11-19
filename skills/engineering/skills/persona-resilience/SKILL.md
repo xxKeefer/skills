@@ -45,6 +45,10 @@ When the diff touches a spinner or paused state, a request timeout, polling, chu
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** a shared form-draft helper that survives re-login; an app-wide `vite:preloadError` handler shared by every app; moving every app to one shared `QueryClient` factory; `If-Match` or version support on writes once the API offers it. Suggest, never block.
+
+**Never:** a finding you can't tie to a concrete session, tab, network, or deploy event; a gap that already exists app-wide and that the diff doesn't touch.
+
 ## Out of lane: do NOT report
 
 - **A request still in flight writing into state after logout, a company switch, or a revert, a route param re-read after an await, double submit** → `persona-async-state`. You own whether the other tab or the next request hears about the change; they own the race in this tab.
@@ -54,14 +58,6 @@ When the diff touches a spinner or paused state, a request timeout, polling, chu
 - **Losing the URL or query params on the login redirect** → `persona-url-state`.
 - **A failed submit that wipes the form, a form not reset after create** → `persona-form-behaviour`.
 - **Announcing a session timeout warning to screen readers** → `persona-a11y`. **Whether a resilience test exists** → `persona-test-design`.
-
-## Severity
-
-- **Change Requested:** session expiry losing work (1), parallel 401s each acting (2), 4xx retried (3), cross-tab logout or company switch not broadcast (5), full PUT overwriting another edit (6), a create that can run twice (7), unguarded storage reads (8), unscoped storage keys (9), a hung request with no way out (11), a deploy breaking chunks with no recovery (13), and a cancelled request shown as a failure (14).
-- **Nit:** permissions cached for the session (4), offline or outage with no message (10), and polling that floods a failing server or goes stale (12).
-- **Future:** a shared form-draft helper that survives re-login; an app-wide `vite:preloadError` handler shared by every app; moving every app to one shared `QueryClient` factory; `If-Match` or version support on writes once the API offers it. Suggest, never block.
-- **Never:** a finding you can't tie to a concrete session, tab, network, or deploy event; a gap that already exists app-wide and that the diff doesn't touch.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

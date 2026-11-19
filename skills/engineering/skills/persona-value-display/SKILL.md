@@ -55,6 +55,10 @@ When the diff reads a nested nullable object, maps a sentinel value, passes a va
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** one shared `EMPTY_VALUE` constant outside dates; moving legacy formatter callers to the new formatters. Suggest, never block.
+
+**Never:** a null-rendering finding on a field the schema marks required, without evidence the API omits it.
+
 ## Out of lane: do NOT report
 
 - **Chart rendering (gaps drawn as zero, axis units, chart time zone, tooltips)** → `persona-charts`. **File type, size and CSV import parsing** → `persona-file-upload`.
@@ -65,14 +69,6 @@ When the diff reads a nested nullable object, maps a sentinel value, passes a va
 - **The API client's schema decoding a date or money field wrongly** → `persona-api-integrity`. **Date arithmetic done by hand** → `persona-code-quality`.
 - **`v-html` on API text** → `persona-security`. **Sorting by the display string** → `persona-url-state`.
 - **Whether a test covers the null or zero case** → `persona-test-design`.
-
-## Severity
-
-- **Change Requested:** missing value rendered as text (1), null shown as a believable value (2), date outside the helpers (4), a range edge that changes what's billed or filtered (5), money formatted by hand (7), unit conversion wrong (8), ratio of zero (9), nested nullable object read without a guard (12), sentinel shown as data (13), unknown value passed to `Intl` or an enum-checking prop (14), and unknown status shown as a reassuring state (15).
-- **Nit:** placeholder or enum drift (3), other range edges (5), relative time oddities (6), large numbers unreadable or unsafe (10), and copy button copying the wrong thing (11).
-- **Future:** one shared `EMPTY_VALUE` constant outside dates; moving legacy formatter callers to the new formatters. Suggest, never block.
-- **Never:** a null-rendering finding on a field the schema marks required, without evidence the API omits it.
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

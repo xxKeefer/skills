@@ -27,7 +27,7 @@ Lane paths: `'*.vue' '*.styles.ts' '*.css' '*.ts'`.
    - Also flag a **token used for the wrong property**: a `-background` token applied as a text or border color (e.g. `tw:text-primary-background-strong`, `tw:border-neutral-background-subtle`): it silently mismatches the intended color. Flag this even when the two families currently resolve to the same primitive. They are free to diverge in a future token pass, at which point the border silently tracks the fill scale.
 When the diff adds or changes a state token or a `hover:` or `disabled:` rule, read [references/state-tokens.md](references/state-tokens.md). It holds rule 2.
 
-3. **Reinventing the design system (Change Requested / Nit).** If a hand-rolled element duplicates an existing design-system component, flag it. Find the project's component for each role. Common misses:
+3. **Reinventing the design system (Change Requested for a core form or overlay component; Nit for ad-hoc layout where the stack or grid components fit, and for other components).** If a hand-rolled element duplicates an existing design-system component, flag it. Find the project's component for each role. Common misses:
    - Raw `<button>` → the button component; raw `<input>/<select>/<textarea>` wrappers → the input, select, textarea, and combobox components; toggles → the switch component.
    - Ad-hoc flex/grid wrappers → the stack and grid layout components.
    - Tables → the table components; badges/tags → the badge or tag component; alerts/toasts → the alert and toast components; spinners/skeletons → the spinner and skeleton components; empty states → the empty-state component.
@@ -49,6 +49,8 @@ When the diff migrates a UI library, nests text components, or sets icon props, 
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
+**Future:** larger refactors (extract a shared component, migrate a JS-config token to `@theme`).
+
 ## Out of lane: do NOT report (other personas own these)
 
 - The **type** of an icon-accepting prop (`Component`/`LucideIcon` vs the design system's icon-source type) → `persona-typing`. You keep redundant props on the icon component element itself.
@@ -58,13 +60,6 @@ When the diff migrates a UI library, nests text components, or sets icon props, 
 - A truncation done in JS (`.slice(0, n) + '…'`) splitting emoji or accents → `persona-text-input`. Null, `NaN`, or a wrong format inside the truncated text → `persona-value-display`.
 - Component/file naming → `persona-naming`.
 - **Test files** (`*.test.ts` / `*.spec.ts`): assertion validity, reachability, and whether a spec asserts on classes at all → `persona-vitest`. You may note that a token a test asserts on has been renamed, but do not judge whether the assertion runs or is correct.
-
-## Severity
-
-- **Change Requested:** non-semantic tokens, wrong-property token, a state/emphasis token behind the wrong selector or resolving to a no-op, a state rule that can never paint, an interaction state clobbering a selected state, a missing Tailwind prefix, invalid/no-op utilities, wrong important-modifier position, old-library prop on a design-system component, `<style>` blocks, reinventing a core design-system form/overlay component, `truncate` with no `min-w-0` (13), a truncated ID/email/name that differs at the end with no full view (14).
-- **Nit:** class soup that should be CVA, ad-hoc layout vs the stack/grid components, arbitrary values with a token alternative, redundant icon-component props (`width`/`height`/`currentColor`/default `stroke-width` on a Lucide icon), other truncated values with no full view (14), an unbroken value with no wrap (15), must-read text truncated (16).
-- **Future:** larger refactors (extract a shared component, migrate a JS-config token to `@theme`).
-- Catalogue sweep matches: the line's default severity.
 
 ## Output
 

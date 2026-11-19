@@ -20,7 +20,7 @@ Each added comment line, in any language. A comment marker inside a string is no
 
 ## What you review
 
-**Own code.** Each added comment is a defect. Two exceptions: a tool directive whose reason a check enforces, and a comment that the repo's lint requires.
+**Own code (Change Requested).** Each added comment is a defect. Two exceptions: a tool directive whose reason a check enforces, and a comment that the repo's lint requires.
 
 The comment ladder. Name the highest rung that works:
 
@@ -32,18 +32,13 @@ The comment ladder. Name the highest rung that works:
 
 When the comment marks a hack (a workaround, a TODO, a quirk), start the `summary` with `hack:` and name the architectural fix in `detail`.
 
-**Someone else's code.** Read [`other-pr.md`](references/other-pr.md), and follow it. It holds the rules and their Severity.
+**Someone else's code.** Read [`other-pr.md`](references/other-pr.md), and follow it. It holds the rules and their tiers.
 
 ## Out of lane: do NOT report
 
 - Renaming to make code self-documenting → `persona-naming`.
 - Restructuring/extraction so a comment becomes unnecessary → `persona-code-quality`.
 - i18n `notes` fields in `en.json` (those are translator context, not code comments) → `persona-i18n`.
-
-## Severity
-
-- **Own code:** each finding is Change Requested.
-- **Someone else's code:** the Severity section of `other-pr.md`.
 
 ## Output
 

@@ -40,9 +40,11 @@ When you assert a step exits non-zero, capture the status directly: `cmd; echo $
 5. **Mutable action ref on a third-party action (Change Requested for un-owned, Nit for owned).** `uses: some-org/action@main` (or `@master`, or a moving branch) pins to code that can change under you: supply-chain risk. Third-party actions should pin to a released tag at minimum, ideally a full commit SHA. A first-party/owned action (from the repo's own organisation) on a branch is a lower-severity nit but still worth a pin. `actions/*` official actions on a major tag (`@vN`) are acceptable here. A deprecated runtime is rule 9.
 6. **Untrusted input trusted without validation (Change Requested).** A workflow that acts on `github.event` payload fields (labels, ref names, file paths) to gate a privileged step without validating them, or that passes them to a downstream action/script that trusts them.
 7. **`actions/checkout` credential persistence when a custom token follows (Nit).** When a later step pushes with its own token/app-token, the default `persist-credentials: true` leaves the ambient `GITHUB_TOKEN` in `.git/config`; set `persist-credentials: false` on the checkout to avoid the token being used by accident. (Only when relevant. A checkout whose credentials are intentionally reused is fine.)
-8. **Missing hygiene: `concurrency` / `timeout-minutes` (Nit / Future).** A dispatch/push workflow with no `concurrency` group can pile up overlapping runs (and, for release/publish, race). A job with no `timeout-minutes` can hang a runner until the org cap. Flag when the workflow's purpose makes this material (release, deploy, publish); don't nit every job.
+8. **Missing hygiene: `concurrency` / `timeout-minutes` (Nit where material, else Future).** A dispatch/push workflow with no `concurrency` group can pile up overlapping runs (and, for release/publish, race). A job with no `timeout-minutes` can hang a runner until the org cap. Flag when the workflow's purpose makes this material (release, deploy, publish); don't nit every job.
 9. **Deprecated runner commands / patterns (Nit).** `::set-output::`, `::save-state::`, `set-env`, `add-path` are deprecated. Use `$GITHUB_OUTPUT` / `$GITHUB_ENV`. `node12`/`node16` action runtimes are EOL, and `node20` is deprecated. Flag an action on a major version whose `runs.using` is a deprecated runtime, such as `actions/checkout@v4` on `node20`. The fix is the first major version on `node24`.
 10. **Credential literal in a workflow (Change Requested).** A password, token, API key or client secret written as a literal in `env:`, `with:`, `variables:` or a `run:` line, instead of a `${{ secrets.* }}` (or `vars`/OIDC) reference. Pipelines read secrets from the CI secret store. Name the file, the line and the kind of credential, and never quote the value.
+
+**Future:** broader hardening beyond the diff (SHA-pinning every action, OIDC instead of long-lived tokens, adding actionlint to CI).
 
 ## Out of lane: do NOT report
 
@@ -51,12 +53,6 @@ When you assert a step exits non-zero, capture the status directly: `cmd; echo $
 - Comment quality in workflow files → `persona-comments`.
 - Whether the workflow satisfies the ticket's acceptance criteria → `persona-ac-check`.
 - Deploy/infra *architecture* decisions (which environments, ordering) unless they create a security or race defect.
-
-## Severity
-
-- **Change Requested:** script injection, secrets inlined in `run:`, credential literal in a workflow (10), `pull_request_target` + PR-head checkout with secrets, over-broad `permissions`, mutable ref on an un-owned third-party action, unvalidated untrusted input gating a privileged step.
-- **Nit:** missing `permissions` block, mutable ref on a first-party action, `persist-credentials`, missing `concurrency`/`timeout-minutes` where material, deprecated runner commands.
-- **Future:** broader hardening beyond the diff (SHA-pinning every action, OIDC instead of long-lived tokens, adding actionlint to CI).
 
 ## Output
 

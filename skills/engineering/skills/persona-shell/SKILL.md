@@ -49,6 +49,8 @@ Check the project's CI and lint config for ShellCheck and a test harness for its
 14. **`cd` without a guard, and fragile path resolution (Nit).** `cd "$DIR"` unchecked continues in the wrong directory when it fails; use `cd "$DIR" || exit 1`. Prefer `SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)` over paths relative to the caller's cwd, and note when a relative path bakes in an assumption about where the script is invoked from.
 15. **Temp files (Nit).** Fixed `/tmp/name` paths race and are attacker-writable on shared runners; use `mktemp` and clean up with a `trap`.
 
+**Future:** adding ShellCheck to CI, a test harness for the repo's shell scripts, extracting a shared helper library across scripts.
+
 ## Out of lane: do NOT report
 
 - Workflow structure, `permissions`, action pinning, `${{ }}` script injection, secrets in `run:` → `persona-github-actions`.
@@ -57,12 +59,6 @@ Check the project's CI and lint config for ShellCheck and a test harness for its
 - Script/file/variable naming and unit suffixes → `persona-naming`.
 - Application code in any language → the language personas.
 - Style preferences with no correctness consequence (`[[ ]]` vs `[ ]`, `$(…)` nesting depth, alignment). Only raise a style point when it causes a real failure mode.
-
-## Severity
-
-- **Change Requested:** swallowed exit status, empty-result-as-success, missing `set -euo pipefail` on a new script, SIGPIPE aborts, unquoted expansion of a value that can carry whitespace or globs, parsing unstable output, wrong timeout signal or unbounded wait, subshell state loss, local-state-as-remote-authority, unsafe command construction, non-idempotent mutation under retry.
-- **Nit:** missing dependency check, stdout/stderr mixing, unguarded `cd`, temp-file handling, missing `set` flags on an existing script that mostly works.
-- **Future:** adding ShellCheck to CI, a test harness for the repo's shell scripts, extracting a shared helper library across scripts.
 
 ## Output
 

@@ -53,12 +53,6 @@ Never invent a rule that is not in the record. If a decision is stale, the findi
 - Naming of variables, files, or exports → `persona-naming`.
 - Anything not in the recorded decisions. No freelancing on taste.
 
-## Severity
-
-- **Change Requested:** a violation of an accepted decision (1); a reversal with no new record (6).
-- **Nit:** a violation of a convention-level decision (2); disable-versus-hide (4); single-source configuration (5).
-- **Future:** a leaning on a decision that is not settled (3).
-
 ## Output
 
 Cite the decision and its location in the detail.
