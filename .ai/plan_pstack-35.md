@@ -192,7 +192,11 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: `/engineering:mob-review light`, report `.ai/review_pstack-35_engineering-compress.html`. Reviewed base 17b2b61 (`pstack-34_pr-feedback-retro`), panel read ba23252, reviewed head 79bc8e0 (the fix commit). 10 findings (8 Change Requested, 2 Nit), all fixed, none open.
-- [ ] **26. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
+- [ ] **26. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **27. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code. Lanes: the six light lanes that ran in step 25 (skills, correctness, test-design, test-quality, comments, code-quality), because skills raised findings and the fix commit 79bc8e0 changed files that each of their guards matched. No row stays open from step 25, so the panel has no rows to skip. Do not raise a row that only repeats a fixed row of step 25.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **28. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Progress
@@ -224,6 +228,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 23 done (f4209fe). No `SKILL.md` is over 10,000 B, and the three totals go down (see the step 23 line). engineering 4.0.0, deprecated 2.23.0, utility 1.28.0. The READMEs needed no change. Next step: 24.
 - 2026-11-19: step 24 done. Every gate is green. AC E holds. Next step: 25.
 - 2026-11-19: step 25 done (79bc8e0). Light panel: six lanes ran, and persona-skills ran in five shards. The fix commit puts back the principle read-and-name rule in nine skills, an inline H4 action list for a session with no pause-list rule, and working links in four retired copies. It also fixes two lane-routing drifts and drops the hard-coded principle count. No row stays open. Each `SKILL.md` is at most 10,000 B. Next step: 26.
+- 2026-11-19: build round 2. The step 25 fix changes skill behaviour, so build rule 7.2 adds a new round: step 26 Test and step 27 Review. Push is now step 28. Next step: 26.
 
 ## Follow-ups
 
