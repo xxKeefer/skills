@@ -1,22 +1,11 @@
----
-name: maintain-verification-skill
-description: >
-  Keep a verification driver and its feature map true as the app changes: one read-only reader
-  for each feature file, one live pass that drives every feature, and one commit of proven fixes.
-  Use when the user says "maintain verification skill" or "audit the verify skill", or when a
-  driver fails its run because the app moved.
-argument-hint: "[<driver name>]"
----
+# Maintain mode
 
-# Maintain a verification skill
+A feature map goes stale when the app changes. This mode is the upkeep loop for a driver that the
+create mode wrote. Cover each feature file from the source, and drive each feature live. Do not
+prove each sentence.
 
-A feature map goes stale when the app changes. This skill is the upkeep loop for a driver that
-`/create-verification-skill` wrote. Cover each feature file from the source, and drive each feature
-live. Do not prove each sentence.
-
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
-
-`$SKILL_DIR` is this skill's base directory.
+`$SKILL_DIR` is the base directory of `create-verification-skill`. The argument after `maintain`
+can name the driver.
 
 Run each source reader at the `explorer` role of the `models` block in `~/.claude/AGENTS.md`. Do
 the live pass yourself at the `verifier` role. With no `models` block, use the session model.
@@ -48,7 +37,8 @@ do not hide it in the docs.
    driver whose `repo` value differs. Search `<repo root>/.claude/skills/` and
    `~/.claude/skills/`. These are the places that `/verify` searches.
 2. The argument can name the driver. With several matches and no argument, ask the user which one.
-3. With no match, stop. Point the user at `/create-verification-skill`. Do not invent a target.
+3. With no match, stop. Point the user at the create mode, `/create-verification-skill`. Do not
+   invent a target.
 
 **Done when:** you have one driver folder, or you have stopped with that pointer.
 
@@ -56,7 +46,7 @@ do not hide it in the docs.
 
 1. Read `<driver>/features/README.md`, and list the files in `features/`.
 2. Fix each missing, extra, duplicate, or dead entry in the index.
-3. Run `python3 $SKILL_DIR/../create-verification-skill/scripts/check_driver.py <driver dir>`. Fix
+3. Run `python3 $SKILL_DIR/scripts/check_driver.py <driver dir>`. Fix
    each error that it names, and run it again.
 
 **Done when:** the index matches the files, and the script prints `ok`.

@@ -51,6 +51,8 @@ find the drivers → run each driver → return the evidence
 ## Step 3: Return
 
 Return one line for each driver: the driver path, the result, and the path of its evidence. Add one
-sentence on what the evidence shows about the change. Write no other file.
+sentence on what the evidence shows about the change. When a driver fails because the app moved
+and its map did not, name `/create-verification-skill maintain` as the next step. Write no other
+file.
 
 **Done when:** the return names each driver, its result, and its evidence path.

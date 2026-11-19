@@ -2,10 +2,12 @@
 name: create-verification-skill
 description: >
   Write a verification driver for an app: a skill that launches the app, drives it the way a user
-  does, and keeps the evidence. Proves the driver by one run before it hands it over. Use when
-  the user says "create verification skill" or "make a driver", or when /verify returns
-  `no driver`.
-argument-hint: "[<app name>]"
+  does, and keeps the evidence. Proves the driver by one run before it hands it over. The
+  `maintain` mode keeps a driver and its feature map true as the app changes. Use when the user
+  says "create verification skill" or "make a driver", or when /verify returns `no driver`; for
+  the maintain mode, when the user says "maintain verification skill", "maintain the verify skill",
+  or "audit the verify skill", or when a driver fails its run because the app moved.
+argument-hint: "[maintain] [<app name> | <driver name>]"
 ---
 
 # Create a verification skill
@@ -17,6 +19,10 @@ app. Write the driver for that reader.
 Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
 
 `$SKILL_DIR` is this skill's base directory.
+
+**Maintain mode.** When the arguments start with `maintain`, or the user asks to maintain or audit
+a driver, or a driver fails its run because the app moved, read [`MAINTAIN.md`](MAINTAIN.md) and
+follow it in place of the steps below. Otherwise run the create steps.
 
 ```
 interview the repo → pick the name and place → write the driver → seed the feature map → check → prove → hand over
@@ -143,6 +149,6 @@ or the `app-paths` is wrong.
 
 Tell the user the folder, whether the driver is committed, and the one feature that the proof run
 drove. A repo driver is a change to the repo: leave the commit to the normal flow. Point the user
-at `/maintain-verification-skill` for keeping the map true as the app changes.
+at `/create-verification-skill maintain` for keeping the map true as the app changes.
 
 **Done when:** the reply names the folder, the proof result, and the next skill.
