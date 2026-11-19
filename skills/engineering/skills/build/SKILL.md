@@ -46,7 +46,7 @@ prompt.
      behaviour that the branch changes has a test. Put it before the review step.
    - `**<n>. Review.** Review the branch with this plan: <plan path>. This step changes no
      code.` Its done line: the report path and the reviewed base and head SHAs are in this line.
-     Name `/engineering:light-review`.
+     Name `/engineering:mob-review light`.
 
    To add a new round → read the Add a new round section of [`FIX-ROUND.md`](FIX-ROUND.md).
 8. Write the changes with `/update-plan`. Give it each recorded decision of `FIX-ROUND.md` items

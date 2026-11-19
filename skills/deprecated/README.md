@@ -7,6 +7,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | Skill | Purpose |
 |---|---|
 | `/handoff` | Compact the conversation into a plan for a fresh agent. Superseded by `/checkpoint` |
+| `/light-review` | Superseded by `/mob-review light` |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/principle-attack-the-premise` | Superseded by `/principle-fix-root-causes` |
 | `/principle-boundary-discipline` | Superseded by `/principle-type-system-discipline` |

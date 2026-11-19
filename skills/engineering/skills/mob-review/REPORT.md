@@ -1,6 +1,6 @@
 # The report
 
-Step 5 writes the report with these inputs. Light runs change some of them, as `light-review` says.
+Step 5 writes the report with these inputs. Light runs change some of them, as [`LIGHT.md`](LIGHT.md) says.
 Step 5 skips the last section, [Consume a report](#consume-a-report).
 
 The coverage table shows the user what ran. Counts are after the Copilot filter. On someone

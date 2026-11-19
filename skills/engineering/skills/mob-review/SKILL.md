@@ -3,15 +3,19 @@ name: mob-review
 description: >
   Run the full review panel: every in-scope persona lane, plus the project's own rubric, in
   parallel over a PR or branch diff, into one ranked HTML report. Fixes your own branch, or drafts
-  replies on someone else's. Takes an optional plan or spec path. Use when the user says "mob
-  review", "run the panel", or "full review".
+  replies on someone else's. Takes an optional plan or spec path. The `light` mode runs only the
+  essential lanes. Use when the user says "mob review", "run the panel", or "full review", or
+  "light review" or "quick review" for the light mode.
+argument-hint: "[light] [PR number or URL | branch] [plan or spec path]"
 ---
 
 # Mob Review: staff-engineer review panel
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
-`light-review` follows Steps 0 to 7 of this skill with the essential lanes only, so a change to a step here also changes `light-review`.
+**Light mode.** When the arguments hold `light`, or the user asks for a light or quick review, read
+[`LIGHT.md`](LIGHT.md) and follow it: it runs these steps with the lanes of the Light column of
+`PANEL.md` only. Otherwise run the full panel. A change to a step here also changes the light mode.
 
 ## Step 0: Run the panel in a clean thread
 

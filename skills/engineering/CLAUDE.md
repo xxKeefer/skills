@@ -80,14 +80,14 @@ commit.
 | `verify` | `test`, `interrogate`, `blast-radius`; `qa-screenshots` runs only its `find_drivers.py` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
-## light-review
+## The light mode of mob-review
 
-`light-review` has no steps of its own. It follows the `mob-review` steps with a list of
-lanes.
+The `light` mode of `mob-review` has no steps of its own. `mob-review/LIGHT.md` changes some of the
+`mob-review` steps, and the Light column of `mob-review/PANEL.md` lists its lanes.
 
-- A change to a `mob-review` step also changes `light-review`. Check each change that
-  `light-review` makes to that step.
-- A persona rename also changes the lane list in `light-review`.
+- A change to a `mob-review` step also changes the light mode. Check each change that `LIGHT.md`
+  makes to that step.
+- A persona rename also changes the Light column.
 
 ## Personas
 
