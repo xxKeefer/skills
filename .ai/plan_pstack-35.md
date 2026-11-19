@@ -242,6 +242,38 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: build round 3. The step 27 fix 25792c3 changes skill behaviour (ten sweep lines back, a cache-safe script path, routing fixes), so build rule 7.2 adds step 28 Test and step 29 Review. Push is now step 30. Step 29 is the third review since approval. Next step: 28.
 - 2026-11-19: step 28 done. Every gate is green after the step 27 fix. Next step: 29.
 - 2026-11-19: step 29 done (fbbffe7). Light panel run 3: six lanes ran, and persona-skills ran in seven shards. The fix commit puts back twelve more sweep lines, the retired shared-state rule, the unused generic check, and two resolve-conflicts lines. It also finishes four step 27 fixes and corrects two tiers. No row stays open. The fix changes skill behaviour, but step 29 is the third review since approval, so the loop stops. Next step: 30.
+- 2026-11-19: blast radius on `pstack-34_pr-feedback-retro...HEAD`, outside the diff. Verdict: **risk**.
+  - Safety fact: outside the diff, no live file names a retired skill or principle, and no file makes the model call one of the five user-only skills, except one stale copy of a rule whose source the diff already fixes. The `xxkeefer-skills` marketplace is a directory source at this worktree, so an install ships the change. Rung 4: the script below exits 0, and exits 1 on any other hit.
+  - Confirmed risk: `~/.claude/rules/typescript-conventions.md:210` names `principle-boundary-discipline`. The diff fixes the source in `install-rules`, but the installed copy changes only when `/install-rules` runs after the utility 1.28.0 update. Until then, each TypeScript edit loads a rule that points to a principle that engineering 4.0.0 does not ship (`deprecated` is not installed). Chance high, cost low: the agent cannot read the principle by path. Check: after the update, run `/install-rules`, then `grep -n 'principle-' ~/.claude/rules/typescript-conventions.md`.
+  - Cleared: ADRs and done plans name the old skills as history. One open plan in another repo names a review skill under a plugin namespace that was already gone before this change. `skillOverrides` turns `pick-next-task` off, which still holds. Another marketplace and a work overlay ship their own `review-pr` and `pr-news` under their own namespace, and neither is installed. The installed primitives, meta, and scribe caches name no retired skill.
+  - Command: `bash proof.sh`, with this script:
+
+    ```bash
+    #!/usr/bin/env bash
+    set -u
+    WT="$HOME/studio/code/pstack-inspiration"
+    RET='light-review|sad-path|maintain-verification-skill|pr-news|review-pr|attack-the-premise|outcome-oriented-execution|migrate-callers-then-delete-legacy-apis|laziness-protocol|boundary-discipline|explain-the-number|exhaust-the-design-space|test-behavior-not-implementation|never-block-on-the-human|foundational-thinking'
+    USR='gazette|pick-next-task|tidy-up|sync-docs|qa-screenshots'
+    PAT="(^|[^a-z-])(/|engineering:|principle-|\`)($RET)([^a-z-]|$)"
+    fail=0
+    mp=$(python3 -c "import json,os;print(json.load(open(os.path.expanduser('~/.claude/plugins/known_marketplaces.json')))['xxkeefer-skills']['source']['path'])")
+    [ "$mp" = "$WT" ] && echo "ok marketplace -> $mp" || { echo "FAIL marketplace -> $mp"; fail=1; }
+    hits=$( { grep -rnIE "$PAT" ~/.claude/CLAUDE.md ~/.claude/AGENTS.md ~/.claude/rules ~/.claude/settings.json ~/.claude/hooks ~/.claude/tools ~/.claude/skills ~/.claude/output-styles ~/.claude/statusline.sh 2>/dev/null
+      grep -rnIE "$PAT" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=claude-code-plugins --exclude-dir=.ai --exclude-dir="*-skills*" --exclude-dir=pstack-inspiration ~/studio/code 2>/dev/null
+      grep -rnIE "$PAT" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.ai --exclude-dir=plans ~/studio/work 2>/dev/null
+      grep -rnIE "^ *- \[ \].*$PAT" ~/studio/work/.ai ~/studio/work/plans ~/studio/code/.ai 2>/dev/null
+      grep -rnIE "$PAT" --exclude-dir=.git --exclude-dir=.ai --exclude-dir=deprecated --exclude-dir=adr "$WT" 2>/dev/null; } | sort -u)
+    expected="$HOME/.claude/rules/typescript-conventions.md:210:Principle: \`principle-boundary-discipline\`."
+    while IFS= read -r h; do
+      [ -z "$h" ] && continue
+      if [ "$h" = "$expected" ]; then echo "known break: $h"; else echo "FAIL unexpected: $h"; fail=1; fi
+    done <<< "$hits"
+    d=$(diff ~/.claude/rules/typescript-conventions.md "$WT/skills/utility/skills/install-rules/rules/typescript-conventions.md" | grep -c '^[<>]')
+    [ "$d" -le 2 ] && echo "ok installed rule differs from source by $d lines" || { echo "FAIL rule drift $d lines"; fail=1; }
+    inv=$(grep -rnIiE "(run|invoke|call|use) .{0,20}($USR)" ~/.claude/CLAUDE.md ~/.claude/AGENTS.md ~/.claude/rules ~/.claude/hooks ~/.claude/tools ~/.claude/skills ~/.claude/statusline.sh 2>/dev/null; grep -rnIE "(/|engineering:)($USR)" --exclude-dir=.git --exclude-dir=.ai --exclude-dir=deprecated --exclude-dir=adr --exclude=README.md "$WT/skills" | grep -vE "skills/engineering/skills/($USR)/|engineering/CLAUDE.md|verify/SKILL.md|check_plan.py|fixtures/")
+    [ -z "$inv" ] && echo "ok no model caller of a user-only skill" || { echo "FAIL caller: $inv"; fail=1; }
+    exit $fail
+    ```
 
 ## Follow-ups
 
