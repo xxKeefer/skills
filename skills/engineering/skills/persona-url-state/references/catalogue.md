@@ -189,7 +189,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** A→B, Back, Forward. Expect B, with B's state.
 - **Spot:** Any `router.push` inside a `watch(() => route.query)`.
 - **Fix:** Never push in response to a route change; only `replace` for normalisation.
-- **Sources:** [HTML Standard: session history, push behaviour](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigationhistorybehavior-push)
 
 ### NV-B9. Programmatic "Back" button with no history
 - **Bug:** In-app "← Back" does nothing or leaves the app when the page was opened from a deep link/new tab.
@@ -198,7 +197,6 @@ See FM-H1 (persona-form-behaviour).
 - **Spot:** `@click="router.back()"`.
 - **Fix:** Check `window.history.state?.back` (vue-router stores `back` in history state; it is `null` on the first entry) and fall back to `router.push({ name: 'list' })`; or always link to the parent route with preserved query.
 - **In the project**: `router.back()`/`history.back()` may appear in many files with no shared fallback helper. Prefer one return-to composable.
-- **Sources:** [vue-router `html5.ts` (`StateEntry.back`)](https://github.com/vuejs/router/blob/main/packages/router/src/history/html5.ts)
 
 ### NV-B10. Navigation failures ignored
 - **Bug:** Code after `await router.push()` assumes it navigated (shows toast, resets form) when a guard aborted or it was duplicated.
@@ -222,7 +220,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** As NV-C1, in the real layout.
 - **Spot:** Layout with `h-screen overflow-hidden` + inner `overflow-y-auto`.
 - **Fix:** Let the document scroll, or save/restore the container scroll yourself (route meta or `history.state`).
-- **Sources:** [vue-router `scrollBehavior.ts` (`computeScrollPosition` reads `window.scrollX/scrollY`)](https://github.com/vuejs/router/blob/main/packages/router/src/scrollBehavior.ts), [Vue Router: Scroll Behavior](https://router.vuejs.org/guide/advanced/scroll-behavior.html)
 
 ### NV-C3. New page opens scrolled down
 - **Bug:** Clicking a row from far down the list opens the detail already scrolled to the bottom.
@@ -238,7 +235,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Change a filter mid-page; click "next page" at the bottom of a table.
 - **Spot:** `scrollBehavior` that returns `{ top: 0 }` for every navigation with no `to.path === from.path` branch; a pager handler with no scroll to the table top.
 - **Fix:** For same-path query changes: keep position for filters, scroll to the table top for pagination (explicitly in the pager handler).
-- **Sources:** [Vue Router: Scroll Behavior](https://router.vuejs.org/guide/advanced/scroll-behavior.html)
 
 ### NV-C5. Hash fragment ignored / covered by sticky header
 - **Bug:** `/docs#billing` lands at top, or the heading is hidden behind the sticky header.
@@ -281,7 +277,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Edit the id in the URL to garbage, to a valid-looking but missing UID, and to one owned by another company (403). Also `/nonexistent-path`.
 - **Spot:** No `isError` branch; `!` non-null assertions on query data; no `/:pathMatch(.*)*` route.
 - **Fix:** Explicit not-found and forbidden states; catch-all route; don't retry 404s.
-- **Sources:** [Vue Router: Catch all / 404 Not found Route](https://router.vuejs.org/guide/essentials/dynamic-matching.html#Catch-all-404-Not-found-Route), [TanStack Query: Query Retries](https://tanstack.com/query/latest/docs/framework/vue/guides/query-retries)
 
 ### NV-D4. Params ignored or discarded
 - **Bug:** Link goes to the wrong page or param is missing.
@@ -294,7 +289,6 @@ See FM-H1 (persona-form-behaviour).
 - **Bug:** `route.params.id` treated as number (`=== 5` never true) or as string when it's an array (repeatable params).
 - **Spot:** `route.params.id as number`; `Number(route.params.id)` without NaN check.
 - **Fix:** Parse and validate; TS typed routes.
-- **Sources:** [Vue Router: Routes' Matching Syntax](https://router.vuejs.org/guide/essentials/route-matching-syntax.html)
 
 ### NV-D6. Unencoded path params
 - **Bug:** Names with `/`, `#`, `?`, `%` break links (such as a service name used as a slug).
@@ -319,7 +313,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Logged out, open a deep link with query and hash; log in (password and SSO paths).
 - **Spot:** `redirect: to.path`; `` `/login?redirect=${to.fullPath}` `` without encoding.
 - **Fix:** Store `to.fullPath` (router encodes query values when passed as `query: { redirect: to.fullPath }`).
-- **Sources:** [Vue Router: Route Meta Fields (`query: { redirect: to.fullPath }`)](https://router.vuejs.org/guide/advanced/meta.html)
 
 ### NV-E2. Open redirect through `?redirect=`
 - **Bug:** `/login?redirect=https://evil.example` sends the user off-site after login.
@@ -333,7 +326,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Log in as a user lacking the role / with no company.
 - **Spot:** `beforeEach` or `beforeEnter` that returns a redirect to a route the same check also fails, with no `to.name` exemption; `next()` called twice.
 - **Fix:** Exempt the target route; return route locations rather than calling `next` twice.
-- **Sources:** [Vue Router: Navigation Guards](https://router.vuejs.org/guide/advanced/navigation-guards.html)
 
 ### NV-E4. Document title not updated
 - **Bug:** Tab title stays the app name or shows the previous entity's name; history dropdown/bookmarks unreadable.
@@ -341,7 +333,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Open two detail pages in tabs; navigate between details; check the Back long-press menu.
 - **Spot:** `document.title = ...` in `onMounted` or once in `setup`; a detail route titled only by a static `meta.title`.
 - **Fix:** Reactive title (`useTitle` with a computed that includes the entity name and updates after data loads); reset on leave.
-- **Sources:** [WCAG 2.2 Understanding 2.4.2 Page Titled](https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html), [VueUse: useTitle](https://vueuse.org/core/useTitle/)
 
 ### NV-E5. Focus and announcement not moved on navigation
 - **Bug:** Screen reader users get no cue that the page changed; focus stays on the clicked link (now gone).
@@ -371,20 +362,17 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Click checkbox, menu button, copy-to-clipboard icon inside a clickable row.
 - **Spot:** `@click` or `@row-click` on a row that navigates, with a checkbox, kebab menu or copy button inside that has no `@click.stop`.
 - **Fix:** Don't make the whole row a click target, or `@click.stop` on inner controls.
-- **Sources:** [MDN: Event.stopPropagation()](https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation)
 
 ### NV-F4. `target="_blank"` issues
 - **Bug:** External link replaces the SPA; or internal link opens in a new tab unnecessarily, losing app state; screen readers not told it opens a new tab.
 - **Spot:** External URLs through `RouterLink`; `window.open(url)` without `noopener` (modern browsers default `noopener` for `target=_blank` anchors, not necessarily for `window.open` features `[uncertain]`).
 - **Fix:** Plain `<a target="_blank" rel="noopener noreferrer">` for external, with visible/announced indication.
-- **Sources:** [MDN: `<a>` element (target, security, accessibility)](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a), [MDN: Window.open() (`noopener` feature)](https://developer.mozilla.org/en-US/docs/Web/API/Window/open)
 
 ### NV-F5. Links built from current route lose context
 - **Bug:** "Back to list" link goes to page 1 with default filters.
 - **Cause:** Link hard-codes `{ name: 'list' }` instead of carrying the list's query.
 - **Spot:** "Back to list" link with a bare `:to="{ name: 'services' }"` and no stored list query.
 - **Fix:** Prefer real history Back; for an explicit link, carry the list query (stash it when leaving the list).
-- **Sources:** [Baymard: Return users to the same place in the product list](https://baymard.com/research-articles/return-same-place), [Baymard: Back button expectations](https://baymard.com/blog/back-button-expectations)
 
 ## G. Modals, drawers and overlays
 
@@ -402,14 +390,12 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Open/close modal several times, then press Back.
 - **Spot:** Open does `router.push({ query: { ...route.query, modal: 'x' } })` and close does another `router.push` without the key.
 - **Fix:** Close = `router.back()` when the modal entry is the current one we pushed; otherwise `replace`.
-- **Sources:** [SvelteKit: Shallow routing](https://svelte.dev/docs/kit/shallow-routing)
 
 ### NV-G3. Deep-linked modal URL broken
 - **Bug:** Sharing `?modal=edit&id=123` opens nothing, crashes, or opens for an id the user can't access; refresh with the modal open shows an empty modal.
 - **Test:** Refresh with the modal open; paste the URL in a new tab; edit the id to invalid.
 - **Spot:** Dialog `open` computed from `route.query.modal` or `route.query.id` with no validation and no loading or not-found branch inside.
 - **Fix:** Modal reads its state from the URL and validates; handle loading/not-found inside the modal.
-- **Sources:** [SvelteKit: Shallow routing (caveats on reload and SSR)](https://svelte.dev/docs/kit/shallow-routing)
 
 ### NV-G4. Navigation while a modal is open leaves it orphaned
 - **Bug:** Clicking a link inside a modal (or Back) navigates but the overlay, focus trap or `body` scroll-lock remains.
@@ -417,7 +403,6 @@ See FM-H1 (persona-form-behaviour).
 - **Test:** Open a dialog, use a link inside it or press Back; try scrolling the new page.
 - **Spot:** Reka `DialogRoot` with `v-model:open` in a layout-level component; manual `document.body.style.overflow`.
 - **Fix:** Close overlays on route change (`router.afterEach` / `watch(route)`), keep overlay owner inside the routed view.
-- **Sources:** [Robb Owen: Locking scroll with :has()](https://robbowen.digital/wrote-about/locking-scroll-with-has/), [Reka UI: Dialog](https://reka-ui.com/docs/components/dialog)
 
 ### NV-G5. Unsaved changes in a drawer closed by Back without prompt
 
@@ -443,13 +428,11 @@ See FM-B6 (persona-form-behaviour).
 - **Bug:** `page + 1` gives `"21"`; `page === 2` never true; `limit=abc` → `NaN` in request.
 - **Spot:** `route.query.page as unknown as number`; arithmetic on query values.
 - **Fix:** `Number.parseInt` with `Number.isInteger` check and default.
-- **Sources:** [vue-router `query.ts` (`LocationQueryValue = string | null`)](https://github.com/vuejs/router/blob/main/packages/router/src/query.ts), [MDN: Number.parseInt()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt)
 
 ### NV-H4. Booleans: `"false"` is truthy
 - **Bug:** `?archived=false` shows archived items; toggle can't be turned off after reload.
 - **Spot:** `if (route.query.archived)`; `Boolean(route.query.x)`.
 - **Fix:** Explicit `=== 'true'`; or omit the key when false (default).
-- **Sources:** [MDN: Truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)
 
 ### NV-H5. Invalid values not sanitised
 - **Bug:** `page=-1`, `page=0`, `page=1.5`, `page=999`, `page=abc`, `sort=; drop`, `sort=password`, `dir=sideways`, `status=FOO`, `tab=nope` produce blank tables, 400/500 errors, crashes, or are forwarded to the API.
@@ -463,7 +446,6 @@ See FM-B6 (persona-form-behaviour).
 - **Test:** Go to the last page, delete its only item; or open `?page=999`.
 - **Spot:** URL `page` passed to the table or API with no clamp against `totalPages`; a delete on a paginated list with no step back to the last page.
 - **Fix:** When `page > totalPages && totalPages > 0`, `replace` to the last page.
-- **Sources:** [Telerik feedback: Properly update the pager after deleting all the items from a page](https://feedback.telerik.com/kendo-jquery-ui/1358998-properly-update-the-pager-after-deleting-all-the-items-from-a-page)
 
 ### NV-H7. Encoding of special characters in search terms
 - **Bug:** Searching `a+b`, `50%`, `a&b`, `#1`, `x=y`, spaces, emoji, `ü`, or Japanese breaks: `+` becomes a space after reload, `#` truncates, `%` throws `URIError: malformed`, `&` splits into a new param.
@@ -496,7 +478,6 @@ See IN-C5 (persona-text-input).
 - **Bug:** Feels broken; user presses Enter and nothing happens; results for the old term show with no loading cue.
 - **Spot:** `refDebounced(search, n)` or `useDebounceFn(fn, n)` with `n` above 500 on a search; no flush on submit or blur (`@keydown.enter` on a design-system input that re-emits `keydown` never fires, FM-A1); no pending cue while the debounced value lags.
 - **Fix:** Flush on Enter; show a pending indicator while `debounced !== raw` or `isFetching`.
-- **Sources:** [NN/g: Response Times, the 3 Important Limits](https://www.nngroup.com/articles/response-times-3-important-limits/)
 
 ### NV-I3. Out-of-order responses overwrite newer results
 - **Bug:** Type "ab" then "abc"; "ab" response arrives last and table shows "ab" results under an "abc" search box.
@@ -517,13 +498,11 @@ See IN-C5 (persona-text-input).
 - **Test:** Search spaces only, leading/trailing spaces, tabs, pasted newline.
 - **Spot:** Search value written to `route.query` or a query key with no `.trim()`; `v-if="search"` deciding "has a search" on the untrimmed value.
 - **Fix:** Trim (and collapse internal whitespace if the backend expects it) before keying and before writing the URL; treat empty-after-trim as no search.
-- **Sources:** [MDN: String.prototype.trim()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim)
 
 ### NV-I6. Minimum length not enforced or not explained
 - **Bug:** 1-char search hammers backend / returns thousands; or min length silently ignores input with no hint.
 - **Spot:** `if (term.length < n) return` or `enabled: () => q.value.length >= n` on a search with no hint text shown below `n`.
 - **Fix:** Enforce consistently and tell the user ("type at least 2 characters").
-- **Sources:** [GitLab issue 396873: Add messaging for character minimum in global search](https://gitlab.com/gitlab-org/gitlab/-/issues/396873)
 
 ### NV-I7. Case sensitivity mismatch
 - **Bug:** "Sydney" finds the item, "sydney" doesn't; client-side filter case-sensitive while server is not.
@@ -547,7 +526,6 @@ See IN-C5 (persona-text-input).
 - **Bug:** Highlighting `<b>` or `&` corrupts the text; `v-html` highlight enables XSS; highlight misses accented/case variants; highlights across split nodes break.
 - **Spot:** `v-html="name.replace(term, '<mark>$&</mark>')"`.
 - **Fix:** Split into text segments and render `<mark>` through template (no `v-html`); match with the same normalisation as NV-I7/I8.
-- **Sources:** [Vue.js: Security, HTML injection](https://vuejs.org/guide/best-practices/security.html)
 
 ### NV-I11. Server-side wildcards not escaped
 - **Bug:** Searching `%` or `_` returns everything / unexpected matches (SQL LIKE wildcards); `*` in Elasticsearch-style query strings behaves as wildcard; `"` breaks the query.
@@ -559,7 +537,6 @@ See IN-C5 (persona-text-input).
 - **Bug:** Client-side search over a paginated API filters just the 25 loaded rows; "No results" while matches exist on page 4.
 - **Spot:** `computed(() => data.value.items.filter(...))` on server-paginated data.
 - **Fix:** Send the term to the server, or fetch all when the dataset is known-small.
-- **Sources:** [TanStack Table: Column Filtering (client-side versus server-side)](https://tanstack.com/table/v8/docs/guide/column-filtering), [TanStack Table: Sorting (client-side versus server-side)](https://tanstack.com/table/v8/docs/guide/sorting)
 
 ### NV-I13. Search box value and URL out of sync after Back / clear
 - **Bug:** Back restores old results but input still shows the new text (or vice versa); X button clears input but not the URL/query.
@@ -567,7 +544,6 @@ See IN-C5 (persona-text-input).
 - **Test:** Search "a", search "b" (committed), Back; clear with X; Escape.
 - **Spot:** Search input `v-model` on `ref(route.query.q)` with no route watch; a clear (X) or Escape handler that sets the ref to `''` and never writes the URL.
 - **Fix:** Input mirrors the URL value when the route changes; clearing writes `undefined`.
-- **Sources:** [VueUse: useRouteQuery](https://vueuse.org/router/useRouteQuery/), [VueUse `useRouteQuery` source (watches `route.query[name]`)](https://github.com/vueuse/vueuse/blob/main/packages/router/useRouteQuery/index.ts)
 
 ### NV-I14. Searching does not reset page / selection
 
@@ -580,7 +556,6 @@ See NV-J1.
 - **Test:** Go to page 3+, then change each filter, the search, page size, and sort.
 - **Spot:** Filter setters that don't touch `page`.
 - **Fix:** Reset `page` (to `undefined`) in the same atomic write as the filter (NV-A4).
-- **Sources:** [TanStack Table: Pagination (`autoResetPageIndex`)](https://tanstack.com/table/v8/docs/guide/pagination)
 
 ### NV-J2. Total count off-by-one / range text wrong
 - **Bug:** "Showing 1-25 of 24", "Showing 26-50 of 30", "0-0 of 0" versus "1-0 of 0", "Page 1 of 0".
@@ -588,7 +563,6 @@ See NV-J1.
 - **Test:** Totals of 0, 1, exactly page size, page size + 1; last page.
 - **Spot:** `(page - 1) * size + 1` without empty-case guard; `Math.ceil(total / size)` giving 0; API `page` 0-based while URL 1-based.
 - **Fix:** One helper; test the boundaries above.
-- **Sources:** [Telerik feedback: Properly update the pager after deleting all the items from a page](https://feedback.telerik.com/kendo-jquery-ui/1358998-properly-update-the-pager-after-deleting-all-the-items-from-a-page), [Elastic UI: Table selection ("Showing {x}-{pageCount} of {totalCount}")](https://eui.elastic.co/docs/patterns/tables/table-selection/)
 
 ### NV-J3. Count disagrees with rows after mutation
 - **Bug:** Delete an item: rows update (optimistic), count/pager doesn't (or the other way).
@@ -607,7 +581,6 @@ See NV-J1.
 - **Bug:** Page size resets on refresh; `?size=100000` hangs the browser or 500s.
 - **Spot:** `Number(route.query.size)` or `pageSize` from the URL passed to the API with no allow-list.
 - **Fix:** In URL (or user preference) with an allow-list.
-- **Sources:** [TanStack blog: Search params are state](https://tanstack.com/blog/search-params-are-state)
 
 ### NV-J6. Pagination flicker / layout jump
 - **Bug:** Table collapses to a spinner between pages; pager jumps under the cursor.
@@ -628,14 +601,12 @@ See NV-J1.
 - **Test:** (a) truly empty account, (b) filter with no matches, (c) API 500/offline, (d) loading.
 - **Spot:** `v-if="!items.length"` without checking `isError`, `isPending`, or active filters.
 - **Fix:** Distinct states: loading, error with retry, no data (with a call to action), and no results for filters (show active filters + "Clear filters").
-- **Sources:** [NN/g: Designing Empty States in Complex Applications](https://www.nngroup.com/articles/empty-state-interface-design/)
 
 ### NV-K2. "Clear filters" doesn't clear the URL (or everything)
 - **Bug:** Clear button resets chips but URL keeps params so refresh brings them back; or clears search but not sort/page; or clears tab too.
 - **Test:** Apply filter+search+sort+page; clear; check URL, input box, chips, and request.
 - **Spot:** Clear handler that resets local refs or chips (`filters.value = {}`) with no URL write, or `router.replace({ query: {} })` that also drops the tab.
 - **Fix:** Clear writes `undefined` for each filter key in one `replace`/`push`; decide whether sort/tab are filters.
-- **Sources:** [Baymard: How to design applied filters](https://baymard.com/research-articles/how-to-design-applied-filters)
 
 ### NV-K3. Applied filters invisible
 - **Bug:** Results look wrong because a filter applied from a deep link or a collapsed panel isn't shown.
@@ -647,13 +618,11 @@ See NV-J1.
 - **Bug:** Filter dropdown options built from the current page's rows, so options vanish when filtered.
 - **Spot:** `options = unique(items.map(i => i.status))`.
 - **Fix:** Options from enum/metadata endpoint.
-- **Sources:** [TanStack Table: Column Faceting (custom server-side faceting)](https://tanstack.com/table/v8/docs/guide/column-faceting)
 
 ### NV-K5. Error state not cleared when filters change
 - **Bug:** One failed request leaves an error banner after successful later queries (or hides results).
 - **Spot:** `const error = ref(...)` set in a `catch` or `onError` on a list and never cleared on the next success or filter change.
 - **Fix:** Derive from the current query's `isError`, not a sticky local ref.
-- **Sources:** [TanStack Query: Queries (status and `isError`)](https://tanstack.com/query/latest/docs/framework/vue/guides/queries)
 
 ## L. Selection and bulk actions
 
@@ -662,31 +631,26 @@ See NV-J1.
 - **Test:** Select on page 1, go to page 2 or change filter, inspect the bulk-action count and the request payload.
 - **Spot:** Row selection (`rowSelection`, a `Set` of ids) with no reset in the filter, search or page watcher, and a bulk action reading the full selection.
 - **Fix:** Either clear selection on filter/page change, or show "5 selected (3 not shown)" explicitly with a review step.
-- **Sources:** [Shopify Polaris: Migrate unstable bulk actions](https://shopify.dev/docs/apps/build/app-home/migrate-from-polaris-react/unstable-bulk-actions)
 
 ### NV-L2. "Select all" ambiguity
 - **Bug:** Header checkbox selects only visible page while the action says "all"; or selects all N matching including hidden ones without saying so.
 - **Spot:** `toggleAllRowsSelected(true)` on a paginated or filtered table, or a header that calls `toggleAllPageRowsSelected` beside a bulk label that says "all".
 - **Fix:** Gmail pattern: select page, then offer "Select all 213 matching"; bulk API takes filter criteria for the all case.
-- **Sources:** [Shopify Polaris: Migrate unstable bulk actions](https://shopify.dev/docs/apps/build/app-home/migrate-from-polaris-react/unstable-bulk-actions), [PatternFly: Bulk selection](https://v5-archive.patternfly.org/patterns/bulk-selection)
 
 ### NV-L3. Selection keyed by index
 - **Bug:** After sort/refetch, a different row is selected.
 - **Spot:** `selected = Set<number>` of row indices.
 - **Fix:** Key by stable id.
-- **Sources:** [TanStack Table: Row Selection (`getRowId`)](https://tanstack.com/table/v8/docs/guide/row-selection), [Shopify Polaris: Migrate unstable bulk actions](https://shopify.dev/docs/apps/build/app-home/migrate-from-polaris-react/unstable-bulk-actions)
 
 ### NV-L4. Header checkbox indeterminate/state wrong
 - **Bug:** Header shows checked when only some selected; or stays checked after a row is deselected or rows change.
 - **Spot:** Header checkbox `:checked="selected.size > 0"` or `=== rows.length` with no `indeterminate` state.
 - **Fix:** Compute from visible ids; `indeterminate` state.
-- **Sources:** [WAI-ARIA APG: Checkbox pattern (mixed state)](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/), [TanStack Table: Row Selection](https://tanstack.com/table/v8/docs/guide/row-selection)
 
 ### NV-L5. Bulk action leaves stale selection
 - **Bug:** After bulk delete, selection still contains deleted ids; next action fails.
 - **Spot:** Bulk mutation `onSuccess` with no `selected.value.clear()`, `resetRowSelection()` or prune of the affected ids.
 - **Fix:** Clear/prune selection on success.
-- **Sources:** [TanStack Table: Row Selection](https://tanstack.com/table/v8/docs/guide/row-selection)
 
 ## M. Sorting
 
@@ -713,25 +677,21 @@ See NV-J1.
 - **Bug:** Dates sorted "01 Feb" < "02 Jan"; prices "$1,000" < "$200"; "1.5 Gbps" versus "500 Mbps".
 - **Spot:** Sort key is the displayed/formatted value.
 - **Fix:** Sort on raw value (ISO date/epoch, number in base unit).
-- **Sources:** [TanStack Table: Sorting (sorting functions)](https://tanstack.com/table/v8/docs/guide/sorting)
 
 ### NV-M5. Sort compares comparator returning boolean
 - **Bug:** Inconsistent ordering across browsers.
 - **Spot:** `.sort((a, b) => a > b)`.
 - **Fix:** Return negative/zero/positive.
-- **Sources:** [MDN: Array.prototype.sort() (comparator requirements)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 
 ### NV-M6. Mutating sort on reactive/query data
 - **Bug:** `.sort()` mutates TanStack cached array or props; other views reorder; Vue warnings on props.
 - **Spot:** `data.value.sort(...)` in a computed.
 - **Fix:** `toSorted()` or `[...arr].sort()`.
-- **Sources:** [MDN: Array.prototype.sort() (sorts in place)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), [MDN: Array.prototype.toSorted()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted)
 
 ### NV-M7. Client sort on server-paginated data
 - **Bug:** Sorting only reorders the current page.
 - **Spot:** `.sort(`, `.toSorted(` or client `sorting` on `data.items` from an endpoint that takes `page` or `size`.
 - **Fix:** Send sort to the server.
-- **Sources:** [TanStack Table: Sorting (client-side versus server-side)](https://tanstack.com/table/v8/docs/guide/sorting)
 
 ### NV-M8. Sort indicator and URL out of sync
 - **Bug:** Arrow shows ascending while data is descending after Back/refresh; `aria-sort` wrong.
@@ -746,25 +706,21 @@ See NV-J1.
 - **Test:** Select tab 3, refresh, copy link, Back.
 - **Spot:** `TabsRoot` `v-model` on a local `ref('...')` on a routed page, with no query param or child route.
 - **Fix:** Tab in query or child route; Reka `TabsRoot` `v-model` bound to a URL-backed computed; decide push versus replace (child routes push).
-- **Sources:** [TanStack blog: Search params are state](https://tanstack.com/blog/search-params-are-state), [Reka UI `TabsRoot.vue` (`modelValue`)](https://github.com/unovue/reka-ui/blob/v2/packages/core/src/Tabs/TabsRoot.vue)
 
 ### NV-N2. Invalid tab value
 - **Bug:** `?tab=foo` renders no tab panel (blank); tab hidden by permission/feature flag still reachable by URL.
 - **Spot:** `TabsRoot :model-value="route.query.tab"` with no check against the visible tab list, or a tab hidden by `v-if` (permission, flag) still selectable from the URL.
 - **Fix:** Validate against the visible tabs list; `replace` to default.
-- **Sources:** [TanStack blog: Search params are state](https://tanstack.com/blog/search-params-are-state)
 
 ### NV-N3. Per-tab state collisions
 - **Bug:** Tabs each with their own list share `?page=` / `?q=`, so page 4 of tab A applies to tab B.
 - **Spot:** Two tab panels whose lists use the same `queryParam`, `searchQueryParam` or `page` key, with no reset on tab change.
 - **Fix:** Reset or namespace params on tab change.
-- **Sources:** [TanStack blog: Search params are state ("colliding formats")](https://tanstack.com/blog/search-params-are-state)
 
 ### NV-N4. Tab content not lazy / refetching
 - **Bug:** All tabs fetch on load (slow), or switching tabs refetches and loses scroll.
 - **Spot:** `TabsContent` with `force-mount`, or every tab's `useQuery` called in the parent page.
 - **Fix:** Lazy mount + query cache; Reka `TabsContent` unmounts inactive panels by default (`unmountOnHide: true`) unless `forceMount`.
-- **Sources:** [Reka UI `TabsRoot.vue` (`unmountOnHide` defaults to `true`)](https://github.com/unovue/reka-ui/blob/v2/packages/core/src/Tabs/TabsRoot.vue), [Reka UI `TabsContent.vue` (`forceMount`)](https://github.com/unovue/reka-ui/blob/v2/packages/core/src/Tabs/TabsContent.vue)
 
 ## O. Cache and data freshness across navigation
 
@@ -801,7 +757,6 @@ See NV-J1.
 - **Cause:** Company id not in query keys.
 - **Spot:** Query key for company-scoped data without the company id, on a path where a company switch doesn't call `queryClient.clear()`.
 - **Fix:** Include tenant in keys or `queryClient.clear()` on switch.
-- **Sources:** [TanStack Query: Query Keys](https://tanstack.com/query/latest/docs/framework/vue/guides/query-keys)
 
 ## P. Misc navigation details
 
@@ -809,13 +764,11 @@ See NV-J1.
 - **Bug:** Breadcrumb "Services" goes to an unfiltered list.
 - **Spot:** Breadcrumb item `to: { name: 'services' }` (or a bare path) with no stored list query.
 - **Fix:** As NV-F5.
-- **Sources:** [Baymard: Return users to the same place in the product list](https://baymard.com/research-articles/return-same-place), [NN/g: Breadcrumbs](https://www.nngroup.com/articles/breadcrumbs/)
 
 ### NV-P2. Active nav highlighting wrong
 - **Bug:** Parent menu not active on child routes, or two items active.
 - **Spot:** `route.path === item.path`; `exact-active-class` misuse.
 - **Fix:** Use `RouterLink` `isActive` (matches parent records) or route `meta`.
-- **Sources:** [Vue Router: Active links](https://router.vuejs.org/guide/essentials/active-links.html)
 
 ### NV-P3. Duplicate navigation warnings / no-op clicks
 - **Bug:** Clicking the current nav item does nothing when the user expects a reset to the default list.
@@ -827,13 +780,11 @@ See NV-J1.
 - **Bug:** Hidden menu item, but `/admin-only` loads (or crashes) when typed.
 - **Spot:** Nav item hidden with `v-if` on a permission check or a feature flag, while its route record has no matching `meta` check or `beforeEnter`.
 - **Fix:** Guard in the router (meta), not only in the nav.
-- **Sources:** [Vue Router: Route Meta Fields](https://router.vuejs.org/guide/advanced/meta.html), [OWASP Top 10 A01:2021 Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 
 ### NV-P5. Navigating while a request or mutation is in flight
 - **Bug:** Toast/error from the previous page appears on the new page; mutation `onSuccess` pushes to a route after the user already left.
 - **Spot:** Mutation `onSuccess: () => router.push(...)` or a toast after `await` with no check that the route is still the one the call started on.
 - **Fix:** Guard post-mutation navigation with a check that the user is still on the origin route.
-- **Sources:** [TanStack Query: Mutations (callbacks on `mutate` skip after unmount)](https://tanstack.com/query/latest/docs/framework/vue/guides/mutations)
 
 ---
 
@@ -845,7 +796,6 @@ See NV-J1.
 - **Test:** Sign in with each role (admin, technical, finance, read-only) and compare the actions on the same screen. Tab to each disabled control and check whether a reason is announced.
 - **Spot:** `v-if="can('order')"` on actions users expect to see; `:disabled` with no tooltip or helper text; native `disabled` on a control that should explain itself.
 - **Fix:** Show unavailable options instead of hiding them when users need to know they exist. Use `aria-disabled` (focusable and announced) with a reason, and block the click in JS. See DS-N3 (persona-value-display) for tooltips on disabled buttons.
-- **Sources:** [Smashing Magazine: Frustrating design patterns, disabled buttons](https://www.smashingmagazine.com/2021/08/frustrating-design-patterns-disabled-buttons/), [CSS-Tricks: Making disabled buttons more inclusive](https://css-tricks.com/making-disabled-buttons-more-inclusive/)
 
 ### NV-Q2. Deep link to a forbidden action shows a blank page or a misleading "not found"
 - **Bug:** A link to `/services/123/edit` opened by a viewer shows an empty form, or a 404 that suggests the service was deleted. NV-P4 covers whether the route is reachable; this item covers the message.
@@ -853,7 +803,6 @@ See NV-J1.
 - **Test:** As a read-only user, open edit, order, and admin URLs directly. Also open a link to a resource in a company the user can't access.
 - **Spot:** A guard that redirects every failure to `/404`; a page that renders the form whatever the permission state.
 - **Fix:** A clear access page that says what the user can't do, links to view the item, and says who to ask. Don't blame the user, and don't show codes.
-- **Sources:** [GOV.UK Design System: Page not found pages](https://design-system.service.gov.uk/patterns/page-not-found-pages/)
 
 ### NV-Q3. Permission checks inconsistent across screens
 - **Bug:** The list hides "Delete", but the detail page shows it. A bulk action includes items the user can't change.
@@ -861,7 +810,6 @@ See NV-J1.
 - **Test:** For each action, compare the list row menu, the detail page, the bulk toolbar, and the keyboard shortcut for every role.
 - **Spot:** Inline `user.role === 'admin'` in templates; the same rule written differently in two components.
 - **Fix:** One central `can(action, subject)` helper (CASL style) used by every screen, and bulk actions that filter or flag items the user can't act on.
-- **Sources:** [CASL: guide introduction](http://casl.js.org/v6/en/guide/intro/)
 
 ### NV-Q4. Permission-loading flash
 - **Bug:** Admin buttons flash on, then off, while the profile loads. A click during the flash fires.
@@ -869,7 +817,6 @@ See NV-J1.
 - **Test:** Throttle the network, load a page as a read-only user, and watch the actions during the first second. Try clicking one during the flash.
 - **Spot:** `const canEdit = computed(() => !profile.value || profile.value.canEdit)`; checks that default to `true`.
 - **Fix:** Treat `pending` as not allowed, and render gated controls only after the permissions query succeeds.
-- **Sources:** [TanStack Query: Dependent queries](https://tanstack.com/query/latest/docs/framework/vue/guides/dependent-queries)
 
 ---
 
@@ -881,7 +828,6 @@ See NV-J1.
 - **Test:** For every toolbar and row action: an empty list, a list filtered to zero, 0 selected, and a resource in a pending state.
 - **Spot:** Action buttons with no `:disabled` tied to `rows.length`, `selected.size`, or status.
 - **Fix:** Disable with a reason (tooltip or inline text), or hide the action when it does not apply to the state.
-- **Sources:** [Kaner et al.: Common Software Errors](https://web.archive.org/web/2015/http://www.testingeducation.org/BBST/testdesign/kaner_common_software_errors.pdf)
 
 ### NV-R2. A list or export is silently capped at the first API page or a row limit
 - **Bug:** A company's services list is missing entries, filters give wrong results on later pages, or a downloaded inventory stops at 2000 rows. Nothing says data is missing.
@@ -889,7 +835,6 @@ See NV-J1.
 - **Test:** Use an account with more items than one API page (and more than any export limit). Compare the list count, the total from the API, and the number of rows in the export. Filter, then go to page 2.
 - **Spot:** A fetch with no loop over `next` or `page` when the UI shows "all"; a hard-coded `limit` or `size` on a list call; an export with no row count shown.
 - **Fix:** Follow pagination to the end (or page in the UI), show the total, and when a cap applies say so ("Showing the first 2000 of 5,312 rows").
-- **Sources:** [RFC 8288: Web Linking (`next` relation for paged collections)](https://www.rfc-editor.org/rfc/rfc8288)
 
 ### NV-R3. A side-channel download (anchor href or `window.open`) skips the API client's context headers
 - **Bug:** In a managed-account or company context, a CSV or PDF download comes from the wrong account, or fails, while the page itself shows the right data. This is related to NV-O5.
@@ -897,4 +842,3 @@ See NV-J1.
 - **Test:** Switch into a managed account, then download every CSV, PDF, and statement on the page. Compare the contents with the on-screen data, and check the request headers in DevTools.
 - **Spot:** `window.open(apiUrl)` or `<a :href="`${baseUrl}/…/csv`" download>` for API endpoints; a download path that bypasses the shared API client.
 - **Fix:** Fetch the file through the API client (so it carries the same headers), then save it from a Blob URL. Or have the server issue a short-lived signed URL that already carries the context.
-- **Sources:** [MDN: `<a download>` (no custom headers; use fetch plus a Blob URL)](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)

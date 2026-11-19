@@ -93,7 +93,6 @@ Each item has: **User sees**, **Root cause**, **Try**, **Review signal** (what t
 - **Fix**: `z.string().trim().min(1)`; base disabled-state checks on `value.trim()`. Decide whether `​`-only counts as blank (it isn't matched by `\s`).
 - **Source**: OWASP Input Validation Cheat Sheet.
 - **In the project**: The model is `z.string().trim().min(1).max(MAX_NAME_LENGTH, ...)`. Zod apps use `toTypedSchema`; yup apps use `.trim()` too.
-- **Sources:** [MDN: HTML attribute: required](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/required), [Zod: string transforms (`.trim()`)](https://zod.dev/api)
 
 ### IN-B2. Leading/trailing spaces saved and later break matching
 
@@ -167,7 +166,6 @@ See DS-A7 (persona-value-display).
 - **Try**: Name `😀 Team`, `𠀀abc`, `Émile` in NFD.
 - **Review signal**: `[0]`, `charAt`, `split('')` on display names (avatars, initials, alphabetical group headers).
 - **Fix**: `[...segmenter.segment(s)][0]?.segment`, or `Array.from(s)[0]` as a code-point-safe minimum.
-- **Sources:** [MDN: String (UTF-16 characters, Unicode code points, and grapheme clusters)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#utf-16_characters_unicode_code_points_and_grapheme_clusters)
 
 ### IN-C5. Unicode normalisation (NFC versus NFD) mismatch
 
@@ -186,7 +184,6 @@ See DS-A7 (persona-value-display).
 - **Review signal**: `a.toLowerCase() === b.toLowerCase()`, `.toLowerCase().includes(…)` in filters.
 - **Fix**: `a.localeCompare(b, undefined, { sensitivity: 'base' }) === 0` (or an `Intl.Collator` with `sensitivity: 'base'`) for search. `sensitivity: 'accent'` does not equate `STRASSE` and `Straße` (returns -1; verified in Node); don't use `toLocaleLowerCase()` for identifiers.
 - **Source**: BLNS "Changing length when lowercased" section.
-- **Sources:** [MDN: String.prototype.toLocaleLowerCase()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase), [MDN: Intl.Collator() sensitivity](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator/Collator), [Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings/blob/master/blns.txt)
 
 ### IN-C7. Zero-width and invisible characters in identifiers
 
@@ -196,7 +193,6 @@ See DS-A7 (persona-value-display).
 - **Review signal**: Identifier, key, email, URL, or tag fields with no character allowlist.
 - **Fix**: Strip default-ignorable code points from identifier-like fields on input; don't strip ZWJ/ZWNJ from free text (they are meaningful in Persian, Indic scripts and emoji).
 - **Source**: BLNS "Trick Unicode" section.
-- **Sources:** [Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings/blob/master/blns.txt), [UAX #31: Unicode Identifiers and Syntax](https://www.unicode.org/reports/tr31/), [Unicode FAQ: Display of unsupported characters](https://www.unicode.org/faq/unsup_char.html)
 
 ### IN-C8. Homoglyphs and confusables
 
@@ -223,7 +219,6 @@ See DS-A7 (persona-value-display).
 - **Try**: `مرحبا (2)`, `שלום 10Gbps`.
 - **Review signal**: Same as IN-C9.
 - **Fix**: `dir="auto"` on cells displaying user content.
-- **Sources:** [W3C: Inline markup and bidirectional text in HTML](https://www.w3.org/International/articles/inline-bidi-markup/), [MDN: text-overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-overflow)
 
 ### IN-C11. Zalgo / combining-mark stacking breaks layout
 
@@ -233,7 +228,6 @@ See DS-A7 (persona-value-display).
 - **Review signal**: Fixed-height rows, avatar labels, chips showing user text without `overflow: hidden`.
 - **Fix**: `overflow: hidden` / `overflow-wrap: anywhere` on user-text containers; optionally limit consecutive combining marks server-side.
 - **Source**: BLNS "Zalgo Text".
-- **Sources:** [Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings/blob/master/blns.txt), [UAX #15: Stream-Safe Text Format](https://www.unicode.org/reports/tr15/#Stream_Safe_Text_Format)
 
 ### IN-C12. Long unbroken strings overflow
 
@@ -259,7 +253,6 @@ See DS-A1 (persona-value-display).
 - **Try**: T6; `10.0.0.0–10.0.0.255`; type `"` on iOS in an input with default settings.
 - **Review signal**: Fields that hold code-like values (JSON, regex, CIDR ranges, keys, tags) without `autocorrect="off"` / `spellcheck="false"`; search that doesn't normalise quotes.
 - **Fix**: For code-like fields: `autocapitalize="off" autocorrect="off" spellcheck="false"`. Normalise `‘’` → `'`, `“”` → `"`, `–—` → `-` where the field is machine-readable. For search, fold quotes on both sides.
-- **Sources:** [Apple: Replace text and punctuation in documents on Mac](https://support.apple.com/en-au/guide/mac-help/mh35735/mac), [MDN: autocorrect global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/autocorrect)
 
 ### IN-D2. Pasting formatted numbers into numeric fields
 
@@ -290,7 +283,6 @@ See FM-D18 (persona-form-behaviour).
 - **Try**: Paste from Word, Google Docs, a web page with images.
 - **Review signal**: `contenteditable` in templates; any WYSIWYG editor.
 - **Fix**: Intercept `paste`, read `text/plain`, insert as text; or sanitise HTML on save and render.
-- **Sources:** [MDN: Element paste event](https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event), [OWASP: Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 
 ### IN-D6. Pasted value exceeds `maxlength` silently truncated
 
@@ -299,7 +291,6 @@ See FM-D18 (persona-form-behaviour).
 - **Try**: Paste an over-long value into every field with `maxlength`.
 - **Review signal**: `maxlength` on fields holding keys, tokens, IDs, or URLs (where truncation produces a wrong value rather than a short one).
 - **Fix**: For machine values, drop `maxlength` and validate length with a visible error.
-- **Sources:** [WHATWG HTML: maxlength](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-maxlength), [Adam Silver: Don’t use the maxlength attribute to stop users from exceeding the limit](https://adamsilver.io/blog/dont-use-the-maxlength-attribute-to-stop-users-from-exceeding-the-limit)
 
 ### IN-D7. Paste into split OTP / code inputs
 
@@ -381,7 +372,6 @@ See DS-D2 (persona-value-display).
 - **Review signal**: `type="email"` combined with a separate schema that disagrees; `novalidate` forms relying on the native check.
 - **Fix**: One source of truth for email validity; server-side verification.
 - **Source**: MDN email page (IDN spec issues: whatwg/html#4562).
-- **Sources:** [WHATWG HTML: Email state (type=email)](https://html.spec.whatwg.org/multipage/input.html#email-state-(type=email)), [whatwg/html#4562: Validating internationalized mail addresses](https://github.com/whatwg/html/issues/4562)
 
 ### IN-F4. Name validators reject real names
 
@@ -399,7 +389,6 @@ See DS-D2 (persona-value-display).
 - **Try**: `O'Brien`, `a&b`, `<3`, `(`, `[`, `*`, `\`.
 - **Review signal**: `new RegExp(userInput)`; manual `escapeHtml` before `{{ }}`; `encodeURIComponent` applied twice.
 - **Fix**: Escape for regex (`s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')`) or use `includes`; let Vue escape text once.
-- **Sources:** [MDN: RegExp.escape()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape), [Vue: Template syntax (text interpolation)](https://vuejs.org/guide/essentials/template-syntax.html#text-interpolation)
 
 ### IN-F6. Phone number handling
 
@@ -439,7 +428,6 @@ See DS-D2 (persona-value-display).
 - **Try**: `[x](javascript:alert(1))`, `<script>` inside markdown, `![x](https://attacker/tracker.png)`.
 - **Review signal**: `marked(...)`/`markdown-it` output in `v-html`.
 - **Fix**: Disable raw HTML, sanitise output with DOMPurify, restrict URL schemes.
-- **Sources:** https://attacker/tracker.png
 
 ### IN-G3. User text interpolated into vue-i18n messages
 
@@ -457,7 +445,6 @@ See DS-D2 (persona-value-display).
 - **Try**: T22; `100%`, `a&b=c`, `#hash`.
 - **Review signal**: `` router.push(`/x/${name}`) ``, `` href=`…?q=${q}` ``.
 - **Fix**: `router.push({ name, params, query })`; `URLSearchParams`; `encodeURIComponent` once.
-- **Sources:** [Vue Router: Programmatic navigation](https://router.vuejs.org/guide/essentials/navigation.html)
 
 ### IN-G5. `javascript:` / `data:` URLs in user-supplied links
 
@@ -475,7 +462,6 @@ See DS-D2 (persona-value-display).
 - **Try**: Empty name, null name.
 - **Review signal**: `:title="item.name"` where name is optional. Vue removes the attribute when a bare binding is `null` or `undefined` (so no tooltip and no accessible name); the literal `undefined` appears when the value is interpolated into a string or concatenated.
 - **Fix**: Fallback strings through i18n; never render `undefined`/`null`.
-- **Sources:** [Vue: Template syntax (attribute bindings)](https://vuejs.org/guide/essentials/template-syntax.html#attribute-bindings), [MDN: title attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/title)
 
 ### IN-G7. Literal `null` / `undefined` rendering
 
@@ -510,7 +496,6 @@ See DS-B1 (persona-value-display).
 - **Try**: Export any non-ASCII name; open in Excel on Windows.
 - **Review signal**: `new Blob([csv])` without `'﻿'` prefix.
 - **Fix**: Prepend `﻿` for Excel-targeted CSVs (and make sure the BOM isn't then treated as part of the first header by importers).
-- **Sources:** [Microsoft: Opening CSV UTF-8 files correctly in Excel](https://support.microsoft.com/en-au/office/opening-csv-utf-8-files-correctly-in-excel-8a935af5-3416-4edd-ba7e-3dfd2bc4a032)
 
 ### IN-H4. Filenames built from user text
 
@@ -520,7 +505,6 @@ See DS-B1 (persona-value-display).
 - **Review signal**: `` link.download = `${name}.csv` ``.
 - **Fix**: Replace `\/:*?"<>|` and control chars, trim dots/spaces, cap length.
 - **Source**: BLNS "MSDOS/Windows Special Filenames".
-- **Sources:** [Microsoft Learn: Naming Files, Paths, and Namespaces](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file), [Big List of Naughty Strings](https://github.com/minimaxir/big-list-of-naughty-strings/blob/master/blns.txt)
 
 ---
 
@@ -569,7 +553,6 @@ See DS-B1 (persona-value-display).
 - **Try**: Type, toggle, type more.
 - **Review signal**: `v-if`/`v-else` between two inputs for show/hide.
 - **Fix**: Bind `:type="show ? 'text' : 'password'"` on one element. Make the toggle `type="button"` so it doesn't submit.
-- **Sources:** [web.dev: Sign-in form best practices](https://web.dev/articles/sign-in-form-best-practices), [Vue: Conditional rendering (v-if versus v-show)](https://vuejs.org/guide/essentials/conditional.html#v-if-vs-v-show), [Vue 3 migration: key on conditional branches](https://v3-migration.vuejs.org/breaking-changes/key-attribute.html)
 
 ### IN-I6. Browser translation mangles or crashes the app
 
@@ -591,7 +574,6 @@ See DS-B1 (persona-value-display).
 - **Try**: Paste invalid value and press Enter immediately.
 - **Review signal**: `useDebounceFn` around validation; submit not awaiting full validation.
 - **Fix**: Validate synchronously on submit regardless of debounce.
-- **Sources:** [VeeValidate: Handling forms (handleSubmit)](https://vee-validate.logaretm.com/v4/guide/composition-api/handling-forms/), [VueUse: useDebounceFn (flush and cancel)](https://vueuse.org/shared/useDebounceFn/)
 
 ### IN-J2. Validation fires on first keystroke ("premature error")
 
@@ -604,7 +586,6 @@ See FM-F1 (persona-form-behaviour).
 - **Try**: Click mid-string and type.
 - **Review signal**: Computed setters that transform; `toUpperCase()` in `@update:model-value`.
 - **Fix**: Transform on blur, or use CSS `text-transform` for display and transform on submit; restore `selectionStart`.
-- **Sources:** [WHATWG HTML: value IDL attribute, "value" mode setter](https://html.spec.whatwg.org/multipage/input.html#dom-input-value-value)
 
 ### IN-J4. Enter in an input submits an unexpected form or does nothing
 
@@ -625,7 +606,6 @@ See FM-A5 (persona-form-behaviour).
 - **Try**: Use every clear affordance (native search "x", Escape in search inputs, custom clear buttons).
 - **Review signal**: `@keyup` for filter updates; clear buttons that set display state only.
 - **Fix**: Bind to `input`; clear the model, not just the text.
-- **Sources:** [MDN: HTMLInputElement search event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/search_event), [WebKit bug 34393: Cancel button of search input field does not fire input event](https://bugs.webkit.org/show_bug.cgi?id=34393)
 
 ### IN-J8. Escape in a text input inside a dialog closes the dialog and discards edits
 
@@ -659,7 +639,6 @@ See NV-M2 (persona-url-state).
 - **Try**: Visual check; screen reader.
 - **Review signal**: Inputs with `placeholder` and no `<label>`/`aria-label`.
 - **Fix**: Visible label; placeholder only as a format hint.
-- **Sources:** [NN/g: Placeholders in Form Fields Are Harmful](https://www.nngroup.com/articles/form-design-placeholders/), [W3C WAI: Form instructions](https://www.w3.org/WAI/tutorials/forms/instructions/), [WHATWG HTML: placeholder attribute](https://html.spec.whatwg.org/multipage/input.html#attr-input-placeholder)
 
 ### IN-J14. Prefilled edit forms lose characters on round trip
 
@@ -668,7 +647,6 @@ See NV-M2 (persona-url-state).
 - **Try**: Values with trailing spaces, `&`, NFD chars, smart quotes; open edit, save immediately.
 - **Review signal**: `isDirty` computed through `JSON.stringify` comparison after transforms.
 - **Fix**: Apply the same normalisation to the initial value before comparing; make transforms idempotent.
-- **Sources:** [WHATWG HTML: Text state value sanitisation (strip newlines)](https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search))
 
 ---
 
@@ -681,7 +659,6 @@ See NV-M2 (persona-url-state).
 - **Try**: `010.1.1.1`, `0177.0.0.1`, `1.1.1.01`, `00.0.0.0`, `1.1.1.1 ` (trailing space), `1.1.1`, `1.1.1.256`, `999.999.999.999`.
 - **Review signal**: An IP regex with `\d{1,3}` and no `(?!0\d)`; `parseInt(octet)` with no radix check; IPs compared as strings.
 - **Fix**: Reject leading zeros (`25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d`), or use a strict parser and store the canonical form. Compare canonical forms.
-- **Sources:** [Hendrickson: Test Heuristics Cheat Sheet](https://web.archive.org/web/2020/http://testobsessed.com/wp-content/uploads/2011/04/testheuristicscheatsheetv1.pdf), [Malwarebytes: npm netmask vulnerability explained](https://www.malwarebytes.com/blog/news/2021/03/the-npm-netmask-vulnerability-explained-so-you-can-actually-understand-it)
 
 ### IN-K2. CIDR prefix accepted with host bits set
 
@@ -690,7 +667,6 @@ See NV-M2 (persona-url-state).
 - **Try**: `10.0.0.1/8`, `10.0.0.0/8`, `10.0.0.0/33`, `10.0.0.0/0`, `10.0.0.0/32`, `10.0.0.0/08`, IPv6 `2001:db8::1/64`.
 - **Review signal**: A zod `.regex()` for CIDR with no refinement on the masked address.
 - **Fix**: Refine with `(ip & mask) === ip`, then either reject with "Did you mean 192.168.1.0/24?" or normalise visibly.
-- **Sources:** [Wikipedia: Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing), [Hendrickson: Test Heuristics Cheat Sheet](https://web.archive.org/web/2020/http://testobsessed.com/wp-content/uploads/2011/04/testheuristicscheatsheetv1.pdf)
 
 ### IN-K3. One IPv6 address, many strings: duplicate checks, search and display disagree
 
@@ -699,7 +675,6 @@ See NV-M2 (persona-url-state).
 - **Try**: Enter the three forms above in a field with a uniqueness check, in search, and in an edit form that reloads the saved value.
 - **Review signal**: `===` or `includes` on IPv6 strings; `toLowerCase()` as the only normalisation.
 - **Fix**: Canonicalise to RFC 5952 on input and before comparing. Display the canonical form.
-- **Sources:** [RFC 5952: IPv6 address text representation](https://www.rfc-editor.org/rfc/rfc5952)
 
 ### IN-K4. VLAN ID 0 and 4095 accepted, or "untagged" encoded as 0 and then shown as a VLAN
 
@@ -708,7 +683,6 @@ See NV-M2 (persona-url-state).
 - **Try**: 0, 1, 4094, 4095, 4096, empty, and the "untagged" toggle on then off.
 - **Review signal**: VLAN schema bounds; `vlan || '-'`; a sentinel such as `-1` or `0` with no display mapping.
 - **Fix**: Range 1 to 4094 (plus any platform-reserved IDs from the API), "untagged" as an explicit boolean, and a display mapping for it.
-- **Sources:** [Wikipedia: IEEE 802.1Q](https://en.wikipedia.org/wiki/IEEE_802.1Q)
 
 ### IN-K5. ASN entry: asdot notation rejected or misread, and the 2^32 boundary
 
@@ -717,7 +691,6 @@ See NV-M2 (persona-url-state).
 - **Try**: 0, 1, 64512, 65535, 65536, `1.10`, `0.65526`, 2147483647, 2147483648, 4294967295, 4294967296, `65535.65536`.
 - **Review signal**: `z.number()` or `z.coerce.number()` on an ASN; `type="number"` on an ASN; `parseFloat`.
 - **Fix**: A text input with an explicit parser for asplain and asdot that converts to an integer, bounds 1 to 4294967295 (minus reserved ranges from the API), and display in one chosen notation.
-- **Sources:** [RFC 5396: Textual representation of AS numbers](https://www.rfc-editor.org/rfc/rfc5396), [Hendrickson: Test Heuristics Cheat Sheet](https://web.archive.org/web/2020/http://testobsessed.com/wp-content/uploads/2011/04/testheuristicscheatsheetv1.pdf)
 
 ### IN-K6. Network identifier validators reject valid formats, or demand the wrong format
 
@@ -726,7 +699,6 @@ See NV-M2 (persona-url-state).
 - **Try**: `AA:BB:CC:DD:EE:FF`, `aa:bb:cc:dd:ee:ff`, `aa-bb-cc-dd-ee-ff`, `aabb.ccdd.eeff`, `aabbccddeeff`, `aa:bb:cc:dd:ee` (too short); for host-IP fields, `10.0.0.5` and `10.0.0.5/32`.
 - **Review signal**: A MAC regex with only `:` as the separator; a CIDR schema reused on a field labelled "IP address".
 - **Fix**: Accept the common MAC notations and normalise to one canonical form for storage and display. Use a host-IP schema where a prefix makes no sense, and say which format is expected in the hint.
-- **Sources:** [Wikipedia: MAC address notational conventions](https://en.wikipedia.org/wiki/MAC_address#Notational_conventions), [RFC 4632: CIDR notation](https://www.rfc-editor.org/rfc/rfc4632)
 
 ### IN-K7. A user-entered URL without a scheme renders as a relative link
 
@@ -735,4 +707,3 @@ See NV-M2 (persona-url-state).
 - **Try**: `www.example.com`, `example.com`, `//example.com`, `https://example.com`, `HTTP://Example.com`, ` https://example.com` (leading space).
 - **Review signal**: `:href="profile.website"` with no normalisation; a URL schema that accepts bare hostnames but nothing adds `https://`.
 - **Fix**: On save, parse with `new URL(value)` and, if that fails, try `new URL('https://' + value)`. Store the absolute URL. Allow only `http:` and `https:` (see IN-G5).
-- **Sources:** [MDN: URL() constructor (relative resolution against a base)](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL)
