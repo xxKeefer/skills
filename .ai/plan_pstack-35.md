@@ -16,12 +16,12 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 ## Acceptance criteria
 
-- [ ] **A.** List the byte size of each `SKILL.md` in `skills/engineering/skills/` → none is over 10,000.
+- [x] **A.** List the byte size of each `SKILL.md` in `skills/engineering/skills/` → none is over 10,000.
 - [x] **B.** Run each changed persona lane, old and new, on its seeded diff → the new lane finds each seeded defect that the old lane found, at the same tier.
 - [x] **C.** Run `/eval-skill` on `build`, `start-ticket`, `mob-review`, and the `happy-path` sad mode → no trial gives a win to version A.
 - [x] **D.** Say the trigger phrase of each merged skill ("light review", "sad path", "maintain the verify skill", "pr news", "review PR 123") → it reaches the mode that replaced the skill, and no file in `skills/` names a skill that is gone.
 - [ ] **E.** Run the gates in Context → each exits 0.
-- [ ] **F.** Compare the size table at the start and the end → the always-loaded description bytes, the per-panel-run persona bytes, and the total `SKILL.md` bytes each go down.
+- [x] **F.** Compare the size table at the start and the end → the always-loaded description bytes, the per-panel-run persona bytes, and the total `SKILL.md` bytes each go down.
 
 ## Context
 
@@ -183,8 +183,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 ### Close
 
-- [ ] **23. Versions, README, and sizes.** Kind: config. Conditions: C1. Set the versions in Context. Update the skill table of `skills/engineering/README.md` and the `deprecated` README. Write the size table again, and put the before and after totals in this line. Delete the scratch file.
+- [x] **23. Versions, README, and sizes.** Kind: config. Conditions: C1. Set the versions in Context. Update the skill table of `skills/engineering/README.md` and the `deprecated` README. Write the size table again, and put the before and after totals in this line. Delete the scratch file.
   - Done: A and F hold, by the totals in this line.
+  - Result (f4209fe): `SKILL.md` bytes 657,458 → 593,497. Model-invoked description bytes 12,628 → 11,469. Persona bytes 331,267 → 307,048. `SKILL.md` files over 10,000 B: 6 → 0. Versions: engineering 3.2.0 → 4.0.0, deprecated 2.22.0 → 2.23.0, utility 1.27.0 → 1.28.0. Both READMEs already match the skill folders. The scratch file is deleted.
 - [ ] **24. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
 - [ ] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code.
@@ -218,6 +219,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 20 done (fbf1496). pr-news is the news mode of stand-up: a time period, a PR news or review catch-up request, or a return from leave selects `NEWS.md`, which keeps the pr-news window, searches, in-window event rules for own PRs and review requests, per-repo tables, and quiet list. gazette and the README point to the mode. pr-news is in `deprecated`. Next step: 21.
 - 2026-11-19: step 21 done (469a304). review-pr is the review mode of pickup: `--review` or a review-a-PR request selects `REVIEW.md`, which keeps the show-without-asking step, the claim, the stop on local commits, the panel run in the worktree, and the report pointer. review, PR-HANDLE.md, the domain CLAUDE.md, mob-review, post-review-comments, and the README point to the mode. review-pr is in `deprecated`. Next step: 22.
 - 2026-11-19: step 22 done. All five trigger phrases reach their new mode, and the sad-mode trial is no difference. AC C and AC D hold. Next step: 23.
+- 2026-11-19: step 23 done (f4209fe). No `SKILL.md` is over 10,000 B, and the three totals go down (see the step 23 line). engineering 4.0.0, deprecated 2.23.0, utility 1.28.0. The READMEs needed no change. Next step: 24.
 
 ## Follow-ups
 
