@@ -1,9 +1,7 @@
 ---
 name: tidy-up
-description: >
-  Delete the local working state of finished work in one repo, and fix the lines in open plans
-  that finished work made stale. Use when the user says "tidy up", or asks to clean up finished
-  branches and worktrees.
+description: Delete the local state of finished work in one repo, and fix the stale lines in open plans.
+disable-model-invocation: true
 argument-hint: "[repo path, default the current repo]"
 ---
 

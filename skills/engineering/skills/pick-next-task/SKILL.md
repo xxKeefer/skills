@@ -1,8 +1,7 @@
 ---
 name: pick-next-task
-description: >
-  Rank the open work in your team's backlog, then assign the tickets that you pick. Use when the
-  user says "pick next task" or asks what to work on next.
+description: Rank the open work in your team's backlog, then assign the tickets that you pick.
+disable-model-invocation: true
 ---
 
 # Pick Next Task

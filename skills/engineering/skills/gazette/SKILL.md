@@ -1,9 +1,7 @@
 ---
 name: gazette
-description: >
-  Print a one-page HTML newspaper for a time window: your action items, the news of each repo, the
-  board, the CI weather, and an honour roll. Use when the user says "gazette" or "newspaper", or
-  wants their day and the repos' news on one page.
+description: "Print a one-page HTML newspaper for a time window: your action items, repo news, the board, and CI."
+disable-model-invocation: true
 argument-hint: "[time-period] [repo paths...] [board=<query>]"
 ---
 
