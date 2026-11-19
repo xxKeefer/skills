@@ -20,7 +20,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **B.** Run each changed persona lane, old and new, on its seeded diff → the new lane finds each seeded defect that the old lane found, at the same tier.
 - [x] **C.** Run `/eval-skill` on `build`, `start-ticket`, `mob-review`, and the `happy-path` sad mode → no trial gives a win to version A.
 - [x] **D.** Say the trigger phrase of each merged skill ("light review", "sad path", "maintain the verify skill", "pr news", "review PR 123") → it reaches the mode that replaced the skill, and no file in `skills/` names a skill that is gone.
-- [ ] **E.** Run the gates in Context → each exits 0.
+- [x] **E.** Run the gates in Context → each exits 0.
 - [x] **F.** Compare the size table at the start and the end → the always-loaded description bytes, the per-panel-run persona bytes, and the total `SKILL.md` bytes each go down.
 
 ## Context
@@ -186,8 +186,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **23. Versions, README, and sizes.** Kind: config. Conditions: C1. Set the versions in Context. Update the skill table of `skills/engineering/README.md` and the `deprecated` README. Write the size table again, and put the before and after totals in this line. Delete the scratch file.
   - Done: A and F hold, by the totals in this line.
   - Result (f4209fe): `SKILL.md` bytes 657,458 → 593,497. Model-invoked description bytes 12,628 → 11,469. Persona bytes 331,267 → 307,048. `SKILL.md` files over 10,000 B: 6 → 0. Versions: engineering 3.2.0 → 4.0.0, deprecated 2.22.0 → 2.23.0, utility 1.27.0 → 1.28.0. Both READMEs already match the skill folders. The scratch file is deleted.
-- [ ] **24. Test.** Run the gates from Context. This step changes no behaviour.
+- [x] **24. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
+  - Result: at 53e4d48, each gate exits 0: pre-commit test, commit-msg test, `check_principles.py`, the plan check, and the link check with the five retired skill names.
 - [ ] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **26. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
@@ -220,6 +221,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 21 done (469a304). review-pr is the review mode of pickup: `--review` or a review-a-PR request selects `REVIEW.md`, which keeps the show-without-asking step, the claim, the stop on local commits, the panel run in the worktree, and the report pointer. review, PR-HANDLE.md, the domain CLAUDE.md, mob-review, post-review-comments, and the README point to the mode. review-pr is in `deprecated`. Next step: 22.
 - 2026-11-19: step 22 done. All five trigger phrases reach their new mode, and the sad-mode trial is no difference. AC C and AC D hold. Next step: 23.
 - 2026-11-19: step 23 done (f4209fe). No `SKILL.md` is over 10,000 B, and the three totals go down (see the step 23 line). engineering 4.0.0, deprecated 2.23.0, utility 1.28.0. The READMEs needed no change. Next step: 24.
+- 2026-11-19: step 24 done. Every gate is green. AC E holds. Next step: 25.
 
 ## Follow-ups
 
