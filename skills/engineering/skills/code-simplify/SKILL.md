@@ -12,7 +12,7 @@ argument-hint: "[path, default the branch diff]"
 Make code that works easier to read. Each change is behaviour-preserving: same output, errors, and
 side effects.
 
-Principles: **principle-subtract-before-you-add** ([`../principle-subtract-before-you-add/SKILL.md`](../principle-subtract-before-you-add/SKILL.md)) and **principle-minimize-reader-load** ([`../principle-minimize-reader-load/SKILL.md`](../principle-minimize-reader-load/SKILL.md)).
+Principles: **principle-subtract-before-you-add** ([`../principle-subtract-before-you-add/SKILL.md`](../principle-subtract-before-you-add/SKILL.md)) and **principle-minimize-reader-load** ([`../principle-minimize-reader-load/SKILL.md`](../principle-minimize-reader-load/SKILL.md)). Read each before you apply it, and name it in the reply when it shaped a choice.
 
 ## Step 1: Pick the scope
 

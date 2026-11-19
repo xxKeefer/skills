@@ -59,7 +59,7 @@ When the diff migrates a UI library, nests text components, or sets icon props, 
 - Reactivity of `:class` bindings → `persona-vue-reactivity`.
 - A truncation done in JS (`.slice(0, n) + '…'`) splitting emoji or accents → `persona-text-input`. Null, `NaN`, or a wrong format inside the truncated text → `persona-value-display`.
 - Component/file naming → `persona-naming`.
-- **Test files** (`*.test.ts` / `*.spec.ts`): assertion validity, reachability, and whether a spec asserts on classes at all → `persona-vitest`. You may note that a token a test asserts on has been renamed, but do not judge whether the assertion runs or is correct.
+- **Test files** (`*.test.ts` / `*.spec.ts`): assertion validity, reachability, and whether a spec asserts on classes at all → `persona-test-quality`. You may note that a token a test asserts on has been renamed, but do not judge whether the assertion runs or is correct.
 
 ## Output
 

@@ -15,7 +15,7 @@ in a fresh subagent that cold-starts from the plan, as one `/clear` + `/implemen
 The test and review loop ends when the branch passes the `/ship` checks. Then it writes the QA
 checklist. It never runs the push step. `/ship` pushes.
 
-Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-sequence-verifiable-units** ([`../principle-sequence-verifiable-units/SKILL.md`](../principle-sequence-verifiable-units/SKILL.md)).
+Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-sequence-verifiable-units** ([`../principle-sequence-verifiable-units/SKILL.md`](../principle-sequence-verifiable-units/SKILL.md)). Read each first, and name it in the reply when it shaped a choice.
 
 A step that needs the user becomes an entry under `## Pending Decisions`, and the run continues
 with the steps that do not depend on it. The user answers every entry in one batch at the end.
@@ -72,14 +72,14 @@ For each remaining step, in plan order:
    `models` block in `~/.claude/AGENTS.md`, or at the `mechanical worker` role for a step that the
    plan marks mechanical. With no `models` block, use the session model. When the plan's Context
    names a subagent model, use that model in place of the role.
-   To save subagents, give one subagent a batch of at most four consecutive steps: review fix
+   Give one subagent a batch of at most four consecutive steps: review fix
    steps from the same round, or steps that the plan marks `Kind: docs` or `Kind: mechanical`.
    Pick steps that are small or that touch the same files. Give it the list of step IDs in place
    of one ID. Any other step gets its own subagent.
-   Two kinds of step run in this thread, with no step subagent:
+   Two kinds of step run in this thread:
    - A `Test.` step whose gates are only commands. Run them, then mark the step done with the
      result.
-   - A step whose check needs fresh agents, such as a live run of a skill. Dispatch those agents
+   - A step whose check needs fresh agents. Dispatch those agents
      from this thread, so that no agent starts an agent of its own.
 4. Wait for it to return. Run one subagent at a time, because the steps share one working tree.
 5. Check the result against the repo, not the summary. For a batch, check each step on its own,

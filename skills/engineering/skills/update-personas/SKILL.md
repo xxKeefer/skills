@@ -84,7 +84,7 @@ For each persona in scope, verify and fix:
 2. **Guard matches the panel.** The guard sentence in the persona and the Guard column in `mob-review/PANEL.md` must describe the same condition.
 3. **Contract pointer intact.** The first line under the frontmatter is the pointer, word for word: "Read [`PERSONA-CONTRACT.md`](../../PERSONA-CONTRACT.md) before you start, and follow every rule in it." The Output section names the `category` slug. The persona holds no copy of contract text: no git fallback block, no Code references paragraph, no JSON line.
 4. **No lane overlap.** For each rule, check no other persona claims it. If two do, the narrower one keeps it and the other gains an "Out of lane" line pointing at it.
-5. **Each rule heading holds its tier**, with the condition when a rule has two tiers. What you review ends with the Future line. No Severity section repeats the headings.
+5. **Each rule heading holds its tier**, with the condition when a rule has two tiers. What you review ends with the Future line, then the Never line when the lane has one. A lane whose Future tier is in a rule heading or a reference file needs no Future line. No Severity section repeats the headings.
 6. **Dead references**: a `references/` file nothing links to, or a link to a file that doesn't exist.
 7. **Calibration backlog.** `mob-review` Step 7 records edits from real runs in `${XDG_STATE_HOME:-$HOME/.local/state}/self-improve/improve-personas.md`. Apply each entry with `Status: approved`, then delete that entry from the backlog. Leave `open` and `rejected` entries as they are.
 8. **Scrub check clean.** Stage the persona changes, then run `.githooks/pre-commit` from the root of the marketplace checkout. It must print nothing.

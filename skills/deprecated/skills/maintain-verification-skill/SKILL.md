@@ -12,7 +12,7 @@ A feature map goes stale when the app changes. This skill is the upkeep loop for
 `/create-verification-skill` wrote. Cover each feature file from the source, and drive each feature
 live. Do not prove each sentence.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../../../engineering/skills/principle-prove-it-works/SKILL.md)).
 
 `$SKILL_DIR` is this skill's base directory.
 
@@ -54,7 +54,7 @@ do not hide it in the docs.
 
 1. Read `<driver>/features/README.md`, and list the files in `features/`.
 2. Fix each missing, extra, duplicate, or dead entry in the index.
-3. Run `python3 $SKILL_DIR/../create-verification-skill/scripts/check_driver.py <driver dir>`. Fix
+3. Run `python3 $SKILL_DIR/../../../engineering/skills/create-verification-skill/scripts/check_driver.py <driver dir>`. Fix
    each error that it names, and run it again.
 
 **Done when:** the index matches the files, and the script prints `ok`.

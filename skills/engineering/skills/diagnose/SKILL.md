@@ -11,7 +11,7 @@ description: >
 Go from bug report to proven root cause. Assess the report critically, trace the code until the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.
 
-Principle: **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)).
+Principle: **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read it before you apply it, and name it in the reply when it shaped a choice.
 
 This is the investigation skill for **head-scratchers** -- bugs nobody understands yet. It
 deliberately stops at root cause: the skills in Step 5 own the fix. If the cause is already

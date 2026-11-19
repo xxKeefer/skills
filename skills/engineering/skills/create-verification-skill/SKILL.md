@@ -16,7 +16,7 @@ A driver is a skill that runs one app the way a user does. `/verify` finds a dri
 and runs it. The next agent reads the driver cold, in the middle of a task, and has never seen the
 app. Write the driver for that reader.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)). Read it before you apply it, and name it in the reply when it shaped a choice.
 
 `$SKILL_DIR` is this skill's base directory.
 

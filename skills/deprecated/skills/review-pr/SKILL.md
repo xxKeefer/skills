@@ -18,7 +18,7 @@ resolve → show → /claim → sync → /engineering:mob-review → point to th
 
 ## Step 1: Resolve the PR
 
-1. Follow "Resolve the PR" in [`PR-HANDLE.md`](../../PR-HANDLE.md).
+1. Follow "Resolve the PR" in [`PR-HANDLE.md`](../../../engineering/PR-HANDLE.md).
 2. Run `gh pr view <n> --json number,title,url,state,isDraft,author,headRefName,headRefOid,baseRefName`.
 3. If `state` is not `OPEN`, stop and give the state.
 
@@ -47,7 +47,7 @@ answer.
 
 ## Step 4: Sync the worktree
 
-Follow "Sync the worktree" in [`PR-HANDLE.md`](../../PR-HANDLE.md). With local commits, stop. Say
+Follow "Sync the worktree" in [`PR-HANDLE.md`](../../../engineering/PR-HANDLE.md). With local commits, stop. Say
 that the panel would review commits that are not in the PR. Change nothing.
 
 **Done when:** the worktree holds the PR head, or you stopped and changed nothing.

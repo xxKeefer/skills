@@ -120,7 +120,7 @@ Each persona has `disable-model-invocation: true`. Start one by name, or let `/e
 
 ## Principles
 
-The 14 principles come from pstack. Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
+The principles come from pstack. Each is a skill with `disable-model-invocation: true`, so it costs no context. Type one, such as `/principle-fix-root-causes`, or let `/work-on` read it by path. The index with the full "when it applies" lines is in [`work-on/SKILL.md`](skills/work-on/SKILL.md).
 
 | Principle | Group | Applies when |
 |---|---|---|

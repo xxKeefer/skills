@@ -27,11 +27,11 @@ panel.
 
 ## Steps
 
-Read [`mob-review`](../mob-review/SKILL.md), and follow its Steps 0 to 7 with the changes below.
+Read [`mob-review`](../../../engineering/skills/mob-review/SKILL.md), and follow its Steps 0 to 7 with the changes below.
 Each other line of those steps applies as written. `mob-review/PANEL.md` holds the guard and the model of each
 lane.
 
-1. **Step 0.** Ask the user to `/clear` and run `/engineering:light-review` again, not `mob-review`.
+1. **Step 0.** Ask the user to `/clear` and run `/engineering:mob-review light`.
 2. **Step 2.** Match the changed files against the guards of the essential lanes only. Spawn no
    other persona and no project rubric. In the coverage table, list every other lane and the
    project rubric with the status `skipped (not in the light set)`. When no essential lane

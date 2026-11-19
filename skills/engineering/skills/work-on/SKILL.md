@@ -31,7 +31,10 @@ Stop only at these points. Between two stops, run with no input from the user.
 | H4 | An action is on the pause list. | Each time another person reads the output. |
 | H5 | The user picks the skill edits from `/retro`. | After a unit. |
 
-H4 holds each action of the `pause-list.md` rule. The stop is on the action, not on the task.
+H4 holds each action of the `pause-list.md` rule. With no such rule, H4 holds these actions: mark
+a PR ready for review, merge, force-push to a branch that another person uses, deploy, delete data
+or a branch that is not merged, post a comment, a review, or a ticket update as the user, write a
+ticket, and send a message to a person. The stop is on the action, not on the task.
 
 Between stops, never block on the user. The user supervises later, not in the loop, and code
 changes are reversible and reviewable.
@@ -49,7 +52,7 @@ stop: the review fixes each row with no stop.
 
 ## Principles
 
-The 14 principles are skills with `disable-model-invocation: true`. They add no context until you
+The principles are skills with `disable-model-invocation: true`. They add no context until you
 read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can also type it, such as
 `/principle-fix-root-causes`.
 

@@ -16,7 +16,7 @@ tries.
 `/webperf` fixes one page bottleneck, and the user says yes to each fix. `/loop-until` runs many
 tries to a predicate with no stop between tries.
 
-Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)), **principle-build-the-lever** ([`../principle-build-the-lever/SKILL.md`](../principle-build-the-lever/SKILL.md)), and **principle-sequence-verifiable-units** ([`../principle-sequence-verifiable-units/SKILL.md`](../principle-sequence-verifiable-units/SKILL.md)). Vet each measure with the checks of [`/benchmark`](../benchmark/SKILL.md).
+Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)), **principle-build-the-lever** ([`../principle-build-the-lever/SKILL.md`](../principle-build-the-lever/SKILL.md)), and **principle-sequence-verifiable-units** ([`../principle-sequence-verifiable-units/SKILL.md`](../principle-sequence-verifiable-units/SKILL.md)). Vet each measure with the checks of [`/benchmark`](../benchmark/SKILL.md). Read each before you apply it, and name it in the reply when it shaped a choice.
 
 ## Step 1: Frame
 

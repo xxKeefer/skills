@@ -15,12 +15,12 @@ review panel and this checklist share one copy.
 
 | Lane | Persona (read its Guard) | Fixtures | Catalogue |
 |---|---|---|---|
-| `form-behaviour` | [`persona-form-behaviour`](../persona-form-behaviour/SKILL.md) | [`fixtures.md`](../persona-form-behaviour/references/fixtures.md) | [`catalogue.md`](../persona-form-behaviour/references/catalogue.md) |
-| `text-input` | [`persona-text-input`](../persona-text-input/SKILL.md) | [`fixtures.md`](../persona-text-input/references/fixtures.md) | [`catalogue.md`](../persona-text-input/references/catalogue.md) |
+| `form-behaviour` | [`persona-form-behaviour`](../../../engineering/skills/persona-form-behaviour/SKILL.md) | [`fixtures.md`](../../../engineering/skills/persona-form-behaviour/references/fixtures.md) | [`catalogue.md`](../../../engineering/skills/persona-form-behaviour/references/catalogue.md) |
+| `text-input` | [`persona-text-input`](../../../engineering/skills/persona-text-input/SKILL.md) | [`fixtures.md`](../../../engineering/skills/persona-text-input/references/fixtures.md) | [`catalogue.md`](../../../engineering/skills/persona-text-input/references/catalogue.md) |
 
 ## Step 1: Read the Changeset
 
-Find the changeset as [`CHANGESET.md`](../../CHANGESET.md) says.
+Find the changeset as [`CHANGESET.md`](../../../engineering/CHANGESET.md) says.
 
 Read the `--stat`, then the diff of the non-test source files. If `$ARGUMENTS` holds resource
 links, invoke `/look-up` for them.

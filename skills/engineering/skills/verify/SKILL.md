@@ -12,7 +12,7 @@ argument-hint: "[<base ref>]"
 A driver is a skill that runs one app the way a user does. This skill finds the drivers for a diff,
 runs them, and returns what they saw. It holds no drive steps. Each driver holds its own.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)). Read it before you apply it, and name it in the reply when it shaped a choice.
 
 `$SKILL_DIR` is this skill's base directory.
 
