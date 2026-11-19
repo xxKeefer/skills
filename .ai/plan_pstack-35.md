@@ -162,8 +162,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **20. pr-news into stand-up.** Kind: docs. Conditions: C4, C5. Row 9. Add an optional time window to stand-up, and port the in-window event rules of pr-news. Retire pr-news.
   - Done: stand-up with a window gives the per-PR events that pr-news gave, and no file names `/pr-news` outside `deprecated`.
   - Result (fbf1496): stand-up takes a time period, and `NEWS.md` holds the old pr-news steps whole. stand-up/SKILL.md 7,172 → 7,775 B. gazette's desk reporter runs stand-up with no time period.
-- [ ] **21. review-pr into pickup.** Kind: docs. Conditions: C4, C5. Row 10. Add a `--review` flag to pickup that runs the claim, sync, and confirm steps, then `/engineering:mob-review`. Point `/review` to it. Update `PR-HANDLE.md`'s reader list. Retire review-pr.
+- [x] **21. review-pr into pickup.** Kind: docs. Conditions: C4, C5. Row 10. Add a `--review` flag to pickup that runs the claim, sync, and confirm steps, then `/engineering:mob-review`. Point `/review` to it. Update `PR-HANDLE.md`'s reader list. Retire review-pr.
   - Done: no file names `/review-pr` outside `deprecated`.
+  - Result (469a304): pickup takes `--review`, and `REVIEW.md` holds the old review-pr steps and stops. pickup/SKILL.md 4,188 → 4,621 B, mob-review/SKILL.md 9,551 → 9,557 B. `/review` routes a PR handle to `/pickup --review`.
 - [ ] **22. Trigger and trial check.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C3, C4.
   1. For each trigger phrase in AC D, run one fresh subagent with the HEAD skills of the domain in `.claude/skills/`. Give it the phrase as a user request. Pass when it picks the skill and mode that replaced the old skill.
   2. Run `/eval-skill` on `happy-path` in the sad mode against `sad-path` at the commit before step 18. Rubric: each item cites a catalogue ID, the items target the changed fields, the setup table comes first, and the fail ticks build a `/engineering:fix` prompt.
@@ -204,6 +205,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 18 done (f0c104d). sad-path is the `sad` mode of happy-path: the arguments or a sad-path, edge-case, or break-a-form request select `SAD.md`. `QA-REPORT.md` is in the shared-files table. test, build, fix, the domain CLAUDE.md, and the README point to the mode. sad-path is in `deprecated`. Next step: 19.
 - 2026-11-19: step 19 done (1e00e47). maintain-verification-skill is the `maintain` mode of create-verification-skill: the arguments, a maintain or audit request, or a driver that fails because the app moved select `MAINTAIN.md`. verify, the README, and the create hand-over point to the mode. maintain-verification-skill is in `deprecated`. Next step: 20.
 - 2026-11-19: step 20 done (fbf1496). pr-news is the news mode of stand-up: a time period, a PR news or review catch-up request, or a return from leave selects `NEWS.md`, which keeps the pr-news window, searches, in-window event rules for own PRs and review requests, per-repo tables, and quiet list. gazette and the README point to the mode. pr-news is in `deprecated`. Next step: 21.
+- 2026-11-19: step 21 done (469a304). review-pr is the review mode of pickup: `--review` or a review-a-PR request selects `REVIEW.md`, which keeps the show-without-asking step, the claim, the stop on local commits, the panel run in the worktree, and the report pointer. review, PR-HANDLE.md, the domain CLAUDE.md, mob-review, post-review-comments, and the README point to the mode. review-pr is in `deprecated`. Next step: 22.
 
 ## Follow-ups
 
