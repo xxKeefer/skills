@@ -18,8 +18,8 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 - [ ] **A.** List the byte size of each `SKILL.md` in `skills/engineering/skills/` → none is over 10,000.
 - [x] **B.** Run each changed persona lane, old and new, on its seeded diff → the new lane finds each seeded defect that the old lane found, at the same tier.
-- [ ] **C.** Run `/eval-skill` on `build`, `start-ticket`, `mob-review`, and the `happy-path` sad mode → no trial gives a win to version A.
-- [ ] **D.** Say the trigger phrase of each merged skill ("light review", "sad path", "maintain the verify skill", "pr news", "review PR 123") → it reaches the mode that replaced the skill, and no file in `skills/` names a skill that is gone.
+- [x] **C.** Run `/eval-skill` on `build`, `start-ticket`, `mob-review`, and the `happy-path` sad mode → no trial gives a win to version A.
+- [x] **D.** Say the trigger phrase of each merged skill ("light review", "sad path", "maintain the verify skill", "pr news", "review PR 123") → it reaches the mode that replaced the skill, and no file in `skills/` names a skill that is gone.
 - [ ] **E.** Run the gates in Context → each exits 0.
 - [ ] **F.** Compare the size table at the start and the end → the always-loaded description bytes, the per-panel-run persona bytes, and the total `SKILL.md` bytes each go down.
 
@@ -165,10 +165,21 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **21. review-pr into pickup.** Kind: docs. Conditions: C4, C5. Row 10. Add a `--review` flag to pickup that runs the claim, sync, and confirm steps, then `/engineering:mob-review`. Point `/review` to it. Update `PR-HANDLE.md`'s reader list. Retire review-pr.
   - Done: no file names `/review-pr` outside `deprecated`.
   - Result (469a304): pickup takes `--review`, and `REVIEW.md` holds the old review-pr steps and stops. pickup/SKILL.md 4,188 → 4,621 B, mob-review/SKILL.md 9,551 → 9,557 B. `/review` routes a PR handle to `/pickup --review`.
-- [ ] **22. Trigger and trial check.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C3, C4.
+- [x] **22. Trigger and trial check.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C3, C4.
   1. For each trigger phrase in AC D, run one fresh subagent with the HEAD skills of the domain in `.claude/skills/`. Give it the phrase as a user request. Pass when it picks the skill and mode that replaced the old skill.
   2. Run `/eval-skill` on `happy-path` in the sad mode against `sad-path` at the commit before step 18. Rubric: each item cites a catalogue ID, the items target the changed fields, the setup table comes first, and the fail ticks build a `/engineering:fix` prompt.
   - Done: each phrase result and the trial verdict are in this line, with each loss reverted.
+  - Result: HEAD 8330875. No loss, so no revert.
+
+    | Phrase | Picked | Result |
+    | --- | --- | --- |
+    | "light review" | `/mob-review light` | pass |
+    | "sad path" | `/happy-path sad` | pass |
+    | "maintain the verify skill" | `/create-verification-skill maintain` | pass |
+    | "pr news" | `/stand-up 1 week` (news mode) | pass |
+    | "review PR 123" | `/review` → `/pickup --review 123` → `/engineering:mob-review` in the claimed worktree | pass |
+
+    Sad-mode trial: `sad-path` at fa02780 (A) against `happy-path sad` at HEAD (B), on a form fixture, four opus candidates, one sonnet judge. A 25, 24 and B 24, 24 (of 25): no difference. Every report cites a catalogue ID on each item, puts the setup table first, and builds an `/engineering:fix` prompt from the fail ticks.
 
 ### Close
 
@@ -206,6 +217,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 19 done (1e00e47). maintain-verification-skill is the `maintain` mode of create-verification-skill: the arguments, a maintain or audit request, or a driver that fails because the app moved select `MAINTAIN.md`. verify, the README, and the create hand-over point to the mode. maintain-verification-skill is in `deprecated`. Next step: 20.
 - 2026-11-19: step 20 done (fbf1496). pr-news is the news mode of stand-up: a time period, a PR news or review catch-up request, or a return from leave selects `NEWS.md`, which keeps the pr-news window, searches, in-window event rules for own PRs and review requests, per-repo tables, and quiet list. gazette and the README point to the mode. pr-news is in `deprecated`. Next step: 21.
 - 2026-11-19: step 21 done (469a304). review-pr is the review mode of pickup: `--review` or a review-a-PR request selects `REVIEW.md`, which keeps the show-without-asking step, the claim, the stop on local commits, the panel run in the worktree, and the report pointer. review, PR-HANDLE.md, the domain CLAUDE.md, mob-review, post-review-comments, and the README point to the mode. review-pr is in `deprecated`. Next step: 22.
+- 2026-11-19: step 22 done. All five trigger phrases reach their new mode, and the sad-mode trial is no difference. AC C and AC D hold. Next step: 23.
 
 ## Follow-ups
 
