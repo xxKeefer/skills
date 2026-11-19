@@ -43,7 +43,7 @@ straight descriptive kebab-case verb, like every skill in this repo.
 
 | Term | Definition |
 | --- | --- |
-| **HITL** | Human-in-the-loop. An action that needs a yes from the user before it runs. The pause list in the `pause-list.md` rule marks the human stop: each action whose output another person reads. A skill can call a workflow skill with no stop (ADR 0016). `disable-model-invocation: true` now marks only the skills whose whole job needs the user's judgement, such as `retro`. (Formerly signalled on the skill by that flag, and before that by a `*-it` name suffix, dropped 2026-07.) |
+| **HITL** | Human-in-the-loop. An action that needs a yes from the user before it runs. The pause list in the `pause-list.md` rule marks the human stop: each action whose output another person reads. A skill can call a workflow skill with no stop (ADR 0016). `disable-model-invocation: true` marks the skills whose whole job needs the user's judgement, such as `retro`, and the user-only utilities whose description does not earn its load on each turn, such as `gazette` and `sync-docs`. (Formerly signalled on the skill by that flag, and before that by a `*-it` name suffix, dropped 2026-07.) |
 | **AFK** | Away-from-keyboard. A task fully specified for autonomous agent execution without human interaction. |
 | **Vertical slice** | A unit of work that cuts through all layers end-to-end and is demo-able or verifiable on its own. |
 | **Progressive disclosure** | Decomposing complex skills into composable primitives, so users engage at the level of abstraction they need. |

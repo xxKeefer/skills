@@ -15,7 +15,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/principle-boundary-discipline` | Superseded by `/principle-type-system-discipline` |
 | `/principle-explain-the-number` | Superseded by `/benchmark` |
 | `/principle-exhaust-the-design-space` | Superseded by `/prototype` |
-| `/principle-foundational-thinking` | Retired. Its rules are in `/principle-model-the-domain` and `/principle-sequence-verifiable-units` |
+| `/principle-foundational-thinking` | Retired. Its rules are in `/principle-model-the-domain`, `/principle-sequence-verifiable-units`, and `/principle-separate-before-serializing-shared-state` |
 | `/principle-laziness-protocol` | Superseded by `/principle-subtract-before-you-add` |
 | `/principle-migrate-callers-then-delete-legacy-apis` | Superseded by `/principle-redesign-from-first-principles` |
 | `/principle-never-block-on-the-human` | Superseded by `/work-on` |

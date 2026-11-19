@@ -16,10 +16,12 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - DS-D6: `'-' + format(Math.abs(x))` or `` `$${amount}` `` building a sign or symbol by hand → Intl sign handling or `currencySign: 'accounting'` in one `whitespace-nowrap` span [default: nit] (rule 7)
 - DS-D8: Numeric ID typed as `number`, or byte totals summed on the client from API values → IDs as strings; aggregate on the server; compact display [default: nit] (rule 10)
 - DS-D10: `Math.floor(mbps / 1000)`, or unit division with no `maximumFractionDigits` → Switch units on whole multiples or cap fraction digits [default: nit] (rule 8)
+- DS-D16: Numeric `<td>` or column with no `text-right tabular-nums` → `text-right tabular-nums` on the cell and header [default: nit] (rule 10)
 - DS-E12: `toLocaleDateString('en-US'`, `toLocaleString()` with no arguments, or a hard-coded `weekStartsOn` → vue-i18n `d()` with the app locale; week start from locale [default: nit] (rule 4)
 - DS-E14: Hand-rolled `Math.floor(sec / 3600)` duration or countdown logic with no expired state → Tested duration helper, explicit expired state, i18n plurals [default: nit]
 - DS-F3: `navigator.clipboard.writeText(x)` with no `await` or `catch`, then "Copied" shown regardless → Await, catch `NotAllowedError`, show failure, announce via `aria-live` [default: nit] (rule 11)
 - DS-F4: `select-none` on a container holding IDs, or `@click` on a `<tr>` with no text-selection guard → Keep data selectable; ignore clicks when `getSelection()` is non-empty [default: nit]
+- DS-F5: `&#8203;` or `<wbr>` inserted into an ID or value to allow line breaks → CSS `break-all` or `overflow-wrap`; copy from data [default: nit] (rule 11)
 - DS-G1: `escape(…)` or `he.encode` applied before `{{ }}` interpolation, or API fields arriving with HTML entities → Store raw text; let Vue escape at render [default: nit]
 - DS-G6: Free-text notes, description or config rendered in a `<p>` with no `whitespace-pre-line` or `whitespace-pre-wrap` → `whitespace-pre-line` for prose, `pre-wrap break-words` for config [default: nit]
 - DS-G10: `uppercase` or `capitalize` class on a data value, or `.toUpperCase()` with no locale on a user name → Transform static labels only; `toLocaleUpperCase(locale)` [default: nit]

@@ -44,7 +44,7 @@ Read the type definitions involved before proposing a fix. A "better" type that 
 
 10. **`@ts-ignore` / `@ts-expect-error` (Change Requested for `@ts-ignore`).** A suppression tells the reader nothing about the type. `@ts-expect-error` plus a one-line reason at a known-broken lib boundary is the acceptable form. Never propose a suppression as the fix for your own finding.
 
-When the changed lines add a generic helper, an interface, a const array, a catch that reads error fields, a public param type, an icon prop, or an `Omit`/`Partial` type, read [references/shape-and-contract-rules.md](references/shape-and-contract-rules.md). It holds rules 5 to 9, 11 and 12.
+When the changed lines add a generic helper, an interface, a const array, a catch that reads error fields, a public param type, an icon prop, an `Omit`/`Partial` type, or a type parameter, read [references/shape-and-contract-rules.md](references/shape-and-contract-rules.md). It holds rules 5 to 9 and 11 to 13.
 
 **Future:** larger type-model work (branded/nominal ids, generifying a whole store).
 

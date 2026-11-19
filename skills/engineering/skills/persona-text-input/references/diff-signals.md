@@ -1,11 +1,12 @@
 # persona-text-input diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
 
 ## [persona-text-input catalogue](catalogue.md)
 
 - IN-A3: `@input` assigning `$event.target.value`, or `watch(search)` feeding a query key with no debounce or composition guard; `ComboboxInput` driving a remote query → Native `v-model`, or emit on `compositionend`; debounce the key [default: nit] (rule 9)
 - IN-A4: Submit handler bound to `mousedown` or `pointerdown` that reads `form.value.x` synchronously → Submit on `click` or `submit`, not `mousedown` [default: change-requested] (rule 9)
+- IN-A5: `@input` that sets `el.value = format(el.value)` or reassigns the model to a transformed string on every keystroke → Skip formatting while composing; format on `blur` or `compositionend` [default: change-requested] (rule 9)
 - IN-B4: `split(' ')`, `replace(' ', ...)`, or a regex or allowlist with a literal space instead of `\s` on user text → Normalise all Unicode spaces; use `replaceAll` for string patterns [default: nit] (rule 1)
 - IN-B6: A single-line value feeding CSV export, an HTTP header, a filename or Terraform output with no CR/LF handling → Replace or reject line breaks on paste [default: nit] (rule 5)
 - IN-C4: `name[0]`, `charAt(0)` or `split('')` on a display name for initials, avatars or group headers → Take the first grapheme with `Intl.Segmenter` or `Array.from` [default: nit] (rule 6)
@@ -24,6 +25,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - IN-I5: `v-if`/`v-else` swapping two inputs to show or hide a password → Bind `:type` on one input; toggle is `type="button"` [default: nit]
 - IN-I6: Bare text beside conditional siblings (`<template v-if>text</template>`), or IDs, keys and code shown with no `translate="no"` → Wrap conditional text in `<span>`; add `translate="no"` [default: change-requested]
 - IN-J1: `useDebounceFn` around validation, with a submit handler that doesn't await a full validation pass → Validate synchronously on submit regardless of debounce [default: nit]
+- IN-J3: A computed setter or `@update:model-value` that transforms the value (`toUpperCase()`, strip spaces) on each keystroke → Transform on blur or submit; restore `selectionStart` [default: nit] (rule 10)
 - IN-J7: Filter updates bound to `@keyup`, or a clear button that resets display state but not the model → Bind to `input`; clear the model, not just the text [default: nit]
 - IN-J10: A validator regex with nested quantifiers (`(x+)*`, `(x|xy)+`) and no length check before matching → Bound the length first; rewrite the regex [default: change-requested] (rule 7)
 - IN-J14: `isDirty` computed by `JSON.stringify` comparison after input transforms that aren't applied to the initial value → Normalise the initial value the same way; make transforms idempotent [default: change-requested]

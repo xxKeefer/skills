@@ -41,7 +41,7 @@ gate command, and its loop step names `Seam:` and `Conditions:`.
 2. Run it on the repro case and on a negative control that must give a different number. If the
    two numbers do not separate, change the case or the metric, and run it again.
 3. Record the baseline, the noise, and one green run of the gate.
-4. Pin the harness.
+4. Pin the harness. Change it no more.
 
 **Done when:** the plan holds the baseline, the noise, the harness command, a green gate, and the
 negative control number that shows the harness separates the cases.

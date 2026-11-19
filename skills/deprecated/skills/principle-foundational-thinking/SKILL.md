@@ -1,6 +1,6 @@
 ---
 name: principle-foundational-thinking
-description: "Retired. Its rules live in principle-model-the-domain and principle-sequence-verifiable-units."
+description: "Retired. Its rules live in principle-model-the-domain, principle-sequence-verifiable-units, and principle-separate-before-serializing-shared-state."
 disable-model-invocation: true
 deprecated: 2026-11-19
 ---

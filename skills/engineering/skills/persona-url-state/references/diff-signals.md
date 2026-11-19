@@ -1,6 +1,6 @@
 # persona-url-state diff signals
 
-One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix) is in the linked catalogue under the same ID.
+One line per catalogue case this persona owns that can be seen in a diff. After applying your numbered rules, check every changed hunk against these lines. Report a match only when you can name the changed line, the input or steps that break it, and the wrong result; otherwise drop it. A line marked `(rule N)` adds a case to that rule, and the numbered rules hold the other cases. The full case (cause, inputs, fix, sources) is in the linked catalogue under the same ID.
 
 ## [persona-url-state catalogue](catalogue.md)
 
@@ -9,6 +9,8 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - NV-B3: A URL helper that uses `replace` for every param, or one page mixing `push` and `replace` for the same kind of filter → Choose `push` or `replace` per param, consistently [default: nit]
 - NV-B5: `await mutate(); router.push({ name: 'detail' })` from a create route, or wizard state in Pinia not cleared on success → `router.replace` to the result page; reset the form store [default: change-requested]
 - NV-B6: `const step = ref(1)` driving a multi-step wizard, with the step absent from the route → Step in the query or params, `push` per step [default: nit]
+- NV-C1: `scrollBehavior() { return { top: 0 } }`, a list fetched in `onMounted` with no cached data, or `gcTime: 0` on the list query → Return `savedPosition`; wait for data before restoring [default: nit] (rule 8)
+- NV-C2: Layout with `h-screen overflow-hidden` around an inner `overflow-y-auto` scroller on a routed list page → Let the document scroll, or save the container scroll [default: nit] (rule 8)
 - NV-C3: `scrollBehavior` returning `savedPosition` with no `{ top: 0 }` fallback, or `createRouter` with no `scrollBehavior` → `return savedPosition ?? { top: 0 }`; reset inner scrollers on push [default: nit] (rule 8)
 - NV-C4: `scrollBehavior` returning `{ top: 0 }` with no `to.path === from.path` branch for query-only changes → Keep scroll on same-path query changes; scroll in the pager [default: nit] (rule 8)
 - NV-C5: `scrollBehavior` with no `to.hash` branch, `el: to.hash` with no offset, or `:id` built from data used as a hash target → `{ el: to.hash, top: headerHeight }` or `scroll-margin-top`; wait for the target [default: nit]
@@ -20,6 +22,8 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - NV-E3: Guard returning a redirect to a route that the same guard also rejects, with no `to.name` exemption, or `next()` called twice → Exempt the target route; return a location instead of calling `next` [default: change-requested]
 - NV-E4: `document.title =` set in `onMounted` or once in setup, or a detail route with only a static `meta.title` → `useTitle` with a computed that includes the entity name [default: nit]
 - NV-F3: Row `@click`/`@row-click` that navigates, with an inner checkbox, menu or copy button lacking `@click.stop` → `@click.stop` on inner controls, or link only the primary cell [default: nit]
+- NV-F5: "Back to list" `:to="{ name: 'list' }"` with no stored list query → Carry the list query stashed on leave, or use real history Back [default: nit] (rule 9)
+- NV-G1: a drawer or full-screen dialog with a form opened from a local `ref(false)`, with no query param or popstate close → Push a query entry on open; close on Back [default: nit] (rule 8)
 - NV-G3: Dialog `open` computed from `route.query.modal`/`id` with no validation and no loading or not-found branch → Validate the URL value; handle loading and not-found in the dialog [default: nit] (rule 4)
 - NV-G4: Reka `DialogRoot` with `v-model:open` in a layout-level component, or a manual `document.body.style.overflow` lock → Close overlays on route change; own them in the routed view [default: change-requested]
 - NV-H2: `.split(',')` or `.join(',')` on query values holding user-defined names or tags → Repeated keys or per-item encoding; comma only for enums [default: nit]
@@ -32,6 +36,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - NV-J2: `(page - 1) * size + 1` with no empty-case guard, `Math.ceil(total / size)` giving 0, or a 0-based API page beside a 1-based URL → One range helper covering the empty and last-page cases [default: nit]
 - NV-J7: `hasNext = items.length === pageSize`, or Next `:disabled` from the returned row count → Disable from `hasMore` or `totalPages` [default: nit] (rule 10)
 - NV-K1: `v-if="!items.length"` empty state with no check of `isError`, `isPending`, or active filters → Separate loading, error, no data and no-match states [default: nit] (rule 12)
+- NV-K2: Clear handler that resets refs or chips with no URL write, or `router.replace({ query: {} })` that also drops the tab → One write setting each filter key to `undefined` [default: nit] (rule 12)
 - NV-K3: Filters inside a collapsed `Collapsible`, `Popover` or drawer with no active count or chips outside it → Always show active-filter chips or a count [default: nit] (rule 12)
 - NV-K4: Filter options built from loaded rows: `unique(items.map(i => i.status))` → Take options from the enum or a metadata endpoint [default: nit]
 - NV-L2: `toggleAllRowsSelected(true)` on a paginated or filtered table, or page-only select beside an "all" label → Select the page, then offer "Select all N matching" [default: change-requested]

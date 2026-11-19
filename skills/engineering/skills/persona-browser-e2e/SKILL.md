@@ -26,7 +26,7 @@ Lane paths: `'src/**' 'playwright.config.ts'`.
 - **Page Object Model:** page classes extend a shared base page, organised into four regions: **Fields** (readonly locators), **Navigation** (`goto()`/`navigate()`), **Workflows** (actions with inline assertions), **Assertions** (`check*` methods, pure). `goto()`/`navigate()` end with a web-first ready-gate (`expect(page).toHaveTitle(...)` / a visible landmark). Network gating uses the suite's helper that waits for an OK response after an action.
 - **testid is first-class here.** Unlike a role-first bar, form fields and table internals legitimately use `getByTestId(...)` throughout this suite. Prefer `getByRole`/`getByLabel`/`getByText` where a user-facing attribute exists, but an existing/added `getByTestId` is **not** a finding on its own.
 - **Isolation:** config is `fullyParallel`; each test self-provisions accounts via API and sets the user in `beforeEach`. Use `test.describe.configure({ mode: 'serial' })` only for blocks sharing mutable state. Do not assert a token in `localStorage` when sessions live in memory (assert auth via the UI).
-- **Diagnostic fixtures are loggers, not gates.** Console and failed-request loggers record to the CI artifact; they do **not** fail the test. Flag their removal/disabling as loss of diagnostics (Nit/Future), not a broken safety net.
+- **Diagnostic fixtures are loggers, not gates.** Console and failed-request loggers record to the CI artifact; they do **not** fail the test. Flag their removal/disabling as loss of diagnostics (Nit, rule 9), not a broken safety net.
 
 ## What you review
 

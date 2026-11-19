@@ -20,10 +20,12 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - FM-D8: `watch(model, v => model.value = round(v))`, `:value="Number(x)"`, or formatting inside `@input` [default: change-requested] (rule 8)
 - FM-D11: `type="number"` with `min` set but no `step`, and no `novalidate`, so decimals are blocked [default: change-requested]
 - FM-D16: `/^\d+$/`, `/^[0-9]+$/` or `replace(/[^0-9]/g, '')` on typed text with no `normalize('NFKC')` first [default: nit]
+- FM-D17: Computed value doing arithmetic on form fields, such as price per Mbps, with no `Number.isFinite` guard [default: change-requested] (rule 8)
 - FM-D18: `Number(v)`, `parseInt(v)` or `z.coerce.number()` on typed text with no strip of spaces, separators or units [default: nit]
 - FM-E3: Length limited only by the `maxlength` attribute while values are set from the API or by script [default: nit]
 - FM-E4: `v-model.lazy` with a character counter, or a counter in `aria-live` updating on every keystroke [default: nit]
 - FM-F1: `validateOnMount: true`, `watch(field, validate, { immediate: true })`, or errors shown without a `touched || submitAttempted` gate [default: nit]
+- FM-F2: `validateOnInput: false` with no re-validate once in error, or server errors stored apart and never cleared on edit [default: change-requested] (rule 11)
 - FM-F6: Generic error copy (`'Invalid input'`, bare `t('error')`) or a toast showing raw `error.message` [default: nit]
 - FM-F7: `onError: () => toast.error(t('generic'))` with no `setErrors` or `setFieldError` mapping API error paths [default: nit]
 - FM-F9: `<FormLabel required>` hard-coded next to a schema field marked `.optional()`, or the reverse [default: nit]
@@ -42,6 +44,7 @@ One line per catalogue case this persona owns that can be seen in a diff. After 
 - FM-H3: Dirty check via `JSON.stringify(a) !== JSON.stringify(b)` or reference equality, or defaults applied by a watcher after init [default: nit]
 - FM-H4: `initial = form` with no clone, or a `reactive` baseline shared with the model, so edits never count as dirty [default: nit]
 - FM-H5: `isDirty.value = true` set from an input handler or deep watcher instead of comparing to the baseline [default: nit]
+- FM-H6: Create `onSuccess` with no `resetForm()`, or edit-form `resetForm()` with no saved `values` [default: change-requested] (rule 13)
 - FM-H7: Form init only in `setup` or `onMounted` with no watch on `route.params.id`, and no `:key` on `<RouterView>` [default: change-requested] (rule 13)
 - FM-H9: `autofocus` on a field mounted after page load, or `focus()` after a `v-if` flag with no `await nextTick()` [default: nit]
 - FM-H10: Step data in local `ref`s or `useForm()` inside step components that unmount on step change [default: nit]

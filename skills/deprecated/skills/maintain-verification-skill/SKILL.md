@@ -12,7 +12,7 @@ A feature map goes stale when the app changes. This skill is the upkeep loop for
 `/create-verification-skill` wrote. Cover each feature file from the source, and drive each feature
 live. Do not prove each sentence.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../../../engineering/skills/principle-prove-it-works/SKILL.md)).
+Principle: **principle-prove-it-works**, a skill of the engineering plugin. Read it before you apply it, and name it in the reply when it shaped a choice.
 
 `$SKILL_DIR` is this skill's base directory.
 

@@ -72,7 +72,7 @@ read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can als
 - `principle-model-the-domain`. Before logic, stateful logic, or code with many branches.
 - `principle-type-system-discipline`. Types, signatures, validation, error handling, or adapters.
 - `principle-make-operations-idempotent`. Commands or loops that run amid crashes and retries.
-- `principle-separate-before-serializing-shared-state`. Concurrent actors might write the same target.
+- `principle-separate-before-serializing-shared-state`. Concurrent actors share state, or might write the same target.
 
 **Verification**
 

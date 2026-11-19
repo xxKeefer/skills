@@ -56,9 +56,10 @@ Delegate to `/look-up` if you need to pull in related files to understand a side
   The default is *integrate both*, but order/interaction needs a human eye.
 - **Migration/refactor vs edit** — one side renamed/moved/changed a signature or migrated an API
   while the other edited the same region against the old shape.
+- Both sides changed the same logic in different directions.
 - Delete/rename conflict (one side deleted or moved the file, the other edited it).
 
-When unsure, treat it as complex.
+When unsure, treat it as complex. Auto-resolve only a hunk with one defensible answer.
 
 **Done when:** each hunk is tagged simple or complex.
 

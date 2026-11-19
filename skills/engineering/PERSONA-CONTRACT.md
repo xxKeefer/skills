@@ -28,7 +28,7 @@ line why the lane does not apply. When a caller asks for JSON, return `inScope: 
 3. When you have a patch file, run git only for what a patch cannot show: the lines around a
    change, or a file that the diff does not touch. Each extra diff costs the panel the same bytes
    once for each persona.
-4. Judge the hunks, not the file. The Guard and each rule look only at added and changed lines.
+4. Judge the hunks, not the file. The Guard and each rule look only at the hunks: added, changed, and removed lines.
    Code that the diff does not change is context, not a finding, unless a persona rule says
    otherwise.
 5. You are read-only. Never edit a file, and never run a command that changes a clone.
@@ -39,7 +39,7 @@ line why the lane does not apply. When a caller asks for JSON, return `inScope: 
 - Stay in your lane. Out of lane names the persona that owns the rest.
 - Give each finding one tier: Change Requested, Nit, or Future. A rule's tier is in its heading.
   A catalogue sweep match takes the line's default tier, unless a rule also applies. Future is for
-  the work that the persona's Future line names.
+  the work that the persona's Future line or a rule heading names.
 - `file` and `line` point at the changed line, unless the persona's Output section names another
   anchor. `line` is the line number in the file on the branch (the `+` side of the hunk), never a
   line number in the patch file. Use line 0 for a finding about the whole diff.
