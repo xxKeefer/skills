@@ -19,6 +19,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/principle-never-block-on-the-human` | Superseded by `/work-on` |
 | `/principle-outcome-oriented-execution` | Superseded by `/principle-redesign-from-first-principles` |
 | `/principle-test-behavior-not-implementation` | Superseded by `/tdd` |
+| `/sad-path` | Superseded by `/happy-path sad` |
 
 ## Installation
 

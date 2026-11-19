@@ -25,9 +25,10 @@ that reads it.
 
 | File | Read by |
 |---|---|
-| [`CHANGESET.md`](CHANGESET.md) | `happy-path`, `sad-path`, `fix`, `sync-docs` |
+| [`CHANGESET.md`](CHANGESET.md) | `happy-path` and its sad mode, `fix`, `sync-docs` |
 | [`DRAFT-SCAN.md`](DRAFT-SCAN.md) | `create-pr`, `refine-ticket`, `post-review-comments` |
 | [`PR-HANDLE.md`](PR-HANDLE.md) | `review-pr`, `pickup` |
+| [`QA-REPORT.md`](QA-REPORT.md) | `happy-path` and its sad mode |
 
 ## Commands
 
@@ -72,13 +73,13 @@ commit.
 | `build` | `mob-review`, and the prompt of its report in a plan | The `D` and `N` entry format in `STEP.md`, the `Plan` meta key that it reads from the report, and the decision log (`decisions_<KEY>.tsv`) that its steps write through `/update-plan` and that `/sitrep` and `/retro` read |
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
-| `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path`, the `interrogate` report | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
+| `fix` | `diagnose`, the QA checklists of `happy-path` and its sad mode, the `interrogate` report | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
 | `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
 | `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The findings file `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
 | `interrogate` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the `/write-report` kind `interrogate` |
 | `blast-radius` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the verdict words `clear` and `risk` |
 | `verify` | `test`, `interrogate`, `blast-radius`; `qa-screenshots` runs only its `find_drivers.py` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
-| `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
+| `happy-path` | `test` and `build`, for the happy run and the `sad` mode | Model invocation (no `disable-model-invocation`), the `sad` argument, and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## The light mode of mob-review
 
@@ -97,7 +98,7 @@ diff, in parallel, and merges their findings into one ranked HTML report. `updat
 personas accurate. `self-improve` mines a repo's fixes, tracker bugs, review threads, CI failures,
 and the calibration backlog for persona edits, and `update-personas` applies the ones you approve.
 It also writes the repo's defect hotspots, which `persona-test-design` reads.
-`sad-path` turns the test data of the edge-case personas into a manual QA checklist in HTML.
+The `sad` mode of `happy-path` turns the test data of the edge-case personas into a manual QA checklist in HTML.
 The rules below bind the `persona-*` skills only.
 
 ### The agnostic bar
@@ -147,9 +148,9 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
   next number in its section. A removed rule leaves a gap.
 - Every rule must be checkable against a changed line in a diff.
 - A guard change needs the same change to the persona's Guard column in `mob-review/PANEL.md`.
-- `sad-path` reads the Guard of each lane it lists, and links that persona's
-  `references/fixtures.md` and `references/catalogue.md`. A move or rename of those files needs
-  the same change in `sad-path`.
+- The `sad` mode of `happy-path` (`happy-path/SAD.md`) reads the Guard of each lane it lists, and
+  links that persona's `references/fixtures.md` and `references/catalogue.md`. A move or rename of
+  those files needs the same change in `SAD.md`.
 - Inside a persona, `$SKILL_DIR` means that persona's own directory. `mob-review` tells each
   subagent the absolute path.
 

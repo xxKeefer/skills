@@ -2,12 +2,19 @@
 name: happy-path
 description: >
   Write a manual QA checklist for the current changeset as an HTML report. Use when the user says
-  "happy path" or "test plan", or asks what to test by hand before closing out.
+  "happy path" or "test plan", or asks what to test by hand before closing out. The `sad` mode tries
+  to break the changed forms and fields: use it when the user says "sad path", asks which edge
+  cases to try by hand, or wants to break a form.
+argument-hint: "[sad] [commit range | resource links]"
 ---
 
 # Happy Path
 
 Write a manual QA checklist for the current changeset as an HTML report.
+
+**Sad mode.** When the arguments hold `sad`, or the user asks for the sad path, for edge cases to
+try by hand, or to break a form, read [`SAD.md`](SAD.md) and follow it in place of the steps
+below. Otherwise run the happy path.
 
 ## Step 1: Read the Changeset
 
@@ -34,39 +41,25 @@ Rules:
   rebase as `gh stack rebase`. A step that drops a commit resets the branch, then runs
   `gh stack push`. That command force-pushes with a lease and keeps the stack in order.
 
-Then build the setup block: the state that the tester needs before item 1. Give one row for each
-part of that state that applies:
-
-- How to run the change: the command, and each flag or environment variable that the items need.
-- Each account, token, role, or permission, and the items that use it.
-- The data that must exist before the start, and the data that must not.
-- What the tester must not touch, when a step can change live or shared state.
-- The cleanup after the test, so that the system goes back to its first state.
+Then build the setup block of [`QA-REPORT.md`](../../QA-REPORT.md), with this row too, when it
+applies: what the tester must not touch, when a step can change live or shared state.
 
 **Done when:** every user-visible change in the diff maps to an item, and the setup block names all
 the state that the items need.
 
 ## Step 3: Write the Checklist
 
-Write the checklist with `/write-report`. Give it these:
+Give `/write-report` the report inputs of [`QA-REPORT.md`](../../QA-REPORT.md), and these:
 
-- `kind`: `qa`. A `/engineering:sad-path` run on the same branch adds its run to the same file.
-- `title`: `QA: {short description of changeset}`.
-- `skill`: `/engineering:fix`.
-- `track`: `["pass"]`. The user ticks pass to mark the items that they have done.
 - The run title: `Happy path`.
 - `meta`: `Range`, the changeset from Step 1, such as `main...HEAD` or `uncommitted`.
 - `answer`: one sentence on what changed. Then: "Set up the state in the first table, then run the
   items in order. The agent runs the `agent` items and reports each result. You run the `you`
   items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy
   the prompt."
-- `visuals`: one `table` with the question "What must be in place before you start?", the columns
-  `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
 - `columns`: `area`, `by` (`agent` or `you`), `step` (the action), and `expect` (the expected
   result).
-- `rows`: one row for each item, area by area. Each row has `ticks: ["pass", "fail"]`.
-
-In chat, give the report path and the item count. Do not print the checklist.
+- `rows`: area by area.
 
 **Done when:** the new run has the setup table, each item is one row in the new run, and the chat
 shows the report path and no checklist.

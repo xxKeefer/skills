@@ -2,7 +2,7 @@
 name: test
 description: >
   ★ Test: prove the change works. A bug gets a failing test first through /tdd. A built change gets
-  /happy-path, then /sad-path when it touches forms or fields. Use when the user says "test", or
+  /happy-path, then /happy-path sad when it touches forms or fields. Use when the user says "test", or
   asks to prove that a change or a bug fix works.
 argument-hint: "[bug description | seam to test]"
 ---
@@ -29,10 +29,10 @@ test output of the project's test command.
 
 ## Step 2: Add the sad path
 
-After `/happy-path`, run `/sad-path` when its guard matches the diff: a form, a field, a text input,
+After `/happy-path`, run `/happy-path sad` when its guard matches the diff: a form, a field, a text input,
 or a file upload changed. It adds its run to the same report.
 
-**Done when:** `/sad-path` ran, or its guard does not match.
+**Done when:** `/happy-path sad` ran, or its guard does not match.
 
 ## Step 2b: See it live
 

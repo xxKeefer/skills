@@ -120,8 +120,8 @@ Skip this step when the run stopped on a failed check, or `## Pending Decisions`
 Skip it also when the diff changes only docs, skill text, and tests. Step 4 then gives the plan's
 live-run check, if it has one, in place of the QA report.
 
-Dispatch one fresh `general-purpose` subagent. Tell it to run `/happy-path`, then `/sad-path` when
-its guard matches the diff, as `/test` Step 2 says. Both write to one QA report. Then tell it to
+Dispatch one fresh `general-purpose` subagent. Tell it to run `/happy-path`, then `/happy-path sad`
+when its guard matches, as `/test` Step 2 says. Both write to one QA report. Then tell it to
 run each `agent` row with `gh`, git, or the test command. A CI run from an earlier step that shows
 the result counts, so cite its ID and push no new commit for it. Tell it to return the report path,
 and pass or fail with evidence for each `agent` row.

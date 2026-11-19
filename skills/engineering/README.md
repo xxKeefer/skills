@@ -19,8 +19,8 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 |---|---|---|
 | `/spec` | Define | `/refine-ticket` for a ticket key. For an idea: an interview to an explicit yes, then a spec with lettered ACs |
 | `/plan` | Plan | `/start-ticket` with a ticket key or a spec |
-| `/build` | Build | Every remaining step of the plan, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/sad-path`. Open decisions wait in one batch. A review report's prompt adds a fix round |
-| `/test` | Verify | `/tdd` for a bug or an untested seam, else `/happy-path`, then `/sad-path` when its guard matches |
+| `/build` | Build | Every remaining step of the plan, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/happy-path sad`. Open decisions wait in one batch. A review report's prompt adds a fix round |
+| `/test` | Verify | `/tdd` for a bug or an untested seam, else `/happy-path`, then `/happy-path sad` when its guard matches |
 | `/constraints` | Verify | Write `CONSTRAINTS.md` with a command behind each rule, then check each branch for a lowered bar |
 | `/review` | Review | `/mob-review light` on the branch, `/mob-review` with `full`, or `/review-pr` for a PR |
 | `/webperf` | Verify | Measure a page, fix the worst bottleneck, measure again, keep or revert |
@@ -44,7 +44,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/diagnose` | Implementation | Trace a non-obvious bug to proven root cause, hand off to /fix |
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
-| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report, with a setup table first. Its fail ticks build a `/engineering:fix` prompt |
+| `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report, with a setup table first. The `sad` mode writes a checklist that tries to break the changed forms and fields, and each of its items cites a catalogue ID. The fail ticks build a `/engineering:fix` prompt |
 | `/qa-screenshots` | Closure | Run a `/happy-path` checklist in your own browser, add a screenshot per item to the QA report, and append a Manual QA section to the PR |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/create-pr` | Closure | Check the review for drift, lead with a visual summary, evidence, and the merge danger, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR without asking |
@@ -68,7 +68,6 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/review-pr` | Review | Resolve a PR from its number, URL, branch, or ticket key, claim its worktree, sync it, run `/engineering:mob-review` there, then give the report path, whose ticks build the `/engineering:post-review-comments` prompt |
 | `/post-review-comments` | Review | Post the rows you tick in a review report to the PR: apply your notes, show the drafts, then post them as one comment review and read them back |
 | `/apply-review` | Review | Apply the rows you tick in a review report of your own branch: fix test-first, run the gates, commit once, push once, then reply on and resolve the ticked threads. Adds a result run to the report |
-| `/sad-path` | Closure | Write a manual QA checklist that tries to break the changed forms and fields, as an HTML report with a setup table first. Each item cites a catalogue ID, and the fail ticks build a `/engineering:fix` prompt |
 | `/pickup` | Closure | Confirm an open PR, claim its worktree, sync it by fast-forward only, then assess its open review threads into the review report, whose ticks build the `/engineering:apply-review` prompt |
 | `/resolve-feedback` | Closure | Assess review feedback, pasted or from the open threads of a PR, and write a verdict, a recommendation, and a draft reply for each item to a review report. Its ticks build the `/engineering:apply-review` prompt. Applies no fix |
 | `/improve-codebase-architecture` | Maintenance | Scan for deepening opportunities, HTML report, grill through picks |
