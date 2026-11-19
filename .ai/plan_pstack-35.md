@@ -114,8 +114,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 ### Tier 3: sprawl, then trials
 
-- [ ] **9. build under 10 KB.** Kind: docs. Conditions: C1, C3. Row 11. Move the review-report fix-round branch of Step 1 to `build/FIX-ROUND.md` behind the pointer "Arguments hold a review report → read FIX-ROUND.md". Move Step 5 to STEP.md. Replace the item 8 restatement with "escalate one effort step, by rule 1 of the `models` block".
+- [x] **9. build under 10 KB.** Kind: docs. Conditions: C1, C3. Row 11. Move the review-report fix-round branch of Step 1 to `build/FIX-ROUND.md` behind the pointer "Arguments hold a review report → read FIX-ROUND.md". Move Step 5 to STEP.md. Replace the item 8 restatement with "escalate one effort step, by rule 1 of the `models` block".
   - Done: `build/SKILL.md` ≤ 10,000 B, and each moved line exists once.
+  - Result (17043e5): `build/SKILL.md` 12,898 → 9,992 B. Fix round in `build/FIX-ROUND.md`, Step 5 text in `build/ANSWERS.md`.
 - [ ] **10. start-ticket under 10 KB.** Kind: docs. Conditions: C1, C3. Row 12. Move the Step 7 layout bullets to a pointer to the `/write-to-file` plan template, and keep only what the template does not say. Move Step 8 to `references/inputs.md`. Replace the Step 1.4 check list with a pointer to the check of `/refine-ticket`. Keep the design note and the reviewer-yes line from pstack-34.
   - Done: `start-ticket/SKILL.md` ≤ 10,000 B.
 - [ ] **11. mob-review under 10 KB.** Kind: docs. Conditions: C1, C3. Row 13. Cut the Step 0 rationale to one line. Move the Step 1 scope and ownership bash to SCOPE-CASES.md. Cut the Notes bullet "Personas are independently invocable too…".
@@ -174,5 +175,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 6 done (2450c81). The Severity section is gone from all 38 personas and from comments `other-pr.md`. Each rule heading holds its tier and condition; Future and Never lines close What you review. The contract, domain `CLAUDE.md`, and update-personas name the new form. Next step: 7.
 - 2026-11-19: step 7 done (b6a7ec9). api-integrity lookup in `references/backend-lookup.md` (SKILL.md 8,871 B); vitest rules 7 and 8 now test-quality Vitest sub-bullets with their tiers (vitest 6,962 B); boundary lines in ten Out of lane sections and PANEL.md Known overlaps. Next step: 8.
 - 2026-11-19: step 8 done. Lane recall check: all five lanes pass, no revert. AC B holds. Next step: 9.
+- 2026-11-19: step 9 done (17043e5). build 12,898 → 9,992 B. Fix round and the new-round rule in `FIX-ROUND.md`, Step 5 in `ANSWERS.md` behind a pointer, item 8 cut to the rule 1 line, and a few restated sentences cut. Next step: 10.
 
 ## Follow-ups
