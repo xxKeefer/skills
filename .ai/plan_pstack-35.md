@@ -153,8 +153,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **17. light-review into mob-review.** Kind: docs. Conditions: C4, C5. Row 6. Add a `light` mode to mob-review. Put the ten-lane list in a `light` column of PANEL.md. Point `/review` and `/build` to `mob-review light`. Retire light-review.
   - Done: no file names `/light-review` outside `deprecated`, and the gates are green.
   - Result (4e84a30): mob-review takes `light`, and `LIGHT.md` holds the old step changes. PANEL.md has a Light column with the ten lanes. mob-review/SKILL.md 9,213 → 9,551 B, build 9,992 → 9,996 B.
-- [ ] **18. sad-path into happy-path.** Kind: docs. Conditions: C3, C4, C5. Row 7. Add a `sad` mode to happy-path. Put the shared setup block and report arguments in a new `skills/engineering/QA-REPORT.md`, and add it to the shared-files table of the domain `CLAUDE.md`. Point `/test` and `/build` to `happy-path sad`. Retire sad-path.
+- [x] **18. sad-path into happy-path.** Kind: docs. Conditions: C3, C4, C5. Row 7. Add a `sad` mode to happy-path. Put the shared setup block and report arguments in a new `skills/engineering/QA-REPORT.md`, and add it to the shared-files table of the domain `CLAUDE.md`. Point `/test` and `/build` to `happy-path sad`. Retire sad-path.
   - Done: no file names `/sad-path` outside `deprecated`, and the sad mode still reads the form-behaviour and text-input catalogues.
+  - Result (f0c104d): happy-path takes `sad`, and `happy-path/SAD.md` holds the old sad-path steps, with the same two lane links to the form-behaviour and text-input fixtures and catalogues. `QA-REPORT.md` holds the shared setup block and report inputs. happy-path 3,706 → 3,249 B, build 9,996 → 9,993 B.
 - [ ] **19. maintain-verification-skill into create-verification-skill.** Kind: docs. Conditions: C4, C5. Row 8. Move it to `create-verification-skill/MAINTAIN.md` behind a `maintain` argument, and keep `check_driver.py` shared. Point `/verify` and each other caller to it. Retire maintain-verification-skill.
   - Done: no file names `/maintain-verification-skill` outside `deprecated`.
 - [ ] **20. pr-news into stand-up.** Kind: docs. Conditions: C4, C5. Row 9. Add an optional time window to stand-up, and port the in-window event rules of pr-news. Retire pr-news.
@@ -198,6 +199,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 15 done (35d6d68). Principles 24 → 14. Five merged into their receiving principle as rule text, four folded into benchmark, prototype, tdd, and work-on, and foundational-thinking retired with its rules in model-the-domain and sequence-verifiable-units. All ten moved to `deprecated`. Each citer, the README table, CONTEXT.md, and the typescript-conventions rule source point to the new homes. Next step: 16.
 - 2026-11-19: step 16 done (f73d285). Each principle index entry is its name and a trigger of at most ten words. Index 3,671 → 1,289 B; work-on 7,942 → 6,786 B. `check_principles.py` reads only the name, so no script change. Next step: 17.
 - 2026-11-19: step 17 done (4e84a30). light-review is the `light` mode of mob-review: the arguments or a light or quick review request select `LIGHT.md`, and the Light column of PANEL.md lists the lanes. review, build, pickup, the domain CLAUDE.md, REPORT.md, and the README point to the mode. light-review is in `deprecated`. Next step: 18.
+- 2026-11-19: step 18 done (f0c104d). sad-path is the `sad` mode of happy-path: the arguments or a sad-path, edge-case, or break-a-form request select `SAD.md`. `QA-REPORT.md` is in the shared-files table. test, build, fix, the domain CLAUDE.md, and the README point to the mode. sad-path is in `deprecated`. Next step: 19.
 
 ## Follow-ups
 
