@@ -120,8 +120,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **10. start-ticket under 10 KB.** Kind: docs. Conditions: C1, C3. Row 12. Move the Step 7 layout bullets to a pointer to the `/write-to-file` plan template, and keep only what the template does not say. Move Step 8 to `references/inputs.md`. Replace the Step 1.4 check list with a pointer to the check of `/refine-ticket`. Keep the design note and the reviewer-yes line from pstack-34.
   - Done: `start-ticket/SKILL.md` ≤ 10,000 B.
   - Result (aec4476): `start-ticket/SKILL.md` 10,336 → 9,428 B.
-- [ ] **11. mob-review under 10 KB.** Kind: docs. Conditions: C1, C3. Row 13. Cut the Step 0 rationale to one line. Move the Step 1 scope and ownership bash to SCOPE-CASES.md. Cut the Notes bullet "Personas are independently invocable too…".
+- [x] **11. mob-review under 10 KB.** Kind: docs. Conditions: C1, C3. Row 13. Cut the Step 0 rationale to one line. Move the Step 1 scope and ownership bash to SCOPE-CASES.md. Cut the Notes bullet "Personas are independently invocable too…".
   - Done: `mob-review/SKILL.md` ≤ 10,000 B.
+  - Result (d0a4422): `mob-review/SKILL.md` 10,464 → 9,213 B. The scope, SHA, and ownership commands are in `SCOPE-CASES.md`, which Step 1 now reads on each run.
 - [ ] **12. create-pr and work-on.** Kind: docs. Conditions: C1. Rows 14, 16 (work-on H4 only). create-pr: move Step 1 items 3 to 8 to `references/read.md`, and cut the Step 5.7 bullets that copy DRAFT-SCAN. work-on: replace the H4 list of eight actions with "H4 holds each action of the `pause-list.md` rule."
   - Done: `create-pr/SKILL.md` ≤ 9,000 B, and each cut line has its single source.
 - [ ] **13. Consume a report.** Kind: docs. Conditions: C5. Row 19. Put one "Consume a report" section in `mob-review/REPORT.md`: read the prompt, parse the `runs` JSON, and find each row ID. Point apply-review Step 1, post-review-comments Step 1, and resolve-feedback Step 2 to it, and keep each skill's own stop conditions.
@@ -178,5 +179,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 8 done. Lane recall check: all five lanes pass, no revert. AC B holds. Next step: 9.
 - 2026-11-19: step 9 done (17043e5). build 12,898 → 9,992 B. Fix round and the new-round rule in `FIX-ROUND.md`, Step 5 in `ANSWERS.md` behind a pointer, item 8 cut to the rule 1 line, and a few restated sentences cut. Next step: 10.
 - 2026-11-19: step 10 done (aec4476). start-ticket 10,336 → 9,428 B. Step 7 keeps only what the plan template leaves open, Step 8 is in `references/inputs.md` behind a pointer, and Step 1 item 4 points to the `/refine-ticket` checks. The design note and the reviewer-yes line stay. Next step: 11.
+- 2026-11-19: step 11 done (d0a4422). mob-review 10,464 → 9,213 B. Step 0 rationale is one line, the Step 1 commands are in `SCOPE-CASES.md` behind an each-run pointer, and the Notes bullet is cut. Next step: 12.
 
 ## Follow-ups
