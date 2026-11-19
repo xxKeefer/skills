@@ -26,22 +26,14 @@ Notes:
 - <ID>: <note>
 ```
 
-1. Read the report path and the row IDs from the first line. Read each note from the `Notes:`
-   list. With no report path or no ID, stop. Say to tick the rows in a review report and paste its
+1. With no report path or no ID, stop. Say to tick the rows in a review report and paste its
    prompt. Never review again here.
-2. Parse the JSON in the `<script type="application/json" id="runs">` block of the report. A row
-   ID `r<run>.<n>` names its run. Find each row in its run. If an ID has no row, or its row has no
-   `draft` cell, stop and name the ID.
+2. Read the report, its runs, and its rows as
+   [Consume a report](../mob-review/REPORT.md#consume-a-report) says. If an ID has no row, or its
+   row has no `draft` cell, stop and name the ID.
 3. From each ticked row, read `where` (`<path>:<line>`), `tier`, and `draft`.
-4. From each run that holds a ticked row, read `head` and these `meta` keys:
-   - `PR`: the PR URL, `https://github.com/<owner>/<repo>/pull/<n>`. Take `<owner>/<repo>` and
-     `<n>` from it.
-   - `Base`: the base branch, then the base SHA.
-   - `Folder`: the repo folder that the panel ran in.
-5. If a run has no `PR`, stop. Say that the branch had no PR when the panel ran, so the review
-   has no PR to post to.
-6. Run each git command in `Folder`, with `git -C <path>`. Give each `gh` command
-   `-R <owner>/<repo>`.
+4. If a run has no `PR`, stop. Say that the branch had no PR when the panel ran, so the review
+   has no PR to post to. Else take `<owner>/<repo>` and `<n>` from the `PR` URL.
 
 **Done when:** you have the PR, and each ticked row with its draft, its note, and the head of its
 run.

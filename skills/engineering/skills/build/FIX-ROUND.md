@@ -3,9 +3,9 @@
 Read this file when the arguments of `/build` hold a review report and row IDs. Add the fix round
 before you do Step 1 item 2 of [`SKILL.md`](SKILL.md).
 
-1. Parse the JSON in the `<script type="application/json" id="runs">` block of the report. Find
-   each ticked row in its run. Read the plan path from the `Plan` key of the run's
-   `meta`. With no `Plan` key, stop, and name `/engineering:apply-review`.
+1. Read the report, its runs, and its rows as
+   [Consume a report](../mob-review/REPORT.md#consume-a-report) says. Read the plan path from the
+   `Plan` key of the run's `meta`. With no `Plan` key, stop, and name `/engineering:apply-review`.
 2. Before the push step, add one step for each ticked row:
    `**<n>. Review fix <row ID>.** <issue> at <where>. Report: <report path>.` Its done line is
    the row's recommendation, with the row's note when it has one.

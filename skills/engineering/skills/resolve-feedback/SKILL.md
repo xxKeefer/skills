@@ -57,7 +57,8 @@ branch with no PR is fine.
 
 ## Step 2: Assess each item
 
-`/engineering:apply-review` reads the cells and the ticks of each row. A change to them needs the same
+`/engineering:apply-review` reads the cells and the ticks of each row, as
+[Consume a report](../mob-review/REPORT.md#consume-a-report) says. A change to them needs the same
 change there.
 
 ### 2a. Read the code
