@@ -93,7 +93,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
   - Kept with a `(rule N)` tag, because the line adds a case that the rule lacks: value-display DS-B3, B12, B14, D4, D6, D8, D10, E12, F3, L1; url-state NV-C3, C4, C6, E1, G3, H6, J7, K1, K3, M3; text-input IN-A4, B4, B6, C4, C7, F5, I4, J10, NV-H7.
 - [x] **6. Severity into rule headings.** Kind: docs. Conditions: C2. Row 3. In each persona, delete the Severity section when each rule heading already holds the tier. When the section holds a tier rule that no heading holds, move it into that heading first.
   - Done: no persona has a Severity section that restates its headings, and each rule heading has a tier.
-- [ ] **7. Lane boundaries and the two large lanes.** Kind: docs. Conditions: C2. Rows 15, 22.
+- [x] **7. Lane boundaries and the two large lanes.** Kind: docs. Conditions: C2. Rows 15, 22.
   - Row 15: persona-api-integrity, move the backend lookup steps to `references/`. persona-vitest, move rules 7 and 8 to persona-test-quality, and drop the carve-out line in both.
   - Row 22: add one boundary line to each Out of lane section, and the same line to PANEL.md Known overlaps. api-spec starts from a changed backend or spec, api-integrity from a changed frontend call, and a finding that needs both ends goes to api-integrity. error-handling owns whether a failure is reported, and async-state owns what the screen shows after. Dedup is code-quality, where code lives is architecture, and which API is best-practice. form-behaviour owns bounds and keys, text-input owns characters and units, and file-upload owns File objects and imports.
   - Done: both lanes are under 10,000 B, and each pair names the same boundary.
@@ -163,5 +163,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 4 done (f5f297a). 258 `**Sources:**` lines cut from the value-display, url-state, text-input, and resilience catalogues (about 46,000 B). Each `###` heading and each Fix line stays, so the `/sad-path` heading list and Fix read of the text-input catalogue still work. Next step: 5.
 - 2026-11-19: step 5 done (7768ebf). 129 restating sweep lines cut from four diff-signals files, and 17 form-behaviour lines moved into their rules. form-behaviour diff-signals 22,334 → 9,675 B; value-display 17,482 → 11,715; url-state 15,896 → 8,418; text-input 12,402 → 5,530. Next step: 6.
 - 2026-11-19: step 6 done (2450c81). The Severity section is gone from all 38 personas and from comments `other-pr.md`. Each rule heading holds its tier and condition; Future and Never lines close What you review. The contract, domain `CLAUDE.md`, and update-personas name the new form. Next step: 7.
+- 2026-11-19: step 7 done (b6a7ec9). api-integrity lookup in `references/backend-lookup.md` (SKILL.md 8,871 B); vitest rules 7 and 8 now test-quality Vitest sub-bullets with their tiers (vitest 6,962 B); boundary lines in ten Out of lane sections and PANEL.md Known overlaps. Next step: 8.
 
 ## Follow-ups
