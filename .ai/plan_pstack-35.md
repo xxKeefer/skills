@@ -156,8 +156,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **18. sad-path into happy-path.** Kind: docs. Conditions: C3, C4, C5. Row 7. Add a `sad` mode to happy-path. Put the shared setup block and report arguments in a new `skills/engineering/QA-REPORT.md`, and add it to the shared-files table of the domain `CLAUDE.md`. Point `/test` and `/build` to `happy-path sad`. Retire sad-path.
   - Done: no file names `/sad-path` outside `deprecated`, and the sad mode still reads the form-behaviour and text-input catalogues.
   - Result (f0c104d): happy-path takes `sad`, and `happy-path/SAD.md` holds the old sad-path steps, with the same two lane links to the form-behaviour and text-input fixtures and catalogues. `QA-REPORT.md` holds the shared setup block and report inputs. happy-path 3,706 → 3,249 B, build 9,996 → 9,993 B.
-- [ ] **19. maintain-verification-skill into create-verification-skill.** Kind: docs. Conditions: C4, C5. Row 8. Move it to `create-verification-skill/MAINTAIN.md` behind a `maintain` argument, and keep `check_driver.py` shared. Point `/verify` and each other caller to it. Retire maintain-verification-skill.
+- [x] **19. maintain-verification-skill into create-verification-skill.** Kind: docs. Conditions: C4, C5. Row 8. Move it to `create-verification-skill/MAINTAIN.md` behind a `maintain` argument, and keep `check_driver.py` shared. Point `/verify` and each other caller to it. Retire maintain-verification-skill.
   - Done: no file names `/maintain-verification-skill` outside `deprecated`.
+  - Result (1e00e47): create-verification-skill takes `maintain`, and `MAINTAIN.md` holds the old steps. create-verification-skill/SKILL.md 8,230 → 8,801 B. `check_driver.py` stays in its `scripts/` folder for both modes.
 - [ ] **20. pr-news into stand-up.** Kind: docs. Conditions: C4, C5. Row 9. Add an optional time window to stand-up, and port the in-window event rules of pr-news. Retire pr-news.
   - Done: stand-up with a window gives the per-PR events that pr-news gave, and no file names `/pr-news` outside `deprecated`.
 - [ ] **21. review-pr into pickup.** Kind: docs. Conditions: C4, C5. Row 10. Add a `--review` flag to pickup that runs the claim, sync, and confirm steps, then `/engineering:mob-review`. Point `/review` to it. Update `PR-HANDLE.md`'s reader list. Retire review-pr.
@@ -200,6 +201,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 16 done (f73d285). Each principle index entry is its name and a trigger of at most ten words. Index 3,671 → 1,289 B; work-on 7,942 → 6,786 B. `check_principles.py` reads only the name, so no script change. Next step: 17.
 - 2026-11-19: step 17 done (4e84a30). light-review is the `light` mode of mob-review: the arguments or a light or quick review request select `LIGHT.md`, and the Light column of PANEL.md lists the lanes. review, build, pickup, the domain CLAUDE.md, REPORT.md, and the README point to the mode. light-review is in `deprecated`. Next step: 18.
 - 2026-11-19: step 18 done (f0c104d). sad-path is the `sad` mode of happy-path: the arguments or a sad-path, edge-case, or break-a-form request select `SAD.md`. `QA-REPORT.md` is in the shared-files table. test, build, fix, the domain CLAUDE.md, and the README point to the mode. sad-path is in `deprecated`. Next step: 19.
+- 2026-11-19: step 19 done (1e00e47). maintain-verification-skill is the `maintain` mode of create-verification-skill: the arguments, a maintain or audit request, or a driver that fails because the app moved select `MAINTAIN.md`. verify, the README, and the create hand-over point to the mode. maintain-verification-skill is in `deprecated`. Next step: 20.
 
 ## Follow-ups
 
