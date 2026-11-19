@@ -63,3 +63,7 @@ These known persona pairs can land on the same line. Resolve them the same way e
 
 - **`persona-code-quality` #10 (truthiness guard) vs `persona-value-display` #2 (null shown as a believable value)** on the same line → keep `persona-value-display`'s (it names the wrong value the user sees) and fold code-quality's `??`/`isNil` fix into its `suggestion`.
 - **`persona-test-design` versus a `persona-correctness` / `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display` finding** on the same field → keep both: one names the defect, the other the missing test. Put them next to each other in the report.
+- **`persona-api-spec` vs `persona-api-integrity`**: api-spec starts from a changed backend or spec, api-integrity from a changed frontend call. A finding that needs both ends goes to api-integrity.
+- **`persona-error-handling` vs `persona-async-state`**: error-handling owns whether a failure is reported, and async-state owns what the screen shows after it.
+- **`persona-code-quality` vs `persona-architecture` vs `persona-best-practice`**: dedup is code-quality, where code lives is architecture, and which API to use is best-practice.
+- **`persona-form-behaviour` vs `persona-text-input` vs `persona-file-upload`**: form-behaviour owns bounds and keys, text-input owns characters and units, and file-upload owns `File` objects and imports.

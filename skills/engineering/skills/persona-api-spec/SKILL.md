@@ -74,7 +74,7 @@ Never infer the contract from the DTO alone. Follow the value to where the respo
 
 ## Out of lane: do NOT report
 
-- A frontend call checked against the backend (request/response shape, permission alignment) → `persona-api-integrity`. You review backend diffs against their own spec. It starts from an FE call.
+- **Boundary:** `persona-api-spec` starts from a changed backend or spec, and `persona-api-integrity` starts from a changed frontend call. A finding that needs both ends goes to `persona-api-integrity`.
 - Whether the endpoint's implementation is well written, layered, or named → `persona-code-quality` / `persona-architecture` / `persona-naming`.
 - Security properties of the endpoint (authz, rate limiting, leakage) → `persona-security`.
 - Whether the change is covered by tests → the relevant test persona.

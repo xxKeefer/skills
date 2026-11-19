@@ -52,7 +52,7 @@ When a behaviour branches on two or more dimensions, a test sits at the wrong le
 ## Out of lane: do NOT report
 
 - **The defect itself** on a boundary, an Enter key, a Back press, an awkward string, or a null value → `persona-form-behaviour` / `persona-text-input` / `persona-url-state` / `persona-value-display`. You keep whether a test covers it; both can fire on the same field.
-- How a test is written: flakiness, waits, selectors, mocks, builders, `waitFor`, fake timers, vacuous asserts, isolation, test naming → `persona-vitest` (unit), `persona-integration-test` (Playwright+MSW), `persona-browser-e2e` (standalone browser E2E suite). You may say a condition *is untested*. You never critique how an existing test is built.
+- How a test is written: flakiness, waits, selectors, mocks, builders, `waitFor`, fake timers, isolation, test naming → `persona-vitest` (unit), `persona-integration-test` (Playwright+MSW), `persona-browser-e2e` (standalone browser E2E suite). Vacuous or tautological asserts → `persona-test-quality`. You may say a condition *is untested*. You never critique how an existing test is built.
 - Whether the PR delivers each AC, behaviour with no AC, description vs diff → `persona-ac-check`. You judge whether delivered behaviour is *tested*, not whether it was *delivered*.
 - The feature-flag off path → `persona-production-protector` rule 5.
 - A new analytics event with no assertion → `persona-analytics` rule 11.

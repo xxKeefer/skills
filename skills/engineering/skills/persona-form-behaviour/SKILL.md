@@ -52,6 +52,7 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 
 ## Out of lane: do NOT report
 
+- **Boundary:** `persona-form-behaviour` owns bounds and keys, `persona-text-input` owns characters and units, and `persona-file-upload` owns `File` objects and imports.
 - **File pickers, drop zones and CSV imports** → `persona-file-upload`. **Work lost when the session expires mid-form** → `persona-resilience`.
 - **Whitespace-only values, trimming, Unicode length, paste, and autocorrect** → `persona-text-input`.
 - **Keyboard operability, focus order, labels, `aria-*`, and focus after dialog close** → `persona-a11y`. You own *what Enter does*; they own *whether the control can be reached and operated*.

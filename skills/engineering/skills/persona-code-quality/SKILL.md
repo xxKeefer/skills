@@ -59,6 +59,7 @@ Rules 12 to 21 are the Fowler code smells (_Refactoring_, chapter 3) that no oth
 
 ## Out of lane: do NOT report
 
+- **Boundary:** dedup is `persona-code-quality`, where code lives is `persona-architecture`, and which API to use is `persona-best-practice`.
 - Naming of files/vars/exports/units, and a name that does not say what a thing does (Mysterious Name) → `persona-naming`.
 - A logic error that gives a wrong result or a crash → `persona-correctness`. Rule 10 stays here.
 - Comment quality / dead code → `persona-comments`.

@@ -44,6 +44,7 @@ When the diff parses or imports a CSV or other text file, read [references/csv-i
 
 ## Out of lane: do NOT report
 
+- **Boundary:** `persona-form-behaviour` owns bounds and keys, `persona-text-input` owns characters and units, and `persona-file-upload` owns `File` objects and imports.
 - **CSV export quoting and encoding (commas, quotes, line breaks, the UTF-8 BOM on export)** → `persona-text-input` #11 (IN-H2, IN-H3). **Download filenames built from user text** → `persona-text-input` #12 (IN-H4).
 - **CSV formula injection on export** → `persona-security` #8 (IN-H1). **An uploaded SVG or file content rendered through `v-html` or `innerHTML`** → `persona-security` #2. You own whether the upload accepts SVG; they own the sink.
 - **Validation message wording and how errors show in general** → `persona-form-behaviour`, `persona-i18n`. You own whether the file is checked at all.

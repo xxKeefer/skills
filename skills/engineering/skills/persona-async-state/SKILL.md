@@ -51,6 +51,7 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 
 ## Out of lane: do NOT report
 
+- **Boundary:** `persona-error-handling` owns whether a failure is reported, and `persona-async-state` owns what the screen shows after it.
 - **Session expiry, cross-tab logout, account or company switch, offline and hung requests, retries, stale chunks after a deploy** → `persona-resilience`. You keep races between two requests in one tab.
 - **A query param read once in setup, push versus replace, or a page not reset on a filter change** → `persona-url-state`. You keep a route read after an `await`.
 - **Query keys, invalidation, `staleTime`/`gcTime`, `enabled`, optimistic-update mechanics (`onMutate`/`cancelQueries`/rollback), forwarding `signal` inside a queryFn** → `persona-tanstack`. Split rule: they own whether the query is configured right; you own what the screen shows while it is pending, after it fails, or after the context it belonged to is gone.

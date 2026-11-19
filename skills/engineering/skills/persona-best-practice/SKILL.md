@@ -68,6 +68,7 @@ When the diff touches `reka-ui` components such as `Select`, `Dialog`, or `Confi
 
 ## Out of lane: do NOT report
 
+- **Boundary:** dedup is `persona-code-quality`, where code lives is `persona-architecture`, and which API to use is `persona-best-practice`.
 - Tailwind v4 / token / CSS currency → `persona-design-system`.
 - TanStack v5 API (`queryOptions`, object syntax, `gcTime`, `isPending`) → `persona-tanstack`.
 - `@vueuse/core`/`es-toolkit` vs hand-rolled utilities, structure, immutability → `persona-code-quality`.

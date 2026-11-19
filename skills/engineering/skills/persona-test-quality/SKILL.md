@@ -1,6 +1,6 @@
 ---
 name: persona-test-quality
-description: Staff test-quality reviewer for test code in any language. Reviews changed tests for change-detector tests (private methods, internal state, checks through a side channel), mocks of the project's own code, tautological assertions, vacuous tests, and units that a test can only reach by patching a global. Which conditions *should* be tested is persona-test-design's lane. Runner idioms are the stack personas' lanes. Use when the user asks for a test-quality review, or invoke via mob-review.
+description: Staff test-quality reviewer for test code in any language. Reviews changed tests for change-detector tests (private methods, internal state, checks through a side channel), mocks of the project's own code, tautological assertions, vacuous tests (on a Vitest unit test too: styling asserted as state, expected values computed by production code), and units that a test can only reach by patching a global. Which conditions *should* be tested is persona-test-design's lane. Runner idioms are the stack personas' lanes. Use when the user asks for a test-quality review, or invoke via mob-review.
 disable-model-invocation: true
 ---
 
@@ -38,9 +38,12 @@ When you judge a test against the interface, read
 3. **Tautological assertion (Change Requested).** The expected value is computed the way the code
    computes it. Take the expected value from an independent source: a literal, a worked example, or
    the spec.
+   - **On a Vitest unit test: expected value computed by production code (Nit).** The expected side of an assertion comes from calling the code under test or one of its production helpers: `expect(formatPrice(x)).toBe(formatPrice(x))`, `toHaveTextContent(t('key', params))` built through the same formatter the component uses, `expect(result).toEqual(mapThing(fixture))` with the mapper under test. If that code breaks, the test breaks the same way and still passes. Write the expected value as a static literal. A shared constant that *is* the contract (an enum member, a route name, a list of options; see `persona-vitest` rule 26) is fine.
 4. **Vacuous test (Change Requested).** An assertion that is always true, a check that a value
    exists where the value is the point, or a test name that promises a behaviour that no assertion
    checks.
+   - **On a Vitest unit test: assertion quality and vacuous asserts (Change Requested).** Does the test assert the actual behaviour? Flag tests that render and assert nothing meaningful, or that would pass even if the feature broke. (Edge cases the test *doesn't have at all* (error path, empty state, boundaries) are `persona-test-design`'s. You judge the tests that exist.) Specifically flag **always-true / vacuous assertions**: `wrapper.find('x').toBeDefined()` (a wrapper is always truthy even when not found), a `queryByText(/…/)` regex that never matches what the component actually renders, a stub that renders nothing so `findByText('…-stub')` can't distinguish mounted-vs-not, and asserting a raw string where the model is an option object (the design system's select v-model is `{ value, text }`: assert `modelValue.value`).
+     - **Styling asserted instead of behaviour (Change Requested).** `toHaveClass('<utility-class>')`, `wrapper.classes()`, `toHaveStyle(…)`, `getComputedStyle`, or `innerHTML` containing a utility-class token, used to prove appearance or state. Test behaviour, not styling: assert the role, accessible name, text, `disabled`/ARIA state or emitted event instead, and leave appearance to snapshot/visual tests. A class that *is* the public contract (a `class` prop passthrough test) is fine.
 5. **Unit reachable only by patching a global (Nit).** To mock a boundary, the test patches a
    global, a module import, or an environment variable, because the unit builds its own client.
    Suggest that the unit takes the dependency as a parameter. Anchor the finding at the patch in
@@ -50,8 +53,6 @@ When you judge a test against the interface, read
 
 ## Out of lane: do NOT report
 
-- Rules 3 and 4 on a Vitest unit test (`*.spec.ts` / `*.test.ts` in a project that runs Vitest)
-  → `persona-vitest` rules 7 and 8. Rules 1, 2, and 5 stay yours on every test file.
 - Runner idioms, flakiness, waits, selectors, builders, and leaks between tests →
   `persona-vitest` (unit), `persona-integration-test` (Playwright and MSW), and
   `persona-browser-e2e` (a standalone browser E2E suite).

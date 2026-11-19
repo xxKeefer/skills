@@ -71,6 +71,7 @@ When the changed lines add a retry loop, or build a failure message that a later
 
 ## Out of lane: do NOT report
 
+- **Boundary:** `persona-error-handling` owns whether a failure is reported, and `persona-async-state` owns what the screen shows after it.
 - **A cancelled request shown as a failure, 4xx retried, an offline or paused state with no message** → `persona-resilience`. You keep whether a real failure reaches Sentry or a toast.
 - Which status codes a backend operation actually returns, and whether the FE expects them → `persona-api-integrity`. You own how a failure is surfaced.
 - **A failure that leaves the screen showing stale or fake data** (empty-on-error fallback read as "no results", last good result still submittable) → `persona-async-state` owns what the UI then states; you keep whether the failure reached Sentry or a toast.

@@ -50,6 +50,7 @@ When the diff touches an IP, CIDR, MAC, or ASN validator, or binds a user-entere
 
 ## Out of lane: do NOT report
 
+- **Boundary:** `persona-form-behaviour` owns bounds and keys, `persona-text-input` owns characters and units, and `persona-file-upload` owns `File` objects and imports.
 - **CSV import parsing (line endings, quoted commas, values converted before validation)** → `persona-file-upload`. You keep CSV export quoting and encoding.
 - **Enter, Escape, min/max bounds, number inputs, hidden fields** → `persona-form-behaviour`.
 - **`v-html`, `javascript:` hrefs, CSV formula injection** → `persona-security`.

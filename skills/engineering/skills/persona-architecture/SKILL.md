@@ -42,6 +42,7 @@ Lane paths: `'apps/*/src/**/*.ts' 'apps/*/src/**/*.vue' 'libs/*/src/**/*.ts' 'li
 
 ## Out of lane: do NOT report
 
+- **Boundary:** dedup is `persona-code-quality`, where code lives is `persona-architecture`, and which API to use is `persona-best-practice`.
 - Local extraction, dedup, oversized function/component split **within the same layer** → `persona-code-quality`. (You move responsibility *between* layers; they tidy *within* one. If the fix is "extract this into the feature's own composable", that's code-quality; if it's "this whole responsibility belongs in the store/composable, not this page/shell", that's you.)
 - Duplicated literals/logic and any dead code that results, **even when the copies sit in different layers** → `persona-code-quality` owns dedup. "The same sentence is declared in both the api-layer fallback and the router override, and one is unreachable" is their finding, not yours. Report the layering defect only when the fix is *where the responsibility lives* rather than *how many copies exist*; if you cannot state it without pointing at the duplication, it is theirs.
 - File/folder naming or placement casing → `persona-naming`.
