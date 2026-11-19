@@ -56,6 +56,301 @@
  "runs": [
   {
    "title": "Light run",
+   "head": "e8355e7",
+   "meta": {
+    "Base": "pstack-34_pr-feedback-retro 17b2b61",
+    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
+    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-35.md",
+    "Fixed in": "fbbffe7"
+   },
+   "answer": "The panel found 17 problems: 7 Change Requested and 10 Nit. Commit fbbffe7 fixes all 17, and no row stays open. Most fixes put back sweep lines and rules that the compression lost, or finish fixes of step 27. This run covers the light lanes only. /engineering:mob-review with no light runs the full panel.",
+   "visuals": [
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "skills",
+        "7",
+        "10",
+        "0",
+        "ran (seven shards: the fix commit 25792c3, and six file groups, because the patch is 858 KB; one duplicate merged)"
+       ],
+       [
+        "correctness",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "comments",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "every other lane and the project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/work-on/SKILL.md:75",
+      "issue": "The retired foundational-thinking rule to ask what happens when another actor changes shared state at the same time is in no receiving file.\n\nThe new index line covers only concurrent writers, so a case where one actor reads state while another changes it matched no principle. The deprecated README and the retired description named two receivers that do not hold the rule.",
+      "recommendation": "The rule is now the first sentence of principle-separate-before-serializing-shared-state, and its description and the index line name shared state. The deprecated README row and the retired description name the third receiver.",
+      "result": "Fixed"
+     },
+     "id": "r3.1"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-url-state/references/diff-signals.md:3",
+      "issue": "The branch cut the sweep lines NV-C1, NV-C2, NV-G1, NV-F5, and NV-K2. The read-when lines of rules 8, 9, and 12 do not match these signals.\n\nThe lane missed a list that loses its scroll on Back, a drawer that Back cannot close, a Back-to-list link that drops the filters, and a Clear action that leaves the filters in the URL. Row r2.4 put back only NV-D5.",
+      "recommendation": "The five lines are back in diff-signals with their rule markers.",
+      "result": "Fixed"
+     },
+     "id": "r3.2"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-form-behaviour/references/diff-signals.md:3",
+      "issue": "The branch cut the sweep lines FM-D17, FM-F2, and FM-H6. The read-when lines of rules 8, 11, and 13 do not match a non-sum computation, a validateOnInput setting, or a missing reset.\n\nRow r2.3 put back four other lines only.",
+      "recommendation": "The three lines are back in diff-signals with their rule markers, in the form of the other lines of that file.",
+      "result": "Fixed"
+     },
+     "id": "r3.3"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-text-input/references/diff-signals.md:3",
+      "issue": "The branch cut the sweep lines IN-A5 and IN-J3, formatters that rewrite the value on each keystroke. The read-when line of rules 9 and 10 names only an input mask or key filter.\n\nThe lane missed a caret jump and broken composition input. Row r2.2 put back five other lines.",
+      "recommendation": "The two lines are back in diff-signals with their rule markers.",
+      "result": "Fixed"
+     },
+     "id": "r3.4"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-value-display/references/diff-signals.md:3",
+      "issue": "The branch cut the sweep lines DS-F5 and DS-D16. The read-when line of rules 10 and 11 does not match a zero-width break in an ID or a numeric cell with no tabular alignment.",
+      "recommendation": "The two lines are back in diff-signals with their rule markers.",
+      "result": "Fixed"
+     },
+     "id": "r3.5"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-typing/SKILL.md:47",
+      "issue": "The unused generic parameter check was only in the deleted Severity section. No rule holds it now.",
+      "recommendation": "Rule 13 in references/shape-and-contract-rules.md holds it at Nit, and the read-when line names a type parameter and rules 11 to 13.",
+      "result": "Fixed"
+     },
+     "id": "r3.6"
+    },
+    {
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-comments/references/other-pr.md:12",
+      "issue": "The rule 9 heading gives Change Requested to any comment over the one-line ceiling, so a two-line comment goes one tier too high.\n\nThe deleted Severity section and the rule body make a two-line comment a Nit and three or more lines Change Requested.",
+      "recommendation": "The heading is now Change Requested for three or more lines that a shorter comment would carry, else Nit.",
+      "result": "Fixed"
+     },
+     "id": "r3.7"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/mob-review/LIGHT.md:7",
+      "issue": "The light mode never says to drop the light word before Step 1 reads the target, so a run can take light as a branch name.",
+      "recommendation": "A new Step 1 item drops light from the arguments, then reads the target and the plan path from the rest.",
+      "result": "Fixed"
+     },
+     "id": "r3.8"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-browser-e2e/SKILL.md:29",
+      "issue": "The r2.12 fix changed only the rule 9 heading. The project-facts line still files the removal of diagnostic loggers as Nit/Future.",
+      "recommendation": "The line now says Nit, rule 9.",
+      "result": "Fixed"
+     },
+     "id": "r3.9"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-url-state/references/diff-signals.md:3",
+      "issue": "The r2.11 fix removed sources from the url-state and text-input headers, but those catalogues keep 57 Ref lines and 41 Source lines.\n\nThe step 27 grep searched for Sources only.",
+      "recommendation": "Both headers name sources again. value-display and resilience keep no sources and stay as they are.",
+      "result": "Fixed"
+     },
+     "id": "r3.10"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/persona-test-design/SKILL.md:3",
+      "issue": "The r2.9 fix changed the body, but the description still sends all mocks to persona-vitest.",
+      "recommendation": "The description names mock leakage for vitest, and mocks of the project's own code and tautological asserts for persona-test-quality.",
+      "result": "Fixed"
+     },
+     "id": "r3.11"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/resolve-conflicts/SKILL.md:61",
+      "issue": "The complex list lost the case where both sides changed the same logic in different directions, and the rule that only a hunk with one defensible answer is auto-resolved.",
+      "recommendation": "Both lines are back.",
+      "result": "Fixed"
+     },
+     "id": "r3.12"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/loop-until/SKILL.md:44",
+      "issue": "Pin the harness dropped Change it no more, and the README still says frozen.",
+      "recommendation": "Step 2 says Pin the harness. Change it no more. The README says pinned.",
+      "result": "Fixed"
+     },
+     "id": "r3.13"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/skills/sync-docs/SKILL.md:4",
+      "issue": "The glossary says disable-model-invocation marks only judgement skills, but step 2 set it on user-only utilities such as sync-docs and gazette.",
+      "recommendation": "The HITL row of CONTEXT.md also names user-only utilities whose description does not earn its load on each turn.",
+      "result": "Fixed"
+     },
+     "id": "r3.14"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/deprecated/skills/maintain-verification-skill/SKILL.md:14",
+      "issue": "The principle link uses a relative path that resolves only in a repo checkout, the same defect that r2.8 fixed for the script path.",
+      "recommendation": "The line names principle-prove-it-works by skill name, with the read-and-name sentence, and has no path.",
+      "result": "Fixed"
+     },
+     "id": "r3.15"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/PERSONA-CONTRACT.md:41",
+      "issue": "The contract says Future is for the work that the Future line names, but several lanes put a Future tier in a rule heading.",
+      "recommendation": "Future is for the work that the Future line or a rule heading names.",
+      "result": "Fixed"
+     },
+     "id": "r3.16"
+    },
+    {
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/engineering/PERSONA-CONTRACT.md:31",
+      "issue": "Every guard now reads only added and changed lines, so a diff that only deletes lines can fail every guard.",
+      "recommendation": "The Guard and each rule read the hunks: added, changed, and removed lines.",
+      "result": "Fixed"
+     },
+     "id": "r3.17"
+    }
+   ],
+   "run": 3,
+   "date": "2026-11-19"
+  },
+  {
+   "title": "Light run",
    "head": "6ca57a5",
    "meta": {
     "Base": "pstack-34_pr-feedback-retro 17b2b61",
