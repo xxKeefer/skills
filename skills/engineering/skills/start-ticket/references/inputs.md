@@ -1,6 +1,7 @@
 # Start Ticket: optional inputs
 
-`SKILL.md` links each section from the step that needs it. Only some runs read this file.
+`SKILL.md` links each section from the step that needs it. Step 8 reads its section on each run;
+only some runs read the other sections.
 
 ## No questions
 
@@ -42,3 +43,20 @@ In Step 6, on SPLIT path 2, the plan steps become the slices:
 2. Run `/split-ticket` with the key, the slices, and the ticket text.
 3. Write no plan, and stop. Return the `/split-ticket` result. Say that the worktree from Step 3
    has no use, and give its path.
+
+## Write the letters back
+
+Step 8 of `SKILL.md` reads this section.
+
+Skip this step in these cases:
+
+- The user said no to the last `/refine-ticket` run. The ticket does not hold the plan's ACs, so
+  the letters have nothing to go on.
+- The ticket holds its letters, and Step 5 added no AC. ACs that `/refine-ticket` wrote are in the
+  ticket with their letters.
+
+1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
+   plain words that every reader of the ticket understands. Change no other text.
+2. Ask once. Write after a yes, or at once when the user waived questions.
+3. Read the ticket back. Check that only the letters and the new ACs changed. Show any other
+   difference.

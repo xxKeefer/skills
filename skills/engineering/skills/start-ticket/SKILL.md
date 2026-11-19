@@ -32,13 +32,10 @@ Scope comes before the claim. When a ticket splits into sub-tasks, the run stops
    decisions, related work, and constraints. Note each attachment or design link for the plan, and
    fetch no external URL.
 3. Note the goal, the ACs, the issue type, the state, and the comments.
-4. Check the ticket. Run `/refine-ticket` when one of these holds:
-   - The ticket does not say who gains, what changes, and why (the user story).
-   - The ticket has no ACs.
-   - An AC holds a vague scope word from [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md)
-     Step 2.
-   - An AC contradicts the domain glossary, if the repo has one, such as a rule that the glossary
-     forbids. The glossary can be out of date, so give the contradiction as a question.
+4. Check the ticket. Run `/refine-ticket` when the ticket fails the User story or the Scope check
+   of [`../refine-ticket/SKILL.md`](../refine-ticket/SKILL.md) Step 2, has no ACs, or has an AC
+   that contradicts the domain glossary, if the repo has one. The glossary can be out of date, so
+   give the contradiction as a question.
 
    Give it the key and the text from item 2, so it reads nothing again. From here on, use its ACs
    in place of the ticket's ACs, even if it wrote nothing. Take the goal from its summary. Note
@@ -141,22 +138,19 @@ Write the plan with `/write-to-file`, doctype `plan`, named for the key: `plan_<
 Simplified Technical English. Read [`STE.md`](../../STE.md) before you write, and follow every rule
 in it.
 
-The plan has the layout of the `/write-to-file` plan template. Fill it this way:
+The plan has the layout of the `/write-to-file` plan template. Fill in what the template leaves
+open:
 
 - **Header.** `ticket` is the key. `worktree` and `branch` come from Step 3. `status` is
-  `approved`, or `draft` when the user waived questions. `goal` is the one-sentence goal. Add
-  `spec` when `/plan` gave a spec. For a sub-task with a map unit (Step 1), add `merge` and
-  `builds_on` from the unit. `/claim` and `/do-next` read `worktree` and `branch`. `/create-pr`
-  reads `merge`.
-- **Goal.** The goal, the scope (SCOPED, or SPLIT path 1), and the `/scope-ticket` estimate.
+  `approved`, or `draft` when the user waived questions. Add `spec` when `/plan` gave a spec. For a
+  sub-task with a map unit (Step 1), add `merge` and `builds_on` from the unit.
+- **Goal.** The scope is SCOPED or SPLIT path 1, and the estimate is the `/scope-ticket` estimate.
 - **Acceptance criteria.** The lettered ACs from Step 1 and Step 5.
-- **Context.** What the linked tickets, the comments, and the attachments decide. The production
-  gate. For a sub-task with a map unit, the map path and the unit's `Done:` line.
+- **Context.** What the linked tickets, the comments, and the attachments decide. For a sub-task
+  with a map unit, the map path and the unit's `Done:` line.
 - **Test approach.** The section from Step 5, in the format of
   [`../../TEST-APPROACH.md`](../../TEST-APPROACH.md).
-- **Steps.** The steps from Step 5, then a review step and a push step, as the template shows. The
-  review step names this plan's path.
-- **Progress.** One line: the date, and the branch that the plan is on.
+- **Steps.** The steps from Step 5, then the template's review step and push step.
 - Add a `## Suggested skills` section after `## Steps`:
   - `/build @<plan path>`: every step, then the test and review loop, from the worktree.
   - `/implement @<plan path>`: one step per session, from the worktree.
@@ -176,18 +170,8 @@ More rules:
 
 ## Step 8: Write the letters back
 
-Skip this step in these cases:
-
-- The user said no to the last `/refine-ticket` run. The ticket does not hold the plan's ACs, so
-  the letters have nothing to go on.
-- The ticket holds its letters, and Step 5 added no AC. ACs that `/refine-ticket` wrote are in the
-  ticket with their letters.
-
-1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
-   plain words that every reader of the ticket understands. Change no other text.
-2. Ask once. Write after a yes, or at once when the user waived questions.
-3. Read the ticket back. Check that only the letters and the new ACs changed. Show any other
-   difference.
+Read [`references/inputs.md`](references/inputs.md#write-the-letters-back), and follow it. It
+names when to skip this step.
 
 **Done when:** the ticket holds the letters after a yes, or you said why you wrote nothing.
 
