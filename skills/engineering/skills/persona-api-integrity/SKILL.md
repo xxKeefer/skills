@@ -22,7 +22,7 @@ Run only if the diff's **changed lines** add or change a frontend API call, in n
 - a raw `fetch(`/axios call to a backend API path;
 - **or** the permission/context gate in front of an existing call: a route `meta.permissions` list, a `hasPermission(`/`hasOneOfPermission(` argument, a context/account-type/feature-flag condition, on a page or component that calls an endpoint.
 
-Otherwise return zero findings and stop. Backend-only diffs are out: `persona-api-spec` checks a backend change against its own spec.
+Backend-only diffs are out: `persona-api-spec` checks a backend change against its own spec.
 
 ## Scope
 
@@ -76,10 +76,6 @@ When the diff changes a permission gate, or you must check who may call an endpo
 - **Nit:** 2 (unspecced operation), 4 (optional-but-always-present), 5 (unhandled rare documented status, or a server that masks failures as 200), 6, 16, 8 (deliberate narrowing); 7 when the 403 is handled on purpose.
 - **Future:** a spec or permission cleanup in the backend that the frontend doesn't depend on today.
 - Catalogue sweep matches: the line's default severity.
-
-## You are read-only
-
-Never edit the frontend or any backend repo, and never run `git checkout` or anything else that changes a clone. Read with `git show`/`git grep` against refs.
 
 ## Output
 

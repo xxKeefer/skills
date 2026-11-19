@@ -14,9 +14,7 @@ A change can break code that the diff does not show. This skill finds that break
 the one fact that makes the change safe, and proves that fact with a run. A write-up that sounds
 right proves nothing. Report the findings and apply no fix.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)). Read the file before you apply it, and name it in the reply when it shaped a choice.
-
-Adapted from pstack `blast-radius`.
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
 
 Run at the `prover` role of the `models` block in `~/.claude/AGENTS.md`. With no `models` block,
 use `opus` at high effort, else the session model.

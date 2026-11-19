@@ -9,7 +9,7 @@ description: >
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
 
-Principle: **principle-exhaust-the-design-space** ([`../principle-exhaust-the-design-space/SKILL.md`](../principle-exhaust-the-design-space/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
+Principle: **principle-exhaust-the-design-space** ([`../principle-exhaust-the-design-space/SKILL.md`](../principle-exhaust-the-design-space/SKILL.md)).
 
 ## Pick a branch
 

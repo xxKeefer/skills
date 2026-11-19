@@ -20,8 +20,6 @@ Run only if the diff changes any of:
 - `CLAUDE.md`, `AGENTS.md` (any depth)
 - `**/.claude-plugin/plugin.json`, `**/.claude-plugin/marketplace.json`, `**/hooks/hooks.json`
 
-Otherwise return zero findings and stop.
-
 ## Scope
 
 Lane paths: `'**/SKILL.md' '**/skills/**' '**/agents/*.md' '**/commands/*.md' '.claude/**' '**/CLAUDE.md' '**/AGENTS.md' '**/.claude-plugin/*.json'`.
@@ -63,5 +61,4 @@ Lane paths: `'**/SKILL.md' '**/skills/**' '**/agents/*.md' '**/commands/*.md' '.
 Verify every finding by reading the referenced files (and tool schemas where relevant).
 - `category`: `skills`.
 - `detail`: what the agent does when it hits the line.
-- `suggestion`: the fix.
 - Example `summary`: `the release skill tells the agent to invoke persona-pr-size, which is disable-model-invocation`.

@@ -19,8 +19,6 @@ Run only if the diff changes a workflow or action definition:
 - `.github/actions/**/action.yml` / `action.yaml`
 - a composite/reusable workflow referenced by those
 
-Otherwise return zero findings and stop.
-
 ## Scope
 
 Lane paths: `'.github/workflows/*.yml' '.github/workflows/*.yaml' '.github/actions/**/action.yml' '.github/actions/**/action.yaml'`.
@@ -64,5 +62,4 @@ When you assert a step exits non-zero, capture the status directly: `cmd; echo $
 
 - `category`: `github-actions`.
 - `detail`: the concrete exploit or failure.
-- `suggestion`: the fix.
 - Example `summary`: `github.event.pull_request.title interpolated into run: enables script injection`.

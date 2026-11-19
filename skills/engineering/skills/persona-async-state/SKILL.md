@@ -14,9 +14,9 @@ No other persona owns this lane: `persona-tanstack` checks how a query is config
 
 ## Guard
 
-Run only if the **changed lines**, not merely the changed files, touch asynchronous state: `await`, `.then(`, an async `watch`/`watchEffect` callback, `useMutation`/`mutate`/`mutateAsync`, `isPending`/`isFetching`/`isError`, `initialData`/`placeholderData`, `AbortController`/`signal`, `onWatcherCleanup`, a store `$reset`/logout/account-or-company-switch handler, or a `route.params`/`route.query` read inside an async callback. Applies to non-test `.ts`/`.vue` source. Otherwise return zero findings and stop.
+Run only if the **changed lines**, not merely the changed files, touch asynchronous state: `await`, `.then(`, an async `watch`/`watchEffect` callback, `useMutation`/`mutate`/`mutateAsync`, `isPending`/`isFetching`/`isError`, `initialData`/`placeholderData`, `AbortController`/`signal`, `onWatcherCleanup`, a store `$reset`/logout/account-or-company-switch handler, or a `route.params`/`route.query` read inside an async callback. Applies to non-test `.ts`/`.vue` source.
 
-Judge the hunks, not the file. Changing which function an event binding or import points at (`@logout="…"`, a swapped composable source) doesn't count; the handler's own body has to change. A component that only renders a query's `data` with its loading and error branches intact is not in scope.
+Changing which function an event binding or import points at (`@logout="…"`, a swapped composable source) doesn't count; the handler's own body has to change. A component that only renders a query's `data` with its loading and error branches intact is not in scope.
 
 ## Scope
 
@@ -55,7 +55,6 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 - **Timers, listeners, observers left running after unmount** → `persona-code-quality`.
 - **Null/undefined and `0`/`''` truthiness bugs** → `persona-code-quality`.
 - **Whether the race has a test** → `persona-test-design` (how an existing race test is written → `persona-vitest` / `persona-integration-test`).
-- Anything on an unchanged line.
 
 ## Severity
 
@@ -71,5 +70,4 @@ Name the sequence of events that produces the wrong screen (what the user does, 
 
 - `category`: `async-state`.
 - `detail`: the timeline and the wrong value the user ends up seeing or submitting.
-- `suggestion`: the fix.
 - Example `summary`: `slow price lookup overwrites the newer subnet's price — abort the previous request in onWatcherCleanup`.

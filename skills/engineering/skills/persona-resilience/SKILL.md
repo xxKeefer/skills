@@ -16,7 +16,7 @@ The catalogue in [references/catalogue.md](references/catalogue.md) has the full
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.ts`/`.vue` under `apps/**` or `libs/**` touch an HTTP client or interceptor, 401/403 handling, the auth or session store, `QueryClient`/`QueryCache`/`MutationCache` config, `retry`/`retryDelay`/`networkMode`/`refetchInterval`/`refetchOnWindowFocus` options, `BroadcastChannel` or `storage` events, `localStorage`/`sessionStorage`, `AbortController`/`signal` handling in a client, `router.onError` or dynamic-import handling, or a save (PUT/PATCH) that sends a whole resource. Otherwise return zero findings and stop. Judge the hunks, not the file. A hunk that only swaps an import, or adds an ordinary lazy route to a route table, doesn't count.
+Run only if the **changed lines** of non-test `.ts`/`.vue` under `apps/**` or `libs/**` touch an HTTP client or interceptor, 401/403 handling, the auth or session store, `QueryClient`/`QueryCache`/`MutationCache` config, `retry`/`retryDelay`/`networkMode`/`refetchInterval`/`refetchOnWindowFocus` options, `BroadcastChannel` or `storage` events, `localStorage`/`sessionStorage`, `AbortController`/`signal` handling in a client, `router.onError` or dynamic-import handling, or a save (PUT/PATCH) that sends a whole resource. A hunk that only swaps an import, or adds an ordinary lazy route to a route table, doesn't count.
 
 ## Scope
 
@@ -54,14 +54,13 @@ When the diff touches a spinner or paused state, a request timeout, polling, chu
 - **Losing the URL or query params on the login redirect** → `persona-url-state`.
 - **A failed submit that wipes the form, a form not reset after create** → `persona-form-behaviour`.
 - **Announcing a session timeout warning to screen readers** → `persona-a11y`. **Whether a resilience test exists** → `persona-test-design`.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** session expiry losing work (1), parallel 401s each acting (2), 4xx retried (3), cross-tab logout or company switch not broadcast (5), full PUT overwriting another edit (6), a create that can run twice (7), unguarded storage reads (8), unscoped storage keys (9), a hung request with no way out (11), a deploy breaking chunks with no recovery (13), and a cancelled request shown as a failure (14).
 - **Nit:** permissions cached for the session (4), offline or outage with no message (10), and polling that floods a failing server or goes stale (12).
 - **Future:** a shared form-draft helper that survives re-login; an app-wide `vite:preloadError` handler shared by every app; moving every app to one shared `QueryClient` factory; `If-Match` or version support on writes once the API offers it. Suggest, never block.
-- **Never:** a finding you can't tie to a concrete session, tab, network, or deploy event; a gap that already exists app-wide and that the diff doesn't touch; anything on an unchanged line.
+- **Never:** a finding you can't tie to a concrete session, tab, network, or deploy event; a gap that already exists app-wide and that the diff doesn't touch.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
@@ -70,5 +69,4 @@ Each finding names the event (expired token, second tab, offline, deploy) and th
 
 - `category`: `resilience`.
 - `detail`: the event, what the user then sees or loses, and the fixture recipe that reproduces it.
-- `suggestion`: the fix.
 - Example `summary`: `Expired session on the order form loses the order: onUnauthorized redirects with no draft`.

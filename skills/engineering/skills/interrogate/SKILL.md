@@ -13,9 +13,9 @@ Adversaries try to break a change. A finding stays in the report only when a re-
 proves it. Each other finding goes to the Dropped list with its reason. Report the findings. Apply
 no fix: the report's ticks build a `/engineering:fix` prompt.
 
-Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-separate-before-serializing-shared-state** ([`../principle-separate-before-serializing-shared-state/SKILL.md`](../principle-separate-before-serializing-shared-state/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
+Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-separate-before-serializing-shared-state** ([`../principle-separate-before-serializing-shared-state/SKILL.md`](../principle-separate-before-serializing-shared-state/SKILL.md)).
 
-`$SKILL_DIR` is this skill's base directory. Adapted from pstack `interrogate` and `arena`.
+`$SKILL_DIR` is this skill's base directory.
 
 ```
 frame → fan out adversaries → collect findings → rerun_findings.py → intent check → report → remove worktrees

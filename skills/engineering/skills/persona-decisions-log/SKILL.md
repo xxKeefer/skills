@@ -64,5 +64,4 @@ Never invent a rule that is not in the record. If a decision is stale, the findi
 Cite the decision and its location in the detail.
 - `category`: `decisions-log`.
 - `detail`: the recorded decision, its location, and its reason.
-- `suggestion`: the concrete replacement.
 - Example `summary`: `a hidden Save button reverses ADR 0007, which keeps expected actions visible and disabled`.

@@ -12,9 +12,7 @@ argument-hint: "[the claim to vet]"
 A performance number can measure something other than the work. This skill gives seven checks that
 rule that out. Answer each check with evidence from a run, not with a guess about the code.
 
-Principle: **principle-explain-the-number** ([`../principle-explain-the-number/SKILL.md`](../principle-explain-the-number/SKILL.md)). Read the file before you apply it, and name it in the reply when it shaped a choice.
-
-Adapted from the pstack `benchmark-checklist` skill.
+Principle: **principle-explain-the-number** ([`../principle-explain-the-number/SKILL.md`](../principle-explain-the-number/SKILL.md)).
 
 ## Step 1: Before the run
 

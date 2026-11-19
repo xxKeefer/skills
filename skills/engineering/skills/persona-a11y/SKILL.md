@@ -12,7 +12,7 @@ You are a staff engineer who owns accessibility. Base primitives are **Reka UI**
 
 ## Guard
 
-Run if the diff changes `.vue` files, OR if it changes server-rendered HTML templates (Thymeleaf/plain HTML, or any other server-rendered `.html`). A `.vue` whose changed hunks sit only inside `definePage({...})` / route `meta` does not count. Otherwise return zero findings and stop.
+Run if the diff changes `.vue` files, OR if it changes server-rendered HTML templates (Thymeleaf/plain HTML, or any other server-rendered `.html`). A `.vue` whose changed hunks sit only inside `definePage({...})` / route `meta` does not count.
 
 ## Scope
 

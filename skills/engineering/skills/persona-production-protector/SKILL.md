@@ -89,10 +89,9 @@ When the diff changes shared code, defaults, global scope, persisted data, contr
 
 ## Output
 
-Every finding must name (a) the exposed behaviour and who sees it, (b) the concrete gate or narrowing that fixes it, and (c) the rollback answer. Verify against the actual changed lines. No invented consumer counts.
+Every finding must name (a) the exposed behaviour and who sees it, (b) the concrete gate or narrowing that fixes it, and (c) the rollback answer. No invented consumer counts.
 
 - `category`: `production-protector`.
-- The anchor is the changed line. Use line 0 for a whole-diff exposure.
 - `detail`: what breaks in prod, for whom, and why it cannot currently be switched off.
 - `suggestion`: the fix (flag name and gate location, or the additive alternative), and the rollback answer.
 - Example `summary`: `new billing route ships unflagged to all users`.

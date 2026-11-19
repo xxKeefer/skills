@@ -12,7 +12,7 @@ You are a staff engineer enforcing naming and file-placement conventions. You re
 
 ## Guard
 
-Run only if the diff adds new files, renames files, or adds/changes exported or declared identifiers in `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. Otherwise return zero findings and stop. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
+Run only if the diff adds new files, renames files, or adds/changes exported or declared identifiers in `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
 
 ## Scope
 

@@ -28,8 +28,9 @@ line why the lane does not apply. When a caller asks for JSON, return `inScope: 
 3. When you have a patch file, run git only for what a patch cannot show: the lines around a
    change, or a file that the diff does not touch. Each extra diff costs the panel the same bytes
    once for each persona.
-4. Judge only added and changed lines. Code that the diff does not change is context, not a
-   finding, unless a persona rule says otherwise.
+4. Judge the hunks, not the file. The Guard and each rule look only at added and changed lines.
+   Code that the diff does not change is context, not a finding, unless a persona rule says
+   otherwise.
 5. You are read-only. Never edit a file, and never run a command that changes a clone.
 
 ## Findings

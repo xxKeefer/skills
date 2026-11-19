@@ -14,7 +14,7 @@ This persona targets charts built with Unovis (`@unovis/ts` and `@unovis/vue`). 
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.ts`/`.vue` touch a chart: an `@unovis/*` import or a `Vis*` component (`<VisXYContainer`, `<VisLine`, `<VisArea`, `<VisAxis`, `<VisCrosshair`, `<VisTooltip`, `<VisSankey`, …), any file under the app's chart components, a telemetry data composable or its time-range and unit-format helpers, or a chart data transform (bucketing, null handling, an axis or tick formatter, a tooltip template). Otherwise return zero findings and stop. Judge the hunks, not the file. A hunk in a chart component that only renames, swaps an import, or changes copy doesn't count.
+Run only if the **changed lines** of non-test `.ts`/`.vue` touch a chart: an `@unovis/*` import or a `Vis*` component (`<VisXYContainer`, `<VisLine`, `<VisArea`, `<VisAxis`, `<VisCrosshair`, `<VisTooltip`, `<VisSankey`, …), any file under the app's chart components, a telemetry data composable or its time-range and unit-format helpers, or a chart data transform (bucketing, null handling, an axis or tick formatter, a tooltip template). A hunk in a chart component that only renames, swaps an import, or changes copy doesn't count.
 
 ## Scope
 
@@ -53,14 +53,13 @@ When the diff adds a chart container, sets a chart width, builds a chart with `n
 - **Query keys, `staleTime`, `select`, and refetch settings in the telemetry data composables** → `persona-tanstack`.
 - **Unescaped series names in an HTML tooltip template** → `persona-security`.
 - **Whether a chart test or story covers C1 to C17** → `persona-test-design`. You name the defect; they name the missing test.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** empty data with no empty state (1), a single point that draws nothing (2), a gap drawn as zero or bridged (3), a chart time zone that differs from the page (5), fixed-step, range-blind, or hidden partial buckets (6), a wrong or cut-off tooltip (8), and a chart that doesn't follow its container or outlives it (9).
 - **Nit:** a misleading y axis on flat or spiky data (4), mixed, missing, or unreadable axis units (7), and series told apart by colour alone or colours that break in dark mode (10).
 - **Future:** a shared chart wrapper in the project's UI library with the empty state, per-series null handling, zone-aware ticks, and container width built in. Suggest, never block.
-- **Never:** a dataset the API can't return for this chart; a finding you can't tie to a dataset or step; library advice for Chart.js or ECharts; anything on an unchanged line.
+- **Never:** a dataset the API can't return for this chart; a finding you can't tie to a dataset or step; library advice for Chart.js or ECharts.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
@@ -69,5 +68,4 @@ Each finding names the dataset or step and the wrong result.
 
 - `category`: `charts`.
 - `detail`: the dataset or step, and what the user then sees.
-- `suggestion`: the fix.
 - Example `summary`: `Outage drawn as 0 Mbps: new VisArea fills interior nulls`.

@@ -21,7 +21,7 @@ The layers, outermost to innermost:
 
 ## Guard
 
-Run only if the diff changes non-test `.ts`/`.vue` source under an app (`apps/*/src`) **or** a shared library (`libs/*/src`), a library has layering too (primitives → components → composables → styles), and cross-component coupling inside the UI library is in lane, **or** any source in a standalone test repo that has its own layering (for example `src/*/specs`, `src/*/pages`, `src/*/fixtures.ts`, `src/shared/setup.ts`, `src/shared/apis`). Otherwise return zero findings and stop.
+Run only if the diff changes non-test `.ts`/`.vue` source under an app (`apps/*/src`) **or** a shared library (`libs/*/src`), a library has layering too (primitives → components → composables → styles), and cross-component coupling inside the UI library is in lane, **or** any source in a standalone test repo that has its own layering (for example `src/*/specs`, `src/*/pages`, `src/*/fixtures.ts`, `src/shared/setup.ts`, `src/shared/apis`).
 
 In a standalone test repo the layers below map to: page objects (presentation) → fixtures (wiring) → setup factories (data) → API clients (I/O). The same rules apply: a setup factory must not encode a page-object concern, and `src/shared` must not depend on a project-specific module.
 

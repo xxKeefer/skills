@@ -14,9 +14,9 @@ This lane exists because lint reaches only the crudest cases (`no-empty`, `no-co
 
 ## Guard
 
-Run only if the **changed lines**, not merely the changed files, touch a failure path: `catch`, `finally`, `throw`, `.catch(`, `.then(`, `reject`, `onError`, `captureException`, `console.`, `fetch(`, `response.ok`, `Promise.`, or a `*Error` type. Bare `async`/`await` with no failure path in the changed lines is **not** a trigger. Applies to non-test `.ts`/`.vue` source. Otherwise return zero findings and stop.
+Run only if the **changed lines**, not merely the changed files, touch a failure path: `catch`, `finally`, `throw`, `.catch(`, `.then(`, `reject`, `onError`, `captureException`, `console.`, `fetch(`, `response.ok`, `Promise.`, or a `*Error` type. Bare `async`/`await` with no failure path in the changed lines is **not** a trigger. Applies to non-test `.ts`/`.vue` source.
 
-Judge the hunks, not the file. A component that merely renders data another module fetches is not in scope.
+A component that merely renders data another module fetches is not in scope.
 
 ## Scope
 
@@ -79,7 +79,6 @@ When the changed lines add a retry loop, or build a failure message that a later
 - **Lifecycle cleanup leaks** (timers, observers, listeners, object URLs without teardown) → `persona-code-quality`.
 - **Swallowed *exit statuses* in shell** (`.sh`/`.bash`, a workflow `run:` block) → `persona-shell`. Same failure shape, different language, and that lane proves its claims by running them.
 - **`console.*` inside a test, or `vi.spyOn(console, …)` used to silence a real warning** → `persona-vitest` (`failOnConsole` is on). Your scope is non-test source.
-- Anything on an unchanged line. The pre-existing `console.*` calls are not your findings.
 
 ## Severity
 
@@ -93,6 +92,5 @@ When the changed lines add a retry loop, or build a failure message that a later
 
 - `category`: `error-handling`.
 - `detail`: what the user and the on-call engineer each see when this code fails today.
-- `suggestion`: the concrete replacement.
 - Name the audience that loses out (engineer or user) and the concrete replacement.
 - Example `summary`: `empty catch swallows the request failure — report via captureException`.

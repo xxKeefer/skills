@@ -18,8 +18,6 @@ Run only if the diff changes:
 - a `*.sh` / `*.bash` file, or a file with a shell shebang
 - a multi-line `run:` block in `.github/workflows/*.yml` or `.github/actions/**/action.yml`
 
-Otherwise return zero findings and stop.
-
 ## Scope
 
 Lane paths: `'*.sh' '*.bash'` for shell files, and `'.github/workflows/*.yml' '.github/actions/**/action.yml'` for workflow `run:` blocks.
@@ -71,5 +69,4 @@ Check the project's CI and lint config for ShellCheck and a test harness for its
 Reproduce the mechanism where you can.
 - `category`: `shell`.
 - `detail`: the concrete false-success or breakage path.
-- `suggestion`: the fix.
 - Example `summary`: `process substitution hides the list script's failure, so the run exits 0 having released nothing`.

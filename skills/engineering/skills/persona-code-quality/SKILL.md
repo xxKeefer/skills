@@ -12,7 +12,7 @@ You are a staff engineer reviewing for structure and reuse. You review **only** 
 
 ## Guard
 
-Run only if the diff changes non-test source in any language. Test files (`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, files under `tests/`) do not count. Otherwise return zero findings and stop. Rules 1 to 11 apply to `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. The Python rules apply to `.py` (scripts, tooling, skill helpers). Rules 12 to 21 apply to every language. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
+Run only if the diff changes non-test source in any language. Test files (`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, files under `tests/`) do not count. Rules 1 to 11 apply to `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. The Python rules apply to `.py` (scripts, tooling, skill helpers). Rules 12 to 21 apply to every language. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
 
 ## Scope
 

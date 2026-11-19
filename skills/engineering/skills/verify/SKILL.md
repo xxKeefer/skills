@@ -12,9 +12,9 @@ argument-hint: "[<base ref>]"
 A driver is a skill that runs one app the way a user does. This skill finds the drivers for a diff,
 runs them, and returns what they saw. It holds no drive steps. Each driver holds its own.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)). Read the file before you apply it, and name it in the reply when it shaped a choice.
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
 
-`$SKILL_DIR` is this skill's base directory. Adapted from pstack `verify`.
+`$SKILL_DIR` is this skill's base directory.
 
 Run each driver at the `verifier` role of the `models` block in `~/.claude/AGENTS.md`. With no
 `models` block, use the session model.

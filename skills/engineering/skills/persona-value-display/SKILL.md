@@ -16,7 +16,7 @@ This lane exists because these escape as High-priority bugs: services showing as
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` render or format a value: a template interpolation (`{{ }}`), template literal, or nested property read of an API field, a formatter (the project's date, money, or speed formatter, or a currency formatter class), `toLocaleString`, `Intl.`, `toFixed(`, `new Date(`, `Date.parse`, Luxon `DateTime`, a status or label map, a prop validator, a sentinel default (`?? -1`, `Number.MAX_SAFE_INTEGER`), a ratio or percentage, or a copy-to-clipboard value. Otherwise return zero findings and stop. Judge the hunks, not the file.
+Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` render or format a value: a template interpolation (`{{ }}`), template literal, or nested property read of an API field, a formatter (the project's date, money, or speed formatter, or a currency formatter class), `toLocaleString`, `Intl.`, `toFixed(`, `new Date(`, `Date.parse`, Luxon `DateTime`, a status or label map, a prop validator, a sentinel default (`?? -1`, `Number.MAX_SAFE_INTEGER`), a ratio or percentage, or a copy-to-clipboard value.
 
 ## Scope
 
@@ -65,14 +65,13 @@ When the diff reads a nested nullable object, maps a sentinel value, passes a va
 - **The API client's schema decoding a date or money field wrongly** → `persona-api-integrity`. **Date arithmetic done by hand** → `persona-code-quality`.
 - **`v-html` on API text** → `persona-security`. **Sorting by the display string** → `persona-url-state`.
 - **Whether a test covers the null or zero case** → `persona-test-design`.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** missing value rendered as text (1), null shown as a believable value (2), date outside the helpers (4), a range edge that changes what's billed or filtered (5), money formatted by hand (7), unit conversion wrong (8), ratio of zero (9), nested nullable object read without a guard (12), sentinel shown as data (13), unknown value passed to `Intl` or an enum-checking prop (14), and unknown status shown as a reassuring state (15).
 - **Nit:** placeholder or enum drift (3), other range edges (5), relative time oddities (6), large numbers unreadable or unsafe (10), and copy button copying the wrong thing (11).
 - **Future:** one shared `EMPTY_VALUE` constant outside dates; moving legacy formatter callers to the new formatters. Suggest, never block.
-- **Never:** a null-rendering finding on a field the schema marks required, without evidence the API omits it; anything on an unchanged line.
+- **Never:** a null-rendering finding on a field the schema marks required, without evidence the API omits it.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output

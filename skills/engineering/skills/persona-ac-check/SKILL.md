@@ -78,6 +78,5 @@ Verify every finding against the actual AC text and changed lines. State the **d
 - `summary`: cite the AC by ID when the ticket letters them (`A`, `B.2`), and end with the direction. Example: `AC B "button added to user details page" not in diff → update PR`. Also flag (Nit) a PR description whose AC table skips an ID or labels a row with the wrong one.
 - `detail`: which AC or PR claim is unmet, and the evidence (diff shows X / AC says Y).
 - `suggestion`: the recommended direction (update ticket vs update PR) with a one-line why.
-- Do not manufacture gaps to look thorough.
 
 If neither source gives acceptance criteria, return `{"persona":"persona-ac-check","inScope":false,"findings":[]}`.

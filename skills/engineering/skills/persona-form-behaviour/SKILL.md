@@ -16,7 +16,7 @@ The catalogue in [references/catalogue.md](references/catalogue.md) has the full
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch a form: a form control (`<input`, the design system's input, `<textarea`, `<select`, a date picker, a combobox), its bounds (`min`/`max`/`maxlength`/`step`, `type="number"`, `v-model.number`), its schema (zod/yup `.min(`/`.max(`/`.length(`/`.refine(`/`.superRefine(`/`.when(`/`.required(`/`.optional(`, `z.coerce.`), its registration (`useField`, `<Field :name`, `initialValues`), its keyboard and submit wiring (`@keydown`, `@keyup`, `@submit`, the design system's form component, `useForm`, `handleSubmit`, a `<button>` inside a form, a dialog's dismiss props), or a wizard step's routing (`beforeEnter`, a step route). Otherwise return zero findings and stop. Judge the hunks, not the file. A hunk that sits only inside `definePage({...})`/route `meta`, or only swaps an import, doesn't count.
+Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch a form: a form control (`<input`, the design system's input, `<textarea`, `<select`, a date picker, a combobox), its bounds (`min`/`max`/`maxlength`/`step`, `type="number"`, `v-model.number`), its schema (zod/yup `.min(`/`.max(`/`.length(`/`.refine(`/`.superRefine(`/`.when(`/`.required(`/`.optional(`, `z.coerce.`), its registration (`useField`, `<Field :name`, `initialValues`), its keyboard and submit wiring (`@keydown`, `@keyup`, `@submit`, the design system's form component, `useForm`, `handleSubmit`, a `<button>` inside a form, a dialog's dismiss props), or a wizard step's routing (`beforeEnter`, a step route). A hunk that sits only inside `definePage({...})`/route `meta`, or only swaps an import, doesn't count.
 
 ## Scope
 
@@ -56,20 +56,18 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 - **`!value` treating a real 0 as missing** → `persona-code-quality` #10.
 - **Whether a boundary or Enter test exists** → `persona-test-design`. You name the defect; they name the missing test.
 - **Error message wording** → `persona-i18n` / `persona-decisions-log`. **Which form component to use** → `persona-design-system`.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** `@keydown.enter` on a design-system input (1), Enter action with no IME guard (2), raw button with no type in a form (3), Enter submitting something unchosen (4), Escape discarding a create/edit dialog (5), missing bound (6), contradictory bound (7), number input for an identifier or an unhandled empty number (8), stale hidden-field state (10), cross-field rule not re-run (11), typed date bypassing the picker (12), submit losing the user's work (13), `z.coerce.number()` on a form field (15), `.optional()` rejecting an empty string (16), a field registered with an undefined name (17), a form bound to query data or a prop (18), a parent key handler swallowing typing (19), and a wizard step reachable by URL (20).
 - **Nit:** Enter doing nothing (4), Escape discarding a small form (5), wheel or arrow changing a value (9), and disabled where readonly was meant (14).
 - **Future:** a shared number-field component with bounds, wheel handling and empty-value handling built in. Suggest, never block.
-- **Never:** a rule you can't tie to a concrete input or keypress; a theoretical bound on a value the user can't edit; anything on an unchanged line.
+- **Never:** a rule you can't tie to a concrete input or keypress; a theoretical bound on a value the user can't edit.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
 
 - `category`: `form-behaviour`.
 - `detail`: the input or keypress, and what the user then sees or saves.
-- `suggestion`: the fix.
 - Example `summary`: `Enter in Speed never submits — @keydown.enter on the design-system input gets a string`.
 - Each finding names the input or keypress and the wrong result.

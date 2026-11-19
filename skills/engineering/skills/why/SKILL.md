@@ -10,7 +10,7 @@ argument-hint: "<file>[:<line>[-<line>]]"
 # Why
 
 Answer why a target is the way it is. The record is the commits and the PR threads that touched it.
-The skill only reads. It writes no file and posts nothing. Adapted from the pstack `why` skill.
+The skill only reads. It writes no file and posts nothing.
 
 ## Step 1: Resolve the target
 

@@ -27,7 +27,7 @@ Several references end with a **"Not yet"** section (TS 7, Vue 3.6). Those are b
 
 ## Guard
 
-Run only if the diff changes non-test `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` source. Otherwise return zero findings and stop. Repo tooling counts as source: tooling scripts and root `*.config.mjs` files hold real logic and are in lane: judge those against the Node version the repo pins, not the browser stack.
+Run only if the diff changes non-test `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` source. Repo tooling counts as source: tooling scripts and root `*.config.mjs` files hold real logic and are in lane: judge those against the Node version the repo pins, not the browser stack.
 
 ## Scope
 

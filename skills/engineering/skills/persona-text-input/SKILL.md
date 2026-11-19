@@ -16,7 +16,7 @@ The catalogue in [references/catalogue.md](references/catalogue.md) has the full
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch how user text is accepted, compared, or passed on: a string schema rule (zod `z.string()`/`.trim(`/`.regex(`/`.email(`/`.min(`/`.max(`, yup `string()`) or a network identifier validator (IP, CIDR, MAC, ASN), a string operation on user input (`.trim(`, `.toLowerCase(`, `.normalize(`, `.length`, `.slice(`/`.substring(`), input wiring (`v-model.trim`, `@input`, `@paste`, `@compositionstart`/`@compositionend`, an input mask or formatter), input attributes (`autocapitalize`, `autocorrect`, `spellcheck`, `inputmode`, `autocomplete`), user text put into a URL, query or regex (`encodeURIComponent`, a template-string URL, `new RegExp(`, a search filter), a user-entered URL bound to `:href`, or CSV/file import and export. Otherwise return zero findings and stop. Judge the hunks, not the file.
+Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch how user text is accepted, compared, or passed on: a string schema rule (zod `z.string()`/`.trim(`/`.regex(`/`.email(`/`.min(`/`.max(`, yup `string()`) or a network identifier validator (IP, CIDR, MAC, ASN), a string operation on user input (`.trim(`, `.toLowerCase(`, `.normalize(`, `.length`, `.slice(`/`.substring(`), input wiring (`v-model.trim`, `@input`, `@paste`, `@compositionstart`/`@compositionend`, an input mask or formatter), input attributes (`autocapitalize`, `autocorrect`, `spellcheck`, `inputmode`, `autocomplete`), user text put into a URL, query or regex (`encodeURIComponent`, a template-string URL, `new RegExp(`, a search filter), a user-entered URL bound to `:href`, or CSV/file import and export.
 
 ## Scope
 
@@ -54,20 +54,18 @@ When the diff touches an IP, CIDR, MAC, or ASN validator, or binds a user-entere
 - **Null or `undefined` shown on screen** → `persona-value-display`.
 - **Label, placeholder, and error copy** → `persona-i18n` / `persona-decisions-log`. **Hand-rolled debounce** → `persona-code-quality`.
 - **Whether a test covers the awkward string** → `persona-test-design`.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** whitespace-only passes required (1), trim on a secret (2), validator rejects real input (3), a uniqueness check that ignores case or normalisation (4), slicing user text by code unit (6), unescaped URL, regex or query (7), CSV quoting or encoding (11), a network address accepted in more than one spelling (13), a network identifier validator that rejects a valid format (14), a user-entered URL with no scheme bound to `:href` (15).
 - **Nit:** comparisons in search that ignore case or accents (4), code-like field treated as prose (5), length counter in UTF-16 (6), no direction isolation (8), IME firing search (9), masks that break typing or paste (10), filename from user text (12).
 - **Future:** a shared `trimmedName()` zod primitive for name fields. Suggest, never block.
-- **Never:** a string you can't name; a field the user can't type into; anything on an unchanged line.
+- **Never:** a string you can't name; a field the user can't type into.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
 
 - `category`: `text-input`.
 - `detail`: the string, and what is stored or shown.
-- `suggestion`: the fix.
 - Example `summary`: `Name accepts "   " — add .trim() before .min(1)`.
 - Each finding names the exact string and the wrong result.

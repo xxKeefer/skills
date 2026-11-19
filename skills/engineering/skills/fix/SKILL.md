@@ -10,7 +10,7 @@ description: >
 
 Resolve a broken behaviour reported from manual QA. Find the fault, fix it, prove it.
 
-Principles: **principle-attack-the-premise** ([`../principle-attack-the-premise/SKILL.md`](../principle-attack-the-premise/SKILL.md)) and **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
+Principles: **principle-attack-the-premise** ([`../principle-attack-the-premise/SKILL.md`](../principle-attack-the-premise/SKILL.md)) and **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)).
 
 ## Step 1: Understand the Problem
 

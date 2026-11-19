@@ -16,7 +16,7 @@ You review **only** type readability.
 
 ## Guard
 
-Run only if the diff changes `.ts`, `.mts`, `.d.ts`, or `.vue` source (tests included). Otherwise return zero findings and stop.
+Run only if the diff changes `.ts`, `.mts`, `.d.ts`, or `.vue` source (tests included).
 
 ## Scope
 

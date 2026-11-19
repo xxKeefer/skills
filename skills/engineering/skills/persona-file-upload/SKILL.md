@@ -14,7 +14,7 @@ This lane exists because many projects have no CSV library and no shared upload 
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch a file upload or import: `<input type="file"`, the design system's upload component or another upload component, an `accept=` attribute, a drop zone (`useDropZone`, `@drop`, `@dragover`, `@dragenter`, `@dragleave`, `dataTransfer`), file handling (`FileReader`, `File`, `Blob`, `FormData`, `file.size`, `file.type`, `file.name`), or CSV/text import parsing (`readAsText`, `.text()` on a file, `.split(` on file contents, a CSV parser). Otherwise return zero findings and stop. Judge the hunks, not the file. A hunk that only swaps an import, or only builds a CSV for download, doesn't count.
+Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch a file upload or import: `<input type="file"`, the design system's upload component or another upload component, an `accept=` attribute, a drop zone (`useDropZone`, `@drop`, `@dragover`, `@dragenter`, `@dragleave`, `dataTransfer`), file handling (`FileReader`, `File`, `Blob`, `FormData`, `file.size`, `file.type`, `file.name`), or CSV/text import parsing (`readAsText`, `.text()` on a file, `.split(` on file contents, a CSV parser). A hunk that only swaps an import, or only builds a CSV for download, doesn't count.
 
 ## Scope
 
@@ -47,14 +47,13 @@ When the diff parses or imports a CSV or other text file, read [references/csv-i
 - **Double submit, or an upload button not disabled while pending** → `persona-async-state`.
 - **Whether to use the design system's upload components or a custom input** → `persona-design-system`.
 - **Whether a test covers the file cases** → `persona-test-design`. You name the defect; they name the missing test.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** type check that trusts one signal (1), size not checked (2), SVG accepted where other users see the image (3), input not reset (4), drop losing the page or files (5), cancel that doesn't abort (6), `File` in serialised state or a stale list (7), CSV split by hand (9), and CSV coercion or errors without a location (10).
 - **Nit:** SVG seen only by its uploader (3), highlight flicker alone (5), no progress on a long upload (6), and filename breaking the chip or the server match (8).
 - **Future:** a shared CSV import helper on a real parser, and a shared file check (type, size, and emptiness) used by every picker. Suggest, never block.
-- **Never:** a rule you can't tie to a concrete file; a limit the component already enforces; anything on an unchanged line.
+- **Never:** a rule you can't tie to a concrete file; a limit the component already enforces.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
@@ -63,5 +62,4 @@ Each finding names the file (a fixture number from [references/fixtures.md](refe
 
 - `category`: `file-upload`.
 - `detail`: the file, and what the user then sees or sends.
-- `suggestion`: the fix.
 - Example `summary`: `SCAN.PDF rejected: extension check is case-sensitive`.

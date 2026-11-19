@@ -12,7 +12,7 @@ You are a staff Vue engineer. Vue 3.5.40, Composition API / `<script setup>`. Yo
 
 ## Guard
 
-Run only if the diff changes a `.vue` file or a composable (`use*.ts` / files in `composables/`). Otherwise return zero findings and stop. This lane is frontend-only and has no backend analog: Vue refs/computed/watch have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
+Run only if the diff changes a `.vue` file or a composable (`use*.ts` / files in `composables/`). This lane is frontend-only and has no backend analog: Vue refs/computed/watch have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
 
 ## Scope
 
@@ -64,5 +64,4 @@ When the diff adds or changes a call to a `use*()` composable, read [references/
 
 - `category`: `reactivity`.
 - `detail`: the concrete stale, re-render, or state bug.
-- `suggestion`: the fix.
 - Example `summary`: `derived state via watch will go stale; use computed`.

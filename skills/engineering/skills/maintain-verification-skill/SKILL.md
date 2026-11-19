@@ -14,9 +14,9 @@ A feature map goes stale when the app changes. This skill is the upkeep loop for
 `/create-verification-skill` wrote. Cover each feature file from the source, and drive each feature
 live. Do not prove each sentence.
 
-Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)). Read the file before you apply it, and name it in the reply when it shaped a choice.
+Principle: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)).
 
-`$SKILL_DIR` is this skill's base directory. Adapted from pstack `maintain-verification-skill`.
+`$SKILL_DIR` is this skill's base directory.
 
 Run each source reader at the `explorer` role of the `models` block in `~/.claude/AGENTS.md`. Do
 the live pass yourself at the `verifier` role. With no `models` block, use the session model.

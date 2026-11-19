@@ -21,7 +21,7 @@ Run if the diff changes any of:
 - a `package.json` `dependencies`/`devDependencies`/`peerDependencies`/`sideEffects`/`exports` field under `apps/**`, `libs/**` or the root,
 - a `vite.config.*` / build config (chunking, `define`, `vue({ features })`, `assetsInlineLimit`, `build.*`).
 
-Judge the hunks, not the file. Return zero findings for test/story/mock/docs/CI-only diffs, and for backend-only diffs.
+Return zero findings for test/story/mock/docs/CI-only diffs, and for backend-only diffs.
 
 ## Scope
 
@@ -109,7 +109,7 @@ Before you report a finding, read [references/calibration.md](references/calibra
 Every finding must name (a) what ships, to whom, and when (eager main or vendor chunk vs the async chunk it could live in), (b) the concrete change (`defineAsyncComponent` at line N, `await import()` in handler X, named import, peer dependency, config key), and (c) how you verified the split pays (the other-importer check, or the chunk rule). No invented sizes.
 
 - `category`: `bundle-size`.
-- The anchor is the import or config line. Use line 0 for a whole-diff finding.
+- The anchor is the import or config line.
 - `detail`: which users download which code they never render, or what grows the eager bundle, and why.
 - `suggestion`: the fix, and how to confirm the saving (bundle analysis on the PR, or the app's build before/after).
 - Example `summary`: `flag-gated ReportBuilderDialog statically imported into the main chunk`.

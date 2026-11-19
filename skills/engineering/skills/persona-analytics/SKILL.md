@@ -22,7 +22,7 @@ Run if the diff's **changed lines** do any of:
 - touch analytics directly: the wrapper's event, flow-tracking and navigation-tracking calls, a direct `posthog.` call, or any file in the wrapper's analytics directory or lib;
 - in an app that activates the wrapper, add a user-facing flow: a new page, a multi-step wizard or stepper, a dialog/drawer whose confirm fires a mutation, a new order/checkout/signup/billing entry point, or a flag-gated alternate experience of an existing flow.
 
-Judge the hunks, not the file. Return zero findings for test/story/mock/docs/CI-only diffs, backend code, and apps that do not activate the analytics wrapper (search for its import across `apps` if unsure).
+Return zero findings for test/story/mock/docs/CI-only diffs, backend code, and apps that do not activate the analytics wrapper (search for its import across `apps` if unsure).
 
 ## Scope
 
@@ -59,7 +59,6 @@ When the diff imports or calls a Segment client, read [references/platform-split
 - **Bundle weight of `posthog-js`** or an analytics import → `persona-bundle-size`.
 - **`as` casts and typing gymnastics** in the event map → `persona-typing`.
 
-
 Before you report, read [references/calibration.md](references/calibration.md). It holds the rules on noise.
 
 ## Severity
@@ -69,13 +68,12 @@ Before you report, read [references/calibration.md](references/calibration.md). 
 - **Future:** migrating a touched legacy untyped capture call site to the typed map; an untracked existing flow next to the diff.
 - **Platform split:** Nit 25.
 
-
 ## Output
 
 Every finding must name (a) the event, flow or property, (b) the question it fails ("the database already answers X", "fires N times per keystroke", "funnel cannot see users who cancel at step Y", "`email` rides under `unknown` consent"), and (c) the concrete change: the event to delete, the debounce point, the `abandon(reason)` to add with its reason constant, the proposed event/steps/reasons in the reference grammar.
 
 - `category`: `analytics`.
-- The anchor is the `track`, flow-tracking or handler line. For a missing milestone, use the flow's entry component. Use line 0 for a whole-diff finding.
+- The anchor is the `track`, flow-tracking or handler line. For a missing milestone, use the flow's entry component.
 - `detail`: what the metric shows wrong or cannot show, or what volume or PII reaches PostHog.
 - `suggestion`: the fix. For a missing milestone, give the proposed event, steps and reasons.
 - Example `summary`: `cancel dialog close path never calls abandon()`.

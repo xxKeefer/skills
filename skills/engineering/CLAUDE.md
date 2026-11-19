@@ -161,6 +161,7 @@ A principle is one of the 24 pstack `principle-*` skills in this domain. Rules:
 - `work-on/SKILL.md` holds the index: five groups (Core, Architecture, Verification, Delegation, Meta), and one "when it applies" line for each principle. A new, renamed, or removed principle needs the same change in the index and in the `README.md` table.
 - Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py <repo root>` after each change. It checks the folder set, the flag, the name, and the index. A change to the folder set also needs a change to its spec and its `EXPECTED` list.
 - A skill that applies a principle without the router names it in bold, with a sibling path such as `../principle-fix-root-causes/SKILL.md`. A rename needs the same change in each such skill.
+- When a skill names a principle, read the principle's file before you apply it, and name it in the reply when it shaped a choice.
 - `never-block-on-the-human` points at the `pause-list.md` rule. `guard-the-context-window` points at subagents and `/checkpoint`.
 
 ## Loading

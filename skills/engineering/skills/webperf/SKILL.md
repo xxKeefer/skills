@@ -11,7 +11,7 @@ argument-hint: "<URL> [page or flow]"
 Make a web page faster with evidence. Measure first, fix one bottleneck at a time, and keep a fix
 only when the numbers show it helped.
 
-Principle: **principle-explain-the-number** ([`../principle-explain-the-number/SKILL.md`](../principle-explain-the-number/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
+Principle: **principle-explain-the-number** ([`../principle-explain-the-number/SKILL.md`](../principle-explain-the-number/SKILL.md)).
 
 ## Step 1: Measure
 

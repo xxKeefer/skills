@@ -16,7 +16,7 @@ The catalogue in [references/catalogue.md](references/catalogue.md) has the full
 
 ## Guard
 
-Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch the URL, history or a list control: `route.query`/`route.params`, `useRoute`, `useRouteQuery`, the project's URL-filter composable, `router.push`/`router.replace`/`router.back`/`router.go`, `history.`, `scrollBehavior`, a `queryParam`/`searchQueryParam` prop, list filter/search/sort/pagination/selection state, a tab's active value, a `.sort(`/`.toSorted(` on list data, a list fetch's page size or limit, an export or download (`window.open`, `<a :href … download>`), or a permission check on a control or route guard (`beforeEach`/`beforeEnter`). Otherwise return zero findings and stop. Judge the hunks, not the file. A hunk that only declares a route in `definePage({...})`/route `meta` doesn't count.
+Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `libs/**` touch the URL, history or a list control: `route.query`/`route.params`, `useRoute`, `useRouteQuery`, the project's URL-filter composable, `router.push`/`router.replace`/`router.back`/`router.go`, `history.`, `scrollBehavior`, a `queryParam`/`searchQueryParam` prop, list filter/search/sort/pagination/selection state, a tab's active value, a `.sort(`/`.toSorted(` on list data, a list fetch's page size or limit, an export or download (`window.open`, `<a :href … download>`), or a permission check on a control or route guard (`beforeEach`/`beforeEnter`). A hunk that only declares a route in `definePage({...})`/route `meta` doesn't count.
 
 ## Scope
 
@@ -64,20 +64,18 @@ When the diff touches a list fetch's page size or limit, an export or download, 
 - **A blank page or endless spinner for an unknown id** → `persona-error-handling`.
 - **Empty-state copy** → `persona-i18n` / `persona-decisions-log`. **Which empty-state component** → `persona-design-system`.
 - **Whether a Back or refresh test exists** → `persona-test-design`.
-- Anything on an unchanged line.
 
 ## Severity
 
 - **Change Requested:** URL state moved into a ref or store (1), query read once (2), query write drops params (3), unparsed query value (4), wrong history mode (6), `router.back()` with no fallback (7), page or selection not reset, or rows hidden (10), sort by string (11), a list or export silently capped (13), an API download that skips the client's headers (14), a permission check that allows while loading (15).
 - **Nit:** new list page with state not in the URL (1), URL noise (5), Back with overlays or scroll (8), context lost on the way back (9), shared empty state (12), a forbidden deep link that shows the page or "not found" (16).
 - **Future:** sort and page in the URL for the design system's data table; a shared URL-filter composable. Suggest, never block.
-- **Never:** "should be in the URL" for a transient UI toggle (an expanded row, a hover, an open tooltip); anything on an unchanged line.
+- **Never:** "should be in the URL" for a transient UI toggle (an expanded row, a hover, an open tooltip).
 - Catalogue sweep matches: the line's default severity.
 
 ## Output
 
 - `category`: `url-state`.
 - `detail`: the steps (filter, open, Back, refresh), and what the user then sees.
-- `suggestion`: the fix.
 - Example `summary`: `search pushes a history entry per keystroke — use replace`.
 - Each finding names the steps and the wrong screen.

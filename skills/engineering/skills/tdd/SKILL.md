@@ -9,7 +9,7 @@ description:
 
 TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, and the rules of the loop. Every section applies on every cycle — consult them before and during the loop, not after.
 
-Principle: **principle-test-behavior-not-implementation** ([`../principle-test-behavior-not-implementation/SKILL.md`](../principle-test-behavior-not-implementation/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
+Principle: **principle-test-behavior-not-implementation** ([`../principle-test-behavior-not-implementation/SKILL.md`](../principle-test-behavior-not-implementation/SKILL.md)).
 
 When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
