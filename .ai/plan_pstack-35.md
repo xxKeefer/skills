@@ -210,8 +210,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
   - Decision: no new test and review round. Row r1.1 changes only file locations, so it changes no behaviour (`build/FIX-ROUND.md` item 3). The loop also stopped after step 29, the third review since approval.
   - Decision: row r1.2 stays open by the user's choice. A plain run of stand-up, pickup, create-verification-skill, and tdd loads about 400 to 840 B more. That is the cost of a merge, against 1,159 B less description load on every turn and five fewer skills.
   - Result (7ef92cb): apply-review 7,506 → 7,506 B per run, start-ticket 10,336 → 9,960, create-pr 10,030 → 9,983. The parse steps, start-ticket Step 8, and create-pr Step 1 items 3 to 8 are inline again, and `Consume a report` and `references/read.md` are gone. Three skills still grow. post-review-comments +6 B: the `/engineering:pickup --review` name of the review-pr merge. mob-review +1,036 B full and +473 B light: the Light column of PANEL.md (+678 B), the light-mode paragraph, and the `SCOPE.md` pointer. The scope commands stay in `SCOPE.md`, because inline they put `SKILL.md` at 10,497 B. The special cases are in `SCOPE-CASES.md` again, read only when a case is true. happy-path +916 B: the sad-mode description and paragraph, and the shared setup block and report inputs, now in `SKILL.md` in place of `QA-REPORT.md`. The repro script lists the old file names, so it still exits 1. With the file lists set to the reads at 7ef92cb it prints the numbers above.
-- [ ] **31. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
+- [x] **31. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
+  - Result: `gh stack view --json` says the branch is in no stack. Pushed `pstack-34_pr-feedback-retro` at 17b2b61 and `pstack-35_engineering-compress` at 71cf7df, both new on `origin`. No PR: the user sets the base.
 
 ## Progress
 
@@ -284,6 +285,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: `/interrogate` at 375633b: three adversaries, six findings, all reproduced, merged into two by root cause. Report `.ai/interrogate_pstack-35_engineering-compress.html`. No lost behaviour. Both findings say that some runs load more bytes. Stop H3 on D1. Next step: answer D1, then step 30.
 - 2026-11-19: D1 answered: option B. Step 30 fixes r1.1 of the interrogate report. r1.2 stays open by the user's choice. Push is now step 31. Next step: 30.
 - 2026-11-19: step 30 done (7ef92cb). Every-run blocks are inline again in apply-review, post-review-comments, the build fix round, start-ticket, create-pr, and happy-path. mob-review reads `SCOPE.md` on each run and `SCOPE-CASES.md` only for a special case. apply-review, start-ticket, and create-pr load no more than at the base. post-review-comments, mob-review, and happy-path still grow by the merge text that the step 30 line names. Next step: 31.
+- 2026-11-19: step 31 done. Both branches pushed. Playbook `new-ticket` step 5 done by the plan's push-only step, with no PR. Next: playbook step 6, the `/retro` offer.
 
 ## Follow-ups
 
