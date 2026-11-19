@@ -77,7 +77,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
   - Row 18: put one line in `skills/engineering/CLAUDE.md`: read a principle's file before you apply it, and name it in the reply. Each skill keeps only the principle name.
   - Row 21: cut each "Adapted from pstack …" line (benchmark, blast-radius, interrogate, verify, why, loop-until).
   - Done: the gates are green, and a grep for each cut phrase finds only the single source.
-- [ ] **2. Description load.** Kind: config. Conditions: C5. Row 5. Set `disable-model-invocation: true` on `gazette`, `pick-next-task`, `tidy-up`, `sync-docs`, and `qa-screenshots`, and cut each description to one human-facing line. First grep `skills/` for a caller of each. A skill with a caller keeps model invocation, and the decision log says why.
+- [x] **2. Description load.** Kind: config. Conditions: C5. Row 5. Set `disable-model-invocation: true` on `gazette`, `pick-next-task`, `tidy-up`, `sync-docs`, and `qa-screenshots`, and cut each description to one human-facing line. First grep `skills/` for a caller of each. A skill with a caller keeps model invocation, and the decision log says why.
   - Done: each of the five has the flag or a logged reason, and the gates are green.
 - [ ] **3. Leading words.** Kind: docs. Conditions: C5. Row 20. Swap each spelled-out passage for its term: benchmark (`Amdahl's law`, `interleaved A/B runs`, `apples-to-apples`), loop-until (`ratchet`, `negative control`, `pin`, `re-baseline`), constraints (`ratchet`), code-simplify (`Chesterton's fence`, `behaviour-preserving`), persona-test-quality (`change-detector test`, `tautological assertion`, `vacuous test`), resolve-conflicts (`trivial merge`, `semantic conflict`), interrogate (`reproduced`, `unreproduced`). Keep a passage when the term loses a condition that the passage states, and log it.
   - Done: each swap is made or logged, and the gates are green.
@@ -155,5 +155,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: plan written on `pstack-35_engineering-compress`. Playbook `new-ticket`. H2 passed: the user asked for a background run of the plan. Next step: 3 (`/build @.ai/plan_pstack-35.md`).
 - Decision log: decisions_pstack-35.tsv
 - 2026-11-19: step 1 done (1bc0bbc). Persona guard, unchanged-line, read-only, and generic output lines cut to `PERSONA-CONTRACT.md`; "Judge the hunks, not the file" now in contract Scope rule 4 and the PANEL.md header; the principle read-and-name line now in the domain `CLAUDE.md`; pstack attribution lines cut. Next step: 2.
+- 2026-11-19: step 2 done (5eceed5). gazette, pick-next-task, tidy-up, sync-docs, and qa-screenshots have `disable-model-invocation: true` and a one-line description. No caller in `skills/` for any of the five. Next step: 3.
 
 ## Follow-ups
