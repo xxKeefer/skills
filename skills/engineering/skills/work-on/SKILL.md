@@ -31,16 +31,7 @@ Stop only at these points. Between two stops, run with no input from the user.
 | H4 | An action is on the pause list. | Each time another person reads the output. |
 | H5 | The user picks the skill edits from `/retro`. | After a unit. |
 
-H4 holds each action on the pause list in the `pause-list.md` rule:
-
-- Mark a PR ready for review.
-- Merge.
-- Force-push to a branch that another person uses.
-- Deploy.
-- Delete data, or delete a branch that is not merged.
-- Post a comment, a review, or a ticket update as the user.
-- Write a ticket.
-- Send a message to a person.
+H4 holds each action of the `pause-list.md` rule.
 
 The end of a ★ command is not a stop. A test round, a review round, a push to the agent's own
 branch, and a draft PR are not stops. In the user's own build loop, a review report row is not a
