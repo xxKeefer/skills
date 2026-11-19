@@ -189,8 +189,9 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **24. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
   - Result: at 53e4d48, each gate exits 0: pre-commit test, commit-msg test, `check_principles.py`, the plan check, and the link check with the five retired skill names.
-- [ ] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code.
+- [x] **25. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
+  - Result: `/engineering:mob-review light`, report `.ai/review_pstack-35_engineering-compress.html`. Reviewed base 17b2b61 (`pstack-34_pr-feedback-retro`), panel read ba23252, reviewed head 79bc8e0 (the fix commit). 10 findings (8 Change Requested, 2 Nit), all fixed, none open.
 - [ ] **26. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
@@ -222,9 +223,12 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 22 done. All five trigger phrases reach their new mode, and the sad-mode trial is no difference. AC C and AC D hold. Next step: 23.
 - 2026-11-19: step 23 done (f4209fe). No `SKILL.md` is over 10,000 B, and the three totals go down (see the step 23 line). engineering 4.0.0, deprecated 2.23.0, utility 1.28.0. The READMEs needed no change. Next step: 24.
 - 2026-11-19: step 24 done. Every gate is green. AC E holds. Next step: 25.
+- 2026-11-19: step 25 done (79bc8e0). Light panel: six lanes ran, and persona-skills ran in five shards. The fix commit puts back the principle read-and-name rule in nine skills, an inline H4 action list for a session with no pause-list rule, and working links in four retired copies. It also fixes two lane-routing drifts and drops the hard-coded principle count. No row stays open. Each `SKILL.md` is at most 10,000 B. Next step: 26.
 
 ## Follow-ups
 
+- The link check covers only `skills/engineering/`. A move into `deprecated` left dangling relative links that no gate found. Extend the check to `skills/deprecated/`, and make `/migrate-a-skill` repoint relative links on a move.
+- The review panel has no rule for a very large patch. This run split one lane into shards by hand.
 - The review panel writes the diff files to the system temp folder, and two trial runs found a lane that could not read them. Write them under `.ai/scratch/` of the repo.
 - PANEL.md Known overlaps does not name test-design and test-quality. Both lanes flagged the same self-comparing test in every trial run.
 - The comments lane flagged comments inside the generated review report under `.ai/`. Its guard should skip generated report files.
