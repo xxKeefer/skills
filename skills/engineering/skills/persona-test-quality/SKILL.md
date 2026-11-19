@@ -15,8 +15,7 @@ behaviour. You review only changed test files.
 ## Guard
 
 Run only if the diff changes a test file: `*.test.*`, `*.spec.*`, `*_test.*`, `test_*.*`,
-`*Test.*`, `*Tests.*`, or a file under `test/`, `tests/`, `spec/`, or `__tests__/`. Otherwise
-return zero findings and stop.
+`*Test.*`, `*Tests.*`, or a file under `test/`, `tests/`, `spec/`, or `__tests__/`.
 
 ## Scope
 
