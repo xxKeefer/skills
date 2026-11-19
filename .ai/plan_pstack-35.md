@@ -72,7 +72,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 ### Tier 1: mechanical cuts
 
-- [ ] **1. Persona and principle boilerplate.** Kind: mechanical. Conditions: C5. Rows 4, 18, 21.
+- [x] **1. Persona and principle boilerplate.** Kind: mechanical. Conditions: C5. Rows 4, 18, 21.
   - Row 4: in each persona, cut "Otherwise return zero findings and stop.", "Judge the hunks, not the file.", "Anything on an unchanged line.", each "You are read-only" section, and the restated output-field lines that `PERSONA-CONTRACT.md` Output defines. Keep the one-line contract pointer, because a user can call a persona directly. Move "Judge the hunks, not the file." into the contract Scope rule 4 when it is not there.
   - Row 18: put one line in `skills/engineering/CLAUDE.md`: read a principle's file before you apply it, and name it in the reply. Each skill keeps only the principle name.
   - Row 21: cut each "Adapted from pstack …" line (benchmark, blast-radius, interrogate, verify, why, loop-until).
@@ -154,5 +154,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 
 - 2026-11-19: plan written on `pstack-35_engineering-compress`. Playbook `new-ticket`. H2 passed: the user asked for a background run of the plan. Next step: 3 (`/build @.ai/plan_pstack-35.md`).
 - Decision log: decisions_pstack-35.tsv
+- 2026-11-19: step 1 done (1bc0bbc). Persona guard, unchanged-line, read-only, and generic output lines cut to `PERSONA-CONTRACT.md`; "Judge the hunks, not the file" now in contract Scope rule 4 and the PANEL.md header; the principle read-and-name line now in the domain `CLAUDE.md`; pstack attribution lines cut. Next step: 2.
 
 ## Follow-ups
