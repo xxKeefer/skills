@@ -170,8 +170,18 @@ More rules:
 
 ## Step 8: Write the letters back
 
-Read [`references/inputs.md`](references/inputs.md#write-the-letters-back), and follow it. It
-names when to skip this step.
+Skip this step in these cases:
+
+- The user said no to the last `/refine-ticket` run. The ticket does not hold the plan's ACs, so
+  the letters have nothing to go on.
+- The ticket holds its letters, and Step 5 added no AC. ACs that `/refine-ticket` wrote are in the
+  ticket with their letters.
+
+1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
+   plain words that every reader of the ticket understands. Change no other text.
+2. Ask once. Write after a yes, or at once when the user waived questions.
+3. Read the ticket back. Check that only the letters and the new ACs changed. Show any other
+   difference.
 
 **Done when:** the ticket holds the letters after a yes, or you said why you wrote nothing.
 

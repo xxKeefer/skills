@@ -15,7 +15,7 @@ If this session does not list `gh-stack`, stop and ask the user to install it wi
 
 1. In a gh stack, the base is the branch below this one in `gh stack view`.
 2. If the `merge` key names sub-task keys, find the PR of each key:
-   - Find `plan_<SUBKEY>.md` in the folder that item 3 of [`read.md`](read.md) searches, and its subfolders. Read
+   - Find `plan_<SUBKEY>.md` in the folder that Step 1 item 3 searches, and its subfolders. Read
      the `branch` key of its YAML header.
    - Run `gh pr list --head <its branch> --state all --json number`.
    - With no plan, no `branch` key, or no PR, use the key.

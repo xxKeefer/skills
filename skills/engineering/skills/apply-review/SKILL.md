@@ -26,11 +26,11 @@ Notes:
 - r2.1: <note>
 ```
 
-1. With no report path or no ID, stop. Say to tick the rows in a review report and paste its
-   prompt. Never review again here.
-2. Read the report, its runs, and its rows as
-   [Consume a report](../mob-review/REPORT.md#consume-a-report) says. An ID with no colon means
-   the one tick that its row has.
+1. Read the report path, the row IDs, and the notes. An ID with no colon means the one tick that
+   its row has. With no report path or no ID, stop. Say to tick the rows in a review report and
+   paste its prompt. Never review again here.
+2. Parse the JSON in the `<script type="application/json" id="runs">` block of the report. A row
+   ID `r<run>.<n>` names its run. Find each row in its run.
 3. Stop and name the ID when one of these is true:
    - The ID has no row, or a tick that the `ticks` of its row does not list.
    - A row with a `reply` or a `resolve` tick has no `thread` cell.
@@ -38,6 +38,11 @@ Notes:
 4. From each ticked row, read `where` (`<path>:<line>`), `issue`, `recommendation`, and the
    `draft` and `thread` cells when the row has them. `thread` is the URL of the first comment of
    the thread: `https://github.com/<owner>/<repo>/pull/<n>#discussion_r<id>`.
+5. From each run that holds a ticked row, read `head` and these `meta` keys: `Base` (the base
+   branch, then the base SHA), `Folder` (the repo folder that the panel ran in), and `PR` (the PR
+   URL, when the branch had a PR).
+6. Run each git command in `Folder`, with `git -C <path>`. Give each `gh` command
+   `-R <owner>/<repo>`.
 
 **Done when:** each ticked ID has its row, its ticks, its note, and the head of its run.
 

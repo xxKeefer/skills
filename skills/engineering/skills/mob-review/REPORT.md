@@ -1,7 +1,6 @@
 # The report
 
 Step 5 writes the report with these inputs. Light runs change some of them, as [`LIGHT.md`](LIGHT.md) says.
-Step 5 skips the last section, [Consume a report](#consume-a-report).
 
 The coverage table shows the user what ran. Counts are after the Copilot filter. On someone
 else's code, the Nit column counts the nits that Step 4 dropped:
@@ -67,22 +66,3 @@ fixed rows in each group.
   [`FIX.md`](FIX.md) item 2 says.
 - On someone else's code, give each row the tick `reply`. On your own code, give each open row the
   tick `fix`, so the user can act on it after QA. A fixed row has no tick.
-
-## Consume a report
-
-A skill that acts on the ticked rows of a review report reads the report as this section says:
-`/engineering:apply-review`, `/engineering:post-review-comments`, and the fix round of
-`/engineering:build`. `/engineering:resolve-feedback` writes rows that they read. The calling skill
-gives its own stop conditions and the cells that it reads from each row.
-
-1. The prompt that the report builds has the skill and `@<report path>` on its first line, then the
-   row IDs. A `Notes:` list follows, with one `- <ID>: <note>` line for each note. Read the report
-   path, the row IDs, and the notes.
-2. Parse the JSON in the `<script type="application/json" id="runs">` block of the report. A row
-   ID `r<run>.<n>` names its run. Find each row in its run.
-3. From each run that holds a ticked row, read `head` and these `meta` keys when the run has them:
-   - `Base`: the base branch, then the base SHA.
-   - `Folder`: the repo folder that the panel ran in.
-   - `PR`: the PR URL, `https://github.com/<owner>/<repo>/pull/<n>`.
-4. Run each git command in `Folder`, with `git -C <path>`. Give each `gh` command
-   `-R <owner>/<repo>`.

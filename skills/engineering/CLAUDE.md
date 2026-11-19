@@ -28,7 +28,6 @@ that reads it.
 | [`CHANGESET.md`](CHANGESET.md) | `happy-path` and its sad mode, `fix`, `sync-docs` |
 | [`DRAFT-SCAN.md`](DRAFT-SCAN.md) | `create-pr`, `refine-ticket`, `post-review-comments` |
 | [`PR-HANDLE.md`](PR-HANDLE.md) | `pickup` and its review mode |
-| [`QA-REPORT.md`](QA-REPORT.md) | `happy-path` and its sad mode |
 
 ## Commands
 

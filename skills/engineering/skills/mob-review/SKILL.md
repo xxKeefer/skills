@@ -42,7 +42,7 @@ git fetch origin "${BASE#origin/}" --quiet
 - **No arg / branch:** review the current (or named) branch vs `$BASE`.
 - **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `$BASE`.
 
-Read [`SCOPE-CASES.md`](SCOPE-CASES.md) on each run, and run its commands. They write the changed-file list and the diff to `$SCRATCH`, and record the base and head SHAs and the branch authors. Use its special cases when one of these is true:
+Read [`SCOPE.md`](SCOPE.md) on each run, and run its commands. They write the changed-file list and the diff to `$SCRATCH`, and record the base and head SHAs and the branch authors. Read [`SCOPE-CASES.md`](SCOPE-CASES.md) first, and use its special cases, when one of these is true:
 
 - The branch has no commits ahead of `$BASE`, and the working tree has changes.
 - `git rev-list --count HEAD..$BASE` is not zero.

@@ -51,7 +51,7 @@ For each lane that runs:
 6. Rank the items: data saved wrong or work lost, then a wrong action, then a cosmetic fault.
    Keep the first 8. Merge items that send the same class of input to one field.
 
-Then build the setup block of [`QA-REPORT.md`](../../QA-REPORT.md), with these rows too, when
+Then build the setup block of [`SKILL.md`](SKILL.md#setup-block), with these rows too, when
 they apply:
 
 - How to reach each changed form: the route or the clicks from the start page.
@@ -63,7 +63,7 @@ items need.
 
 ## Step 4: Write the Checklist
 
-Give `/write-report` the report inputs of [`QA-REPORT.md`](../../QA-REPORT.md), and these:
+Give `/write-report` the report inputs of [`SKILL.md`](SKILL.md#report-inputs), and these:
 
 - The run title: `Sad path`.
 - `meta`: `Lanes run` (each lane and its signal), `Skipped` (each lane), and `Cut by the cap`
