@@ -204,7 +204,12 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - [x] **29. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-35.md`. This step changes no code. Lanes: the six light lanes of step 27 (skills, correctness, test-design, test-quality, comments, code-quality), because skills and correctness raised findings and the fix commit 25792c3 changed files that each of their guards matched. No row stays open from step 27. Do not raise a row that only repeats a fixed row of step 25 or step 27. This is the third review step since approval, so `/build` stops the loop after it.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: `/engineering:mob-review light`, run 3 of report `.ai/review_pstack-35_engineering-compress.html`. Reviewed base 17b2b61 (`pstack-34_pr-feedback-retro`), panel read e8355e7, reviewed head fbbffe7 (the fix commit). persona-skills ran in seven shards, one of them on 25792c3 only. 17 findings (7 Change Requested, 10 Nit), all fixed, none open. Each `SKILL.md` is at most 10,000 B.
-- [ ] **30. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
+- [ ] **30. Review fix r1.1.** A block moved to a sibling file that the skill reads on every run, so the run loads more bytes: apply-review and post-review-comments (all of `mob-review/REPORT.md` for one section), mob-review (`SCOPE-CASES.md`), start-ticket (`references/inputs.md`), happy-path (`QA-REPORT.md`), and create-pr (`references/read.md`). Report: `.ai/interrogate_pstack-35_engineering-compress.html`.
+  - Done: `python3 /tmp/pstack-35/int/repro/repro_per_run_bytes.py apply-review post-review-comments mob-review start-ticket happy-path create-pr`, run from the repo root, exits 0. Or, for each skill that still grows, this line names the growth and the text that causes it. Fix by location only: put "Consume a report" in its own small file that the readers load, and put each block that a skill reads on every run back inline where its `SKILL.md` stays at or under 10,000 B. Change no rule text. The gates are green.
+  - Decision (user, D1): option B. Fix finding r1.1, and accept r1.2.
+  - Decision: no new test and review round. Row r1.1 changes only file locations, so it changes no behaviour (`build/FIX-ROUND.md` item 3). The loop also stopped after step 29, the third review since approval.
+  - Decision: row r1.2 stays open by the user's choice. A plain run of stand-up, pickup, create-verification-skill, and tdd loads about 400 to 840 B more. That is the cost of a merge, against 1,159 B less description load on every turn and five fewer skills.
+- [ ] **31. Push.** Push-only: run `gh stack view --json`, then `git push -u origin pstack-34_pr-feedback-retro pstack-35_engineering-compress`, in place of `/create-pr`.
   - Done: the pushed head SHA is in this line.
 
 ## Progress
@@ -276,6 +281,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
     ```
 - 2026-11-19: build stopped after step 29, the third review since approval (build rule 7). No row stays open. QA checklist skipped: the diff changes only skill text, docs, and check scripts. Playbook step 4: `/blast-radius` gives `risk` (the installed `~/.claude/rules/typescript-conventions.md` cites a retired principle until `/install-rules` runs), so `/interrogate` ran.
 - 2026-11-19: `/interrogate` at 375633b: three adversaries, six findings, all reproduced, merged into two by root cause. Report `.ai/interrogate_pstack-35_engineering-compress.html`. No lost behaviour. Both findings say that some runs load more bytes. Stop H3 on D1. Next step: answer D1, then step 30.
+- 2026-11-19: D1 answered: option B. Step 30 fixes r1.1 of the interrogate report. r1.2 stays open by the user's choice. Push is now step 31. Next step: 30.
 
 ## Follow-ups
 
@@ -286,13 +292,3 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - The comments lane flagged comments inside the generated review report under `.ai/`. Its guard should skip generated report files.
 - The retired copies of light-review, review-pr, and sad-path link into the engineering plugin by relative paths. These links resolve in a repo checkout only, because each installed plugin has its own version folder. The step 27 fix covers the maintain-verification-skill script path only.
 - The step 8 recall check did not cover url-state, text-input sweep lines in rule files that load on demand, or form-behaviour read-when triggers. Step 27 found ten sweep lines that the cut lost, and step 29 found twelve more. A script that lists each cut sweep line with no matching read-when trigger would find the rest.
-
-## Pending Decisions
-
-### D1: Fix the two per-run byte findings of the interrogate report before the push? (found after step 29)
-- A: Fix both. Tick both rows in `.ai/interrogate_pstack-35_engineering-compress.html` and run `/build` on its prompt. Finding 2 then needs mode text out of four skills that a plain run reads, which moves it to more sibling files.
-- B: Fix finding 1 only, and accept finding 2. Finding 1 is a real regression with a small fix: put "Consume a report" in its own file, and put a block back inline where the skill reads it on every run and `SKILL.md` has room. Finding 2 is the cost of a merge: about 400 to 800 B on a plain run of four skills, against 1,159 B less description load on every turn and five fewer skills. (recommended: it removes the regression and keeps the merge trade that the plan chose)
-- C: Accept both. Push now, and add both findings as Follow-ups. AC A and AC F hold, because they measure totals.
-- Work: none
-- Blocks: 30
-
