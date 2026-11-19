@@ -274,6 +274,8 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
     [ -z "$inv" ] && echo "ok no model caller of a user-only skill" || { echo "FAIL caller: $inv"; fail=1; }
     exit $fail
     ```
+- 2026-11-19: build stopped after step 29, the third review since approval (build rule 7). No row stays open. QA checklist skipped: the diff changes only skill text, docs, and check scripts. Playbook step 4: `/blast-radius` gives `risk` (the installed `~/.claude/rules/typescript-conventions.md` cites a retired principle until `/install-rules` runs), so `/interrogate` ran.
+- 2026-11-19: `/interrogate` at 375633b: three adversaries, six findings, all reproduced, merged into two by root cause. Report `.ai/interrogate_pstack-35_engineering-compress.html`. No lost behaviour. Both findings say that some runs load more bytes. Stop H3 on D1. Next step: answer D1, then step 30.
 
 ## Follow-ups
 
@@ -284,3 +286,13 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - The comments lane flagged comments inside the generated review report under `.ai/`. Its guard should skip generated report files.
 - The retired copies of light-review, review-pr, and sad-path link into the engineering plugin by relative paths. These links resolve in a repo checkout only, because each installed plugin has its own version folder. The step 27 fix covers the maintain-verification-skill script path only.
 - The step 8 recall check did not cover url-state, text-input sweep lines in rule files that load on demand, or form-behaviour read-when triggers. Step 27 found ten sweep lines that the cut lost, and step 29 found twelve more. A script that lists each cut sweep line with no matching read-when trigger would find the rest.
+
+## Pending Decisions
+
+### D1: Fix the two per-run byte findings of the interrogate report before the push? (found after step 29)
+- A: Fix both. Tick both rows in `.ai/interrogate_pstack-35_engineering-compress.html` and run `/build` on its prompt. Finding 2 then needs mode text out of four skills that a plain run reads, which moves it to more sibling files.
+- B: Fix finding 1 only, and accept finding 2. Finding 1 is a real regression with a small fix: put "Consume a report" in its own file, and put a block back inline where the skill reads it on every run and `SKILL.md` has room. Finding 2 is the cost of a merge: about 400 to 800 B on a plain run of four skills, against 1,159 B less description load on every turn and five fewer skills. (recommended: it removes the regression and keeps the merge trade that the plan chose)
+- C: Accept both. Push now, and add both findings as Follow-ups. AC A and AC F hold, because they measure totals.
+- Work: none
+- Blocks: 30
+
