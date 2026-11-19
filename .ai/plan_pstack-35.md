@@ -17,7 +17,7 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 ## Acceptance criteria
 
 - [ ] **A.** List the byte size of each `SKILL.md` in `skills/engineering/skills/` → none is over 10,000.
-- [ ] **B.** Run each changed persona lane, old and new, on its seeded diff → the new lane finds each seeded defect that the old lane found, at the same tier.
+- [x] **B.** Run each changed persona lane, old and new, on its seeded diff → the new lane finds each seeded defect that the old lane found, at the same tier.
 - [ ] **C.** Run `/eval-skill` on `build`, `start-ticket`, `mob-review`, and the `happy-path` sad mode → no trial gives a win to version A.
 - [ ] **D.** Say the trigger phrase of each merged skill ("light review", "sad path", "maintain the verify skill", "pr news", "review PR 123") → it reaches the mode that replaced the skill, and no file in `skills/` names a skill that is gone.
 - [ ] **E.** Run the gates in Context → each exits 0.
@@ -97,11 +97,20 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
   - Row 15: persona-api-integrity, move the backend lookup steps to `references/`. persona-vitest, move rules 7 and 8 to persona-test-quality, and drop the carve-out line in both.
   - Row 22: add one boundary line to each Out of lane section, and the same line to PANEL.md Known overlaps. api-spec starts from a changed backend or spec, api-integrity from a changed frontend call, and a finding that needs both ends goes to api-integrity. error-handling owns whether a failure is reported, and async-state owns what the screen shows after. Dedup is code-quality, where code lives is architecture, and which API is best-practice. form-behaviour owns bounds and keys, text-input owns characters and units, and file-upload owns File objects and imports.
   - Done: both lanes are under 10,000 B, and each pair names the same boundary.
-- [ ] **8. Lane recall check.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C2. For persona-form-behaviour, persona-value-display, persona-vitest, persona-test-quality, and persona-async-state:
+- [x] **8. Lane recall check.** Kind: mechanical. Runs in this thread, because it needs fresh agents. Conditions: C2. For persona-form-behaviour, persona-value-display, persona-vitest, persona-test-quality, and persona-async-state:
   1. Build one small project folder with a diff that seeds four to six defects for the lane. Take at least two from the IDs that step 5 cut, and one that each moved rule (step 7) owns.
   2. Run one fresh subagent with the lane at the commit before step 5, and one with the lane at HEAD. Use the brief of `mob-review/SKILL.md` Step 3. Name no purpose of the run in the folder or the brief.
   3. Compare the found IDs and tiers. On a miss by the new lane, run both once more. A miss on both new runs is a loss: apply the check failure rule to the step whose cut removed the text.
   - Done: a table in this line gives each lane's seeded IDs, the old and new finds, and pass or revert.
+  - Result: old lane at 60d8bd8, new lane at 84e0f39, one fresh reviewer each with the `mob-review` Step 3 brief, on neutral fixture paths. Every seed found by the old lane was found by the new lane at the same tier, so no second run and no revert.
+
+    | Lane | Seeded IDs (owner) | Old finds | New finds | Result |
+    | --- | --- | --- | --- | --- |
+    | form-behaviour | S1 FM-A2, S2 FM-D15, S3 FM-C6, S4 FM-D14, S5 FM-M2, S6 IN-A1 (all CR) | 6/6 CR | 6/6 CR (S2 merged with the cleared-quantity finding) | pass |
+    | value-display | S1 DS-B1, S2 DS-D12, S3 DS-D5, S4 DS-E2, S5 DS-L5 (CR), S6 DS-F1 (Nit) | 6/6 at tier | 6/6 at tier, plus one extra Nit | pass |
+    | vitest | S1 rule 1, S2 rule 2 (Nit), S3 to S6 rules 3 to 6 (CR) | 6/6 at tier | 6/6 at tier | pass |
+    | test-quality | S1 rule 1, S2 rule 2 (CR), S3 old vitest rule 8, S4 old vitest rule 7, S5 rule 5 (Nit) | S1, S2, S5 at tier (S3, S4 sent to vitest by the old text) | 5/5: S1, S2, S4 CR, S3, S5 Nit | pass |
+    | async-state | S1 rule 1, S2 rule 5, S3 rule 3, S4 rule 8, S5 rule 9 (CR), S6 rule 10 (Nit) | 6/6 at tier | 6/6 at tier | pass |
 
 ### Tier 3: sprawl, then trials
 
@@ -164,5 +173,6 @@ Cut no-ops, duplication, and sediment from the engineering domain. Bring every `
 - 2026-11-19: step 5 done (7768ebf). 129 restating sweep lines cut from four diff-signals files, and 17 form-behaviour lines moved into their rules. form-behaviour diff-signals 22,334 → 9,675 B; value-display 17,482 → 11,715; url-state 15,896 → 8,418; text-input 12,402 → 5,530. Next step: 6.
 - 2026-11-19: step 6 done (2450c81). The Severity section is gone from all 38 personas and from comments `other-pr.md`. Each rule heading holds its tier and condition; Future and Never lines close What you review. The contract, domain `CLAUDE.md`, and update-personas name the new form. Next step: 7.
 - 2026-11-19: step 7 done (b6a7ec9). api-integrity lookup in `references/backend-lookup.md` (SKILL.md 8,871 B); vitest rules 7 and 8 now test-quality Vitest sub-bullets with their tiers (vitest 6,962 B); boundary lines in ten Out of lane sections and PANEL.md Known overlaps. Next step: 8.
+- 2026-11-19: step 8 done. Lane recall check: all five lanes pass, no revert. AC B holds. Next step: 9.
 
 ## Follow-ups
