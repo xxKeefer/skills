@@ -34,17 +34,17 @@ loop step names `Seam:` (the code under the metric) and `Conditions:` (an ID for
 **Done when:** the plan holds the repro case, the metric, the direction, the predicate, and the
 gate command, and its loop step names `Seam:` and `Conditions:`.
 
-## Step 2: Prove and freeze the harness
+## Step 2: Prove and pin the harness
 
 1. Write one command that prints the metric. It runs the case N times and prints the median. Pick N
    so that the noise is small against the target.
-2. Run it on the repro case and on a contrast case that must give a different number. If the two
-   numbers do not separate, change the case or the metric, and run it again.
+2. Run it on the repro case and on a negative control that must give a different number. If the
+   two numbers do not separate, change the case or the metric, and run it again.
 3. Record the baseline, the noise, and one green run of the gate.
-4. Freeze the harness. Change it no more.
+4. Pin the harness.
 
 **Done when:** the plan holds the baseline, the noise, the harness command, a green gate, and the
-two numbers that show the harness separates the cases.
+negative control number that shows the harness separates the cases.
 
 ## Step 3: Loop
 
@@ -55,10 +55,10 @@ Before each try, read the decision log. Then:
 2. Give the change to one fresh subagent at the `worker` role of the `models` block in
    `~/.claude/AGENTS.md`, or at the session model when there is no `models` block, with a tight
    scope. It makes one change.
-3. Measure with the frozen harness, and run the gate.
-4. Keep the change only when the metric moves in the better direction by more than the noise and the
-   gate is green. Commit it as one commit that stages only the changed files. Else revert in full.
-   After a kept try, measure the noise again at the new level. Judge the next try against it.
+3. Measure with the pinned harness, and run the gate.
+4. Ratchet: keep the change only when the metric beats the noise in the better direction and the
+   gate is green, as one commit that stages only the changed files. Else revert in full. After a
+   kept try, re-baseline the noise.
 5. Give the try to `/update-plan` as a choice, whether kept or reverted: `decision` is the try
    number and the change, `reason` is the mechanism, `evidence` is the metric before and after and
    the gate result, and `result` is `kept <sha>` or `reverted`.
@@ -67,7 +67,7 @@ A change that breaks behaviour is reverted, even when the number improves. A sim
 holds the number is kept.
 
 **Done when:** each try has one log row, the tree holds only kept commits, and the noise is
-measured again after each kept try.
+re-baselined after each kept try.
 
 ## Step 4: Plateau
 

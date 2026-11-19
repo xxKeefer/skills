@@ -1,8 +1,8 @@
 ---
 name: interrogate
 description: >
-  Send adversaries to break a change, re-run each finding's command, and report only the findings
-  that a run proves. Applies no fix. Use when the user says "interrogate", "adversarial review", or
+  Send adversaries to break a change, re-run each finding's command, and report only the
+  reproduced findings. Applies no fix. Use when the user says "interrogate", "adversarial review", or
   "try to break this", or when /work-on runs it after the build loop.
 argument-hint: "[@<plan path> | <scope>]"
 ---
@@ -10,7 +10,7 @@ argument-hint: "[@<plan path> | <scope>]"
 # Interrogate
 
 Adversaries try to break a change. A finding stays in the report only when a re-run of its command
-proves it. Each other finding goes to the Dropped list with its reason. Report the findings. Apply
+reproduces it. Each unreproduced finding goes to the Dropped list with its reason. Report the findings. Apply
 no fix: the report's ticks build a `/engineering:fix` prompt.
 
 Principles: **principle-prove-it-works** ([`../principle-prove-it-works/SKILL.md`](../principle-prove-it-works/SKILL.md)) and **principle-separate-before-serializing-shared-state** ([`../principle-separate-before-serializing-shared-state/SKILL.md`](../principle-separate-before-serializing-shared-state/SKILL.md)).
@@ -79,7 +79,7 @@ frame → fan out adversaries → collect findings → rerun_findings.py → int
    `cannot run`, `timed out`, `passed on re-run`, or `evidence not in output`. A kept finding gets its `output`
    and `exit`.
 
-Only the script decides if a run proves a finding. Do not keep a finding that the script drops.
+Only the script decides if a finding is reproduced. Keep no finding that it drops.
 
 **Done when:** you have the script's `kept` and `dropped` lists.
 
@@ -91,7 +91,7 @@ Only the script decides if a run proves a finding. Do not keep a finding that th
 2. Merge kept findings that have one root cause into one finding. List each adversary that found
    it.
 
-Different adversaries find different failures, so keep every proven finding. Do not pick one
+Different adversaries find different failures, so keep every reproduced finding. Do not pick one
 adversary's list.
 
 **Done when:** each kept finding breaks the intent, and no two kept findings share a root cause.
@@ -105,7 +105,7 @@ Write one report with `/write-report`:
 - `title`: `Interrogate <branch>`.
 - `head`: the head SHA from Step 1. `meta`: `Base`, `Scope`, `Intent`, and `Adversaries`. Add
   `Plan` when the run has a plan.
-- `answer`: the count of proven findings, and the next action. With none, say "No proven
+- `answer`: the count of reproduced findings, and the next action. With none, say "No reproduced
   findings."
 - `columns`: `title`, `command` (mono), `output` (mono, fold), `intent`, and `adversaries`.
 - `rows`: one row for each kept finding, with `ticks: ["fix"]`. In `output`, keep the lines around

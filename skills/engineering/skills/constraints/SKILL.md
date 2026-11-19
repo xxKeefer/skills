@@ -37,8 +37,7 @@ working bar. Stop at four.
    performance or accessibility check needs a running URL.
 2. Whether a failed check blocks the agent mid-task or only warns. Default: block on the floor, warn
    on the rest.
-3. Whether the user has target numbers, or wants today's values measured and held. Default: measure
-   and hold. Each held value may get better and may not get worse.
+3. Whether the user has target numbers, or wants a ratchet on today's values. Default: ratchet.
 4. The slowest check that may run before the agent hands work back. Default: 90 seconds.
 
 **Done when:** you have four answers or four defaults.
@@ -49,7 +48,7 @@ working bar. Stop at four.
    - **Floor**: the rules in Step 5, always on.
    - **Enforced**: a table with columns Dimension, Rule, Checked by (the exact command), and Runs at
      (edit, task end, or CI). A rule with no command is not a constraint. Leave it out.
-   - **Measured, not enforced**: the metric, today's value, and the direction it must not move.
+   - **Measured, not enforced**: the metric, today's value, and the direction of its ratchet.
    - **Exceptions**: ID, rule, path, reason, owner, and expiry date.
 2. Read **principle-encode-lessons-in-structure** ([`../principle-encode-lessons-in-structure/SKILL.md`](../principle-encode-lessons-in-structure/SKILL.md)). Back each rule at the
    highest rung of its ladder that works. Add each command to the project's own scripts, so that it
@@ -74,7 +73,7 @@ lowers the bar:
   throws "not implemented". An empty catch. A secret in source. An edit that weakens
   `CONSTRAINTS.md` or a check config.
 - **Enforced**: run each command whose Runs at value is task end or edit.
-- **Measured**: compare each value with the held value.
+- **Measured**: compare each value with its ratchet value.
 - **Exceptions**: flag each exception past its expiry date.
 
 Report each finding as a row: rule, file and line, and what to do. A finding with a reason in its

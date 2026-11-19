@@ -1,16 +1,16 @@
 ---
 name: code-simplify
 description: >
-  ★ Code-simplify: make working code easier to read without a change in behaviour, one change at a
-  time, with the tests run after each change. Use when the user says "simplify" or "clean up this
+  ★ Code-simplify: make working code easier to read in behaviour-preserving changes, one at a time,
+  with the tests run after each change. Use when the user says "simplify" or "clean up this
   code".
 argument-hint: "[path, default the branch diff]"
 ---
 
 # Code Simplify
 
-Make code that works easier to read. Behaviour stays the same: same output for each input, same
-errors, same side effects.
+Make code that works easier to read. Each change is behaviour-preserving: same output, errors, and
+side effects.
 
 Principles: **principle-laziness-protocol** ([`../principle-laziness-protocol/SKILL.md`](../principle-laziness-protocol/SKILL.md)) and **principle-minimize-reader-load** ([`../principle-minimize-reader-load/SKILL.md`](../principle-minimize-reader-load/SKILL.md)).
 
@@ -23,9 +23,8 @@ simplify code outside the scope.
 
 ## Step 2: Understand before you touch
 
-For each candidate, read its callers, its tests, and its git history. Code that looks needless can
-hold a reason: a bug fix, a performance need, or an edge case. If you cannot find the reason, ask.
-Do not remove the code.
+Apply Chesterton's fence. For each candidate, read its callers, its tests, and its git history. If
+you cannot find the reason for the code, ask, and do not remove it.
 
 Run the tests once, and record the result. If tests fail before you start, stop and report them.
 

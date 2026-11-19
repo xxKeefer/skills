@@ -48,7 +48,7 @@ When a spec sets a time zone, stubs or replaces a global, resets mocks by hand, 
 ## Out of lane: do NOT report
 
 - Playwright/MSW integration tests → `persona-integration-test`.
-- A test coupled to the implementation, a mock of the project's own code, or a unit reachable only by patching a global → `persona-test-quality`.
+- A change-detector test, a mock of the project's own code, or a unit reachable only by patching a global → `persona-test-quality`.
 - Quality of the non-test source under test → `persona-code-quality`.
 - Naming of test files/vars → `persona-naming`.
 - Which conditions *should* be tested: missing edge cases, boundaries, untested reverse directions, uncovered role/flag combinations, wrong test level, PR "Tested by" claims → `persona-test-design`. You review the tests that exist.

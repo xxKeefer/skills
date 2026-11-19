@@ -10,8 +10,8 @@ argument-hint: "<filepath>"
 # Resolve Conflicts
 
 Resolve conflicts the way a careful engineer would: understand what each side was trying to do
-*before* touching a marker, auto-resolve only what's unambiguous, and bring the user in with
-evidence when intent actually clashes. Then keep the resolution consistent across the file's
+*before* touching a marker, auto-resolve only a trivial merge, and bring the user in with evidence
+on a semantic conflict. Then keep the resolution consistent across the file's
 test sibling and any refactor relatives that are also conflicted.
 
 ## Step 1: Establish the merge context
@@ -43,23 +43,22 @@ Delegate to `/look-up` if you need to pull in related files to understand a side
 
 ## Step 3: Classify each hunk — simple or complex
 
-**Simple (resolve automatically in Step 4):** intent is unambiguous and the sides don't fight:
+**Simple, a trivial merge (resolve it in Step 4):**
 
 - Identical change on both sides.
 - Pure addition on one side in a region the other only reformatted or left alone.
 - One side reformatted / reordered imports / changed whitespace; the other made the real change.
 - One side deleted or moved a block the other never semantically touched.
 
-**Complex (escalate to the user in Step 5):** intent clashes or both sides changed meaning:
+**Complex, a semantic conflict (escalate it in Step 5):**
 
 - **Both sides added new code** in the same place — two new functions, cases, fields, routes.
   The default is *integrate both*, but order/interaction needs a human eye.
 - **Migration/refactor vs edit** — one side renamed/moved/changed a signature or migrated an API
   while the other edited the same region against the old shape.
-- Both sides changed the same logic in different directions.
 - Delete/rename conflict (one side deleted or moved the file, the other edited it).
 
-When unsure, treat it as complex. Auto-resolution is only for cases with one defensible answer.
+When unsure, treat it as complex.
 
 **Done when:** each hunk is tagged simple or complex.
 

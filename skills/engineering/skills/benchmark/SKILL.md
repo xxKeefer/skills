@@ -32,26 +32,24 @@ Principle: **principle-explain-the-number** ([`../principle-explain-the-number/S
    measured the load generator. If a change did not move the number, the limiter says why.
 2. **Was it tuned?** Run each side as production runs it: release builds, production flags and
    environment, batching and transaction settings, connection pools, caches as warm or cold as in
-   production, and the same versions and data. A side on defaults makes the test a comparison of
-   configurations, not of implementations. A limiter that is a setting, such as a commit for each
-   row, a debug build, or a missing index, means that side is untuned. Tune it and measure again.
+   production, and the same versions and data. A side on defaults is not apples-to-apples. A
+   limiter that is a setting, such as a commit for each row, a debug build, or a missing index,
+   means that side is untuned. Tune it and measure again.
    If you cannot tune it, pick no winner from that run. When the user chooses what to adopt,
    narrowing the claim to today's settings does not fix this.
 3. **Did it break limits?** Do the arithmetic. Compare bytes a second with disk and network
-   bandwidth. Compare operations a second times the cost of each operation with the cores. Compare
-   the time saved with the time that the changed piece took: removing a piece that takes 10% of
-   the run makes the run at most about 11% faster. A result past a limit measured something other
-   than the work, such as a cache, a no-op, or a bug.
+   bandwidth. Compare operations a second times the cost of each operation with the cores. Bound
+   the time saved by Amdahl's law on the share that the changed piece took. A result past a limit
+   measured something other than the work, such as a cache, a no-op, or a bug.
 4. **Did it error?** Count the failures and the non-success responses. Check that the outputs are
    correct, not only present. Rejections are often fast, and timeouts and retries are slow. If the
    script does not count errors, add the count.
-5. **Does it reproduce?** Run each side at least 5 times, alternating (A, B, A, B, and so on), so
-   warmup, lazy initialisation, caches, and drift favour neither side. Report the median and the
-   range. A gap smaller than the run-to-run spread is no measurable difference. When the call is
-   close, use a rank-sum test or the harness's own statistics.
+5. **Does it reproduce?** Run each side at least 5 times, as interleaved A/B runs. Report the
+   median and the range. A gap smaller than the run-to-run spread is no measurable difference.
+   When the call is close, use a rank-sum test or the harness's own statistics.
 6. **Does it matter?** Next to a micro result, measure the end-to-end path that a user waits on,
-   with realistic data sizes and concurrency. Report the micro result as a share of the whole. A
-   helper that takes 1% of a request makes the request at most 1% faster.
+   with realistic data sizes and concurrency. Report the micro result as a share of the whole, and
+   bound its gain by Amdahl's law.
 7. **Did it even happen?** Confirm that the work ran inside the timed region: the request reached
    the server, the rows were written, the bytes were read, and the code used the result. Lazy code
    and timeouts give numbers for work that never ran.
