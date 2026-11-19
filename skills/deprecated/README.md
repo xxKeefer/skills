@@ -10,6 +10,7 @@ Personal skills awaiting a keep/kill decision. Disable freely; delete once confi
 | `/light-review` | Superseded by `/mob-review light` |
 | `/lobotomize` | Table the agent's memories by age and purpose, then purge the ones the user multi-selects |
 | `/maintain-verification-skill` | Superseded by `/create-verification-skill maintain` |
+| `/pr-news` | Superseded by `/stand-up` with a time period (news mode) |
 | `/principle-attack-the-premise` | Superseded by `/principle-fix-root-causes` |
 | `/principle-boundary-discipline` | Superseded by `/principle-type-system-discipline` |
 | `/principle-explain-the-number` | Superseded by `/benchmark` |

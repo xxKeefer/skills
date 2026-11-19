@@ -1,25 +1,17 @@
----
-name: pr-news
-description: >
-  Summarise what happened on your open PRs and your review requests over a time period, one table
-  per repo. Use when the user says "pr news" or "catch me up on my reviews", or is back from
-  leave.
-argument-hint: "[time-period, default last 24 hours]"
----
-
-# PR News
+# News mode
 
 The code host is GitHub, through `gh`. If the code host named in the user's instructions is not
-GitHub, stop and say that this skill needs GitHub.
+GitHub, stop and say that this mode needs GitHub.
 
 Turn a window of PR activity into one table per repo that the user can scan in a minute. One row
 per PR, not one per event. The sibling of `/codebase-news`, which covers a repo's default branch.
+This mode does not run the stand-up steps.
 
 ## Step 1: Resolve the window
 
-- Take `<time-period>` in any form that `date` or `git log --since` reads: `2 weeks`,
-  `2026-10-07`, `last monday`. A range such as `2026-10-01..2026-10-14` also sets the end.
-- No argument: use the last 24 hours.
+- Take the time period from the arguments, in any form that `date` or `git log --since` reads:
+  `2 weeks`, `2026-10-07`, `last monday`. A range such as `2026-10-01..2026-10-14` also sets the end.
+- No time period: use the last 24 hours.
 - Turn the start and the end into ISO 8601 UTC timestamps, so you can compare them with the
   timestamps from `gh`.
 

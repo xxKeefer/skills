@@ -2,14 +2,21 @@
 name: stand-up
 description: >
   Show your day as one table per epic, from your tickets, PRs, review requests, and local
-  branches, then write a short bulletin. Use when the user says "stand-up", "what is on today", or
-  "morning bulletin".
+  branches, then write a short bulletin. With a time window, the news mode summarises what happened
+  on your open PRs and your review requests in that window, one table per repo. Use when the user
+  says "stand-up", "what is on today", or "morning bulletin"; for the news mode, when the user says
+  "pr news" or "catch me up on my reviews", gives a time window, or is back from leave.
+argument-hint: "[time period, for the news mode]"
 ---
 
 # Stand-up
 
 Join the work that sits in the tracker, the code host, and the local checkouts into one view. The
 user reads the tables to see each item, and the bulletin to see what to do first.
+
+**News mode.** When the arguments hold a time period, or the user asks for PR news, to catch up on
+reviews, or is back from leave, read [`NEWS.md`](NEWS.md) and follow it in place of the steps
+below. With no time period, NEWS.md uses the last 24 hours. Otherwise run the stand-up steps.
 
 > **Tools:** use the tracker and the code host that the repo's `## Agent skills` block names, else
 > the ones in the user's `## Tools on this machine` block, else ask. That block can point to a

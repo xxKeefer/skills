@@ -36,8 +36,8 @@ and a board query or a note that there is none.
 Start these subagents in parallel. Give each one the window, the ticket URL form, and the return
 shape below. Each subagent brief names no model.
 
-1. **Desk reporter:** run `/engineering:stand-up`. Return the tables, the notes, and the bulletin
-   as markdown, with every link kept.
+1. **Desk reporter:** run `/engineering:stand-up` with no time period. Return the tables, the
+   notes, and the bulletin as markdown, with every link kept.
 2. **Repo reporter**, one per repo folder: in that folder, run `/engineering:codebase-news` with
    the window. Then collect the inputs to Steps 3 and 4. Return:
    - the news paragraph and the table, with each ticket key and PR as a link;
