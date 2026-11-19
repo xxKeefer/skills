@@ -58,32 +58,32 @@ read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can als
 
 **Core**
 
-- `principle-redesign-from-first-principles`. A new requirement fits into an existing design, a planned rewrite or migration, or a new internal API while old callers exist. Redesign as if it had been a base assumption, and delete the old API in the same wave.
-- `principle-subtract-before-you-add`. Ordering an addition, a refactor, or a rewrite, sizing a diff, or about to add an abstraction or a layer. Remove dead weight first, then make the smallest change.
-- `principle-minimize-reader-load`. Code that is hard to trace. Count the layers and the hidden state, collapse one-caller wrappers, and shrink mutable scope.
-- `principle-experience-first`. A product, UX, or feature-scope tradeoff. Choose user delight over implementation convenience.
-- `principle-build-the-lever`. Any non-trivial work. Build a tool only when it saves time or tokens, or when the result must be deterministic.
+- `principle-redesign-from-first-principles`. A new requirement, rewrite, or migration meets an existing design.
+- `principle-subtract-before-you-add`. Ordering an addition, refactor, or rewrite, or sizing a diff.
+- `principle-minimize-reader-load`. Code that is hard to trace.
+- `principle-experience-first`. A product, UX, or feature-scope tradeoff.
+- `principle-build-the-lever`. Any non-trivial work.
 
 **Architecture**
 
-- `principle-model-the-domain`. Before you write logic, stateful logic, or code that branches a lot or repeats a shape assumption. Encode the domain in a structure, not in conditionals.
-- `principle-type-system-discipline`. Designing types or a signature, or wiring validation, error handling, or adapters. Make illegal states impossible to represent, guard at system boundaries, and trust internal types.
-- `principle-make-operations-idempotent`. Commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state.
-- `principle-separate-before-serializing-shared-state`. Concurrent actors might write the same file, branch, key, or object. Remove the sharing first.
+- `principle-model-the-domain`. Before logic, stateful logic, or code with many branches.
+- `principle-type-system-discipline`. Types, signatures, validation, error handling, or adapters.
+- `principle-make-operations-idempotent`. Commands or loops that run amid crashes and retries.
+- `principle-separate-before-serializing-shared-state`. Concurrent actors might write the same target.
 
 **Verification**
 
-- `principle-prove-it-works`. After a task, before you say it is done. Check the real artifact, not a proxy.
-- `principle-fix-root-causes`. Debugging, or two fixes that share one premise failed the same gate. Trace each symptom to the first place the system went wrong, and test the premise before the next fix.
-- `principle-sequence-verifiable-units`. Multi-step work, and how you stack commits and PRs. Small units that each end in a check.
+- `principle-prove-it-works`. Before you say a task is done.
+- `principle-fix-root-causes`. Debugging, or two fixes on one premise failed.
+- `principle-sequence-verifiable-units`. Multi-step work, and how you stack commits and PRs.
 
 **Delegation**
 
-- `principle-guard-the-context-window`. Context is filling up: large outputs, long files, repeated reads. Send bulk work to subagents, and keep summaries in the main thread.
+- `principle-guard-the-context-window`. Context is filling up with large outputs or repeated reads.
 
 **Meta**
 
-- `principle-encode-lessons-in-structure`. You write the same instruction a second time. Fix it at the highest rung of the ladder that works, with docs last.
+- `principle-encode-lessons-in-structure`. You write the same instruction a second time.
 
 ## Step 1: Pick the playbook
 
