@@ -3,6 +3,7 @@
 Copy this file to `~/.claude/gazette.md` and fill it in. An argument in the call overrides a line here.
 
 - paper name: The Daily Commit
+- accent: any CSS colour for the tags, the Breaking box, and a storm. Default: `#d0021b` (red)
 - window: 24 hours
 - repos:
   - ~/code/app-one

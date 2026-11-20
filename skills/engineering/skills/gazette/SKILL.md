@@ -24,14 +24,15 @@ check is `$SKILL_DIR/scripts/check_gazette.py`.
 
 1. Read `~/.claude/gazette.md` if it exists. Its layout is in
    [`config.example.md`](config.example.md).
-2. Let each argument override its config line: a time period, repo paths, `board=<query>`.
+2. Let each argument override its config line: a time period, repo paths, `board=<query>`,
+   `accent=<colour>`.
 3. Defaults: the window is the last 24 hours. The repos are the current repo. The paper name is
-   "The Daily Commit". With no board, skip the board section.
+   "The Daily Commit". The accent is red, `#d0021b`. With no board, skip the board section.
 4. Read the ticket URL form from the tracker notes. Each reporter brief gives it, so that each
    ticket link uses it.
 
-**Done when:** you have the window, the list of repo folders, the paper name, the ticket URL form,
-and a board query or a note that there is none.
+**Done when:** you have the window, the list of repo folders, the paper name, the accent, the
+ticket URL form, and a board query or a note that there is none.
 
 ## Step 2: Send the reporters
 
@@ -101,6 +102,7 @@ classes. The page holds no inline style.
 | Placeholder | Content |
 | --- | --- |
 | `paper_name`, `date`, `window`, `edition`, `repos_covered` | From Step 1. The edition is the date in words, such as "Thursday edition" |
+| `accent` | The accent from Step 1, as a CSS colour. It colours the tags, the Breaking box, and a storm |
 | `lead_*` | The biggest story of all sources: a breaking change, a storm, a release, or the first item of the bulletin's suggested order. A headline, a one-line standfirst, and two to four paragraphs |
 | `breaking_box` | `<div class="box breaking"><h3>Breaking</h3>…</div>` for each breaking change, with its migration. Empty when there is none |
 | `weather_body` | A table with one row per repo: the forecast, the pass rate, the build time, the test time, each metric, and the trends |

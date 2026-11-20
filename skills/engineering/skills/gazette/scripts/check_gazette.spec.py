@@ -70,5 +70,11 @@ class CheckGazette(unittest.TestCase):
         self.assertIn("{{lead_headline}}", result.stdout)
 
 
+    def test_fails_a_placeholder_left_in_the_stylesheet(self):
+        html = page().replace("p {}", "p { color: {{accent}}; }")
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("{{accent}}", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()
