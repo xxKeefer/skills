@@ -22,6 +22,9 @@ class Page(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        for _, value in attrs:
+            for found in PLACEHOLDER.findall(value or ""):
+                self.problems.append(f"placeholder {found} is still on the page")
         if tag == "body":
             self.in_body = True
         if tag in ("style", "script"):

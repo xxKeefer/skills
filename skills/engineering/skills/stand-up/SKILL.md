@@ -48,8 +48,10 @@ gh pr view <number> -R <owner/repo> --json \
 - A dismissed approval means that a later push needs a new approval.
 - A PR whose base is another open PR is part of a **stack**. Follow the bases down to the default
   branch to get the order.
-- For each local branch with no open PR from the user, find its PR in any state. A merged PR means
-  that the user can remove the worktree.
+- For each local branch with no open PR from the user, find its PR in any state with
+  `gh pr list --head <branch> --state all --json state,headRefOid`. The user can remove the
+  worktree only when its PR merged, the local tip (`git rev-parse <branch>`) equals `headRefOid`,
+  and `git status --porcelain` in the worktree prints nothing.
 - Drop a review request from the view when another reviewer owns it:
   - It requests a staff or senior team.
   - It is in the user's focus area and requests a person other than the user. The tracker notes
