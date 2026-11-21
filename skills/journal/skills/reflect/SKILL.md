@@ -43,8 +43,6 @@ Ask each section one at a time:
 
 > What did you learn today?
 
-> What went well?
-
 > What's carrying into tomorrow?
 
 > Any friction -- things that slowed you down or felt harder than they should?
@@ -64,7 +62,7 @@ headings, and show it as the start of the reflect. Then ask the one round below.
 These are retrospective. Read the child files' reflect sections first, then present a summary:
 
 > Here's what came up across your {dailies/weeklies/monthlies}:
-> - Went well: {patterns}
+> - Went well (weekly files and up only): {patterns}
 > - Friction: {patterns}
 > - What's next: {recurring themes}
 >

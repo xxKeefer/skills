@@ -413,7 +413,7 @@ class Compass(unittest.TestCase):
         self.assertIsNone(v2.scan()["compass"][0]["chore_rate"])
 
 
-REFLECT = "## 🤔 Reflect\n\n### 🧠 What I learned\n\n{learned}\n### ✅ What went well\n\n-\n- [ ] \n\n### ➡️ What is next\n\n{next}\n"
+REFLECT = "## 🤔 Reflect\n\n### 🧠 What I learned\n\n{learned}\n### ➡️ What is next\n\n{next}\n\n### ⚠️ What caused friction\n\n"
 
 
 def note(kind, date, body):

@@ -25,8 +25,6 @@ next: '[[YYYY-wkNN-day]]'
 
 ### 🧠 What I learned
 
-### ✅ What went well
-
 ### ➡️ What is next
 
 ### ⚠️ What caused friction

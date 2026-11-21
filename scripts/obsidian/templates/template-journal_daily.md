@@ -55,7 +55,6 @@ tR += `## 📝 Notes\n\n`;
 
 tR += `## 🤔 Reflect\n\n`;
 tR += `### 🧠 What I learned\n\n`;
-tR += `### ✅ What went well\n\n`;
 tR += `### ➡️ What is next\n\n`;
 tR += `### ⚠️ What caused friction\n`;
 
