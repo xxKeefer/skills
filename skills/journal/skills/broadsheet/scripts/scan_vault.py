@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import datetime as dt
+import importlib.util
 import json
 import os
 import re
@@ -14,6 +15,10 @@ TASK = re.compile(r"^(\s*)[-*] \[(.)\] (.+)$")
 BOLD = re.compile(r"\*\*|__")
 EMPTY = re.compile(r"^\s*(?:[-*+]|\d+[.)])?\s*(?:\[.\])?\s*$")
 DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+PARSER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts", "occasions.py")
+_spec = importlib.util.spec_from_file_location("occasions", PARSER)
+occasions_parser = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(occasions_parser)
 
 
 def frontmatter(text):
@@ -278,11 +283,23 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
 
     occasions_path = os.path.join(journal, "occasions.md")
     occasions = open(occasions_path, encoding="utf-8").read() if os.path.isfile(occasions_path) else ""
+    occasions_errors = occasions_parser.read(occasions, today)["errors"] if occasions else []
+    due_on = {}
+
+    def due(day):
+        if day not in due_on:
+            found = occasions_parser.read(occasions, day) if occasions else {"daily": [], "due": {"chores": []}}
+            items = {task for task, _ in leaf_tasks("\n".join(found["daily"]))}
+            items |= {" ".join(BOLD.sub("", item).split()) for item in found["due"]["chores"]}
+            due_on[day] = items
+        return due_on[day]
+
     def chores(rows):
         seen, ticked = Counter(), Counter()
-        for _, _, n in rows:
+        for d, _, n in rows:
+            items = due(d)
             for task, done in dict(leaf_tasks(n["body"])).items():
-                if task in occasions:
+                if task in items:
                     seen[task] += 1
                     ticked[task] += done
         return seen, ticked
@@ -426,7 +443,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
         "folders": folders,
         "journal": {"dailies_in_window": [s["date"] for s in summaries], "missing_days": missing,
                     "summaries": summaries, "carried": carried, "checklists": checklists,
-                    "broken_nav": broken_nav},
+                    "occasions_errors": occasions_errors, "broken_nav": broken_nav},
         "compass": compass,
         "reflections": reflections,
         "projects": projects,

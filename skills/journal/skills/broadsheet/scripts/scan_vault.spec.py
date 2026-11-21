@@ -54,9 +54,12 @@ class Vault:
         return json.loads(p.stdout)
 
 
-def base(v):
-    v.write("01-journal/occasions.md", "## Chores\n- [ ] **Kitchen**\n\t- [ ] 🧼 Dishes On\n| Sunday | 🧹 Vacuum |\n",
-            date="2026-01-01")
+OCCASIONS = ("## Daily\n\n- [ ] **Kitchen**\n\t- [ ] 🧼 Dishes On\n\n## Weekly\n\n| Item | When | Section |\n"
+             "| --- | --- | --- |\n| 🧹 Vacuum | Sun | chores |\n| Timesheet | Fri | work |\n")
+
+
+def base(v, occasions=OCCASIONS):
+    v.write("01-journal/occasions.md", occasions, date="2026-01-01")
 
 
 class Ages(unittest.TestCase):
@@ -219,6 +222,34 @@ class Journal(unittest.TestCase):
             v.write(f"01-journal/{d}.md", daily(d, f"- [ ] **Kitchen**\n\t- [{t}] 🧼 Dishes On\n- [ ] bank statements"))
         rows = v.scan()["journal"]["checklists"]
         self.assertEqual(rows, [{"task": "🧼 Dishes On", "ticked": 3, "seen": 4, "rate": 0.75}])
+
+    def test_checklists_count_only_the_items_that_occasions_says_are_due_that_day(self):
+        v = Vault(self)
+        base(v)
+        tasks = "- [x] 🧹 Vacuum\n- [x] Dishes\n- [x] Timesheet\n- [ ] 🧼 Dishes On"
+        v.write("01-journal/2026-11-15.md", daily("2026-11-15", tasks))
+        v.write("01-journal/2026-11-20.md", daily("2026-11-20", tasks))
+        rows = v.scan()["journal"]["checklists"]
+        self.assertEqual(rows, [
+            {"task": "🧼 Dishes On", "ticked": 0, "seen": 2, "rate": 0.0},
+            {"task": "🧹 Vacuum", "ticked": 1, "seen": 1, "rate": 1.0},
+        ])
+
+    def test_an_old_layout_occasions_file_gives_its_errors_and_no_chores(self):
+        v = Vault(self)
+        base(v, "## Chores\n| Sunday | 🧹 Vacuum |\n")
+        v.write("01-journal/2026-11-15.md", daily("2026-11-15", "- [x] 🧹 Vacuum"))
+        out = v.scan()
+        self.assertEqual(out["journal"]["checklists"], [])
+        self.assertEqual(out["journal"]["occasions_errors"], [
+            {"line": 2, "row": "| Sunday | 🧹 Vacuum |", "why": "row has 2 cells, wants 3: Item, When, Section"}])
+        self.assertIsNone(out["compass"][0]["chore_rate"])
+
+    def test_no_occasions_file_gives_no_errors_and_no_chores(self):
+        v = Vault(self)
+        v.write("01-journal/2026-11-20.md", daily("2026-11-20", "- [x] 🧼 Dishes On"))
+        out = v.scan()
+        self.assertEqual((out["journal"]["checklists"], out["journal"]["occasions_errors"]), ([], []))
 
     def test_broken_nav_names_each_up_prev_next_that_does_not_resolve(self):
         v = Vault(self)

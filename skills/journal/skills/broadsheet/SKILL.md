@@ -70,7 +70,8 @@ note with uncommitted changes. `dates_from` says which. Each long list holds at 
 | `folders` | Each folder two levels deep: note count, subfolders, loose notes, newest and oldest age, edits in the last 7 days |
 | `journal.summaries` | The `>` summary line of each daily of the last 7 days |
 | `journal.missing_days` | Each of the last 7 days with no daily, not counting today |
-| `journal.checklists` | Each chore from `occasions.md`: times seen, times ticked, and the rate, over the last 7 days |
+| `journal.checklists` | Each chore that `occasions.py` gives as due on a day (the daily list and the due chores), matched to the tasks of that day's daily: times seen, times ticked, and the rate, over the last 7 days |
+| `journal.occasions_errors` | Each row of `occasions.md` that `occasions.py` cannot read: `line`, `row`, and `why`. A file in the old layout gives an error for each row and no chores |
 | `journal.broken_nav` | Each `up`, `prev`, or `next` in a journal file edited in the last 7 days that names no file |
 | `compass` | One row each for 7, 30, 90, and 365 days: `dailies`, `edits`, `chore_rate` (null with no chores), `busiest` (top 3 folders by edits), and `reflections` (a count) |
 | `reflections` | Each journal note of the last 365 days with a filled reflect section, newest first: `path`, `level` (daily, weekly, monthly), `date`, and `sections` of `{heading, text}`. The `## 🗓️ Weekly Reflect` of a Sunday daily is its own `weekly` item, dated to the Monday of its week, as a weekly file is |
@@ -189,7 +190,7 @@ classes. The page holds no inline style.
 | `lead_*` | The week's story from Step 4: a headline, a one-line standfirst, and two to four paragraphs. Name the two-week trends from Step 3 |
 | `compass_body` | First, each filled reflection, as a `<blockquote>` with its text and a `<cite>` that links the note and gives its level and date, newest first, grouped by window. Then a `<table>` of the four `compass` rows: window, dailies, edits, chore rate, and busiest folders, with each change since last week's page. The reflections get more space than the table. A window with no filled reflection names none |
 | `weather_body` | From `weather.py`: `<p class="forecast">` with the conditions, then the high and low with the unit, and the chance of rain. With `available: false`, "The forecast is not available today." With no location, "Set a location in the config for a forecast." |
-| `chores_body` | A table of `journal.checklists`: chore, ticked of seen, and the rate in `<span class="rate">` as a percent. No weather icons. Give a chore seen fewer than three times "Too few days to rate" |
+| `chores_body` | A table of `journal.checklists`: chore, ticked of seen, and the rate in `<span class="rate">` as a percent. No weather icons. Give a chore seen fewer than three times "Too few days to rate". When `journal.occasions_errors` is not empty, add one line under the table with the count of rows that cannot be read, and say that `/update-occasions-config` fixes them |
 | `gaps_body` | The missing days and the broken nav links. A `next` that names a file not yet due is expected, so leave it out |
 | `ledger_body` | A table per cascade level, one `<tr class="action">` per goal: goal, served, not served, or carried, and the action |
 | `letters_body` | One `<li class="action">` per inbox note, from Step 5 |
