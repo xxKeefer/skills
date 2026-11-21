@@ -25,7 +25,9 @@ hook, and shared documentation. No skills live at root -- they all live under `s
 - The attribution check: a commit-msg hook that blocks a Claude attribution line
   (`sh .githooks/commit-msg_test.sh`).
 
-Add no licence or notice files. Credit a source in one line of prose in the skill that uses it.
+Add no licence or notice files. Credit a source in one line of prose in the skill that uses it. One
+exception: a vendored asset whose licence must travel with it, such as an OFL font, keeps that
+licence file beside it.
 
 ## Skill Lifecycle
 

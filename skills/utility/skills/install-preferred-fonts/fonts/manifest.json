@@ -1,0 +1,18 @@
+{
+  "roles": {
+    "body": ["Atkinson Hyperlegible Next", "system-ui", "sans-serif"],
+    "heading": ["Noto Serif", "Georgia", "serif"],
+    "display": ["Shantell Sans", "system-ui", "sans-serif"],
+    "mono": ["JetBrains Mono", "ui-monospace", "monospace"]
+  },
+  "faces": [
+    {"family": "Atkinson Hyperlegible Next", "dir": "Atkinson_Hyperlegible_Next", "file": "AtkinsonHyperlegibleNext", "style": "normal", "weight": "200 800"},
+    {"family": "Atkinson Hyperlegible Next", "dir": "Atkinson_Hyperlegible_Next", "file": "AtkinsonHyperlegibleNext-Italic", "style": "italic", "weight": "200 800"},
+    {"family": "Noto Serif", "dir": "Noto_Serif", "file": "NotoSerif", "style": "normal", "weight": "100 900", "stretch": "62.5% 100%"},
+    {"family": "Noto Serif", "dir": "Noto_Serif", "file": "NotoSerif-Italic", "style": "italic", "weight": "100 900", "stretch": "62.5% 100%"},
+    {"family": "Shantell Sans", "dir": "Shantell_Sans", "file": "ShantellSans", "style": "normal", "weight": "300 800"},
+    {"family": "Shantell Sans", "dir": "Shantell_Sans", "file": "ShantellSans-Italic", "style": "italic", "weight": "300 800"},
+    {"family": "JetBrains Mono", "dir": "JetBrains_Mono", "file": "JetBrainsMono", "style": "normal", "weight": "100 800"},
+    {"family": "JetBrains Mono", "dir": "JetBrains_Mono", "file": "JetBrainsMono-Italic", "style": "italic", "weight": "100 800"}
+  ]
+}
