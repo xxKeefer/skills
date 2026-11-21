@@ -120,7 +120,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 ### Phase 1: Broadsheet
 
-- [ ] **1. Groom `.ai/`.** Kind: mechanical. Delete the files of each pstack unit whose PR is merged, as `.ai/CLAUDE.md` says.
+- [x] **1. Groom `.ai/`.** Kind: mechanical. Delete the files of each pstack unit whose PR is merged, as `.ai/CLAUDE.md` says.
   - Done: `.ai/` holds only open units and this spec and plan.
 - [ ] **2. Weather script.** Seam: `scripts/weather.py <lat> <lon>`, with the fetch passed in for tests. Conditions: C1, C2.
   - Done: `weather.spec.py` passes. Proves A.
@@ -182,4 +182,5 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 ## Progress
 
 - 2026-11-21: plan written on `feat/broadsheet-feedback`.
+- 2026-11-21: step 1 done. Deleted the files of pstack units 20 to 33 (all PRs merged) and the `reports.js` index.
 
