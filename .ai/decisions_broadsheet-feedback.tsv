@@ -14,3 +14,7 @@ The prompt is one line per row: id, choice or comment, section id, row text, com
 A failed clipboard copy opens the Show prompt textarea and selects its text	a file:// page can lose clipboard access; the user can still copy by hand	copy-button guide: show the failure, not only announce it	done
 Each suggestion row's data-id is <section id>:<target>, with the vault path, project name, or a kebab slug as target	the same suggestion gets the same id next week, and act-on-broadsheet reads the target path from the id because the row text names a note only by its link	check_broadsheet.py fails a bare note path outside a link; edition.py reads last week's ids	done
 Want-list suggestions in the back pages are action rows	AC L asks for suggestions, and a row lets the user add them with one choice	spec Decisions line on back pages	done
+veto and snooze change nothing in the vault; act-on-broadsheet only reports them	the plan lists no record of vetoes, and next week's page marks the same row as a repeat by its data-id	plan step 9 lists move, archive, status, goal, template, delete, report	done
+One question lists every delete row, and takes all, none, or numbers	one stop for the whole batch, the same answer form as the daily backfill	spec Decisions line on the backfill question	done
+act-on-broadsheet commits nothing in the vault	the /daily backup step (step 11) owns vault commits	spec Decisions line on the git backup	done
+Bump the journal plugin to 2.10.0 in step 9	a new skill is a minor change, as the broadsheet commit bumped 2.8.0 to 2.9.0	commit 6fa6e44	done
