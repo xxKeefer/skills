@@ -53,6 +53,7 @@ class Edition(unittest.TestCase):
             "exists": False,
             "last_path": None,
             "last_ids": [],
+            "muted": [],
         }))
 
     def test_exists_is_true_when_this_weeks_page_is_there(self):
@@ -73,6 +74,45 @@ class Edition(unittest.TestCase):
         _, out = run(self.dir, "2026-11-21")
         self.assertEqual(out["last_path"], os.path.join(self.dir, "2026-wk46-broadsheet.html"))
         self.assertEqual(out["last_ids"], [])
+
+    def test_lists_vetoed_ids_in_file_order_without_repeats(self):
+        write(self.dir, "broadsheet-memory.md", "letters:a.md | veto\nthe-board:b | veto\nletters:a.md | veto\n")
+        self.assertEqual(run(self.dir, "2026-11-21")[1]["muted"], ["letters:a.md", "the-board:b"])
+
+    def test_a_snooze_mutes_its_id_up_to_and_on_its_end_date(self):
+        write(self.dir, "broadsheet-memory.md", "stale-shelf:x.md | snooze until 2026-11-21\n")
+        self.assertEqual(run(self.dir, "2026-11-20")[1]["muted"], ["stale-shelf:x.md"])
+        self.assertEqual(run(self.dir, "2026-11-21")[1]["muted"], ["stale-shelf:x.md"])
+
+    def test_a_snooze_ends_the_day_after_its_end_date(self):
+        write(self.dir, "broadsheet-memory.md", "stale-shelf:x.md | snooze until 2026-11-21\n")
+        self.assertEqual(run(self.dir, "2026-11-22")[1]["muted"], [])
+
+    def test_a_later_snooze_of_the_same_id_still_mutes_it(self):
+        write(self.dir, "broadsheet-memory.md", "editorial:x | snooze until 2026-10-01\neditorial:x | snooze until 2026-12-01\n")
+        self.assertEqual(run(self.dir, "2026-11-21")[1]["muted"], ["editorial:x"])
+
+    def test_no_memory_file_gives_no_muted_ids(self):
+        self.assertEqual(run(self.dir, "2026-11-21"), (0, {
+            "path": os.path.join(self.dir, "2026-wk47-broadsheet.html"),
+            "exists": False,
+            "last_path": None,
+            "last_ids": [],
+            "muted": [],
+        }))
+
+    def test_a_line_it_cannot_read_is_skipped_and_the_rest_still_mute(self):
+        write(self.dir, "broadsheet-memory.md", (
+            "# Broadsheet memory\n\nnot a row\nletters:a.md | maybe\n"
+            "letters:b.md | snooze until soon\n | veto\nletters:c.md | veto\n"
+        ))
+        self.assertEqual(run(self.dir, "2026-11-21"), (0, {
+            "path": os.path.join(self.dir, "2026-wk47-broadsheet.html"),
+            "exists": False,
+            "last_path": None,
+            "last_ids": [],
+            "muted": ["letters:c.md"],
+        }))
 
     def test_no_date_uses_today(self):
         out = io.StringIO()

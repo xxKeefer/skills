@@ -34,8 +34,10 @@ note.
    python3 $SKILL_DIR/scripts/edition.py <journal folder>
    ```
 
-   It prints `{path, exists, last_path, last_ids}`. `path` is this week's page,
-   `<journal folder>/{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today.
+   It prints `{path, exists, last_path, last_ids, muted}`. `path` is this week's page,
+   `<journal folder>/{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today. `muted` lists
+   each row id that the user vetoed, or snoozed to today or later, in `broadsheet-memory.md` in
+   the journal folder. `/journal:act-on-broadsheet` writes that file.
 2. If `exists` is true, stop. Scan nothing and write nothing. Reply with `path`, and say that this
    week's edition is already printed.
 3. Read `~/.claude/broadsheet.md` if it exists. Its layout is in
@@ -226,6 +228,7 @@ Each suggestion row has this shape:
   When a row is the same suggestion as an id in `last_ids`, use that id. Each id is unique on the
   page: when two rows in one section share a target, add `:<action verb>`. An id holds no space and
   no `|`.
+- Leave out each row whose `data-id` is in `muted` from Step 1. Do not name it on the page.
 - The row text never holds ` | comment: `, because `/journal:act-on-broadsheet` splits there.
 - Each note that the page names is a link: `obsidian://open?vault=<vault folder name>&file=<path
   without .md, URL-encoded>`, with `target="_blank"` and `rel="noopener"`. The `data-id` holds the
@@ -233,7 +236,7 @@ Each suggestion row has this shape:
 - Write in plain prose with newspaper headlines. Each fact traces to the scan or to a note.
 
 **Done when:** each section has content or a line that says it has none, each suggestion row has
-the row shape, and no placeholder is left.
+the row shape, no row id is in `muted`, and no placeholder is left.
 
 ## Step 8: Print
 

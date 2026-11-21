@@ -2,8 +2,8 @@
 name: act-on-broadsheet
 description: >
   Apply the rows that the user chose on a broadsheet page to the vault: move, archive, or delete a
-  note, set a project's status, tick or carry a goal, edit a template, or add to a want list. Asks
-  before each delete, and reports each change. Use when the user pastes the prompt that a
+  note, set a project's status, tick or carry a goal, edit a template, or add to a want list. Writes
+  each veto and snooze to the broadsheet memory. Asks before each delete, and reports each change. Use when the user pastes the prompt that a
   broadsheet page builds.
 disable-model-invocation: true
 argument-hint: "<prompt from the broadsheet page>"
@@ -66,8 +66,8 @@ Sort each row by its choice:
 | `do` | Apply the row's `Do:` action. A comment changes or narrows it |
 | `comment` | Apply the comment as the action for the row's target |
 | `done` | The user did it already. Tick the goal or the card that the row names, if it is open. Else change nothing |
-| `veto` | Change nothing |
-| `snooze` | Change nothing |
+| `veto` | Write the row to the memory in Step 5. Change nothing else |
+| `snooze` | Write the row to the memory in Step 5, until the date in the comment. With no date in the comment, until 4 weeks from today. Change nothing else |
 
 When a row and its comment leave a choice between two actions, ask the user which, and wait. When
 a row's action names no file in the vault, such as a change to the routine, change nothing and say
@@ -111,6 +111,11 @@ the action names.
 - **Template edit** from the editorial: edit the template that the action names in the templates
   folder.
 - **Want list:** add the item to the end of the list in the note.
+- **Veto** or **snooze**: append one line to `broadsheet-memory.md` in the journal folder. Make the
+  file if it does not exist. Change no other line in it. The line is `<id> | veto`, or
+  `<id> | snooze until <YYYY-MM-DD>`, with the full `id` of the row. `/broadsheet` then leaves out
+  the row: for good after a veto, and to the end date after a snooze. A comment that gives a day
+  without a year gives the next such day.
 
 When an action fails, such as a missing note, change nothing for that row, and give the reason in
 the report.
@@ -126,9 +131,10 @@ Reply with one line for each row, in prompt order:
 - the-morgue:<path> | do | kept: you said no to the delete
 - the-board:<project> | comment | set status to waiting, until 2027-03-01
 - editorial:<slug> | do | no change: the action names no file
-- stale-shelf:<path> | veto | no change
+- stale-shelf:<path> | veto | muted for good in broadsheet-memory.md
+- letters:<path> | snooze | muted until 2026-12-20 in broadsheet-memory.md
 ```
 
-End with the count of notes moved, archived, deleted, and edited.
+End with the count of notes moved, archived, deleted, and edited, and of rows muted.
 
 **Done when:** each row of the prompt has one line in the report.
