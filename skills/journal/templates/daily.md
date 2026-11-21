@@ -19,6 +19,8 @@ next: '[[YYYY-wkNN-day]]'
 
 ## 💭 Thoughts and Ideas
 
+## 📝 Notes (free text, such as a shopping list)
+
 ## 🤔 Reflect
 
 ### 🧠 What I learned
@@ -28,3 +30,11 @@ next: '[[YYYY-wkNN-day]]'
 ### ➡️ What is next
 
 ### ⚠️ What caused friction
+
+## 🗓️ Weekly Reflect (Sundays only)
+
+### ✅ What went well
+
+### ⚠️ What caused friction
+
+### ➡️ What is next

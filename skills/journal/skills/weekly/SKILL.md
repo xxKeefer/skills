@@ -27,7 +27,13 @@ Read these files from the journal directory:
 - `YYYY-MM-mon.md` -- this month's goals (for pull-down)
 - `occasions.md` -- recurring events this week
 - Previous week's file (if exists) -- check reflect section
+- Previous week's Sunday daily (if exists) -- check its `## 🗓️ Weekly Reflect` section
 - This week's existing daily files (if any) -- for theme detection
+
+The user can write the week's reflect in the Sunday daily. When the previous week's file has an
+empty `## 🤔 Reflect` and its Sunday daily has text under `## 🗓️ Weekly Reflect`, copy that text
+into the previous week's `## 🤔 Reflect`, under the same `###` headings. Change nothing else in
+either file. Then use it as last week's reflect.
 
 ## Step 3: Build At a Glance
 

@@ -32,7 +32,7 @@ Read these files from the journal directory:
 
 - `YYYY-wkNN-week.md` -- this week's goals
 - `occasions.md` -- chores and events for today
-- Previous day's file (if exists) -- check reflect section for context
+- Previous day's file (if exists) -- check its `## 🤔 Reflect` section for context
 
 ## Step 3: Build At a Glance
 
@@ -86,6 +86,14 @@ Create or update `YYYY-wkNN-day.md` in the journal directory using the format in
 
 If updating an existing file, preserve any content already written (checked chores, completed
 tasks, notes). Only update sections that need changes.
+
+Keep each free section, such as `## 📝 Notes`, above `## 🤔 Reflect`. Put nothing but reflect
+headings and their text in a reflect section.
+
+On a Sunday, add `## 🗓️ Weekly Reflect` after `## 🤔 Reflect`. Under it, copy the `###` headings
+of the `## 🤔 Reflect` section of [templates/weekly.md](../../templates/weekly.md). The user writes
+the week's reflect there, and `/weekly` and `/reflect` copy it into the weekly file. On other
+days, leave the section out.
 
 ## Step 6: Done
 
