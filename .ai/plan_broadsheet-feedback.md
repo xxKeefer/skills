@@ -185,6 +185,17 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - `/engineering:mob-review`: the review step.
 - `/create-pr`: the push step.
 
+## Pending Decisions
+
+### D1: Where do vetoes and snoozes live, so a vetoed suggestion does not come back each week?
+
+- A (recommended): `/journal:act-on-broadsheet` appends each veto and snooze to a `broadsheet-memory.md` file in the journal folder, as `<data-id> | veto` or `<data-id> | snooze until <YYYY-MM-DD>`. `/broadsheet` leaves out each row whose id is there, until a snooze ends.
+- B: no store. A veto lasts one week, and the repeat mark next week shows it again.
+- C: write the veto into the note itself, such as a `broadsheet: keep` frontmatter line. It works only for rows about one note, not for the board or the editorial.
+
+Work: none yet. Choice A adds a step to `/journal:act-on-broadsheet` and `/broadsheet`, and a test if a script reads the file.
+Blocks: step 19.
+
 ## Progress
 
 - 2026-11-21: plan written on `feat/broadsheet-feedback`.
