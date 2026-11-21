@@ -13,6 +13,8 @@ status: active
 tags: [project]
 ---
 
+%% status: active | dormant | waiting | archived. Optional: until: YYYY-MM-DD %%
+
 # Mission: {Project Name}
 
 ## Why
@@ -41,4 +43,17 @@ abstract framings -- push for the real-world result.}
   decision (see [DECISIONS-FORMAT.md](DECISIONS-FORMAT.md)). Don't leave a stale mission steering work.
 - **Keep it short.** Past a screen, it has stopped being a compass and become a plan -- that belongs
   on the board.
-- **`status`** frontmatter is `active` while in flight; set it to `done` when the project completes.
+- **`status`** frontmatter is one of four values. `/broadsheet` reads it:
+
+  | Value | Meaning | On `/broadsheet` |
+  | --- | --- | --- |
+  | `active` | in flight; the default | the board names its next card |
+  | `dormant` | at rest by choice | silent |
+  | `waiting` | blocked on a person, a date, or an event | one line, only when the project changed in the last 7 days |
+  | `archived` | done or dropped; the folder moves to the vault's archive | gone |
+
+- **`until`** frontmatter is optional: the date, `YYYY-MM-DD`, that a `waiting` or `dormant`
+  project expects to be `active` again. `/broadsheet` shows it on a `waiting` line. Remove it when
+  the status goes back to `active`.
+- **Keep the `%%` status line** under the frontmatter, so the file says which values exist.
+  Obsidian hides it in reading view.
