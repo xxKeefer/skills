@@ -42,7 +42,7 @@ Every journal skill is user-invoked: you start each one by hand. See
 
 One long-lived mutable file. Skills must read-modify-write carefully (never overwrite).
 
-- `occasions.md` -- configurable events, reminders, day-specific chores
+- `occasions.md` -- the daily chores, and `| Item | When | Section |` tables. Only `scripts/occasions.py` reads the `When` rules; each skill runs it for due items.
 
 ## Cross-Skill Data Flow
 

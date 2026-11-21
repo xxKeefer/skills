@@ -11,6 +11,9 @@ Generate the daily file. Quick, focused, minimal back-and-forth.
 **Input:** optional date or file path, plus freeform notes (ad-hoc tasks, work context).
 **Output:** daily file (`YYYY-wkNN-day.md`) in the journal directory.
 
+`$SKILL_DIR` is this skill's base directory. The occasions script is
+`$SKILL_DIR/../../scripts/occasions.py`.
+
 ## Step 1: Parse Input
 
 `<user-input>` may contain:
@@ -31,8 +34,36 @@ Check if the daily file already exists. If it does, read it and update rather th
 Read these files from the journal directory:
 
 - `YYYY-wkNN-week.md` -- this week's goals
-- `occasions.md` -- chores and events for today
 - Previous day's file (if exists) -- check its `## 🤔 Reflect` section for context
+
+### Occasions
+
+Get the day's chores and events from the script. Do not read the `When` rules yourself:
+
+```sh
+python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
+```
+
+It prints JSON: `daily` (the lines of the `## Daily` list), `due` (the items due on the date, in
+`chores`, `work`, and `tasks`), `errors` (each row it cannot read, with its `line` and `why`), and
+`past` (each one-off whose date is gone). [CHECKLIST_RULES.md](CHECKLIST_RULES.md) puts `daily` and
+`due` into the checklist.
+
+The file is in the old layout when it has no `## Daily` heading, or when `errors` holds every table
+row of the file. Then do not give an empty chore list with no word. Say:
+
+> `occasions.md` is in the old layout, so today has no chores from it. Run
+> `/update-occasions-config` to migrate it.
+
+Then go on with the other parts of the daily.
+
+In the new layout, give one line for each row in `errors`: `occasions.md line {line}: {why}`. Use
+the rows that the script can read.
+
+List each `past` one-off for the user to prune: `Past one-offs in occasions.md: {item} ({when})`.
+Delete nothing from `occasions.md`.
+
+Give these lines once, with the Step 6 message.
 
 ## Step 3: Build At a Glance
 
@@ -98,6 +129,8 @@ days, leave the section out.
 ## Step 6: Done
 
 > **{Dayname} -- wkNN** ready. {N} tasks, {N} chores. {event note if applicable}
+
+Then give the occasions lines from Step 2, if any.
 
 ## Step 7: Back Up the Vault
 

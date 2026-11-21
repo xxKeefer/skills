@@ -8,6 +8,9 @@ disable-model-invocation: true
 
 Generate the yearly file. Lightest-touch skill -- a goals dump and organising structure.
 
+`$SKILL_DIR` is this skill's base directory. The occasions script is
+`$SKILL_DIR/../../scripts/occasions.py`.
+
 ## Step 1: Parse Input
 
 `<user-input>` may contain:
@@ -27,7 +30,6 @@ Check if the yearly file already exists. If it does, read it and update rather t
 Read these files from the journal directory:
 
 - Previous year's file (if exists) -- check reflect section and goals
-- `occasions.md` -- recurring yearly events
 
 ## Step 3: Build At a Glance
 
@@ -52,7 +54,22 @@ structure enforced beyond a checklist.
 
 ## Step 5: Assemble Events
 
-Read `occasions.md` for notable yearly events. List them under the Events section.
+Get the events from the occasions script. Do not read the `When` rules yourself. Run the
+script once for each date of this year, from Jan 1 to Dec 31:
+
+```sh
+python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
+```
+
+Each run prints JSON: `due` (the items due on that date, in `chores`, `work`, and `tasks`),
+`errors` (each row it cannot read), and `past`. The events are the `due` items whose row is in
+the `## Yearly` or `## One-off` table.
+Find the table of an item by its name in `occasions.md`. Give each event with its date.
+
+When `errors` is not empty, say once: `occasions.md has {N} rows that occasions.py cannot read.
+Run /update-occasions-config.` Go on with the rows that it can read.
+
+List the events under the Events section.
 
 Ask:
 

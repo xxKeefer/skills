@@ -9,11 +9,12 @@ children.
 
 ## Section Mapping
 
-Occasions from `occasions.md` map to checklist sections via their `Section` field:
+The items come from the output of `occasions.py` for the day (see Step 2 of the skill). Each key
+of `due` maps to one checklist group:
 
-| Section value | Checklist group |
+| `due` key | Checklist group |
 |---|---|
-| `chores` (default) | 🔄 Chores |
+| `chores` | 🔄 Chores |
 | `work` | 🧑‍💻 Work |
 | `tasks` | 🎯 Tasks |
 
@@ -23,24 +24,23 @@ respective group. Within each group, sort by indentation -- parents first, then 
 ## Chores Group
 
 - `- [ ] 🔄 Chores` as parent
-  - All items from "Chores (Daily Default)" as indented children
-  - Day-specific chores from the "Chores (Day-Specific)" table matching today
-  - Recurring Events with `section: chores` falling on today's date
+  - Each line of `daily` as an indented child, with its own nesting kept
+  - Each item of `due.chores`
 
 ## Work Group (weekdays only)
 
 On weekdays (Mon-Fri), add a Work parent item:
 
 - `- [ ] 🧑‍💻 Work` as top-level checkbox
-  - Recurring Events with `section: work` falling on today's date
+  - Each item of `due.work`
   - User's freeform input (standup, meetings, reviews, etc.)
 
-Skip this group entirely on weekends (work-section occasions move to Tasks on weekends).
+Skip this group entirely on weekends (`due.work` items move to Tasks on weekends).
 
 ## Tasks Group
 
 - `- [ ] 🎯` prefix for task items
-  - Recurring Events with `section: tasks` falling on today's date
+  - Each item of `due.tasks`
   - Goals pulled down from the weekly file
   - Carried items from yesterday (selected via multi-select carry-forward)
   - Ad-hoc tasks from user's freeform input

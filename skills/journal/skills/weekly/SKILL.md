@@ -8,6 +8,9 @@ disable-model-invocation: true
 
 Generate the weekly file. Surface context, don't apply pressure.
 
+`$SKILL_DIR` is this skill's base directory. The occasions script is
+`$SKILL_DIR/../../scripts/occasions.py`.
+
 ## Step 1: Parse Input
 
 `<user-input>` may contain:
@@ -25,7 +28,6 @@ Find the journal directory with `/discover-vault-directory * holding occasions.m
 Read these files from the journal directory:
 
 - `YYYY-MM-mon.md` -- this month's goals (for pull-down)
-- `occasions.md` -- recurring events this week
 - Previous week's file (if exists) -- check reflect section
 - Previous week's Sunday daily (if exists) -- check its `## 🗓️ Weekly Reflect` section
 - This week's existing daily files (if any) -- for theme detection
@@ -54,8 +56,22 @@ Ask:
 
 ## Step 5: Assemble Events
 
-Read `occasions.md` for recurring events falling within this week's date range. List them under
-the Events section.
+Get the events from the occasions script. Do not read the `When` rules yourself. Run the
+script once for each date of this week, Monday to Sunday:
+
+```sh
+python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
+```
+
+Each run prints JSON: `due` (the items due on that date, in `chores`, `work`, and `tasks`),
+`errors` (each row it cannot read), and `past`. The events are the `due` items whose row is in
+the `## Yearly`, `## Maintenance`, or `## One-off` table.
+Find the table of an item by its name in `occasions.md`. Give each event with its date.
+
+When `errors` is not empty, say once: `occasions.md has {N} rows that occasions.py cannot read.
+Run /update-occasions-config.` Go on with the rows that it can read.
+
+List the events under the Events section.
 
 Ask:
 
