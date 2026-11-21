@@ -45,7 +45,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [ ] **W.** `occasions.py` reads `occasions.md` for a date → it prints the items due that day by section, the rows that it cannot read, and the one-off rows that are past.
 - [ ] **X.** `/daily`, `/weekly`, `/monthly`, `/yearly`, and `/broadsheet` get due items from `occasions.py` → no journal skill reads the `When` rules itself.
 - [ ] **Y.** `/update-occasions-config` writes only the new layout → given a file in the old layout, it migrates it after one yes, and lists each row it could not convert.
-- [ ] **Z.** The compass quotes each reflection that the user filled in within its window (daily, weekly, monthly reflect sections), with a link to its note → a filled reflection gets more space than the counts, and an empty one is not named.
+- [x] **Z.** The compass quotes each reflection that the user filled in within its window (daily, weekly, monthly reflect sections), with a link to its note → a filled reflection gets more space than the counts, and an empty one is not named.
 
 ## Context
 
@@ -134,7 +134,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: the scan JSON has `compass`, `projects`, and a stale list without knowledge folders. Proves E, J, K (data).
 - [x] **5. Check: new section list and action rows.** Seam: `check_broadsheet.py`. Conditions: C3, C6, C7.
   - Done: the check wants `compass` and `chores`, rejects `carried-over` and `link-health`, and checks each action row. Proves C.
-- [ ] **6. Scanner: filled reflections.** Seam: `scan()` in `scan_vault.py`. Conditions: C20, C21.
+- [x] **6. Scanner: filled reflections.** Seam: `scan()` in `scan_vault.py`. Conditions: C20, C21.
   - Done: the scan JSON has `reflections`: each reflect section with real text, with its note, level (daily, weekly, monthly), date, and text. Proves Z (data).
 - [ ] **7. Template.** Kind: config. Drop Shantell Sans from the broadsheet and gazette templates. Add the compass, chores, and weather boxes. Remove carried over and link health. Add the choice control, the comment, and the copy-prompt bar, with one small script.
   - Done: the template passes the check after a fill with sample data, and no template in the repo names Shantell Sans. Proves D, G (page).
@@ -196,3 +196,4 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - 2026-11-21: step 5 done. The check wants `compass` and `chores`, and fails a page with `carried-over` or `link-health`. Action row shape for steps 7 and 9: `<li class="action" data-id="<unique id>">` (any tag with class `action`) that holds `<select class="choice">` and one `<input class="comment">` or `<textarea class="comment">`, such as `<details><summary>Comment</summary><textarea class="comment"></textarea></details>`. A row with no or a repeated `data-id`, no choice, or no comment fails. The page can have 1 `<script>` block; 2 or more fail. An inline `style` still fails. The spec now tests a page that it builds; the current template fails the check until step 7. 17 tests.
 - Decision log: decisions_broadsheet-feedback.tsv
 - 2026-11-21: user asked to surface filled reflections in the compass. Added AC Z and step 6. Later steps moved up by one.
+- 2026-11-21: step 6 done. The scan JSON has a top-level `reflections` list, newest first: `{path, level, date, sections: [{heading, text}]}`, for each journal note of the last 365 days with a filled reflect section. Each compass row has a `reflections` count, so step 8 groups the list by `date` for each window. A section holds the lines under a `##` heading with the word `Reflect`, to the next `#` or `##` heading. Blank lines and empty list markers are dropped. `heading` is null for text above the first `###`. The level and the date come from frontmatter `type` and `date`, else from the file name (`YYYY-wkNN-day`, `YYYY-wkNN-week` gives the Monday, `YYYY-MM-mon` gives the 1st). 33 tests.
