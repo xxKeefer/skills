@@ -1,6 +1,6 @@
 ---
 name: daily
-description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks, after one question that ticks what the user did yesterday. Then commits and pushes the vault when it is a git repo.
+description: Generate today's daily file, with chores from occasions, weekly goals, and the last daily's open tasks, after one question that ticks what the user did since. Then commits and pushes the vault when it is a git repo.
 disable-model-invocation: true
 ---
 
@@ -34,7 +34,13 @@ Check if the daily file already exists. If it does, read it and update rather th
 Read these files from the journal directory:
 
 - `YYYY-wkNN-week.md` -- this week's goals
-- Previous day's file (if exists) -- check its `## 🤔 Reflect` section for context
+- The **last daily** (if one exists) -- check its `## 🤔 Reflect` section for context
+
+The last daily is the daily file with the latest date before the target day, not only the file of
+the day before. List the daily files (`YYYY-wkNN-day.md`, not `-week`) in the journal directory,
+then in `chronicles/{YYYY}/` for the year of the target day and the year before. Get each date
+from the file name. When the root and `chronicles/` both hold a file, use the root copy. Note how
+many days back it is: 1 for the day before.
 
 ### Occasions
 
@@ -69,7 +75,7 @@ Give these lines once, with the Step 6 message.
 
 Compose the blockquote summary under the heading. Pull from:
 
-- Yesterday's reflect (what's next, friction, learnings)
+- The last daily's reflect (what's next, friction, learnings)
 - This week's goals (what's active, what's relevant today)
 
 Keep it to 2-3 sentences. Factual, no editorialising.
@@ -82,27 +88,29 @@ See [CHECKLIST_RULES.md](CHECKLIST_RULES.md) for assembly rules.
 
 Follow **Pull-down** in [CASCADE.md](../../CASCADE.md), with this week's file as the parent.
 
-### Backfill Yesterday
+### Backfill the Last Daily
 
-Before the carry-forward, ask one question: which of yesterday's open items did the user do? List
-each open item in yesterday's `## 📋 Today`, numbered. List the children of a group, not the group
-line:
+Before the carry-forward, ask one question: which of the last daily's open items did the user do?
+List each open item in its `## 📋 Today`, numbered. List the children of a group, not the group
+line. Name the day and how many days back it is:
 
-> Still open from yesterday. Which did you do? (`all`, `none`, numbers, or `skip`)
+> Still open from {day} ({N} days ago). Which did you do? (`all`, `none`, numbers, or `skip`)
 > 1. {item}
 > 2. {item}
 
-- `all`: tick each listed item in yesterday's file.
+When the last daily is the day before, write `Still open from yesterday.`
+
+- `all`: tick each listed item in the last daily's file.
 - Numbers, such as `1 3`: tick only those items.
 - `none`, `skip`, or no answer: tick nothing.
 
 When the answer ticks all children of a group, tick the group line too. Change nothing else in
-yesterday's file. Ask no question when yesterday has no file or no open item.
+the last daily's file. Ask no question when there is no last daily or it has no open item.
 
 ### Carry Forward
 
-Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the items in yesterday's file that
-are still open after the backfill.
+Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the items in the last daily's file
+that are still open after the backfill. With no last daily, carry nothing forward.
 
 ### Confirm
 

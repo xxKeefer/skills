@@ -273,10 +273,18 @@
     for (const value of CHOICES) select.add(new Option(value || "-", value));
   }
 
+  function text(node) {
+    const copy = node.cloneNode(true);
+    copy.querySelectorAll("select, details").forEach((child) => child.remove());
+    const walker = document.createTreeWalker(copy, NodeFilter.SHOW_TEXT);
+    const parts = [];
+    while (walker.nextNode()) parts.push(walker.currentNode.data);
+    return parts.join(" ").replace(/\s+/g, " ").replace(/ ([.,;:!?)])/g, "$1").trim();
+  }
+
   function label(row) {
-    const copy = row.cloneNode(true);
-    copy.querySelectorAll("select, details").forEach((node) => node.remove());
-    return copy.textContent.replace(/\s+/g, " ").trim();
+    const cells = row.cells ? [...row.cells] : [row];
+    return cells.map(text).filter(Boolean).join(" / ");
   }
 
   function build() {

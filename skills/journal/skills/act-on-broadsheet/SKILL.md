@@ -35,7 +35,9 @@ Rows (id | choice | section | row | comment):
    the first three fields are the `id`, the `choice`, and the `section`. The rest is the row text.
    If the rest holds ` | comment: `, the text after its first match is the `comment`, and the text
    before it is the row text. Row text that holds ` | ` stays whole.
-3. The `id` is `<section>:<target>`. The target is the part after the first `:`.
+3. The `id` is `<section>:<target>`. The target is the part after the first `:`. Decode the
+   target: `%20` is a space and `%7C` is a `|`. Find the note by the decoded target. Keep the `id`
+   as written, encoded, for the memory in Step 5.
 4. The `choice` is one of `do`, `veto`, `snooze`, `done`, or `comment`, which means the row has a
    comment and no choice.
 
@@ -113,9 +115,9 @@ the action names.
 - **Want list:** add the item to the end of the list in the note.
 - **Veto** or **snooze**: append one line to `broadsheet-memory.md` in the journal folder. Make the
   file if it does not exist. Change no other line in it. The line is `<id> | veto`, or
-  `<id> | snooze until <YYYY-MM-DD>`, with the full `id` of the row. `/broadsheet` then leaves out
-  the row: for good after a veto, and to the end date after a snooze. A comment that gives a day
-  without a year gives the next such day.
+  `<id> | snooze until <YYYY-MM-DD>`, with the full `id` of the row, encoded as the prompt gives
+  it. `/broadsheet` then leaves out the row: for good after a veto, and to the end date after a
+  snooze. A comment that gives a day without a year gives the next such day.
 
 When an action fails, such as a missing note, change nothing for that row, and give the reason in
 the report.

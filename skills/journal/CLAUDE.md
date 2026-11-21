@@ -50,7 +50,7 @@ One long-lived mutable file. Skills must read-modify-write carefully (never over
 /yearly -> yearly file
 /monthly -> reads: yearly goals -> monthly file
 /weekly -> reads: monthly goals + occasions.md -> weekly file
-/daily -> reads: weekly goals + occasions.md + yesterday's reflect -> ticks yesterday's done items -> daily file; commits and pushes the vault when it is a git repo with a remote
+/daily -> reads: weekly goals + occasions.md + the last daily's reflect -> ticks the last daily's done items -> daily file; commits and pushes the vault when it is a git repo with a remote
 /reflect -> updates: any journal file's reflect section; fixes prev/next links
 /broadsheet -> reads: the whole vault + last week's page + broadsheet-memory.md -> one HTML page a week in the journal folder; changes no note
 /act-on-broadsheet -> reads: the prompt a page builds -> moves, archives, deletes (after a yes), and edits notes; appends each veto and snooze to broadsheet-memory.md

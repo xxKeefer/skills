@@ -42,6 +42,6 @@ Skip this group entirely on weekends (`due.work` items move to Tasks on weekends
 - `- [ ] 🎯` prefix for task items
   - Each item of `due.tasks`
   - Goals pulled down from the weekly file
-  - Carried items from yesterday (selected via multi-select carry-forward)
+  - Carried items from the last daily (selected via multi-select carry-forward)
   - Ad-hoc tasks from user's freeform input
   - Use indented sub-items to break down larger tasks

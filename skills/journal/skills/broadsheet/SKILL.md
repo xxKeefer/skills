@@ -232,7 +232,8 @@ Each suggestion row has this shape:
 
   When a row is the same suggestion as an id in `last_ids`, use that id. Each id is unique on the
   page: when two rows in one section share a target, add `:<action verb>`. An id holds no space and
-  no `|`.
+  no `|`: write a space in the target as `%20` and a `|` as `%7C`, such as
+  `stale-shelf:03-work/old%20plan.md`. Write no other code.
 - Leave out each row whose `data-id` is in `muted` from Step 1. Do not name it on the page.
 - The row text never holds ` | comment: `, because `/journal:act-on-broadsheet` splits there.
 - Each note that the page names is a link: `obsidian://open?vault=<vault folder name>&file=<path

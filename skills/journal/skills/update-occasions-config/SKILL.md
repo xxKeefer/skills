@@ -28,14 +28,16 @@ Run the script for today:
 python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
 ```
 
-The file is in the old layout when it has no `## Daily` heading, or when `errors` holds every table
-row of the file. The old layout has headings such as `## Chores (Daily Default)`,
+The file is in the old layout when it has no `## Daily` heading, or when any table has a `Type`
+column or a `Date/Rule` column. The old layout has headings such as `## Chores (Daily Default)`,
 `## Chores (Day-Specific)`, `## Recurring Events`, `## Home Maintenance`, and
 `## One Off Events - YYYY`. When the file is in the old layout, do Step 3. Else go to Step 4.
 
 ## Step 3: Migrate
 
-Build the whole file in the new layout. Keep the frontmatter. Convert each row:
+Build the whole file in the new layout. Keep the frontmatter. Put the `%%` comment block of
+[templates/occasions.md](../../templates/occasions.md) under the frontmatter, above the first
+heading, so the file names the `When` forms. Convert each row:
 
 | Old row | New row |
 |---|---|
@@ -49,6 +51,9 @@ Build the whole file in the new layout. Keep the frontmatter. Convert each row:
 | `Weekly (Sun)` | When `Sun` |
 | `Oct 12` under `## One Off Events - 2026` | When `2026-10-12` under `## One-off` |
 | A cell that holds two items split by `<br>` | One row for each item, with the same When and Section |
+| A rule with an `am` or `pm` suffix, such as `Jun 19 pm` | The rule without the suffix as When, and the suffix in the item text, such as `🍽 Dinner (pm)` |
+| A month written `Sept`, such as `Sept 3` | `Sep 3` |
+| A `Type` value other than `event` or `reminder`, such as `PM` | The value in the item text, such as `Board game night (PM)` |
 
 Also:
 
@@ -79,7 +84,8 @@ Run the script from Step 2. Take each line of `daily`, and each table row of the
 in `errors`. List each row in `errors` as skipped in the Step 6 report.
 
 Split each item into `sym` (its first emoji, or empty) and `name` (the rest). For a line of
-`daily`, drop the indent and the `- [ ] ` first.
+`daily`, drop the indent and the `- [ ] ` first. A line of `daily` whose text is all bold, such as
+`- **Kitchen**`, is a group line: it is not a reminder, so write no entry for it.
 
 ## Step 5: Generate vault_occasions.js
 
