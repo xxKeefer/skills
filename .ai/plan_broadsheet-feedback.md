@@ -35,8 +35,8 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [x] **M.** `/daily` asks once which of yesterday's open items the user did → it ticks those items in yesterday's file before it carries anything forward, and asks nothing when nothing is open.
 - [x] **N.** `/daily` backs up the vault → when the vault is a git repo with a remote, it commits every change and pushes, and a failure gives one line and does not stop the daily.
 - [ ] **O.** `/new-project` documents the four `status` values and `until` → a new MISSION file says which values exist.
-- [ ] **P.** The Sunday daily holds the weekly reflect prompts → the user can write the weekly reflect where they already write on Sunday.
-- [ ] **Q.** The daily template puts free sections, such as a shopping list, above Reflect → a skill that reads Reflect reads only the reflect.
+- [x] **P.** The Sunday daily holds the weekly reflect prompts → the user can write the weekly reflect where they already write on Sunday.
+- [x] **Q.** The daily template puts free sections, such as a shopping list, above Reflect → a skill that reads Reflect reads only the reflect.
 - [x] **R.** The skill writes the page to the journal folder as `{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today → no page goes to the inbox.
 - [x] **S.** The user asks for a broadsheet when this week's page exists → the skill writes no page, scans nothing, and gives the path of this week's page.
 - [x] **T.** Last week's page exists → the skill marks each story and row as new or repeat, gives a repeat less space unless it changed, and the lead and compass name the trends across the two weeks.
@@ -149,7 +149,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: the daily skill has the step. Proves M.
 - [x] **11. `/daily` git backup.** Kind: docs. Commit and push the vault when it is a git repo with a remote. One line on failure.
   - Done: the daily skill has the step. Proves N.
-- [ ] **12. Daily template and Sunday reflect.** Kind: docs. Add a free section above Reflect. On Sunday, the daily holds the weekly reflect prompts.
+- [x] **12. Daily template and Sunday reflect.** Kind: docs. Add a free section above Reflect. On Sunday, the daily holds the weekly reflect prompts.
   - Done: the template and the daily skill match. Proves P, Q.
 - [ ] **13. Project status.** Kind: docs. `/new-project` documents `active`, `dormant`, `waiting`, `archived`, and `until`.
   - Done: the skill and its MISSION template list the values. Proves O.
@@ -213,3 +213,4 @@ Blocks: step 19.
 - 2026-11-21: step 9 done. `skills/journal/skills/act-on-broadsheet/SKILL.md` parses each row line by its first three ` | ` fields and the first ` | comment: ` after them, reads the full `Do:` text from the page by `data-id`, asks one `all`/`none`/numbers question before any delete, applies the rest with no stop, fixes path links after a move, and reports one line per row. `do` applies the action, `comment` applies the comment, `done` ticks an open goal or card, `veto` and `snooze` change nothing. It commits nothing in the vault. Listed in the journal README and the domain CLAUDE.md data flow; journal plugin 2.9.0 to 2.10.0. 68 tests.
 - 2026-11-21: step 10 done. `/daily` Step 4 has a Backfill Yesterday part before Carry Forward. It lists each open child item of yesterday's `## 📋 Today`, numbered, and asks one question. `all` or numbers tick those items in yesterday's file, and a group line when all its children are ticked. `none`, `skip`, or no answer tick nothing. No question when yesterday has no file or no open item. Carry-forward then takes the items still open. Journal plugin stays at 2.10.0, the bump of this branch.
 - 2026-11-21: step 11 done. `/daily` Step 7, Back Up the Vault, runs after Done. It goes on only when `git rev-parse --show-toplevel` from the journal folder gives a folder with `.obsidian/` and `git remote` prints a name. It runs `add -A`, commits `vault: daily <YYYY-MM-DD>` with the daily's date (no commit when nothing changed), and pushes with no force. A failure gives `Backup failed: {first line}` and nothing more. The journal `CLAUDE.md` data flow says so.
+- 2026-11-21: step 12 done. The daily template has `## 📝 Notes` above `## 🤔 Reflect`, and a `## 🗓️ Weekly Reflect (Sundays only)` section after it with the three `###` headings of the weekly template's reflect. `/daily` adds that section only on a Sunday and keeps free sections above Reflect. `/weekly` and `/reflect week` copy the Sunday text into the weekly file's empty `## 🤔 Reflect`, so `/monthly` still reads weekly files. `/reflect` on a Sunday daily fills both sections. The scanner reads `## 🗓️ Weekly Reflect` as its own reflect section, with level daily. The Templater daily in `scripts/obsidian/templates/` is not changed; it has no Notes or Sunday section. 68 tests.
