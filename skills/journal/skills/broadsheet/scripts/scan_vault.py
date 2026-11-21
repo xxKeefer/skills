@@ -386,7 +386,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             for t in (value if isinstance(value, list) else [value]):
                 tags[t] += 1
 
-    year_ago = today - dt.timedelta(days=365)
+    year_ago = today - dt.timedelta(days=364)
     reflections = []
     for rel, n in notes.items():
         if top(rel) != jtop:
@@ -407,7 +407,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
 
     compass = []
     for days in (7, 30, 90, 365):
-        since = today - dt.timedelta(days=days)
+        since = today - dt.timedelta(days=days - 1)
         rows = [x for x in dailies if since <= x[0] <= today]
         seen_w, ticked_w = chores(rows)
         found = edits_since(since)

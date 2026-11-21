@@ -381,11 +381,11 @@ class Compass(unittest.TestCase):
         self.assertEqual([r["days"] for r in out["compass"]], [7, 30, 90, 365])
         self.assertEqual(set(out["compass"][0]), {"days", "dailies", "edits", "chore_rate", "busiest", "reflections"})
 
-    def test_a_daily_7_days_back_is_in_the_week_and_one_8_days_back_is_not(self):
+    def test_a_daily_6_days_back_is_in_the_week_and_one_7_days_back_is_not(self):
         v = Vault(self)
         base(v)
-        v.write("01-journal/a.md", daily("2026-11-14", "- [x] a"), date="2026-11-14")
-        v.write("01-journal/b.md", daily("2026-11-13", "- [x] a"), date="2026-11-13")
+        v.write("01-journal/a.md", daily("2026-11-15", "- [x] a"), date="2026-11-15")
+        v.write("01-journal/b.md", daily("2026-11-14", "- [x] a"), date="2026-11-14")
         rows = {r["days"]: r for r in v.scan()["compass"]}
         self.assertEqual((rows[7]["dailies"], rows[30]["dailies"]), (1, 2))
 
@@ -485,13 +485,14 @@ class Reflections(unittest.TestCase):
     def test_counts_reflections_in_each_compass_window_and_drops_ones_past_a_year(self):
         v = Vault(self)
         base(v)
-        v.write("01-journal/a.md", note("daily", "2026-11-14", REFLECT.format(learned="in", next="")))
-        v.write("01-journal/b.md", note("daily", "2026-11-13", REFLECT.format(learned="out", next="")))
-        v.write("01-journal/c.md", note("monthly", "2025-11-01", REFLECT.format(learned="old", next="")))
+        v.write("01-journal/a.md", note("daily", "2026-11-15", REFLECT.format(learned="in", next="")))
+        v.write("01-journal/b.md", note("daily", "2026-11-14", REFLECT.format(learned="out", next="")))
+        v.write("01-journal/c.md", note("daily", "2025-11-22", REFLECT.format(learned="edge", next="")))
+        v.write("01-journal/d.md", note("daily", "2025-11-21", REFLECT.format(learned="old", next="")))
         out = v.scan()
         rows = {r["days"]: r["reflections"] for r in out["compass"]}
-        self.assertEqual(rows, {7: 1, 30: 2, 90: 2, 365: 2})
-        self.assertEqual([r["path"] for r in out["reflections"]], ["01-journal/a.md", "01-journal/b.md"])
+        self.assertEqual(rows, {7: 1, 30: 2, 90: 2, 365: 3})
+        self.assertEqual([r["path"] for r in out["reflections"]], ["01-journal/a.md", "01-journal/b.md", "01-journal/c.md"])
 
 
 class Projects(unittest.TestCase):
