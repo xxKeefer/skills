@@ -187,7 +187,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Result: run on a copy of the vault in `/tmp/vault-live`. A, B, C, D pass. Fixes from the run are steps 23 and 24. The page script is not tested in a browser: no browser on this machine.
 - [x] **23. Live-run fixes: scanner.** Seam: `scan()` in `scan_vault.py`. Conditions: C26, C27. Read ages and edit counts from content edits: a pure rename (R100) carries the note's history and is not an edit. Leave `chronicles/` files out of `broken_nav`.
   - Done: `scan_vault.spec.py` passes, and a scan of the real vault gives ages older than the tidy commit of 2026-11-22.
-  - Result: commit 78c2943. A scan of the real vault gives ages of 127, 183, and 235 days for notes in the work and campaign folders. Notes that first came into git in the backup commit of 2026-11-21 keep age 1 because git has no older date for them.
+  - Result: commit 71948a3. A scan of the real vault gives ages of 127, 183, and 235 days for notes in the work and campaign folders. Notes that first came into git in the backup commit of 2026-11-21 keep age 1 because git has no older date for them.
 - [x] **24. Live-run fixes: skills and template.** Kind: config. The page script puts a space between the text of each cell and block in a row. Row ids encode a space as `%20`, and `/journal:act-on-broadsheet` decodes it. `/daily` backfill and carry-forward read the latest daily before today, not only yesterday's. `/update-occasions-config`: the old-layout test is "no `## Daily` heading, or a table with a `Type` or `Date/Rule` column"; the conversion table covers `am`/`pm` suffixes, `Sept`, a stray value in `Type`, and the `%%` comment block; group lines of the daily list are not written as reminders in `vault_occasions.js`.
   - Done: the template passes `check_broadsheet.spec.py`, and each skill names its rule.
 - [x] **25. Test.** Run the gates from Context. This step changes no behaviour.
@@ -195,8 +195,20 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Result: every `*.spec.py` passes except `skill-tally.spec.py` and `triage_dir.spec.py`, which fail the same way on `main` (the `file` binary is missing, and the tally spec expects `primitives:grill-it`). `pre-commit_test.sh` and `commit-msg_test.sh` pass.
 - [x] **26. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
-  - Result: report `.ai/review_feat-broadsheet-feedback.html`, base `15b0c55`, reviewed head `6d699a7` (the panel read `f6d7cfb`). 9 findings fixed in `6d699a7`, 5 open.
-- [ ] **27. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
+  - Result: report `.ai/review_feat-broadsheet-feedback.html`, base `15b0c55`, reviewed head `29b9002` (the panel read `f993a1b`). 9 findings fixed in `29b9002`, 5 open.
+- [x] **27. Review fix: compass window.** Seam: the compass in `scan()` of `scan_vault.py`. Each compass window holds N days, today included. The reflections list holds the last 365 days, today included.
+  - Done: `scan_vault.spec.py` passes, with a daily 6 days back in the 7-day row and 7 days back out of it.
+  - Result: commit 5120bff. 42 tests.
+  - Decision (user, D2 item 1): option A. This reverses decision 3 of the decision log.
+- [x] **28. Review fix: employer name in history.** Kind: mechanical. Rewrite the branch before its first push, so no commit holds the name.
+  - Done: `git log -p main..HEAD` holds no employer name, and the tree at HEAD is the same as before the rewrite.
+  - Result: `git filter-branch` on `main..HEAD`. Every SHA of the branch changed; the plan, the decision log, and the report give the new SHAs. The old head stays on the local branch `backup/broadsheet-pre-scrub` until the user deletes it.
+  - Decision (user, D2 item 2): option A.
+- [x] **29. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+  - Result: every `*.spec.py` passes except `skill-tally.spec.py` and `triage_dir.spec.py`, which fail the same way on `main`. `pre-commit_test.sh` and `commit-msg_test.sh` pass.
+  - Decision: no new review round. Step 27 changes two date bounds, its tests prove them, and the correctness lane of step 26 gave the fix.
+- [ ] **30. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
   - Done: the draft PR URL is in this line.
 
 ## Suggested skills
@@ -208,18 +220,6 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - `/create-pr`: the push step.
 
 ## Pending Decisions
-
-### D2: Two Change Requested rows stay open in the review report. How do we close them?
-
-Report: `.ai/review_feat-broadsheet-feedback.html`.
-
-1. Compass window length. Each window runs from today minus N to today, so it holds N+1 days, and the 7-day row can count 8 dailies. A: make each window N days, today included, which reverses decision 3 in the decision log (recommended). B: keep N+1 days, and say so on the page.
-2. Employer name in history. Commit `832f653` adds an employer name to the plan, and `6d699a7` removes it. The files at HEAD are clean, but this repo merges with merge commits, so the name would reach the public history. A: before the first push, rewrite the branch so `832f653` never holds the name (recommended; the branch is the agent's own and is not pushed). B: squash-merge this PR. Separately, `scrub.patterns` is not set in this repo, so the pre-commit hook does not check the private patterns.
-
-Options for the report: tick the rows and run the report's prompt, which adds a fix step for each. Or leave a row open, with a reason.
-
-Work: none yet.
-Blocks: step 27.
 
 ## Progress
 
@@ -253,4 +253,5 @@ Blocks: step 27.
 - 2026-11-22: step 22 done on a copy of the vault. Migration lost no row (1 row, `Aug (varies)`, stays as an error). The broadsheet check is `ok`, the second run wrote nothing, the compass quotes 9 reflections, act-on moved a note and wrote the memory, and `/daily` backed up to a scratch remote and gave one failure line when the remote was gone. Found: row text runs together in the prompt, ids with spaces, a missing yesterday stops backfill and carry-forward, a bulk rename resets every age, and chronicle files fill `broken_nav`. Added steps 23 and 24. Later steps moved up by two.
 - 2026-11-22: step 23 done. `git_history()` runs one `git log --name-status -M -l0`. It reads the commits from newest to oldest and keeps a map from an old path to the current path, so a renamed note gets the history of its old path. An `R100` line is not an edit. An `R` line under 100, an `M`, an `A`, or a `D` line is an edit. An `A` line cuts the older history of that path. `broken_nav` leaves out each file under `chronicles/` in the journal folder. The log call takes about 5 s on the real vault, the same as the old `--name-only` call. The real vault has `broken_nav` 4, all `next` links to notes that do not exist yet. 41 scan tests. Pre-existing reds, not from this branch: `triage_dir.spec.py` and `skill-tally.spec.py`.
 - 2026-11-22: step 24 done. The page script builds the row text from the text nodes of the row, with a space between them, and from the cells of a `<tr>` with ` / ` between them. Whitespace collapses, and no space comes before `.,;:!?)`. A jsdom run in `/tmp` gave `npm recovery / not served / Do: carry it.` in place of `npm recoverynot servedDo:`; `check_broadsheet.py` runs no script, so no spec case was added. `/broadsheet` encodes a space in an id as `%20` and a `|` as `%7C`; `/journal:act-on-broadsheet` decodes the target to find the note, and keeps the encoded id in the memory. `/daily` reads the last daily: the latest daily file before the target day, in the journal root or `chronicles/{YYYY}/`, and the backfill question names its day and how many days back it is. `CASCADE.md` names no day, so it is not changed; `CHECKLIST_RULES.md` and the journal `CLAUDE.md` say the last daily. `/update-occasions-config` finds the old layout by no `## Daily`, or a `Type` or `Date/Rule` column; it converts `am`/`pm` suffixes, `Sept`, and a `Type` value other than `event` or `reminder` into the item text, puts the template's `%%` block above the first heading, and writes no `vault_occasions.js` entry for a bold group line. The rename-only commit row is closed: no change. Pre-existing reds: `triage_dir.spec.py` and `skill-tally.spec.py`.
-- 2026-11-22: step 26 done. Light review: correctness, code-quality, test-design, test-quality, comments, and skills ran. Fix commit `6d699a7`: `every N months` takes only 1, 2, 3, 4, 6, or 12; `occasions.py` prints `old_layout`, which `/daily` and `/update-occasions-config` both read; a rename-chain test; two scanner tidies; `dict.fromkeys` in `edition.py`; `LAYOUT.md` and `SCAN.md` take the reference parts of the broadsheet `SKILL.md` (9,632 bytes); an employer name, note names, and a city leave the plan. Open: the compass window is N + 1 days, which decision 3 chose; the employer name stays in commit `832f653`, so squash or rewrite before the first push; the scan() and rule() splits; the absolute worktree path. 41 scan and 37 occasions tests.
+- 2026-11-22: step 26 done. Light review: correctness, code-quality, test-design, test-quality, comments, and skills ran. Fix commit `29b9002`: `every N months` takes only 1, 2, 3, 4, 6, or 12; `occasions.py` prints `old_layout`, which `/daily` and `/update-occasions-config` both read; a rename-chain test; two scanner tidies; `dict.fromkeys` in `edition.py`; `LAYOUT.md` and `SCAN.md` take the reference parts of the broadsheet `SKILL.md` (9,632 bytes); an employer name, note names, and a city leave the plan. Open: the compass window is N + 1 days, which decision 3 chose; the employer name stays in commit `a6d382d`, so squash or rewrite before the first push; the scan() and rule() splits; the absolute worktree path. 41 scan and 37 occasions tests.
+- 2026-11-22: user answered D2 with 1A and 2A. Steps 27 to 29 done. Step 30 (push) is next, through `/ship`.

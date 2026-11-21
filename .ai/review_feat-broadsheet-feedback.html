@@ -56,14 +56,14 @@
  "runs": [
   {
    "title": "Light run",
-   "head": "f6d7cfb",
+   "head": "f993a1b",
    "meta": {
     "Base": "main 15b0c55",
     "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback",
     "Plan": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback/.ai/plan_broadsheet-feedback.md",
-    "Fixed in": "6d699a7"
+    "Fixed in": "29b9002"
    },
-   "answer": "The panel fixed 9 findings in commit 6d699a7 and left 5 open. Two open rows are Change Requested: the compass window is 8 days for the 7-day row, and an employer name stays in the earlier commits of the branch. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "answer": "The panel fixed 9 findings in commit 29b9002 and left 5 open. Two open rows are Change Requested: the compass window is 8 days for the 7-day row, and an employer name stays in the earlier commits of the branch. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
    "visuals": [
     {
      "question": "Which lanes ran, and what did each find?",
@@ -229,7 +229,7 @@
       "tier": "Change Requested",
       "persona": "scrub (orchestrator)",
       "where": ".ai/plan_broadsheet-feedback.md:190",
-      "issue": "An employer name and vault note names stay in the branch history.\n\nCommit 832f653 added them to the plan. The fix commit removes them from the file, but a merge commit keeps the earlier commits. The branch is not pushed yet. The scrub hook has no private pattern file in this repo (scrub.patterns is not set), so the hook did not catch the name.",
+      "issue": "An employer name and vault note names stay in the branch history.\n\nCommit a6d382d added them to the plan. The fix commit removes them from the file, but a merge commit keeps the earlier commits. The branch is not pushed yet. The scrub hook has no private pattern file in this repo (scrub.patterns is not set), so the hook did not catch the name.",
       "recommendation": "Squash-merge the PR, or rewrite the branch before the first push so that no commit holds the name. Add the name to the private scrub pattern file.",
       "result": "Open: a history rewrite is the user's decision, and the step must not rebase."
      },
