@@ -19,15 +19,16 @@ next: '[[YYYY-wkNN-day]]'
 
 ## 💭 Thoughts and Ideas
 
-## 📝 Notes (free text, such as a shopping list)
-
 ## 🤔 Reflect
 
-### 🧠 What I learned
-
-### ➡️ What is next
-
-### ⚠️ What caused friction
+- 🧠 What I learned
+	- `Learnings`
+- ⚠️ What caused friction
+	- `Annoyances`
+- ➡️ What is next
+	- `things to carry over or push up in the journal`
+- 📝 Notes
+	- `anything other reflections`
 
 ## 🗓️ Weekly Reflect (Sundays only)
 

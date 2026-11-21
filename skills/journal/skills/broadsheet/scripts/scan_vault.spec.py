@@ -444,6 +444,27 @@ class Reflections(unittest.TestCase):
              "sections": [{"heading": "🧠 What I learned", "text": "Slow down"}]},
         ])
 
+    def test_a_bullet_reflect_gives_each_filled_bullet_and_drops_the_placeholders(self):
+        v = Vault(self)
+        base(v)
+        body = ("## 🤔 Reflect\n\n- 🧠 What I learned\n\t- Rust lifetimes\n\t- are fine\n"
+                "- ⚠️ What caused friction\n\t- `Annoyances`\n"
+                "- ➡️ What is next\n\t- `things to carry over or push up in the journal`\n"
+                "- 📝 Notes\n\t- `anything other reflections`\n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        self.assertEqual(v.scan()["reflections"], [
+            {"path": "01-journal/2026-wk46-sun.md", "level": "daily", "date": "2026-11-15",
+             "sections": [{"heading": "🧠 What I learned", "text": "- Rust lifetimes\n\t- are fine"}]},
+        ])
+
+    def test_a_bullet_reflect_with_only_placeholders_gives_nothing(self):
+        v = Vault(self)
+        base(v)
+        body = ("## 🤔 Reflect\n\n- 🧠 What I learned\n\t- `Learnings`\n"
+                "- ⚠️ What caused friction\n\t- `Annoyances`\n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        self.assertEqual(v.scan()["reflections"], [])
+
     def test_any_level_two_heading_ends_the_reflect_so_a_shopping_list_is_not_quoted(self):
         v = Vault(self)
         base(v)

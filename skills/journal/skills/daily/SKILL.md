@@ -126,8 +126,8 @@ Create or update `YYYY-wkNN-day.md` in the journal directory using the format in
 If updating an existing file, preserve any content already written (checked chores, completed
 tasks, notes). Only update sections that need changes.
 
-Keep each free section, such as `## 📝 Notes`, above `## 🤔 Reflect`. Put nothing but reflect
-headings and their text in a reflect section.
+Keep each free section, such as a shopping list, above `## 🤔 Reflect`. Put nothing but the reflect
+bullets and their text in a reflect section.
 
 On a Sunday, add `## 🗓️ Weekly Reflect` after `## 🤔 Reflect`. Under it, copy the `###` headings
 of the `## 🤔 Reflect` section of [templates/weekly.md](../../templates/weekly.md). The user writes

@@ -14,6 +14,10 @@ CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
 TASK = re.compile(r"^(\s*)[-*] \[(.)\] (.+)$")
 BOLD = re.compile(r"\*\*|__")
 EMPTY = re.compile(r"^\s*(?:[-*+]|\d+[.)])?\s*(?:\[.\])?\s*$")
+BULLET_HEAD = re.compile(r"^[-*]\s+(?:[^\w\s]+\s+)?(What I learned|What went well|What is next|What caused friction|Notes)\s*$")
+PLACEHOLDER = re.compile(
+    r"^\s*[-*]?\s*`(?:Learnings|Annoyances|things to carry over or push up in the journal|anything other reflections)`\s*$"
+)
 DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 PARSER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts", "occasions.py")
 _spec = importlib.util.spec_from_file_location("occasions", PARSER)
@@ -122,7 +126,7 @@ def reflect(body, weekly=False):
     sections, inside, heading, lines = [], False, None, []
 
     def close():
-        text = "\n".join(l.rstrip() for l in lines if not EMPTY.match(l)).strip()
+        text = "\n".join(l.rstrip() for l in lines if not EMPTY.match(l) and not PLACEHOLDER.match(l)).strip()
         if text:
             sections.append({"heading": heading, "text": text})
 
@@ -136,6 +140,9 @@ def reflect(body, weekly=False):
         elif inside and line.startswith("### "):
             close()
             heading, lines = line[4:].strip(), []
+        elif inside and BULLET_HEAD.match(line):
+            close()
+            heading, lines = line[1:].strip().lstrip("-* ").strip(), []
         elif inside:
             lines.append(line)
     if inside:

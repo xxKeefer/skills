@@ -49,6 +49,10 @@ Ask each section one at a time:
 
 Listen and record. Don't interrogate -- this should feel like a quick debrief.
 
+The daily reflect is four top-level bullets: learned, friction, next, and notes. Write each answer
+as a tab-indented bullet under its bullet, in place of the backtick placeholder. Ask nothing for
+notes, and leave its placeholder when the user adds nothing.
+
 A Sunday daily also has `## 🗓️ Weekly Reflect`. After the daily questions, fill it as the
 reflect of this week's weekly file, by the steps for weekly files below. Write it in the Sunday
 daily, under `## 🗓️ Weekly Reflect`.
