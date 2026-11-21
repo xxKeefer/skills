@@ -207,6 +207,20 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - `/engineering:mob-review`: the review step.
 - `/create-pr`: the push step.
 
+## Pending Decisions
+
+### D2: Two Change Requested rows stay open in the review report. How do we close them?
+
+Report: `.ai/review_feat-broadsheet-feedback.html`.
+
+1. Compass window length. Each window runs from today minus N to today, so it holds N+1 days, and the 7-day row can count 8 dailies. A: make each window N days, today included, which reverses decision 3 in the decision log (recommended). B: keep N+1 days, and say so on the page.
+2. Employer name in history. Commit `832f653` adds an employer name to the plan, and `6d699a7` removes it. The files at HEAD are clean, but this repo merges with merge commits, so the name would reach the public history. A: before the first push, rewrite the branch so `832f653` never holds the name (recommended; the branch is the agent's own and is not pushed). B: squash-merge this PR. Separately, `scrub.patterns` is not set in this repo, so the pre-commit hook does not check the private patterns.
+
+Options for the report: tick the rows and run the report's prompt, which adds a fix step for each. Or leave a row open, with a reason.
+
+Work: none yet.
+Blocks: step 27.
+
 ## Progress
 
 - 2026-11-21: plan written on `feat/broadsheet-feedback`.
