@@ -350,6 +350,9 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             "edited_in_window": sum(1 for a in ages if a <= window),
         })
 
+    dirty_notes = [(f, mtime(f)) for f in sorted(dirty) if f.endswith(".md") and "/" in f
+                   and not f.startswith(".") and os.path.isfile(os.path.join(root, f))] if commits else []
+
     def edits_since(since):
         found = Counter()
         if commits:
@@ -358,10 +361,9 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
                     for f in c["files"]:
                         if f.endswith(".md") and "/" in f and f not in dirty:
                             found[f.split("/", 1)[0]] += 1
-            for f in dirty:
-                if f.endswith(".md") and "/" in f and not f.startswith(".") and os.path.isfile(os.path.join(root, f)):
-                    if mtime(f).date() >= since:
-                        found[f.split("/", 1)[0]] += 1
+            for f, when in dirty_notes:
+                if when.date() >= since:
+                    found[f.split("/", 1)[0]] += 1
         else:
             for rel, n in notes.items():
                 if top(rel) and today - dt.timedelta(days=n["age"]) >= since:
@@ -374,24 +376,23 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             if c["date"] >= start:
                 hours[c["hour"]] += 1
                 weekdays[c["weekday"]] += 1
-        for f in sorted(dirty):
-            if f.endswith(".md") and "/" in f and not f.startswith(".") and os.path.isfile(os.path.join(root, f)):
-                when = mtime(f)
-                if when.date() >= start:
-                    hours[when.hour] += 1
-                    weekdays[when.weekday()] += 1
+        for f, when in dirty_notes:
+            if when.date() >= start:
+                hours[when.hour] += 1
+                weekdays[when.weekday()] += 1
     for rel, n in notes.items():
         if n["age"] <= window:
             value = n["meta"].get("tags", [])
             for t in (value if isinstance(value, list) else [value]):
                 tags[t] += 1
 
+    year_ago = today - dt.timedelta(days=365)
     reflections = []
     for rel, n in notes.items():
         if top(rel) != jtop:
             continue
         found = journal_level(rel, n["meta"])
-        if not found or not today - dt.timedelta(days=365) <= found[1] <= today:
+        if not found or not year_ago <= found[1] <= today:
             continue
         sections = reflect(n["body"])
         if sections:
@@ -399,7 +400,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
                                 "sections": sections})
         week = reflect(n["body"], weekly=True)
         monday = found[1] - dt.timedelta(days=found[1].weekday())
-        if week and today - dt.timedelta(days=365) <= monday:
+        if week and year_ago <= monday:
             reflections.append({"path": rel.replace(os.sep, "/"), "level": "weekly", "date": str(monday),
                                 "sections": week})
     reflections.sort(key=lambda r: (r["date"], r["path"]), reverse=True)

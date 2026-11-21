@@ -58,8 +58,8 @@ def rule(when):
         if len(words) != 6 or not words[1].isdigit() or words[2] not in ("month", "months") or words[3] != "from":
             raise ValueError("wants every N months from Mon DD")
         step = int(words[1])
-        if not 1 <= step <= 12:
-            raise ValueError("N must be 1 to 12")
+        if step not in (1, 2, 3, 4, 6, 12):
+            raise ValueError("N must be 1, 2, 3, 4, 6, or 12")
         month, day = month_day(words[4], words[5])
         return "rule", lambda d: (d.month - month) % step == 0 and on_day(d, d.month, day)
     if words[0] in NTH:
@@ -96,7 +96,8 @@ def is_separator(line):
 
 
 def read(text, date):
-    out = {"date": date.isoformat(), "daily": [], "due": {s: [] for s in SECTIONS}, "errors": [], "past": []}
+    out = {"date": date.isoformat(), "daily": [], "due": {s: [] for s in SECTIONS}, "errors": [], "past": [],
+           "old_layout": True}
     lines = text.split("\n")
     start = 0
     if lines and lines[0].strip() == "---":
@@ -105,11 +106,14 @@ def read(text, date):
                 start = i + 1
                 break
     heading = None
+    old_columns = False
     for i in range(start, len(lines)):
         line = lines[i].rstrip("\r")
         number = i + 1
         if line.startswith("## "):
             heading = line[3:].strip().lower()
+            if heading == "daily":
+                out["old_layout"] = False
             continue
         if not line.strip():
             continue
@@ -119,6 +123,7 @@ def read(text, date):
         if heading is None or not line.strip().startswith("|") or is_separator(line):
             continue
         if i + 1 < len(lines) and is_separator(lines[i + 1]):
+            old_columns = old_columns or bool({c.lower() for c in cells(line)} & {"type", "date/rule"})
             continue
         row = cells(line)
         error = None
@@ -144,6 +149,7 @@ def read(text, date):
                 out["past"].append({"line": number, "item": item, "when": when, "section": section})
         elif test(date):
             out["due"][section].append(item)
+    out["old_layout"] = out["old_layout"] or old_columns
     return out
 
 

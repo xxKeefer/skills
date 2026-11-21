@@ -28,8 +28,8 @@ Run the script for today:
 python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
 ```
 
-The file is in the old layout when it has no `## Daily` heading, or when any table has a `Type`
-column or a `Date/Rule` column. The old layout has headings such as `## Chores (Daily Default)`,
+The file is in the old layout when the JSON has `old_layout` true: the file has no `## Daily`
+heading, or a table has a `Type` or `Date/Rule` column. The old layout has headings such as `## Chores (Daily Default)`,
 `## Chores (Day-Specific)`, `## Recurring Events`, `## Home Maintenance`, and
 `## One Off Events - YYYY`. When the file is in the old layout, do Step 3. Else go to Step 4.
 

@@ -14,7 +14,7 @@ class Ids(html.parser.HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         for key, value in attrs:
-            if key == "data-id" and value and value not in self.ids:
+            if key == "data-id" and value:
                 self.ids.append(value)
 
 
@@ -27,7 +27,7 @@ def row_ids(path):
     parser = Ids()
     with open(path, encoding="utf-8") as f:
         parser.feed(f.read())
-    return parser.ids
+    return list(dict.fromkeys(parser.ids))
 
 
 def muted_ids(path, day):
@@ -49,9 +49,9 @@ def muted_ids(path, day):
                     continue
             else:
                 continue
-            if mute and row_id not in ids:
+            if mute:
                 ids.append(row_id)
-    return ids
+    return list(dict.fromkeys(ids))
 
 
 def edition(folder, day):

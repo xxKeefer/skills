@@ -52,11 +52,11 @@ python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md -
 
 It prints JSON: `daily` (the lines of the `## Daily` list), `due` (the items due on the date, in
 `chores`, `work`, and `tasks`), `errors` (each row it cannot read, with its `line` and `why`), and
-`past` (each one-off whose date is gone). [CHECKLIST_RULES.md](CHECKLIST_RULES.md) puts `daily` and
-`due` into the checklist.
+`past` (each one-off whose date is gone), and `old_layout` (true when the file has no `## Daily`
+heading, or a table has a `Type` or `Date/Rule` column). [CHECKLIST_RULES.md](CHECKLIST_RULES.md)
+puts `daily` and `due` into the checklist.
 
-The file is in the old layout when it has no `## Daily` heading, or when `errors` holds every table
-row of the file. Then do not give an empty chore list with no word. Say:
+When `old_layout` is true, do not give an empty chore list with no word. Say:
 
 > `occasions.md` is in the old layout, so today has no chores from it. Run
 > `/update-occasions-config` to migrate it.

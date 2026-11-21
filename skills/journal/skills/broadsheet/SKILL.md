@@ -63,24 +63,7 @@ python3 $SKILL_DIR/scripts/scan_vault.py <vault root> --journal <journal folder>
 
 The scanner prints JSON. It reads ages from the vault's git history, and from the file time for a
 note with uncommitted changes. `dates_from` says which. Each long list holds at most 40 rows, and
-`totals` gives its full count. The window is the last 7 days. The keys:
-
-| Key | Holds |
-|---|---|
-| `folders` | Each folder two levels deep: note count, subfolders, loose notes, newest and oldest age, edits in the last 7 days |
-| `journal.summaries` | The `>` summary line of each daily of the last 7 days |
-| `journal.missing_days` | Each of the last 7 days with no daily, not counting today |
-| `journal.checklists` | Each chore that `occasions.py` gives as due on a day (the daily list and the due chores), matched to the tasks of that day's daily: times seen, times ticked, and the rate, over the last 7 days |
-| `journal.occasions_errors` | Each row of `occasions.md` that `occasions.py` cannot read: `line`, `row`, and `why`. A file in the old layout gives an error for each row and no chores |
-| `journal.broken_nav` | Each `up`, `prev`, or `next` in a journal file edited in the last 7 days that names no file |
-| `compass` | One row each for 7, 30, 90, and 365 days: `dailies`, `edits`, `chore_rate` (null with no chores), `busiest` (top 3 folders by edits), and `reflections` (a count) |
-| `reflections` | Each journal note of the last 365 days with a filled reflect section, newest first: `path`, `level` (daily, weekly, monthly), `date`, and `sections` of `{heading, text}`. The `## 🗓️ Weekly Reflect` of a Sunday daily is its own `weekly` item, dated to the Monday of its week, as a weekly file is |
-| `projects` | Each project with a `MISSION.md`: `project`, `path`, `status` (`active`, `dormant`, `waiting`, or `archived`), `until`, and `changed_days`, the age of its newest note |
-| `inbox` | Each inbox note with its age and word count |
-| `recent` | Each note outside the journal edited in the last 7 days |
-| `stale` | Each note past the stale limit, with its backlinks, and its backlinks from notes edited inside the limit. Notes in a `*knowledge` folder are never on it |
-| `archive` | Each archived note with its age and its links from outside the archive. `delete_candidate` is true past the archive limit with no such link |
-| `activity` | Edits by folder, by hour, and by weekday (Monday first), and the tags of notes edited in the last 7 days |
+`totals` gives its full count. The window is the last 7 days. [SCAN.md](SCAN.md) names each key.
 
 With a location, run:
 
@@ -182,64 +165,8 @@ change is a suggestion row.
 Copy `template.html`, and replace each `{{placeholder}}` with HTML. Use only the template's
 classes. The page holds no inline style.
 
-| Placeholder | Content |
-| --- | --- |
-| `paper_name`, `date`, `window`, `edition` | From Step 1. The window is "The last 7 days". The edition is the ISO week, such as "Week 47 edition" |
-| `vault_counts` | Notes in the vault, notes edited in the last 7 days, and dailies written |
-| `accent` | The accent from Step 1, as a CSS colour |
-| `lead_*` | The week's story from Step 4: a headline, a one-line standfirst, and two to four paragraphs. Name the two-week trends from Step 3 |
-| `compass_body` | First, each filled reflection, as a `<blockquote>` with its text and a `<cite>` that links the note and gives its level and date, newest first, grouped by window. Then a `<table>` of the four `compass` rows: window, dailies, edits, chore rate, and busiest folders, with each change since last week's page. The reflections get more space than the table. A window with no filled reflection names none |
-| `weather_body` | From `weather.py`: `<p class="forecast">` with the conditions, then the high and low with the unit, and the chance of rain. With `available: false`, "The forecast is not available today." With no location, "Set a location in the config for a forecast." |
-| `chores_body` | A table of `journal.checklists`: chore, ticked of seen, and the rate in `<span class="rate">` as a percent. No weather icons. Give a chore seen fewer than three times "Too few days to rate". When `journal.occasions_errors` is not empty, add one line under the table with the count of rows that cannot be read, and say that `/update-occasions-config` fixes them |
-| `gaps_body` | The missing days and the broken nav links. A `next` that names a file not yet due is expected, so leave it out |
-| `ledger_body` | A table per cascade level, one `<tr class="action">` per goal: goal, served, not served, or carried, and the action |
-| `letters_body` | One `<li class="action">` per inbox note, from Step 5 |
-| `stale_body` | One `<li class="action">` per Step 5 pick, then the total |
-| `morgue_body` | One `<li class="action">` per delete candidate, or the oldest archived notes as plain `<li>`, then the total |
-| `editorial_body` | The Step 6 prose, then an `<ol>` with one `<li class="action">` per change |
-| `floor_plan_body` | One `<article class="action">` per finding: `<span class="kicker">` with the folder, an `<h3>`, the reason, and the action |
-| `honour_roll_body` | Up to three: the longest chore streak, the most-linked new note, and the biggest win of the week |
-| `board_body` | One `<article>` per shown project from Step 5, with its next card. A status suggestion is an `<article class="action">` |
-| `back_pages_body` | One `<article>` per story from Step 5, with `<span class="kicker">` for the folder. Each want list suggestion is an `<li class="action">` in that article |
-| `colophon` | `dates_from`, the limits, last week's page or none, and the time of print |
-
-Each suggestion row has this shape:
-
-```html
-<li class="action" data-id="letters:<inbox folder>/<note>.md">
-  <a href="obsidian://open?vault=..." target="_blank" rel="noopener">Note title</a>
-  <span class="age">12 days</span> <span class="tag">new</span>
-  <strong>Why:</strong> the reason. <strong>Do:</strong> what the action does.
-  <select class="choice" aria-label="Choice for Note title"></select>
-  <details><summary>Comment</summary><textarea class="comment" aria-label="Comment on Note title"></textarea></details>
-</li>
-```
-
-- Leave the `<select>` empty. The page script adds the choices: do, veto, snooze, and done.
-- Mark a new row with `<span class="tag">new</span>`, and a repeat with
-  `<span class="age">repeat</span>`. With no page last week, mark nothing.
-- The `data-id` is `<section id>:<target>`, so the same suggestion has the same id next week. The
-  target is:
-  - the vault path of the note, with `.md`, in the letters, stale shelf, and morgue;
-  - the vault path of the folder in the floor plan;
-  - the project folder name on the board;
-  - the want list's vault path, then a short kebab-case name of the item, in the back pages, such
-    as `back-pages:<path>.md:the-hobbit`;
-  - the journal file name, then a short kebab-case name of the goal, in the ledger, such as
-    `the-ledger:2026-wk47-week:finish-the-quilt`;
-  - a short kebab-case name of the change in the editorial, such as
-    `editorial:shopping-list-above-reflect`.
-
-  When a row is the same suggestion as an id in `last_ids`, use that id. Each id is unique on the
-  page: when two rows in one section share a target, add `:<action verb>`. An id holds no space and
-  no `|`: write a space in the target as `%20` and a `|` as `%7C`, such as
-  `stale-shelf:03-work/old%20plan.md`. Write no other code.
-- Leave out each row whose `data-id` is in `muted` from Step 1. Do not name it on the page.
-- The row text never holds ` | comment: `, because `/journal:act-on-broadsheet` splits there.
-- Each note that the page names is a link: `obsidian://open?vault=<vault folder name>&file=<path
-  without .md, URL-encoded>`, with `target="_blank"` and `rel="noopener"`. The `data-id` holds the
-  path, so the row text names the note only by its link.
-- Write in plain prose with newspaper headlines. Each fact traces to the scan or to a note.
+Read [LAYOUT.md](LAYOUT.md). It gives the content of each placeholder, the shape of a suggestion
+row, and the `data-id` rules. Follow every rule in it.
 
 **Done when:** each section has content or a line that says it has none, each suggestion row has
 the row shape, no row id is in `muted`, and no placeholder is left.

@@ -99,6 +99,12 @@ class Occasions(unittest.TestCase):
     def test_every_3_months_is_due_in_months_before_the_anchor_month(self):
         self.assert_due_on("every 3 months from Nov 15", ["2026-02-15", "2026-08-15"], ["2026-01-15"])
 
+    def test_every_12_months_is_due_once_a_year(self):
+        self.assert_due_on("every 12 months from Mar 1", ["2026-03-01", "2027-03-01"], ["2026-09-01"])
+
+    def test_every_4_months_keeps_its_cadence_across_the_new_year(self):
+        self.assert_due_on("every 4 months from Jan 1", ["2026-01-01", "2026-05-01", "2026-09-01", "2027-01-01"], ["2026-11-01", "2027-03-01"])
+
     def test_a_repeat_day_past_the_month_end_falls_on_the_last_day(self):
         self.assert_due_on("every 1 months from Jan 31", ["2027-02-28", "2026-04-30", "2026-03-31"], ["2026-03-30", "2026-04-29"])
 
@@ -154,11 +160,13 @@ class Occasions(unittest.TestCase):
             "Bad day | Feb 30 | ",
             "Bad date | 2026-02-30 | ",
             "Zero | every 0 months from Jan 1 | ",
+            "Thirteen | every 13 months from Jan 1 | ",
+            "Five | every 5 months from Jan 1 | ",
             "Sixth | 6th Sun | ",
             "Thing | Sun | ",
         )
         _, out = self.run_on("2026-11-22")
-        self.assertEqual([e["line"] for e in out["errors"]], [9, 10, 11, 12, 13, 14, 15])
+        self.assertEqual([e["line"] for e in out["errors"]], [9, 10, 11, 12, 13, 14, 15, 16, 17])
         self.assertEqual(out["due"]["chores"], ["Thing"])
 
     def test_daily_lines_are_kept_as_written(self):
@@ -175,7 +183,23 @@ class Occasions(unittest.TestCase):
             "due": {"chores": [], "work": [], "tasks": []},
             "errors": [],
             "past": [],
+            "old_layout": False,
         }))
+
+    def test_a_file_with_no_daily_heading_is_old_layout(self):
+        self.rows("Thing | Sun | ")
+        self.assertTrue(self.run_on("2026-11-22")[1]["old_layout"])
+
+    def test_a_table_with_a_type_or_date_rule_column_is_old_layout(self):
+        for header in ("| Item | Type | When |", "| Item | Date/Rule | Section |"):
+            self.write(HEAD + "## Daily\n- [ ] A\n\n## Weekly\n\n" + header + "\n| --- | --- | --- |\n| Thing | Sun | chores |\n")
+            self.assertTrue(self.run_on("2026-11-22")[1]["old_layout"], header)
+
+    def test_a_new_layout_file_with_only_bad_rows_is_not_old_layout(self):
+        self.write(HEAD + "## Daily\n- [ ] A\n\n## Weekly\n\n" + TABLE + "| Bins | Tues | chores |\n")
+        _, out = self.run_on("2026-11-22")
+        self.assertEqual(len(out["errors"]), 1)
+        self.assertFalse(out["old_layout"])
 
     def test_a_missing_file_exits_2(self):
         err = io.StringIO()

@@ -103,6 +103,17 @@ class Ages(unittest.TestCase):
         self.assertEqual((rows[7]["edits"], rows[365]["edits"]), (0, 2))
         self.assertEqual(rows[365]["busiest"], [["01-journal", 1], ["06-omen", 1]])
 
+    def test_a_note_renamed_twice_keeps_the_age_of_its_first_content_commit(self):
+        v = Vault(self)
+        base(v)
+        v.write("03-work/a.md", "a long note body that git can match\n" * 5, date="2026-08-23")
+        v.move("03-work/a.md", "03-work/b.md", date="2026-10-01")
+        v.move("03-work/b.md", "06-omen/c.md", date="2026-11-20")
+        out = v.scan()
+        stale = {s["path"]: s for s in out["stale"]}
+        self.assertEqual(stale["06-omen/c.md"]["age_days"], 90)
+        self.assertEqual({r["days"]: r for r in out["compass"]}[365]["busiest"], [["01-journal", 1], ["06-omen", 1]])
+
     def test_a_rename_with_a_content_change_is_an_edit(self):
         v = Vault(self)
         base(v)
