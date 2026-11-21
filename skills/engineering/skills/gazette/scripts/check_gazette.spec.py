@@ -70,5 +70,17 @@ class CheckGazette(unittest.TestCase):
         self.assertIn("{{lead_headline}}", result.stdout)
 
 
+    def test_fails_a_placeholder_left_in_an_attribute(self):
+        link = '<a href="{{ticket_url}}" target="_blank" rel="noopener">ABC-12</a>'
+        result = check(page(f"<p>{link}</p>"))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("{{ticket_url}}", result.stdout)
+
+    def test_fails_a_placeholder_left_in_the_stylesheet(self):
+        html = page().replace("p {}", "p { color: {{accent}}; }")
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("{{accent}}", result.stdout)
+
 if __name__ == "__main__":
     unittest.main()

@@ -24,14 +24,15 @@ check is `$SKILL_DIR/scripts/check_gazette.py`.
 
 1. Read `~/.claude/gazette.md` if it exists. Its layout is in
    [`config.example.md`](config.example.md).
-2. Let each argument override its config line: a time period, repo paths, `board=<query>`.
+2. Let each argument override its config line: a time period, repo paths, `board=<query>`,
+   `accent=<colour>`.
 3. Defaults: the window is the last 24 hours. The repos are the current repo. The paper name is
-   "The Daily Commit". With no board, skip the board section.
+   "The Daily Commit". The accent is red, `#d0021b`. With no board, skip the board section.
 4. Read the ticket URL form from the tracker notes. Each reporter brief gives it, so that each
    ticket link uses it.
 
-**Done when:** you have the window, the list of repo folders, the paper name, the ticket URL form,
-and a board query or a note that there is none.
+**Done when:** you have the window, the list of repo folders, the paper name, the accent, the
+ticket URL form, and a board query or a note that there is none.
 
 ## Step 2: Send the reporters
 
@@ -45,12 +46,14 @@ shape below. Each subagent brief names no model.
    - the news paragraph and the table, with each ticket key and PR as a link;
    - each PR that merged in the window: number, URL, title, author, merge commit, lines added and
      removed. With GitHub:
-     `gh pr list -R <owner/repo> --state merged --search "merged:>=<start date>" --json number,url,title,author,mergeCommit,additions,deletions`;
+     `gh pr list -R <owner/repo> --state merged --search "merged:<start>..<end>" --limit 200 --json number,url,title,author,mergeCommit,additions,deletions`.
+     Give `<start>` and `<end>` as UTC timestamps, such as `2026-11-19T09:00:00Z`. When the call
+     returns 200 PRs, say that the list is a lower bound;
    - the CI runs on the default branch in the window, and in the window of the same length before
      it, one workflow at a time, so that a busy workflow cannot push the others past the limit.
      With GitHub, list the workflows with `gh workflow list -R <owner/repo> --json name`, then for
      each one:
-     `gh run list -R <owner/repo> --workflow "<name>" --branch <default> --created "<start>..<end>" --limit 200 --json name,conclusion,createdAt,updatedAt,url`.
+     `gh run list -R <owner/repo> --workflow "<name>" --branch <default> --created "<start>..<end>" --status completed --limit 200 --json name,conclusion,createdAt,updatedAt,url`.
      When a call returns 200 runs, say that its count is a lower bound;
    - each metric line from the config for this repo, with the number that its command gives.
 3. **Board reporter:** run the board query for the tickets whose status changed in the window.
@@ -101,6 +104,7 @@ classes. The page holds no inline style.
 | Placeholder | Content |
 | --- | --- |
 | `paper_name`, `date`, `window`, `edition`, `repos_covered` | From Step 1. The edition is the date in words, such as "Thursday edition" |
+| `accent` | The accent from Step 1, as a CSS colour. It colours the tags, the Breaking box, and a storm |
 | `lead_*` | The biggest story of all sources: a breaking change, a storm, a release, or the first item of the bulletin's suggested order. A headline, a one-line standfirst, and two to four paragraphs |
 | `breaking_box` | `<div class="box breaking"><h3>Breaking</h3>…</div>` for each breaking change, with its migration. Empty when there is none |
 | `weather_body` | A table with one row per repo: the forecast, the pass rate, the build time, the test time, each metric, and the trends |
