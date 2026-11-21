@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{paper_name}} · {{date}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,700;1,400&family=Shantell+Sans:wght@700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --accent: {{accent}};
+    --paper: #fbf8f1;
+    --ink: #121212;
+    --muted: #6f6a60;
+    --rule: #ddd6c8;
+    --code: #f0ebe0;
+    --display: "Shantell Sans", system-ui, sans-serif;
+    --heading: "Noto Serif", Georgia, serif;
+    --body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+    --mono: "JetBrains Mono", Menlo, Consolas, monospace;
+    --nameplate: Chomsky, "UnifrakturCook", "Old English Text MT", "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 18px/1.65 var(--body); }
+  .sheet { max-width: 1240px; margin: 0 auto; padding: 40px 56px 80px; }
+  a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  code { font: 0.82em/1.3 var(--mono); background: var(--code); padding: 1px 4px; }
+  h1, h2, h3, h4 { font-family: var(--heading); font-weight: 700; margin: 0 0 8px; line-height: 1.15; }
+  h2 {
+    font: 700 0.78rem/1.3 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border-top: 2px solid var(--accent);
+    padding-top: 12px;
+    margin: 0 0 22px;
+  }
+  h3 { font-size: 1.15em; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font: 0.8rem/1.4 var(--body); margin-bottom: 16px; }
+  td, th { padding: 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+  td:first-child, th:first-child { padding-left: 0; }
+  th { color: var(--muted); font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
+  section { margin-bottom: 56px; }
+
+  #masthead { text-align: center; margin-bottom: 44px; }
+  #masthead .ears {
+    display: flex;
+    justify-content: space-between;
+    font: 0.72rem/1.4 var(--mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  #masthead h1 { font: 400 4.4em/1.05 var(--nameplate); margin: 22px 0 26px; }
+  #masthead .dateline {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-top: 1px solid var(--ink);
+    border-bottom: 3px double var(--accent);
+    padding: 10px 0;
+    font: 500 0.72rem/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); }
+  .grid > .main { grid-column: span 8; padding-right: 44px; border-right: 1px solid var(--rule); }
+  .grid > aside { grid-column: span 4; padding-left: 32px; }
+  #lead h2 { font: 700 2.5em/1.1 var(--display); color: var(--ink); text-transform: none; letter-spacing: 0; border: 0; padding: 0; }
+  #lead .standfirst { font: italic 1.15em/1.45 var(--heading); color: var(--muted); margin: 20px 0 32px; padding-left: 14px; border-left: 3px solid var(--accent); }
+  #lead .body { column-count: 2; column-gap: 44px; column-rule: 1px solid var(--rule); }
+
+  .box { border-top: 2px solid var(--accent); padding-top: 14px; margin-bottom: 44px; }
+  .box h3 { font: 700 0.78rem/1.3 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .box p, .box li { font: 0.95rem/1.55 var(--body); }
+
+  .sun { color: var(--ink); font-weight: 700; }
+  .cloud { color: var(--muted); font-weight: 700; }
+  .storm { color: var(--accent); font-weight: 700; }
+  .forecast { font-size: 1.4em; }
+
+  .two { column-count: 2; column-gap: 60px; column-rule: 1px solid var(--rule); }
+  .three { column-count: 3; column-gap: 48px; column-rule: 1px solid var(--rule); }
+  .two > *, .three > * { break-inside: avoid; }
+  ol.two { padding-left: 0; }
+  ol.two li { margin-left: 2.2em; }
+  li::marker { color: var(--accent); font: 700 0.85em var(--mono); }
+  article { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
+  .kicker {
+    font: 700 0.68rem/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .tag {
+    display: inline-block;
+    font: 700 0.68rem/1.6 var(--mono);
+    color: var(--paper);
+    background: var(--accent);
+    padding: 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 6px;
+  }
+  .age { font: 0.72rem var(--mono); color: var(--muted); }
+  #editorial .body { font: 1.05em/1.7 var(--heading); column-count: 2; column-gap: 44px; }
+  #honour-roll li strong { color: var(--accent); }
+  .colophon {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    font: 0.7rem/1.4 var(--mono);
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .sheet { padding: 24px 20px 48px; }
+    .grid { grid-template-columns: 1fr; }
+    .grid > .main, .grid > aside { grid-column: auto; padding: 0; border: 0; }
+    #lead .body, .two, .three, #editorial .body { column-count: 1; }
+    #masthead h1 { font-size: 2.8em; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<section id="masthead">
+  <div class="ears"><span>{{edition}}</span><span>{{window}}</span></div>
+  <h1>{{paper_name}}</h1>
+  <div class="dateline">{{date}} · {{vault_counts}}</div>
+</section>
+
+<div class="grid">
+  <section id="lead" class="main">
+    <h2>{{lead_headline}}</h2>
+    <p class="standfirst">{{lead_standfirst}}</p>
+    <div class="body">{{lead_body}}</div>
+  </section>
+  <aside>
+    <section id="weather" class="box">
+      <h3>Weather</h3>
+      {{weather_body}}
+    </section>
+    <section id="gaps" class="box">
+      <h3>Gaps</h3>
+      {{gaps_body}}
+    </section>
+  </aside>
+</div>
+
+<section id="the-ledger">
+  <h2>The ledger</h2>
+  {{ledger_body}}
+</section>
+
+<section id="carried-over">
+  <h2>Carried over</h2>
+  {{carried_body}}
+</section>
+
+<div class="three">
+  <section id="letters">
+    <h2>Letters to the editor</h2>
+    {{letters_body}}
+  </section>
+  <section id="stale-shelf">
+    <h2>The stale shelf</h2>
+    {{stale_body}}
+  </section>
+  <section id="the-morgue">
+    <h2>The morgue</h2>
+    {{morgue_body}}
+  </section>
+</div>
+
+<section id="editorial">
+  <h2>Editorial</h2>
+  <div class="body">{{editorial_body}}</div>
+</section>
+
+<div class="grid">
+  <section id="floor-plan" class="main">
+    <h2>Floor plan</h2>
+    {{floor_plan_body}}
+  </section>
+  <aside>
+    <section id="link-health" class="box">
+      <h3>Link health</h3>
+      {{link_health_body}}
+    </section>
+    <section id="honour-roll" class="box">
+      <h3>Honour roll</h3>
+      {{honour_roll_body}}
+    </section>
+  </aside>
+</div>
+
+<section id="the-board">
+  <h2>The board</h2>
+  {{board_body}}
+</section>
+
+<section id="back-pages">
+  <h2>Back pages</h2>
+  <div class="three">{{back_pages_body}}</div>
+</section>
+
+<p class="colophon">{{colophon}}</p>
+</div>
+</body>
+</html>

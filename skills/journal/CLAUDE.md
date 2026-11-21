@@ -51,6 +51,7 @@ One long-lived mutable file. Skills must read-modify-write carefully (never over
 /weekly -> reads: monthly goals + occasions.md -> weekly file
 /daily -> reads: weekly goals + occasions.md + yesterday's reflect -> daily file
 /reflect -> updates: any journal file's reflect section; fixes prev/next links
+/broadsheet -> reads: the whole vault -> one HTML page in the inbox; changes no note
 ```
 
 ## At a Glance
