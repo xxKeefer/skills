@@ -22,7 +22,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 - [x] **A.** The weather box shows today's forecast for the configured place → it gives the conditions, the high and low, and the chance of rain, or a line that says the forecast is not available.
 - [ ] **B.** The Chores box shows each chore's tick rate from the journal → it uses no weather icons.
-- [ ] **C.** The page has no Carried over section and no Link health section → the check fails a page that has one.
+- [x] **C.** The page has no Carried over section and no Link health section → the check fails a page that has one.
 - [ ] **D.** The broadsheet and the gazette use no Shantell Sans → each lead headline uses the heading font.
 - [ ] **E.** The page has a compass section after the lead → it compares dailies written, edits, chore rates, and the busiest folders across the last 7, 30, 90, and 365 days.
 - [ ] **F.** The skill takes no time-period argument → the lead covers the last 7 days.
@@ -128,7 +128,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: `edition.spec.py` passes. Proves R, S, T (data).
 - [x] **4. Scanner: compass, knowledge folders, project status.** Seam: `scan()` in `scan_vault.py`. Conditions: C4, C5, C8, C9.
   - Done: the scan JSON has `compass`, `projects`, and a stale list without knowledge folders. Proves E, J, K (data).
-- [ ] **5. Check: new section list and action rows.** Seam: `check_broadsheet.py`. Conditions: C3, C6, C7.
+- [x] **5. Check: new section list and action rows.** Seam: `check_broadsheet.py`. Conditions: C3, C6, C7.
   - Done: the check wants `compass` and `chores`, rejects `carried-over` and `link-health`, and checks each action row. Proves C.
 - [ ] **6. Template.** Kind: config. Drop Shantell Sans from the broadsheet and gazette templates. Add the compass, chores, and weather boxes. Remove carried over and link health. Add the choice control, the comment, and the copy-prompt bar, with one small script.
   - Done: the template passes the check after a fill with sample data, and no template in the repo names Shantell Sans. Proves D, G (page).
@@ -186,5 +186,6 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 - 2026-11-21: step 2 done. `weather.py <lat> <lon>` prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}` on any failure, and exits 0. It asks Open-Meteo for 1 day with `timezone=auto`, so `date` is the local day of the place. An unknown WMO code gives `Unknown`. 7 tests. One live run for Sydney gave a good forecast.
 - 2026-11-21: step 3 done. `edition.py <journal folder> [--date YYYY-MM-DD]` prints `{path, exists, last_path, last_ids}`. `last_path` is null and `last_ids` is empty when last week's page is not there. `last_ids` keeps page order and drops repeats. Last week is the ISO week of the date minus 7 days, so 2027-wk01 reads 2026-wk53. 10 tests.
-- Decision log: decisions_broadsheet-feedback.tsv
 - 2026-11-21: step 4 done. The scan JSON has `compass` (one row each for 7, 30, 90, 365 days: `dailies`, `edits`, `chore_rate`, `busiest`), `projects` (`project`, `path`, `status` with `active` as default, `until`, `changed_days`), and a stale list with no notes from a `*knowledge` top folder. Fixtures moved to `02-knowledge` and `03-work`. `--window` stays until step 7. 28 tests.
+- 2026-11-21: step 5 done. The check wants `compass` and `chores`, and fails a page with `carried-over` or `link-health`. Action row shape for steps 6 and 8: `<li class="action" data-id="<unique id>">` (any tag with class `action`) that holds `<select class="choice">` and one `<input class="comment">` or `<textarea class="comment">`, such as `<details><summary>Comment</summary><textarea class="comment"></textarea></details>`. A row with no or a repeated `data-id`, no choice, or no comment fails. The page can have 1 `<script>` block; 2 or more fail. An inline `style` still fails. The spec now tests a page that it builds; the current template fails the check until step 6. 17 tests.
+- Decision log: decisions_broadsheet-feedback.tsv
