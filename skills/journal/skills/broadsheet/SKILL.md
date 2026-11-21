@@ -35,7 +35,9 @@ note.
    ```
 
    It prints `{path, exists, last_path, last_ids, muted}`. `path` is this week's page,
-   `<journal folder>/{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today. `muted` lists
+   `<journal folder>/{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today. `last_path` is
+   last week's page in the journal folder, else in `chronicles/{YYYY}/` with its ISO year, else
+   null. `muted` lists
    each row id that the user vetoed, or snoozed to today or later, in `broadsheet-memory.md` in
    the journal folder. `/journal:act-on-broadsheet` writes that file.
 2. If `exists` is true, stop. Scan nothing and write nothing. Reply with `path`, and say that this
@@ -143,6 +145,8 @@ suggestion.
 4. **Floor plan:** from `folders`, find each folder that its use has outgrown, such as loose notes
    beside subfolders, a flat folder with hundreds of notes, an empty folder, or names in two styles.
    The journal domain wants a flat journal folder named by date, so a journal subfolder is news.
+   One exception: `chronicles/{YYYY}/` in the journal folder holds past journal files, so it is
+   not news.
    Give each finding its numbers as the reason, and one change as the action.
 5. **The board:** for each project in `projects`, by `status`:
    - `active`: read its `*.kanban.md` board. Name the next card, the first open card in the first

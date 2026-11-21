@@ -56,7 +56,10 @@ def muted_ids(path, day):
 
 def edition(folder, day):
     path = os.path.join(folder, name_for(day))
-    last = os.path.join(folder, name_for(day - datetime.timedelta(days=7)))
+    last_day = day - datetime.timedelta(days=7)
+    last = os.path.join(folder, name_for(last_day))
+    if not os.path.isfile(last):
+        last = os.path.join(folder, "chronicles", str(last_day.isocalendar()[0]), name_for(last_day))
     has_last = os.path.isfile(last)
     return {
         "path": path,

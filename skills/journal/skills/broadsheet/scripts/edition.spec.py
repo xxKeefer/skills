@@ -47,6 +47,21 @@ class Edition(unittest.TestCase):
         write(self.dir, "2026-wk53-broadsheet.html", "<p></p>")
         self.assertEqual(run(self.dir, "2027-01-04")[1]["last_path"], os.path.join(self.dir, "2026-wk53-broadsheet.html"))
 
+    def test_finds_last_weeks_page_in_chronicles_of_its_iso_year(self):
+        os.makedirs(os.path.join(self.dir, "chronicles", "2026"))
+        write(os.path.join(self.dir, "chronicles", "2026"), "2026-wk53-broadsheet.html", '<li data-id="letters:a.md">a</li>')
+        _, out = run(self.dir, "2027-01-04")
+        self.assertEqual(out["last_path"], os.path.join(self.dir, "chronicles", "2026", "2026-wk53-broadsheet.html"))
+        self.assertEqual(out["last_ids"], ["letters:a.md"])
+
+    def test_the_root_copy_of_last_weeks_page_wins_over_chronicles(self):
+        os.makedirs(os.path.join(self.dir, "chronicles", "2026"))
+        write(os.path.join(self.dir, "chronicles", "2026"), "2026-wk46-broadsheet.html", '<li data-id="old">a</li>')
+        write(self.dir, "2026-wk46-broadsheet.html", '<li data-id="root">a</li>')
+        _, out = run(self.dir, "2026-11-21")
+        self.assertEqual(out["last_path"], os.path.join(self.dir, "2026-wk46-broadsheet.html"))
+        self.assertEqual(out["last_ids"], ["root"])
+
     def test_exists_is_false_when_this_weeks_page_is_not_there(self):
         self.assertEqual(run(self.dir, "2026-11-21"), (0, {
             "path": os.path.join(self.dir, "2026-wk47-broadsheet.html"),

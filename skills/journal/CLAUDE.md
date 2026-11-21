@@ -16,7 +16,8 @@ within the user's Obsidian vault. Skills find it with
   Skills add value over templates by reading parent goals, detecting patterns, and fixing links.
 - **Templates are the contract**: `journal/templates/` contains the authoritative output format
   for each file type. Skills must read and write against these templates.
-- **Flat file structure**: All organisation via file naming. No nested directories.
+- **Flat file structure**: All organisation via file naming. No nested directories, except
+  `chronicles/{YYYY}/`, where the user moves past weeks by hand.
 
 ## Links
 
