@@ -1,6 +1,6 @@
 ---
 name: daily
-description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks, after one question that ticks what the user did yesterday.
+description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks, after one question that ticks what the user did yesterday. Then commits and pushes the vault when it is a git repo.
 disable-model-invocation: true
 ---
 
@@ -90,3 +90,21 @@ tasks, notes). Only update sections that need changes.
 ## Step 6: Done
 
 > **{Dayname} -- wkNN** ready. {N} tasks, {N} chores. {event note if applicable}
+
+## Step 7: Back Up the Vault
+
+This is the one step in which a journal skill commits in the vault. Run it after the daily file
+is written.
+
+1. Find the repo: `git -C <journal directory> rev-parse --show-toplevel`. Go on only when this
+   command works and the folder it gives holds `.obsidian/`, so that the repo is the vault and
+   not a parent folder. Else skip this step and say nothing.
+2. Run `git -C <vault root> remote`. When it prints nothing, skip this step and say nothing.
+3. Commit every change: `git -C <vault root> add -A`, then
+   `git -C <vault root> commit -m "vault: daily <YYYY-MM-DD>"`, with the date of the daily file.
+   When nothing changed, make no commit.
+4. Run `git -C <vault root> push`. Never force a push.
+
+When a command in items 3 or 4 fails, give one line, `Backup failed: {first line of the error}`,
+and stop the step. The daily file is already written, so the daily is still done. Make no second
+try, and do not fix the repo.
