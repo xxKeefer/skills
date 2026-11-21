@@ -98,7 +98,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 | C2 | A | a network error or bad JSON gives `available: false` and exit 0 | error guessing | Unit | `weather.spec.py` |
 | C3 | C | a page with `carried-over` or `link-health` fails the check | EP | Unit | `check_broadsheet.spec.py` |
 | C4 | E | the scan gives a compass row for 7, 30, 90, and 365 days | EP | Unit | `scan_vault.spec.py` |
-| C5 | E | a daily on day 7 and day 8 falls in the right windows | BVA | Unit | `scan_vault.spec.py` |
+| C5 | E | a daily 6 days back is in the 7-day window and one 7 days back is not | BVA | Unit | `scan_vault.spec.py` |
 | C6 | G | an action row with no `data-id` fails the check | EP | Unit | `check_broadsheet.spec.py` |
 | C7 | G | the page script is allowed, and an inline style still fails | EP | Unit | `check_broadsheet.spec.py` |
 | C8 | J | a note in `02-knowledge` past the limit is not stale; one in `03-work` is | EP | Unit | `scan_vault.spec.py` |
@@ -196,7 +196,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [x] **26. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
   - Result: report `.ai/review_feat-broadsheet-feedback.html`, base `15b0c55`, reviewed head `29b9002` (the panel read `f993a1b`). 9 findings fixed in `29b9002`, 5 open.
-- [x] **27. Review fix: compass window.** Seam: the compass in `scan()` of `scan_vault.py`. Each compass window holds N days, today included. The reflections list holds the last 365 days, today included.
+- [x] **27. Review fix: compass window.** Seam: the compass in `scan()` of `scan_vault.py`. Conditions: C5. Each compass window holds N days, today included. The reflections list holds the last 365 days, today included.
   - Done: `scan_vault.spec.py` passes, with a daily 6 days back in the 7-day row and 7 days back out of it.
   - Result: commit 5120bff. 42 tests.
   - Decision (user, D2 item 1): option A. This reverses decision 3 of the decision log.
