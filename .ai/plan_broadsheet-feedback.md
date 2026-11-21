@@ -29,7 +29,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [ ] **G.** Each row in the ledger, letters, stale shelf, morgue, floor plan, board, and editorial has a choice control and a comment → the page builds one prompt from the chosen rows, and gives a button that copies it.
 - [ ] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, and reports each change.
 - [ ] **I.** Each letter, stale pick, and morgue item gives the reason for its suggestion and what the action does → no item is a bare folder name.
-- [ ] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
+- [x] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
 - [ ] **K.** The board reads each project's `status` → it leaves out `dormant` projects, gives a `waiting` project one line only when it changed in the last 7 days, and names the next card of each `active` project.
 - [ ] **L.** Back pages give the story and outcome of each item → an item with no story is left out, and a want list gets suggestions.
 - [ ] **M.** `/daily` asks once which of yesterday's open items the user did → it ticks those items in yesterday's file before it carries anything forward, and asks nothing when nothing is open.
@@ -126,7 +126,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: `weather.spec.py` passes. Proves A.
 - [x] **3. Edition script.** Seam: `scripts/edition.py <journal folder> [--date YYYY-MM-DD]`, which prints this week's path, `exists`, last week's path, and last week's row ids. Conditions: C11, C12, C13.
   - Done: `edition.spec.py` passes. Proves R, S, T (data).
-- [ ] **4. Scanner: compass, knowledge folders, project status.** Seam: `scan()` in `scan_vault.py`. Conditions: C4, C5, C8, C9.
+- [x] **4. Scanner: compass, knowledge folders, project status.** Seam: `scan()` in `scan_vault.py`. Conditions: C4, C5, C8, C9.
   - Done: the scan JSON has `compass`, `projects`, and a stale list without knowledge folders. Proves E, J, K (data).
 - [ ] **5. Check: new section list and action rows.** Seam: `check_broadsheet.py`. Conditions: C3, C6, C7.
   - Done: the check wants `compass` and `chores`, rejects `carried-over` and `link-health`, and checks each action row. Proves C.
@@ -186,3 +186,5 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 - 2026-11-21: step 2 done. `weather.py <lat> <lon>` prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}` on any failure, and exits 0. It asks Open-Meteo for 1 day with `timezone=auto`, so `date` is the local day of the place. An unknown WMO code gives `Unknown`. 7 tests. One live run for Sydney gave a good forecast.
 - 2026-11-21: step 3 done. `edition.py <journal folder> [--date YYYY-MM-DD]` prints `{path, exists, last_path, last_ids}`. `last_path` is null and `last_ids` is empty when last week's page is not there. `last_ids` keeps page order and drops repeats. Last week is the ISO week of the date minus 7 days, so 2027-wk01 reads 2026-wk53. 10 tests.
+- Decision log: decisions_broadsheet-feedback.tsv
+- 2026-11-21: step 4 done. The scan JSON has `compass` (one row each for 7, 30, 90, 365 days: `dailies`, `edits`, `chore_rate`, `busiest`), `projects` (`project`, `path`, `status` with `active` as default, `until`, `changed_days`), and a stale list with no notes from a `*knowledge` top folder. Fixtures moved to `02-knowledge` and `03-work`. `--window` stays until step 7. 28 tests.

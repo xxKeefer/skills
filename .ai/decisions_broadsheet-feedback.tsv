@@ -1,0 +1,5 @@
+decision	reason	evidence	result
+Keep the --window flag in scan_vault.py, default 7	SKILL.md still passes --window until step 7 rewrites it; the lead fields still use it	SKILL.md line 42 passes --window <days>	open: step 7 drops --window from SKILL.md or keeps it
+A compass window of N days holds dates from today minus N to today, both ends included	the same bound as the existing window, so the 7-day compass row matches the lead	C5 test: a daily 7 days back is in the 7-day row, 8 days back is not	done
+Compass chore_rate is all ticks over all sightings of occasions chores in the window, null when none; busiest is the top 3 folders by edits	one number per window is easy to compare across rows	Compass tests in scan_vault.spec.py	done
+Each project row has changed_days: the age of the newest note in the project folder	AC K needs to know if a waiting project changed in the last 7 days	Projects test: a kanban edit 1 day back gives changed_days 1	done
