@@ -190,8 +190,9 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Result: commit 78c2943. A scan of the real vault gives ages of 127, 183, and 235 days for notes in the work and campaign folders. Notes that first came into git in the backup commit of 2026-11-21 keep age 1 because git has no older date for them.
 - [x] **24. Live-run fixes: skills and template.** Kind: config. The page script puts a space between the text of each cell and block in a row. Row ids encode a space as `%20`, and `/journal:act-on-broadsheet` decodes it. `/daily` backfill and carry-forward read the latest daily before today, not only yesterday's. `/update-occasions-config`: the old-layout test is "no `## Daily` heading, or a table with a `Type` or `Date/Rule` column"; the conversion table covers `am`/`pm` suffixes, `Sept`, a stray value in `Type`, and the `%%` comment block; group lines of the daily list are not written as reminders in `vault_occasions.js`.
   - Done: the template passes `check_broadsheet.spec.py`, and each skill names its rule.
-- [ ] **25. Test.** Run the gates from Context. This step changes no behaviour.
+- [x] **25. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
+  - Result: every `*.spec.py` passes except `skill-tally.spec.py` and `triage_dir.spec.py`, which fail the same way on `main` (the `file` binary is missing, and the tally spec expects `primitives:grill-it`). `pre-commit_test.sh` and `commit-msg_test.sh` pass.
 - [ ] **26. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
 - [ ] **27. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
