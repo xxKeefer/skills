@@ -45,7 +45,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [ ] **W.** `occasions.py` reads `occasions.md` for a date → it prints the items due that day by section, the rows that it cannot read, and the one-off rows that are past.
 - [ ] **X.** `/daily`, `/weekly`, `/monthly`, `/yearly`, and `/broadsheet` get due items from `occasions.py` → no journal skill reads the `When` rules itself.
 - [ ] **Y.** `/update-occasions-config` writes only the new layout → given a file in the old layout, it migrates it after one yes, and lists each row it could not convert.
-- [x] **Z.** The compass quotes each reflection that the user filled in within its window (daily, weekly, monthly reflect sections), with a link to its note → a filled reflection gets more space than the counts, and an empty one is not named.
+- [ ] **Z.** The compass quotes each reflection that the user filled in within its window (daily, weekly, monthly reflect sections), with a link to its note → a filled reflection gets more space than the counts, and an empty one is not named.
 
 ## Context
 
