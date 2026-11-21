@@ -124,7 +124,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: `.ai/` holds only open units and this spec and plan.
 - [x] **2. Weather script.** Seam: `scripts/weather.py <lat> <lon>`, with the fetch passed in for tests. Conditions: C1, C2.
   - Done: `weather.spec.py` passes. Proves A.
-- [ ] **3. Edition script.** Seam: `scripts/edition.py <journal folder> [--date YYYY-MM-DD]`, which prints this week's path, `exists`, last week's path, and last week's row ids. Conditions: C11, C12, C13.
+- [x] **3. Edition script.** Seam: `scripts/edition.py <journal folder> [--date YYYY-MM-DD]`, which prints this week's path, `exists`, last week's path, and last week's row ids. Conditions: C11, C12, C13.
   - Done: `edition.spec.py` passes. Proves R, S, T (data).
 - [ ] **4. Scanner: compass, knowledge folders, project status.** Seam: `scan()` in `scan_vault.py`. Conditions: C4, C5, C8, C9.
   - Done: the scan JSON has `compass`, `projects`, and a stale list without knowledge folders. Proves E, J, K (data).
@@ -185,3 +185,4 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - 2026-11-21: step 1 done. Deleted the files of pstack units 20 to 33 (all PRs merged) and the `reports.js` index.
 
 - 2026-11-21: step 2 done. `weather.py <lat> <lon>` prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}` on any failure, and exits 0. It asks Open-Meteo for 1 day with `timezone=auto`, so `date` is the local day of the place. An unknown WMO code gives `Unknown`. 7 tests. One live run for Sydney gave a good forecast.
+- 2026-11-21: step 3 done. `edition.py <journal folder> [--date YYYY-MM-DD]` prints `{path, exists, last_path, last_ids}`. `last_path` is null and `last_ids` is empty when last week's page is not there. `last_ids` keeps page order and drops repeats. Last week is the ISO week of the date minus 7 days, so 2027-wk01 reads 2026-wk53. 10 tests.
