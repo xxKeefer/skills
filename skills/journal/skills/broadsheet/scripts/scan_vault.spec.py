@@ -101,8 +101,8 @@ class Links(unittest.TestCase):
     def test_groups_broken_links_by_target_with_the_most_linked_first(self):
         v = Vault(self)
         base(v)
-        v.write("07-omen/a.md", "[[Ella]] [[Rose]]")
-        v.write("07-omen/b.md", "[[Ella]]")
+        v.write("06-omen/a.md", "[[Ella]] [[Rose]]")
+        v.write("06-omen/b.md", "[[Ella]]")
         v.write("CLAUDE.md", "[[root example]]")
         broken = v.scan()["links"]["broken"]
         self.assertEqual([(b["target"], b["count"]) for b in broken], [("Ella", 2), ("Rose", 1)])
@@ -255,13 +255,13 @@ class Recent(unittest.TestCase):
     def test_lists_notes_outside_the_journal_edited_in_the_window_newest_first(self):
         v = Vault(self)
         base(v)
-        v.write("07-omen/old.md", "x", date="2026-01-01")
-        v.write("07-omen/session.md", "one two", date="2026-11-18")
-        v.write("06-lessons/vim.md", "x", date="2026-11-20")
+        v.write("06-omen/old.md", "x", date="2026-01-01")
+        v.write("06-omen/session.md", "one two", date="2026-11-18")
+        v.write("05-lessons/vim.md", "x", date="2026-11-20")
         v.write("01-journal/2026-11-20.md", daily("2026-11-20", "- [x] a"), date="2026-11-20")
         self.assertEqual(v.scan("--window", "7")["recent"], [
-            {"path": "06-lessons/vim.md", "age_days": 1, "words": 1},
-            {"path": "07-omen/session.md", "age_days": 3, "words": 2},
+            {"path": "05-lessons/vim.md", "age_days": 1, "words": 1},
+            {"path": "06-omen/session.md", "age_days": 3, "words": 2},
         ])
 
 

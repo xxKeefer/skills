@@ -88,12 +88,12 @@ class Check(unittest.TestCase):
         self.assertIn("has an inline style", out)
 
     def test_names_a_note_path_that_is_not_a_link(self):
-        code, out = check(filled().replace("<h2>Editorial</h2>", "<h2>Editorial</h2><p>See 02-research/old note.md now.</p>"))
+        code, out = check(filled().replace("<h2>Editorial</h2>", "<h2>Editorial</h2><p>See 02-knowledge/old note.md now.</p>"))
         self.assertEqual(code, 1)
-        self.assertIn("note 02-research/old note.md is not a link", out)
+        self.assertIn("note 02-knowledge/old note.md is not a link", out)
 
     def test_a_linked_note_path_is_fine(self):
-        link = '<a href="obsidian://open?vault=notes&amp;file=02-research%2Fa" target="_blank" rel="noopener">02-research/a.md</a>'
+        link = '<a href="obsidian://open?vault=notes&amp;file=02-knowledge%2Fa" target="_blank" rel="noopener">02-knowledge/a.md</a>'
         self.assertEqual(check(filled().replace("<h2>Editorial</h2>", "<h2>Editorial</h2>" + link))[0], 0)
 
     def test_names_a_link_without_target_and_rel(self):

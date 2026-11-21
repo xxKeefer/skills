@@ -31,5 +31,5 @@ Requires `primitives@xxkeefer-skills` (`/grill`, `/look-up`, `/discover-vault-di
 
 ## Vault Setup
 
-A projects directory in your Obsidian vault (e.g. `05-projects/`) and the obsidian-kanban plugin
+A projects directory in your Obsidian vault (e.g. `04-projects/`) and the obsidian-kanban plugin
 installed for board visualisation. Boards are plain markdown, so they remain readable without it.

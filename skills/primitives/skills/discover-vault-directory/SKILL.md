@@ -14,7 +14,7 @@ The caller gives a glob relative to the vault root, then optional marker files a
 The glob sets the scan depth.
 
 ```
-/discover-vault-directory *reference
+/discover-vault-directory *knowledge
 /discover-vault-directory * holding occasions.md
 /discover-vault-directory *omen/* holding log.md lore/_cannon.md
 ```

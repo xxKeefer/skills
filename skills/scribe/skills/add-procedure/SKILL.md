@@ -1,7 +1,7 @@
 ---
 name: add-procedure
 description: >
-  Capture a just-solved task as a terse, repeatable how-to in the vault's reference directory. Use
+  Capture a just-solved task as a terse, repeatable how-to in the vault's knowledge directory. Use
   when the user says "add procedure" or "runbook this", or just solved a fiddly task worth
   keeping.
 ---
@@ -9,14 +9,14 @@ description: >
 # Add Procedure
 
 Offload a chore into the vault: capture the steps once so the task is repeatable and the brain can
-forget it. Procedures are utilitarian -- distinct from `*research` deep-dives and `*notes`
+forget it. Procedures are utilitarian -- distinct from the longer articles in `*knowledge` and `*notes`
 fleeting thoughts.
 
-## Step 1: Discover the Reference Directory
+## Step 1: Discover the Knowledge Directory
 
-Find the vault's reference directory with `/discover-vault-directory *reference`.
+Find the vault's knowledge directory with `/discover-vault-directory *knowledge`.
 
-**Done when:** you have the reference directory path.
+**Done when:** you have the knowledge directory path.
 
 ## Step 2: Gather the Procedure
 
@@ -36,7 +36,7 @@ steps use, for one procedure.
 
 ## Step 3: Assign a File
 
-Scan the reference directory. For each existing procedure file, read its title and `##` headings to
+Scan the knowledge directory. For each existing procedure file, read its title and `##` headings to
 model what area it covers. Then decide placement:
 
 - **Best-fit file found** -- append the new entry to it. No prompt.
