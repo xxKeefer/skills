@@ -20,7 +20,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 ## Acceptance criteria
 
-- [ ] **A.** The weather box shows today's forecast for the configured place → it gives the conditions, the high and low, and the chance of rain, or a line that says the forecast is not available.
+- [x] **A.** The weather box shows today's forecast for the configured place → it gives the conditions, the high and low, and the chance of rain, or a line that says the forecast is not available.
 - [ ] **B.** The Chores box shows each chore's tick rate from the journal → it uses no weather icons.
 - [ ] **C.** The page has no Carried over section and no Link health section → the check fails a page that has one.
 - [ ] **D.** The broadsheet and the gazette use no Shantell Sans → each lead headline uses the heading font.
@@ -122,7 +122,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 
 - [x] **1. Groom `.ai/`.** Kind: mechanical. Delete the files of each pstack unit whose PR is merged, as `.ai/CLAUDE.md` says.
   - Done: `.ai/` holds only open units and this spec and plan.
-- [ ] **2. Weather script.** Seam: `scripts/weather.py <lat> <lon>`, with the fetch passed in for tests. Conditions: C1, C2.
+- [x] **2. Weather script.** Seam: `scripts/weather.py <lat> <lon>`, with the fetch passed in for tests. Conditions: C1, C2.
   - Done: `weather.spec.py` passes. Proves A.
 - [ ] **3. Edition script.** Seam: `scripts/edition.py <journal folder> [--date YYYY-MM-DD]`, which prints this week's path, `exists`, last week's path, and last week's row ids. Conditions: C11, C12, C13.
   - Done: `edition.spec.py` passes. Proves R, S, T (data).
@@ -184,3 +184,4 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - 2026-11-21: plan written on `feat/broadsheet-feedback`.
 - 2026-11-21: step 1 done. Deleted the files of pstack units 20 to 33 (all PRs merged) and the `reports.js` index.
 
+- 2026-11-21: step 2 done. `weather.py <lat> <lon>` prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}` on any failure, and exits 0. It asks Open-Meteo for 1 day with `timezone=auto`, so `date` is the local day of the place. An unknown WMO code gives `Unknown`. 7 tests. One live run for Sydney gave a good forecast.
