@@ -1,10 +1,10 @@
 ---
 name: resolve-feedback
-disable-model-invocation: true
 description: >
   Assess review feedback from AI or human reviewers, pasted or from the open threads of a PR. Write
-  a verdict, a recommendation, and a draft reply for each item to a review report, whose ticks
-  build the /engineering:apply-review prompt. Applies no fix.
+  a verdict, a recommendation, and a draft reply for each item to a review report, whose ticks build
+  the /engineering:apply-review prompt. Applies no fix. Use when the user says "resolve feedback",
+  pastes review comments, or asks to assess the open threads of a PR.
 argument-hint: "<PR number or URL | pasted feedback>"
 ---
 

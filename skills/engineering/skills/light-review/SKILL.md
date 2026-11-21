@@ -1,15 +1,15 @@
 ---
 name: light-review
 description: >
-  Run the eight essential lanes of the review panel over a PR or branch, into the same report as
+  Run the essential lanes of the review panel over a PR or branch, into the same report as
   /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
   lanes than the full panel.
-argument-hint: "[PR number or URL | branch] [handoff or spec path]"
+argument-hint: "[PR number or URL | branch] [plan or spec path]"
 ---
 
 # Light Review: the essential lanes of the panel
 
-Run eight persona lanes over one diff, not the full panel. The steps, the guards, and the report
+Run the essential persona lanes over one diff, not the full panel. The steps, the guards, and the report
 are those of `mob-review`. The other lanes do not run, so a clean light run is not a clean full
 panel.
 
@@ -23,6 +23,8 @@ panel.
 - `persona-test-design`
 - `persona-test-quality`
 - `persona-architecture`
+- `persona-comments`
+- `persona-skills`
 
 ## Steps
 
@@ -33,8 +35,11 @@ lane.
 1. **Step 0.** Ask the user to `/clear` and run `/engineering:light-review` again, not `mob-review`.
 2. **Step 2.** Match the changed files against the guards of the essential lanes only. Spawn no
    other persona and no project rubric. In the coverage table, list every other lane and the
-   project rubric with the status `skipped (not in the light set)`.
-3. **Step 3.** `persona-ac-check` does not run. So the `Handoff or spec:` line goes to the
+   project rubric with the status `skipped (not in the light set)`. When no essential lane
+   matches, match the guards of every panel lane, and run each lane that matches. Mark each one
+   `ran (no essential lane matched)` in the coverage table, and say so in the `answer`. A run
+   with no lane reviews nothing.
+3. **Step 3.** `persona-ac-check` does not run. So the `Plan or spec:` line goes to the
    `persona-test-design` brief only.
 4. **Step 5.** Set the run `title` to `Light run`, not `Panel run`. Write no `Spec` in `meta`. Add
    one sentence to the `answer`: this run covers the essential lanes only, and
@@ -45,4 +50,5 @@ lane.
 
 **Done when:** the report holds a `Light run`, and the chat shows what `mob-review` Step 5 and
 Step 7 print. The coverage table lists each lane outside the light set as
-`skipped (not in the light set)`.
+`skipped (not in the light set)` or `ran (no essential lane matched)`. At least one lane ran, or no
+panel lane matches the diff.

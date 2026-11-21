@@ -1,8 +1,10 @@
 ---
 name: squash-bugs
-description: Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision.
+description: >
+  Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report
+  every fix and every open decision. Use when the user says "squash bugs", or gives a batch of QA
+  bug tickets to fix.
 argument-hint: "[--max N] <ticket> [<ticket> ...]"
-disable-model-invocation: true
 ---
 
 # Squash Bugs
@@ -79,6 +81,11 @@ When a subagent returns, check its worktree, not its summary:
 | Every verdict | The hunt doc exists and holds the same verdict. |
 
 If a check fails, the ticket's status is the failed check.
+
+When a subagent returns `blocked`, take the effort that you gave it. Below the ceiling of rule 1
+of the `models` block in `~/.claude/AGENTS.md`, run the subagent again in the same worktree, one
+effort step up by rule 1, and give it the hunt doc path. At the ceiling, or with no `models`
+block, the ticket stays `blocked`.
 
 For each `fixed` or `trivial` ticket that passed its check, run `git push -u origin <branch>` from
 its worktree. Never force. If the push fails, the ticket's status is the push error.

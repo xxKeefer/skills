@@ -1,7 +1,10 @@
 # Step Brief
 
-You run one step of a handoff, from a cold start. The parent gives you the handoff path and the
-step ID. The handoff is your only context.
+You run one step of a plan, from a cold start. The parent gives you the plan path, the step
+ID, and the plan's goal. The plan is your only context.
+
+The goal is the `goal` key of the plan's YAML header. It is the reason for the step. When the done
+line allows two changes, make the change that serves the goal.
 
 The parent can give a list of review fix step IDs in place of one ID. Do each step in order
 through sections 1 to 4, with one commit for each step. Stop at the first step that writes an
@@ -9,7 +12,7 @@ entry. Return the five lines once for each step.
 
 Commit to the current branch. Never push, except when
 [`CHECK-INS.md`](../../CHECK-INS.md) says the change needs no gate: then a step whose done line
-needs a PR or a CI run can push the work branch and open a draft PR. `/build` never gives you the push step, and `/ship` pushes. Edit only files inside this repo, the handoff file, and the step's patch file (see Save the
+needs a PR or a CI run can push the work branch and open a draft PR. `/build` never gives you the push step, and `/ship` pushes. Edit only files inside this repo, the plan file, and the step's patch file (see Save the
 work).
 
 Never rebase, sync, or reset the branch, and never change another branch of a stack. Other
@@ -18,17 +21,17 @@ line.
 
 ## 1. Cold start
 
-1. Read the handoff and every artifact the step references.
-2. If the handoff says to resume from a patch file, run `git apply <patch>`. Then delete the patch
+1. Read the plan and every artifact the step references.
+2. If the plan says to resume from a patch file, run `git apply <patch>`. Then delete the patch
    file.
-3. If the step needs a decision that the handoff does not record, write a `D` entry and return.
+3. If the step needs a decision that the plan does not record, write a `D` entry and return.
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
    yourself. A review fix step needs no seam: the report row is its spec.
 4. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
    and return. When the change needs no gate, a push to the work branch, a draft PR, and CI runs on
    that branch are not outside writes.
 
-**Done when:** you can name the step's done line and its workflow.
+**Done when:** you can name the plan's goal, the step's done line, and its workflow.
 
 ## 2. Do the step
 
@@ -37,7 +40,7 @@ Use the first row that matches the step:
 | Step | Workflow | What to do |
 | ---- | -------- | ---------- |
 | Names a skill | `skill: /<name>` | Run that skill. |
-| Test | `test` | Run the project's test suite. For each behaviour that the branch changes and no test covers, write a test at the seam that the handoff names. The code already works, so the test cannot go red first. Break the code under test, see the test go red, and restore the code. If the handoff names no seam for a behaviour, write a `D` entry that asks for it. |
+| Test | `test` | Run the project's test suite. For each behaviour that the branch changes and no test covers, write a test at the seam that the plan names. The code already works, so the test cannot go red first. Break the code under test, see the test go red, and restore the code. If the plan names no seam for a behaviour, write a `D` entry that asks for it. |
 | Review fix | `review fix` | Read the row in the report that the step names. Find the code by its content, not by the line number in the row, because earlier fixes can move the code. Make the change that the done line names. If the row names a missing test, write it first and see it go red. If the new test covers code that already works, it cannot go red first. Break the code under test, see the test go red, and restore the code. Keep every other test green. |
 | Changes behaviour | `TDD` | Write a failing test at the step's seam and see it go red. Write the minimum code to go green. Then do a mutation check: break the new code, see the test go red, and restore the code. |
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
@@ -49,31 +52,41 @@ If you find an unrecorded decision partway through, save the work, write a `D` e
 
 ## 3. Run the gates
 
-Run the gates that the handoff or the repo guidance names. Use the test scope that the repo
+Run the gates that the plan or the repo guidance names. Use the test scope that the repo
 guidance sets.
 
 Run the gates in every step. Run them also in a step that changes no file, such as a review step.
 
-If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
-red, save the work, write a `B` entry, and return.
+If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
+a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then save
+the work, write a `B` entry, and return.
 
 **Done when:** every gate is green.
 
 ## 4. Commit
 
 1. Stage only the files this step changed.
-2. Commit with the repo's commit convention.
-3. Invoke `/update-handoff` on the handoff to mark the step done.
+2. Commit with the repo's commit convention. Before the first commit, read the commit-message
+   rules in the user's and the repo's instructions. When a commit hook rejects the message, fix
+   the message and commit again. Keep the hook on.
+3. Edit the plan: mark the step done, mark each AC whose letter the done line names, and add one
+   `Progress` line. Ask `/write-to-file` to check the plan. For each choice that this step made
+   alone and that the plan does not record, give `/update-plan` the decision, the reason, the
+   evidence, and the result. It adds each one to the decision log.
+4. Commit the plan edit, and the decision log if `/update-plan` wrote or changed it, with the
+   message `docs(ai): mark step <id> done`, so the tree is clean when you return.
 
-If the step changed no file except the handoff, make no commit. A review step that only records its
-report is an example. Return `Commit: none`.
+If the step changed no file except the plan and the decision log, make only the commit of item 4. A test step or a
+review step that only records its report is an example. Return `Commit: none`.
 
-**Done when:** the handoff marks the step done, and the commit exists or the step changed no file
-except the handoff.
+**Done when:** the plan marks the step done, the tree has no modified or staged files, and the
+commit exists or the step changed no file except the plan and the decision log.
 
 ## 5. Return
 
-Return these five lines, once for each step of a batch:
+Before you return, wait for each subagent and each background task that you started to end, or
+stop it. Then return
+these five lines once, for each step of a batch:
 
 ```
 Status: done | <entry ID>
@@ -85,8 +98,8 @@ Note: <one sentence>
 
 ## Save the work
 
-Save the step's changes as a patch file in the handoff's folder, then clean the tree. Name only
-the paths this step changed, new files too. The patch name is `<handoff name>.step-<id>.patch`,
+Save the step's changes as a patch file in the plan's folder, then clean the tree. Name only
+the paths this step changed, new files too. The patch name is `<plan name>.step-<id>.patch`,
 such as `plan_auth.step-4.patch`.
 
 1. `git add -- <paths>`
@@ -101,14 +114,14 @@ run merges again and uses the answer.
 
 ## Entries
 
-Write each entry under `## Pending Decisions` at the end of the handoff. Create the section if it
+Write each entry under `## Pending Decisions` at the end of the plan. Create the section if it
 does not exist. Number each entry type in sequence across the file: `D1`, `D2`, `B1`, `N1`.
 
-In the `Blocks` line, list this step and every later step that depends on it. Use the handoff's own
+In the `Blocks` line, list this step and every later step that depends on it. Use the plan's own
 dependency notes. If you are not sure that a step is independent, list it.
 
 In an `N` entry, when the outside action is the whole step, the Action line is
-`/do-next @<handoff path>`. The user then runs the step with its skills, not a bare command.
+`/do-next @<plan path>`. The user then runs the step with its skills, not a bare command.
 
 ```
 ### D1: <question> (found in step <id>)
@@ -120,7 +133,9 @@ In an `N` entry, when the outside action is the whole step, the Action line is
 
 ### B1: step <id>, <gate> stays red
 - Failure: <first lines of the failing output>
-- Tried: <attempt 1>, <attempt 2>, <attempt 3>
+- Premise: <the sentence>, tested by <observation>: <result>
+- Tried: <attempt 1>, <attempt 2>
+- Effort: <model> <effort>
 - Work: <patch path>
 - Blocks: <step IDs>
 

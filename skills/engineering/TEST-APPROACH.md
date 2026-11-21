@@ -2,7 +2,7 @@
 
 Use this file to plan the tests for a change before you write code. Risk sets how deep to test. The shape of the code picks the technique. The method is the risk-based testing of the ISTQB Foundation syllabus (v4.0).
 
-A plan handoff keeps the result in a Test approach section. A reviewer reads that section later and compares it with the tests that the change adds.
+A plan keeps the result in a Test approach section. A reviewer reads that section later and compares it with the tests that the change adds.
 
 ## The Test approach section
 
@@ -42,7 +42,7 @@ A plan handoff keeps the result in a Test approach section. A reviewer reads tha
 ```
 
 - `AC` is the letter of the acceptance criterion, such as `A` or `B.2`.
-- `ID` names one condition. A handoff step names the IDs of the conditions it tests.
+- `ID` names one condition. A plan step names the IDs of the conditions it tests.
 - `—` marks behaviour that no AC covers. Ask the user whether the ticket needs an AC for it.
 - Write the Variations part only when the change touches two or more dimensions.
 

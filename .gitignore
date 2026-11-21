@@ -1,4 +1,5 @@
 .direnv
 node_modules
 .DS_Store
-.ai
+__pycache__/
+*.pyc

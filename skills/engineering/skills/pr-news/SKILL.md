@@ -48,9 +48,8 @@ gh search prs "user-review-requested:@me" --state=open --limit 100 \
 For each PR that Step 2 kept, run:
 
 ```sh
-gh pr view <number> -R <nameWithOwner> --json \
-  title,url,isDraft,state,headRefName,baseRefName,mergeable,reviewDecision,\
-  commits,reviews,latestReviews,comments,statusCheckRollup,reviewRequests
+gh pr view <number> -R <nameWithOwner> \
+  --json title,url,isDraft,state,headRefName,baseRefName,mergeable,reviewDecision,commits,reviews,latestReviews,comments,statusCheckRollup,reviewRequests
 ```
 
 Keep only the events inside the window:

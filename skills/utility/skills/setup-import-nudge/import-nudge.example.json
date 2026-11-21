@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "path": "/apps/[^/]+/src/.+\\.spec\\.[jt]s$",
+      "content": "from ['\"]@testing-library/vue['\"]|legacy/[^'\"]*testUtils['\"]",
+      "message": "This spec still uses the legacy test harness. Move it to the shared test-utils package before you add cases."
+    }
+  ]
+}

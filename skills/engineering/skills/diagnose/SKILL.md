@@ -1,15 +1,17 @@
 ---
 name: diagnose
-disable-model-invocation: true
 description: >
-  Trace a bug with no obvious cause to a proven root cause, written to a hunt doc. For faults in
-  recent changes where the cause is roughly known, use /fix instead.
+  Trace a bug with no obvious cause to a proven root cause, written to a findings file. Use when the user
+  says "diagnose" or "find the root cause". For faults in recent changes where the cause is roughly
+  known, use /fix instead.
 ---
 
 # Diagnose
 
 Go from bug report to proven root cause. Assess the report critically, trace the code until the
 fault is isolated, capture the findings in a local artifact, then hand off to the right fixer.
+
+Principles: **principle-attack-the-premise** ([`../principle-attack-the-premise/SKILL.md`](../principle-attack-the-premise/SKILL.md)) and **principle-fix-root-causes** ([`../principle-fix-root-causes/SKILL.md`](../principle-fix-root-causes/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
 
 This is the investigation skill for **head-scratchers** -- bugs nobody understands yet. It
 deliberately stops at root cause: the skills in Step 5 own the fix. If the cause is already
@@ -87,6 +89,8 @@ Work from symptom to cause. Keep going until you can **show** the fault, not jus
 5. **Widen when stuck** — history of the suspect code, similar patterns elsewhere, tests that
    should have caught this
 
+When two hypotheses that share one premise fail, write the premise down and test it before the next.
+
 Use Explore subagents for broad sweeps; targeted search for specific symbols. Record dead ends as
 you go — ruled-out causes belong in the artifact.
 
@@ -108,30 +112,36 @@ evidence, and ask the user what they can confirm.
 
 **Done when:** a traced code path shows the root cause, or you have marked it as a hypothesis.
 
-## Step 4: Write the Hunt Artifact
+## Step 4: Write the Findings File
 
-Write `hunt_<KEY>.md` with `/write-to-file`, doctype `hunt`. `<KEY>` is the ticket key, else
-`pr-<n>`, else the current branch name with each `/` changed to `-`. On the default branch, use a
-kebab-case slug of the symptom. When the user's instructions give one folder per ticket, use
+Write `findings_<KEY>.md` with `/write-to-file`, doctype `findings`. `<KEY>` is the ticket key,
+else `pr-<n>`, else the current branch name with each `/` changed to `-`. On the default branch,
+use a kebab-case slug of the symptom. When the user's instructions give one folder per ticket, use
 `<KEY>` for it. Step 5 names the path that `/write-to-file` reports.
 
-This is a **local, short-lived artifact** — file paths and line numbers are welcome here, unlike
+This is a **local, short-lived file** — file paths and line numbers are welcome here, unlike
 tracker content. Its job is to carry the investigation intact into the skill that makes the fix.
-The fix and its regression test replace the hunt doc, so the skill that consumes it deletes it.
+The consumer of the file sets `status: consumed`, and `.ai/` clean-up deletes it.
+
+Use the findings layout. Set `status: open` when the cause is unproven, and start its Answer with
+`Hypothesis:`. Set `status: answered` when a traced code path proves it.
 
 ```markdown
-# Hunt: {symptom}
+---
+doctype: findings
+ticket: <KEY, or none>
+status: open | answered
+---
 
-> {one-line root cause}
+# Findings: {symptom}
 
-**Hunted:** {date}
-**Status:** active | consumed
-
-## Report
+## Question
 
 Symptom, confidence, reporter's interpretation vs what was actually found.
 
-## Root Cause
+## Answer
+
+{one-line root cause}
 
 Location, what happens, why the fault exists.
 
@@ -139,20 +149,22 @@ Location, what happens, why the fault exists.
 
 The traced code paths that prove it — how bad state travels from origin to symptom.
 
-## Ruled Out
+## Open points
+
+- What the hunt could not prove, and each blast radius item still to check. Other instances of the
+  faulty pattern. Or the word `none`.
+
+## Ruled out
 
 Dead ends investigated and why they're not the cause, so nobody re-hunts them.
 
-## Blast Radius
-
-What else the same root cause affects. Other instances of the faulty pattern.
-
-## Fix Direction
+## Fix direction
 
 1-2 sentences of direction — NOT a plan. The skill that makes the fix owns the plan and the tests.
 ```
 
-**Done when:** the hunt doc exists, and each template section holds its findings or "none".
+**Done when:** the findings file exists, `/write-to-file` has run its check with a pass, and each
+required section holds its findings or "none".
 
 ## Step 5: Hand Off
 
@@ -161,7 +173,7 @@ Present a summary:
 > **Hunt complete: `{symptom}`**
 >
 > **Root cause:** {one-line}
-> **Artifact:** `{hunt doc path}`
+> **Findings file:** `{findings file path}`
 >
 > Where to next?
 
@@ -169,10 +181,10 @@ Offer:
 
 1. **`/fix`** — the fix is now small and obvious
 2. **`/start-ticket <ticket key>`** — the fix needs more than one step. With no ticket, create
-   one first (option 3), or run **`/tdd @{hunt doc path}`**.
+   one first (option 3), or run **`/tdd @{findings file path}`**.
 3. **Ticket** — on request, create a tracker ticket (or subtask of the originating ticket) with a
    durable summary: modules, behaviours, and contracts — no file paths or line numbers. The
    shared tracker is not a dumping ground; only what survives codebase change goes in.
-4. **Done** — leave the artifact for a future session
+4. **Done** — leave the file for a future session
 
 **Done when:** the user has picked one of the four options, and any ticket they asked for exists.

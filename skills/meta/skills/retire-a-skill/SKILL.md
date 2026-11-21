@@ -33,14 +33,17 @@ Then branch on the current domain:
    `disable-model-invocation: true` and cut the `description` to one human-facing line with no
    trigger list. Keep `argument-hint`. A deprecated skill fires only by hand, so it loads no
    description into context.
-2. **Delegate the move.** This is exactly a migration into the `deprecated` domain — don't
+2. **Date it.** In the same frontmatter, add `deprecated: <today>`, with today as `YYYY-MM-DD`.
+   [`scripts/due.py`](scripts/due.py) reads this date. It lists each deprecated skill that is more
+   than 30 days old, with its count from the skill tally. Those are the skills to delete.
+3. **Delegate the move.** This is exactly a migration into the `deprecated` domain — don't
    reimplement it. Run `/migrate-a-skill <skill-name> deprecated`, which handles the `git mv`,
    the skill tables in both domains' `README.md`, version bumps, and a single `chore(...)`
    commit. That commit adds the moved directory, so it carries
-   the frontmatter edit from item 1.
+   the frontmatter edits from items 1 and 2.
 
 **Done when:** the skill lives under `skills/deprecated/skills/` with
-`disable-model-invocation: true` and a one-line description, both domains' docs and versions are
+`disable-model-invocation: true`, a one-line description, and `deprecated: <today>`, both domains' docs and versions are
 updated, and one commit holds the move and the frontmatter edit.
 
 ## Step 3: Delete (remove for good)

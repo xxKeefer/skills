@@ -3,7 +3,7 @@ name: mob-review
 description: >
   Run the full review panel: every in-scope persona lane, plus the project's own rubric, in
   parallel over a PR or branch diff, into one ranked HTML report. Fixes your own branch, or drafts
-  replies on someone else's. Takes an optional handoff or spec path. Use when the user says "mob
+  replies on someone else's. Takes an optional plan or spec path. Use when the user says "mob
   review", "run the panel", or "full review".
 ---
 
@@ -11,56 +11,57 @@ description: >
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
-`light-review` follows Steps 0 to 7 of this skill with eight lanes only, so a change to a step here also changes `light-review`.
+`light-review` follows Steps 0 to 7 of this skill with the essential lanes only, so a change to a step here also changes `light-review`.
 
 ## Step 0: Run the panel in a clean thread
 
 **The panel is cheap. The thread it runs in is not.** A review needs the diff, the ticket, and the repo, not the conversation that made the change. At the end of a long session, each orchestration turn pays for that whole history. One measured run: the persona subagents cost a fifth of the review, and the orchestrator at ~320K context cost the rest.
 
 - **Arriving from a session that just wrote the code** → the implementation is committed, so the branch is the whole handoff. Ask the user to `/clear` and re-run `mob-review`; nothing is lost, since the branch carries the state.
-- **Already in a fresh or short thread** (a session opened to review) → straight to Step 1.
+- **Already in a fresh or short thread** (a session opened to review), **or run by another skill** (the review step of `/build`) → straight to Step 1.
 - **User declines** → run anyway. Say once that it will cost several times more, then drop it.
 
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional handoff or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A handoff has steps for `/do-next` to run, and a spec has none. With a handoff, Step 6 records the report in its review step.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional plan or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A plan has steps for `/do-next` to run, and a spec has none. With a plan, Step 6 records the report in its review step.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
 A caller can name the repo folder, such as the worktree that `/engineering:review-pr` claims. Then run every command of this skill in that folder, and add `Repo under review: <path>` to each lane brief in Step 3. The subagents start in the session's folder, not in the repo.
 
+Set `BASE` to `origin/<base>`. The base is the plan's base branch when the plan names one, else the PR's base (`gh pr view --json baseRefName`), else `main`.
+
 ```bash
-git fetch origin main --quiet
+git fetch origin "${BASE#origin/}" --quiet
 ```
 
-- **No arg / branch:** review the current (or named) branch vs `origin/main`.
-- **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `origin/main`.
+- **No arg / branch:** review the current (or named) branch vs `$BASE`.
+- **PR number/URL:** `gh pr checkout <n>` first (only if the working tree is clean; otherwise ask), then review that branch vs `$BASE`.
 
 Read [`SCOPE-CASES.md`](SCOPE-CASES.md) before you compute the diff when one of these is true:
 
-- The PR's base (`gh pr view --json baseRefName`) is not `main`.
-- The branch has no commits ahead of `origin/main`, and the working tree has changes.
-- `git rev-list --count HEAD..origin/main` is not zero.
+- The branch has no commits ahead of `$BASE`, and the working tree has changes.
+- `git rev-list --count HEAD..$BASE` is not zero.
 
 Compute the changed-file list and the diff **once, to disk**, and hand every persona those paths instead of a command each one re-runs:
 
 ```bash
 SCRATCH="${TMPDIR:-/tmp}/mob-$(git rev-parse --abbrev-ref HEAD | tr / -)-$(git rev-parse --short HEAD)"
 mkdir -p "$SCRATCH"
-git diff --name-only --merge-base origin/main HEAD > "$SCRATCH/files.txt"
-git diff        --merge-base origin/main HEAD > "$SCRATCH/diff.patch"
-git diff --stat --merge-base origin/main HEAD | tail -1
+git diff --name-only --merge-base "$BASE" HEAD > "$SCRATCH/files.txt"
+git diff        --merge-base "$BASE" HEAD > "$SCRATCH/diff.patch"
+git diff --stat --merge-base "$BASE" HEAD | tail -1
 cat "$SCRATCH/files.txt"
 ```
 
 The path holds the branch and the SHA, so a run after a fix commit never reads a stale patch.
 
-If `files.txt` is empty, report "no changes vs origin/main" and stop.
+If `files.txt` is empty, report "no changes vs $BASE" and stop.
 
 Record the two SHAs the panel reads. Step 5 prints them, so a later push step can compare the branch with what the panel read:
 
 ```bash
-git rev-parse --short "$(git merge-base origin/main HEAD)"   # base
+git rev-parse --short "$(git merge-base "$BASE" HEAD)"   # base
 git rev-parse --short HEAD                                   # head
 ```
 
@@ -70,7 +71,7 @@ Also record **whose code this is**. It decides the ticks and the prompt of the r
 
 ```bash
 git config user.email                                          # you
-git log --format='%ae' $(git merge-base origin/main HEAD)..HEAD | sort -u   # branch authors
+git log --format='%ae' $(git merge-base "$BASE" HEAD)..HEAD | sort -u   # branch authors
 ```
 
 **Own code** = every commit on the branch is authored by the current git user. Anything else (a commit by another author, or a PR you checked out from someone else) is **someone else's code**. When in doubt, treat it as someone else's.
@@ -79,13 +80,13 @@ git log --format='%ae' $(git merge-base origin/main HEAD)..HEAD | sort -u   # br
 
 ## Step 2: Select in-scope personas
 
-Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. Note which personas you skipped and why (shown in the final table).
+Read [`PANEL.md`](PANEL.md), and match the changed-file list against its Guard column. Only launch personas whose guard matches. When the caller names the lanes, launch only those, and mark each other lane `skipped (not named by the caller)`. Note which personas you skipped and why (shown in the final table).
 
 ## Step 3: Spawn the in-scope personas in parallel
 
 Launch **one subagent per in-scope persona, all in a single message** (multiple `Agent` tool calls) so they run concurrently. Use the `general-purpose` agent type. The harness runs at most 20 subagents at once and refuses the rest; when the panel exceeds that, launch the overflow as the first reports come back.
 
-**Model per persona.** Set the `model` of each `Agent` call as the Model section of [`PANEL.md`](PANEL.md) says.
+**Role per persona.** Set the `model` of each `Agent` call to the model of the persona's role in the `models` block of `~/.claude/AGENTS.md`, as the Model section of [`PANEL.md`](PANEL.md) says. With no `models` block, leave `model` unset, so that the session model runs.
 
 Ticket context in the brief is fine. Pass an author's claim about behaviour only as something to verify, or leave it out. A persona that takes it as fact skips its check.
 
@@ -97,17 +98,17 @@ Give each the same diff context and this exact brief:
 >
 > Return the JSON that the contract's "When a caller asks for JSON" section gives, as your final message.
 >
-> Diff scope: branch vs `origin/main`, already computed: **do not recompute it**.
+> Diff scope: branch vs `<BASE>`, already computed: **do not recompute it**.
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a handoff or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Handoff or spec: <absolute path>`.
+When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`. Add one line to the `persona-comments` brief from the Step 1 ownership check: `Lens: own code` or `Lens: someone else's code`.
 
 **Project rubric, same message, when the repo has one.** Read [`RUBRIC.md`](RUBRIC.md), and follow its Step 3.
 
 ## Step 4: Aggregate
 
-Collect each persona's JSON, skip any that failed, and combine all `findings`. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
+Wait until every persona subagent has returned, then collect each persona's JSON. Skip any that failed, and combine all `findings`. Write no report while a persona still runs. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
 
 When the rubric ran, follow Step 4 of [`RUBRIC.md`](RUBRIC.md).
 
@@ -148,7 +149,7 @@ line how many findings the fix commit holds and how many stay open. Ask nothing.
 the open rows at QA. To fix one later, they tick it and paste the prompt that the report builds,
 which runs `/engineering:apply-review`.
 
-**In a handoff from Step 1**, on your own code, the review step fixes, writes the report, and
+**In a plan from Step 1**, on your own code, the review step fixes, writes the report, and
 goes on. It never blocks the push step:
 
 1. Tick the review step. Write the report path, the base SHA, and the reviewed head into its done

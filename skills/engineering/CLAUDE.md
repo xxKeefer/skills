@@ -8,7 +8,7 @@ into this domain.
 ## Dependencies
 
 Engineering skills call `/grill`, `/write-to-file`, `/write-report`, `/look-up`, `/do-next`, and
-`/update-handoff` from the `primitives` plugin, so install it too.
+`/update-plan` from the `primitives` plugin, so install it too.
 
 ## Skills
 
@@ -34,14 +34,18 @@ that reads it.
 The nine commands (`spec`, `plan`, `build`, `test`, `constraints`, `review`, `webperf`,
 `code-simplify`, `ship`) are the entry points.
 
-- Each command has `disable-model-invocation: true`. Only the user starts one.
+- Each command has no `disable-model-invocation`, so the user, the agent, or another skill can
+  start one. The pause list rule, not the flag, marks where the agent stops for the user.
 - Each description starts with `★ `, so the commands stand out in the terminal list. A skill that is
   not a command has no ★.
 - A command picks a skill and runs it by name. It holds no step that a skill below it already holds.
   When a skill changes its input or its return, check each command that runs it.
 - `build`, `webperf`, `constraints`, and `code-simplify` hold their own steps, because no skill
-  below them does the work. `build` runs the steps of a handoff in subagents through `STEP.md`, and
+  below them does the work. `build` runs the steps of a plan in subagents through `STEP.md`, and
   loops test and review. `implement` is the skill for one step.
+- `work-on` is not a command, because it runs the commands. It has no ★. It picks a playbook from
+  `work-on/playbooks/` and calls the commands in order. When a command changes its input, its
+  return, or where it stops, check each playbook.
 
 ## Tool roles
 
@@ -64,18 +68,21 @@ commit.
 
 | Skill | Called by | Must keep |
 |---|---|---|
-| `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, handoff), the `Worktree:` line that `/do-next` reads, and the search for a handoff whose file name holds the key |
-| `build` | `mob-review`, and the prompt of its report in a handoff | The `D` and `N` entry format in `STEP.md`, and the `Handoff` meta key that it reads from the report |
+| `claim` | `start-ticket`, `split-ticket`, `squash-bugs`, `review-pr`, `pickup` | Its return (path, branch, plan), the `worktree` and `branch` header keys that `/do-next` reads, and the search for a plan whose file name holds the key |
+| `build` | `mob-review`, and the prompt of its report in a plan | The `D` and `N` entry format in `STEP.md`, the `Plan` meta key that it reads from the report, and the decision log (`decisions_<KEY>.tsv`) that its steps write through `/update-plan` and that `/sitrep` and `/retro` read |
 | `codebase-design` | `improve-codebase-architecture` | Its glossary terms |
 | `domain-modeling` | `improve-codebase-architecture`, the domain doc that `utility:set-up-dev-workflow-skills` installs | The `CONTEXT.md` and ADR formats |
-| `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path` | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
-| `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the handoff step names is agreed" and "Test the conditions whose IDs the step names" |
-| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The hunt doc `hunt_<KEY>.md`, written with `/write-to-file`, doctype `hunt` |
+| `fix` | `diagnose`, the QA checklists of `happy-path` and `sad-path`, the `interrogate` report | Its input: a description of what is broken, or a QA report prompt (`@<report> <IDs>`) |
+| `tdd` | Each step of a `start-ticket` plan that changes behaviour | These two lines in `SKILL.md`: "A seam that the plan step names is agreed" and "Test the conditions whose IDs the step names" |
+| `diagnose` | The user. `squash-bugs` writes its hunt docs to the same path | The findings file `findings_<KEY>.md`, written with `/write-to-file`, doctype `findings` |
+| `interrogate` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the `/write-report` kind `interrogate` |
+| `blast-radius` | The `work-on` playbooks, after the build | Model invocation (no `disable-model-invocation`), its `@<plan path>` argument, and the verdict words `clear` and `risk` |
+| `verify` | `test`, `interrogate`, `blast-radius`; `qa-screenshots` runs only its `find_drivers.py` | Model invocation (no `disable-model-invocation`), the `no driver` return, and the `find_drivers.py` output: one driver path per line |
 | `happy-path` | `sad-path`, which adds its run to the same report | Model invocation (no `disable-model-invocation`), and the `/write-report` kind `qa`, so that both runs write to one file |
 
 ## light-review
 
-`light-review` has no steps of its own. It follows the `mob-review` steps with a list of eight
+`light-review` has no steps of its own. It follows the `mob-review` steps with a list of
 lanes.
 
 - A change to a `mob-review` step also changes `light-review`. Check each change that
@@ -144,6 +151,17 @@ how to turn it on. To run it by hand, run `.githooks/pre-commit` from the repo r
   the same change in `sad-path`.
 - Inside a persona, `$SKILL_DIR` means that persona's own directory. `mob-review` tells each
   subagent the absolute path.
+
+## Principles
+
+A principle is one of the 24 pstack `principle-*` skills in this domain. Rules:
+
+- Each principle keeps `disable-model-invocation: true`, and a `name` equal to its folder name. A principle is never a rule file, because a rule loads into every session.
+- A principle is a short rule with a test question. Keep its body under 2 KB, in STE and Australian English.
+- `work-on/SKILL.md` holds the index: five groups (Core, Architecture, Verification, Delegation, Meta), and one "when it applies" line for each principle. A new, renamed, or removed principle needs the same change in the index and in the `README.md` table.
+- Run `python3 skills/engineering/skills/work-on/scripts/check_principles.py <repo root>` after each change. It checks the folder set, the flag, the name, and the index. A change to the folder set also needs a change to its spec and its `EXPECTED` list.
+- A skill that applies a principle without the router names it in bold, with a sibling path such as `../principle-fix-root-causes/SKILL.md`. A rename needs the same change in each such skill.
+- `never-block-on-the-human` points at the `pause-list.md` rule. `guard-the-context-window` points at subagents and `/checkpoint`.
 
 ## Loading
 

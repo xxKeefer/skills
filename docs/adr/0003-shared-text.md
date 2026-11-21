@@ -2,6 +2,8 @@
 
 **Status:** Accepted, 2026-10-29. Updated 2026-11-13: the copies now live in `primitives`,
 `experimental`, and `engineering`. The `deprecated` plugin holds no skill, so it has no copy.
+Updated 2026-11-16: [ADR 0017](0017-dated-skill-lifecycle.md) removed `experimental` and its
+`STE.md`. The `deprecated` plugin now holds skills.
 
 ## Context
 

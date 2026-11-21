@@ -2,8 +2,8 @@
 name: apply-review
 description: >
   Apply the rows that you tick in a review report of your own branch. Fix test-first, commit once,
-  push once, then reply on and resolve the ticked threads.
-disable-model-invocation: true
+  push once, then reply on and resolve the ticked threads. Use when the user pastes the prompt that
+  a review report of their own branch builds, or asks to apply the ticked rows.
 argument-hint: "@<report path> <row IDs>"
 ---
 
@@ -96,7 +96,7 @@ and then green, and each added test went red under its break.
 
 1. Push nothing, and go to Step 7, when one of these is true:
    - The branch has no open PR. Check with `gh pr view --json state -q .state`.
-   - A handoff step runs this skill. The push step of the handoff pushes.
+   - A plan step runs this skill. The push step of the plan pushes.
 2. If a note or the user's message asks to check first, show `git show --stat HEAD` when Step 4
    made a commit, and the text of each reply. Ask once: push and reply, or stop.
 3. When Step 4 made no commit, go to Step 6.
@@ -114,12 +114,17 @@ Do this step for the rows with a `reply` or a `resolve` tick. Read
 
 1. List the threads of the PR. Match each row to its thread by the comment id in its `thread`
    URL. When no thread matches, skip the row and say which.
-2. For each `reply` tick, apply the note of the row to its `draft`. When the row also has a `fix`
+2. For each row with a `fix` tick, run `git show <short hash> -- <path>`, and find the code that
+   `issue` names in the removed lines. Then read `<path>` at HEAD, and confirm that the code is
+   gone or changed. When either check fails, post no reply for the row, and say that the fix did
+   not land.
+3. For each `reply` tick, apply the note of the row to its `draft`. When the row also has a `fix`
    tick, end the reply with `Fixed in <short hash>.` With no draft, the reply is that line alone.
    Post the reply on the thread.
-3. For each `resolve` tick, resolve the thread after its reply.
+4. For each `resolve` tick, resolve the thread after its reply.
 
-**Done when:** each `reply` tick has a posted reply, and each `resolve` tick has a resolved thread.
+**Done when:** each `Fixed in` reply has its change in the commit and at HEAD, each `reply` tick
+has a posted reply, and each `resolve` tick has a resolved thread.
 
 ## Step 7: Record the results
 

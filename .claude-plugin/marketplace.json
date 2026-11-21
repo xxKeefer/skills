@@ -55,12 +55,6 @@
       "source": "./skills/utility"
     },
     {
-      "name": "experimental",
-      "description": "Personal skills on probation. Promote to a real domain once usage justifies it; demote to `deprecated` if it doesn't.",
-      "category": "development",
-      "source": "./skills/experimental"
-    },
-    {
       "name": "deprecated",
       "description": "Personal skills awaiting a keep/kill decision. Disable freely; delete once confirmed unused.",
       "category": "development",

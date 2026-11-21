@@ -46,14 +46,14 @@ Ask whether to pick up this PR. Change nothing before the yes.
 
 ## Step 3: Claim the worktree
 
-Run `/claim` with the PR number. It returns the worktree path, the branch, and a handoff path or
+Run `/claim` with the PR number. It returns the worktree path, the branch, and a plan path or
 `none`. If `/claim` stops to ask a question, put the question to the user, and continue with the
 answer.
 
-If `/claim` returns a handoff, the work can have a plan. Show the path. The threads still go to the
-report in Step 5, so the handoff and the report do not compete.
+If `/claim` returns a plan, show its path. The threads still go to the
+report in Step 5, so the plan and the report do not compete.
 
-**Done when:** you have the worktree path, and the handoff path or `none`.
+**Done when:** you have the worktree path, and the plan path or `none`.
 
 ## Step 4: Sync the branch
 
@@ -93,8 +93,8 @@ Give:
    on and resolves the ticked threads.
 5. To add a panel run to the same report, run `/engineering:mob-review` in the worktree. For the
    essential lanes only, run `/engineering:light-review`.
-6. When `/claim` returned a handoff, its path. The user continues it with
-   `/do-next @<handoff path>` in a session in the worktree.
+6. When `/claim` returned a plan, its path. The user continues it with
+   `/do-next @<plan path>` in a session in the worktree.
 
 Neither this skill nor `/engineering:apply-review` merges the base or watches CI.
 

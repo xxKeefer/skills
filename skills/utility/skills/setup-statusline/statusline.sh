@@ -92,9 +92,22 @@ pace_colour() {
   fi
 }
 
-cwd=$(jq -r '.cwd // .workspace.current_dir // ""' <<<"$input")
-transcript=$(jq -r '.transcript_path // ""' <<<"$input")
-model_id=$(jq -r '.model.id // ""' <<<"$input")
+fields=()
+while IFS= read -r line; do fields+=("$line"); done < <(jq -r '
+  (.cwd // .workspace.current_dir // ""),
+  (.transcript_path // ""),
+  (.model.id // ""),
+  (.rate_limits.five_hour.used_percentage // ""),
+  (.rate_limits.five_hour.resets_at // ""),
+  (.rate_limits.seven_day.used_percentage // ""),
+  (.rate_limits.seven_day.resets_at // ""),
+  (.model.display_name // "" | ascii_downcase | gsub(" "; "-")),
+  (.effort.level // "")
+' <<<"$input")
+cwd=${fields[0]:-}; transcript=${fields[1]:-}; model_id=${fields[2]:-}
+session_used=${fields[3]:-}; session_reset=${fields[4]:-}
+weekly_used=${fields[5]:-}; weekly_reset=${fields[6]:-}
+model_name=${fields[7]:-}; effort=${fields[8]:-}
 
 case "$model_id" in
   *1m*|*1M*) ctx_max=1000000 ;;
@@ -110,11 +123,26 @@ reverse_file() {
 # --- context window: sum last message.usage from the transcript JSONL ---
 tokens=0
 if [ -n "$transcript" ] && [ -f "$transcript" ]; then
-  t=$(reverse_file "$transcript" 2>/dev/null | jq -r '
-    select(.message?.usage?) |
-    .message.usage |
-    (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)
-  ' 2>/dev/null | head -n 1)
+  cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/statusline"
+  cache_file="$cache_dir/tokens"
+  size=$(wc -c <"$transcript" | tr -d ' ')
+  t=""
+  if [ -f "$cache_file" ]; then
+    t=$(awk -F'\t' -v p="$transcript" -v s="$size" '$1 == p && $2 == s { print $3; exit }' "$cache_file")
+  fi
+  if [ -z "$t" ]; then
+    t=$(reverse_file "$transcript" 2>/dev/null | jq -r '
+      select(.message?.usage?) |
+      .message.usage |
+      (.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)
+    ' 2>/dev/null | head -n 1)
+    if [ -n "$t" ] && mkdir -p "$cache_dir" 2>/dev/null; then
+      {
+        [ -f "$cache_file" ] && awk -F'\t' -v p="$transcript" '$1 != p' "$cache_file" | tail -n 49
+        printf '%s\t%s\t%s\n' "$transcript" "$size" "$t"
+      } >"$cache_file.$$" && mv "$cache_file.$$" "$cache_file"
+    fi
+  fi
   [ -n "$t" ] && tokens=$t
 fi
 
@@ -183,18 +211,49 @@ usage_widget() {
   printf '%s %s%s%%%s%s' "$label" "$colour" "$used_int" "$RESET" "$reset"
 }
 
-session_used=$(jq -r '.rate_limits.five_hour.used_percentage // empty' <<<"$input")
-session_reset=$(jq -r '.rate_limits.five_hour.resets_at // empty' <<<"$input")
-weekly_used=$(jq -r '.rate_limits.seven_day.used_percentage // empty' <<<"$input")
-weekly_reset=$(jq -r '.rate_limits.seven_day.resets_at // empty' <<<"$input")
-model_name=$(jq -r '.model.display_name // "" | ascii_downcase | gsub(" "; "-")' <<<"$input")
-effort=$(jq -r '.effort.level // empty' <<<"$input")
-
 # --- assemble ---
 sep=" ${DIM}${DELIM}${RESET} "
+cwd_fmt=$(fish_cwd "$cwd")
 line1=""
-[ -n "$branch" ] && line1="${MAGENTA}${branch}${RESET}${sep}"
-line1+="${DIM}$(fish_cwd "$cwd")${RESET}"
+left_plain="$cwd_fmt"
+[ -n "$branch" ] && { line1="${MAGENTA}${branch}${RESET}${sep}"; left_plain="${branch} ${DELIM} ${cwd_fmt}"; }
+line1+="${DIM}${cwd_fmt}${RESET}"
+
+chips_file="$HOME/.cache/babysit/state.json"
+if [ -f "$chips_file" ]; then
+  chips=()
+  while IFS= read -r line; do chips+=("$line"); done < <(jq -r --argjson now "$(date +%s)" \
+    --argjson cols "${COLUMNS:-80}" --arg left "$left_plain" '
+    def sym: if .state == "failed" then "×" elif .state == "stale" then "!"
+      elif .state == "threads" then "◆\(.threads)" elif .state == "ready" then "●"
+      elif .state == "done" then "◌" else "○" end;
+    def ord: {failed: 0, stale: 1, threads: 2, ready: 4, done: 5}[.state // ""] // 3;
+    def sgr: ["97;41", "30;48;5;208", "97;44", "30;43", "30;42", "97;100"][ord];
+    def cells: . as $c | (" \(sym) \(.number) " | explode | map([($c | sgr), ([.] | implode)]));
+    def paint: reduce .[] as $c ([]; if length > 0 and .[-1][0] == $c[0] then .[-1][1] += $c[1] else . + [$c] end)
+      | map(if .[0] == "" then .[1] else "\u001b[\(.[0])m\(.[1])\u001b[0m" end) | join("");
+    def row: map(cells) | (reduce .[] as $c ([]; . + (if length > 0 then [["", " "]] else [] end) + $c));
+    [.[] | select((.state == "done" and .done_at != null and ($now - .done_at) > 600) | not)]
+    | sort_by(ord) | . as $all
+    | ($all | row) as $full | ($left | length) as $lw
+    | if ($all | length) == 0 then empty
+      elif $lw + 2 + ($full | length) <= $cols then
+        "\($cols - $lw - ($full | length))", ($full | paint)
+      else
+        ($all | map(select(ord < 2))) as $pin | ($all | map(select(ord >= 2)) | row) as $rest
+        | ($pin | row) as $p
+        | ($cols - $lw - 2 - ($p | length) - (if ($p | length) > 0 then 1 else 0 end)) as $w
+        | ($rest | length + 1) as $l
+        | (if $w > $l then $l else $w end) as $w
+        | "2", (($p | paint)
+          + (if ($p | length) > 0 and $w > 0 then " " else "" end)
+          + (if $w > 0 then [range($w) | ($rest + [["", " "]])[($now + .) % $l]] | paint else "" end))
+      end' "$chips_file" 2>/dev/null)
+  if [ -n "${chips[1]:-}" ]; then
+    printf -v gap '%*s' "${chips[0]}" ''
+    line1+="${gap}${chips[1]}"
+  fi
+fi
 
 tok_col=$(token_colour "$tokens")
 line2="$(battery "$tokens") ${BOLD}${tok_col}${tokens_fmt}${RESET} ${DIM}(${pct}%)${RESET}"

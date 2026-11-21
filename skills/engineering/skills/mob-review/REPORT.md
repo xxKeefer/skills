@@ -18,11 +18,11 @@ correctness         1    0       0   ran
 Give `/write-report` these inputs:
 
 - `kind`: `review`.
-- `key`: the ticket key from the handoff, the branch name, or the PR title. Else `pr-<n>` when the
+- `key`: the ticket key from the plan, the branch name, or the PR title. Else `pr-<n>` when the
   branch has a PR. Else the branch name with each `/` changed to `-`.
 - `title`: `Review of PR #<n>`, else `Review of <branch>`.
 - `skill`: `/engineering:post-review-comments` on someone else's code. On your own code,
-  `/engineering:build` when Step 1 has a handoff, else `/engineering:apply-review`.
+  `/engineering:build` when Step 1 has a plan, else `/engineering:apply-review`.
 - The run:
   - `title`: `Panel run`.
   - `head`: the head SHA from Step 1. For uncommitted work, add `+ working tree`.
@@ -32,8 +32,8 @@ Give `/write-report` these inputs:
     `gh pr view --json url -q .url`, when the branch has a PR), `Folder` (the absolute path of the
     repo folder), `Spec` (the source of the acceptance criteria, when `persona-ac-check` ran), and
     `Copilot` (`dropped N (<persona>: n, …)`, when the filter dropped a finding).
-    `/engineering:post-review-comments` reads `PR`, `Base`, and `Folder`. Add `Handoff` (the
-    absolute handoff path) when Step 1 has a handoff. `/engineering:build` reads it.
+    `/engineering:post-review-comments` reads `PR`, `Base`, and `Folder`. Add `Plan` (the
+    absolute plan path) when Step 1 has a plan. `/engineering:build` reads it.
   - `answer`: on someone else's code, the count in each tier, and what the user does next. On
     your own code, the count of fixed and open findings, and the fix commit. Ask no question. If
     every persona is clean, say so plainly. A clean panel is a valid result.
@@ -57,7 +57,7 @@ fixed rows in each group.
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
 - Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
-  `path:line`, convert it to a link first (resolve the line on `origin/main`).
+  `path:line`, convert it to a link first (resolve the line on `$BASE`).
 - Write each draft reply in the comment layout of
   [`post-review-comments`](../post-review-comments/SKILL.md#the-comment-layout), and follow the
   rules under that layout. `/engineering:post-review-comments` checks the anchor and scans the draft

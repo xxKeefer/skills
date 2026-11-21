@@ -16,21 +16,28 @@ Installable assets, such as hooks, the status line, output styles, and rules, li
 `utility` installer skill, so they ship with the plugin. The root owns only the registry, the commit
 hook, and shared documentation. No skills live at root -- they all live under `skills/`.
 
-`.githooks/` holds the scrub check: a pre-commit hook, its public pattern file, and its tests
-(`sh .githooks/pre-commit_test.sh`).
+`.githooks/` holds two checks, each with its tests:
 
-## Skill Maturity
+- The scrub check: a pre-commit hook and its public pattern file (`sh .githooks/pre-commit_test.sh`).
+  The same hook blocks a `SKILL.md` that runs a script by a path from the current folder
+  (`python3 ../`). Start the path with `$SKILL_DIR/`. It also blocks a `SKILL.md` that uses a
+  `$SKILL_DIR/` path but never says what `$SKILL_DIR` is.
+- The attribution check: a commit-msg hook that blocks a Claude attribution line
+  (`sh .githooks/commit-msg_test.sh`).
 
-New skills land in `experimental` and earn their way into a stable domain, or fall through to
-`deprecated` and eventual deletion. **All moves are manual** — a deliberate human decision, not an
-automated rule:
+Add no licence or notice files. Credit a source in one line of prose in the skill that uses it.
 
-- **Promote** (`experimental` → stable domain): when a skill has proven its worth in real use, move
-  it into the domain it belongs to and bump that domain's version.
-- **Deprecate** (any domain → `deprecated`): when a skill has gone cold or its value is in doubt,
-  move it here rather than deleting outright.
-- **Delete** (`deprecated` → gone): once you're confident the skill is genuinely unused. Git history
-  is the archive.
+## Skill Lifecycle
+
+A skill has a dated lifecycle ([ADR 0017](docs/adr/0017-dated-skill-lifecycle.md)). Each move is a
+human decision:
+
+- **Add:** a new skill lands in the domain that it belongs to.
+- **Deprecate:** when a skill falls out of use, run `/retire-a-skill`. It moves the skill to
+  `deprecated` and writes `deprecated: <date>` into its frontmatter.
+- **Delete:** run `skills/meta/skills/retire-a-skill/scripts/due.py`. It lists each deprecated
+  skill that is more than 30 days old, with its count from the skill tally. Delete a listed skill
+  with `/retire-a-skill`. Git history is the archive.
 
 ## North Star
 
@@ -56,3 +63,9 @@ Issues are cards on the `agentic-skills` Obsidian Kanban board in the vault. See
 
 Single-context: one `CONTEXT.md` at the repo root; ADRs go in `docs/adr/`. See
 `docs/agents/domain.md`.
+
+### Working files
+
+Write every `/write-to-file` doctype to `.ai/` in the root of the current worktree, not the main
+worktree. Git tracks `.ai/`, so a map, a plan, or a spec travels with its branch. Read
+`.ai/CLAUDE.md` before you add, edit, or delete a file there.

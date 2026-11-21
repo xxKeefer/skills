@@ -32,14 +32,14 @@ chmod +x ~/.claude/statusline.sh
 settings=~/.claude/settings.json
 [ -f "$settings" ] || echo '{}' > "$settings"
 tmp=$(mktemp)
-jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh"}' "$settings" > "$tmp" && mv "$tmp" "$settings"
+jq '.statusLine = {type: "command", command: "bash ~/.claude/statusline.sh", refreshInterval: 1}' "$settings" > "$tmp" && mv "$tmp" "$settings"
 ```
 
 Restart the session (or wait for a status-line refresh) for it to take effect.
 
 ## What it shows
 
-- **Line 1:** git branch · fish-style abbreviated cwd
+- **Line 1:** git branch · fish-style abbreviated cwd · PR chips on the right
 - **Line 2:** context battery · context tokens (%) · ◀ 5h usage % (reset) · ▶ 7d usage % (reset) · ● model//effort
 
 | Element | Source |
@@ -50,6 +50,10 @@ Restart the session (or wait for a status-line refresh) for it to take effect.
 | Context tokens + % | last `.message.usage` summed from the `transcript_path` JSONL; `ctx_max` 1M vs 200k from `model.id` |
 | ◀ / ▶ usage + reset | stdin `rate_limits.{five_hour,seven_day}.{used_percentage,resets_at}` |
 | ● model//effort | stdin `model.display_name` (lowercased, spaces to hyphens) and `effort.level` |
+
+| PR chip | `~/.cache/babysit/state.json`, one chip for each watched PR, no network call |
+
+The chips come from `/babysit`, in this order: red `×` failed, amber `!` stale, blue `◆N` unresolved threads, yellow `○` pending, green `●` ready, grey `◌` done. A done chip goes after 10 minutes. When the chips do not fit, the red and amber chips stay on the left and the others move one column each second.
 
 Two colour ladders signal severity: context tokens go green → yellow → amber → red across the
 `80k / 100k / 110k` zone thresholds, session usage goes green `<60` → yellow `<75` → amber `<90`

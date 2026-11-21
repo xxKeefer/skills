@@ -1,0 +1,134 @@
+---
+doctype: plan
+ticket: none
+worktree: /Users/danielkeefer/studio/code/pstack-inspiration
+branch: pstack-24_benchmark
+status: approved
+goal: "`webperf` reports a verdict with its limiter, or \"inconclusive\"."
+spec: .ai/spec_pstack-24.md
+builds_on: pstack-23
+---
+
+# Plan: pstack-24 `benchmark`
+
+## Goal
+
+Add `engineering/benchmark`, a skill with seven checks on a perf number, and make `webperf` call it on each measurement. Scope: SCOPED, one PR: one new skill, one edit to `webperf`, one README row.
+
+## Spec
+
+`.ai/spec_pstack-24.md`. This plan builds all of it.
+
+## Acceptance criteria
+
+- [x] **A.** Read `engineering/benchmark/SKILL.md` → it holds seven checks on a perf number, among them name the limiter, alternate A/B runs, count errors, and confirm that the work ran inside the timed region. It allows the verdict "inconclusive", cites `principle-explain-the-number`, and `webperf` calls it.
+- [x] **B.** Follow the `webperf` steps on a measured page → the report gives a verdict with its limiter, or "inconclusive" with the gap named.
+
+## Context
+
+- Map: `.ai/map_pstack-program.md`, unit 24. Done line: `webperf` reports a verdict with its limiter, or "inconclusive".
+- Approval: the map (H0).
+- Stack: this branch starts from `pstack-23_typescript-rules`, because the unit 20 to 23 PRs are not merged. The home machine sets the unit 24 PR base to that branch. Keep the unit 20 to 23 `.ai/` files.
+- Intent and Decisions: see the spec. Source: pstack `skills/benchmark-checklist/SKILL.md` (https://raw.githubusercontent.com/cursor/plugins/main/pstack/skills/benchmark-checklist/SKILL.md). Its seven questions are the seven checks: why not double, was it tuned, did it break limits, did it error, does it reproduce, does it matter, did it even happen. Credit pstack in one line of prose in the skill.
+- Verdicts: faster, slower, no measurable difference, or inconclusive. Inconclusive when the limiter has no name, a side ran untuned, or the error check or the "did it happen" check could not run. The report names the gap.
+- The skill is model-invocable, with no ★ and no `disable-model-invocation`, because `webperf` calls it. It names no tool product, so it stays everything-agnostic.
+- Fit with `webperf`: Step 1 and Step 3 of `webperf` take the median of three runs. The benchmark check asks for at least five alternating runs per side. `webperf` defers to `/benchmark` for the run count, and its Step 3 keep-or-revert reads the verdict. Not `/loop-until`: the spec puts that call out of scope.
+- Principle to cite in the skill, by sibling path: `principle-explain-the-number`. Read it before step 1.
+- Model: each build subagent runs at `sonnet`, by the map's `subagent_model`.
+- Production gate: none. A new skill loads at the next session start.
+- Push-only map: the push step runs `git push -u origin pstack-24_benchmark`.
+- Commit convention: conventional commits with the domain as scope. No Claude attribution line. Change no `plugin.json` version.
+- Gates: `sh .githooks/pre-commit_test.sh`, `sh .githooks/commit-msg_test.sh`, and `python3 skills/engineering/skills/work-on/scripts/check_principles.py .`.
+
+## Test approach
+
+### Risks
+
+| AC | Behaviour | Risk | Why |
+| --- | --- | --- | --- |
+| A | the skill holds the seven checks and the verdicts, and `webperf` calls it | L | skill text |
+| B | a `webperf` run ends in a verdict with a limiter, or "inconclusive" | M | new behaviour that an agent must follow across two skills. A text read cannot prove it. |
+
+### Conditions
+
+| ID | AC | Condition | Technique | Level | Planned test |
+| --- | --- | --- | --- | --- | --- |
+| C1 | B | a `webperf` run on a scratch page, with a fix that changes one metric, reports a verdict and its limiter, or "inconclusive" with the gap named | EP | Manual | the live run in step 2 |
+
+### Not testing
+
+- A: skill text. The review step reads it against its AC.
+- A run on a real app: the map has no app with a URL. A scratch page served from a temp folder runs the same steps.
+
+## Steps
+
+- [x] **1. The `benchmark` skill and the `webperf` call.** Kind: docs. Read `skills/meta/skills/writing-great-skills/SKILL.md`, `skills/meta/skills/write-a-skill/SKILL.md`, and `skills/engineering/skills/principle-explain-the-number/SKILL.md` first. Write `skills/engineering/skills/benchmark/SKILL.md`, model-invoked, with no ★. Steps, each with a done line: 1. Before the run: write the claim in the words you would ship, read the harness, and check that the machine is quiet. 2. The seven checks, each answered with evidence from a run. 3. The verdict: faster, slower, no measurable difference, or inconclusive, with the number, its unit, the run count, the range, and the limiter. Name the gap for inconclusive. Allow one run for a ballpark the user asked for, with checks 4 and 7 still run. Name no tool product. In `webperf`, call `/benchmark` on each measurement in Step 1 and Step 3, and make the keep-or-revert in Step 3 read the verdict. Add a row to `skills/engineering/README.md`.
+  - Seam: `skills/engineering/skills/benchmark/SKILL.md` and `skills/engineering/skills/webperf/SKILL.md`.
+  - Done: AC A holds on a read, and the pre-commit test passes.
+- [x] **2. Live run.** Kind: config. Conditions: C1. Make a scratch folder in a temp path with one HTML page that loads a large unsized image or a render-blocking script. Serve it with a local static server. Run the `/webperf` steps on it from this thread, with a lab tool run through `npx`, and one fix. Copy the verdict, the limiter or the gap, and the run count into this Done line. Stop the server, and delete the scratch folder. When no browser can run the lab tool, record the skip and its reason in Progress, and run the `/benchmark` checks on a scratch A/B command in its place.
+  - Seam: the `webperf` and `benchmark` skill text, as an agent follows it.
+  - Done: AC B holds. Page: a 2.1 MB script in `<head>`, fixed with `defer`, Lighthouse 12 through `npx`, mobile simulated throttling, 12 cores at load 3.2. Verdict: faster. LCP p50 11368 ms to 600 ms, 5 alternating runs for each side, range 11220 to 11371 ms before and 600 to 601 ms after. Limiter: the render-blocking script on the throttled network. The render-blocking audit gives 10.6 s for it, and 2.1 MB at the simulated 1.6 Mbps is about 10.5 s, so the gap is inside the limit (check 3). Check 4: no runtime error, and the script returned 200 on each run. Check 7: each run transferred the 2.1 MB script and ran it. TBT p50 67 ms to 84 ms, ranges 0 to 70 ms and 68 to 101 ms: close, with no clear change. CLS 0 on both sides. Server stopped, scratch folder deleted.
+- [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`. Base bbddd96, head 424d2c8. Two open rows, both in `webperf`.
+- [x] **4b. Review fixes r1.1 and r1.2.** Kind: docs. `webperf` Step 1 asked `/benchmark` for a verdict on a one-sided baseline, and Step 3 had no exit on inconclusive. Report: `.ai/review_pstack-24_benchmark.html`.
+  - Done: fixed in 89265c3. Step 1 runs checks 1, 3, 4, and 7 on the baseline and records its limiter, with no verdict. Step 3 closes an inconclusive gap once, else reverts the fix, marks it open with its gap, and goes to the next metric.
+- [x] **4c. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
+- [x] **4d. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 424d2c8. Do not raise r1.1 or r1.2 again. This step changes no code. Name `/engineering:light-review`.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`, run 2. Base bbddd96, reviewed head 7b65f69, fixed in 5f3c53c. Two nit rows, both fixed.
+- [x] **4e. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green. The pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
+- [x] **4f. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_pstack-24.md`. Run the `persona-skills` lane, because `webperf/SKILL.md` changed after 7b65f69. Do not raise r1.1, r1.2, r2.1, or r2.2 again. This step changes no code. Name `/engineering:light-review`. This is the third review step, so the loop stops after it.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_pstack-24_benchmark.html`, run 3. Base bbddd96, reviewed head 3ee3354. One nit row (r3.1), open.
+- [x] **5. Push.** Push-only map: run `git push -u origin pstack-24_benchmark`, in place of `/create-pr`.
+  - Done: the pushed head SHA is in this line. Pushed head 64039f8 to `origin/pstack-24_benchmark`.
+
+## Suggested skills
+
+- `/build @.ai/plan_pstack-24.md`: every step, then the test and review loop, from the worktree.
+- `/implement @.ai/plan_pstack-24.md`: one step per session, from the worktree.
+- `/engineering:light-review`: the review step.
+
+## Progress
+
+- 2026-11-18: plan written on `pstack-24_benchmark`.
+- Decision log: decisions_pstack-24.tsv
+- 2026-11-18: playbook `map`, step 3: four choices logged. Next: step 4, branch and `/build`.
+- 2026-11-18: step 1 done: `benchmark` skill, `webperf` calls it in Steps 1 and 3, README row added.
+- 2026-11-18: step 2 done: the live `/webperf` run gave the verdict faster, with its limiter. See the step 2 Done line.
+- 2026-11-18: step 3 done: the pre-commit test, the commit-msg test, and `check_principles.py` each exit 0.
+- 2026-11-18: step 4 done: light review wrote `.ai/review_pstack-24_benchmark.html`. Two open rows (webperf Step 1 baseline verdict, webperf Step 3 inconclusive loop). The step changes no code, so no fix was made.
+- 2026-11-18: step 4 review found two Change Requested rows in `webperf`. The `/work-on` loop fixes review rows with no stop, so step 4b fixed both in 89265c3. The fix changes skill text that an agent follows, so a new round (4c, 4d) runs.
+- 2026-11-18: step 4d done: the persona-skills lane found two nits in `webperf` Step 3 (no alternating baseline runs, no exit for an open metric). Both fixed in 5f3c53c, with no new gate failure.
+- 2026-11-18: step 4d fixed r2.1 and r2.2 in 5f3c53c, after the reviewed head 7b65f69. The fix changes skill text, so a third round (4e, 4f) runs.
+- 2026-11-18: step 4f done: the persona-skills lane found one nit in `webperf` Step 3 (no way to keep the pre-fix baseline for the alternating runs). It stays open in run 3 of the report. The review loop stops here.
+- 2026-11-18: `/blast-radius`: verdict `clear`. Safety fact: outside `.ai/`, the branch changes only the new `benchmark` skill, `webperf`, and one README row. `benchmark` is the only skill with that name, it is model-invocable with no ★, it links its principle, and it names no tool product. No file outside `.ai/` still says that `webperf` takes three runs. Rung 4. No confirmed risk. Cleared: the root README, ADR 0013, both plugin descriptions, and `engineering/CLAUDE.md` name `webperf` only as one of the nine commands, and `benchmark` adds no tenth, because it has no ★. `loop-until/SKILL.md:16` names `/webperf` only to contrast it. Proof, from the repo root on this branch:
+  ```
+  python3 - <<'PY'
+  import glob, re, subprocess, sys
+  bad = []
+  files = subprocess.run(["git","diff","--name-only","bbddd96","HEAD","--",".",":!.ai"],capture_output=True,text=True).stdout.split()
+  want = {"skills/engineering/README.md","skills/engineering/skills/benchmark/SKILL.md","skills/engineering/skills/webperf/SKILL.md"}
+  bad += [] if set(files) == want else [f"diff files: {files}"]
+  names = {}
+  for f in glob.glob("skills/*/skills/*/SKILL.md"):
+      m = re.search(r"^name:\s*(\S+)", open(f).read(), re.M)
+      names.setdefault(m.group(1) if m else None, []).append(f)
+  bad += [] if names.get("benchmark") == ["skills/engineering/skills/benchmark/SKILL.md"] else [f"benchmark name: {names.get('benchmark')}"]
+  b = open("skills/engineering/skills/benchmark/SKILL.md").read()
+  bad += [] if "disable-model-invocation" not in b and "★" not in b else ["benchmark not model-invocable or has a star"]
+  bad += [] if "../principle-explain-the-number/SKILL.md" in b else ["no principle link"]
+  tools = re.findall(r"\b(Lighthouse|pidstat|py-spy|strace|top|perf|nproc|uptime)\b", b)
+  bad += [] if not tools else [f"tool names: {tools}"]
+  w = open("skills/engineering/skills/webperf/SKILL.md").read()
+  bad += [] if w.count("/benchmark") >= 3 and "three times" not in w else ["webperf call or stale run count"]
+  stale = subprocess.run(["git","grep","-n","-i","-E","median of three|three runs","--",".",":!.ai"],capture_output=True,text=True).stdout
+  bad += [] if not stale else [f"stale: {stale}"]
+  print(bad or "ok"); sys.exit(1 if bad else 0)
+  PY
+  ```
+  Output: `ok`, exit 0.
+- 2026-11-18: `/ship` checks gave go (push-only, no Stack check). The review covers the head: `git patch-id --stable` gives one ID for the reviewed range and the branch range, outside `.ai/`. Pushed 64039f8. Review row r3.1 (nit) stays open for the user: `webperf` Step 3 does not say how to keep the pre-fix page for the alternating runs.
+- 2026-11-18: unit 24 ticked on the map. Playbook `map`, stop H5: `/retro` offered on the batch. Next: the user runs `/retro` or says no, then `/work-on @.ai/map_pstack-program.md` starts the next batch at step 1.

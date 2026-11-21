@@ -1,12 +1,15 @@
 ---
 name: prototype
-description: Build a throwaway prototype to answer a design question about logic or UI.
-disable-model-invocation: true
+description: >
+  Build a throwaway prototype to answer a design question about logic or UI. Use when the user says
+  "prototype", or a design question needs running code to answer it.
 ---
 
 # Prototype
 
 A prototype is **throwaway code that answers a question**. The question decides the shape.
+
+Principle: **principle-exhaust-the-design-space** ([`../principle-exhaust-the-design-space/SKILL.md`](../principle-exhaust-the-design-space/SKILL.md)). Read its file before you apply it, and name it in the reply when it shaped a choice.
 
 ## Pick a branch
 

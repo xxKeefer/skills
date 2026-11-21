@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{paper_name}} · {{date}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --accent: {{accent}};
+    --paper: #ffffff;
+    --ink: #121212;
+    --muted: #727272;
+    --rule: #dfdfdf;
+    --code: #f3f3f3;
+    --display: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+    --sans: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", Menlo, Consolas, monospace;
+    --nameplate: Chomsky, "UnifrakturCook", "Old English Text MT", "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 18px/1.65 var(--body);
+  }
+  .sheet { max-width: 1240px; margin: 0 auto; padding: 40px 56px 80px; }
+  a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  code { font: 0.82em/1.3 var(--mono); background: var(--code); padding: 1px 4px; }
+  h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; margin: 0 0 8px; line-height: 1.15; }
+  h2 {
+    font: 700 0.78rem/1.3 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border-top: 2px solid var(--accent);
+    padding-top: 12px;
+    margin: 0 0 22px;
+  }
+  h3 { font-size: 1.15em; }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font: 0.8rem/1.4 var(--sans); }
+  td, th { padding: 10px 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+  td:first-child, th:first-child { padding-left: 0; }
+  th { color: var(--muted); font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
+
+  #masthead { text-align: center; margin-bottom: 44px; }
+  #masthead .ears {
+    display: flex;
+    justify-content: space-between;
+    font: 0.72rem/1.4 var(--mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  #masthead h1 { font: 400 4.4em/1.05 var(--nameplate); margin: 22px 0 26px; }
+  #masthead .dateline {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-top: 1px solid var(--ink);
+    border-bottom: 3px double var(--accent);
+    padding: 10px 0;
+    font: 500 0.72rem/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .front { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0; margin-bottom: 60px; }
+  #lead { grid-column: span 8; padding-right: 44px; border-right: 1px solid var(--rule); }
+  .front > aside { grid-column: span 4; padding-left: 32px; }
+  #lead h2 { font: 700 2.5em/1.1 var(--display); color: var(--ink); text-transform: none; letter-spacing: 0; border: 0; padding: 0; }
+  #lead .standfirst { font: italic 1.15em/1.45 var(--display); color: var(--muted); margin: 20px 0 32px; padding-left: 14px; border-left: 3px solid var(--accent); }
+  #lead .body { column-count: 2; column-gap: 44px; column-rule: 1px solid var(--rule); }
+
+  .box { border-top: 2px solid var(--accent); padding-top: 14px; margin-bottom: 44px; }
+  .box h3 { font: 700 0.78rem/1.3 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .box p, .box li { font: 0.95rem/1.55 var(--sans); }
+  .breaking { border-top: 3px solid var(--accent); }
+  .breaking h3 { color: var(--accent); }
+
+  .sun { color: var(--ink); font-weight: 700; }
+  .cloud { color: var(--muted); font-weight: 700; }
+  .storm { color: var(--accent); font-weight: 700; }
+  .forecast { font-size: 1.4em; }
+
+  #your-desk { margin-bottom: 60px; }
+  #your-desk ol { column-count: 2; column-gap: 60px; column-rule: 1px solid var(--rule); }
+  #your-desk ol { padding-left: 0; }
+  #your-desk li { break-inside: avoid; margin-left: 2.2em; }
+  li::marker { color: var(--accent); font: 700 0.85em var(--mono); }
+  .tag {
+    display: inline-block;
+    font: 700 0.68rem/1.6 var(--mono);
+    color: var(--paper);
+    background: var(--accent);
+    padding: 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 6px;
+  }
+
+  #around-the-repos .columns { column-count: 3; column-gap: 60px; column-rule: 1px solid var(--rule); }
+  #around-the-repos article { break-inside: avoid; margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
+  #around-the-repos .repo {
+    font: 700 0.68rem/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .bottom { display: grid; grid-template-columns: repeat(12, 1fr); margin-top: 60px; }
+  #the-board { grid-column: span 8; padding-right: 44px; border-right: 1px solid var(--rule); }
+  .bottom > aside { grid-column: span 4; padding-left: 32px; }
+  #the-board h3 { font: 700 0.72rem/1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 26px; }
+  #honour-roll li strong { color: var(--accent); }
+  .colophon {
+    margin-top: 64px;
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    font: 0.7rem/1.4 var(--mono);
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .sheet { padding: 24px 20px 48px; }
+    .front, .bottom { grid-template-columns: 1fr; }
+    #lead, .front > aside, #the-board, .bottom > aside { grid-column: auto; padding: 0; border: 0; }
+    #lead .body, #your-desk ol, #around-the-repos .columns { column-count: 1; }
+    #masthead h1 { font-size: 2.8em; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<section id="masthead">
+  <div class="ears"><span>{{edition}}</span><span>{{window}}</span></div>
+  <h1>{{paper_name}}</h1>
+  <div class="dateline">{{date}} · {{repos_covered}}</div>
+</section>
+
+<div class="front">
+  <section id="lead">
+    <h2>{{lead_headline}}</h2>
+    <p class="standfirst">{{lead_standfirst}}</p>
+    <div class="body">{{lead_body}}</div>
+  </section>
+  <aside>
+    {{breaking_box}}
+    <section id="weather" class="box">
+      <h3>CI weather</h3>
+      {{weather_body}}
+    </section>
+  </aside>
+</div>
+
+<section id="your-desk">
+  <h2>Your desk</h2>
+  {{your_desk_body}}
+</section>
+
+<section id="around-the-repos">
+  <h2>Around the repos</h2>
+  <div class="columns">{{around_the_repos_body}}</div>
+</section>
+
+<div class="bottom">
+  <section id="the-board">
+    <h2>The board</h2>
+    {{board_body}}
+  </section>
+  <aside>
+    <section id="honour-roll" class="box">
+      <h3>Honour roll</h3>
+      {{honour_roll_body}}
+    </section>
+    <div class="box classifieds">
+      <h3>Classifieds</h3>
+      {{classifieds_body}}
+    </div>
+  </aside>
+</div>
+
+<p class="colophon">{{colophon}}</p>
+</div>
+</body>
+</html>

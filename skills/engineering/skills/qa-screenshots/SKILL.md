@@ -1,7 +1,9 @@
 ---
 name: qa-screenshots
-description: Run a happy-path QA checklist in your own browser, save a screenshot for each item, show them in the QA report, and append a Manual QA section to the PR.
-disable-model-invocation: true
+description: >
+  Run a happy-path QA checklist in your own browser, save a screenshot for each item, show them in
+  the QA report, and append a Manual QA section to the PR. Use when the user says "qa screenshots",
+  or asks to run the QA checklist in the browser.
 ---
 
 # QA Screenshots
@@ -13,6 +15,8 @@ shared environment is one that the user approved.
 > must drive the user's own signed-in browser. Read its notes file, if the block names one, for how
 > to reach the right tab, take a screenshot, and save it to disk. The code host is GitHub, through
 > `gh`. If either tool is missing, stop and say which one.
+
+`$SKILL_DIR` is this skill's base directory.
 
 **Inputs:** a PR number, or the PR of the current branch. The QA report is the `qa` report that
 `/engineering:happy-path` wrote for the branch, in the folder that `/write-to-file` uses for
@@ -40,7 +44,9 @@ Ask in one `AskUserQuestion`. Each question names its items.
 
 ## Step 3: Capture
 
-Work in the tab from Step 2.
+Work in the tab from Step 2. Run `python3 $SKILL_DIR/../verify/scripts/find_drivers.py --repo <repo root> --base <base>`. The base is the base branch of the PR or the plan, else the default branch of the repo. When it prints a
+driver path, read the feature map of that driver for the user path to each screen, and drive the screens in this tab. Do not run `/verify` here: it drives its own
+instance, not your tab. With no driver, use the browser flow below.
 
 - **Sign-in or device check:** stop and tell the user. Use no other browser, and do not go around
   it.

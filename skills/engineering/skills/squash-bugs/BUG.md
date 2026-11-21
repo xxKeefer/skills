@@ -47,8 +47,9 @@ Run the gates and the test scope that the repo guidance names.
 If a spec outside your change goes red, look first for state that leaks between tests: a toast, a
 global store, a timer, or a mock that a test does not reset.
 
-If a gate is red, fix the cause and run the gates again. After 3 fix attempts that leave a gate
-red, the verdict is `blocked`. Leave the work uncommitted, and go to step 6.
+If a gate is red, fix the cause and run the gates again. After 2 fix attempts on one premise leave
+a gate red, write the premise down and test it, as `principle-attack-the-premise` says. Then the
+verdict is `blocked`. Leave the work uncommitted, and go to step 6.
 
 When every gate is green, the verdict is `fixed`, unless it is already `trivial`.
 
@@ -69,27 +70,42 @@ step again.
 
 ## 6. Write the hunt doc
 
-Write `hunt_<ticket>.md` with `/write-to-file`, doctype `hunt`. When the user's instructions give
-one folder per ticket, use the ticket key for it. On a rerun, update the hunt doc that the parent
-gave you.
+Write `findings_<ticket>.md` with `/write-to-file`, doctype `findings`. When the user's
+instructions give one folder per ticket, use the ticket key for it. On a rerun, update the hunt doc
+that the parent gave you.
 
 ```markdown
-# Hunt: <ticket> <symptom>
+---
+doctype: findings
+ticket: <ticket>
+status: answered
+---
 
-**Verdict:** fixed | trivial | not a bug | cannot reproduce | decision | blocked
+# Findings: <ticket> <symptom>
 
-## Symptom
+## Question
 
 What the ticket reports, and what the spec shows.
 
-## Root cause
+## Answer
+
+**Verdict:** fixed | trivial | not a bug | cannot reproduce | decision | blocked
 
 The location, what happens, and why. For `not a bug` and `cannot reproduce`, the evidence.
+
+## Evidence
+
+The spec run and the code path that show the root cause.
+
+## Open points
+
+What a `decision` or `blocked` verdict needs, as `- ` lines. Else the word `none`.
 
 ## Fix
 
 What changed, and at which layer. For `decision`, options A, B, and C, with the one you recommend
-and the reason. For `blocked`, the red gate, the first lines of its output, and the 3 attempts.
+and the reason. For `blocked`, the red gate, the first lines of its output, the premise and the result of its
+test, the 2 attempts, and the effort that the parent gave you.
 
 ## Risk
 
@@ -100,10 +116,12 @@ What else the fix touches: other providers, flows, and callers of the changed co
 The user's answers. The parent writes this section.
 ```
 
+The verdict stays the first line of `## Answer`. Use `status: open` for `decision` and `blocked`.
+
 Write in **Simplified Technical English**. Read [`STE.md`](../../STE.md) before you write, and
 follow every rule in it.
 
-**Done when:** the hunt doc exists, and each section holds its content or "none".
+**Done when:** the hunt doc exists, it passes the findings check, and each section holds its content or "none".
 
 ## 7. Commit
 

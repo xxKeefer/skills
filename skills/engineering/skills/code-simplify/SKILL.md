@@ -1,14 +1,18 @@
 ---
 name: code-simplify
-description: "★ Code-simplify: make working code easier to read without a change in behaviour, one change at a time, with the tests run after each change."
+description: >
+  ★ Code-simplify: make working code easier to read without a change in behaviour, one change at a
+  time, with the tests run after each change. Use when the user says "simplify" or "clean up this
+  code".
 argument-hint: "[path, default the branch diff]"
-disable-model-invocation: true
 ---
 
 # Code Simplify
 
 Make code that works easier to read. Behaviour stays the same: same output for each input, same
 errors, same side effects.
+
+Principles: **principle-laziness-protocol** ([`../principle-laziness-protocol/SKILL.md`](../principle-laziness-protocol/SKILL.md)) and **principle-minimize-reader-load** ([`../principle-minimize-reader-load/SKILL.md`](../principle-minimize-reader-load/SKILL.md)). Read each file before you apply it, and name it in the reply when it shaped a choice.
 
 ## Step 1: Pick the scope
 

@@ -10,9 +10,11 @@ Dev-environment setup skills — pre-commit hooks, skill-usage tallying, and sta
 | `/setup-skill-tally` | Tally every skill invocation into `~/.claude/skill-tally.json` via a zero-latency hook |
 | `/setup-statusline` | Install the self-contained, version-controlled status line to `~/.claude/` and wire it into settings |
 | `/setup-no-ai-attribution` | Install a hook that denies a git commit whose message credits an AI tool, globally or per project |
+| `/setup-import-nudge` | Install a hook that reminds the agent when an edited file still holds a pattern your rules name |
 | `/setup-tool-policy` | Install the tool-policy hook (runner redirection, command blocking) globally or per project |
 | `/install-agent-voice` | Install all version-controlled output styles to `~/.claude/output-styles/` and select one in settings |
 | `/install-rules` | Install the coding-convention rules to `~/.claude/rules/`, each scoped by `paths:` to the files it applies to |
+| `/install-agents-md` | Install the managed `coding`, `tools`, and `models` blocks into `~/.claude/AGENTS.md`, with machine values hydrated outside the repo |
 | `/configure-obsidian-kanban` | Install and tune the obsidian-kanban plugin to match the projects domain board format |
 | `/set-up-dev-workflow-skills` | Per-repo config for the engineering skills — issue tracker, domain doc layout |
 | `/triage-dir` | Sort a cluttered directory into category folders, then report each folder in `triage.html` with a keep, archive, or delete suggestion |
