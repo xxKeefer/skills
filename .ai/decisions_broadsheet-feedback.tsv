@@ -18,3 +18,5 @@ veto and snooze change nothing in the vault; act-on-broadsheet only reports them
 One question lists every delete row, and takes all, none, or numbers	one stop for the whole batch, the same answer form as the daily backfill	spec Decisions line on the backfill question	done
 act-on-broadsheet commits nothing in the vault	the /daily backup step (step 11) owns vault commits	spec Decisions line on the git backup	done
 Bump the journal plugin to 2.10.0 in step 9	a new skill is a minor change, as the broadsheet commit bumped 2.8.0 to 2.9.0	commit 6fa6e44	done
+The backfill lists the children of a group, not the group line, and ticks a group line when all its children are ticked	a group line such as Chores is not a thing the user did; its children are	daily template: groups are top-level checkboxes with indented children	done
+The journal plugin stays at 2.10.0 for steps 10 to 12	the branch bumped 2.9.0 to 2.10.0 in step 9, and the repo bumps a domain once for each PR	git log main..HEAD of skills/journal/.claude-plugin/plugin.json shows one bump	done
