@@ -208,7 +208,13 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: the gates are green.
   - Result: every `*.spec.py` passes except `skill-tally.spec.py` and `triage_dir.spec.py`, which fail the same way on `main`. `pre-commit_test.sh` and `commit-msg_test.sh` pass.
   - Decision: no new review round. Step 27 changes two date bounds, its tests prove them, and the correctness lane of step 26 gave the fix.
-- [ ] **30. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
+- [x] **30. Page feedback: layout, legends, two prompts.** Seam: `check_broadsheet.py`. Conditions: C5. The inbox sections (letters, stale shelf, morgue) sit in one three-column grid row. Each section names its choices in `data-choices` and explains each in a legend, and drops a choice with no meaning there. The page builds two editable prompts: vault maintenance for `/journal:act-on-broadsheet`, and skill suite changes for `/engineering:spec`. A suite row can relate to a vault row.
+  - Done: `check_broadsheet.spec.py` passes (31 tests), the template passes it, and the page script, run in jsdom on a filled page, builds both prompts and keeps a hand edit.
+  - Result: commit cf84cb1. The legend, kind, and relation rules are in the check. The page script is still not run in a real browser.
+- [x] **31. Reflect streamline.** Kind: docs. The daily reflect loses "What went well" in the daily template, the Templater copy, and `/reflect`. The Sunday weekly reflect is unchanged. The vault's own template copy is left to the vault agent.
+  - Done: no daily template or `/reflect` daily question names "What went well".
+  - Result: commit 338ce98. The scanner reads reflect sections by heading level, so it needed no change; its test fixture uses the new daily shape.
+- [ ] **32. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
   - Done: the draft PR URL is in this line.
 
 ## Suggested skills
