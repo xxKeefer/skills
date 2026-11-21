@@ -23,13 +23,15 @@ row per theme, not one per commit. The repo is the current working directory.
   working tree. The checkout can be a feature branch or out of date.
 - If the fetch fails, use the local default branch and say so in Step 6.
 - Find the base commit: `git rev-list -1 --before=<start> origin/<default>`.
+- Find the end commit: `git rev-list -1 --before=<end> origin/<default>` for a range, else
+  `origin/<default>`. Steps 2 to 4 read up to `<end commit>`, so no commit after the window gets in.
 
-**Done when:** you have a start date, an end date, a base commit and the branch to read.
+**Done when:** you have a start date, an end date, a base commit, an end commit and the branch to read.
 
 ## Step 2: Read the changelogs
 
-1. List the tracked changelogs: `git ls-files | grep -iE '(^|/)CHANGELOG\.md$'`.
-2. Read each one from the branch (`git show origin/<default>:<path>`).
+1. List the changelogs at the end commit: `git ls-tree -r --name-only <end commit> | grep -iE '(^|/)CHANGELOG\.md$'`.
+2. Read each one at the end commit (`git show <end commit>:<path>`).
 3. Keep only the release entries dated inside the window.
 4. Collect the breaking changes, features and fixes, each with its scope, ticket key and commit hash.
 5. Remove duplicates across files. A release tool lists one commit under every package it touches,
@@ -43,16 +45,17 @@ Changelogs cover only the packages that release. Go to the commit history when a
 
 | Condition | What to read |
 | --- | --- |
-| The repo has no changelog | `git log <base>..origin/<default> --no-merges`, minus release commits |
-| A changed package has no changelog | `git log <base>..origin/<default> --no-merges -- <package-path>` |
+| The repo has no changelog | `git log <base>..<end commit> --no-merges`, minus release commits |
+| A changed package has no changelog | `git log <base>..<end commit> --no-merges -- <package-path>` |
+| A changed package has a changelog | `git log <base>..<end commit> --no-merges -- <package-path>`. Keep each commit whose hash no Step 2 entry names. These are changes that are not released yet |
 | An entry is too thin to summarise (empty release heading, bare subject) | That commit's body and `git show --stat` |
-| A change sits outside every package: root scripts, CI, shared config, agent guidance (`AGENTS.md`, `CLAUDE.md`, `.claude/`) | `git diff --stat <base> origin/<default> -- <paths>`, then the diff if the stat is not clear |
-| A package or app was added | `git diff --name-status <base> origin/<default>`, filtered for added manifests |
+| A change sits outside every package: root scripts, CI, shared config, agent guidance (`AGENTS.md`, `CLAUDE.md`, `.claude/`) | `git diff --stat <base> <end commit> -- <paths>`, then the diff if the stat is not clear |
+| A package or app was added | `git diff --name-status <base> <end commit>`, filtered for added manifests |
 
 To find packages with no changelog, compare the package directories in
-`git diff --name-only <base> origin/<default>` against the changelog list.
+`git diff --name-only <base> <end commit>` against the changelog list.
 
-Always collect the breaking-change footers: `git log <base>..origin/<default> --grep='BREAKING'`.
+Always collect the breaking-change footers: `git log <base>..<end commit> --grep='BREAKING'`.
 
 Read a diff only when the subject and body do not say what changed. Never write a summary from a
 ticket key alone.
