@@ -4,8 +4,9 @@ description: >
   Print this week's one-page HTML newspaper of the Obsidian vault into the journal folder: the
   week's story, the compass of filled reflections and trends, today's weather, chore rates, the
   goal ledger, the inbox, stale and archived notes, folder layout, project boards, and an
-  editorial. Each suggestion has a choice and a comment, and the page builds a prompt for
-  /journal:act-on-broadsheet. Use when the user says "broadsheet" or wants a newspaper of their
+  editorial. Each suggestion has a choice and a comment, and the page builds two editable prompts:
+  vault maintenance for /journal:act-on-broadsheet, and skill suite changes for the engineering
+  flow. Use when the user says "broadsheet" or wants a newspaper of their
   vault.
 disable-model-invocation: true
 argument-hint: "[accent=<colour>]"
@@ -15,8 +16,10 @@ argument-hint: "[accent=<colour>]"
 
 The journal domain's weekly newspaper. The front page tells the last 7 days from the journal. The
 inside pages look across the whole vault, and suggest what to file, archive, delete, or
-reorganise. The user picks a choice on each suggestion, and the page builds a prompt that
-`/journal:act-on-broadsheet` applies.
+reorganise. The user picks a choice on each suggestion, and the page builds two prompts, which the
+user can edit before they copy them. The vault prompt goes to `/journal:act-on-broadsheet`, which
+applies it with no review. The suite prompt goes to the engineering flow (`/engineering:spec`,
+then plan and build), so each change gets tests and review.
 
 `$SKILL_DIR` is this skill's base directory. The page is [`template.html`](template.html). The
 scripts are in `$SKILL_DIR/scripts/`: `edition.py`, `scan_vault.py`, `weather.py`, and
@@ -156,7 +159,10 @@ suggestion row has a reason and an action.
 From `activity`, `folders`, `compass`, and Steps 3 to 5: where the writing happens, at what hours,
 and in which folders. Then give three to five changes to the folders, the templates, or the
 routine that fit that use. Base each change on a number from the scan, and give the number. Each
-change is a suggestion row.
+change is a suggestion row. A change to the skills, the hooks, or a script is a suite row. A
+change that only edits a note or a template in the vault is a vault row: write
+`data-prompt="vault"` on it. When a suite row follows from a vault row, such as a new template
+that a skill must read, write that row's `data-id` in `data-relates` on the suite row.
 
 **Done when:** each suggestion names the number behind it.
 
@@ -178,6 +184,8 @@ the row shape, no row id is in `muted`, and no placeholder is left.
    names, and run it again.
 3. Open the page in the default browser.
 4. Reply with the path and the lead headline. Say to pick a choice or write a comment on each row
-   to act on, copy the prompt from the bar at the foot of the page, and paste it.
+   to act on, edit the two prompts at the foot of the page if needed, copy each from its button,
+   and paste the vault prompt into `/journal:act-on-broadsheet` and the suite prompt into a new
+   session.
 
 **Done when:** the check prints `ok`, and the user has the path.

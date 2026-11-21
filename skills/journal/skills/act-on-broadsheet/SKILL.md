@@ -11,8 +11,9 @@ argument-hint: "<prompt from the broadsheet page>"
 
 # Act on Broadsheet
 
-Apply the choices that the user made on a `/broadsheet` page. The choices are the approval, so
-this skill asks no question, except before a delete.
+Apply the choices that the user made on a `/broadsheet` page, from its vault maintenance prompt.
+The choices are the approval, so this skill asks no question, except before a delete. The page's
+skill suite prompt is not for this skill: it goes to `/engineering:spec`.
 
 Write as a secretary: do what each row says, and report it. No coaching. Commit nothing in the
 vault.
@@ -67,7 +68,7 @@ Sort each row by its choice:
 | --- | --- |
 | `do` | Apply the row's `Do:` action. A comment changes or narrows it |
 | `comment` | Apply the comment as the action for the row's target |
-| `done` | The user did it already. Tick the goal or the card that the row names, if it is open. Else change nothing |
+| `done` | The user did it already. Only the ledger and the board offer it. Tick the goal or the card that the row names, if it is open. Else change nothing |
 | `veto` | Write the row to the memory in Step 5. Change nothing else |
 | `snooze` | Write the row to the memory in Step 5, until the date in the comment. With no date in the comment, until 4 weeks from today. Change nothing else |
 

@@ -98,6 +98,20 @@
   .action details[open] summary::before { content: "- "; }
   .comment { display: block; width: 100%; min-height: 3.2em; margin-top: 4px; font: 0.85rem/1.4 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); field-sizing: content; }
 
+  .legend { font: 0.72rem/1.5 var(--mono); color: var(--muted); margin: 0 0 14px; }
+  .legend dt { display: inline; color: var(--accent); font-weight: 700; }
+  .legend dt::after { content: ":"; }
+  .legend dd { display: inline; margin: 0 12px 0 4px; }
+  .row3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; margin-bottom: 56px; }
+  .row3 > section { margin-bottom: 0; min-width: 0; }
+  .row3 > section + section { border-left: 1px solid var(--rule); padding-left: 24px; }
+  .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .prompts h3 { font: 700 0.78rem/1.3 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  .prompt-box { display: block; width: 100%; min-height: 10em; font: 0.75rem/1.5 var(--mono); border: 1px solid var(--rule); background: var(--code); color: var(--ink); padding: 8px; field-sizing: content; }
+  .buttons { margin-top: 8px; }
+  .buttons button { font: 500 0.72rem/1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--paper); background: var(--accent); border: 0; padding: 6px 12px; min-block-size: 24px; cursor: pointer; }
+  .buttons button[data-reset] { background: var(--muted); }
+
   .prompt-bar {
     position: sticky;
     bottom: 0;
@@ -114,9 +128,7 @@
   }
   .prompt-bar button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--paper); background: var(--accent); border: 0; padding: 6px 12px; min-block-size: 24px; cursor: pointer; }
   .prompt-bar .tip { color: var(--accent); }
-  .prompt-bar details { margin-left: auto; }
-  .prompt-bar summary { cursor: pointer; color: var(--muted); }
-  .prompt-bar textarea { display: block; width: min(640px, 90vw); min-height: 8em; margin-top: 6px; font: 0.75rem/1.4 var(--mono); text-transform: none; letter-spacing: 0; }
+  .prompt-bar .quiet { margin-left: auto; background: var(--muted); }
 
   .two { column-count: 2; column-gap: 60px; column-rule: 1px solid var(--rule); }
   .three { column-count: 3; column-gap: 48px; column-rule: 1px solid var(--rule); }
@@ -158,6 +170,8 @@
     .grid { grid-template-columns: 1fr; }
     .grid > .main, .grid > aside { grid-column: auto; padding: 0; border: 0; }
     #lead .body, .two, .three, #editorial .body { column-count: 1; }
+    .row3, .prompts { grid-template-columns: 1fr; }
+    .row3 > section + section { border-left: 0; padding-left: 0; }
     #masthead h1 { font-size: 2.8em; }
   }
 </style>
@@ -199,34 +213,40 @@
   </aside>
 </div>
 
-<section id="the-ledger">
+<section id="the-ledger" data-prompt="vault" data-choices="do done veto snooze">
   <h2>The ledger</h2>
+  <dl class="legend"><dt>do</dt><dd>Apply the Do: line: carry the goal, drop it, or tick it.</dd><dt>done</dt><dd>You did it already. The goal is ticked.</dd><dt>veto</dt><dd>Never raise this goal again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
   {{ledger_body}}
 </section>
 
-<div class="three">
-  <section id="letters">
+<div class="row3">
+  <section id="letters" data-prompt="vault" data-choices="do veto snooze">
     <h2>Letters to the editor</h2>
+    <dl class="legend"><dt>do</dt><dd>Move the note as the Do: line says.</dd><dt>veto</dt><dd>Never suggest this note again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
     {{letters_body}}
   </section>
-  <section id="stale-shelf">
+  <section id="stale-shelf" data-prompt="vault" data-choices="do veto snooze">
     <h2>The stale shelf</h2>
+    <dl class="legend"><dt>do</dt><dd>Archive the note.</dd><dt>veto</dt><dd>Keep the note. Never suggest archiving it again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
     {{stale_body}}
   </section>
-  <section id="the-morgue">
+  <section id="the-morgue" data-prompt="vault" data-choices="do veto snooze">
     <h2>The morgue</h2>
+    <dl class="legend"><dt>do</dt><dd>Delete the note. You are asked once more before it goes.</dd><dt>veto</dt><dd>Keep the note for good.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
     {{morgue_body}}
   </section>
 </div>
 
-<section id="editorial">
+<section id="editorial" data-prompt="suite" data-choices="do veto snooze">
   <h2>Editorial</h2>
+  <dl class="legend"><dt>do</dt><dd>Send the change to the skill suite prompt, to be built with tests and review. A row marked for the vault goes to the vault prompt.</dd><dt>veto</dt><dd>Never suggest this change again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
   <div class="body">{{editorial_body}}</div>
 </section>
 
 <div class="grid">
-  <section id="floor-plan" class="main">
+  <section id="floor-plan" class="main" data-prompt="vault" data-choices="do veto snooze">
     <h2>Floor plan</h2>
+    <dl class="legend"><dt>do</dt><dd>Make the folder change as the Do: line says. Links are fixed.</dd><dt>veto</dt><dd>Never suggest this change again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
     {{floor_plan_body}}
   </section>
   <aside>
@@ -237,41 +257,66 @@
   </aside>
 </div>
 
-<section id="the-board">
+<section id="the-board" data-prompt="vault" data-choices="do done veto snooze">
   <h2>The board</h2>
+  <dl class="legend"><dt>do</dt><dd>Set the project status as the Do: line says.</dd><dt>done</dt><dd>You did it already. The card is ticked.</dd><dt>veto</dt><dd>Never suggest this change again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
   {{board_body}}
 </section>
 
-<section id="back-pages">
+<section id="back-pages" data-prompt="vault" data-choices="do veto snooze">
   <h2>Back pages</h2>
+  <dl class="legend"><dt>do</dt><dd>Add the item to the want list.</dd><dt>veto</dt><dd>Never suggest this item again.</dd><dt>snooze</dt><dd>Hide the row until the date in your comment, or for 4 weeks.</dd></dl>
   <div class="three">{{back_pages_body}}</div>
 </section>
 
 <p class="colophon">{{colophon}}</p>
 
+<section id="prompts" class="prompts">
+  <div class="prompt">
+    <h3>Vault maintenance</h3>
+    <p class="legend">Goes to <code>/journal:act-on-broadsheet</code>. Needs no review. Edit it before you copy it.</p>
+    <textarea id="prompt-vault" class="prompt-box" data-kind="vault" aria-label="Prompt for vault maintenance"></textarea>
+    <div class="buttons"><button type="button" data-copy="vault">Copy</button> <button type="button" data-reset="vault">Reset</button></div>
+  </div>
+  <div class="prompt">
+    <h3>Skill suite changes</h3>
+    <p class="legend">Goes to the engineering flow: spec, plan, build, test, review. A row can relate to a vault row. Edit it before you copy it.</p>
+    <textarea id="prompt-suite" class="prompt-box" data-kind="suite" aria-label="Prompt for skill suite changes"></textarea>
+    <div class="buttons"><button type="button" data-copy="suite">Copy</button> <button type="button" data-reset="suite">Reset</button></div>
+  </div>
+</section>
+
 <div class="prompt-bar">
-  <span id="prompt-count" role="status">No rows chosen</span>
-  <button type="button" id="copy-prompt">Copy prompt</button>
+  <span id="count-vault" role="status">Vault: no rows</span>
+  <button type="button" data-copy="vault">Copy vault prompt</button>
+  <span id="count-suite" role="status">Suite: no rows</span>
+  <button type="button" data-copy="suite">Copy suite prompt</button>
+  <button type="button" data-goto="prompts" class="quiet">Edit prompts</button>
   <span class="tip" role="status"></span>
-  <details>
-    <summary>Show prompt</summary>
-    <textarea id="prompt-text" readonly aria-label="Prompt for /journal:act-on-broadsheet"></textarea>
-  </details>
-</div>
 </div>
 <script>
-  const CHOICES = ["", "do", "veto", "snooze", "done"];
+  const KINDS = ["vault", "suite"];
+  const HEAD = {
+    vault: ["/journal:act-on-broadsheet", "Rows (id | choice | section | row | comment):"],
+    suite: [
+      "/engineering:spec",
+      "Change the skill suite from these broadsheet rows. Plan the changes, then build them with tests and review.",
+      "Rows (id | choice | section | row | comment, with relates: <vault row id> when a row points at a vault row):",
+    ],
+  };
   const rows = [...document.querySelectorAll(".action")];
-  const count = document.getElementById("prompt-count");
-  const output = document.getElementById("prompt-text");
-  const button = document.getElementById("copy-prompt");
-  const tip = button.nextElementSibling;
+  const tip = document.querySelector(".prompt-bar .tip");
+  const edited = { vault: false, suite: false };
   let timer;
 
   for (const select of document.querySelectorAll("select.choice")) {
     if (select.options.length) continue;
-    for (const value of CHOICES) select.add(new Option(value || "-", value));
+    const offered = (select.closest("section[data-choices]")?.dataset.choices || "").split(/\s+/).filter(Boolean);
+    for (const value of ["", ...offered]) select.add(new Option(value || "-", value));
   }
+
+  const kind = (row) => row.dataset.prompt || row.closest("section[data-prompt]")?.dataset.prompt || "vault";
+  const byId = (id) => rows.find((row) => row.dataset.id === id);
 
   function text(node) {
     const copy = node.cloneNode(true);
@@ -287,48 +332,73 @@
     return cells.map(text).filter(Boolean).join(" / ");
   }
 
-  function build() {
-    const picked = rows.flatMap((row) => {
-      const choice = row.querySelector(".choice")?.value || "";
-      const comment = row.querySelector(".comment")?.value.trim() || "";
-      if (!choice && !comment) return [];
-      const section = row.closest("section[id]")?.id || "";
-      const line = [`- ${row.dataset.id}`, choice || "comment", section, label(row)];
-      if (comment) line.push(`comment: ${comment.replace(/\s+/g, " ")}`);
-      return [line.join(" | ")];
-    });
-    count.textContent = picked.length === 1 ? "1 row chosen" : `${picked.length || "No"} rows chosen`;
-    output.value = picked.length
-      ? ["/journal:act-on-broadsheet", `Edition: ${document.title}`, "Rows (id | choice | section | row | comment):", ...picked].join("\n")
+  function line(row) {
+    const choice = row.querySelector(".choice")?.value || "";
+    const comment = row.querySelector(".comment")?.value.trim() || "";
+    if (!choice && !comment) return null;
+    const section = row.closest("section[id]")?.id || "";
+    const parts = [`- ${row.dataset.id}`, choice || "comment", section, label(row)];
+    const related = row.dataset.relates;
+    if (related) {
+      const other = byId(related)?.querySelector(".choice")?.value;
+      parts.push(`relates: ${related}${other ? ` (${other} in the vault prompt)` : ""}`);
+    }
+    if (comment) parts.push(`comment: ${comment.replace(/\s+/g, " ")}`);
+    return parts.join(" | ");
+  }
+
+  function build(which) {
+    const picked = rows.filter((row) => kind(row) === which).map(line).filter(Boolean);
+    const count = document.getElementById(`count-${which}`);
+    const name = which === "vault" ? "Vault" : "Suite";
+    count.textContent = `${name}: ${picked.length === 1 ? "1 row" : `${picked.length || "no"} rows`}${edited[which] ? " (edited)" : ""}`;
+    if (edited[which]) return;
+    document.getElementById(`prompt-${which}`).value = picked.length
+      ? [HEAD[which][0], `Edition: ${document.title}`, ...HEAD[which].slice(1), ...picked].join("\n")
       : "";
-    return output.value;
   }
 
   function report(message) {
     clearTimeout(timer);
     tip.textContent = "";
     requestAnimationFrame(() => (tip.textContent = message));
-    timer = setTimeout(() => (tip.textContent = ""), 2000);
+    timer = setTimeout(() => (tip.textContent = ""), 2500);
   }
 
   document.addEventListener("input", (event) => {
-    if (event.target.closest(".action")) build();
-  });
-
-  button.addEventListener("click", async () => {
-    const text = build();
-    if (!text) return report("Nothing chosen");
-    try {
-      await navigator.clipboard.writeText(text);
-      report("Copied");
-    } catch {
-      output.closest("details").open = true;
-      output.select();
-      report("Copy failed: copy the prompt below");
+    const box = event.target.closest(".prompt-box");
+    if (box) {
+      edited[box.dataset.kind] = true;
+      build(box.dataset.kind);
+    } else if (event.target.closest(".action")) {
+      KINDS.forEach(build);
     }
   });
 
-  build();
+  document.addEventListener("click", async (event) => {
+    const go = event.target.closest("[data-goto]");
+    if (go) return document.getElementById(go.dataset.goto).scrollIntoView({ behavior: "smooth" });
+    const reset = event.target.closest("[data-reset]");
+    if (reset) {
+      edited[reset.dataset.reset] = false;
+      build(reset.dataset.reset);
+      return report("Prompt rebuilt from the rows");
+    }
+    const copy = event.target.closest("[data-copy]");
+    if (!copy) return;
+    const box = document.getElementById(`prompt-${copy.dataset.copy}`);
+    if (!box.value) return report("Nothing chosen");
+    try {
+      await navigator.clipboard.writeText(box.value);
+      report("Copied");
+    } catch {
+      box.select();
+      report("Copy failed: copy the selected text");
+    }
+  });
+
+  KINDS.forEach(build);
 </script>
+
 </body>
 </html>

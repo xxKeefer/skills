@@ -35,7 +35,10 @@ Each suggestion row has this shape:
 </li>
 ```
 
-- Leave the `<select>` empty. The page script adds the choices: do, veto, snooze, and done.
+- Leave the `<select>` empty. The page script fills it from `data-choices` of the section. Each
+  section of the template names its choices and has a `<dl class="legend">` that says what each
+  one does there. Keep both as the template has them: a choice with no meaning for a section is
+  not in `data-choices`, and the check fails a legend that does not match.
 - Mark a new row with `<span class="tag">new</span>`, and a repeat with
   `<span class="age">repeat</span>`. With no page last week, mark nothing.
 - The `data-id` is `<section id>:<target>`, so the same suggestion has the same id next week. The
@@ -54,6 +57,10 @@ Each suggestion row has this shape:
   page: when two rows in one section share a target, add `:<action verb>`. An id holds no space and
   no `|`: write a space in the target as `%20` and a `|` as `%7C`, such as
   `stale-shelf:03-work/old%20plan.md`. Write no other code.
+- The kind of a row is `data-prompt` on its section: `vault` or `suite`. A row can override it
+  with its own `data-prompt`. Vault rows go in the vault prompt, and suite rows in the suite
+  prompt. A suite row can carry `data-relates="<data-id of a vault row>"`, and the prompt then
+  names that row. The check fails a relation to a row that is not a vault row on the page.
 - Leave out each row whose `data-id` is in `muted` from Step 1. Do not name it on the page.
 - The row text never holds ` | comment: `, because `/journal:act-on-broadsheet` splits there.
 - Each note that the page names is a link: `obsidian://open?vault=<vault folder name>&file=<path

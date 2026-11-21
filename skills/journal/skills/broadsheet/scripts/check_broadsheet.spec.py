@@ -17,11 +17,21 @@ ROW = ('<li class="action" data-id="{id}"><span>A row</span>'
 PROMPT_SCRIPT = "<script>document.querySelectorAll('.action');</script>"
 
 
-def page(sections=SECTIONS, rows=(ROW.format(id="ledger-1"),), scripts=(PROMPT_SCRIPT,)):
+LEGEND = '<dl class="legend"><dt>do</dt><dd>Apply it.</dd><dt>done</dt><dd>You did it.</dd></dl>'
+PROMPTS = ('<textarea id="prompt-vault" aria-label="Vault prompt"></textarea>'
+           '<textarea id="prompt-suite" aria-label="Suite prompt"></textarea>')
+
+
+def page(sections=SECTIONS, rows=(ROW.format(id="ledger-1"),), scripts=(PROMPT_SCRIPT,), ledger_open=None,
+         suite_rows=(), prompts=PROMPTS, legend=LEGEND):
     body = "".join(f'<section id="{s}"><h2>{s}</h2></section>' for s in sections)
-    body = body.replace("<h2>the-ledger</h2>", "<h2>The ledger</h2><ul>" + "".join(rows) + "</ul>")
-    body = body.replace("<h2>editorial</h2>", "<h2>Editorial</h2>")
-    return "<html><head><style>p{}</style></head><body>" + body + "".join(scripts) + "</body></html>"
+    opening = ledger_open or '<section id="the-ledger" data-prompt="vault" data-choices="do done">'
+    body = body.replace('<section id="the-ledger">', opening)
+    body = body.replace("<h2>the-ledger</h2>", "<h2>The ledger</h2>" + legend + "<ul>" + "".join(rows) + "</ul>")
+    body = body.replace('<section id="editorial">',
+                        '<section id="editorial" data-prompt="suite" data-choices="do done">' if suite_rows else '<section id="editorial">')
+    body = body.replace("<h2>editorial</h2>", "<h2>Editorial</h2>" + (legend + "<ul>" + "".join(suite_rows) + "</ul>" if suite_rows else ""))
+    return "<html><head><style>p{}</style></head><body>" + body + prompts + "".join(scripts) + "</body></html>"
 
 
 def filled():
@@ -67,7 +77,8 @@ class Check(unittest.TestCase):
         with open(TEMPLATE) as f:
             html = fill(f.read())
         self.assertEqual(check(html), (0, "ok\n"))
-        self.assertIn('id="copy-prompt"', html)
+        self.assertIn('id="prompt-vault"', html)
+        self.assertIn('id="prompt-suite"', html)
 
     def test_a_good_page_is_ok(self):
         self.assertEqual(check(filled()), (0, "ok\n"))
@@ -158,6 +169,80 @@ class Check(unittest.TestCase):
         code, out = check(page().replace('<section id="gaps"', '<section style="color: red" id="gaps"'))
         self.assertEqual(code, 1)
         self.assertIn("has an inline style", out)
+
+    def test_names_a_section_with_rows_and_no_prompt_kind(self):
+        code, out = check(page(ledger_open='<section id="the-ledger" data-choices="do done">'))
+        self.assertEqual(code, 1)
+        self.assertIn("section #the-ledger has action rows but data-prompt is not vault or suite", out)
+        code, out = check(page(ledger_open='<section id="the-ledger" data-prompt="both" data-choices="do done">'))
+        self.assertIn("section #the-ledger has action rows but data-prompt is not vault or suite", out)
+
+    def test_names_a_section_with_rows_and_no_valid_choices(self):
+        code, out = check(page(ledger_open='<section id="the-ledger" data-prompt="vault">'))
+        self.assertEqual(code, 1)
+        self.assertIn("section #the-ledger has action rows but data-choices is empty or holds a value other than do, veto, snooze, or done", out)
+        code, out = check(page(ledger_open='<section id="the-ledger" data-prompt="vault" data-choices="do maybe">'))
+        self.assertIn("data-choices is empty or holds a value other than", out)
+
+    def test_names_a_choice_the_legend_does_not_explain(self):
+        code, out = check(page(ledger_open='<section id="the-ledger" data-prompt="vault" data-choices="do veto done">'))
+        self.assertEqual(code, 1)
+        self.assertIn("section #the-ledger: the legend does not explain veto", out)
+
+    def test_names_a_legend_entry_for_a_choice_the_section_drops(self):
+        code, out = check(page(ledger_open='<section id="the-ledger" data-prompt="vault" data-choices="do">'))
+        self.assertEqual(code, 1)
+        self.assertIn("section #the-ledger: the legend explains done, which the section does not offer", out)
+
+    def test_names_a_section_with_rows_and_no_legend(self):
+        code, out = check(page(legend=""))
+        self.assertEqual(code, 1)
+        self.assertIn("section #the-ledger: the legend does not explain do", out)
+
+    def test_a_suite_row_can_point_at_a_vault_row(self):
+        row = ROW.format(id="editorial-1").replace('data-id="editorial-1"', 'data-id="editorial-1" data-relates="ledger-1"')
+        self.assertEqual(check(page(suite_rows=(row,))), (0, "ok\n"))
+
+    def test_names_a_relation_to_a_row_that_is_not_on_the_page(self):
+        row = ROW.format(id="editorial-1").replace('data-id="editorial-1"', 'data-id="editorial-1" data-relates="gone"')
+        code, out = check(page(suite_rows=(row,)))
+        self.assertEqual(code, 1)
+        self.assertIn("action row editorial-1 relates to gone, which is not a vault row on the page", out)
+
+    def test_names_a_relation_to_a_suite_row(self):
+        first = ROW.format(id="editorial-1")
+        second = ROW.format(id="editorial-2").replace('data-id="editorial-2"', 'data-id="editorial-2" data-relates="editorial-1"')
+        code, out = check(page(suite_rows=(first, second)))
+        self.assertEqual(code, 1)
+        self.assertIn("action row editorial-2 relates to editorial-1, which is not a vault row on the page", out)
+
+    def test_names_a_relation_on_a_vault_row(self):
+        row = ROW.format(id="ledger-1").replace('data-id="ledger-1"', 'data-id="ledger-1" data-relates="ledger-1"')
+        code, out = check(page(rows=(row,)))
+        self.assertEqual(code, 1)
+        self.assertIn("action row ledger-1 relates to ledger-1, but only a suite row can relate to a vault row", out)
+
+    def test_a_row_can_override_the_section_prompt_kind(self):
+        row = ROW.format(id="editorial-1").replace('data-id="editorial-1"', 'data-id="editorial-1" data-prompt="vault"')
+        first = ROW.format(id="editorial-2").replace('data-id="editorial-2"', 'data-id="editorial-2" data-relates="editorial-1"')
+        self.assertEqual(check(page(suite_rows=(row, first))), (0, "ok\n"))
+
+    def test_names_a_row_with_a_bad_prompt_kind(self):
+        row = ROW.format(id="editorial-1").replace('data-id="editorial-1"', 'data-id="editorial-1" data-prompt="both"')
+        code, out = check(page(suite_rows=(row,)))
+        self.assertEqual(code, 1)
+        self.assertIn("action row editorial-1 has no data-prompt of vault or suite", out)
+
+    def test_wants_the_two_prompt_boxes_when_the_page_has_rows(self):
+        code, out = check(page(prompts=""))
+        self.assertEqual(code, 1)
+        self.assertIn("the page has no textarea #prompt-vault", out)
+        self.assertIn("the page has no textarea #prompt-suite", out)
+
+    def test_names_a_prompt_box_that_is_read_only(self):
+        code, out = check(page(prompts=PROMPTS.replace('id="prompt-vault"', 'id="prompt-vault" readonly')))
+        self.assertEqual(code, 1)
+        self.assertIn("textarea #prompt-vault is read-only; the user must be able to edit the prompt", out)
 
 
 if __name__ == "__main__":
