@@ -12,6 +12,8 @@ LINK = re.compile(r"!?\[\[([^\]]+)\]\]")
 CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
 TASK = re.compile(r"^(\s*)[-*] \[(.)\] (.+)$")
 BOLD = re.compile(r"\*\*|__")
+EMPTY = re.compile(r"^\s*(?:[-*+]|\d+[.)])?\s*(?:\[.\])?\s*$")
+DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
 
 def frontmatter(text):
@@ -101,6 +103,56 @@ def leaf_tasks(body):
             continue
         out.append((" ".join(BOLD.sub("", m.group(3)).split()), m.group(2).lower() == "x"))
     return out
+
+
+def reflect(body):
+    sections, inside, heading, lines = [], False, None, []
+
+    def close():
+        text = "\n".join(l.rstrip() for l in lines if not EMPTY.match(l)).strip()
+        if text:
+            sections.append({"heading": heading, "text": text})
+
+    for line in body.splitlines():
+        if re.match(r"^#{1,2}\s", line):
+            if inside:
+                close()
+            inside, heading, lines = bool(re.match(r"^##\s.*\bReflect\b", line)), None, []
+        elif inside and line.startswith("### "):
+            close()
+            heading, lines = line[4:].strip(), []
+        elif inside:
+            lines.append(line)
+    if inside:
+        close()
+    return sections
+
+
+def journal_level(rel, meta):
+    kind = meta.get("type", "")
+    level = kind.split("/", 1)[1] if kind in ("journal/daily", "journal/weekly", "journal/monthly") else None
+    name = os.path.splitext(os.path.basename(rel))[0].lower()
+    m = re.fullmatch(r"(\d{4})-wk(\d{2})-(\w{3,4})", name)
+    n = re.fullmatch(r"(\d{4})-(\d{2})-[a-z]{3}", name)
+    guess = None
+    try:
+        if m and m.group(3) == "week":
+            guess = ("weekly", dt.date.fromisocalendar(int(m.group(1)), int(m.group(2)), 1))
+        elif m and m.group(3) in DAYS:
+            guess = ("daily", dt.date.fromisocalendar(int(m.group(1)), int(m.group(2)), DAYS.index(m.group(3)) + 1))
+        elif n:
+            guess = ("monthly", dt.date(int(n.group(1)), int(n.group(2)), 1))
+    except ValueError:
+        guess = None
+    level = level or (guess[0] if guess else None)
+    if not level:
+        return None
+    try:
+        date = dt.date.fromisoformat(meta["date"]) if meta.get("date") else None
+    except ValueError:
+        date = None
+    date = date or (guess[1] if guess and guess[0] == level else None)
+    return (level, date) if date else None
 
 
 def scan(root, journal, today, window, stale_days, archive_days, limit):
@@ -305,6 +357,19 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             for t in (value if isinstance(value, list) else [value]):
                 tags[t] += 1
 
+    reflections = []
+    for rel, n in notes.items():
+        if top(rel) != jtop:
+            continue
+        found = journal_level(rel, n["meta"])
+        if not found or not today - dt.timedelta(days=365) <= found[1] <= today:
+            continue
+        sections = reflect(n["body"])
+        if sections:
+            reflections.append({"path": rel.replace(os.sep, "/"), "level": found[0], "date": str(found[1]),
+                                "sections": sections})
+    reflections.sort(key=lambda r: (r["date"], r["path"]), reverse=True)
+
     compass = []
     for days in (7, 30, 90, 365):
         since = today - dt.timedelta(days=days)
@@ -317,6 +382,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             "edits": sum(found.values()),
             "chore_rate": round(sum(ticked_w.values()) / sum(seen_w.values()), 2) if seen_w else None,
             "busiest": [[f, c] for f, c in sorted(found.items(), key=lambda x: (-x[1], x[0]))[:3]],
+            "reflections": sum(1 for r in reflections if r["date"] >= str(since)),
         })
 
     projects = []
@@ -355,6 +421,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
                     "summaries": summaries, "carried": carried, "checklists": checklists,
                     "broken_nav": broken_nav},
         "compass": compass,
+        "reflections": reflections,
         "projects": projects,
         "inbox": inbox_rows,
         "recent": recent[:limit],

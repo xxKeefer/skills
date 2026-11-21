@@ -298,7 +298,7 @@ class Compass(unittest.TestCase):
         base(v)
         out = v.scan()
         self.assertEqual([r["days"] for r in out["compass"]], [7, 30, 90, 365])
-        self.assertEqual(set(out["compass"][0]), {"days", "dailies", "edits", "chore_rate", "busiest"})
+        self.assertEqual(set(out["compass"][0]), {"days", "dailies", "edits", "chore_rate", "busiest", "reflections"})
 
     def test_a_daily_7_days_back_is_in_the_week_and_one_8_days_back_is_not(self):
         v = Vault(self)
@@ -330,6 +330,65 @@ class Compass(unittest.TestCase):
         v2 = Vault(self)
         base(v2)
         self.assertIsNone(v2.scan()["compass"][0]["chore_rate"])
+
+
+REFLECT = "## 🤔 Reflect\n\n### 🧠 What I learned\n\n{learned}\n### ✅ What went well\n\n-\n- [ ] \n\n### ➡️ What is next\n\n{next}\n"
+
+
+def note(kind, date, body):
+    return f"---\ntype: journal/{kind}\ndate: {date}\n---\n\n# Note\n\n## Today\n\n- [x] a\n\n{body}"
+
+
+class Reflections(unittest.TestCase):
+    def test_a_reflect_with_only_sub_headings_and_empty_markers_gives_nothing(self):
+        v = Vault(self)
+        base(v)
+        v.write("01-journal/2026-wk47-fri.md", note("daily", "2026-11-20", REFLECT.format(learned="", next="- ")))
+        self.assertEqual(v.scan()["reflections"], [])
+
+    def test_gives_each_filled_sub_heading_with_its_note_level_and_date(self):
+        v = Vault(self)
+        base(v)
+        v.write("01-journal/2026-wk47-fri.md",
+                note("daily", "2026-11-20", REFLECT.format(learned="Rust lifetimes\nare fine", next="")))
+        v.write("01-journal/2026-wk46-week.md", note("weekly", "2026-11-09", REFLECT.format(learned="", next="- Ship it")))
+        v.write("01-journal/2026-10-oct.md", note("monthly", "2026-10-01", REFLECT.format(learned="Slow down", next="")))
+        out = v.scan()["reflections"]
+        self.assertEqual(out, [
+            {"path": "01-journal/2026-wk47-fri.md", "level": "daily", "date": "2026-11-20",
+             "sections": [{"heading": "🧠 What I learned", "text": "Rust lifetimes\nare fine"}]},
+            {"path": "01-journal/2026-wk46-week.md", "level": "weekly", "date": "2026-11-09",
+             "sections": [{"heading": "➡️ What is next", "text": "- Ship it"}]},
+            {"path": "01-journal/2026-10-oct.md", "level": "monthly", "date": "2026-10-01",
+             "sections": [{"heading": "🧠 What I learned", "text": "Slow down"}]},
+        ])
+
+    def test_any_level_two_heading_ends_the_reflect_so_a_shopping_list_is_not_quoted(self):
+        v = Vault(self)
+        base(v)
+        body = REFLECT.format(learned="", next="") + "\n## Shopping\n\n- milk\n"
+        v.write("01-journal/2026-wk47-fri.md", note("daily", "2026-11-20", body))
+        self.assertEqual(v.scan()["reflections"], [])
+
+    def test_reads_the_level_and_date_from_the_file_name_when_frontmatter_has_none(self):
+        v = Vault(self)
+        base(v)
+        v.write("01-journal/2026-wk47-thu.md", REFLECT.format(learned="x", next=""))
+        v.write("01-journal/2026-wk46-week.md", REFLECT.format(learned="y", next=""))
+        v.write("01-journal/2026-09-sep.md", REFLECT.format(learned="z", next=""))
+        out = [(r["level"], r["date"]) for r in v.scan()["reflections"]]
+        self.assertEqual(out, [("daily", "2026-11-19"), ("weekly", "2026-11-09"), ("monthly", "2026-09-01")])
+
+    def test_counts_reflections_in_each_compass_window_and_drops_ones_past_a_year(self):
+        v = Vault(self)
+        base(v)
+        v.write("01-journal/a.md", note("daily", "2026-11-14", REFLECT.format(learned="in", next="")))
+        v.write("01-journal/b.md", note("daily", "2026-11-13", REFLECT.format(learned="out", next="")))
+        v.write("01-journal/c.md", note("monthly", "2025-11-01", REFLECT.format(learned="old", next="")))
+        out = v.scan()
+        rows = {r["days"]: r["reflections"] for r in out["compass"]}
+        self.assertEqual(rows, {7: 1, 30: 2, 90: 2, 365: 2})
+        self.assertEqual([r["path"] for r in out["reflections"]], ["01-journal/a.md", "01-journal/b.md"])
 
 
 class Projects(unittest.TestCase):
