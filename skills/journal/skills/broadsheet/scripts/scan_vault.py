@@ -54,12 +54,13 @@ def git_history(root):
     if not os.path.isdir(os.path.join(root, ".git")):
         return None
     p = subprocess.run(
-        ["git", "-c", "core.quotepath=off", "log", "--format=@%at %ad", "--date=format:%H %u", "--name-only"],
+        ["git", "-c", "core.quotepath=off", "log", "--format=@%at %ad", "--date=format:%H %u",
+         "--name-status", "-M", "-l0"],
         cwd=root, capture_output=True, text=True,
     )
     if p.returncode:
         return None
-    commits, current = [], None
+    commits, current, alias = [], None, {}
     for line in p.stdout.splitlines():
         if line.startswith("@"):
             stamp, hour, weekday = line[1:].split()
@@ -67,7 +68,14 @@ def git_history(root):
                        "hour": int(hour), "weekday": int(weekday) - 1, "files": []}
             commits.append(current)
         elif line and current:
-            current["files"].append(line)
+            status, *paths = line.split("\t")
+            path = alias.get(paths[-1], paths[-1])
+            if status.startswith("R"):
+                alias[paths[0]] = path
+            elif status.startswith("A"):
+                alias[paths[0]] = None
+            if path is not None and status != "R100":
+                current["files"].append(path)
     return commits
 
 
@@ -312,6 +320,8 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
     broken_nav = []
     for rel, n in notes.items():
         if top(rel) != jtop or n["age"] > window:
+            continue
+        if os.path.relpath(os.path.join(root, rel), journal).split(os.sep)[0] == "chronicles":
             continue
         for key in ("up", "prev", "next"):
             value = n["meta"].get(key)

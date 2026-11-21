@@ -43,6 +43,15 @@ class Vault:
             self.sh("git", "add", "-A")
             self.sh("git", "commit", "-q", "-m", rel, date=date)
 
+    def move(self, old, new, date, text=None):
+        os.makedirs(os.path.dirname(os.path.join(self.root, new)), exist_ok=True)
+        self.sh("git", "mv", old, new)
+        if text is not None:
+            with open(os.path.join(self.root, new), "w") as f:
+                f.write(text)
+        self.sh("git", "add", "-A")
+        self.sh("git", "commit", "-q", "-m", new, date=date)
+
     def scan(self, *extra):
         p = subprocess.run(
             [sys.executable, SCRIPT, self.root, "--journal", os.path.join(self.root, "01-journal"),
@@ -80,6 +89,29 @@ class Ages(unittest.TestCase):
         out = v.scan()
         self.assertNotIn("03-work/edited.md", [s["path"] for s in out["stale"]])
         self.assertEqual(out["activity"]["edits_by_folder"], {"03-work": 1})
+
+    def test_a_pure_rename_keeps_the_age_and_is_not_an_edit(self):
+        v = Vault(self)
+        base(v)
+        v.write("03-work/old.md", "a long note body that git can match\n" * 5, date="2026-08-23")
+        v.move("03-work/old.md", "06-omen/moved.md", date="2026-11-20")
+        out = v.scan()
+        stale = {s["path"]: s for s in out["stale"]}
+        self.assertEqual(stale["06-omen/moved.md"]["age_days"], 90)
+        self.assertEqual(out["activity"]["edits_by_folder"], {})
+        rows = {r["days"]: r for r in out["compass"]}
+        self.assertEqual((rows[7]["edits"], rows[365]["edits"]), (0, 2))
+        self.assertEqual(rows[365]["busiest"], [["01-journal", 1], ["06-omen", 1]])
+
+    def test_a_rename_with_a_content_change_is_an_edit(self):
+        v = Vault(self)
+        base(v)
+        v.write("03-work/old.md", "a long note body that git can match\n" * 5, date="2026-08-23")
+        v.move("03-work/old.md", "06-omen/moved.md", date="2026-11-20",
+               text="a long note body that git can match\n" * 5 + "one more line\n")
+        out = v.scan()
+        self.assertNotIn("06-omen/moved.md", [s["path"] for s in out["stale"]])
+        self.assertEqual(out["activity"]["edits_by_folder"], {"06-omen": 1})
 
     def test_without_git_age_comes_from_the_file_time(self):
         v = Vault(self, git=False)
@@ -259,6 +291,13 @@ class Journal(unittest.TestCase):
             "up: '[[2026-wk47-week]]'", "up: '[[2026-wk47-week]]'\nprev: '[[2026-wk47-thu]]'"))
         nav = v.scan()["journal"]["broken_nav"]
         self.assertEqual(nav, [{"path": "01-journal/2026-11-20.md", "key": "prev", "target": "2026-wk47-thu"}])
+
+    def test_broken_nav_leaves_out_files_in_chronicles(self):
+        v = Vault(self)
+        base(v)
+        v.write("01-journal/chronicles/2026/2026-04-chronicle.md",
+                "---\ntype: journal/chronicle\nprev: '[[2026-03-chronicle]]'\n---\n", date="2026-11-20")
+        self.assertEqual(v.scan()["journal"]["broken_nav"], [])
 
 
 class Folders(unittest.TestCase):
