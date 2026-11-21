@@ -6,7 +6,7 @@
 <title>{{paper_name}} · {{date}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,700;1,400&family=Shantell+Sans:wght@700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
   :root {
     --accent: {{accent}};
@@ -15,7 +15,6 @@
     --muted: #6f6a60;
     --rule: #ddd6c8;
     --code: #f0ebe0;
-    --display: "Shantell Sans", system-ui, sans-serif;
     --heading: "Noto Serif", Georgia, serif;
     --body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
     --mono: "JetBrains Mono", Menlo, Consolas, monospace;
@@ -72,7 +71,7 @@
   .grid { display: grid; grid-template-columns: repeat(12, 1fr); }
   .grid > .main { grid-column: span 8; padding-right: 44px; border-right: 1px solid var(--rule); }
   .grid > aside { grid-column: span 4; padding-left: 32px; }
-  #lead h2 { font: 700 2.5em/1.1 var(--display); color: var(--ink); text-transform: none; letter-spacing: 0; border: 0; padding: 0; }
+  #lead h2 { font: 700 2.5em/1.1 var(--heading); color: var(--ink); text-transform: none; letter-spacing: 0; border: 0; padding: 0; }
   #lead .standfirst { font: italic 1.15em/1.45 var(--heading); color: var(--muted); margin: 20px 0 32px; padding-left: 14px; border-left: 3px solid var(--accent); }
   #lead .body { column-count: 2; column-gap: 44px; column-rule: 1px solid var(--rule); }
 
@@ -80,10 +79,44 @@
   .box h3 { font: 700 0.78rem/1.3 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
   .box p, .box li { font: 0.95rem/1.55 var(--body); }
 
-  .sun { color: var(--ink); font-weight: 700; }
-  .cloud { color: var(--muted); font-weight: 700; }
-  .storm { color: var(--accent); font-weight: 700; }
-  .forecast { font-size: 1.4em; }
+  .forecast { font: 700 1.4em/1.3 var(--heading); margin-bottom: 4px; }
+  .rate { font: 500 0.8rem var(--mono); white-space: nowrap; }
+
+  #compass { margin-top: 44px; }
+  #compass blockquote { margin: 0 0 22px; padding-left: 14px; border-left: 3px solid var(--accent); font: italic 1.05em/1.6 var(--heading); }
+  #compass blockquote p { margin-bottom: 6px; }
+  #compass cite { display: block; font: normal 0.72rem/1.4 var(--mono); color: var(--muted); }
+
+  .action { padding-left: 8px; border-left: 3px solid transparent; }
+  .action:has(.choice option:checked:not([value=""])) { border-left-color: var(--accent); }
+  .choice { font: 500 0.72rem/1.2 var(--mono); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); padding: 2px 4px; margin-left: 4px; vertical-align: baseline; }
+  .action details { display: inline-block; margin-left: 4px; }
+  .action details[open] { display: block; margin: 6px 0 0; }
+  .action summary { display: inline; cursor: pointer; font: 0.72rem var(--mono); color: var(--muted); list-style: none; }
+  .action summary::-webkit-details-marker { display: none; }
+  .action summary::before { content: "+ "; }
+  .action details[open] summary::before { content: "- "; }
+  .comment { display: block; width: 100%; min-height: 3.2em; margin-top: 4px; font: 0.85rem/1.4 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); field-sizing: content; }
+
+  .prompt-bar {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    background: var(--paper);
+    border-top: 3px double var(--accent);
+    padding: 8px 0;
+    font: 500 0.72rem/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .prompt-bar button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--paper); background: var(--accent); border: 0; padding: 6px 12px; min-block-size: 24px; cursor: pointer; }
+  .prompt-bar .tip { color: var(--accent); }
+  .prompt-bar details { margin-left: auto; }
+  .prompt-bar summary { cursor: pointer; color: var(--muted); }
+  .prompt-bar textarea { display: block; width: min(640px, 90vw); min-height: 8em; margin-top: 6px; font: 0.75rem/1.4 var(--mono); text-transform: none; letter-spacing: 0; }
 
   .two { column-count: 2; column-gap: 60px; column-rule: 1px solid var(--rule); }
   .three { column-count: 3; column-gap: 48px; column-rule: 1px solid var(--rule); }
@@ -139,15 +172,25 @@
 </section>
 
 <div class="grid">
-  <section id="lead" class="main">
-    <h2>{{lead_headline}}</h2>
-    <p class="standfirst">{{lead_standfirst}}</p>
-    <div class="body">{{lead_body}}</div>
-  </section>
+  <div class="main">
+    <section id="lead">
+      <h2>{{lead_headline}}</h2>
+      <p class="standfirst">{{lead_standfirst}}</p>
+      <div class="body">{{lead_body}}</div>
+    </section>
+    <section id="compass">
+      <h2>The compass</h2>
+      {{compass_body}}
+    </section>
+  </div>
   <aside>
     <section id="weather" class="box">
       <h3>Weather</h3>
       {{weather_body}}
+    </section>
+    <section id="chores" class="box">
+      <h3>Chores</h3>
+      {{chores_body}}
     </section>
     <section id="gaps" class="box">
       <h3>Gaps</h3>
@@ -159,11 +202,6 @@
 <section id="the-ledger">
   <h2>The ledger</h2>
   {{ledger_body}}
-</section>
-
-<section id="carried-over">
-  <h2>Carried over</h2>
-  {{carried_body}}
 </section>
 
 <div class="three">
@@ -192,10 +230,6 @@
     {{floor_plan_body}}
   </section>
   <aside>
-    <section id="link-health" class="box">
-      <h3>Link health</h3>
-      {{link_health_body}}
-    </section>
     <section id="honour-roll" class="box">
       <h3>Honour roll</h3>
       {{honour_roll_body}}
@@ -214,6 +248,79 @@
 </section>
 
 <p class="colophon">{{colophon}}</p>
+
+<div class="prompt-bar">
+  <span id="prompt-count" role="status">No rows chosen</span>
+  <button type="button" id="copy-prompt">Copy prompt</button>
+  <span class="tip" role="status"></span>
+  <details>
+    <summary>Show prompt</summary>
+    <textarea id="prompt-text" readonly aria-label="Prompt for /journal:act-on-broadsheet"></textarea>
+  </details>
 </div>
+</div>
+<script>
+  const CHOICES = ["", "do", "veto", "snooze", "done"];
+  const rows = [...document.querySelectorAll(".action")];
+  const count = document.getElementById("prompt-count");
+  const output = document.getElementById("prompt-text");
+  const button = document.getElementById("copy-prompt");
+  const tip = button.nextElementSibling;
+  let timer;
+
+  for (const select of document.querySelectorAll("select.choice")) {
+    if (select.options.length) continue;
+    for (const value of CHOICES) select.add(new Option(value || "-", value));
+  }
+
+  function label(row) {
+    const copy = row.cloneNode(true);
+    copy.querySelectorAll("select, details").forEach((node) => node.remove());
+    return copy.textContent.replace(/\s+/g, " ").trim();
+  }
+
+  function build() {
+    const picked = rows.flatMap((row) => {
+      const choice = row.querySelector(".choice")?.value || "";
+      const comment = row.querySelector(".comment")?.value.trim() || "";
+      if (!choice && !comment) return [];
+      const section = row.closest("section[id]")?.id || "";
+      const line = [`- ${row.dataset.id}`, choice || "comment", section, label(row)];
+      if (comment) line.push(`comment: ${comment.replace(/\s+/g, " ")}`);
+      return [line.join(" | ")];
+    });
+    count.textContent = picked.length === 1 ? "1 row chosen" : `${picked.length || "No"} rows chosen`;
+    output.value = picked.length
+      ? ["/journal:act-on-broadsheet", `Edition: ${document.title}`, "Rows (id | choice | section | row | comment):", ...picked].join("\n")
+      : "";
+    return output.value;
+  }
+
+  function report(message) {
+    clearTimeout(timer);
+    tip.textContent = "";
+    requestAnimationFrame(() => (tip.textContent = message));
+    timer = setTimeout(() => (tip.textContent = ""), 2000);
+  }
+
+  document.addEventListener("input", (event) => {
+    if (event.target.closest(".action")) build();
+  });
+
+  button.addEventListener("click", async () => {
+    const text = build();
+    if (!text) return report("Nothing chosen");
+    try {
+      await navigator.clipboard.writeText(text);
+      report("Copied");
+    } catch {
+      output.closest("details").open = true;
+      output.select();
+      report("Copy failed: copy the prompt below");
+    }
+  });
+
+  build();
+</script>
 </body>
 </html>

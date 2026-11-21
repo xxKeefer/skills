@@ -28,6 +28,30 @@ def filled():
     return page()
 
 
+TEMPLATE = os.path.join(os.path.dirname(HERE), "template.html")
+SAMPLE_ROW = ('<li class="action" data-id="{id}">{text} '
+              '<select class="choice" aria-label="Choice for {id}"></select>'
+              '<details><summary>Comment</summary><textarea class="comment" aria-label="Comment on {id}"></textarea></details></li>')
+SAMPLE = {
+    "accent": "#8b1e3f",
+    "ledger_body": ('<table><tr><th>Goal</th><th>State</th><th>Choice</th></tr>'
+                    '<tr class="action" data-id="ledger-run"><td>Run twice a week</td><td>served</td><td>'
+                    '<select class="choice" aria-label="Choice for ledger-run"></select>'
+                    '<details><summary>Comment</summary><textarea class="comment" aria-label="Comment on ledger-run"></textarea></details>'
+                    '</td></tr></table>'),
+    "letters_body": "<ul>" + SAMPLE_ROW.format(id="letters-idea", text="Idea, 12 days old: file to the knowledge folder") + "</ul>",
+    "stale_body": "<ul>" + SAMPLE_ROW.format(id="stale-old", text="Old note, 200 days, no backlinks: archive") + "</ul>",
+    "morgue_body": "<ul>" + SAMPLE_ROW.format(id="morgue-gone", text="Gone note, 400 days, no links: delete") + "</ul>",
+    "editorial_body": "<ul>" + SAMPLE_ROW.format(id="editorial-hours", text="Most writing is after 21:00") + "</ul>",
+    "floor_plan_body": "<ul>" + SAMPLE_ROW.format(id="floor-loose", text="Loose notes beside subfolders") + "</ul>",
+    "board_body": "<ul>" + SAMPLE_ROW.format(id="board-garden", text="Garden: next card is Buy seeds") + "</ul>",
+}
+
+
+def fill(template):
+    return re.sub(r"\{\{(\w+)\}\}", lambda m: SAMPLE.get(m.group(1), f"Sample {m.group(1)}"), template)
+
+
 def check(html):
     with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:
         f.write(html)
@@ -39,6 +63,12 @@ def check(html):
 
 
 class Check(unittest.TestCase):
+    def test_the_template_filled_with_sample_data_is_ok(self):
+        with open(TEMPLATE) as f:
+            html = fill(f.read())
+        self.assertEqual(check(html), (0, "ok\n"))
+        self.assertIn('id="copy-prompt"', html)
+
     def test_a_good_page_is_ok(self):
         self.assertEqual(check(filled()), (0, "ok\n"))
 
