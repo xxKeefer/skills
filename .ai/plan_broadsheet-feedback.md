@@ -34,7 +34,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [x] **L.** Back pages give the story and outcome of each item → an item with no story is left out, and a want list gets suggestions.
 - [x] **M.** `/daily` asks once which of yesterday's open items the user did → it ticks those items in yesterday's file before it carries anything forward, and asks nothing when nothing is open.
 - [x] **N.** `/daily` backs up the vault → when the vault is a git repo with a remote, it commits every change and pushes, and a failure gives one line and does not stop the daily.
-- [ ] **O.** `/new-project` documents the four `status` values and `until` → a new MISSION file says which values exist.
+- [x] **O.** `/new-project` documents the four `status` values and `until` → a new MISSION file says which values exist.
 - [x] **P.** The Sunday daily holds the weekly reflect prompts → the user can write the weekly reflect where they already write on Sunday.
 - [x] **Q.** The daily template puts free sections, such as a shopping list, above Reflect → a skill that reads Reflect reads only the reflect.
 - [x] **R.** The skill writes the page to the journal folder as `{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today → no page goes to the inbox.
@@ -151,7 +151,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: the daily skill has the step. Proves N.
 - [x] **12. Daily template and Sunday reflect.** Kind: docs. Add a free section above Reflect. On Sunday, the daily holds the weekly reflect prompts.
   - Done: the template and the daily skill match. Proves P, Q.
-- [ ] **13. Project status.** Kind: docs. `/new-project` documents `active`, `dormant`, `waiting`, `archived`, and `until`.
+- [x] **13. Project status.** Kind: docs. `/new-project` documents `active`, `dormant`, `waiting`, `archived`, and `until`.
   - Done: the skill and its MISSION template list the values. Proves O.
 ### Phase 3: Knowledge folder and occasions
 
@@ -214,3 +214,4 @@ Blocks: step 19.
 - 2026-11-21: step 10 done. `/daily` Step 4 has a Backfill Yesterday part before Carry Forward. It lists each open child item of yesterday's `## 📋 Today`, numbered, and asks one question. `all` or numbers tick those items in yesterday's file, and a group line when all its children are ticked. `none`, `skip`, or no answer tick nothing. No question when yesterday has no file or no open item. Carry-forward then takes the items still open. Journal plugin stays at 2.10.0, the bump of this branch.
 - 2026-11-21: step 11 done. `/daily` Step 7, Back Up the Vault, runs after Done. It goes on only when `git rev-parse --show-toplevel` from the journal folder gives a folder with `.obsidian/` and `git remote` prints a name. It runs `add -A`, commits `vault: daily <YYYY-MM-DD>` with the daily's date (no commit when nothing changed), and pushes with no force. A failure gives `Backup failed: {first line}` and nothing more. The journal `CLAUDE.md` data flow says so.
 - 2026-11-21: step 12 done. The daily template has `## 📝 Notes` above `## 🤔 Reflect`, and a `## 🗓️ Weekly Reflect (Sundays only)` section after it with the three `###` headings of the weekly template's reflect. `/daily` adds that section only on a Sunday and keeps free sections above Reflect. `/weekly` and `/reflect week` copy the Sunday text into the weekly file's empty `## 🤔 Reflect`, so `/monthly` still reads weekly files. `/reflect` on a Sunday daily fills both sections. The scanner reads `## 🗓️ Weekly Reflect` as its own reflect section, with level daily. The Templater daily in `scripts/obsidian/templates/` is not changed; it has no Notes or Sunday section. 68 tests.
+- 2026-11-21: step 13 done. `MISSION-FORMAT.md` has a table of `active`, `dormant`, `waiting`, and `archived`, with what each means on `/broadsheet`, and an optional `until: YYYY-MM-DD` for a `waiting` or `dormant` project. `archived` replaces the old `done` value. The template has a `%% status: active | dormant | waiting | archived. Optional: until: YYYY-MM-DD %%` line under the frontmatter, so a new MISSION file lists the values; a comment inside the frontmatter would break the scanner's parser. `/new-project` Step 4 lists the values. Projects plugin 0.12.0 to 0.13.0.
