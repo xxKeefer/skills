@@ -31,6 +31,7 @@ goal: Make the broadsheet a page the user can act on, and make the journal recor
 - `occasions.md` gets one layout and a small `When` grammar, read by one script. The old file mixes four table layouts, free-text rules such as "Easter calc" and "Aug (varies)", empty cells, and two items in one cell. Each journal skill reads it its own way. One script makes the due items the same in each skill, and testable.
 - The `When` grammar: a weekday or weekdays (`Sun`, `Mon Wed`), a week parity (`Wed even`, by ISO week), a yearly date (`Jan 5`), an nth weekday (`2nd Sun May`, or `1st Sun` for each month), a repeat (`every 3 months from Feb 15`), Easter offsets (`easter`, `easter+1`, `easter-2`), and a one-off ISO date (`2026-11-03`). The `Type` column goes, because no skill reads it. `Section` stays: `chores`, `work`, or `tasks`, with `chores` as the default.
 - Back pages give the story and the outcome of each item, and suggestions for want lists. An item with no story is left out.
+- Filled reflections are the highest-value signal in the journal (user, 2026-11-21). The compass leads with them.
 - One edition per ISO week, in the journal folder, as `{YYYY}-wk{ww}-broadsheet.html`, the same week numbers as the dailies. A second call in the same week points to the page that exists.
 - Last week's page is the baseline. Each action row has a stable `data-id`, so a script can tell new rows from repeats. A page with no ids, such as the first edition, gives no repeats.
 
@@ -61,3 +62,4 @@ goal: Make the broadsheet a page the user can act on, and make the journal recor
 - [ ] **W.** `occasions.py` reads `occasions.md` for a date → it prints the items due that day by section, the rows that it cannot read, and the one-off rows that are past.
 - [ ] **X.** `/daily`, `/weekly`, `/monthly`, `/yearly`, and `/broadsheet` get due items from `occasions.py` → no journal skill reads the `When` rules itself.
 - [ ] **Y.** `/update-occasions-config` writes only the new layout → given a file in the old layout, it migrates it after one yes, and lists each row it could not convert.
+- [ ] **Z.** The compass quotes each reflection that the user filled in within its window (daily, weekly, monthly reflect sections), with a link to its note → a filled reflection gets more space than the counts, and an empty one is not named.
