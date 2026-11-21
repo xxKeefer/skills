@@ -27,7 +27,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [ ] **E.** The page has a compass section after the lead → it compares dailies written, edits, chore rates, and the busiest folders across the last 7, 30, 90, and 365 days.
 - [x] **F.** The skill takes no time-period argument → the lead covers the last 7 days.
 - [ ] **G.** Each row in the ledger, letters, stale shelf, morgue, floor plan, board, and editorial has a choice control and a comment → the page builds one prompt from the chosen rows, and gives a button that copies it.
-- [x] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, writes each veto and snooze to `broadsheet-memory.md` so `/broadsheet` leaves that row out (a snooze until its end date), and reports each change.
+- [ ] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, writes each veto and snooze to `broadsheet-memory.md` so `/broadsheet` leaves that row out (a snooze until its end date), and reports each change.
 - [x] **I.** Each letter, stale pick, and morgue item gives the reason for its suggestion and what the action does → no item is a bare folder name.
 - [x] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
 - [x] **K.** The board reads each project's `status` → it leaves out `dormant` projects, gives a `waiting` project one line only when it changed in the last 7 days, and names the next card of each `active` project.
