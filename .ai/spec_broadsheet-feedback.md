@@ -32,6 +32,7 @@ goal: Make the broadsheet a page the user can act on, and make the journal recor
 - The `When` grammar: a weekday or weekdays (`Sun`, `Mon Wed`), a week parity (`Wed even`, by ISO week), a yearly date (`Jan 5`), an nth weekday (`2nd Sun May`, or `1st Sun` for each month), a repeat (`every 3 months from Feb 15`), Easter offsets (`easter`, `easter+1`, `easter-2`), and a one-off ISO date (`2026-11-03`). The `Type` column goes, because no skill reads it. `Section` stays: `chores`, `work`, or `tasks`, with `chores` as the default.
 - Back pages give the story and the outcome of each item, and suggestions for want lists. An item with no story is left out.
 - Filled reflections are the highest-value signal in the journal (user, 2026-11-21). The compass leads with them.
+- Vetoes and snoozes live in `broadsheet-memory.md` in the journal folder, one line per row id (user, D1).
 - One edition per ISO week, in the journal folder, as `{YYYY}-wk{ww}-broadsheet.html`, the same week numbers as the dailies. A second call in the same week points to the page that exists.
 - Last week's page is the baseline. Each action row has a stable `data-id`, so a script can tell new rows from repeats. A page with no ids, such as the first edition, gives no repeats.
 
@@ -44,7 +45,7 @@ goal: Make the broadsheet a page the user can act on, and make the journal recor
 - [ ] **E.** The page has a compass section after the lead → it compares dailies written, edits, chore rates, and the busiest folders across the last 7, 30, 90, and 365 days.
 - [ ] **F.** The skill takes no time-period argument → the lead covers the last 7 days.
 - [ ] **G.** Each row in the ledger, letters, stale shelf, morgue, floor plan, board, and editorial has a choice control and a comment → the page builds one prompt from the chosen rows, and gives a button that copies it.
-- [ ] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, and reports each change.
+- [ ] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, writes each veto and snooze to `broadsheet-memory.md` so `/broadsheet` leaves that row out (a snooze until its end date), and reports each change.
 - [ ] **I.** Each letter, stale pick, and morgue item gives the reason for its suggestion and what the action does → no item is a bare folder name.
 - [ ] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
 - [ ] **K.** The board reads each project's `status` → it leaves out `dormant` projects, gives a `waiting` project one line only when it changed in the last 7 days, and names the next card of each `active` project.

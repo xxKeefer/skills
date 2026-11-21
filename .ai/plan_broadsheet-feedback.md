@@ -27,7 +27,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - [ ] **E.** The page has a compass section after the lead → it compares dailies written, edits, chore rates, and the busiest folders across the last 7, 30, 90, and 365 days.
 - [x] **F.** The skill takes no time-period argument → the lead covers the last 7 days.
 - [ ] **G.** Each row in the ledger, letters, stale shelf, morgue, floor plan, board, and editorial has a choice control and a comment → the page builds one prompt from the chosen rows, and gives a button that copies it.
-- [x] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, and reports each change.
+- [x] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, writes each veto and snooze to `broadsheet-memory.md` so `/broadsheet` leaves that row out (a snooze until its end date), and reports each change.
 - [x] **I.** Each letter, stale pick, and morgue item gives the reason for its suggestion and what the action does → no item is a bare folder name.
 - [x] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
 - [x] **K.** The board reads each project's `status` → it leaves out `dormant` projects, gives a `waiting` project one line only when it changed in the last 7 days, and names the next card of each `active` project.
@@ -50,7 +50,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 ## Context
 
 - Decisions: see the spec's Decisions section.
-- Tests cover only the scripts: `scan_vault.py`, `check_broadsheet.py`, and the new `weather.py`, `edition.py`, and `occasions.py`. The user said not to test the skills. Each skill-only AC is checked by one real run in step 19.
+- Tests cover only the scripts: `scan_vault.py`, `check_broadsheet.py`, and the new `weather.py`, `edition.py`, and `occasions.py`. The user said not to test the skills. Each skill-only AC is checked by one real run in step 21.
 - Production gate: none. Each skill runs only when the user calls it. The page and the vault are the user's own.
 - The vault layout changes are not in this branch. They have their own plan outside this repo.
 - Commits: conventional, scope `journal` or `projects`. No attribution line.
@@ -87,6 +87,7 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 | W | occasions parser | H | a wrong rule puts the wrong chores on every daily |
 | X | skills use the parser | M | skill text; a skill that still reads rules itself drifts |
 | Z | filled reflections | M | a missed reflection hides the highest-value signal |
+| H | veto and snooze memory | M | a lost veto brings back a suggestion the user already refused |
 | Y | migration | M | edits the user's file; a lost row loses a birthday |
 
 ### Conditions
@@ -113,12 +114,15 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 | C19 | B | the scan counts chores from the items that `occasions.py` gives, not from a text match | EP | Unit | `scan_vault.spec.py` |
 | C20 | Z | a reflect section with only its sub-headings gives nothing; one with text under a sub-heading gives that text | EP | Unit | `scan_vault.spec.py` |
 | C21 | Z | a `## Shopping` heading under Reflect ends the reflection, so the list is not quoted; reflections outside a window are not in it | EP | Unit | `scan_vault.spec.py` |
-| C10 | H, M, N, P, S, T, Y, Z | one real run of each skill against a copy of the vault | exploratory | Manual | step 19 |
+| C22 | H | `edition.py` lists vetoed ids, and a snoozed id until its end date but not on the day after | BVA | Unit | `edition.spec.py` |
+| C23 | H | no memory file, or a line it cannot read, gives no muted ids and no failure | error guessing | Unit | `edition.spec.py` |
+| C24 | Z | a Sunday daily's `Weekly Reflect` section is a weekly reflection, not a daily one | EP | Unit | `scan_vault.spec.py` |
+| C10 | H, M, N, P, S, T, Y, Z | one real run of each skill against a copy of the vault | exploratory | Manual | step 21 |
 
 ### Not testing
 
 - B, D, F, I, L, O, Q, U, V, X: skill text or template only. The user asked for no skill tests.
-- The prompt-building script in the browser: checked by hand in step 19.
+- The prompt-building script in the browser: checked by hand in step 21.
 
 ## Steps
 
@@ -153,28 +157,33 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
   - Done: the template and the daily skill match. Proves P, Q.
 - [x] **13. Project status.** Kind: docs. `/new-project` documents `active`, `dormant`, `waiting`, `archived`, and `until`.
   - Done: the skill and its MISSION template list the values. Proves O.
+- [ ] **14. Veto and snooze memory.** Seam: `edition.py`, which also prints `muted`: the ids to leave out on the date. Conditions: C22, C23. `/journal:act-on-broadsheet` appends `<data-id> | veto` or `<data-id> | snooze until <YYYY-MM-DD>` to `broadsheet-memory.md` in the journal folder. `/broadsheet` leaves out each row whose id is in `muted`. A snooze with no date in the comment lasts 4 weeks.
+  - Done: `edition.spec.py` passes, and both skills name the file. Proves H (memory).
+- [ ] **15. Sunday weekly reflect: scan and Templater copy.** Seam: `scan()` in `scan_vault.py`. Conditions: C24. Give the `Weekly Reflect` section of a Sunday daily the level `weekly`. Add the Notes section and the Sunday Weekly Reflect section to `scripts/obsidian/templates/template-journal_daily.md`, so it matches `skills/journal/templates/daily.md`.
+  - Done: `scan_vault.spec.py` passes, and the two daily templates have the same sections. Proves Z (data).
+
 ### Phase 3: Knowledge folder and occasions
 
-- [ ] **14. Knowledge folder.** Kind: docs. Change `/add-procedure`, the scribe `CLAUDE.md`, and the `/discover-vault-directory` example from `*reference` and `*research` to `*knowledge`. The vault renumbers every top folder except `98-archive` and `99-meta`: `04-work` to `03-work`, `05-projects` to `04-projects`, `06-lessons` to `05-lessons`, `07-omen` to `06-omen`. Skills find folders by glob, so they need no change for this. Change the hard paths in `docs/agents/issue-tracker.md` (`05-projects`) and the example in `CONTEXT.md` (`05-projects/`). Leave the ADRs, which record past decisions.
+- [ ] **16. Knowledge folder.** Kind: docs. Change `/add-procedure`, the scribe `CLAUDE.md`, and the `/discover-vault-directory` example from `*reference` and `*research` to `*knowledge`. The vault renumbers every top folder except `98-archive` and `99-meta`: `04-work` to `03-work`, `05-projects` to `04-projects`, `06-lessons` to `05-lessons`, `07-omen` to `06-omen`. Skills find folders by glob, so they need no change for this. Change the hard paths in `docs/agents/issue-tracker.md` (`05-projects`) and the example in `CONTEXT.md` (`05-projects/`). Leave the ADRs, which record past decisions.
   - Done: a search of the repo outside `docs/adr/` and `.ai/` for `*research`, `*reference`, `02-research`, `03-reference`, `04-work`, `05-projects`, `06-lessons`, and `07-omen` finds nothing. Proves U.
-- [ ] **15. Occasions parser.** Seam: `skills/journal/scripts/occasions.py <occasions.md> [--date YYYY-MM-DD]`, which prints JSON. Conditions: C14, C15, C16, C17, C18.
+- [ ] **17. Occasions parser.** Seam: `skills/journal/scripts/occasions.py <occasions.md> [--date YYYY-MM-DD]`, which prints JSON. Conditions: C14, C15, C16, C17, C18.
   - Done: `occasions.spec.py` passes. Proves W.
-- [ ] **16. Scanner uses the parser.** Seam: the chore count in `scan_vault.py`. Conditions: C19.
+- [ ] **18. Scanner uses the parser.** Seam: the chore count in `scan_vault.py`. Conditions: C19.
   - Done: `scan_vault.spec.py` passes with a fixture in the new layout. Proves B (data).
-- [ ] **17. Occasions template and skills.** Kind: docs. Rewrite `templates/occasions.md` in the new layout. Change `CHECKLIST_RULES.md`, `/daily`, `/weekly`, `/monthly`, and `/yearly` to run `occasions.py` for due items.
+- [ ] **19. Occasions template and skills.** Kind: docs. Rewrite `templates/occasions.md` in the new layout. Change `CHECKLIST_RULES.md`, `/daily`, `/weekly`, `/monthly`, and `/yearly` to run `occasions.py` for due items.
   - Done: no journal skill describes a `When` rule. Proves V, X.
-- [ ] **18. Occasions config skill.** Kind: docs. `/update-occasions-config` writes only the new layout. It finds an old-layout file, shows the migrated file, writes it after one yes, and lists each row it could not convert.
+- [ ] **20. Occasions config skill.** Kind: docs. `/update-occasions-config` writes only the new layout. It finds an old-layout file, shows the migrated file, writes it after one yes, and lists each row it could not convert.
   - Done: the skill has the migrate step. Proves Y.
 
 ### Phase 4: Check and ship
 
-- [ ] **19. Live run.** Seam: the skills, run by hand. Conditions: C10. Delete this week's page if it exists. Run `/broadsheet` on the real vault, then run it again to see it point to the same page. Tick rows, and run `/journal:act-on-broadsheet` on a copy of the vault. Run `/update-occasions-config` on the copy to migrate `occasions.md`. Run `/daily` on the copy for backfill, Sunday, and backup to a scratch remote.
+- [ ] **21. Live run.** Seam: the skills, run by hand. Conditions: C10. Delete this week's page if it exists. Run `/broadsheet` on the real vault, then run it again to see it point to the same page. Tick rows, and run `/journal:act-on-broadsheet` on a copy of the vault. Run `/update-occasions-config` on the copy to migrate `occasions.md`. Run `/daily` on the copy for backfill, Sunday, and backup to a scratch remote.
   - Done: the page check prints `ok`, and each skill run did what its AC says. Proves H, M, N, P, S, T, Y, Z.
-- [ ] **20. Test.** Run the gates from Context. This step changes no behaviour.
+- [ ] **22. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
-- [ ] **21. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
+- [ ] **23. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
   - Done: the report path and the reviewed base and head SHAs are in this line.
-- [ ] **22. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
+- [ ] **24. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
   - Done: the draft PR URL is in this line.
 
 ## Suggested skills
@@ -184,17 +193,6 @@ Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the jo
 - `/tdd`: each step with a `Seam:` line that names a script.
 - `/engineering:mob-review`: the review step.
 - `/create-pr`: the push step.
-
-## Pending Decisions
-
-### D1: Where do vetoes and snoozes live, so a vetoed suggestion does not come back each week?
-
-- A (recommended): `/journal:act-on-broadsheet` appends each veto and snooze to a `broadsheet-memory.md` file in the journal folder, as `<data-id> | veto` or `<data-id> | snooze until <YYYY-MM-DD>`. `/broadsheet` leaves out each row whose id is there, until a snooze ends.
-- B: no store. A veto lasts one week, and the repeat mark next week shows it again.
-- C: write the veto into the note itself, such as a `broadsheet: keep` frontmatter line. It works only for rows about one note, not for the board or the editorial.
-
-Work: none yet. Choice A adds a step to `/journal:act-on-broadsheet` and `/broadsheet`, and a test if a script reads the file.
-Blocks: step 19.
 
 ## Progress
 
@@ -208,10 +206,11 @@ Blocks: step 19.
 - Decision log: decisions_broadsheet-feedback.tsv
 - 2026-11-21: user asked to surface filled reflections in the compass. Added AC Z and step 6. Later steps moved up by one.
 - 2026-11-21: step 6 done. The scan JSON has a top-level `reflections` list, newest first: `{path, level, date, sections: [{heading, text}]}`, for each journal note of the last 365 days with a filled reflect section. Each compass row has a `reflections` count, so step 8 groups the list by `date` for each window. A section holds the lines under a `##` heading with the word `Reflect`, to the next `#` or `##` heading. Blank lines and empty list markers are dropped. `heading` is null for text above the first `###`. The level and the date come from frontmatter `type` and `date`, else from the file name (`YYYY-wkNN-day`, `YYYY-wkNN-week` gives the Monday, `YYYY-MM-mon` gives the 1st). 33 tests.
-- 2026-11-21: step 7 done. Both templates drop Shantell Sans; each lead `h2` uses `--heading`. The broadsheet template: lead and compass (`{{compass_body}}`) in the main column, then weather, chores (`{{chores_body}}`), and gaps in the aside. Carried over and link health are gone. The skill writes each action row with an empty `<select class="choice" aria-label="...">`, and the page script adds the options `-`, do, veto, snooze, done. The comment goes in `<details><summary>Comment</summary><textarea class="comment" aria-label="..."></textarea></details>`. A sticky prompt bar at the foot gives the row count, a Copy prompt button, and a Show prompt textarea, which opens when the copy fails. Prompt format for step 9: line 1 `/journal:act-on-broadsheet`, line 2 `Edition: <page title>`, line 3 a header, then one line per row with a choice or a comment: `- <data-id> | <choice, or comment> | <section id> | <row text> | comment: <text>` (the comment part only when there is one). A chosen row gets an accent left rule. `check_broadsheet.spec.py` fills the template with sample data and checks it. The script ran in no browser: no browser is on this machine, so step 19 checks it by hand. 18 tests.
+- 2026-11-21: step 7 done. Both templates drop Shantell Sans; each lead `h2` uses `--heading`. The broadsheet template: lead and compass (`{{compass_body}}`) in the main column, then weather, chores (`{{chores_body}}`), and gaps in the aside. Carried over and link health are gone. The skill writes each action row with an empty `<select class="choice" aria-label="...">`, and the page script adds the options `-`, do, veto, snooze, done. The comment goes in `<details><summary>Comment</summary><textarea class="comment" aria-label="..."></textarea></details>`. A sticky prompt bar at the foot gives the row count, a Copy prompt button, and a Show prompt textarea, which opens when the copy fails. Prompt format for step 9: line 1 `/journal:act-on-broadsheet`, line 2 `Edition: <page title>`, line 3 a header, then one line per row with a choice or a comment: `- <data-id> | <choice, or comment> | <section id> | <row text> | comment: <text>` (the comment part only when there is one). A chosen row gets an accent left rule. `check_broadsheet.spec.py` fills the template with sample data and checks it. The script ran in no browser: no browser is on this machine, so step 21 checks it by hand. 18 tests.
 - 2026-11-21: step 8 done. `SKILL.md` runs `edition.py` first and stops with the path when this week's page exists, then scans with no `--window` (the scanner keeps the flag at its default of 7 for its tests), runs `weather.py` when the config has a `location: <lat> <lon>` line, reads last week's page for new and repeat rows, and writes to the journal folder. Default name: The Obsidian Oracle. Row shape for step 9: each suggestion row holds `<strong>Why:</strong>` and `<strong>Do:</strong>`. Its `data-id` is `<section id>:<target>`: the note path with `.md` (letters, stale-shelf, the-morgue), the folder path (floor-plan), the project folder name (the-board), `<want list path>:<item slug>` (back-pages), `<journal file name>:<goal slug>` (the-ledger), or `<change slug>` (editorial). An id holds no space and no `|`, and the row text never holds ` | comment: `. Want-list suggestions in the back pages are action rows too. README and domain CLAUDE.md updated. 68 tests.
 - 2026-11-21: step 9 done. `skills/journal/skills/act-on-broadsheet/SKILL.md` parses each row line by its first three ` | ` fields and the first ` | comment: ` after them, reads the full `Do:` text from the page by `data-id`, asks one `all`/`none`/numbers question before any delete, applies the rest with no stop, fixes path links after a move, and reports one line per row. `do` applies the action, `comment` applies the comment, `done` ticks an open goal or card, `veto` and `snooze` change nothing. It commits nothing in the vault. Listed in the journal README and the domain CLAUDE.md data flow; journal plugin 2.9.0 to 2.10.0. 68 tests.
 - 2026-11-21: step 10 done. `/daily` Step 4 has a Backfill Yesterday part before Carry Forward. It lists each open child item of yesterday's `## 📋 Today`, numbered, and asks one question. `all` or numbers tick those items in yesterday's file, and a group line when all its children are ticked. `none`, `skip`, or no answer tick nothing. No question when yesterday has no file or no open item. Carry-forward then takes the items still open. Journal plugin stays at 2.10.0, the bump of this branch.
 - 2026-11-21: step 11 done. `/daily` Step 7, Back Up the Vault, runs after Done. It goes on only when `git rev-parse --show-toplevel` from the journal folder gives a folder with `.obsidian/` and `git remote` prints a name. It runs `add -A`, commits `vault: daily <YYYY-MM-DD>` with the daily's date (no commit when nothing changed), and pushes with no force. A failure gives `Backup failed: {first line}` and nothing more. The journal `CLAUDE.md` data flow says so.
 - 2026-11-21: step 12 done. The daily template has `## 📝 Notes` above `## 🤔 Reflect`, and a `## 🗓️ Weekly Reflect (Sundays only)` section after it with the three `###` headings of the weekly template's reflect. `/daily` adds that section only on a Sunday and keeps free sections above Reflect. `/weekly` and `/reflect week` copy the Sunday text into the weekly file's empty `## 🤔 Reflect`, so `/monthly` still reads weekly files. `/reflect` on a Sunday daily fills both sections. The scanner reads `## 🗓️ Weekly Reflect` as its own reflect section, with level daily. The Templater daily in `scripts/obsidian/templates/` is not changed; it has no Notes or Sunday section. 68 tests.
 - 2026-11-21: step 13 done. `MISSION-FORMAT.md` has a table of `active`, `dormant`, `waiting`, and `archived`, with what each means on `/broadsheet`, and an optional `until: YYYY-MM-DD` for a `waiting` or `dormant` project. `archived` replaces the old `done` value. The template has a `%% status: active | dormant | waiting | archived. Optional: until: YYYY-MM-DD %%` line under the frontmatter, so a new MISSION file lists the values; a comment inside the frontmatter would break the scanner's parser. `/new-project` Step 4 lists the values. Projects plugin 0.12.0 to 0.13.0.
+- 2026-11-22: D1 closed. The user chose A: a `broadsheet-memory.md` file in the journal folder. Folded it into AC H and added step 14. Step 15 fixes two gaps from step 12: the scan read the Sunday weekly reflect as a daily, and the Templater daily copy missed the new sections. Later steps moved up by two.
