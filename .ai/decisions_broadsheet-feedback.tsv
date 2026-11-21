@@ -1,5 +1,5 @@
 decision	reason	evidence	result
-Keep the --window flag in scan_vault.py, default 7	SKILL.md still passes --window until step 8 rewrites it; the lead fields still use it	SKILL.md line 42 passes --window <days>	open: step 8 drops --window from SKILL.md or keeps it
+Keep the --window flag in scan_vault.py, default 7	SKILL.md still passes --window until step 8 rewrites it; the lead fields still use it	SKILL.md line 42 passes --window <days>	done: step 8 dropped --window from SKILL.md; the script keeps the flag at default 7 because the lead fields and the spec tests use it
 A compass window of N days holds dates from today minus N to today, both ends included	the same bound as the existing window, so the 7-day compass row matches the lead	C5 test: a daily 7 days back is in the 7-day row, 8 days back is not	done
 Compass chore_rate is all ticks over all sightings of occasions chores in the window, null when none; busiest is the top 3 folders by edits	one number per window is easy to compare across rows	Compass tests in scan_vault.spec.py	done
 Each project row has changed_days: the age of the newest note in the project folder	AC K needs to know if a waiting project changed in the last 7 days	Projects test: a kanban edit 1 day back gives changed_days 1	done
@@ -12,3 +12,5 @@ A reflect section ends at the next # or ## heading; ### headings split it into s
 The page script adds the choice options to each empty select.choice	one list of options in one place; the skill writes a short row	step 7 template script; the check needs only the select	done
 The prompt is one line per row: id, choice or comment, section id, row text, comment	step 9 can parse it by splitting on ' | ', and the row text gives context without the page	step 7 template script	done
 A failed clipboard copy opens the Show prompt textarea and selects its text	a file:// page can lose clipboard access; the user can still copy by hand	copy-button guide: show the failure, not only announce it	done
+Each suggestion row's data-id is <section id>:<target>, with the vault path, project name, or a kebab slug as target	the same suggestion gets the same id next week, and act-on-broadsheet reads the target path from the id because the row text names a note only by its link	check_broadsheet.py fails a bare note path outside a link; edition.py reads last week's ids	done
+Want-list suggestions in the back pages are action rows	AC L asks for suggestions, and a row lets the user add them with one choice	spec Decisions line on back pages	done
