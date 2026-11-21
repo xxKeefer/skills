@@ -379,6 +379,28 @@ class Reflections(unittest.TestCase):
         out = [(r["level"], r["date"]) for r in v.scan()["reflections"]]
         self.assertEqual(out, [("daily", "2026-11-19"), ("weekly", "2026-11-09"), ("monthly", "2026-09-01")])
 
+    def test_a_sunday_weekly_reflect_is_a_weekly_reflection_dated_to_its_monday(self):
+        v = Vault(self)
+        base(v)
+        body = (REFLECT.format(learned="Day text", next="") +
+                "\n## 🗓️ Weekly Reflect (Sundays only)\n\n### ✅ What went well\n\nWeek text\n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        out = v.scan()["reflections"]
+        self.assertEqual(out, [
+            {"path": "01-journal/2026-wk46-sun.md", "level": "daily", "date": "2026-11-15",
+             "sections": [{"heading": "🧠 What I learned", "text": "Day text"}]},
+            {"path": "01-journal/2026-wk46-sun.md", "level": "weekly", "date": "2026-11-09",
+             "sections": [{"heading": "✅ What went well", "text": "Week text"}]},
+        ])
+
+    def test_an_empty_sunday_weekly_reflect_gives_no_weekly_reflection(self):
+        v = Vault(self)
+        base(v)
+        body = (REFLECT.format(learned="Day text", next="") +
+                "\n## 🗓️ Weekly Reflect (Sundays only)\n\n### ✅ What went well\n\n- \n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        self.assertEqual([r["level"] for r in v.scan()["reflections"]], ["daily"])
+
     def test_counts_reflections_in_each_compass_window_and_drops_ones_past_a_year(self):
         v = Vault(self)
         base(v)

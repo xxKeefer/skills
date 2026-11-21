@@ -105,7 +105,7 @@ def leaf_tasks(body):
     return out
 
 
-def reflect(body):
+def reflect(body, weekly=False):
     sections, inside, heading, lines = [], False, None, []
 
     def close():
@@ -117,7 +117,9 @@ def reflect(body):
         if re.match(r"^#{1,2}\s", line):
             if inside:
                 close()
-            inside, heading, lines = bool(re.match(r"^##\s.*\bReflect\b", line)), None, []
+            starts = bool(re.match(r"^##\s.*\bReflect\b", line))
+            inside = starts and weekly == bool(re.match(r"^##\s.*\bWeekly Reflect\b", line))
+            heading, lines = None, []
         elif inside and line.startswith("### "):
             close()
             heading, lines = line[4:].strip(), []
@@ -368,6 +370,11 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
         if sections:
             reflections.append({"path": rel.replace(os.sep, "/"), "level": found[0], "date": str(found[1]),
                                 "sections": sections})
+        week = reflect(n["body"], weekly=True)
+        monday = found[1] - dt.timedelta(days=found[1].weekday())
+        if week and today - dt.timedelta(days=365) <= monday:
+            reflections.append({"path": rel.replace(os.sep, "/"), "level": "weekly", "date": str(monday),
+                                "sections": week})
     reflections.sort(key=lambda r: (r["date"], r["path"]), reverse=True)
 
     compass = []

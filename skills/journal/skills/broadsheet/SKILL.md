@@ -71,7 +71,7 @@ note with uncommitted changes. `dates_from` says which. Each long list holds at 
 | `journal.checklists` | Each chore from `occasions.md`: times seen, times ticked, and the rate, over the last 7 days |
 | `journal.broken_nav` | Each `up`, `prev`, or `next` in a journal file edited in the last 7 days that names no file |
 | `compass` | One row each for 7, 30, 90, and 365 days: `dailies`, `edits`, `chore_rate` (null with no chores), `busiest` (top 3 folders by edits), and `reflections` (a count) |
-| `reflections` | Each journal note of the last 365 days with a filled reflect section, newest first: `path`, `level` (daily, weekly, monthly), `date`, and `sections` of `{heading, text}` |
+| `reflections` | Each journal note of the last 365 days with a filled reflect section, newest first: `path`, `level` (daily, weekly, monthly), `date`, and `sections` of `{heading, text}`. The `## 🗓️ Weekly Reflect` of a Sunday daily is its own `weekly` item, dated to the Monday of its week, as a weekly file is |
 | `projects` | Each project with a `MISSION.md`: `project`, `path`, `status` (`active`, `dormant`, `waiting`, or `archived`), `until`, and `changed_days`, the age of its newest note |
 | `inbox` | Each inbox note with its age and word count |
 | `recent` | Each note outside the journal edited in the last 7 days |
