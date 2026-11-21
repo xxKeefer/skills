@@ -1,6 +1,6 @@
 ---
 name: daily
-description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks.
+description: Generate today's daily file, with chores from occasions, weekly goals, and yesterday's open tasks, after one question that ticks what the user did yesterday.
 disable-model-invocation: true
 ---
 
@@ -51,9 +51,27 @@ See [CHECKLIST_RULES.md](CHECKLIST_RULES.md) for assembly rules.
 
 Follow **Pull-down** in [CASCADE.md](../../CASCADE.md), with this week's file as the parent.
 
+### Backfill Yesterday
+
+Before the carry-forward, ask one question: which of yesterday's open items did the user do? List
+each open item in yesterday's `## 📋 Today`, numbered. List the children of a group, not the group
+line:
+
+> Still open from yesterday. Which did you do? (`all`, `none`, numbers, or `skip`)
+> 1. {item}
+> 2. {item}
+
+- `all`: tick each listed item in yesterday's file.
+- Numbers, such as `1 3`: tick only those items.
+- `none`, `skip`, or no answer: tick nothing.
+
+When the answer ticks all children of a group, tick the group line too. Change nothing else in
+yesterday's file. Ask no question when yesterday has no file or no open item.
+
 ### Carry Forward
 
-Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the open items in yesterday's file.
+Follow **Carry-forward** in [CASCADE.md](../../CASCADE.md) on the items in yesterday's file that
+are still open after the backfill.
 
 ### Confirm
 
