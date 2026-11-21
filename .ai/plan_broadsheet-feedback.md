@@ -1,0 +1,185 @@
+---
+doctype: plan
+ticket: none
+worktree: /home/xxkeefer/studio/code/skills.feat-broadsheet-feedback
+branch: feat/broadsheet-feedback
+status: approved
+goal: Make the broadsheet a page the user can act on, and make the journal record what the user did.
+spec: .ai/spec_broadsheet-feedback.md
+---
+
+# Plan: Broadsheet feedback
+
+## Goal
+
+Two phases on one branch. Phase 1 changes the broadsheet. Phase 2 changes the journal and projects skills from the insights of the first edition. Scope: SCOPED, one PR. Estimate: large.
+
+## Spec
+
+`.ai/spec_broadsheet-feedback.md`, all of it.
+
+## Acceptance criteria
+
+- [ ] **A.** The weather box shows today's forecast for the configured place → it gives the conditions, the high and low, and the chance of rain, or a line that says the forecast is not available.
+- [ ] **B.** The Chores box shows each chore's tick rate from the journal → it uses no weather icons.
+- [ ] **C.** The page has no Carried over section and no Link health section → the check fails a page that has one.
+- [ ] **D.** The broadsheet and the gazette use no Shantell Sans → each lead headline uses the heading font.
+- [ ] **E.** The page has a compass section after the lead → it compares dailies written, edits, chore rates, and the busiest folders across the last 7, 30, 90, and 365 days.
+- [ ] **F.** The skill takes no time-period argument → the lead covers the last 7 days.
+- [ ] **G.** Each row in the ledger, letters, stale shelf, morgue, floor plan, board, and editorial has a choice control and a comment → the page builds one prompt from the chosen rows, and gives a button that copies it.
+- [ ] **H.** `/journal:act-on-broadsheet` reads the prompt → it applies each chosen row to the vault, asks before it deletes a note, and reports each change.
+- [ ] **I.** Each letter, stale pick, and morgue item gives the reason for its suggestion and what the action does → no item is a bare folder name.
+- [ ] **J.** A note in the knowledge folder (`*knowledge`) is never an archive suggestion for its age → the scanner leaves it off the stale list.
+- [ ] **K.** The board reads each project's `status` → it leaves out `dormant` projects, gives a `waiting` project one line only when it changed in the last 7 days, and names the next card of each `active` project.
+- [ ] **L.** Back pages give the story and outcome of each item → an item with no story is left out, and a want list gets suggestions.
+- [ ] **M.** `/daily` asks once which of yesterday's open items the user did → it ticks those items in yesterday's file before it carries anything forward, and asks nothing when nothing is open.
+- [ ] **N.** `/daily` backs up the vault → when the vault is a git repo with a remote, it commits every change and pushes, and a failure gives one line and does not stop the daily.
+- [ ] **O.** `/new-project` documents the four `status` values and `until` → a new MISSION file says which values exist.
+- [ ] **P.** The Sunday daily holds the weekly reflect prompts → the user can write the weekly reflect where they already write on Sunday.
+- [ ] **Q.** The daily template puts free sections, such as a shopping list, above Reflect → a skill that reads Reflect reads only the reflect.
+- [ ] **R.** The skill writes the page to the journal folder as `{YYYY}-wk{ww}-broadsheet.html`, with the ISO week of today → no page goes to the inbox.
+- [ ] **S.** The user asks for a broadsheet when this week's page exists → the skill writes no page, scans nothing, and gives the path of this week's page.
+- [ ] **T.** Last week's page exists → the skill marks each story and row as new or repeat, gives a repeat less space unless it changed, and the lead and compass name the trends across the two weeks.
+- [ ] **U.** A skill needs the vault's knowledge folder → it finds it with `*knowledge`, and no skill names `*research`, `*reference`, or a numbered vault folder.
+- [ ] **V.** `occasions.md` has one fixed layout → a daily list of nested chores, then one table layout, `| Item | When | Section |`, under each of `## Weekly`, `## Yearly`, `## Maintenance`, and `## One-off`.
+- [ ] **W.** `occasions.py` reads `occasions.md` for a date → it prints the items due that day by section, the rows that it cannot read, and the one-off rows that are past.
+- [ ] **X.** `/daily`, `/weekly`, `/monthly`, `/yearly`, and `/broadsheet` get due items from `occasions.py` → no journal skill reads the `When` rules itself.
+- [ ] **Y.** `/update-occasions-config` writes only the new layout → given a file in the old layout, it migrates it after one yes, and lists each row it could not convert.
+
+## Context
+
+- Decisions: see the spec's Decisions section.
+- Tests cover only the scripts: `scan_vault.py`, `check_broadsheet.py`, and the new `weather.py`, `edition.py`, and `occasions.py`. The user said not to test the skills. Each skill-only AC is checked by one real run in step 18.
+- Production gate: none. Each skill runs only when the user calls it. The page and the vault are the user's own.
+- The vault layout changes are not in this branch. They have their own plan outside this repo.
+- Commits: conventional, scope `journal` or `projects`. No attribution line.
+- Gates: `python3 -m pytest` or each `*.spec.py` as the repo runs it, and `sh .githooks/pre-commit_test.sh`.
+
+## Test approach
+
+### Risks
+
+| AC | Behaviour | Risk | Why |
+| --- | --- | --- | --- |
+| A | forecast from Open-Meteo | M | network call; a failure must not stop the page |
+| B | chore rates | L | same data, new layout |
+| C | removed sections | L | check list change |
+| D | font | L | two templates only |
+| E | compass windows | M | new date math across four windows |
+| F | no time argument | L | skill text |
+| G | choice controls and prompt | M | a script in the page; the check must accept it |
+| H | act-on skill | H | edits and moves vault notes |
+| I | reasons on rows | L | skill text |
+| J | knowledge folder off stale list | M | wrong match hides or shows notes |
+| K | project status | M | a parse error shows a quiet project |
+| L | back pages | L | skill text |
+| M | backfill | M | edits yesterday's file |
+| N | git backup | M | pushes the vault |
+| O | status docs | L | docs |
+| P | Sunday reflect | L | skill text |
+| Q | template order | L | template |
+| R | page path | M | a wrong week number at a year end splits or loses an edition |
+| S | one page per week | M | a miss writes over or duplicates the week's page |
+| T | new or repeat | M | a wrong match hides fresh news |
+| U | knowledge glob | L | docs; a missed copy fails to find the folder |
+| V | occasions layout | L | template |
+| W | occasions parser | H | a wrong rule puts the wrong chores on every daily |
+| X | skills use the parser | M | skill text; a skill that still reads rules itself drifts |
+| Y | migration | M | edits the user's file; a lost row loses a birthday |
+
+### Conditions
+
+| ID | AC | Condition | Technique | Level | Planned test |
+| --- | --- | --- | --- | --- | --- |
+| C1 | A | a good response gives conditions, high, low, rain chance | EP | Unit | `weather.spec.py` |
+| C2 | A | a network error or bad JSON gives `available: false` and exit 0 | error guessing | Unit | `weather.spec.py` |
+| C3 | C | a page with `carried-over` or `link-health` fails the check | EP | Unit | `check_broadsheet.spec.py` |
+| C4 | E | the scan gives a compass row for 7, 30, 90, and 365 days | EP | Unit | `scan_vault.spec.py` |
+| C5 | E | a daily on day 7 and day 8 falls in the right windows | BVA | Unit | `scan_vault.spec.py` |
+| C6 | G | an action row with no `data-id` fails the check | EP | Unit | `check_broadsheet.spec.py` |
+| C7 | G | the page script is allowed, and an inline style still fails | EP | Unit | `check_broadsheet.spec.py` |
+| C8 | J | a note in `02-knowledge` past the limit is not stale; one in `03-work` is | EP | Unit | `scan_vault.spec.py` |
+| C9 | K | the scan gives each project's `status` and `until`, and `active` for a MISSION with none | EP | Unit | `scan_vault.spec.py` |
+| C11 | R | the path for Sun 2026-11-22 is wk47 and Mon 2026-11-23 is wk48; 2027-01-01 is `2026-wk53` | BVA | Unit | `edition.spec.py` |
+| C12 | S | `exists` is true when this week's page is in the journal folder, false when not | EP | Unit | `edition.spec.py` |
+| C13 | T | last week's `data-id` values are listed; a page with no ids, or no page, gives an empty list | EP | Unit | `edition.spec.py` |
+| C14 | W | weekdays, `Wed even` and `Wed odd` on ISO weeks 47 and 48, `Jan 5`, `2nd Sun May`, `1st Sun` | EP | Unit | `occasions.spec.py` |
+| C15 | W | `easter`, `easter+1`, `easter-2` in 2026 and 2027 | EP | Unit | `occasions.spec.py` |
+| C16 | W | `every 3 months from Feb 15` is due on Feb 15, May 15, and Nov 15, and not on Mar 15 | BVA | Unit | `occasions.spec.py` |
+| C17 | W | a one-off is due on its date, is listed as past the day after, and an empty `Section` gives `chores` | BVA | Unit | `occasions.spec.py` |
+| C18 | W | a row with an unknown `When`, such as `Aug (varies)`, goes to `errors`, and the other rows still print | error guessing | Unit | `occasions.spec.py` |
+| C19 | B | the scan counts chores from the items that `occasions.py` gives, not from a text match | EP | Unit | `scan_vault.spec.py` |
+| C10 | H, M, N, P, S, T, Y | one real run of each skill against a copy of the vault | exploratory | Manual | step 18 |
+
+### Not testing
+
+- B, D, F, I, L, O, Q, U, V, X: skill text or template only. The user asked for no skill tests.
+- The prompt-building script in the browser: checked by hand in step 18.
+
+## Steps
+
+### Phase 1: Broadsheet
+
+- [ ] **1. Groom `.ai/`.** Kind: mechanical. Delete the files of each pstack unit whose PR is merged, as `.ai/CLAUDE.md` says.
+  - Done: `.ai/` holds only open units and this spec and plan.
+- [ ] **2. Weather script.** Seam: `scripts/weather.py <lat> <lon>`, with the fetch passed in for tests. Conditions: C1, C2.
+  - Done: `weather.spec.py` passes. Proves A.
+- [ ] **3. Edition script.** Seam: `scripts/edition.py <journal folder> [--date YYYY-MM-DD]`, which prints this week's path, `exists`, last week's path, and last week's row ids. Conditions: C11, C12, C13.
+  - Done: `edition.spec.py` passes. Proves R, S, T (data).
+- [ ] **4. Scanner: compass, knowledge folders, project status.** Seam: `scan()` in `scan_vault.py`. Conditions: C4, C5, C8, C9.
+  - Done: the scan JSON has `compass`, `projects`, and a stale list without knowledge folders. Proves E, J, K (data).
+- [ ] **5. Check: new section list and action rows.** Seam: `check_broadsheet.py`. Conditions: C3, C6, C7.
+  - Done: the check wants `compass` and `chores`, rejects `carried-over` and `link-health`, and checks each action row. Proves C.
+- [ ] **6. Template.** Kind: config. Drop Shantell Sans from the broadsheet and gazette templates. Add the compass, chores, and weather boxes. Remove carried over and link health. Add the choice control, the comment, and the copy-prompt bar, with one small script.
+  - Done: the template passes the check after a fill with sample data, and no template in the repo names Shantell Sans. Proves D, G (page).
+- [ ] **7. Broadsheet SKILL.md and config.** Kind: docs. Remove the time argument. Add the location line. Step 1 runs `edition.py` and stops with the path when this week's page exists. Write the page to the journal folder. Read last week's page, and mark new and repeat rows. Rewrite steps for weather, chores, compass, reasons on each row, the board by status, and back pages with stories.
+  - Done: the skill and `config.example.md` match the template and the scan. Proves B, F, I, K, L, R, S, T.
+- [ ] **8. `/journal:act-on-broadsheet`.** Kind: docs. A new skill: parse the prompt, apply each row (move, archive, set project status, tick a goal, edit a template), ask before a delete, report each change.
+  - Done: the skill exists in the journal domain and the domain README lists it. Proves H.
+
+### Phase 2: Journal and projects
+
+- [ ] **9. `/daily` backfill.** Kind: docs. One question before carry-forward, with `all`, `none`, numbers, or skip. No question when nothing is open.
+  - Done: the daily skill has the step. Proves M.
+- [ ] **10. `/daily` git backup.** Kind: docs. Commit and push the vault when it is a git repo with a remote. One line on failure.
+  - Done: the daily skill has the step. Proves N.
+- [ ] **11. Daily template and Sunday reflect.** Kind: docs. Add a free section above Reflect. On Sunday, the daily holds the weekly reflect prompts.
+  - Done: the template and the daily skill match. Proves P, Q.
+- [ ] **12. Project status.** Kind: docs. `/new-project` documents `active`, `dormant`, `waiting`, `archived`, and `until`.
+  - Done: the skill and its MISSION template list the values. Proves O.
+### Phase 3: Knowledge folder and occasions
+
+- [ ] **13. Knowledge folder.** Kind: docs. Change `/add-procedure`, the scribe `CLAUDE.md`, and the `/discover-vault-directory` example from `*reference` and `*research` to `*knowledge`. The vault renumbers every top folder except `98-archive` and `99-meta`: `04-work` to `03-work`, `05-projects` to `04-projects`, `06-lessons` to `05-lessons`, `07-omen` to `06-omen`. Skills find folders by glob, so they need no change for this. Change the hard paths in `docs/agents/issue-tracker.md` (`05-projects`) and the example in `CONTEXT.md` (`05-projects/`). Leave the ADRs, which record past decisions.
+  - Done: a search of the repo outside `docs/adr/` and `.ai/` for `*research`, `*reference`, `02-research`, `03-reference`, `04-work`, `05-projects`, `06-lessons`, and `07-omen` finds nothing. Proves U.
+- [ ] **14. Occasions parser.** Seam: `skills/journal/scripts/occasions.py <occasions.md> [--date YYYY-MM-DD]`, which prints JSON. Conditions: C14, C15, C16, C17, C18.
+  - Done: `occasions.spec.py` passes. Proves W.
+- [ ] **15. Scanner uses the parser.** Seam: the chore count in `scan_vault.py`. Conditions: C19.
+  - Done: `scan_vault.spec.py` passes with a fixture in the new layout. Proves B (data).
+- [ ] **16. Occasions template and skills.** Kind: docs. Rewrite `templates/occasions.md` in the new layout. Change `CHECKLIST_RULES.md`, `/daily`, `/weekly`, `/monthly`, and `/yearly` to run `occasions.py` for due items.
+  - Done: no journal skill describes a `When` rule. Proves V, X.
+- [ ] **17. Occasions config skill.** Kind: docs. `/update-occasions-config` writes only the new layout. It finds an old-layout file, shows the migrated file, writes it after one yes, and lists each row it could not convert.
+  - Done: the skill has the migrate step. Proves Y.
+
+### Phase 4: Check and ship
+
+- [ ] **18. Live run.** Seam: the skills, run by hand. Conditions: C10. Delete this week's page if it exists. Run `/broadsheet` on the real vault, then run it again to see it point to the same page. Tick rows, and run `/journal:act-on-broadsheet` on a copy of the vault. Run `/update-occasions-config` on the copy to migrate `occasions.md`. Run `/daily` on the copy for backfill, Sunday, and backup to a scratch remote.
+  - Done: the page check prints `ok`, and each skill run did what its AC says. Proves H, M, N, P, S, T, Y.
+- [ ] **19. Test.** Run the gates from Context. This step changes no behaviour.
+  - Done: the gates are green.
+- [ ] **20. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_broadsheet-feedback.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **21. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_broadsheet-feedback.md`.
+  - Done: the draft PR URL is in this line.
+
+## Suggested skills
+
+- `/build @.ai/plan_broadsheet-feedback.md`: every step, then the test and review loop, from the worktree.
+- `/implement @.ai/plan_broadsheet-feedback.md`: one step per session, from the worktree.
+- `/tdd`: each step with a `Seam:` line that names a script.
+- `/engineering:mob-review`: the review step.
+- `/create-pr`: the push step.
+
+## Progress
+
+- 2026-11-21: plan written on `feat/broadsheet-feedback`.
+

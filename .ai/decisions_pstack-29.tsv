@@ -1,6 +1,0 @@
-decision	reason	evidence	result
-why is a new engineering skill, not a layer of primitives/explain	the map unit and the user note name engineering/why	research row r1.22 suggested primitives/explain, map unit 29 overrides it	in plan step 1
-the skill names the code host as a tool role, not a product	everything-agnostic north star	CONTEXT.md defines tool role, CLAUDE.md north star	in plan step 1
-a source the agent cannot read goes into the unanswered part, with the reason	the skill must say what the record does not answer, and a missing source is a gap in the record	map unit 29: say what the record does not answer	in plan step 1
-the live run reads PR numbers from merge commit subjects and runs no gh command	the build machine runs no gh command on this repo	map: Two machines, push_only: true	in plan step 2
-fix the why merge lookup in the live run step, not as a new step	the live run is the check for the skill text, and the fix is one sentence of that text	run 1 cited PRs 64 to 66; git log --merges --ancestry-path --reverse gives PR 32 and PR 39	fix 0a325e9; run 2 passed
