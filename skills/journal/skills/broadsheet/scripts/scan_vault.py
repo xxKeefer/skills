@@ -54,25 +54,26 @@ def walk(root):
             yield os.path.relpath(os.path.join(d, name), root)
 
 
-def git_history(root):
+def git_history(root, bulk):
     if not os.path.isdir(os.path.join(root, ".git")):
-        return None
+        return None, 0
     p = subprocess.run(
         ["git", "-c", "core.quotepath=off", "log", "--format=@%at %ad", "--date=format:%H %u",
          "--name-status", "-M", "-l0"],
         cwd=root, capture_output=True, text=True,
     )
     if p.returncode:
-        return None
+        return None, 0
     commits, current, alias = [], None, {}
     for line in p.stdout.splitlines():
         if line.startswith("@"):
             stamp, hour, weekday = line[1:].split()
             current = {"date": dt.datetime.fromtimestamp(int(stamp), dt.timezone.utc).date(),
-                       "hour": int(hour), "weekday": int(weekday) - 1, "files": []}
+                       "hour": int(hour), "weekday": int(weekday) - 1, "files": [], "paths": 0}
             commits.append(current)
         elif line and current:
             status, *paths = line.split("\t")
+            current["paths"] += 1
             path = alias.get(paths[-1], paths[-1])
             if status.startswith("R"):
                 alias[paths[0]] = path
@@ -80,7 +81,8 @@ def git_history(root):
                 alias[paths[0]] = None
             if path is not None and status != "R100":
                 current["files"].append(path)
-    return commits
+    kept = [c for c in commits if c["paths"] <= bulk]
+    return kept, len(commits) - len(kept)
 
 
 def dirty_files(root):
@@ -177,8 +179,8 @@ def journal_level(rel, meta):
     return (level, date) if date else None
 
 
-def scan(root, journal, today, window, stale_days, archive_days, limit):
-    commits = git_history(root)
+def scan(root, journal, today, window, stale_days, archive_days, limit, bulk=50):
+    commits, bulk_skipped = git_history(root, bulk)
     dirty = dirty_files(root) if commits else set()
     last = {}
     if commits:
@@ -456,6 +458,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
         "today": str(today),
         "totals": {"stale": len(stale), "archive": len(archived), "orphans": len(orphans),
                    "broken": len(broken_rows), "broken_nav": len(broken_nav)},
+        "bulk_commits_skipped": bulk_skipped,
         "window_days": window,
         "dates_from": "git" if commits else "mtime",
         "folders": folders,
@@ -484,9 +487,10 @@ def main():
     p.add_argument("--stale", type=int, default=90)
     p.add_argument("--archive-days", type=int, default=180)
     p.add_argument("--limit", type=int, default=40)
+    p.add_argument("--bulk-files", type=int, default=50)
     a = p.parse_args()
     out = scan(os.path.abspath(a.vault), os.path.abspath(a.journal), dt.date.fromisoformat(a.today),
-               a.window, a.stale, a.archive_days, a.limit)
+               a.window, a.stale, a.archive_days, a.limit, a.bulk_files)
     json.dump(out, sys.stdout, ensure_ascii=False, indent=1)
 
 
