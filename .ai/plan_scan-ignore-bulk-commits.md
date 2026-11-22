@@ -28,7 +28,7 @@ Make `scan_vault.py` skip any commit that touches more than 50 paths, and report
 - [x] **F.** Scan with `--bulk-files 10` and a commit of 11 paths → the commit is skipped.
 - [x] **G.** Scan any vault in git → the output holds `bulk_commits_skipped` with the number of skipped commits, and 0 when none.
 - [x] **H.** Scan a vault with no git history → the output holds `bulk_commits_skipped` as 0, and the scan runs as before.
-- [ ] **I.** Read the broadsheet `SKILL.md` with `bulk_commits_skipped` above 0 → it tells the editor to say that bulk commits were ignored.
+- [x] **I.** Read the broadsheet `SKILL.md` with `bulk_commits_skipped` above 0 → it tells the editor to say that bulk commits were ignored.
 
 ## Context
 
@@ -87,7 +87,7 @@ Gates: `python3 skills/journal/skills/broadsheet/scripts/scan_vault.spec.py` and
 
 - [x] **1. Skip bulk commits.** Seam: `git_history` and `scan` in `skills/journal/skills/broadsheet/scripts/scan_vault.py`. Conditions: C1, C2, C3, C4, C5, C6, C7, C8.
   - Done: eight tests, written first and seen to fail, then green in `scan_vault.spec.py`. They prove AC A to H, and the whole spec file passes.
-- [ ] **2. Docs.** Kind: docs.
+- [x] **2. Docs.** Kind: docs.
   - Done: `SCAN.md` names `bulk_commits_skipped`, the `SKILL.md` Step 2 text names `--bulk-files`, and `SKILL.md` Step 6 tells the editor to say that bulk commits were ignored when the count is above 0. This proves AC I.
 - [ ] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -108,3 +108,4 @@ Gates: `python3 skills/journal/skills/broadsheet/scripts/scan_vault.spec.py` and
 
 - 2026-11-22: plan written on `worktree-scan-ignore-bulk-commits`.
 - 2026-11-22: step 1 done. Eight tests in `scan_vault.spec.py`, seen red, then green. 54 tests pass.
+- 2026-11-22: step 2 done. `SCAN.md` and `SKILL.md` name `bulk_commits_skipped` and `--bulk-files`. Gates green.
