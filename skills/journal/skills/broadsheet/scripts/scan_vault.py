@@ -16,7 +16,7 @@ BOLD = re.compile(r"\*\*|__")
 EMPTY = re.compile(r"^\s*(?:[-*+]|\d+[.)])?\s*(?:\[.\])?\s*$")
 BULLET_HEAD = re.compile(r"^[-*]\s+(?:[^\w\s]+\s+)?(What I learned|What went well|What is next|What caused friction|Notes)\s*$")
 PLACEHOLDER = re.compile(
-    r"^\s*[-*]?\s*`(?:Learnings|Annoyances|things to carry over or push up in the journal|anything other reflections)`\s*$"
+    r"^\s*[-*]?\s*`(?:Learnings|Annoyances|Wins|things to carry over or push up in the journal|things to carry into next week|anything other reflections)`\s*$"
 )
 DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 PARSER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts", "occasions.py")

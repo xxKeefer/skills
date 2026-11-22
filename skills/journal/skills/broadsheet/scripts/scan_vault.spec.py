@@ -495,6 +495,29 @@ class Reflections(unittest.TestCase):
              "sections": [{"heading": "✅ What went well", "text": "Week text"}]},
         ])
 
+    def test_a_sunday_bullet_weekly_reflect_gives_each_filled_bullet_and_drops_the_placeholders(self):
+        v = Vault(self)
+        base(v)
+        body = ("## 🤔 Reflect\n\n- 🧠 What I learned\n\t- `Learnings`\n"
+                "\n## 🗓️ Weekly Reflect\n\n- ✅ What went well\n\t- Shipped it\n"
+                "- ⚠️ What caused friction\n\t- `Annoyances`\n"
+                "- ➡️ What is next\n\t- `things to carry into next week`\n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        self.assertEqual(v.scan()["reflections"], [
+            {"path": "01-journal/2026-wk46-sun.md", "level": "weekly", "date": "2026-11-09",
+             "sections": [{"heading": "✅ What went well", "text": "- Shipped it"}]},
+        ])
+
+    def test_a_sunday_bullet_weekly_reflect_of_only_placeholders_gives_nothing(self):
+        v = Vault(self)
+        base(v)
+        body = ("## 🤔 Reflect\n\n- 🧠 What I learned\n\t- `Learnings`\n"
+                "\n## 🗓️ Weekly Reflect\n\n- ✅ What went well\n\t- `Wins`\n"
+                "- ⚠️ What caused friction\n\t- `Annoyances`\n"
+                "- ➡️ What is next\n\t- `things to carry into next week`\n")
+        v.write("01-journal/2026-wk46-sun.md", note("daily", "2026-11-15", body))
+        self.assertEqual(v.scan()["reflections"], [])
+
     def test_an_empty_sunday_weekly_reflect_gives_no_weekly_reflection(self):
         v = Vault(self)
         base(v)

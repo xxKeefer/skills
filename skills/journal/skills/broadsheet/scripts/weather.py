@@ -5,6 +5,7 @@ import urllib.parse
 import urllib.request
 
 API = "https://api.open-meteo.com/v1/forecast"
+GEO = "https://geocoding-api.open-meteo.com/v1/search"
 WMO = {
     0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
     45: "Fog", 48: "Rime fog",
@@ -34,6 +35,12 @@ def url_for(lat, lon):
     })
 
 
+def locate(name, fetch):
+    url = GEO + "?" + urllib.parse.urlencode({"name": name, "count": 1, "format": "json"})
+    hit = json.loads(fetch(url))["results"][0]
+    return hit["latitude"], hit["longitude"]
+
+
 def forecast(lat, lon, fetch):
     body = json.loads(fetch(url_for(lat, lon)))
     daily = body["daily"]
@@ -50,7 +57,10 @@ def forecast(lat, lon, fetch):
 
 def main(argv, fetch=fetch_url):
     try:
-        lat, lon = (float(a) for a in argv)
+        try:
+            lat, lon = (float(a) for a in argv)
+        except ValueError:
+            lat, lon = locate(" ".join(argv), fetch)
         out = forecast(lat, lon, fetch)
     except Exception:
         out = {"available": False}

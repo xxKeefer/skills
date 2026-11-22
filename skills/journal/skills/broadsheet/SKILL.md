@@ -9,7 +9,7 @@ description: >
   flow. Use when the user says "broadsheet" or wants a newspaper of their
   vault.
 disable-model-invocation: true
-argument-hint: "[accent=<colour>]"
+argument-hint: "[accent=<colour>] [place=<label or name>]"
 ---
 
 # Broadsheet
@@ -46,16 +46,17 @@ note.
 2. If `exists` is true, stop. Scan nothing and write nothing. Reply with `path`, and say that this
    week's edition is already printed.
 3. Read `~/.claude/broadsheet.md` if it exists. Its layout is in
-   [`config.example.md`](config.example.md). An `accent=<colour>` argument overrides its line. The
-   skill takes no time period: the lead always covers the last 7 days.
+   [`config.example.md`](config.example.md). An `accent=<colour>` argument overrides its line. A `place=<label or name>` argument replaces
+   the places for this run: a label of the config picks that place, and any other value is one
+   place name. The skill takes no time period: the lead always covers the last 7 days.
 4. Defaults: the paper name is "The Obsidian Oracle". The accent is oxblood, `#8b1e3f`. Stale is
-   90 days. Archive is 180 days. No location.
+   90 days. Archive is 180 days. No places.
 5. The vault root is the parent of the journal folder. Find the inbox with
    `/discover-vault-directory *notes`, and the projects folder with
    `/discover-vault-directory *projects`.
 
 **Done when:** you have the edition JSON, the paper name, the accent, the two day limits, the
-location or none, the vault root, and the journal, inbox, and projects folders. Or this week's page
+places or none, the vault root, and the journal, inbox, and projects folders. Or this week's page
 exists, and the user has its path.
 
 ## Step 2: Scan the vault and the sky
@@ -68,16 +69,18 @@ The scanner prints JSON. It reads ages from the vault's git history, and from th
 note with uncommitted changes. `dates_from` says which. Each long list holds at most 40 rows, and
 `totals` gives its full count. The window is the last 7 days. [SCAN.md](SCAN.md) names each key.
 
-With a location, run:
+For each place, run one of these. A place that is a name takes the name. A place that is
+coordinates takes both numbers:
 
 ```sh
+python3 $SKILL_DIR/scripts/weather.py <place name>
 python3 $SKILL_DIR/scripts/weather.py <lat> <lon>
 ```
 
-It prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}`.
+Each run prints `{available, date, conditions, high, low, rain_chance, unit}`, or `{available: false}`.
 
 **Done when:** the scanner exits 0, you hold its JSON, and you hold the forecast, or you know that
-there is no location or no forecast.
+there is no place or no forecast.
 
 ## Step 3: Read last week's page
 

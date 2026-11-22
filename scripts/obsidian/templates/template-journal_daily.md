@@ -59,8 +59,8 @@ tR += `- 📝 Notes\n\t- \`anything other reflections\`\n`;
 
 if (m.isoWeekday() === 7) {
   tR += `\n## 🗓️ Weekly Reflect\n\n`;
-  tR += `### ✅ What went well\n\n`;
-  tR += `### ⚠️ What caused friction\n\n`;
-  tR += `### ➡️ What is next\n`;
+  tR += `- ✅ What went well\n\t- \`Wins\`\n`;
+  tR += `- ⚠️ What caused friction\n\t- \`Annoyances\`\n`;
+  tR += `- ➡️ What is next\n\t- \`things to carry into next week\`\n`;
 }
 %>

@@ -12,9 +12,9 @@ tracker.
 ## Locations
 
 - **Vault**: `~/studio/notes/`
-- **Project workspace**: `~/studio/notes/04-projects/agentic-skills/`
-- **Board**: `~/studio/notes/04-projects/agentic-skills/agentic-skills.kanban.md`
-- **Task notes**: `~/studio/notes/04-projects/agentic-skills/tasks/`
+- **Project workspace**: `~/studio/notes/05-projects/agentic-skills/`
+- **Board**: `~/studio/notes/05-projects/agentic-skills/agentic-skills.kanban.md`
+- **Task notes**: `~/studio/notes/05-projects/agentic-skills/tasks/`
 
 ## When a skill says "publish to the issue tracker"
 

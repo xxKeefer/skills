@@ -21,6 +21,9 @@ GOOD = json.dumps({
 })
 
 
+GEO = json.dumps({"results": [{"name": "Brisbane", "latitude": -27.47, "longitude": 153.02}]})
+
+
 def run(argv, fetch):
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
@@ -65,6 +68,27 @@ class Weather(unittest.TestCase):
 
     def test_a_response_without_daily_data_is_not_available(self):
         self.assertEqual(run(["0", "0"], lambda url: json.dumps({"daily": {"time": []}})), (0, {"available": False}))
+
+    def test_a_place_name_is_looked_up_then_forecast_at_the_first_match(self):
+        urls = []
+
+        def fetch(url):
+            urls.append(url)
+            return GEO if "geocoding-api" in url else GOOD
+
+        code, out = run(["Mount", "Gravatt"], fetch)
+        self.assertEqual((code, out["available"], out["conditions"]), (0, True, "Slight rain"))
+        self.assertTrue(urls[0].startswith("https://geocoding-api.open-meteo.com/v1/search?"))
+        self.assertIn("name=Mount+Gravatt", urls[0])
+        self.assertIn("count=1", urls[0])
+        self.assertIn("latitude=-27.47", urls[1])
+        self.assertIn("longitude=153.02", urls[1])
+
+    def test_a_place_name_that_finds_nothing_is_not_available(self):
+        self.assertEqual(run(["Nowhere"], lambda url: json.dumps({"generationtime_ms": 1})), (0, {"available": False}))
+
+    def test_a_place_lookup_that_fails_is_not_available(self):
+        self.assertEqual(run(["Brisbane"], fails), (0, {"available": False}))
 
     def test_bad_arguments_are_not_available_and_exit_0(self):
         self.assertEqual(run(["north"], lambda url: GOOD), (0, {"available": False}))

@@ -129,8 +129,8 @@ tasks, notes). Only update sections that need changes.
 Keep each free section, such as a shopping list, above `## 🤔 Reflect`. Put nothing but the reflect
 bullets and their text in a reflect section.
 
-On a Sunday, add `## 🗓️ Weekly Reflect` after `## 🤔 Reflect`. Under it, copy the `###` headings
-of the `## 🤔 Reflect` section of [templates/weekly.md](../../templates/weekly.md). The user writes
+On a Sunday, add `## 🗓️ Weekly Reflect` after `## 🤔 Reflect`. Under it, copy the three bullets
+of the `## 🗓️ Weekly Reflect` section of [templates/daily.md](../../templates/daily.md). The user writes
 the week's reflect there, and `/weekly` and `/reflect` copy it into the weekly file. On other
 days, leave the section out.
 

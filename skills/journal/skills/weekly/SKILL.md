@@ -34,7 +34,7 @@ Read these files from the journal directory:
 
 The user can write the week's reflect in the Sunday daily. When the previous week's file has an
 empty `## 🤔 Reflect` and its Sunday daily has text under `## 🗓️ Weekly Reflect`, copy that text
-into the previous week's `## 🤔 Reflect`, under the same `###` headings. Change nothing else in
+into the previous week's `## 🤔 Reflect`, under the `###` heading of the same name. Change nothing else in
 either file. Then use it as last week's reflect.
 
 ## Step 3: Build At a Glance

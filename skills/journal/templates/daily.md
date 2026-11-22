@@ -32,8 +32,9 @@ next: '[[YYYY-wkNN-day]]'
 
 ## 🗓️ Weekly Reflect (Sundays only)
 
-### ✅ What went well
-
-### ⚠️ What caused friction
-
-### ➡️ What is next
+- ✅ What went well
+	- `Wins`
+- ⚠️ What caused friction
+	- `Annoyances`
+- ➡️ What is next
+	- `things to carry into next week`

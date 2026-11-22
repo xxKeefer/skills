@@ -55,13 +55,14 @@ notes, and leave its placeholder when the user adds nothing.
 
 A Sunday daily also has `## 🗓️ Weekly Reflect`. After the daily questions, fill it as the
 reflect of this week's weekly file, by the steps for weekly files below. Write it in the Sunday
-daily, under `## 🗓️ Weekly Reflect`.
+daily, under `## 🗓️ Weekly Reflect`, as three top-level bullets: went well, friction, and next.
+Write each answer as a tab-indented bullet under its bullet, in place of the backtick placeholder.
 
 ### For weekly/monthly/yearly files
 
 For a weekly file, first read the `## 🗓️ Weekly Reflect` section of that week's Sunday daily.
-When it has text, copy the text into the weekly file's `## 🤔 Reflect`, under the same `###`
-headings, and show it as the start of the reflect. Then ask the one round below.
+When it has text, copy the text of each bullet into the weekly file's `## 🤔 Reflect`, under the
+`###` heading of the same name, and show it as the start of the reflect. Then ask the one round below.
 
 These are retrospective. Read the child files' reflect sections first, then present a summary:
 
