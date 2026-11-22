@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Run: python3 scan_vault.spec.py"""
+import datetime
 import json
 import os
 import shutil
@@ -10,6 +11,10 @@ import unittest
 
 SCRIPT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scan_vault.py")
 TODAY = "2026-11-21"
+
+
+def dt_stamp(day):
+    return datetime.datetime.fromisoformat(day + "T10:00:00").timestamp()
 
 
 def daily(date, tasks, summary="A quiet day.", up="[[2026-wk47-week]]"):
@@ -129,6 +134,95 @@ class Ages(unittest.TestCase):
         base(v)
         v.write("02-knowledge/new.md", "new")
         self.assertEqual(v.scan()["dates_from"], "mtime")
+
+
+def commit_many(v, folder, count, date, start=0):
+    for i in range(start, start + count):
+        v.write(f"{folder}/n{i}.md", f"note {i}\n" * 8)
+    v.sh("git", "add", "-A")
+    v.sh("git", "commit", "-q", "-m", f"bulk {count}", date=date)
+
+
+class Bulk(unittest.TestCase):
+    def test_a_commit_over_the_limit_adds_nothing(self):
+        v = Vault(self)
+        base(v)
+        commit_many(v, "03-work", 51, "2026-11-20")
+        out = v.scan()
+        self.assertEqual(out["bulk_commits_skipped"], 1)
+        self.assertEqual(out["activity"]["edits_by_folder"], {})
+        self.assertEqual(sum(out["activity"]["hours"]), 0)
+        self.assertEqual(sum(out["activity"]["weekdays"]), 0)
+        rows = {r["days"]: r for r in out["compass"]}
+        self.assertEqual((rows[7]["edits"], rows[365]["edits"]), (0, 1))
+
+    def test_a_commit_at_the_limit_counts(self):
+        v = Vault(self)
+        base(v)
+        commit_many(v, "03-work", 50, "2026-11-20")
+        out = v.scan()
+        self.assertEqual(out["bulk_commits_skipped"], 0)
+        self.assertEqual(out["activity"]["edits_by_folder"], {"03-work": 50})
+        self.assertEqual(sum(out["activity"]["hours"]), 1)
+
+    def test_a_note_in_a_skipped_commit_keeps_its_earlier_age(self):
+        v = Vault(self)
+        base(v)
+        v.write("03-work/n0.md", "first\n", date="2026-08-23")
+        commit_many(v, "03-work", 51, "2026-11-20")
+        stale = {s["path"]: s for s in v.scan()["stale"]}
+        self.assertEqual(stale["03-work/n0.md"]["age_days"], 90)
+
+    def test_a_note_moved_by_a_skipped_commit_keeps_its_earlier_age(self):
+        v = Vault(self)
+        base(v)
+        v.write("03-work/old.md", "a long note body that git can match\n" * 5, date="2026-08-23")
+        os.makedirs(os.path.join(v.root, "06-omen"))
+        v.sh("git", "mv", "03-work/old.md", "06-omen/moved.md")
+        commit_many(v, "02-knowledge", 50, "2026-11-20")
+        out = v.scan()
+        self.assertEqual(out["bulk_commits_skipped"], 1)
+        stale = {s["path"]: s for s in out["stale"]}
+        self.assertEqual(stale["06-omen/moved.md"]["age_days"], 90)
+
+    def test_a_note_in_only_a_skipped_commit_takes_its_file_time(self):
+        v = Vault(self)
+        base(v)
+        commit_many(v, "03-work", 51, "2026-11-20")
+        old = dt_stamp("2026-08-23")
+        os.utime(os.path.join(v.root, "03-work", "n0.md"), (old, old))
+        stale = {s["path"]: s for s in v.scan()["stale"]}
+        self.assertEqual(stale["03-work/n0.md"]["age_days"], 90)
+
+    def test_pure_renames_count_toward_the_limit(self):
+        v = Vault(self)
+        base(v)
+        commit_many(v, "03-work", 51, "2026-08-23")
+        os.makedirs(os.path.join(v.root, "06-omen"))
+        for i in range(51):
+            v.sh("git", "mv", f"03-work/n{i}.md", f"06-omen/n{i}.md")
+        v.sh("git", "commit", "-q", "-m", "move", date="2026-11-20")
+        out = v.scan()
+        self.assertEqual(out["bulk_commits_skipped"], 2)
+        self.assertEqual(sum(out["activity"]["hours"]), 0)
+        self.assertEqual(sum(out["activity"]["weekdays"]), 0)
+
+    def test_the_limit_is_an_option(self):
+        v = Vault(self)
+        base(v)
+        commit_many(v, "03-work", 11, "2026-11-20")
+        self.assertEqual(v.scan()["bulk_commits_skipped"], 0)
+        out = v.scan("--bulk-files", "10")
+        self.assertEqual(out["bulk_commits_skipped"], 1)
+        self.assertEqual(out["activity"]["edits_by_folder"], {})
+
+    def test_the_count_is_zero_with_no_bulk_commit_and_with_no_git(self):
+        v = Vault(self)
+        base(v)
+        self.assertEqual(v.scan()["bulk_commits_skipped"], 0)
+        g = Vault(self, git=False)
+        base(g)
+        self.assertEqual(g.scan()["bulk_commits_skipped"], 0)
 
 
 class Links(unittest.TestCase):
