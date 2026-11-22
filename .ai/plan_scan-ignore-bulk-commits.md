@@ -91,8 +91,8 @@ Gates: `python3 skills/journal/skills/broadsheet/scripts/scan_vault.spec.py` and
   - Done: `SCAN.md` names `bulk_commits_skipped`, the `SKILL.md` Step 2 text names `--bulk-files`, and `SKILL.md` Step 6 tells the editor to say that bulk commits were ignored when the count is above 0. This proves AC I.
 - [x] **3. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
-- [ ] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_scan-ignore-bulk-commits.md`. This step changes no code.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **4. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_scan-ignore-bulk-commits.md`. This step changes no code.
+  - Done: the report path and the reviewed base and head SHAs are in this line. Report: `.ai/review_worktree-scan-ignore-bulk-commits.html`. Reviewed: base ff34050, head 078b5a2 (panel read 21ff533).
 - [ ] **5. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_scan-ignore-bulk-commits.md`.
   - Done: the draft PR URL is in this line.
 
@@ -110,3 +110,4 @@ Gates: `python3 skills/journal/skills/broadsheet/scripts/scan_vault.spec.py` and
 - 2026-11-22: step 1 done. Eight tests in `scan_vault.spec.py`, seen red, then green. 54 tests pass.
 - 2026-11-22: step 2 done. `SCAN.md` and `SKILL.md` name `bulk_commits_skipped` and `--bulk-files`. Gates green.
 - 2026-11-22: step 3 done. `scan_vault.spec.py` passes 54 tests, and `pre-commit_test.sh` passes. Each changed behaviour has a test from step 1.
+- 2026-11-22: step 4 done. Light run: 3 nits, no defect. 2 fixed in 078b5a2. 1 open: `SKILL.md` is over 10 KB (it was before this branch), and moving the Step 6 rule out would break AC I.
