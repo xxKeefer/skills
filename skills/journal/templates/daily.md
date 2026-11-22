@@ -21,10 +21,20 @@ next: '[[YYYY-wkNN-day]]'
 
 ## 🤔 Reflect
 
-### 🧠 What I learned
+- 🧠 What I learned
+	- `Learnings`
+- ⚠️ What caused friction
+	- `Annoyances`
+- ➡️ What is next
+	- `things to carry over or push up in the journal`
+- 📝 Notes
+	- `anything other reflections`
 
-### ✅ What went well
+## 🗓️ Weekly Reflect (Sundays only)
 
-### ➡️ What is next
-
-### ⚠️ What caused friction
+- ✅ What went well
+	- `Wins`
+- ⚠️ What caused friction
+	- `Annoyances`
+- ➡️ What is next
+	- `things to carry into next week`

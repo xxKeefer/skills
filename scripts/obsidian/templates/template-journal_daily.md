@@ -52,8 +52,15 @@ tR += `- [ ] 🎯 \n\n`;
 tR += `## 💭 Thoughts and Ideas\n\n`;
 
 tR += `## 🤔 Reflect\n\n`;
-tR += `### 🧠 What I learned\n\n`;
-tR += `### ✅ What went well\n\n`;
-tR += `### ➡️ What is next\n\n`;
-tR += `### ⚠️ What caused friction\n`;
+tR += `- 🧠 What I learned\n\t- \`Learnings\`\n`;
+tR += `- ⚠️ What caused friction\n\t- \`Annoyances\`\n`;
+tR += `- ➡️ What is next\n\t- \`things to carry over or push up in the journal\`\n`;
+tR += `- 📝 Notes\n\t- \`anything other reflections\`\n`;
+
+if (m.isoWeekday() === 7) {
+  tR += `\n## 🗓️ Weekly Reflect\n\n`;
+  tR += `- ✅ What went well\n\t- \`Wins\`\n`;
+  tR += `- ⚠️ What caused friction\n\t- \`Annoyances\`\n`;
+  tR += `- ➡️ What is next\n\t- \`things to carry into next week\`\n`;
+}
 %>

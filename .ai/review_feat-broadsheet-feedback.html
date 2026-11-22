@@ -50,26 +50,27 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Review of pstack-33_retire-versions",
- "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-33_retire-versions.html",
+ "title": "Review of feat/broadsheet-feedback",
+ "path": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback/.ai/review_feat-broadsheet-feedback.html",
  "skill": "/engineering:build",
  "runs": [
   {
    "title": "Light run",
-   "head": "d6e0f4f",
+   "head": "f993a1b",
    "meta": {
-    "Base": "pstack-32_script-audit (6601371)",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-33.md"
+    "Base": "main 15b0c55",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback",
+    "Plan": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback/.ai/plan_broadsheet-feedback.md",
+    "Fixed in": "29b9002"
    },
-   "answer": "The branch has no change-requested findings. The four version lines match the plan targets, and the vault note and card meet AC A. One nit in the vault note is fixed, and one future row stays open. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
+   "answer": "The panel fixed 9 findings in commit 29b9002 and left 5 open. Two open rows are Change Requested: the compass window is 8 days for the 7-day row, and an employer name stays in the earlier commits of the branch. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
    "visuals": [
     {
      "question": "Which lanes ran, and what did each find?",
      "fold": true,
      "table": {
       "columns": [
-       "Lane",
+       "Persona",
        "CR",
        "Nit",
        "Future",
@@ -77,7 +78,28 @@
       ],
       "rows": [
        [
-        "skills",
+        "correctness",
+        "2",
+        "0",
+        "0",
+        "ran"
+       ],
+       [
+        "code-quality",
+        "0",
+        "5",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
         "0",
         "0",
         "0",
@@ -91,74 +113,67 @@
         "ran (clean)"
        ],
        [
-        "correctness",
-        "-",
-        "-",
-        "-",
-        "skipped (no executable code changed)"
+        "skills",
+        "1",
+        "2",
+        "0",
+        "ran"
+       ],
+       [
+        "scrub (orchestrator)",
+        "2",
+        "0",
+        "0",
+        "ran (scrub patterns and a search of the added lines)"
        ],
        [
         "security",
         "-",
         "-",
         "-",
-        "skipped (no ts or vue source)"
+        "skipped (no non-test .ts or .vue changed)"
        ],
        [
         "error-handling",
         "-",
         "-",
         "-",
-        "skipped (no failure path changed)"
-       ],
-       [
-        "code-quality",
-        "-",
-        "-",
-        "-",
-        "skipped (no non-test source changed)"
+        "skipped (no non-test .ts or .vue changed)"
        ],
        [
         "naming",
         "-",
         "-",
         "-",
-        "skipped (no ts, vue, or js change)"
-       ],
-       [
-        "test-design",
-        "-",
-        "-",
-        "-",
-        "skipped (no behavioural source changed)"
-       ],
-       [
-        "test-quality",
-        "-",
-        "-",
-        "-",
-        "skipped (no test file changed)"
+        "skipped (no .ts, .vue, or .js added or renamed)"
        ],
        [
         "architecture",
         "-",
         "-",
         "-",
-        "skipped (no app or library source changed)"
+        "skipped (no apps/*/src or libs/*/src changed)"
        ],
        [
-        "other lanes and project rubric",
+        "every other panel lane",
         "-",
         "-",
         "-",
         "skipped (not in the light set)"
        ],
        [
-        "vault note and card",
-        "0",
-        "1",
-        "0",
-        "read by hand against AC A and the plan Context"
+        "ac-check",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
+       ],
+       [
+        "project rubric",
+        "-",
+        "-",
+        "-",
+        "skipped (not in the light set)"
        ]
       ]
      }
@@ -197,29 +212,182 @@
       "fix"
      ],
      "cells": {
-      "tier": "Future",
-      "persona": "skills",
-      "where": ".ai/plan_pstack-33.md:7",
-      "issue": "The goal says only this unit changed a plugin.json, but commits abdb836 and 519effb on this branch also changed one.\n\nThe decision log records the choice: the count is against main. The goal text cannot hold word for word.",
-      "recommendation": "Keep the plan as it is. The decision log holds the reason, and the versions match the targets.",
-      "result": "Open: the goal wording needs a decision from the user, not a code fix"
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/journal/skills/broadsheet/scripts/scan_vault.py:410",
+      "issue": "Each compass window covers one day too many, so the 7-day row can count 8 dailies.\n\nsince = today - N days, and the filter keeps since <= date <= today, which is N + 1 days. With a daily on each day, compass[0] gives 7 days and 8 dailies. edits, chore_rate, and reflections use the same since.",
+      "recommendation": "Set since = today - (days - 1) days, and change the C5 test so that a daily 6 days back is in the week and one 7 days back is not.",
+      "result": "Open: the fix contradicts decision 3 of the decision log (both ends included, to match the lead window). The user decides."
      },
      "id": "r1.1"
     },
     {
+     "ticks": [
+      "fix"
+     ],
      "cells": {
-      "tier": "Nit",
-      "persona": "vault note",
-      "where": "tasks/Trial the pstack program.md:25",
-      "issue": "The Trial section had two blank lines under its heading.",
-      "recommendation": "Remove one blank line.",
-      "result": "Fixed (vault file, outside the repo, so no commit)"
+      "tier": "Change Requested",
+      "persona": "scrub (orchestrator)",
+      "where": ".ai/plan_broadsheet-feedback.md:190",
+      "issue": "An employer name and vault note names stay in the branch history.\n\nCommit a6d382d added them to the plan. The fix commit removes them from the file, but a merge commit keeps the earlier commits. The branch is not pushed yet. The scrub hook has no private pattern file in this repo (scrub.patterns is not set), so the hook did not catch the name.",
+      "recommendation": "Squash-merge the PR, or rewrite the branch before the first push so that no commit holds the name. Add the name to the private scrub pattern file.",
+      "result": "Open: a history rewrite is the user's decision, and the step must not rebase."
      },
      "id": "r1.2"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "correctness",
+      "where": "skills/journal/scripts/occasions.py:61",
+      "issue": "every N months accepted a step that does not divide 12, so the cadence reset each January.\n\nevery 5 months from Jan 1 fired on Jan 1, Jun 1, Nov 1, then Jan 1 again.",
+      "recommendation": "Accept only 1, 2, 3, 4, 6, or 12. Test every 5, every 13, every 12, and every 4 across a new year.",
+      "result": "Fixed"
+     },
+     "id": "r1.3"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "skills",
+      "where": "skills/journal/skills/daily/SKILL.md:55",
+      "issue": "/daily and /update-occasions-config used different old-layout tests.\n\nA new-layout file with one bad row (When Tues) has every row in errors, so /daily said old layout and sent the user to /update-occasions-config, which saw ## Daily and did not migrate.",
+      "recommendation": "occasions.py prints old_layout: true with no ## Daily heading, or a table with a Type or Date/Rule column. Both skills read that field.",
+      "result": "Fixed"
+     },
+     "id": "r1.4"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Change Requested",
+      "persona": "scrub (orchestrator)",
+      "where": ".ai/plan_broadsheet-feedback.md:190",
+      "issue": "The plan named an employer folder, two campaign notes, and the author's city.",
+      "recommendation": "Write the folder kinds and a test location in place of the names.",
+      "result": "Fixed"
+     },
+     "id": "r1.5"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/journal/skills/broadsheet/scripts/scan_vault.py:173",
+      "issue": "scan() does inventory, links, journal, chores, edits, reflections, compass, and projects in one body, with closures over its locals.",
+      "recommendation": "Move reflections, compass, and projects to module-level helpers with explicit arguments, in a /engineering:code-simplify pass.",
+      "result": "Open: a large restructure of a working scanner, outside the scope of a review fix."
+     },
+     "id": "r1.6"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/journal/scripts/occasions.py:43",
+      "issue": "rule() parses six When forms in one function.",
+      "recommendation": "One small parser per form, and rule() loops over them, in a /engineering:code-simplify pass.",
+      "result": "Open: a large restructure, outside the scope of a review fix."
+     },
+     "id": "r1.7"
+    },
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": ".ai/plan_broadsheet-feedback.md:4",
+      "issue": "The tracked plan has an absolute home path in its worktree line.\n\nThe repo is public. The path holds the local handle and folder layout.",
+      "recommendation": "Write the worktree as a path relative to the repo's parent in /engineering:claim and each plan.",
+      "result": "Open: /engineering:claim writes the absolute path and other skills read it, so the change is a convention decision."
+     },
+     "id": "r1.8"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/journal/skills/broadsheet/scripts/scan_vault.py:353",
+      "issue": "The dirty-note filter was written twice, in edits_since and in the hours loop.",
+      "recommendation": "Build dirty_notes once and use it in both places.",
+      "result": "Fixed"
+     },
+     "id": "r1.9"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/journal/skills/broadsheet/scripts/edition.py:30",
+      "issue": "The order-keeping dedupe was hand-written with a not-in check.",
+      "recommendation": "Use list(dict.fromkeys(ids)) in row_ids and muted_ids.",
+      "result": "Fixed"
+     },
+     "id": "r1.10"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "code-quality",
+      "where": "skills/journal/skills/broadsheet/scripts/scan_vault.py:389",
+      "issue": "The 365-day cutoff was computed twice in the reflections loop.",
+      "recommendation": "Bind year_ago once. The two reflection dicts differ in level and date, so they stay as written.",
+      "result": "Fixed"
+     },
+     "id": "r1.11"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/journal/skills/broadsheet/scripts/scan_vault.spec.py:106",
+      "issue": "No test covered a note renamed twice. A mutation that stops the rename chain survived.",
+      "recommendation": "Add a test: a -> b -> c with no content change keeps age 90. The mutation now goes red.",
+      "result": "Fixed"
+     },
+     "id": "r1.12"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "test-design",
+      "where": "skills/journal/scripts/occasions.spec.py:163",
+      "issue": "The upper bound of every N months had no test.",
+      "recommendation": "Add every 13 as an error and every 12 as a valid edge.",
+      "result": "Fixed"
+     },
+     "id": "r1.13"
+    },
+    {
+     "ticks": [],
+     "cells": {
+      "tier": "Nit",
+      "persona": "skills",
+      "where": "skills/journal/skills/broadsheet/SKILL.md:1",
+      "issue": "broadsheet/SKILL.md was 16,765 bytes, over the 10 KB limit.",
+      "recommendation": "Move the placeholder table, the row shape, and the data-id rules to LAYOUT.md, and the scan keys to SCAN.md. SKILL.md is now 9,632 bytes.",
+      "result": "Fixed"
+     },
+     "id": "r1.14"
     }
    ],
    "run": 1,
-   "date": "2026-11-18"
+   "date": "2026-11-22"
   }
  ]
 }

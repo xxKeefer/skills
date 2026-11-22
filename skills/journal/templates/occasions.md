@@ -7,27 +7,38 @@ aliases:
   - events
 ---
 
-## Chores (Daily Default)
-- [ ] Chore 1
-- [ ] Chore 2
+%% `occasions.py` reads this file. When: `Sun`, `Mon Wed`, `Wed even`, `Jan 5`, `2nd Sun May`, `1st Sun`, `every 3 months from Feb 15`, `easter`, `easter+1`, `easter-2`, or `2027-10-12`. Section: `chores`, `work`, or `tasks`; empty is `chores`. %%
 
-## Chores (Day-Specific)
-| Day | Chore |
-|---|---|
-| Wednesday (even weeks) | Chore description |
+## Daily
+- [ ] 🧼 Dishes
+- [ ] 🧺 Laundry
+  - [ ] Wash
+  - [ ] Fold
 
-## Recurring Events
-| Occasion | Date/Rule | Type | Section |
-|---|---|---|---|
-| 🎂 Name | Mon DD | event | chores |
-| 🎅 Holiday | Dec 25 | event | chores |
-| 📋 Reminder | 1st Mon Month | reminder | chores |
+## Weekly
+| Item | When | Section |
+|---|---|---|
+| 🗑️ Bins out | Wed even | chores |
+| ♻️ Recycling out | Wed odd | chores |
+| 🧹 Vacuum | Sun | chores |
+| 🧑‍💻 Timesheet | Fri | work |
 
-Section values: `chores`, `work`, `tasks` -- maps the occasion into the matching checklist group in the daily file. Defaults to `chores` if omitted.
+## Yearly
+| Item | When | Section |
+|---|---|---|
+| 🎂 Example birthday | Jan 5 | chores |
+| 💐 Example parent day | 2nd Sun May | chores |
+| 🐣 Good Friday | easter-2 | chores |
+| 🎅 Christmas Day | Dec 25 | chores |
 
-## One Off Events - YYYY
-| Occasion | Date/Rule | Type | Section |
-|---|---|---|---|
-| 💒 A Wedding | Oct 12 | event | tasks |
+## Maintenance
+| Item | When | Section |
+|---|---|---|
+| 🧽 Clean the shower | 1st Sun | chores |
+| 🧊 Clean the fridge drip tray | every 3 months from Feb 15 | chores |
+| 🔥 Test the smoke alarms | every 6 months from Apr 1 | chores |
 
-Fire once on the date, then prune the row manually. Year-guarded (the `- YYYY` suffix scopes them to that year). Default section `tasks`.
+## One-off
+| Item | When | Section |
+|---|---|---|
+| 💒 Example wedding | 2027-10-12 | tasks |

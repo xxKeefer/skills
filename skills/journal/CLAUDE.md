@@ -16,7 +16,8 @@ within the user's Obsidian vault. Skills find it with
   Skills add value over templates by reading parent goals, detecting patterns, and fixing links.
 - **Templates are the contract**: `journal/templates/` contains the authoritative output format
   for each file type. Skills must read and write against these templates.
-- **Flat file structure**: All organisation via file naming. No nested directories.
+- **Flat file structure**: All organisation via file naming. No nested directories, except
+  `chronicles/{YYYY}/`, where the user moves past weeks by hand.
 
 ## Links
 
@@ -41,7 +42,7 @@ Every journal skill is user-invoked: you start each one by hand. See
 
 One long-lived mutable file. Skills must read-modify-write carefully (never overwrite).
 
-- `occasions.md` -- configurable events, reminders, day-specific chores
+- `occasions.md` -- the daily chores, and `| Item | When | Section |` tables. Only `scripts/occasions.py` reads the `When` rules; each skill runs it for due items.
 
 ## Cross-Skill Data Flow
 
@@ -49,9 +50,10 @@ One long-lived mutable file. Skills must read-modify-write carefully (never over
 /yearly -> yearly file
 /monthly -> reads: yearly goals -> monthly file
 /weekly -> reads: monthly goals + occasions.md -> weekly file
-/daily -> reads: weekly goals + occasions.md + yesterday's reflect -> daily file
+/daily -> reads: weekly goals + occasions.md + the last daily's reflect -> ticks the last daily's done items -> daily file; commits and pushes the vault when it is a git repo with a remote
 /reflect -> updates: any journal file's reflect section; fixes prev/next links
-/broadsheet -> reads: the whole vault -> one HTML page in the inbox; changes no note
+/broadsheet -> reads: the whole vault + last week's page + broadsheet-memory.md -> one HTML page a week in the journal folder; changes no note
+/act-on-broadsheet -> reads: the prompt a page builds -> moves, archives, deletes (after a yes), and edits notes; appends each veto and snooze to broadsheet-memory.md
 ```
 
 ## At a Glance

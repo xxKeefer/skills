@@ -1,5 +1,0 @@
-decision	reason	evidence	result
-UNSLOP.md sits at the scribe domain root, beside HARD-RULES.md	it is shared reference for the proof-read lenses, not a skill	map unit 28 names scribe/UNSLOP.md. HARD-RULES.md is the shared-rule precedent	in plan step 1
-proof-read hunts the tells in Pass 4 (Orwell)	a tell is a word-level or phrase-level fault, and Pass 4 hunts the delta the earlier lenses leave	research row r1.20: lands in proof-read (Orwell pass) or a new scribe reference	in plan step 1
-an ID is a group prefix plus a number, never changed or reused, and a retired tell keeps its row	other skills cite the IDs, so an ID must stay stable	research row r1.20: stable IDs that other skills cite	in plan step 1
-the live run asks for Pass 4 only, with no gate	a subagent cannot answer AskUserQuestion, and AC B needs only the tell findings	proof-read gates each pass with AskUserQuestion	in plan step 2

@@ -1,5 +1,0 @@
-decision	reason	evidence	result
-Count one new version against main, not against this unit alone	Unit 2 already bumped engineering, primitives, meta, and deprecated in 519effb, so the map Done line cannot hold literally	git diff main...HEAD on each plugin.json; git log 519effb	primitives, meta, deprecated keep their unit 2 version; engineering goes to 3.0.0
-Minor bumps for every domain other than engineering	The map names only engineering as a major bump	map unit 33 bullet 2	projects 0.12.0, scribe 1.27.0, utility 1.26.0
-Put the retire list and the Trial steps in a vault task note with a Backlog card	The map is deleted with its last unit, and both facts must outlive it. The tracker board is private, so no other person reads the note	.ai/CLAUDE.md Before you delete; docs/agents/issue-tracker.md	plan step 2
-Leave the review Future row on the goal wording open	The goal is the map Done line word for word, and unit 2 bumped four versions before the map rule	review_pstack-33_retire-versions.html; 519effb	the row stays open for the user

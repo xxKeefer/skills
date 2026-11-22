@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import datetime as dt
+import importlib.util
 import json
 import os
 import re
@@ -12,6 +13,16 @@ LINK = re.compile(r"!?\[\[([^\]]+)\]\]")
 CODE = re.compile(r"```.*?```|`[^`\n]*`", re.S)
 TASK = re.compile(r"^(\s*)[-*] \[(.)\] (.+)$")
 BOLD = re.compile(r"\*\*|__")
+EMPTY = re.compile(r"^\s*(?:[-*+]|\d+[.)])?\s*(?:\[.\])?\s*$")
+BULLET_HEAD = re.compile(r"^[-*]\s+(?:[^\w\s]+\s+)?(What I learned|What went well|What is next|What caused friction|Notes)\s*$")
+PLACEHOLDER = re.compile(
+    r"^\s*[-*]?\s*`(?:Learnings|Annoyances|Wins|things to carry over or push up in the journal|things to carry into next week|anything other reflections)`\s*$"
+)
+DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+PARSER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts", "occasions.py")
+_spec = importlib.util.spec_from_file_location("occasions", PARSER)
+occasions_parser = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(occasions_parser)
 
 
 def frontmatter(text):
@@ -47,12 +58,13 @@ def git_history(root):
     if not os.path.isdir(os.path.join(root, ".git")):
         return None
     p = subprocess.run(
-        ["git", "-c", "core.quotepath=off", "log", "--format=@%at %ad", "--date=format:%H %u", "--name-only"],
+        ["git", "-c", "core.quotepath=off", "log", "--format=@%at %ad", "--date=format:%H %u",
+         "--name-status", "-M", "-l0"],
         cwd=root, capture_output=True, text=True,
     )
     if p.returncode:
         return None
-    commits, current = [], None
+    commits, current, alias = [], None, {}
     for line in p.stdout.splitlines():
         if line.startswith("@"):
             stamp, hour, weekday = line[1:].split()
@@ -60,7 +72,14 @@ def git_history(root):
                        "hour": int(hour), "weekday": int(weekday) - 1, "files": []}
             commits.append(current)
         elif line and current:
-            current["files"].append(line)
+            status, *paths = line.split("\t")
+            path = alias.get(paths[-1], paths[-1])
+            if status.startswith("R"):
+                alias[paths[0]] = path
+            elif status.startswith("A"):
+                alias[paths[0]] = None
+            if path is not None and status != "R100":
+                current["files"].append(path)
     return commits
 
 
@@ -103,6 +122,61 @@ def leaf_tasks(body):
     return out
 
 
+def reflect(body, weekly=False):
+    sections, inside, heading, lines = [], False, None, []
+
+    def close():
+        text = "\n".join(l.rstrip() for l in lines if not EMPTY.match(l) and not PLACEHOLDER.match(l)).strip()
+        if text:
+            sections.append({"heading": heading, "text": text})
+
+    for line in body.splitlines():
+        if re.match(r"^#{1,2}\s", line):
+            if inside:
+                close()
+            starts = bool(re.match(r"^##\s.*\bReflect\b", line))
+            inside = starts and weekly == bool(re.match(r"^##\s.*\bWeekly Reflect\b", line))
+            heading, lines = None, []
+        elif inside and line.startswith("### "):
+            close()
+            heading, lines = line[4:].strip(), []
+        elif inside and BULLET_HEAD.match(line):
+            close()
+            heading, lines = line[1:].strip().lstrip("-* ").strip(), []
+        elif inside:
+            lines.append(line)
+    if inside:
+        close()
+    return sections
+
+
+def journal_level(rel, meta):
+    kind = meta.get("type", "")
+    level = kind.split("/", 1)[1] if kind in ("journal/daily", "journal/weekly", "journal/monthly") else None
+    name = os.path.splitext(os.path.basename(rel))[0].lower()
+    m = re.fullmatch(r"(\d{4})-wk(\d{2})-(\w{3,4})", name)
+    n = re.fullmatch(r"(\d{4})-(\d{2})-[a-z]{3}", name)
+    guess = None
+    try:
+        if m and m.group(3) == "week":
+            guess = ("weekly", dt.date.fromisocalendar(int(m.group(1)), int(m.group(2)), 1))
+        elif m and m.group(3) in DAYS:
+            guess = ("daily", dt.date.fromisocalendar(int(m.group(1)), int(m.group(2)), DAYS.index(m.group(3)) + 1))
+        elif n:
+            guess = ("monthly", dt.date(int(n.group(1)), int(n.group(2)), 1))
+    except ValueError:
+        guess = None
+    level = level or (guess[0] if guess else None)
+    if not level:
+        return None
+    try:
+        date = dt.date.fromisoformat(meta["date"]) if meta.get("date") else None
+    except ValueError:
+        date = None
+    date = date or (guess[1] if guess and guess[0] == level else None)
+    return (level, date) if date else None
+
+
 def scan(root, journal, today, window, stale_days, archive_days, limit):
     commits = git_history(root)
     dirty = dirty_files(root) if commits else set()
@@ -134,6 +208,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
     inbox = {d for d in tops if d.endswith("notes")}
     archive = {d for d in tops if d.endswith("archive")}
     meta_dirs = {d for d in tops if d.endswith("meta")}
+    knowledge = {d for d in tops if d.endswith("knowledge")}
     skip = {jtop} | inbox | archive | meta_dirs
 
     notes = {}
@@ -167,7 +242,7 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
         srcs = links_to(rel)
         if not srcs:
             orphans.append(rel)
-        if n["age"] >= stale_days:
+        if n["age"] >= stale_days and top(rel) not in knowledge:
             recent = sum(1 for s in srcs if notes[s]["age"] < stale_days)
             stale.append({"path": rel, "age_days": n["age"], "backlinks": len(srcs), "recent_backlinks": recent})
 
@@ -223,12 +298,28 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
 
     occasions_path = os.path.join(journal, "occasions.md")
     occasions = open(occasions_path, encoding="utf-8").read() if os.path.isfile(occasions_path) else ""
-    seen, ticked = Counter(), Counter()
-    for _, _, n in in_window:
-        for task, done in dict(leaf_tasks(n["body"])).items():
-            if task in occasions:
-                seen[task] += 1
-                ticked[task] += done
+    occasions_errors = occasions_parser.read(occasions, today)["errors"] if occasions else []
+    due_on = {}
+
+    def due(day):
+        if day not in due_on:
+            found = occasions_parser.read(occasions, day) if occasions else {"daily": [], "due": {"chores": []}}
+            items = {task for task, _ in leaf_tasks("\n".join(found["daily"]))}
+            items |= {" ".join(BOLD.sub("", item).split()) for item in found["due"]["chores"]}
+            due_on[day] = items
+        return due_on[day]
+
+    def chores(rows):
+        seen, ticked = Counter(), Counter()
+        for d, _, n in rows:
+            items = due(d)
+            for task, done in dict(leaf_tasks(n["body"])).items():
+                if task in items:
+                    seen[task] += 1
+                    ticked[task] += done
+        return seen, ticked
+
+    seen, ticked = chores(in_window)
     checklists = [{"task": t, "ticked": ticked[t], "seen": s, "rate": round(ticked[t] / s, 2)}
                   for t, s in seen.items()]
     checklists.sort(key=lambda c: (c["rate"], c["task"]))
@@ -236,6 +327,8 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
     broken_nav = []
     for rel, n in notes.items():
         if top(rel) != jtop or n["age"] > window:
+            continue
+        if os.path.relpath(os.path.join(root, rel), journal).split(os.sep)[0] == "chronicles":
             continue
         for key in ("up", "prev", "next"):
             value = n["meta"].get(key)
@@ -264,32 +357,91 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
             "edited_in_window": sum(1 for a in ages if a <= window),
         })
 
-    edits, hours, weekdays, tags = Counter(), [0] * 24, [0] * 7, Counter()
+    dirty_notes = [(f, mtime(f)) for f in sorted(dirty) if f.endswith(".md") and "/" in f
+                   and not f.startswith(".") and os.path.isfile(os.path.join(root, f))] if commits else []
+
+    def edits_since(since):
+        found = Counter()
+        if commits:
+            for c in commits:
+                if c["date"] >= since:
+                    for f in c["files"]:
+                        if f.endswith(".md") and "/" in f and f not in dirty:
+                            found[f.split("/", 1)[0]] += 1
+            for f, when in dirty_notes:
+                if when.date() >= since:
+                    found[f.split("/", 1)[0]] += 1
+        else:
+            for rel, n in notes.items():
+                if top(rel) and today - dt.timedelta(days=n["age"]) >= since:
+                    found[top(rel)] += 1
+        return found
+
+    edits, hours, weekdays, tags = edits_since(start), [0] * 24, [0] * 7, Counter()
     if commits:
         for c in commits:
-            if c["date"] < start:
-                continue
-            hours[c["hour"]] += 1
-            weekdays[c["weekday"]] += 1
-            for f in c["files"]:
-                if f.endswith(".md") and "/" in f and f not in dirty:
-                    edits[f.split("/", 1)[0]] += 1
-        for f in sorted(dirty):
-            if f.endswith(".md") and "/" in f and not f.startswith(".") and os.path.isfile(os.path.join(root, f)):
-                when = mtime(f)
-                if when.date() >= start:
-                    edits[f.split("/", 1)[0]] += 1
-                    hours[when.hour] += 1
-                    weekdays[when.weekday()] += 1
-    else:
-        for rel, n in notes.items():
-            if n["age"] <= window and top(rel):
-                edits[top(rel)] += 1
+            if c["date"] >= start:
+                hours[c["hour"]] += 1
+                weekdays[c["weekday"]] += 1
+        for f, when in dirty_notes:
+            if when.date() >= start:
+                hours[when.hour] += 1
+                weekdays[when.weekday()] += 1
     for rel, n in notes.items():
         if n["age"] <= window:
             value = n["meta"].get("tags", [])
             for t in (value if isinstance(value, list) else [value]):
                 tags[t] += 1
+
+    year_ago = today - dt.timedelta(days=364)
+    reflections = []
+    for rel, n in notes.items():
+        if top(rel) != jtop:
+            continue
+        found = journal_level(rel, n["meta"])
+        if not found or not year_ago <= found[1] <= today:
+            continue
+        sections = reflect(n["body"])
+        if sections:
+            reflections.append({"path": rel.replace(os.sep, "/"), "level": found[0], "date": str(found[1]),
+                                "sections": sections})
+        week = reflect(n["body"], weekly=True)
+        monday = found[1] - dt.timedelta(days=found[1].weekday())
+        if week and year_ago <= monday:
+            reflections.append({"path": rel.replace(os.sep, "/"), "level": "weekly", "date": str(monday),
+                                "sections": week})
+    reflections.sort(key=lambda r: (r["date"], r["path"]), reverse=True)
+
+    compass = []
+    for days in (7, 30, 90, 365):
+        since = today - dt.timedelta(days=days - 1)
+        rows = [x for x in dailies if since <= x[0] <= today]
+        seen_w, ticked_w = chores(rows)
+        found = edits_since(since)
+        compass.append({
+            "days": days,
+            "dailies": len(rows),
+            "edits": sum(found.values()),
+            "chore_rate": round(sum(ticked_w.values()) / sum(seen_w.values()), 2) if seen_w else None,
+            "busiest": [[f, c] for f, c in sorted(found.items(), key=lambda x: (-x[1], x[0]))[:3]],
+            "reflections": sum(1 for r in reflections if r["date"] >= str(since)),
+        })
+
+    projects = []
+    for ptop in sorted(d for d in tops if d.endswith("projects")):
+        for rel in sorted(notes):
+            parts = rel.split(os.sep)
+            if parts[0] != ptop or parts[-1] != "MISSION.md" or len(parts) < 3:
+                continue
+            folder = os.path.dirname(rel) + os.sep
+            meta = notes[rel]["meta"]
+            projects.append({
+                "project": parts[-2],
+                "path": rel.replace(os.sep, "/"),
+                "status": meta.get("status") or "active",
+                "until": meta.get("until") or None,
+                "changed_days": min(n["age"] for r, n in notes.items() if r.startswith(folder)),
+            })
 
     grouped = defaultdict(list)
     for t, rel in broken:
@@ -309,7 +461,10 @@ def scan(root, journal, today, window, stale_days, archive_days, limit):
         "folders": folders,
         "journal": {"dailies_in_window": [s["date"] for s in summaries], "missing_days": missing,
                     "summaries": summaries, "carried": carried, "checklists": checklists,
-                    "broken_nav": broken_nav},
+                    "occasions_errors": occasions_errors, "broken_nav": broken_nav},
+        "compass": compass,
+        "reflections": reflections,
+        "projects": projects,
         "inbox": inbox_rows,
         "recent": recent[:limit],
         "stale": stale[:limit],

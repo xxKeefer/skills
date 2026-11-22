@@ -54,7 +54,11 @@ If a directory for the slug already exists, stop -- this is an existing project.
 
 Create `{projects-dir}/{slug}/` and write each file against its format contract:
 
-- `MISSION.md` -- per [MISSION-FORMAT.md](MISSION-FORMAT.md), filled from the grill.
+- `MISSION.md` -- per [MISSION-FORMAT.md](MISSION-FORMAT.md), filled from the grill. Set
+  `status: active`. The other values are `dormant` (silent on `/broadsheet`), `waiting` (one
+  line on `/broadsheet` when it changed in the last 7 days), and `archived` (done or dropped, and
+  moved to the archive). An optional `until: YYYY-MM-DD` gives the date that a `waiting` or
+  `dormant` project expects to be `active` again. Keep the `%%` line that lists the values.
 - `{slug}.kanban.md` -- per [BOARD-FORMAT.md](BOARD-FORMAT.md). Seed the Backlog with any known
   tasks; leave Next / Doing / Done empty (Done keeps its `**Complete**` marker). Set
   `new-note-folder` to `{projects-dir-from-vault-root}/{slug}/tasks` and `new-note-template` to

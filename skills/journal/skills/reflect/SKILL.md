@@ -43,20 +43,31 @@ Ask each section one at a time:
 
 > What did you learn today?
 
-> What went well?
-
 > What's carrying into tomorrow?
 
 > Any friction -- things that slowed you down or felt harder than they should?
 
 Listen and record. Don't interrogate -- this should feel like a quick debrief.
 
+The daily reflect is four top-level bullets: learned, friction, next, and notes. Write each answer
+as a tab-indented bullet under its bullet, in place of the backtick placeholder. Ask nothing for
+notes, and leave its placeholder when the user adds nothing.
+
+A Sunday daily also has `## 🗓️ Weekly Reflect`. After the daily questions, fill it as the
+reflect of this week's weekly file, by the steps for weekly files below. Write it in the Sunday
+daily, under `## 🗓️ Weekly Reflect`, as three top-level bullets: went well, friction, and next.
+Write each answer as a tab-indented bullet under its bullet, in place of the backtick placeholder.
+
 ### For weekly/monthly/yearly files
+
+For a weekly file, first read the `## 🗓️ Weekly Reflect` section of that week's Sunday daily.
+When it has text, copy the text of each bullet into the weekly file's `## 🤔 Reflect`, under the
+`###` heading of the same name, and show it as the start of the reflect. Then ask the one round below.
 
 These are retrospective. Read the child files' reflect sections first, then present a summary:
 
 > Here's what came up across your {dailies/weeklies/monthlies}:
-> - Went well: {patterns}
+> - Went well (weekly files and up only): {patterns}
 > - Friction: {patterns}
 > - What's next: {recurring themes}
 >
@@ -70,7 +81,7 @@ Update the target file's reflect section with the conversation output. Match the
 the file's template in [templates/](../../templates/).
 
 Preserve all existing content in the file. Only write to the Reflect section (and Insights
-for monthly files if applicable).
+for monthly files if applicable, and `## 🗓️ Weekly Reflect` in a Sunday daily).
 
 ## Step 4: Fix Links
 

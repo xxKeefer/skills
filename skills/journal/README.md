@@ -12,8 +12,9 @@ secretary/PA tone.
 | `/monthly` | Generate monthly file with goals and weekly overview |
 | `/yearly` | Generate yearly file with aspirations and monthly overview |
 | `/reflect` | File-agnostic reflection and link maintenance tool |
-| `/broadsheet` | Print a one-page HTML newspaper of the vault into the inbox: the journal's week, carried tasks, stale and archived notes, folder layout, and usage suggestions |
-| `/update-occasions-config` | Sync vault `occasions.md` into `vault_occasions.js` for Templater |
+| `/broadsheet` | Print this week's HTML newspaper of the vault into the journal folder: the week, the compass of reflections and trends, weather, chore rates, and suggestions to choose from, which build a prompt |
+| `/act-on-broadsheet` | Apply the rows chosen on a broadsheet page to the vault: move, archive, or delete notes, set project status, tick goals, and edit templates. Asks before a delete |
+| `/update-occasions-config` | Migrate an old-layout `occasions.md` after one yes, then sync it into `vault_occasions.js` for Templater |
 
 ## Workflow
 

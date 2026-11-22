@@ -50,101 +50,88 @@
 
     <script type="application/json" id="runs">
 {
- "title": "Review of pstack-30_text-diagrams",
- "path": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/review_pstack-30_text-diagrams.html",
- "skill": "/engineering:build",
+ "title": "Review of PR #87",
+ "path": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback/.ai/review_pr-87.html",
+ "skill": "/engineering:apply-review",
  "runs": [
   {
-   "title": "Light run",
-   "head": "ecebc67",
+   "title": "Applied at 8c78678",
+   "head": "8c78678",
    "meta": {
-    "Base": "pstack-29_why 92d6a47",
-    "Folder": "/Users/danielkeefer/studio/code/pstack-inspiration",
-    "Plan": "/Users/danielkeefer/studio/code/pstack-inspiration/.ai/plan_pstack-30.md",
-    "Fixed in": "ecebc67"
+    "Commit": "8c78678",
+    "PR": "https://github.com/xxKeefer/skills/pull/87",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback"
    },
-   "answer": "The panel fixed 3 findings in commit ecebc67. 2 findings stay open: one change requested on the corner scan, and one future row. The panel read head ba25e7c. This run covers the essential lanes only, and /engineering:mob-review runs the full panel.",
-   "visuals": [
-    {
-     "question": "Which lanes ran, and what did each find?",
-     "fold": true,
-     "table": {
-      "columns": [
-       "Persona",
-       "CR",
-       "Nit",
-       "Future",
-       "Status"
-      ],
-      "rows": [
-       [
-        "correctness",
-        "1",
-        "1",
-        "0",
-        "ran"
-       ],
-       [
-        "test-design",
-        "2",
-        "0",
-        "1",
-        "ran"
-       ],
-       [
-        "skills",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "code-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "test-quality",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "comments",
-        "0",
-        "0",
-        "0",
-        "ran (clean)"
-       ],
-       [
-        "security, error-handling, naming, architecture",
-        "-",
-        "-",
-        "-",
-        "skipped (guard: no .ts or .vue source changed)"
-       ],
-       [
-        "every other lane, project rubric",
-        "-",
-        "-",
-        "-",
-        "skipped (not in the light set)"
-       ]
-      ]
-     }
-    }
-   ],
+   "answer": "4 fixes applied, 0 replies posted, 4 threads resolved. No row had a reply tick, so no reply was posted.",
    "columns": [
     {
-     "key": "tier",
-     "label": "Tier"
+     "key": "row",
+     "label": "Row"
     },
     {
-     "key": "persona",
-     "label": "Persona"
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "row": "r1.1",
+      "where": "docs/agents/issue-tracker.md:17",
+      "result": "applied, resolved. The tracker board path is also in ~/.claude/AGENTS.md."
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "row": "r1.2",
+      "where": "scripts/obsidian/templates/template-journal_daily.md:65",
+      "result": "applied, resolved"
+     },
+     "id": "r2.2"
+    },
+    {
+     "cells": {
+      "row": "r1.3",
+      "where": "skills/journal/skills/broadsheet/scripts/weather.py:1",
+      "result": "applied, resolved. The personal places are in ~/.claude/broadsheet.md."
+     },
+     "id": "r2.3"
+    },
+    {
+     "cells": {
+      "row": "r1.4",
+      "where": "skills/journal/skills/broadsheet/config.example.md:7",
+      "result": "applied, resolved"
+     },
+     "id": "r2.4"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-22"
+  },
+  {
+   "title": "Threads at 591973f",
+   "head": "591973f",
+   "meta": {
+    "Base": "main 15b0c55",
+    "PR": "https://github.com/xxKeefer/skills/pull/87",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback"
+   },
+   "answer": "4 Valid, 0 Partially valid, 0 Invalid. Tick the rows to act on, then copy the prompt.",
+   "columns": [
+    {
+     "key": "verdict",
+     "label": "Verdict"
+    },
+    {
+     "key": "source",
+     "label": "Source"
     },
     {
      "key": "where",
@@ -160,78 +147,87 @@
      "label": "Recommendation"
     },
     {
-     "key": "result",
-     "label": "Result"
+     "key": "draft",
+     "label": "Draft reply",
+     "fold": true
+    },
+    {
+     "key": "thread",
+     "label": "Thread"
     }
    ],
    "rows": [
     {
      "ticks": [
-      "fix"
+      "fix",
+      "reply",
+      "resolve"
      ],
      "cells": {
-      "tier": "Change Requested",
-      "persona": "correctness",
-      "where": "skills/primitives/skills/show-me/scripts/check_diagram.py:27",
-      "issue": "The check treats every ┌ as the top-left corner of a box, so a route that turns at a ┌ fails the check.\n\nExample: a route drawn as a ┌ then ─► on one line, with │ below it, prints 'no ┐ to the right of ┌' and exits 1. SKILL.md says to draw again until the check prints ok.",
-      "recommendation": "Decide how a route corner differs from a box corner. The persona's rule (a ─ to the right and a │ below) matches both, and it would stop the check from finding a box with no ┐. Options: tell the agent in SKILL.md to draw a turning route with ┬, ┴, or ├, or make the check skip a ┌ that has no ┐ on its line.",
-      "result": "Open: the fix needs a design answer. The plan's corner rule says each ┌ has a ┐, and the persona's fix would hide the missing-corner error."
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "docs/agents/issue-tracker.md:17",
+      "issue": "Revert the vault path change. It belongs in a personal agents file, not in this repo.\n\nThe branch changes the three vault paths in Locations from `05-projects` to `04-projects`. These are the paths of one user's vault, so they do not belong in a public repo.",
+      "recommendation": "Small. Restore the three lines at 15 to 17 to the `main` text with `git checkout origin/main -- docs/agents/issue-tracker.md`. The paths then stay stale until they move to the personal agents file. That move is outside this PR.",
+      "draft": "Reverted. The file is back to the `main` text, and the vault paths will live in the personal agents file.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655973920"
      },
      "id": "r1.1"
     },
     {
      "ticks": [
-      "fix"
+      "fix",
+      "reply",
+      "resolve"
      ],
      "cells": {
-      "tier": "Future",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/show-me/scripts/check_diagram.py:41",
-      "issue": "A bottom row that ends before the ┐ column, and the 'on line N' number in the ┘ error, have no test.",
-      "recommendation": "Add a └─── case to test_misaligned_corner_fails, and assert 'on line 3' in the offset-┘ case.",
-      "result": "Open: the persona marked it future."
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "scripts/obsidian/templates/template-journal_daily.md:65",
+      "issue": "Make the Sunday Weekly Reflect use the bullet style of the Reflect block.\n\nLines 61 to 65 still write `### ` headings, so one daily holds two styles. `scan_vault.py:138` already reads bullet headings inside a Weekly Reflect section, so the scanner needs no change.",
+      "recommendation": "You decide: scope. Small if only the Sunday part of the daily changes: write the three weekly bullets with a tab-indented placeholder under each, in `scripts/obsidian/templates/template-journal_daily.md`, `skills/journal/templates/daily.md`, and the matching text in `skills/journal/skills/daily/SKILL.md:132` and `skills/journal/skills/reflect/SKILL.md:56`. Add a scanner test for a bullet weekly reflect first. The weekly, monthly, and yearly files keep `###`, unless you want them changed too. The weekly placeholders need entries in `PLACEHOLDER` in `scan_vault.py`, or they count as filled.",
+      "draft": "Done. The Sunday Weekly Reflect now uses the same bullets as the Reflect block, in both templates and in the daily and reflect skills.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655978340"
      },
      "id": "r1.2"
     },
     {
-     "ticks": [],
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
      "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/show-me/scripts/check_diagram.py:31",
-      "issue": "A box with no ┐ has no test, so the missing-top-right-corner branch can go and no test fails.",
-      "recommendation": "Add test_missing_top_right_corner_fails.",
-      "result": "Fixed"
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "skills/journal/skills/broadsheet/scripts/weather.py:1",
+      "issue": "The skill needs a way to name a place, such as `/broadsheet brisbane`, so that the user can ask for the office on one day and home on another with no coordinates in a file.\n\n`weather.py` takes only `<lat> <lon>` (`main`, line 56), and `SKILL.md:74` passes only the config location. A call has no place argument, so the place cannot change per call.",
+      "recommendation": "You decide: the shape of the argument. Open-Meteo has a free geocoding endpoint with no key (`geocoding-api.open-meteo.com/v1/search?name=<place>`). A run with `Brisbane` returned Brisbane, Queensland first. A run with `Paddington` returned three places in two countries, so a bare suburb can pick the wrong one. Option A (recommended): `weather.py` accepts a place name or `<lat> <lon>`, looks up the name, and takes the first hit. `SKILL.md` adds a `place=<name>` argument beside `accent=<colour>`, and the argument wins over the config. Option B: as A, and the config also holds named places, such as home and office, so that `place=office` works. B costs one more config format. Write the test first: a stub fetch for the lookup, a name that finds nothing, and a network error.",
+      "draft": "Added. `/broadsheet place=<name>` looks the place up, and it overrides the config for that run. Coordinates still work.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655987382"
      },
      "id": "r1.3"
     },
     {
-     "ticks": [],
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
      "cells": {
-      "tier": "Change Requested",
-      "persona": "test-design",
-      "where": "skills/primitives/skills/show-me/scripts/check_diagram.py:13",
-      "issue": "The edges of the allowed character set have no test: U+25B2, U+257F, U+2580, and DEL.",
-      "recommendation": "Add test_character_set_edges. Each of three mutations of allowed() now turns it red.",
-      "result": "Fixed"
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "skills/journal/skills/broadsheet/config.example.md:7",
+      "issue": "A latitude and a longitude are poor UX. The user wants to type a place name such as Brisbane.\n\nThe `location` line asks for `<lat> <lon>` and shows only that form.",
+      "recommendation": "You decide: this is the same fix as the row for `weather.py:1`. Do both together, and tick both or neither. Change the line to a place name, such as `location: Brisbane`, and keep the `<lat> <lon>` form as an option. Use a generic place in the example, because the repo is public.",
+      "draft": "Changed. The `location` line now takes a place name, and the coordinate form still works.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655989783"
      },
      "id": "r1.4"
-    },
-    {
-     "ticks": [],
-     "cells": {
-      "tier": "Nit",
-      "persona": "correctness",
-      "where": "skills/primitives/skills/show-me/scripts/check_diagram.py:49",
-      "issue": "Running the check with no argument raises an IndexError.",
-      "recommendation": "Read stdin when no argument is given, with test_no_argument_reads_stdin.",
-      "result": "Fixed"
-     },
-     "id": "r1.5"
     }
    ],
    "run": 1,
-   "date": "2026-11-18"
+   "date": "2026-11-22"
   }
  ]
 }

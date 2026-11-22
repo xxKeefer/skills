@@ -1,196 +1,135 @@
 ---
 name: update-occasions-config
-description: Sync the vault's occasions.md into vault_occasions.js for Templater. Run after you edit occasions.md.
+description: Migrate the vault's occasions.md to the one fixed layout when it is in the old layout, after one yes, then sync it into vault_occasions.js for Templater. Run after you edit occasions.md.
 disable-model-invocation: true
 ---
 
 # Update Occasions Config
 
-Reads `occasions.md` from the journal directory and generates `vault_occasions.js` in the
-vault's Templater scripts directory.
+Keeps `occasions.md` in the journal directory in the one fixed layout, and generates
+`vault_occasions.js` in the vault's Templater scripts directory from it.
+
+`$SKILL_DIR` is this skill's base directory. The occasions script is
+`$SKILL_DIR/../../scripts/occasions.py`. The layout is
+[templates/occasions.md](../../templates/occasions.md): a `## Daily` list, then one table,
+`| Item | When | Section |`, under each of `## Weekly`, `## Yearly`, `## Maintenance`, and
+`## One-off`. This skill writes only that layout.
 
 ## Step 1: Discover Paths
 
 Find the journal directory with `/discover-vault-directory * holding occasions.md`.
 Find the Templater scripts directory with `/discover-vault-directory *meta/scripts`.
 
-## Step 2: Read occasions.md
+## Step 2: Check the Layout
 
-Parse every section. Each occasion carries a **`section`** field that routes it into the matching
-checklist group in the daily/weekly file: `chores`, `work`, or `tasks` (defaults to `chores` if a
-section has no Section column). Always emit `section` on every object.
+Run the script for today:
 
-### Chores (Daily Default)
-
-Lines matching `- [ ] <emoji> <name>`. These become reminders that fire every day. Section: `chores`.
-
-```
-- [ ] 🧼 Dishes On
+```sh
+python3 $SKILL_DIR/../../scripts/occasions.py <journal directory>/occasions.md --date <YYYY-MM-DD>
 ```
 
-Produces:
-```js
-{ sym: '🧼', name: 'Dishes On', type: 'reminder', section: 'chores', test: () => true },
-```
+The file is in the old layout when the JSON has `old_layout` true: the file has no `## Daily`
+heading, or a table has a `Type` or `Date/Rule` column. The old layout has headings such as `## Chores (Daily Default)`,
+`## Chores (Day-Specific)`, `## Recurring Events`, `## Home Maintenance`, and
+`## One Off Events - YYYY`. When the file is in the old layout, do Step 3. Else go to Step 4.
 
-### Chores (Day-Specific)
+## Step 3: Migrate
 
-Table rows with `| <day-rule> | <emoji> <name> |`. Section: `chores`. Day rules:
+Build the whole file in the new layout. Keep the frontmatter. Put the `%%` comment block of
+[templates/occasions.md](../../templates/occasions.md) under the frontmatter, above the first
+heading, so the file names the `When` forms. Convert each row:
 
-| Rule pattern | JS test |
+| Old row | New row |
 |---|---|
-| `Monday` | `m.day() === 1` |
-| `Tuesday` | `m.day() === 2` |
-| `Wednesday` | `m.day() === 3` |
-| `Thursday` | `m.day() === 4` |
-| `Friday` | `m.day() === 5` |
-| `Saturday` | `m.day() === 6` |
-| `Sunday` | `m.day() === 0` |
-| `<Day> (even weeks)` | `m.day() === N && m.isoWeek() % 2 === 0` |
-| `<Day> (odd weeks)` | `m.day() === N && m.isoWeek() % 2 !== 0` |
+| A line under `## Chores (Daily Default)` | The same line under `## Daily` |
+| `\| Monday \| 🧹 Vacuum \|` under `## Chores (Day-Specific)` | `\| 🧹 Vacuum \| Mon \| chores \|` under `## Weekly` |
+| Day `Wednesday (even weeks)`, `Wednesday (odd weeks)` | When `Wed even`, `Wed odd` |
+| `Mon DD` or `Nth Day Mon` under `## Recurring Events` | The same When under `## Yearly` |
+| `Easter calc`, with Good Friday, Easter Saturday, Easter Sunday, or Easter Monday in the name | When `easter-2`, `easter-1`, `easter`, or `easter+1` |
+| `Quarterly`, `Biannual`, or `Annual` with the anchor `Feb 15` under `## Home Maintenance` | When `every 3 months from Feb 15`, `every 6 months from Feb 15`, or `every 12 months from Feb 15`, under `## Maintenance` |
+| `Monthly (1st Sun)` | When `1st Sun` |
+| `Weekly (Sun)` | When `Sun` |
+| `Oct 12` under `## One Off Events - 2026` | When `2026-10-12` under `## One-off` |
+| A cell that holds two items split by `<br>` | One row for each item, with the same When and Section |
+| A rule with an `am` or `pm` suffix, such as `Jun 19 pm` | The rule without the suffix as When, and the suffix in the item text, such as `🍽 Dinner (pm)` |
+| A month written `Sept`, such as `Sept 3` | `Sep 3` |
+| A `Type` value other than `event` or `reminder`, such as `PM` | The value in the item text, such as `Board game night (PM)` |
 
-These become reminders.
+Also:
 
-### Recurring Events
+- Drop the `Type` column and the `Anchor Date` column. Keep `Section`. An empty `Section` stays
+  empty, which means `chores`, except under the old one-offs: their old default was `tasks`, so
+  write `tasks`.
+- A one-off heading with no year: use the current year, and name each of its rows in the report.
+- A row that no line of the table converts, such as `Aug (varies)`: keep the row in its new table,
+  with its When as written. `occasions.py` then lists it in `errors`, and no row is lost.
+- Drop the prose lines that explain the old layout. Keep any other heading and its lines as
+  written, and name the heading in the report.
 
-Table rows with `| <emoji> <name> | <date-rule> | <type> | <section> |`. The Section column routes
-the occasion (defaults to `chores`). Date rules:
+Show the whole migrated file, then the rows that it could not convert, one line each:
+`{item}: {old rule}`. Ask one question:
 
-| Rule pattern | Example | JS test |
-|---|---|---|
-| `Mon DD` | `Jan 5` | `m.format('DDMM') === 'DDMM'` |
-| `Nth Day Mon` | `2nd Sun May` | Floating holiday: `m.month() === M && m.day() === D && m.date() >= low && m.date() <= high` |
-| `Easter calc` | | Computus algorithm for Good Friday (Easter - 2) and Easter Monday (Easter + 1) |
-| `Mon (varies)` | `Aug (varies)` | Skip with a `// TODO: manually verify` comment |
+> Write this to `occasions.md`? A copy of the old file goes to `occasions.md.bak`. (`yes` or `no`)
 
-For fixed-date holidays (`Jan 1`, `Jan 26`, `Apr 25`, `Dec 24`, `Dec 25`, `Dec 26`), add
-weekend carry-over logic: if the date falls on Saturday, observe on Friday; if Sunday, observe
-on Monday. Use compound test:
+- `yes`: copy the old file to `occasions.md.bak` beside it, then write the migrated file. When
+  `occasions.md.bak` exists, use `occasions.md.bak.<YYYY-MM-DD>`, so no backup is lost.
+- Any other answer: write nothing, and stop the skill.
 
-```js
-(m.month() === M && m.date() === D) ||
-(m.month() === M && m.date() === D + 1 && m.day() === 1) ||
-(m.month() === M && m.date() === D - 1 && m.day() === 5)
-```
+Run the script from Step 2 on the new file, and show each row in `errors`:
+`line {line}: {row} -- {why}`. When `errors` is empty, say so.
 
-Only apply carry-over to public holidays (New Year's, Australia Day, Anzac Day, Christmas,
-Boxing Day). Birthdays and non-public-holiday events use exact date matching only.
+## Step 4: Read the Rows
 
-### Easter Calculation
+Run the script from Step 2. Take each line of `daily`, and each table row of the file that is not
+in `errors`. List each row in `errors` as skipped in the Step 6 report.
 
-Use the Anonymous Gregorian algorithm (Computus):
+Split each item into `sym` (its first emoji, or empty) and `name` (the rest). For a line of
+`daily`, drop the indent and the `- [ ] ` first. A line of `daily` whose text is all bold, such as
+`- **Kitchen**`, is a group line: it is not a reminder, so write no entry for it.
 
-```js
-const y = m.year(), f = Math.floor,
-  g = y % 19, c = f(y / 100),
-  h = (c - f(c / 4) - f((8 * c + 13) / 25) + 19 * g + 15) % 30,
-  i = h - f(h / 28) * (1 - f(29 / (h + 1)) * f((21 - g) / 11)),
-  j = (y + f(y / 4) + i + 2 - c + f(c / 4)) % 7,
-  month = 3 + f((i - j + 40) / 44),
-  day = i - j + 28 - 31 * f(month / 4);
-```
+## Step 5: Generate vault_occasions.js
 
-- Good Friday: `m.month() === month - 1 && m.date() === day - 2`
-- Easter Monday: `m.month() === month - 1 && m.date() === day + 1`
+Write `<scripts-dir>/vault_occasions.js`. Each `daily` line is
+`{ sym, name, type: 'reminder', section: 'chores', test: () => true }`. Each table row is
+`{ sym, name, type: 'event', section, test }`, with `section` from the row (`chores` when empty).
+Build `test` from the When, so that it gives the same days as `occasions.py`:
 
-### Month Parsing
-
-Map month names to zero-indexed values:
-
-```
-Jan=0, Feb=1, Mar=2, Apr=3, May=4, Jun=5,
-Jul=6, Aug=7, Sep=8, Oct=9, Nov=10, Dec=11
-```
-
-### Day Parsing
-
-Map day names to moment `.day()` values:
-
-```
-Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
-```
-
-### Floating Holiday Ranges
-
-For `Nth DayName Month` rules, compute the date range:
-
-| Nth | Date range |
+| When | `test: (m) =>` |
 |---|---|
-| 1st | 1--7 |
-| 2nd | 8--14 |
-| 3rd | 15--21 |
-| 4th | 22--28 |
+| `Sun`, `Mon Wed` | `[1, 3].includes(m.day())`, with Sun=0 to Sat=6 |
+| `Wed even`, `Wed odd` | `m.day() === 3 && m.isoWeek() % 2 === 0` (odd: `!== 0`) |
+| `Jan 5` | `m.month() === 0 && m.date() === Math.min(5, m.daysInMonth())` |
+| `2nd Sun May`, `1st Sun` | `m.day() === 0 && Math.ceil(m.date() / 7) === 2 && m.month() === 4` (no month check when the When has no month) |
+| `every 3 months from Feb 15` | `(m.month() - 1 + 12) % 3 === 0 && m.date() === Math.min(15, m.daysInMonth())`: the step, then the start month |
+| `easter`, `easter+1`, `easter-2` | `easter(m.clone().subtract(N, 'days'))`, with N the offset (`+1` is 1, `-2` is -2) |
+| `2027-10-12` | `m.format('YYYY-MM-DD') === '2027-10-12'` |
 
-### One Off Events
+Months are zero-indexed: Jan=0 to Dec=11. When a row uses Easter, add this helper above the list.
+It is the Anonymous Gregorian algorithm:
 
-Section heading matches `## One Off Events` (optionally suffixed with a year, e.g.
-`## One Off Events - 2026`). Table rows with `| <emoji> <name> | <date-rule> | <type> | <section> |`.
-
-These fire **once on their date** and the user prunes them manually afterwards. Default Section is
-`tasks`. Parse the date with the same `Mon DD` / `Nth Day Mon` rules as recurring events, but
-**year-guard** them so a one-off doesn't recur every year:
-
-- If the heading carries a year `YYYY`, add `m.year() === YYYY &&` to the test.
-- If no year is given, fall back to the current year.
-
-```
-## One Off Events - 2026
-| 💒 A Wedding | Oct 12 | event | tasks |
-```
-
-Produces:
 ```js
-{ sym: '💒', name: 'A Wedding', type: 'event', section: 'tasks', test: (m) => m.year() === 2026 && m.month() === 9 && m.date() === 12 },
+function easter(m) {
+  const y = m.year(), f = Math.floor,
+    g = y % 19, c = f(y / 100),
+    h = (c - f(c / 4) - f((8 * c + 13) / 25) + 19 * g + 15) % 30,
+    i = h - f(h / 28) * (1 - f(29 / (h + 1)) * f((21 - g) / 11)),
+    j = (y + f(y / 4) + i + 2 - c + f(c / 4)) % 7,
+    month = 3 + f((i - j + 40) / 44),
+    day = i - j + 28 - 31 * f(month / 4);
+  return m.month() === month - 1 && m.date() === day;
+}
 ```
 
-No weekend carry-over for one-offs -- exact date only.
-
-### Home Maintenance
-
-Section heading matches `## Home Maintenance`. Table rows with
-`| <emoji> <name> | <frequency> | <anchor-date> | <type> | <section> |`. Type and Section come
-from their columns. Section defaults to `chores`. The frequency picks the test:
-
-| Frequency | Anchor Date | JS test |
-|---|---|---|
-| `Weekly (<Day>)` | `--` | `m.day() === N`, as for day-specific chores |
-| `Monthly (<Nth> <Day>)` | `--` | `m.day() === N && m.date() >= low && m.date() <= high`, with the Floating Holiday Ranges |
-| `Annual` | `Mon DD` | `m.month() === M && m.date() === D`, exact date only |
-| `Quarterly` | `Mon DD` | `m.month() % 3 === M % 3 && m.date() === D` |
-| `Biannual` | `Mon DD` | `m.month() % 6 === M % 6 && m.date() === D` |
-
-Skip a row with any other frequency, and list it in the Step 4 report.
-
-```
-## Home Maintenance
-| 🧊 Clean fridge drip tray | Quarterly | Feb 15 | event | chores |
-```
-
-Produces (fires on Feb 15, May 15, Aug 15, and Nov 15):
-```js
-{ sym: '🧊', name: 'Clean fridge drip tray', type: 'event', section: 'chores', test: (m) => m.month() % 3 === 1 && m.date() === 15 },
-```
-
-## Step 3: Generate vault_occasions.js
-
-Write the output file to `<scripts-dir>/vault_occasions.js` with this structure:
+The file has this structure, with one comment block for each heading of `occasions.md` that has
+rows:
 
 ```js
 const OCCASIONS = [
-  // --- DAILY DEFAULT CHORES ---
+  // --- DAILY ---
   { sym: '...', name: '...', type: 'reminder', section: 'chores', test: () => true },
 
-  // --- DAY-SPECIFIC CHORES ---
-  { sym: '...', name: '...', type: 'reminder', section: 'chores', test: (m) => ... },
-
-  // --- RECURRING EVENTS ---
+  // --- WEEKLY ---
   { sym: '...', name: '...', type: 'event', section: 'chores', test: (m) => ... },
-
-  // --- HOME MAINTENANCE ---
-  { sym: '...', name: '...', type: '...', section: 'chores', test: (m) => ... },
-
-  // --- ONE OFF EVENTS ---
-  { sym: '...', name: '...', type: 'event', section: 'tasks', test: (m) => ... },
 ];
 
 function vault_occasions() {
@@ -200,18 +139,19 @@ function vault_occasions() {
 module.exports = vault_occasions;
 ```
 
-Every object emits `section`. Omit a section block entirely if `occasions.md` has no such section --
-do not write empty comment headers.
+Write no empty comment block.
 
-## Step 4: Confirm
-
-Report what was generated:
+## Step 6: Report
 
 > Updated `vault_occasions.js` with **N** occasions:
-> - **X** daily chores
-> - **Y** day-specific chores
-> - **Z** recurring events
-> - **H** home maintenance
-> - **A** one-off events
+> - **D** daily
+> - **W** weekly
+> - **Y** yearly
+> - **M** maintenance
+> - **O** one-off
 >
-> Skipped: (list any rules that couldn't be parsed, if any)
+> Skipped: (each row in `errors`, with its line and why)
+> Past one-offs to prune: (each row in `past`)
+
+When Step 3 ran, give its report lines first: the rows that it could not convert, the one-offs with
+no year, and the headings that it kept as written.

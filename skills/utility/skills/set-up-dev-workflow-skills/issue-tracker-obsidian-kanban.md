@@ -11,7 +11,7 @@ note and its phased plan). This file covers only what's specific to using that b
 ## Locations
 
 - **Project workspace**: `<vault>/<projects-dir>/<project-slug>/` — the projects directory is
-  found by scanning the vault for a `*projects` directory (e.g. `05-projects/`)
+  found by scanning the vault for a `*projects` directory (e.g. `04-projects/`)
 - **Board**: `<workspace>/<project-slug>.kanban.md`
 - **Task notes**: `<workspace>/tasks/`
 

@@ -51,15 +51,14 @@ lands formatted to that home's conventions:
 
 | Note is... | Delegate to | Typical home |
 |---|---|---|
-| A repeatable how-to / solved chore | `/add-procedure` | `*reference/` |
+| A repeatable how-to / solved chore | `/add-procedure` | `*knowledge/` |
 | Terminology around a concept | `/define-concept` or `/define-term` | a `CONTEXT.md` |
 
-Prose worth keeping as an article gets a plain move to `*research` or `*work`, with
+Prose worth keeping as an article gets a plain move to `*knowledge` or `*work`, with
 `/proof-read` as the follow-up. If nothing fits, **extract the most valuable information** and do
 a plain move to the best-fit folder (Step 5). Folders, by intent:
 
-- learning / tutorial / course capture -> `*research`
-- distilled lookup or runbook -> `*reference`
+- learning / tutorial / course capture, distilled lookup, or runbook -> `*knowledge`
 - work scratch or living work doc -> `*work`
 - structured course material -> `*lessons`, then the course subfolder
 - TTRPG / campaign content -> `*omen`, then the campaign subfolder

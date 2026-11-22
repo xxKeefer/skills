@@ -59,7 +59,7 @@ straight descriptive kebab-case verb, like every skill in this repo.
 | **Vault** | The user's Obsidian vault. Vault-bound scribe skills run from the vault root. |
 | **Cascading goals** | Journal-domain mechanic: yearly goals feed monthly, monthly feed weekly, weekly feed daily. Each level is a backlog for the level below. |
 | **Journal directory** | The vault directory containing `occasions.md` and all journal files. Discovered by scanning, never hardcoded. |
-| **Projects directory** | The vault directory holding project workspaces (e.g. `05-projects/`). Discovered by scanning for `*projects`, never hardcoded. |
+| **Projects directory** | The vault directory holding project workspaces (e.g. `04-projects/`). Discovered by scanning for `*projects`, never hardcoded. |
 | **Project workspace** | A stateful per-project directory (MISSION, Kanban board, decisions log, notes), modelled on the `teach` skill. The workspace is the state. |
 | **Project board** | A per-project obsidian-kanban file (`<slug>.kanban.md`): headings as columns, checkboxes as cards. Skills edit the board surgically — add, move, or tag a card, never reorder other cards or touch the settings block. The task notes behind the cards are fully skill-managed; `/do-next` and `/update-plan` already treat them as plans. |
 | **Plan** | The working document that a fresh agent cold-starts from: steps with done lines, and a Progress section. `/do-next` runs its next step, and `/update-plan` records the run. In the vault, the task note (`tasks/{Card Title}.md`) that `/promote-card` writes from a card is a plan. It holds the grilled spec and a phased plan. (Formerly "handoff".) |

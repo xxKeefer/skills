@@ -1,5 +1,0 @@
-decision	reason	evidence	result
-Branch unit 23 from pstack-22_loop-until, not the trunk.	The unit 20 to 22 PRs are not merged, and the map says to stack the next unit on the top unit branch.	git merge-base shows origin/pstack-20, 21, and 22 are not in origin/pstack-inspired.	The unit 23 PR base is pstack-22_loop-until.
-Extend the existing typescript-conventions.md, and make no new rule file.	The unit names that path, and two TypeScript rules would load for the same files.	The file exists with paths **/*.ts, **/*.tsx, **/*.vue.	Step 1 adds a Types section to the file.
-Cite each principle by name, not by a relative path.	The rule installs to ~/.claude/rules/, where a path to a skill folder does not resolve.	install-rules Step 3 copies rules/*.md to ~/.claude/rules/.	Each rule ends with a principle name.
-Prove the install with a temp HOME, not the live ~/.claude/rules/.	The map Trial runs the installers after the last unit, and a temp HOME runs the same commands with no change to the live rules.	Map, Trial step 4.	Step 2 runs the install with HOME set to a temp folder.

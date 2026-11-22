@@ -1,6 +1,0 @@
-decision	reason	evidence	result
-webperf defers its run count to /benchmark: five alternating runs per side, not a median of three	the benchmark reproduce check needs alternating runs, and two run counts in two skills conflict	webperf Step 1 and Step 3 say three runs. pstack benchmark-checklist question 5 says at least five alternating runs	in plan step 1
-no call from loop-until	the unit names only webperf	map unit 24 bullet	Out of scope in the spec
-the benchmark skill names no tool product	the everything-agnostic north star in CLAUDE.md	the pstack source names top, pidstat, py-spy, perf, and strace	in plan Context
-the live run uses a scratch page and a lab tool through npx, with a scratch A/B command as the fallback	the map has no app with a URL	webperf Step 1 needs a URL	plan step 2
-fix review rows r1.1 and r1.2 in this thread, then add a new test and review round	/work-on fixes review rows with no stop, and the fix changes skill text that an agent follows	.ai/review_pstack-24_benchmark.html rows r1.1 and r1.2, both Change Requested	fixed in 89265c3, round 4c and 4d added
