@@ -179,7 +179,7 @@ def journal_level(rel, meta):
     return (level, date) if date else None
 
 
-def scan(root, journal, today, window, stale_days, archive_days, limit, bulk=50):
+def scan(root, journal, today, window, stale_days, archive_days, limit, bulk):
     commits, bulk_skipped = git_history(root, bulk)
     dirty = dirty_files(root) if commits else set()
     last = {}

@@ -67,8 +67,8 @@ python3 $SKILL_DIR/scripts/scan_vault.py <vault root> --journal <journal folder>
 
 The scanner prints JSON. It reads ages from the vault's git history, and from the file time for a
 note with uncommitted changes. `dates_from` says which. Each long list holds at most 40 rows, and
-`totals` gives its full count. The window is the last 7 days. The scanner skips each commit of more
-than 50 paths, and `--bulk-files <n>` changes that limit. [SCAN.md](SCAN.md) names each key.
+`totals` gives its full count. The window is the last 7 days. The scanner skips each commit above
+its bulk limit, and `--bulk-files <n>` changes that limit. [SCAN.md](SCAN.md) names each key.
 
 For each place, run one of these. A place that is a name takes the name. A place that is
 coordinates takes both numbers:
