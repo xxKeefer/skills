@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            // The colours of the CMYK dark theme for Zed.
+            colors: { ink: "#0a0a0f", slab: "#17111f", paper: "#e8e0f0", muted: "#b0a8c0", line: "#352240", hover: "#251830", mag: "#ff2e97" },
+            fontFamily: { sans: ["Archivo", "sans-serif"], mono: ['"JetBrains Mono"', "monospace"] },
+            boxShadow: { hard: "6px 6px 0 #ff2e97", "hard-paper": "5px 5px 0 #e8e0f0" },
+          },
+        },
+      };
+    </script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: false, theme: "dark", securityLevel: "loose" });
+      await mermaid.run({ querySelector: ".mermaid" });
+    </script>
+    <style>
+      .cell { white-space: pre-wrap; }
+      .display { font-stretch: 125%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; }
+      input[type="checkbox"] { accent-color: #ff2e97; width: 1rem; height: 1rem; }
+      ::selection { background: #ff2e97; color: #0a0a0f; }
+    </style>
+  </head>
+  <body class="bg-ink text-paper font-sans">
+    <main class="px-6 pt-8 space-y-12">
+      <header id="report-head" class="space-y-4 border-b-4 border-paper pb-6"></header>
+      <details id="other-reports" hidden class="text-sm">
+        <summary class="cursor-pointer font-mono text-xs uppercase tracking-widest text-mag"></summary>
+        <ul class="mt-3 space-y-1 font-mono text-xs"></ul>
+      </details>
+      <div id="report-runs" class="space-y-20"></div>
+      <section id="prompt-box" hidden class="sticky bottom-0 bg-ink border-t-4 border-mag pt-4 pb-5">
+        <textarea id="prompt" readonly class="w-full h-36 font-mono text-sm p-3 border-2 border-paper bg-slab text-paper focus:outline-none focus:border-mag"></textarea>
+        <div class="flex items-center gap-4 mt-3">
+          <button id="copy" type="button" class="display text-sm px-5 py-2 bg-mag text-ink shadow-hard-paper active:translate-x-1 active:translate-y-1 active:shadow-none">Copy prompt</button>
+          <span id="copied" class="font-mono text-xs uppercase tracking-widest text-mag"></span>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="runs">
+{
+ "title": "Review of PR #87",
+ "path": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback/.ai/review_pr-87.html",
+ "skill": "/engineering:apply-review",
+ "runs": [
+  {
+   "title": "Applied at 8c78678",
+   "head": "8c78678",
+   "meta": {
+    "Commit": "8c78678",
+    "PR": "https://github.com/xxKeefer/skills/pull/87",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback"
+   },
+   "answer": "4 fixes applied, 0 replies posted, 4 threads resolved. No row had a reply tick, so no reply was posted.",
+   "columns": [
+    {
+     "key": "row",
+     "label": "Row"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "cells": {
+      "row": "r1.1",
+      "where": "docs/agents/issue-tracker.md:17",
+      "result": "applied, resolved. The tracker board path is also in ~/.claude/AGENTS.md."
+     },
+     "id": "r2.1"
+    },
+    {
+     "cells": {
+      "row": "r1.2",
+      "where": "scripts/obsidian/templates/template-journal_daily.md:65",
+      "result": "applied, resolved"
+     },
+     "id": "r2.2"
+    },
+    {
+     "cells": {
+      "row": "r1.3",
+      "where": "skills/journal/skills/broadsheet/scripts/weather.py:1",
+      "result": "applied, resolved. The personal places are in ~/.claude/broadsheet.md."
+     },
+     "id": "r2.3"
+    },
+    {
+     "cells": {
+      "row": "r1.4",
+      "where": "skills/journal/skills/broadsheet/config.example.md:7",
+      "result": "applied, resolved"
+     },
+     "id": "r2.4"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-22"
+  },
+  {
+   "title": "Threads at 591973f",
+   "head": "591973f",
+   "meta": {
+    "Base": "main 15b0c55",
+    "PR": "https://github.com/xxKeefer/skills/pull/87",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-broadsheet-feedback"
+   },
+   "answer": "4 Valid, 0 Partially valid, 0 Invalid. Tick the rows to act on, then copy the prompt.",
+   "columns": [
+    {
+     "key": "verdict",
+     "label": "Verdict"
+    },
+    {
+     "key": "source",
+     "label": "Source"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "draft",
+     "label": "Draft reply",
+     "fold": true
+    },
+    {
+     "key": "thread",
+     "label": "Thread"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
+     "cells": {
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "docs/agents/issue-tracker.md:17",
+      "issue": "Revert the vault path change. It belongs in a personal agents file, not in this repo.\n\nThe branch changes the three vault paths in Locations from `05-projects` to `04-projects`. These are the paths of one user's vault, so they do not belong in a public repo.",
+      "recommendation": "Small. Restore the three lines at 15 to 17 to the `main` text with `git checkout origin/main -- docs/agents/issue-tracker.md`. The paths then stay stale until they move to the personal agents file. That move is outside this PR.",
+      "draft": "Reverted. The file is back to the `main` text, and the vault paths will live in the personal agents file.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655973920"
+     },
+     "id": "r1.1"
+    },
+    {
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
+     "cells": {
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "scripts/obsidian/templates/template-journal_daily.md:65",
+      "issue": "Make the Sunday Weekly Reflect use the bullet style of the Reflect block.\n\nLines 61 to 65 still write `### ` headings, so one daily holds two styles. `scan_vault.py:138` already reads bullet headings inside a Weekly Reflect section, so the scanner needs no change.",
+      "recommendation": "You decide: scope. Small if only the Sunday part of the daily changes: write the three weekly bullets with a tab-indented placeholder under each, in `scripts/obsidian/templates/template-journal_daily.md`, `skills/journal/templates/daily.md`, and the matching text in `skills/journal/skills/daily/SKILL.md:132` and `skills/journal/skills/reflect/SKILL.md:56`. Add a scanner test for a bullet weekly reflect first. The weekly, monthly, and yearly files keep `###`, unless you want them changed too. The weekly placeholders need entries in `PLACEHOLDER` in `scan_vault.py`, or they count as filled.",
+      "draft": "Done. The Sunday Weekly Reflect now uses the same bullets as the Reflect block, in both templates and in the daily and reflect skills.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655978340"
+     },
+     "id": "r1.2"
+    },
+    {
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
+     "cells": {
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "skills/journal/skills/broadsheet/scripts/weather.py:1",
+      "issue": "The skill needs a way to name a place, such as `/broadsheet brisbane`, so that the user can ask for the office on one day and home on another with no coordinates in a file.\n\n`weather.py` takes only `<lat> <lon>` (`main`, line 56), and `SKILL.md:74` passes only the config location. A call has no place argument, so the place cannot change per call.",
+      "recommendation": "You decide: the shape of the argument. Open-Meteo has a free geocoding endpoint with no key (`geocoding-api.open-meteo.com/v1/search?name=<place>`). A run with `Brisbane` returned Brisbane, Queensland first. A run with `Paddington` returned three places in two countries, so a bare suburb can pick the wrong one. Option A (recommended): `weather.py` accepts a place name or `<lat> <lon>`, looks up the name, and takes the first hit. `SKILL.md` adds a `place=<name>` argument beside `accent=<colour>`, and the argument wins over the config. Option B: as A, and the config also holds named places, such as home and office, so that `place=office` works. B costs one more config format. Write the test first: a stub fetch for the lookup, a name that finds nothing, and a network error.",
+      "draft": "Added. `/broadsheet place=<name>` looks the place up, and it overrides the config for that run. Coordinates still work.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655987382"
+     },
+     "id": "r1.3"
+    },
+    {
+     "ticks": [
+      "fix",
+      "reply",
+      "resolve"
+     ],
+     "cells": {
+      "verdict": "Valid",
+      "source": "xxKeefer",
+      "where": "skills/journal/skills/broadsheet/config.example.md:7",
+      "issue": "A latitude and a longitude are poor UX. The user wants to type a place name such as Brisbane.\n\nThe `location` line asks for `<lat> <lon>` and shows only that form.",
+      "recommendation": "You decide: this is the same fix as the row for `weather.py:1`. Do both together, and tick both or neither. Change the line to a place name, such as `location: Brisbane`, and keep the `<lat> <lon>` form as an option. Use a generic place in the example, because the repo is public.",
+      "draft": "Changed. The `location` line now takes a place name, and the coordinate form still works.",
+      "thread": "https://github.com/xxKeefer/skills/pull/87#discussion_r4655989783"
+     },
+     "id": "r1.4"
+    }
+   ],
+   "run": 1,
+   "date": "2026-11-22"
+  }
+ ]
+}
+</script>
+
+    <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
+    <script src="reports.js"></script>
+    <script>
+      // The page builds itself from the runs block. Change the data, not this script.
+      const data = JSON.parse(document.getElementById("runs").textContent);
+      const tickCount = new Map();
+
+      const make = (tag, cls, text) => {
+        const node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      const table = (labels, bodyRows) => {
+        const t = make("table", "w-full text-sm bg-slab border-2 border-paper");
+        const headRow = t.appendChild(make("thead")).appendChild(make("tr", "bg-paper text-ink text-left"));
+        for (const label of labels) {
+          headRow.append(make("th", "display px-3 py-2 text-xs", label));
+        }
+        const body = t.appendChild(make("tbody"));
+        for (const cells of bodyRows) {
+          const tr = body.appendChild(make("tr", "border-t border-line hover:bg-hover"));
+          tr.append(...cells);
+        }
+        return t;
+      };
+
+      const td = (child, cls = "") => {
+        const cell = make("td", `px-3 py-2 align-top ${cls}`);
+        if (child) cell.append(child);
+        return cell;
+      };
+
+      const visual = (v) => {
+        const fig = make(v.fold ? "details" : "figure", "space-y-2");
+        fig.append(make(v.fold ? "summary" : "figcaption", `font-mono text-xs uppercase tracking-widest text-mag${v.fold ? " cursor-pointer" : ""}`, v.question));
+        if (v.mermaid) {
+          fig.append(make("pre", "mermaid border-2 border-paper bg-slab p-4", v.mermaid));
+        }
+        if (v.bars) {
+          const max = Math.max(1, ...v.bars.map(([, count]) => count));
+          const list = fig.appendChild(make("div", "space-y-1 border-2 border-paper bg-slab p-4"));
+          for (const [label, count] of v.bars) {
+            const line = list.appendChild(make("div", "grid grid-cols-[14rem_1fr] items-center gap-3 text-sm"));
+            line.append(make("span", "truncate", label));
+            const bar = line.appendChild(make("span", "block h-5 bg-mag px-2 font-mono text-xs font-bold leading-5 text-ink", String(count)));
+            bar.style.width = `max(2rem, ${(count / max) * 100}%)`;
+          }
+        }
+        if (v.table) {
+          fig.append(table(v.table.columns, v.table.rows.map((row) => row.map((text) => td(make("div", "cell", text))))));
+        }
+        if (v.html) {
+          const box = fig.appendChild(make("div"));
+          box.innerHTML = v.html;
+        }
+        return fig;
+      };
+
+      const rowCell = (col, text) => {
+        if (col.fold && text) {
+          const fold = make("details");
+          fold.append(make("summary", "cursor-pointer font-mono text-xs uppercase tracking-widest text-mag", "Open"), make("div", "cell mt-1", text));
+          return td(fold);
+        }
+        return td(make("div", col.mono ? "cell font-mono text-xs" : "cell", text));
+      };
+
+      // A tick named in data.track only marks the row. It adds nothing to the prompt.
+      const track = new Set(data.track || []);
+      const tickCells = (row) => {
+        const ticks = row.ticks || [];
+        tickCount.set(row.id, ticks.filter((kind) => !track.has(kind)).length);
+        const boxes = make("div", "space-y-1");
+        for (const kind of ticks) {
+          const label = boxes.appendChild(make("label", "flex items-center gap-2 font-mono text-xs uppercase tracking-wider"));
+          const box = make("input");
+          box.type = "checkbox";
+          box.dataset.id = row.id;
+          if (track.has(kind)) box.dataset.track = kind;
+          else box.dataset.tick = kind;
+          label.append(box, kind);
+        }
+        let note = null;
+        if (ticks.length) {
+          note = make("input", "w-full min-w-[10rem] border border-muted bg-ink px-2 py-1 text-xs text-paper placeholder:text-muted focus:outline-none focus:border-mag");
+          note.type = "text";
+          note.placeholder = "Note";
+          note.dataset.note = row.id;
+        }
+        return [td(boxes, "whitespace-nowrap"), td(note)];
+      };
+
+      const rowsTable = (run) => {
+        const withTicks = Boolean(data.skill) && run.rows.some((row) => (row.ticks || []).length);
+        const labels = ["ID", ...run.columns.map((col) => col.label), ...(withTicks ? ["Tick", "Note"] : [])];
+        return table(labels, run.rows.map((row) => [
+          td(make("span", "font-mono text-xs text-mag", row.id)),
+          ...run.columns.map((col) => rowCell(col, row.cells[col.key] ?? "")),
+          ...(withTicks ? tickCells(row) : []),
+        ]));
+      };
+
+      document.title = data.title;
+      const head = document.getElementById("report-head");
+      head.append(make("h1", "display text-5xl leading-none", data.title), make("p", "inline-block border-2 border-mag px-3 py-1 font-mono text-xs tracking-wider text-mag", data.path));
+
+      const here = decodeURIComponent(location.pathname.split("/").pop());
+      const others = (window.REPORTS || []).filter((name) => name !== here);
+      if (others.length) {
+        const fold = document.getElementById("other-reports");
+        fold.hidden = false;
+        fold.querySelector("summary").textContent = `Other reports in this folder (${others.length})`;
+        const list = fold.querySelector("ul");
+        for (const name of others) {
+          const link = list.appendChild(make("li")).appendChild(make("a", "text-paper underline decoration-mag decoration-2 underline-offset-4 hover:text-mag", name));
+          link.href = encodeURIComponent(name);
+        }
+      }
+
+      const view = document.getElementById("report-runs");
+      for (const run of data.runs) {
+        const section = view.appendChild(make("section", "space-y-6"));
+        const title = make("h2", "display text-3xl leading-none");
+        title.append(make("span", "text-mag", `Run ${run.run}: `), run.title);
+        section.append(title, make("p", "font-mono text-xs uppercase tracking-widest text-muted", `${run.head || "no commit"} · ${run.date}`));
+        const meta = Object.entries(run.meta || {}).map(([label, value]) => `${label}: ${value}`).join(" · ");
+        if (meta) section.append(make("p", "font-mono text-xs text-muted", meta));
+        section.append(make("p", "border-2 border-paper bg-slab px-5 py-4 text-lg leading-relaxed shadow-hard", run.answer));
+        for (const v of run.visuals || []) section.append(visual(v));
+        if ((run.rows || []).length) section.append(rowsTable(run));
+      }
+
+      const promptBox = document.getElementById("prompt");
+      const buildPrompt = () => {
+        const picked = new Map();
+        for (const box of document.querySelectorAll("input[data-tick]:checked")) {
+          picked.set(box.dataset.id, [...(picked.get(box.dataset.id) || []), box.dataset.tick]);
+        }
+        if (!picked.size) {
+          promptBox.value = "Tick a row to build the prompt.";
+          return;
+        }
+        const ids = [...picked].map(([id, kinds]) => (tickCount.get(id) > 1 ? `${id}:${kinds.join("+")}` : id));
+        const notes = [...picked.keys()]
+          .map((id) => [id, document.querySelector(`input[data-note="${id}"]`).value.trim()])
+          .filter(([, note]) => note);
+        const lines = [`${data.skill} @${data.path} ${ids.join(" ")}`];
+        if (notes.length) lines.push("Notes:", ...notes.map(([id, note]) => `- ${id}: ${note}`));
+        promptBox.value = lines.join("\n");
+      };
+
+      if (data.skill && tickCount.size) {
+        document.getElementById("prompt-box").hidden = false;
+        document.addEventListener("change", buildPrompt);
+        document.addEventListener("input", buildPrompt);
+        document.getElementById("copy").onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(promptBox.value);
+          } catch {
+            promptBox.select();
+            document.execCommand("copy");
+          }
+          const copied = document.getElementById("copied");
+          copied.textContent = "Copied.";
+          setTimeout(() => (copied.textContent = ""), 2000);
+        };
+        buildPrompt();
+      }
+    </script>
+  </body>
+</html>
