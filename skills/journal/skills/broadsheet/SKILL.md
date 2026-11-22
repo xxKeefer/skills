@@ -67,7 +67,8 @@ python3 $SKILL_DIR/scripts/scan_vault.py <vault root> --journal <journal folder>
 
 The scanner prints JSON. It reads ages from the vault's git history, and from the file time for a
 note with uncommitted changes. `dates_from` says which. Each long list holds at most 40 rows, and
-`totals` gives its full count. The window is the last 7 days. [SCAN.md](SCAN.md) names each key.
+`totals` gives its full count. The window is the last 7 days. The scanner skips each commit of more
+than 50 paths, and `--bulk-files <n>` changes that limit. [SCAN.md](SCAN.md) names each key.
 
 For each place, run one of these. A place that is a name takes the name. A place that is
 coordinates takes both numbers:
@@ -166,6 +167,9 @@ change is a suggestion row. A change to the skills, the hooks, or a script is a 
 change that only edits a note or a template in the vault is a vault row: write
 `data-prompt="vault"` on it. When a suite row follows from a vault row, such as a new template
 that a skill must read, write that row's `data-id` in `data-relates` on the suite row.
+
+When `bulk_commits_skipped` is above 0, say in the editorial that the scan ignored that many bulk
+commits, so that the reader knows the ages and edit counts leave them out.
 
 **Done when:** each suggestion names the number behind it.
 

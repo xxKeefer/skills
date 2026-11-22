@@ -18,3 +18,4 @@ Step 2 of the broadsheet skill reads these keys from the JSON of `scan_vault.py`
 | `stale` | Each note past the stale limit, with its backlinks, and its backlinks from notes edited inside the limit. Notes in a `*knowledge` folder are never on it |
 | `archive` | Each archived note with its age and its links from outside the archive. `delete_candidate` is true past the archive limit with no such link |
 | `activity` | Edits by folder, by hour, and by weekday (Monday first), and the tags of notes edited in the last 7 days |
+| `bulk_commits_skipped` | The count of commits that the scan skipped because they touch more than `--bulk-files` paths (default 50). Ages, edit counts, hours, and weekdays leave them out. 0 with none, or with no git history |
