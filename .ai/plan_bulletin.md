@@ -144,7 +144,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: `SKILL.md` scans with `--window <window_days>`, reads last week and this week from the scan, runs `occasions.py` for each day of next week as well as today and the rest of this week, and draws charts with the rule of `/show-me`: inline SVG only. `LAYOUT.md` gives the new entry frame (main and side columns, the four main parts, the four reflect cards with their `data-card` values), the chart rule (`role="img"`, `aria-label`, a `<figcaption>`, classes only), the `data-id` sections (`week`, `last`, `next`, `reflect`, `weather`, `events`, `chores`, `board`, `notes`), and the rule that the entry holds no yearly or monthly goal table. It covers AC E, F, M, N, and O.
 - [x] **16. Register.** Kind: docs.
   - Done: the `/bulletin` row of the journal README, the journal `CLAUDE.md` data-flow line, and the Bulletin term of `CONTEXT.md` match the new entry. The plugin version stays 2.12.0, because no push has shipped it. This proves AC L still holds.
-- [ ] **17. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
+- [x] **17. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
   - Done: the suite passes, and each behaviour that the branch changes has a test.
 - [ ] **18. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. The run 2 future row on `check_bulletin.py:74` stays open: do not raise it again.
   - Done: the report path and the reviewed base and head SHAs are in this line.
@@ -193,3 +193,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - The sections are plain `<section>` with no class. The `<h3>` is the part heading of each.
 - 2026-11-24: step 15 done. `SKILL.md` (9.5 KB) scans with `--window <window_days>`, runs `occasions.py` through next Sunday, and sends charts to `/show-me` in inline SVG form. `LAYOUT.md` has the main and side frame, the four cards, the chart rule, and the story sections. Choice: the nine section names are the `data-id` prefixes of stories, and the plain `<section>` containers carry no `data-id`. Gates green. Commit d336e84.
 - 2026-11-24: step 16 done. The journal README row, the journal `CLAUDE.md` data-flow line, and the `CONTEXT.md` Bulletin term match the new entry. Plugin stays 2.12.0. Gates green. Commit 3986db0.
+- 2026-11-24: step 17 done. Both bulletin specs (23 and 23 tests) and both hook tests are green. The redesign counts as a new approved scope, so step 18 is its first review step, and the loop stops after it.
