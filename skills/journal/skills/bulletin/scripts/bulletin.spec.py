@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+"""Run: python3 bulletin.spec.py"""
+import contextlib
+import io
+import json
+import os
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bulletin
+
+
+def entry(day, ids=()):
+    rows = "".join(f'<li data-id="{i}">x</li>' for i in ids)
+    return f'<article class="entry" data-date="{day}"><header class="masthead">{day}</header><ul>{rows}</ul></article>\n'
+
+
+def state(folder, date):
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        code = bulletin.main(["state", folder, "--date", date])
+    return code, json.loads(out.getvalue())
+
+
+class Case(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = self.tmp.name
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def put(self, name, text):
+        with open(os.path.join(self.dir, name), "w") as f:
+            f.write(text)
+
+    def add(self, path, text, date):
+        entry_file = os.path.join(self.dir, "entry.html")
+        with open(entry_file, "w") as f:
+            f.write(text)
+        with contextlib.redirect_stderr(io.StringIO()):
+            return bulletin.main(["add", path, entry_file, "--date", date])
+
+
+class Name(Case):
+    def test_sunday_2026_11_22_is_week_47(self):
+        self.assertEqual(state(self.dir, "2026-11-22")[1]["path"], os.path.join(self.dir, "2026-wk47-bulletin.html"))
+
+    def test_monday_2026_11_23_is_week_48(self):
+        self.assertEqual(state(self.dir, "2026-11-23")[1]["path"], os.path.join(self.dir, "2026-wk48-bulletin.html"))
+
+    def test_2027_01_01_is_in_iso_year_2026_week_53(self):
+        self.assertEqual(state(self.dir, "2027-01-01")[1]["path"], os.path.join(self.dir, "2026-wk53-bulletin.html"))
+
+    def test_a_single_digit_week_has_two_digits(self):
+        self.assertEqual(state(self.dir, "2026-01-05")[1]["path"], os.path.join(self.dir, "2026-wk02-bulletin.html"))
+
+    def test_the_week_matches_the_broadsheet_for_every_day_of_two_years(self):
+        import datetime
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "broadsheet", "scripts"))
+        import edition
+        day = datetime.date(2025, 1, 1)
+        while day < datetime.date(2027, 1, 10):
+            self.assertEqual(bulletin.name_for(day), edition.name_for(day).replace("broadsheet", "bulletin"))
+            day += datetime.timedelta(days=1)
+
+
+class State(Case):
+    def test_no_file_gives_exists_false_and_no_days(self):
+        _, out = state(self.dir, "2026-11-24")
+        self.assertFalse(out["exists"])
+        self.assertFalse(out["today_present"])
+        self.assertEqual(out["days"], [])
+        self.assertIsNone(out["days_since_last"])
+        self.assertEqual(out["last_ids"], [])
+
+    def test_week_start_is_the_monday(self):
+        self.assertEqual(state(self.dir, "2026-11-26")[1]["week_start"], "2026-11-23")
+        self.assertEqual(state(self.dir, "2026-11-22")[1]["week_start"], "2026-11-16")
+        self.assertEqual(state(self.dir, "2026-11-23")[1]["week_start"], "2026-11-23")
+
+    def test_today_present_when_an_entry_has_the_date(self):
+        self.put("2026-wk48-bulletin.html", entry("2026-11-24") + entry("2026-11-23"))
+        _, out = state(self.dir, "2026-11-24")
+        self.assertTrue(out["exists"])
+        self.assertTrue(out["today_present"])
+        self.assertEqual(out["days"], ["2026-11-24", "2026-11-23"])
+
+    def test_days_since_last_for_gaps_of_1_2_and_4_days(self):
+        self.put("2026-wk48-bulletin.html", entry("2026-11-23"))
+        self.assertEqual(state(self.dir, "2026-11-24")[1]["days_since_last"], 1)
+        self.assertEqual(state(self.dir, "2026-11-25")[1]["days_since_last"], 2)
+        self.assertEqual(state(self.dir, "2026-11-27")[1]["days_since_last"], 4)
+
+    def test_days_since_last_is_none_for_the_first_entry(self):
+        self.put("2026-wk48-bulletin.html", "<main id=\"entries\">\n</main>")
+        self.assertIsNone(state(self.dir, "2026-11-24")[1]["days_since_last"])
+
+    def test_last_ids_come_from_the_latest_entry_only(self):
+        self.put("2026-wk48-bulletin.html", entry("2026-11-25", ["goals:a", "goals:b", "goals:a"]) + entry("2026-11-24", ["goals:old"]))
+        self.assertEqual(state(self.dir, "2026-11-26")[1]["last_ids"], ["goals:a", "goals:b"])
+
+
+class Add(Case):
+    def test_creates_the_file_with_one_entry(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        self.assertEqual(self.add(path, entry("2026-11-24"), "2026-11-24"), 0)
+        text = open(path).read()
+        self.assertEqual(text.count('<article class="entry"'), 1)
+        self.assertNotIn("{{", text)
+        self.assertIn("2026", text)
+        self.assertIn("48", text)
+
+    def test_inserts_above_older_entries_and_keeps_their_bytes(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        self.add(path, entry("2026-11-23", ["a"]), "2026-11-23")
+        before = open(path).read()
+        old = entry("2026-11-23", ["a"])
+        self.assertIn(old, before)
+        self.add(path, entry("2026-11-24", ["b"]), "2026-11-24")
+        after = open(path).read()
+        self.assertLess(after.index('data-date="2026-11-24"'), after.index('data-date="2026-11-23"'))
+        self.assertIn(old, after)
+        self.assertEqual(after.replace(entry("2026-11-24", ["b"]), "", 1), before)
+
+    def test_a_day_with_an_entry_exits_1_and_writes_nothing(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        self.add(path, entry("2026-11-24"), "2026-11-24")
+        before = open(path).read()
+        self.assertEqual(self.add(path, entry("2026-11-24", ["z"]), "2026-11-24"), 1)
+        self.assertEqual(open(path).read(), before)
+
+    def test_a_date_outside_the_file_week_exits_1_and_writes_nothing(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        self.assertEqual(self.add(path, entry("2026-12-01"), "2026-12-01"), 1)
+        self.assertFalse(os.path.exists(path))
+
+
+if __name__ == "__main__":
+    unittest.main()
