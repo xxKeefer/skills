@@ -54,6 +54,7 @@ One long-lived mutable file. Skills must read-modify-write carefully (never over
 /reflect -> updates: any journal file's reflect section; fixes prev/next links
 /broadsheet -> reads: the whole vault + last week's page + broadsheet-memory.md -> one HTML page a week in the journal folder; changes no note
 /act-on-broadsheet -> reads: the prompt a page builds -> moves, archives, deletes (after a yes), and edits notes; appends each veto and snooze to broadsheet-memory.md
+/bulletin -> reads: the whole vault + this week's bulletin + occasions.md -> adds one dated entry, newest on top, to a weekly HTML page in the journal folder; changes no note
 ```
 
 ## At a Glance
