@@ -101,7 +101,8 @@ Follow these rules:
   - `bars` for counts, as `[label, count]` pairs.
   - `table` for a small table of plain text.
   - `html` for inline SVG or hand-made CSS, when no other type fits. Tailwind classes work. The
-    page is dark: use `text-paper` for text, `bg-slab` for a panel, and `mag` for the accent.
+    page is a white newspaper sheet: use `text-ink` for text, `bg-code` for a panel, `border-rule`
+    for a hairline, and `accent` for the red accent.
 - **Fold.** Set `fold` on a visual that the user checks only sometimes, such as a long table.
   The page then shows only its question, and a click opens it. Do not fold a `mermaid` visual,
   because Mermaid can draw a closed graph at the wrong size.
@@ -110,6 +111,10 @@ Follow these rules:
   `key` and `label`. Set `mono` for code, such as `file:line`. Set `fold` for long text, such as
   a draft reply. `cells` maps each column key to plain text. Keep each cell that has no `fold`
   to about 25 words, and move the rest into a column with `fold`.
+- **Cards.** The page shows each row as a card, two cards to a line. The first column and each
+  short one-line cell form the kicker. The `mono` cells form a byline. The first long cell is the
+  headline up to its first blank line, and the body after it. So put the summary first in that
+  cell, then a blank line, then the detail.
 - **Ticks.** `ticks` lists the actions that the user can tick for the row, such as `["reply"]`
   or `["fix", "reply", "resolve"]`. A row with no ticks gets no checkbox and no note field.
 - **Track.** The top-level `track` lists the ticks that only mark a row for the user, such as
