@@ -19,9 +19,12 @@ Step 7 of the broadsheet skill fills `template.html` from this file.
 | `editorial_body` | The Step 6 prose, then an `<ol>` with one `<li class="action">` per change |
 | `floor_plan_body` | One `<article class="action">` per finding: `<span class="kicker">` with the folder, an `<h3>`, the reason, and the action |
 | `honour_roll_body` | Up to three: the longest chore streak, the most-linked new note, and the biggest win of the week |
-| `board_body` | One `<article>` per shown project from Step 5, with its next card. A status suggestion is an `<article class="action">` |
+| `board_body` | One `<article>` per shown project from Step 5: `<span class="kicker">` with the project status, an `<h3>` with the project, and its next card. A status suggestion is an `<article class="action">` |
 | `back_pages_body` | One `<article>` per story from Step 5, with `<span class="kicker">` for the folder. Each want list suggestion is an `<li class="action">` in that article |
 | `colophon` | `dates_from`, the limits, last week's page or none, and the time of print |
+
+Floor plan, the board, and the back pages print their articles as masonry cards, three columns on
+a wide screen. Each card reads as a label, a headline, and one or two sentences.
 
 Each suggestion row has this shape:
 
