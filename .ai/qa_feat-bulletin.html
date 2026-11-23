@@ -63,6 +63,190 @@
  ],
  "runs": [
   {
+   "title": "Happy path, after the redesign",
+   "head": "2fb8137",
+   "meta": {
+    "Range": "main...HEAD"
+   },
+   "answer": "The redesign changed the entry to a main column and a side column, with four Reflect cards and inline SVG charts. The state script now gives last_week_start and window_days, the entry pattern reads nested cards whole, and the check script tests the svg label and the four cards. Set up the state in the first table, then run the items in order. The agent runs the agent items and reports each result. You run the you items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.",
+   "visuals": [
+    {
+     "question": "What must be in place before you start?",
+     "table": {
+      "columns": [
+       "Item",
+       "Initial state"
+      ],
+      "rows": [
+       [
+        "Run the change",
+        "From the repo root of the feat/bulletin worktree. Scripts are in skills/journal/skills/bulletin/scripts/. Python 3 only. The render items need agent-browser and a Chromium; set AGENT_BROWSER_EXECUTABLE_PATH to the Chromium binary."
+       ],
+       [
+        "Accounts",
+        "None needed."
+       ],
+       [
+        "Data that must exist",
+        "An empty temp folder for the agent items. For the you items: a vault with a journal folder that holds occasions.md."
+       ],
+       [
+        "Data that must not exist",
+        "No bulletin page in the test folder at the start."
+       ],
+       [
+        "Do not touch",
+        "Your live vault journal folder, until the you items. The skill writes one page there."
+       ],
+       [
+        "Cleanup",
+        "Delete the temp folder and the screenshots. Delete the test page from the journal folder after the you items."
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "area",
+     "label": "Area"
+    },
+    {
+     "key": "by",
+     "label": "By"
+    },
+    {
+     "key": "step",
+     "label": "Step"
+    },
+    {
+     "key": "expect",
+     "label": "Expect"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Tests",
+      "by": "agent",
+      "step": "Run bulletin.spec.py, check_bulletin.spec.py, .githooks/pre-commit_test.sh, and .githooks/commit-msg_test.sh.",
+      "expect": "Each exits 0 with no failed case."
+     },
+     "id": "r2.1"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Add and check",
+      "by": "agent",
+      "step": "Build an entry with a main and a side column, four nested article.card cards, and a labelled inline SVG chart. Add it for 23, 25, and 24 Nov 2026 in that order. Run check_bulletin.py on the page.",
+      "expect": "Each add exits 0. The page holds 25, 24, 23 in that order. The check prints ok."
+     },
+     "id": "r2.2"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "State",
+      "by": "agent",
+      "step": "Run bulletin.py state on the page folder with --date 2026-11-25.",
+      "expect": "last_ids holds the ids of all four cards of the 25 Nov entry. last_week_start is 2026-11-16. window_days is 9."
+     },
+     "id": "r2.3"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Check rules",
+      "by": "agent",
+      "step": "Remove role and aria-label from each svg in a copy of the page. In a second copy, remove the friction card. Run check_bulletin.py on each.",
+      "expect": "Each exits 1. One names the svg that needs role and aria-label. The other names the missing friction card."
+     },
+     "id": "r2.4"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Render wide",
+      "by": "agent",
+      "step": "Open the page in agent-browser at 1200px wide. Take a full-page screenshot and read it.",
+      "expect": "The main column is about twice the side column. The four Reflect cards sit in two masonry columns. The page has no sideways scroll."
+     },
+     "id": "r2.5"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Render narrow",
+      "by": "agent",
+      "step": "Open the page at 480px wide. Take a full-page screenshot and read it.",
+      "expect": "The side column sits below the main column. The Reflect cards sit in one column. The page has no sideways scroll."
+     },
+     "id": "r2.6"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Page look",
+      "by": "you",
+      "step": "Open the page that the add step made, in your own browser. Resize the window.",
+      "expect": "The page reads as a newspaper. The charts are clear, and the chart text is not too big."
+     },
+     "id": "r2.7"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill run",
+      "by": "you",
+      "step": "Run /journal:bulletin in your vault.",
+      "expect": "The new entry has a main column, a side column, a This week, Last week, Next week, and Reflect section, four Reflect cards, and at least one chart. The check prints ok."
+     },
+     "id": "r2.8"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill re-run",
+      "by": "you",
+      "step": "Run /journal:bulletin a second time on the same day.",
+      "expect": "The skill stops, says that today's entry exists, and changes no file."
+     },
+     "id": "r2.9"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-24"
+  },
+  {
    "title": "Happy path",
    "head": "47aa5e3",
    "meta": {
