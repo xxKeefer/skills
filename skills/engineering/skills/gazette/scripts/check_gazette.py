@@ -19,6 +19,9 @@ class Page(HTMLParser):
         self.code_depth = 0
         self.skip_depth = 0
         self.in_body = False
+        self.card = None
+        self.in_label = False
+        self.in_headline = False
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -35,6 +38,14 @@ class Page(HTMLParser):
             self.sections.add(a["id"])
         if self.in_body and "style" in a:
             self.problems.append(f'<{tag}> has an inline style. Use a class from the template: style="{a["style"]}"')
+        if tag == "article":
+            self.card = {"label": "", "headline_hrefs": []}
+        if self.card is not None and tag == "span" and "label" in (a.get("class") or "").split():
+            self.in_label = True
+        if self.card is not None and tag == "h3":
+            self.in_headline = True
+        if tag == "a" and self.in_headline:
+            self.card["headline_hrefs"].append(a.get("href", ""))
         if tag == "a":
             self.link_depth += 1
             href = a.get("href", "")
@@ -44,6 +55,15 @@ class Page(HTMLParser):
                 self.problems.append(f'link {href} has no rel="noopener"')
 
     def handle_endtag(self, tag):
+        if tag == "span":
+            self.in_label = False
+        if tag == "h3":
+            self.in_headline = False
+        if tag == "article" and self.card is not None:
+            label = self.card["label"].strip()
+            if "review" in label.lower() and not any("/pull/" in h for h in self.card["headline_hrefs"]):
+                self.problems.append(f'review card "{label}" does not link its headline to the PR')
+            self.card = None
         if tag == "a":
             self.link_depth -= 1
         if tag in ("code", "pre"):
@@ -52,6 +72,8 @@ class Page(HTMLParser):
             self.skip_depth -= 1
 
     def handle_data(self, data):
+        if self.in_label:
+            self.card["label"] += data
         for found in PLACEHOLDER.findall(data):
             self.problems.append(f"placeholder {found} is still on the page")
         if self.skip_depth or self.link_depth or self.code_depth:

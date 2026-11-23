@@ -57,7 +57,9 @@ shape below. Each subagent brief names no model.
      When a call returns 200 runs, say that its count is a lower bound;
    - each metric line from the config for this repo, with the number that its command gives.
 3. **Board reporter:** run the board query for the tickets whose status changed in the window.
-   Return each ticket's key, URL, summary, assignee, old status, and new status.
+   Return each ticket's key, URL, summary, assignee, old status, and new status. For a ticket in a
+   review status, also find its open PR on the code host, such as with
+   `gh pr list -R <owner/repo> --search "<KEY>" --json number,url`, and return the PR URL.
 
 **Done when:** each reporter returned, or you have a note for each one that failed.
 
@@ -121,6 +123,10 @@ classes. The page holds no inline style.
   ticket. The description says in one or two sentences what changed or what to do.
 - Each PR, ticket, and commit that the page names is a link, with `target="_blank"` and
   `rel="noopener"`.
+- A card about a review, such as a review request, a review to address, or a ticket in a review
+  status, links its headline to the PR on the code host, and puts "review" in its label. The
+  reviewer acts on the PR, not the ticket. Link the ticket in the description. Link only the
+  ticket when no PR exists.
 - Write in plain prose with newspaper headlines. Facts only. Each cell traces to a reporter's
   return.
 

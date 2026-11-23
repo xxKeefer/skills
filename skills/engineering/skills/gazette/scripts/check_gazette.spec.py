@@ -54,6 +54,21 @@ class CheckGazette(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("#481", result.stdout)
 
+    def test_fails_a_review_card_whose_headline_links_the_ticket(self):
+        card = ('<article><span class="label">Review requested</span>'
+                '<h3><a href="https://x/browse/ABC-12" target="_blank" rel="noopener">ABC-12</a> needs a review</h3>'
+                '<p>Read it.</p></article>')
+        result = check(page(card))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("review card", result.stdout)
+
+    def test_passes_a_review_card_whose_headline_links_the_pr(self):
+        card = ('<article><span class="label">Review requested</span>'
+                '<h3><a href="https://x/pull/4" target="_blank" rel="noopener">#4</a> needs a review</h3>'
+                '<p>For <a href="https://x/browse/ABC-12" target="_blank" rel="noopener">ABC-12</a>.</p></article>')
+        result = check(page(card))
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_fails_a_missing_section(self):
         result = check(page(sections=[s for s in SECTIONS if s != "weather"]))
         self.assertEqual(result.returncode, 1)
