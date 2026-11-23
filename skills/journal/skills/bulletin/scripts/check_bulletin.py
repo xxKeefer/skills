@@ -8,6 +8,7 @@ from pathlib import Path
 import bulletin
 
 BANNED = {"select", "textarea", "script", "input", "button"}
+CARDS = ("learning", "ideas", "friction", "next")
 PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
 
 
@@ -18,6 +19,8 @@ class Page(HTMLParser):
         self.entries = []
         self.cur = None
         self.skip = 0
+        self.depth = 0
+        self.svgs = 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -31,17 +34,29 @@ class Page(HTMLParser):
             self.problems.append(f"<{tag}> is not allowed on a bulletin")
         if "action" in classes or "choice" in classes or "comment" in classes:
             self.problems.append(f"class {' '.join(classes)} is a suggestion row or choice control")
-        if tag == "article" and "entry" in classes:
-            self.cur = {"date": a.get("data-date") or "", "masthead": False}
-            self.entries.append(self.cur)
+        if tag == "svg" and (a.get("role") != "img" or not (a.get("aria-label") or "").strip()):
+            self.problems.append(f"svg {self.svgs} needs role=\"img\" and an aria-label")
+        if tag == "svg":
+            self.svgs += 1
+        if tag == "article":
+            if "entry" in classes and self.cur is None:
+                self.cur = {"date": a.get("data-date") or "", "masthead": False, "cards": set()}
+                self.entries.append(self.cur)
+                self.depth = 0
+            elif self.cur is not None and "card" in classes and a.get("data-card"):
+                self.cur["cards"].add(a["data-card"])
+            if self.cur is not None:
+                self.depth += 1
         if self.cur is not None and "masthead" in classes:
             self.cur["masthead"] = True
 
     def handle_endtag(self, tag):
         if tag == "style":
             self.skip -= 1
-        if tag == "article":
-            self.cur = None
+        if tag == "article" and self.cur is not None:
+            self.depth -= 1
+            if self.depth == 0:
+                self.cur = None
 
     def handle_data(self, data):
         if self.skip:
@@ -62,6 +77,9 @@ def problems(path):
         date = entry["date"]
         if not entry["masthead"]:
             found.append(f"entry {date} has no masthead")
+        for name in CARDS:
+            if name not in entry["cards"]:
+                found.append(f"entry {date} has no {name} card")
         try:
             day = datetime.date.fromisoformat(date)
         except ValueError:
