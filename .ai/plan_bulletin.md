@@ -34,9 +34,9 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 - [x] **L.** The skill is installed → the journal README lists `/bulletin`, the journal `CLAUDE.md` data flow names it, and the journal plugin version moves up one minor.
 - [ ] **M.** An entry is written → it has a main column with This week, Last week, Next week, and Reflect, and a side column with the weather, the events, and the chores.
 - [ ] **N.** An entry is written → Reflect holds four cards: Learning, Ideas, Friction, and What's next, each with items of this week and of last week, or a line that says it has none.
-- [ ] **O.** An entry is written → it holds at least one chart as inline SVG, each with `role="img"` and an `aria-label`, and the page check fails on an `<svg>` with neither.
+- [x] **O.** An entry is written → it holds at least one chart as inline SVG, each with `role="img"` and an `aria-label`, and the page check fails on an `<svg>` with neither.
 - [x] **P.** The state is read → it gives `last_week_start` and `window_days`, so that the scan covers Monday of last week to today for every weekday.
-- [ ] **Q.** The page is checked → the check fails on an entry with no Reflect card for one of the four names, and passes an entry with all four.
+- [x] **Q.** The page is checked → the check fails on an entry with no Reflect card for one of the four names, and passes an entry with all four.
 
 ## Context
 
@@ -136,8 +136,8 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: report `.ai/review_feat-bulletin.html` run 3, base 0472310, reviewed head b632088 (panel read 67b884a). The panel fixed 3 of 3 findings. The loop stopped at the third review step.
 - [x] **12. State gives the window.** Seam: `state` in `skills/journal/skills/bulletin/scripts/bulletin.py`. Conditions: C10.
   - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `state` also prints `last_week_start` and `window_days`, where `window_days` is the days from Monday of last week to today. They prove AC P.
-- [ ] **13. Check the new page shape.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C11, C12. The existing check tests must keep passing, so edit the `entry()` helper of the spec to hold the four cards.
-  - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green. The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
+- [x] **13. Check the new page shape.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C11, C12. The existing check tests must keep passing, so edit the `entry()` helper of the spec to hold the four cards.
+  - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green (23 tests). The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
 - [ ] **14. Template.** Kind: docs.
   - Done: `template.html` has a two-column `.layout` with a `.side` column that drops under the main column below 700px, a `.masonry` of `.card` items made with CSS columns, and the chart classes for SVG (`.chart`, `.fill-accent`, `.fill-muted`, `.axis`, `.label`). It has no inline style and no script. A sample entry in `/tmp` is added with `bulletin.py add`, and `check_bulletin.py` prints `ok` on it. The sample is rendered with the `agent-browser` tool at 1200px and at 480px wide, and each screenshot is read: the side column sits right and then below, the cards pack in columns, and the charts show. Delete the sample after.
 - [ ] **15. Skill text.** Kind: docs.
