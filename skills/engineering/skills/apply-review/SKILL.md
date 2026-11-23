@@ -138,6 +138,8 @@ Add a result run to the report with `/write-report`:
   - `head`: HEAD after the commit.
   - `meta`: `Commit` (when Step 4 made one), `PR` (when the branch has one), and `Folder`.
   - `answer`: the count of fixes, replies, and resolved threads, and each tick not done.
+  - `visuals`: `bars` with the question "What did the run do?", one bar each for applied,
+    replied, resolved, and not done.
   - `columns`: `row` (the ticked ID), `where` (set `mono`), and `result`.
   - `rows`: one row for each ticked ID, with no ticks. `result` lists `applied`, `replied`, and
     `resolved`, as done. A tick not done gets `not done: <why>`, such as `no open PR` or

@@ -11,6 +11,13 @@ which ships with the `gh stack` extension. Run each `gh stack` command as that s
 If this session does not list `gh-stack`, stop and ask the user to install it with
 `gh skill install github/gh-stack`. Do not install it yourself.
 
+## Joining a stack
+
+A branch that joins a stack goes on the current top, in the order that branches become ready. Ask
+no question about the order. When the top moved since the last rebase, rebase onto the new top,
+then fix the conflicts and run the gates again. Leave the ready state of each PR that this run did
+not open as it is.
+
 ## Step 1: the base and the merge PRs
 
 1. In a gh stack, the base is the branch below this one in `gh stack view`.

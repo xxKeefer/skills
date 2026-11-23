@@ -11,8 +11,6 @@ description: >
 
 Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggregate their findings into a single ranked HTML report.
 
-`light-review` follows Steps 0 to 7 of this skill with the essential lanes only, so a change to a step here also changes `light-review`.
-
 ## Step 0: Run the panel in a clean thread
 
 **The panel is cheap. The thread it runs in is not.** A review needs the diff, the ticket, and the repo, not the conversation that made the change. At the end of a long session, each orchestration turn pays for that whole history. One measured run: the persona subagents cost a fifth of the review, and the orchestrator at ~320K context cost the rest.
@@ -130,13 +128,15 @@ Hold the `persona-ac-check` findings apart. Step 5 puts them first. Rank the res
 
 Then print only these in the chat. Print no finding.
 
-1. `Reviewed: base <base>, head <head>`. The base is the base SHA from Step 1. The head is the
+1. On someone else's code only: `No fix applied. The branch is not yours, so the report holds draft
+   replies only.` Word no finding as a fix that the panel makes.
+2. `Reviewed: base <base>, head <head>`. The base is the base SHA from Step 1. The head is the
    reviewed head: the fix commit, else the head SHA from Step 1. For uncommitted work, add
    `+ working tree` after the head. When the panel fixed something, add
    `(panel read <Step 1 head>)` after the line.
-2. The coverage table. When the Copilot filter dropped a finding, add one line under the table:
+3. The coverage table. When the Copilot filter dropped a finding, add one line under the table:
    `Dropped N findings Copilot already raised (<persona>: n, …).` Don't list them.
-3. The report path.
+4. The report path.
 
 ## Step 6: Hand over
 

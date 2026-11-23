@@ -145,6 +145,8 @@ the same key, so both runs go to one file.
        three.
      - `answer`: the count of each verdict. Then tell the user to tick the rows to act on and
        paste the prompt.
+     - `visuals`: `bars` with the question "How many items has each verdict?", one bar for each
+       verdict.
      - `columns` and `rows`: from Step 2. When no row has a thread, leave out `draft` and
        `thread`.
 

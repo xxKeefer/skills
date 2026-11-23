@@ -1,10 +1,10 @@
 ---
 name: work-on
 description: >
-  Take a ticket, an idea, or the next units of a map to draft PRs, through a playbook of ★
-  commands, and stop only at the stops H0 to H5. Use when the user says "work on" with a ticket
-  key, an idea, a map, or a plan to continue.
-argument-hint: "<ticket key> | <idea in a sentence> | @<map path> | @<plan path>"
+  Take a ticket, several tickets at once, an idea, or the next units of a map to draft PRs,
+  through a playbook of ★ commands, and stop only at the stops H0 to H5. Use when the user says
+  "work on" with ticket keys, an idea, a map, or a plan to continue.
+argument-hint: "<ticket key>... | <idea in a sentence> | @<map path> | @<plan path>..."
 ---
 
 # Work On
@@ -27,7 +27,7 @@ Stop only at these points. Between two stops, run with no input from the user.
 | H0 | The user approves the map. | Once per program. |
 | H1 | The user says yes to the spec. | Once per change, when a spec exists. |
 | H2 | The user approves the plan. | Once per change. A map run has no H2 stop, because the map approval (H0) covers each unit plan. |
-| H3 | An open `Pending Decision` (a `D` entry) exists. | Only when the agent cannot decide. |
+| H3 | An open `Pending Decision` (a `D` entry) exists. | Only when no option has a reason to recommend it. The agent takes a recommended option and logs it, with no stop. |
 | H4 | An action is on the pause list. | Each time another person reads the output. |
 | H5 | The user picks the skill edits from `/retro`. | After a unit. |
 
@@ -98,6 +98,7 @@ read one. A principle lives at `$SKILL_DIR/../<name>/SKILL.md`. The user can als
 
 | `$ARGUMENTS` | Playbook |
 | --- | --- |
+| Two or more ticket keys, or two or more plan paths | [`playbooks/parallel.md`](playbooks/parallel.md) |
 | A ticket key or an idea | [`playbooks/new-ticket.md`](playbooks/new-ticket.md) |
 | `@<map path>`: a file with doctype `map`, or with unit headings `### [ ] N. Title` | [`playbooks/map.md`](playbooks/map.md) |
 | `@<spec path>`: a file with doctype `spec` | [`playbooks/new-ticket.md`](playbooks/new-ticket.md), from step 2. |
