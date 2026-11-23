@@ -138,7 +138,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `state` also prints `last_week_start` and `window_days`, where `window_days` is the days from Monday of last week to today. They prove AC P.
 - [x] **13. Check the new page shape.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C11, C12. The existing check tests must keep passing, so edit the `entry()` helper of the spec to hold the four cards.
   - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green (23 tests). The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
-- [ ] **14. Template.** Kind: docs.
+- [x] **14. Template.** Kind: docs.
   - Done: `template.html` has a two-column `.layout` with a `.side` column that drops under the main column below 700px, a `.masonry` of `.card` items made with CSS columns, and the chart classes for SVG (`.chart`, `.fill-accent`, `.fill-muted`, `.axis`, `.label`). It has no inline style and no script. A sample entry in `/tmp` is added with `bulletin.py add`, and `check_bulletin.py` prints `ok` on it. The sample is rendered with the `agent-browser` tool at 1200px and at 480px wide, and each screenshot is read: the side column sits right and then below, the cards pack in columns, and the charts show. Delete the sample after.
 - [ ] **15. Skill text.** Kind: docs.
   - Done: `SKILL.md` scans with `--window <window_days>`, reads last week and this week from the scan, runs `occasions.py` for each day of next week as well as today and the rest of this week, and draws charts with the rule of `/show-me`: inline SVG only. `LAYOUT.md` gives the new entry frame (main and side columns, the four main parts, the four reflect cards with their `data-card` values), the chart rule (`role="img"`, `aria-label`, a `<figcaption>`, classes only), the `data-id` sections (`week`, `last`, `next`, `reflect`, `weather`, `events`, `chores`, `board`, `notes`), and the rule that the entry holds no yearly or monthly goal table. It covers AC E, F, M, N, and O.
@@ -176,3 +176,18 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: decision. The run 2 future row on `check_bulletin.py:74` stays open. Reason: the persona marked it future, the impact is low, and the file is local. To fix it, tick the row in `.ai/review_feat-bulletin.html` run 2, and run `/build` on the prompt.
 - 2026-11-24: the user asked for a redesign of the entry. The spec and the plan have new ACs M to Q and steps 12 to 19. The first build ends at step 11.
 - 2026-11-24: step 12 done. `state` prints `last_week_start` and `window_days`; C10 tests cover Monday to Sunday and 2027-01-01 (11 days from 2026-12-21). Mutation (+6 for +7) went red and was restored. AC P proven.
+- 2026-11-24: step 14 done. `template.html` holds the layout CSS (sheet max-width 1080px, grid 2fr/1fr, 700px stack, CSS-column masonry, chart classes); no script, no inline style. A sample was added with `add`, `check_bulletin.py` printed ok, and screenshots at 1200px and 480px were read: at 1200px the side column sits right of the main column with a rule, the cards pack in two columns (learning and ideas left, friction and next right), and the bars show in accent and muted; at 480px everything stacks, side parts follow the main parts, the cards are one column, and the charts show. Sample deleted. Commit 308ce59. Class names: `.layout`, `.main`, `.side`, `.masonry`, `.card`, `.chart`, `.fill-accent`, `.fill-muted`, `.axis`, `.label`, `.forecast`, `.masthead`, `.dateline`, `.standfirst`, `.tag`, `.tag.unchanged`; plain `figure`, `figcaption`, `h3` (part heading), `h4` (card title), `table`. Chart rules: `svg.chart` with `viewBox`, `role="img"`, `aria-label`; children `line.axis` (the baseline), `text.label` (category name left of the axis), `rect.fill-accent` (the focus bar), `rect.fill-muted` (other bars); no `style` attribute. Skeleton:
+  - `article.entry[data-date]`
+    - `header.masthead` > `div.dateline`, `h2`
+    - `p.standfirst`
+    - `div.layout`
+      - `div.main`
+        - `section` (This week) > `h3`, `table` (goal rows with `data-id`), `figure` > `svg.chart[role=img][aria-label]`, `figcaption`
+        - `section` (Last week) > `h3`, `p`, `figure` > `svg.chart`, `figcaption`
+        - `section` (Next week) > `h3`, `ul` > `li`
+        - `section` (Reflect) > `h3`, `div.masonry` > 4 x `article.card[data-card=learning|ideas|friction|next]` > `h4`, `p` or `ul`
+      - `aside.side`
+        - `h3` (Weather), `p.forecast` > `strong`, `p`
+        - `h3` (Events), `p` for each day
+        - `h3` (Chores), `table`, `figure` > `svg.chart`, `figcaption`
+  - The sections are plain `<section>` with no class. The `<h3>` is the part heading of each.
