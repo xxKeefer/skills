@@ -24,16 +24,16 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 - [x] **B.** Run it when the file exists and has no entry for today → the new entry goes above every older entry, and the older entries are byte-for-byte unchanged.
 - [x] **C.** Run it when the file has an entry for today → it writes nothing, scans nothing, and gives the path.
 - [x] **D.** A day passes with no run → the file has no entry for it, nothing fails, and the next entry says how many days it covers.
-- [ ] **E.** An entry is written → the scan covers Monday of last week to today, and the entry names no note older than that window except in a goal's context.
-- [ ] **F.** An entry is written → it gives each goal of the week as served, not served, or carried, and says what changed since the latest earlier entry, or that it is the first of the week. It names no yearly or monthly goal table.
+- [x] **E.** An entry is written → the scan covers Monday of last week to today, and the entry names no note older than that window except in a goal's context.
+- [x] **F.** An entry is written → it gives each goal of the week as served, not served, or carried, and says what changed since the latest earlier entry, or that it is the first of the week. It names no yearly or monthly goal table.
 - [x] **G.** Earlier entries exist → each story is marked new, changed, or unchanged by its `data-id` against the latest earlier entry, and an unchanged story gets one line.
 - [x] **H.** The page is checked → the check fails on a suggestion row, a choice control, a prompt box, a script, an entry with no masthead, two entries for one day, entries out of newest-first order, an entry outside the file's ISO week, or a placeholder left over.
 - [x] **I.** The file name is built → `bulletin.py` gives the same week number as the broadsheet for every date, including the 2027-01-01 case in ISO year 2026 week 53.
 - [x] **J.** An entry is written and a place is set → it holds today's forecast from `weather.py` (conditions, high and low, chance of rain), or a line that says the forecast is not available, or a line that says to set a place.
 - [x] **K.** An entry is written → it lists the items that `occasions.py` gives as due today, and the items due on each later day of the week, by day, and says so when `occasions.md` has rows it cannot read.
 - [x] **L.** The skill is installed → the journal README lists `/bulletin`, the journal `CLAUDE.md` data flow names it, and the journal plugin version moves up one minor.
-- [ ] **M.** An entry is written → it has a main column with This week, Last week, Next week, and Reflect, and a side column with the weather, the events, and the chores.
-- [ ] **N.** An entry is written → Reflect holds four cards: Learning, Ideas, Friction, and What's next, each with items of this week and of last week, or a line that says it has none.
+- [x] **M.** An entry is written → it has a main column with This week, Last week, Next week, and Reflect, and a side column with the weather, the events, and the chores.
+- [x] **N.** An entry is written → Reflect holds four cards: Learning, Ideas, Friction, and What's next, each with items of this week and of last week, or a line that says it has none.
 - [x] **O.** An entry is written → it holds at least one chart as inline SVG, each with `role="img"` and an `aria-label`, and the page check fails on an `<svg>` with neither.
 - [x] **P.** The state is read → it gives `last_week_start` and `window_days`, so that the scan covers Monday of last week to today for every weekday.
 - [x] **Q.** The page is checked → the check fails on an entry with no Reflect card for one of the four names, and passes an entry with all four.
@@ -140,7 +140,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green (23 tests). The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
 - [x] **14. Template.** Kind: docs.
   - Done: `template.html` has a two-column `.layout` with a `.side` column that drops under the main column below 700px, a `.masonry` of `.card` items made with CSS columns, and the chart classes for SVG (`.chart`, `.fill-accent`, `.fill-muted`, `.axis`, `.label`). It has no inline style and no script. A sample entry in `/tmp` is added with `bulletin.py add`, and `check_bulletin.py` prints `ok` on it. The sample is rendered with the `agent-browser` tool at 1200px and at 480px wide, and each screenshot is read: the side column sits right and then below, the cards pack in columns, and the charts show. Delete the sample after.
-- [ ] **15. Skill text.** Kind: docs.
+- [x] **15. Skill text.** Kind: docs.
   - Done: `SKILL.md` scans with `--window <window_days>`, reads last week and this week from the scan, runs `occasions.py` for each day of next week as well as today and the rest of this week, and draws charts with the rule of `/show-me`: inline SVG only. `LAYOUT.md` gives the new entry frame (main and side columns, the four main parts, the four reflect cards with their `data-card` values), the chart rule (`role="img"`, `aria-label`, a `<figcaption>`, classes only), the `data-id` sections (`week`, `last`, `next`, `reflect`, `weather`, `events`, `chores`, `board`, `notes`), and the rule that the entry holds no yearly or monthly goal table. It covers AC E, F, M, N, and O.
 - [ ] **16. Register.** Kind: docs.
   - Done: the `/bulletin` row of the journal README, the journal `CLAUDE.md` data-flow line, and the Bulletin term of `CONTEXT.md` match the new entry. The plugin version stays 2.12.0, because no push has shipped it. This proves AC L still holds.
@@ -191,3 +191,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
         - `h3` (Events), `p` for each day
         - `h3` (Chores), `table`, `figure` > `svg.chart`, `figcaption`
   - The sections are plain `<section>` with no class. The `<h3>` is the part heading of each.
+- 2026-11-24: step 15 done. `SKILL.md` (9.5 KB) scans with `--window <window_days>`, runs `occasions.py` through next Sunday, and sends charts to `/show-me` in inline SVG form. `LAYOUT.md` has the main and side frame, the four cards, the chart rule, and the story sections. Choice: the nine section names are the `data-id` prefixes of stories, and the plain `<section>` containers carry no `data-id`. Gates green. Commit d336e84.
