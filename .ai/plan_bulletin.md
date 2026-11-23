@@ -35,7 +35,7 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 - [ ] **M.** An entry is written → it has a main column with This week, Last week, Next week, and Reflect, and a side column with the weather, the events, and the chores.
 - [ ] **N.** An entry is written → Reflect holds four cards: Learning, Ideas, Friction, and What's next, each with items of this week and of last week, or a line that says it has none.
 - [ ] **O.** An entry is written → it holds at least one chart as inline SVG, each with `role="img"` and an `aria-label`, and the page check fails on an `<svg>` with neither.
-- [ ] **P.** The state is read → it gives `last_week_start` and `window_days`, so that the scan covers Monday of last week to today for every weekday.
+- [x] **P.** The state is read → it gives `last_week_start` and `window_days`, so that the scan covers Monday of last week to today for every weekday.
 - [ ] **Q.** The page is checked → the check fails on an entry with no Reflect card for one of the four names, and passes an entry with all four.
 
 ## Context
@@ -134,7 +134,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: the suite passes, and each behaviour that the branch changes has a test.
 - [x] **11. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run correctness and test-design, which raised a finding in run 2, and code-quality and test-quality, whose files changed after the run 2 read of 03139c9. Do not raise the open run 2 row again (the future row on `check_bulletin.py:74`), and do not raise any row that only repeats it. This is the third review step, so the loop stops after it.
   - Done: report `.ai/review_feat-bulletin.html` run 3, base 0472310, reviewed head b632088 (panel read 67b884a). The panel fixed 3 of 3 findings. The loop stopped at the third review step.
-- [ ] **12. State gives the window.** Seam: `state` in `skills/journal/skills/bulletin/scripts/bulletin.py`. Conditions: C10.
+- [x] **12. State gives the window.** Seam: `state` in `skills/journal/skills/bulletin/scripts/bulletin.py`. Conditions: C10.
   - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `state` also prints `last_week_start` and `window_days`, where `window_days` is the days from Monday of last week to today. They prove AC P.
 - [ ] **13. Check the new page shape.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C11, C12. The existing check tests must keep passing, so edit the `entry()` helper of the spec to hold the four cards.
   - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green. The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
@@ -175,3 +175,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 11 done. Run 3 found 3 nits. Fix commit b632088 fixed all 3: `insert` is now a pure function, the page keeps CRLF bytes, and an entry file with no final newline has a test. The third review step stops the loop, even though the fix changed `add`.
 - 2026-11-24: decision. The run 2 future row on `check_bulletin.py:74` stays open. Reason: the persona marked it future, the impact is low, and the file is local. To fix it, tick the row in `.ai/review_feat-bulletin.html` run 2, and run `/build` on the prompt.
 - 2026-11-24: the user asked for a redesign of the entry. The spec and the plan have new ACs M to Q and steps 12 to 19. The first build ends at step 11.
+- 2026-11-24: step 12 done. `state` prints `last_week_start` and `window_days`; C10 tests cover Monday to Sunday and 2027-01-01 (11 days from 2026-12-21). Mutation (+6 for +7) went red and was restored. AC P proven.
