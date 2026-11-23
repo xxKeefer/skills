@@ -31,7 +31,7 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 - [x] **I.** The file name is built → `bulletin.py` gives the same week number as the broadsheet for every date, including the 2027-01-01 case in ISO year 2026 week 53.
 - [x] **J.** An entry is written and a place is set → it holds today's forecast from `weather.py` (conditions, high and low, chance of rain), or a line that says the forecast is not available, or a line that says to set a place.
 - [x] **K.** An entry is written → it lists the items that `occasions.py` gives as due today, and the items due on each later day of the week, by day, and says so when `occasions.md` has rows it cannot read.
-- [ ] **L.** The skill is installed → the journal README lists `/bulletin`, the journal `CLAUDE.md` data flow names it, and the journal plugin version moves up one minor.
+- [x] **L.** The skill is installed → the journal README lists `/bulletin`, the journal `CLAUDE.md` data flow names it, and the journal plugin version moves up one minor.
 
 ## Context
 
@@ -105,7 +105,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green. The check prints `ok` or one line for each fault, and exits 1 on a fault. They prove AC H.
 - [x] **4. Skill text.** Kind: docs.
   - Done: `SKILL.md` has the steps: resolve with `state`, stop when today is present, scan with `--window` from `week_start`, run `weather.py` for each place, run `occasions.py` for today and each later day, read the earlier entries, write the entry, `add`, `check`, open, reply. `LAYOUT.md` gives the entry placeholders (goals, weather, events, chores, board, notes) and the `data-id` rules. The frontmatter has `disable-model-invocation: true`, as every journal skill has. This covers AC E, F, G, J, and K.
-- [ ] **5. Register.** Kind: docs.
+- [x] **5. Register.** Kind: docs.
   - Done: the journal README has the `/bulletin` row, the journal `CLAUDE.md` data flow has the line, `CONTEXT.md` defines Bulletin, and `skills/journal/.claude-plugin/plugin.json` moves from 2.11.0 to 2.12.0. This proves AC L.
 - [ ] **6. Test.** Run the gates from Context. This step changes no behaviour.
   - Done: the gates are green.
@@ -129,3 +129,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 2 done. C3, C4, C5 had tests in `bulletin.spec.py`; mutation checks (insert at end, no template fill, no same-day guard, no template) went red and were restored. AC A, B proven.
 - 2026-11-24: step 3 done. C8, C9 had tests in `check_bulletin.spec.py`; mutation checks on each fault rule went red and were restored. AC H proven.
 - 2026-11-24: step 4 done. `SKILL.md` and `LAYOUT.md` written; the pre-commit gate is green. AC E, F, G, J, K covered.
+- 2026-11-24: step 5 done. README row, CLAUDE.md data flow, CONTEXT.md term, and plugin 2.12.0. The marketplace registry lists no versions.
