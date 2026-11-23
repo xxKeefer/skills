@@ -10,7 +10,7 @@ An entry has this frame. The `data-date` is today, as `YYYY-MM-DD`:
 <article class="entry" data-date="2026-11-24">
   <header class="masthead">
     <div class="dateline">Tuesday 24 November 2026 · Entry 2 of week 48</div>
-    <h2>The Obsidian Oracle Bulletin</h2>
+    <h2 id="head-2026-11-24">The Obsidian Oracle Bulletin</h2>
   </header>
   <p class="standfirst">One line: what moved since the entry below, or that this is the first entry of the week.</p>
   <div class="layout">
@@ -22,7 +22,7 @@ An entry has this frame. The `data-date` is today, as `YYYY-MM-DD`:
       <section>...</section>
       <section>...</section>
     </div>
-    <aside class="side">
+    <aside class="side" aria-labelledby="head-2026-11-24">
       <section>...</section>
       <section>...</section>
       <section>...</section>
@@ -32,14 +32,14 @@ An entry has this frame. The `data-date` is today, as `YYYY-MM-DD`:
 ```
 
 The main column holds six plain `<section>` elements in this order: week, last, next, reflect, board, notes. The side column holds three: weather, events, chores. Each section opens with an `<h3>`. An empty section keeps its `<h3>` and one line that says it has
-none.
+none. The `id` of the `<h2>` is `head-` and the `data-date`, and the `aside` names it with `aria-labelledby`. Each `<table>` opens with a `<thead>` row of `<th scope="col">` cells, one for each column that the section row names.
 
 ## Main column
 
 | Section | Content |
 | --- | --- |
 | `week` | The lead. A `<table>` with a row for each goal of this week only: the goal, its status as served, not served, or carried, and what changed since the entry below. For the first entry of the week, the change column says "First entry of the week". Add a chart of goals by status. The entry holds no yearly or monthly goal table |
-| `last` | How each goal of last week ended: served, not served, or carried. Then a chart of this week against last week, from the numbers of the scan |
+| `last` | How each goal of last week ended: served, not served, or carried. Then a chart of this week against last week, from the numbers that the chart rule names |
 | `next` | Marked as a projection in the `<h3>` or the first line. A `<ul>`: the goals that carry over, the events of each day of next week from `occasions.py` in date order (a day with none says so), and the ideas for the week |
 | `reflect` | A `<div class="masonry">` of four cards, below |
 | `board` | One `<article>` for each project with a move: the project in `<strong>`, then the cards that moved |
@@ -58,7 +58,7 @@ says it has none. The four cards, in this order:
 | `friction` | Friction | `What caused friction` |
 | `next` | What's next | `What is next` |
 
-Take the items from `reflections` in the scan. Use this week and last week only.
+Take the learning, friction, and next items from `reflections` in the scan. Take the ideas from the `Thoughts and Ideas` section of the dailies that Step 4 reads, because `reflections` holds only the `Reflect` sections. Use this week and last week only.
 
 ## Side column
 
@@ -66,15 +66,22 @@ Take the items from `reflections` in the scan. Use this week and last week only.
 | --- | --- |
 | `weather` | One `<p class="forecast">` for each place: the label in `<strong>`, then the conditions, the high and low with the unit, and the chance of rain. With `available: false`, "The forecast is not available today." for that place. With no places, "Set a place in the config for a forecast." |
 | `events` | Today's due items by section. Then one `<p>` for each later day of this week, in date order. A day with none says so. When `errors` is not empty in any run, add one line with the count of rows that cannot be read, and say that `/update-occasions-config` fixes them |
-| `chores` | A `<table>`: chore, ticked of seen, to date. Add a chart of the ticks |
+| `chores` | A `<table>`: chore, ticked of seen, since the Monday of last week. The scan counts the whole window. Add a chart of the ticks |
 
 ## Charts
 
-Follow `/show-me`: the smallest visual that makes the point. Take its inline SVG form only. The page
-has no script.
+Follow the rule of `/show-me`: the smallest visual that makes the point. `/show-me` has no SVG
+form, and the page has no script, so write each chart by hand as an inline SVG bar chart in the
+shape below.
 
 - A chart appears only when the scan holds its numbers. Draw no chart from a guess.
-- Suggested charts: goals by status, this week against last week, chore ticks, and edits by day.
+- Suggested charts, each with its source:
+  - goals by status: count the rows of the week table;
+  - this week against last week: dailies for each week from `journal.dailies_in_window` by date, and
+    notes edited for each week from `recent[].age_days`, where an age at or under the days since
+    `week_start` is this week;
+  - chore ticks: `journal.checklists`, which covers the whole window;
+  - edits by weekday: `activity.weekdays`, which also covers the whole window.
 - Each chart is `<figure>` with `<svg class="chart" viewBox="..." role="img" aria-label="...">` and
   a `<figcaption>` that gives the point in one line.
 - The `aria-label` says what the chart shows, with its numbers.

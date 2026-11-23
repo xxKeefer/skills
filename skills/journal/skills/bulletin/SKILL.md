@@ -132,9 +132,11 @@ reflection of the window.
 
 ## Step 5: Read the rest of the window
 
-1. **Chores:** from the journal scan, give the ticks to date for each chore.
-2. **The board:** for each active project in `projects`, name the cards that moved in the window.
-   Leave out a project with no move.
+1. **Chores:** from the journal scan, give the ticks since the Monday of last week for each chore. The scan counts the whole window.
+2. **The board:** for each active project in `projects` with `changed_days` inside the window, read
+   its Kanban file. A card moved when its column differs from the latest earlier entry. With no
+   earlier entry, name the cards of the first column that is not done. Leave out a project with no
+   move.
 3. **Notes:** from `recent`, name the notes edited in the window, outside the journal, with one
    line on what each one holds. Leave out a note with no story, such as a typo fix.
 
@@ -145,21 +147,22 @@ reflection of the window.
 Write the entry to a scratch file outside the vault. Read [`LAYOUT.md`](LAYOUT.md). It gives the
 frame, the content of each part, the chart rule, and the `data-id` rules. Follow every rule in it.
 
-The main column has four parts: This week, Last week, Next week, and Reflect. The side column holds
-the weather, the events, and the chores. The board and the notes follow in the main column.
+The main column has six parts, in the order of `LAYOUT.md`: This week, Last week, Next week, Reflect,
+the board, and the notes. The side column holds the weather, the events, and the chores.
 
 - **Last week** gives how last week's goals ended, and a chart of this week against last week, from
-  the numbers of the scan.
+  the numbers that the chart rule of `LAYOUT.md` names.
 - **Next week** gives the carried goals, the events of each day of next week from `occasions.py`,
   and the ideas. Mark it as a projection.
 - **Reflect** is a masonry of four cards. Each item says its week and links its note. Map the
-  sources like this: Learning from the learned lines (`What I learned`), Ideas from `Thoughts and
-  Ideas`, Friction from `What caused friction`, and What's next from `What is next`. A card with no
+  sources like this: Learning from the learned lines (`What I learned`), Friction from `What caused
+  friction`, and What's next from `What is next`, all in `reflections` of the scan, and Ideas from
+  the `Thoughts and Ideas` section of the dailies that Step 4 reads. A card with no
   item says so.
-- **Charts:** follow `/show-me`: the smallest visual that makes the point. Take its inline SVG form
-  only, because the page has no script. A chart appears only when the scan holds its numbers.
-  Suggested charts: goals by status, this week against last week, chore ticks, and edits by day.
-  The rule is in `LAYOUT.md`.
+- **Charts:** follow the rule of `/show-me`: the smallest visual that makes the point. Write each
+  chart by hand as an inline SVG bar chart, because `/show-me` has no SVG form and the page has no
+  script. A chart appears only when the scan holds its numbers. `LAYOUT.md` names the suggested
+  charts and their sources.
 
 **Done when:** the entry holds each part or a line that says it has none, each story has a
 `data-id`, at least one chart is drawn, and no placeholder is left.
