@@ -2,10 +2,10 @@
 name: bulletin
 description: >
   Add today's entry to this week's HTML bulletin in the journal folder. The page holds one dated
-  entry for each day you run it, newest on top. Each entry leads with how the year, month, and
-  week goals moved since the entry below it, then gives today's weather, the events due now and
-  later in the week, chore ticks, project cards that moved, and notes edited. Use when the user
-  says "bulletin" or wants a daily page that shows how the goals change over the week.
+  entry for each day you run it, newest on top. Each entry gives the week's goals and how they
+  moved since the entry below it, how last week ended, a look at next week, a Reflect masonry of
+  four cards, and a side column with weather, events, and chores. Use when the user says
+  "bulletin" or wants a daily page that shows how the goals change over the week.
 disable-model-invocation: true
 argument-hint: "[accent=<colour>] [place=<label or name>]"
 ---
@@ -34,10 +34,12 @@ page has no suggestion row, no choice control, no prompt, and no script.
    python3 $SKILL_DIR/scripts/bulletin.py state <journal folder>
    ```
 
-   It prints `{path, exists, today_present, days, days_since_last, last_ids, week_start}`.
+   It prints `{path, exists, today_present, days, days_since_last, last_ids, week_start,
+   last_week_start, window_days}`.
    `path` is `<journal folder>/{YYYY}-wk{ww}-bulletin.html`, with the ISO week of today. `days`
    lists the dates that have an entry, newest first. `last_ids` lists the `data-id` values of the
-   latest entry. `week_start` is the Monday of this week.
+   latest entry. `week_start` is the Monday of this week. `last_week_start` is the Monday of last
+   week. `window_days` is the days from `last_week_start` to today.
 2. If `today_present` is true, stop. Scan nothing and write nothing. Reply with `path`, and say that
    today's entry is already on the page.
 3. Read `~/.claude/broadsheet.md` if it exists. Its layout is in
@@ -59,14 +61,16 @@ path.
 
 ## Step 2: Scan the vault, the sky, and the calendar
 
-The window is the days from `week_start` to today, with `week_start` not counted. Monday gives 0, and Tuesday gives 1.
+The window covers last week and this week. Pass `window_days` from `state`. Do no date sums.
 
 ```sh
-python3 $SKILL_DIR/../broadsheet/scripts/scan_vault.py <vault root> --journal <journal folder> --window <days>
+python3 $SKILL_DIR/../broadsheet/scripts/scan_vault.py <vault root> --journal <journal folder> --window <window_days>
 ```
 
 The scanner prints JSON. [`SCAN.md`](../broadsheet/SCAN.md) names each key. Use only what falls
-in the window. Name no note older than the window, except as the context of a goal.
+in the window. Sort the items by their dates: the dates from `week_start` on are this week, and
+the earlier dates are last week. Name no note older than the window, except as the context of a
+goal.
 
 For each place, run one of these. A place that is a name takes the name. A place that is
 coordinates takes both numbers:
@@ -79,7 +83,8 @@ python3 $SKILL_DIR/../broadsheet/scripts/weather.py <lat> <lon>
 Each run prints `{available, date, conditions, high, low, rain_chance, unit}`, or
 `{available: false}`. The forecast is for today.
 
-Run `occasions.py` once for today, and once for each later day of the week up to Sunday:
+Run `occasions.py` once for today, once for each later day of this week up to Sunday, and once
+for each day of next week, Monday to Sunday:
 
 ```sh
 python3 $SKILL_DIR/../../scripts/occasions.py <journal folder>/occasions.md --date <YYYY-MM-DD>
@@ -89,7 +94,7 @@ Each run prints `{due, past, errors, old_layout}`. `due` holds the items of that
 `errors` lists the rows that the script cannot read.
 
 **Done when:** the scanner exits 0, you hold its JSON, you hold the forecast or know that there is
-no place or no forecast, and you hold the due items for each day from today to Sunday.
+no place or no forecast, and you hold the due items for each day from today to the Sunday of next week.
 
 ## Step 3: Read the earlier entries
 
@@ -111,17 +116,19 @@ the latest entry, or that there is no earlier entry.
 
 ## Step 4: Read the journal
 
-Read the yearly, monthly, weekly, and daily files of the window. Read
-[`CASCADE.md`](../../CASCADE.md) for the carry-forward rules. From them, find:
+Read the weekly and daily files of the window. Read [`CASCADE.md`](../../CASCADE.md) for the
+carry-forward rules. Read no yearly or monthly goal. From them, find:
 
-- each goal of the year, the month, and the week, and whether a task at the level below serves it.
-  Mark each goal as served, not served, or carried;
+- each goal of this week, and whether a task at the level below serves it. Mark each goal as
+  served, not served, or carried;
 - what changed in each goal since the latest earlier entry, or that this is the first entry of the
   week;
-- the filled reflections of the window. Read each one in full, and quote the useful ones.
+- how each goal of last week ended: served, not served, or carried into this week;
+- the goals that carry into next week, and the ideas for next week;
+- the filled reflections of the window, by the map in the Reflect card rule of Step 6.
 
-**Done when:** each goal in the yearly, monthly, and weekly files has a status, and you have read
-each filled reflection of the window.
+**Done when:** each goal of this week and of last week has a status, and you have read each filled
+reflection of the window.
 
 ## Step 5: Read the rest of the window
 
@@ -136,13 +143,26 @@ each filled reflection of the window.
 ## Step 6: Write the entry
 
 Write the entry to a scratch file outside the vault. Read [`LAYOUT.md`](LAYOUT.md). It gives the
-shape of the entry, the content of each part, and the `data-id` rules. Follow every rule in it.
+frame, the content of each part, the chart rule, and the `data-id` rules. Follow every rule in it.
 
-The entry leads with how the goals moved. The weather and the events come next. The chores, the
-board, and the notes follow.
+The main column has four parts: This week, Last week, Next week, and Reflect. The side column holds
+the weather, the events, and the chores. The board and the notes follow in the main column.
+
+- **Last week** gives how last week's goals ended, and a chart of this week against last week, from
+  the numbers of the scan.
+- **Next week** gives the carried goals, the events of each day of next week from `occasions.py`,
+  and the ideas. Mark it as a projection.
+- **Reflect** is a masonry of four cards. Each item says its week and links its note. Map the
+  sources like this: Learning from the learned lines (`What I learned`), Ideas from `Thoughts and
+  Ideas`, Friction from `What caused friction`, and What's next from `What is next`. A card with no
+  item says so.
+- **Charts:** follow `/show-me`: the smallest visual that makes the point. Take its inline SVG form
+  only, because the page has no script. A chart appears only when the scan holds its numbers.
+  Suggested charts: goals by status, this week against last week, chore ticks, and edits by day.
+  The rule is in `LAYOUT.md`.
 
 **Done when:** the entry holds each part or a line that says it has none, each story has a
-`data-id`, and no placeholder is left.
+`data-id`, at least one chart is drawn, and no placeholder is left.
 
 ## Step 7: Add the entry
 
