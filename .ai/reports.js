@@ -1,1 +1,1 @@
-window.REPORTS = ["review_feat-bulletin.html", "review_pr-87.html", "review_worktree-scan-ignore-bulk-commits.html", "qa_worktree-scan-ignore-bulk-commits.html", "review_feat-broadsheet-feedback.html"];
+window.REPORTS = ["qa_feat-bulletin.html", "review_feat-bulletin.html", "review_pr-87.html", "review_worktree-scan-ignore-bulk-commits.html", "qa_worktree-scan-ignore-bulk-commits.html", "review_feat-broadsheet-feedback.html"];
