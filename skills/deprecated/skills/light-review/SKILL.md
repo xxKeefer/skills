@@ -1,9 +1,8 @@
 ---
 name: light-review
-description: >
-  Run the essential lanes of the review panel over a PR or branch, into the same report as
-  /engineering:mob-review. Use when the user says "light review" or "quick review", or wants fewer
-  lanes than the full panel.
+description: Run the essential lanes of the review panel. Superseded by /engineering:mob-review
+disable-model-invocation: true
+deprecated: 2026-11-23
 argument-hint: "[PR number or URL | branch] [plan or spec path]"
 ---
 

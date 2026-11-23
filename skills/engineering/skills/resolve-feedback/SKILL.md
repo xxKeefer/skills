@@ -96,7 +96,8 @@ untested behaviour, needs a product decision, or has two reasonable answers. For
 verdict, start with `No fix.` Then say what to do and why.
 When a better fix than the reviewer's exists, name it. When two fixes are reasonable, name both.
 
-**The draft reply.** Write it as the PR author, in one to three sentences:
+**The draft reply.** Write it in [the user's voice](../post-review-comments/SKILL.md#the-users-voice),
+in one to three sentences:
 
 - Valid or Partially valid: say what the fix changes. For Partially valid, say which part you take
   and why you leave the rest. Write no commit hash. `/engineering:apply-review` ends the reply with
@@ -145,6 +146,8 @@ the same key, so both runs go to one file.
        three.
      - `answer`: the count of each verdict. Then tell the user to tick the rows to act on and
        paste the prompt.
+     - `visuals`: `bars` with the question "How many items has each verdict?", one bar for each
+       verdict.
      - `columns` and `rows`: from Step 2. When no row has a thread, leave out `draft` and
        `thread`.
 

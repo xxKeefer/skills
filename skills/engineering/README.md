@@ -22,7 +22,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/build` | Build | Every remaining step of the plan, one fresh subagent per step (or per run of small fix steps). Then a test and review loop until the `/ship` checks pass, then `/happy-path` and `/sad-path`. Open decisions wait in one batch. A review report's prompt adds a fix round |
 | `/test` | Verify | `/tdd` for a bug or an untested seam, else `/happy-path`, then `/sad-path` when its guard matches |
 | `/constraints` | Verify | Write `CONSTRAINTS.md` with a command behind each rule, then check each branch for a lowered bar |
-| `/review` | Review | `/light-review` on the branch, `/mob-review` with `full`, or `/review-pr` for a PR |
+| `/review` | Review | `/mob-review` on the branch, or `/review-pr` for a PR |
 | `/webperf` | Verify | Measure a page, fix the worst bottleneck, measure again, keep or revert |
 | `/code-simplify` | Review | Simplify the changed code with no change in behaviour, one change and one test run at a time |
 | `/ship` | Ship | A go or no-go gate on plan, tests, review, and constraints, then `/create-pr` |
@@ -31,7 +31,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 
 | Skill | Phase | Purpose |
 |---|---|---|
-| `/work-on` | Router | Run a playbook of the commands from a ticket, an idea, or a map to draft PRs. It stops only at the stops H0 to H5: the map, the spec, the plan, an open decision, an action on the pause list, and the `/retro` picks. |
+| `/work-on` | Router | Run a playbook of the commands from a ticket, several tickets built side by side into one stack, an idea, or a map to draft PRs. It stops only at the stops H0 to H5: the map, the spec, the plan, an open decision, an action on the pause list, and the `/retro` picks. |
 | `/pick-next-task` | Discovery | Rank your team's open tickets by focus, priority, iteration, and effort. You pick up to three, then each is assigned, moved to in progress, and given its `/plan` command |
 | `/refine-ticket` | Discovery | Grill out each ambiguity in a ticket, derive lettered ACs from its user story, and write a plain summary, then write both back to the ticket after one yes |
 | `/scope-ticket` | Discovery | Size a ticket with cheap probes, then give one verdict (SCOPED, SPLIT, or CLARIFY) and offer a points estimate. On CLARIFY, `/refine-ticket` asks the questions, then the scope runs again. On a direct run, the split path hands off to `/split-ticket` |
@@ -57,7 +57,6 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/stand-up` | Anytime | Show your day as one table per epic, from your tickets, PRs, review requests, and branches, then write a news bulletin about the day |
 | `/gazette` | Anytime | Print a one-page HTML newspaper for a time window from `/stand-up` and `/codebase-news` across your repos, with the board, the CI weather, and an honour roll |
 | `/mob-review` | Review | Run every in-scope persona over a branch or PR and write the ranked findings to an HTML report. On your own branch, it fixes each finding that has a fix, commits once, and reports what stays open. Its ticks on the open rows build the `/engineering:apply-review` prompt, or in a plan the `/engineering:build` prompt. On someone else's branch, it drops the nits, and its ticks build the `/engineering:post-review-comments` prompt. In a plan, it records the report in the review step |
-| `/light-review` | Review | Run the essential lanes of the panel (correctness, security, error handling, code quality, naming, test design, test quality, architecture, comments, and skills) and fix and report as `/engineering:mob-review` does, with the same ticks and prompts |
 | `/interrogate` | Review | Send panel adversaries to break the change, each in its own worktree. A script re-runs the command of each finding, and only a proven finding that breaks the intent stays in the report. Each other finding goes to the Dropped list with its reason. Applies no fix: the report's ticks build the `/engineering:fix` prompt |
 | `/babysit` | Ship | Watch your PRs in the background. A CI or review change on a PR calls the notifier once and moves its chip on line 1 of the status line. A stack watches its lowest open PR |
 | `/blast-radius` | Review | Find what a change can break outside its diff. Prove the one fact that makes it safe by a run, and name the rung of the five-rung ladder that it reached and the command that proved it. Gives the verdict `clear` or `risk`. Applies no fix. `/work-on` runs `/interrogate` on `risk` |

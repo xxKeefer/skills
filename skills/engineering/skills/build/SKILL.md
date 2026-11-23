@@ -65,7 +65,7 @@ prompt. A fix round adds a new test and review only when the round can change be
      behaviour that the branch changes has a test. Put it before the review step.
    - `**<n>. Review.** Review the branch with this plan: <plan path>. This step changes no
      code.` Its done line: the report path and the reviewed base and head SHAs are in this line.
-     Name `/engineering:light-review`.
+     Name `/engineering:mob-review`.
 
    To add a new round, add a new test step and a new review step after the last review step. Copy
    the text of the last test step and the last review step. In the new review step, add the row
@@ -118,17 +118,20 @@ For each remaining step, in plan order:
 6. If the check fails, stop the run and go to Step 4.
 7. After a review step that is done, read its report from the step's done line, and decide the
    next round:
-   1. If a row at tier Change Requested stays open, write one `D` entry in the format of
-      `STEP.md`. Name the open rows and the report path. Option A: tick the rows in the report and
-      run its prompt, which adds a fix step for each. Option B: leave the rows open, with a reason
-      for each. The entry blocks the push step. Stop the loop.
+   1. If a row at tier Change Requested stays open, take the option that the row recommends. To
+      fix it, add a fix step for the row, as Step 1 item 1.2 says. To leave it open, write the
+      row's reason into the plan as a recorded decision. A row that keeps a plan decision stays
+      open with that decision as its reason. Write one `D` entry in the format of `STEP.md` only
+      for the rows that recommend no option, and stop the loop. Else go on to item 2.
    2. Else, if the review's fix commit changes runtime behaviour, add a new round, as Step 1
       item 7 says. Write it with `/update-plan`, and add its steps to the list. Use the same
       behaviour rule as Step 1 item 1.3.
    3. Else stop the loop.
 
    Stop the loop after the third review step that the plan holds since its approval, even if a
-   fix changed behaviour. A run after Step 5 continues the count. Say so in the report.
+   fix changed behaviour. A run after Step 5 continues the count. Write each row that stays open
+   into the plan as a recorded decision, with its reason, and go on to Step 3. Say so in the
+   report.
 8. When a step returns a `B` entry, take the effort that you gave its subagent. Below the ceiling
    of rule 1 of the `models` block in `~/.claude/AGENTS.md`, do these steps:
    1. With `/update-plan`, write under the step: resume from the patch on the entry's `Work`
@@ -171,7 +174,8 @@ Give each step of a batch its own row. Take Workflow, Commit, and Tests from the
 return for that step. Status is `done`, the entry ID the
 subagent wrote, `skipped (<entry ID>)`, the failed check, or `not run`.
 
-Below the table, name the rule that stopped the loop, from the Step 2 done line. Name each skipped
+Below the table, name the rule that stopped the loop, from the Step 2 done line. After the third
+review step, also give the rows that stay open, each with its reason. Name each skipped
 step with the rule that allowed the skip.
 
 Then name the decision log, `decisions_<KEY>.tsv` beside the plan, when it exists. Say that `/sitrep`
@@ -181,8 +185,6 @@ Then give the next command:
 
 - An entry is pending: every entry under `## Pending Decisions` in full, in ID order. Then wait for
   the user's answers.
-- The loop stopped at the third review step: the open rows and the report path. Say to run
-  `/review`, or `/build` on the report's prompt.
 - Else: the QA report path, the result of each `agent` row, and only the `you` rows for the
   user. QA items that fail build a `/fix` prompt. When every item passes, run
   `/ship`.

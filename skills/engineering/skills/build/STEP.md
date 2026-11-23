@@ -24,7 +24,9 @@ line.
 1. Read the plan and every artifact the step references.
 2. If the plan says to resume from a patch file, run `git apply <patch>`. Then delete the patch
    file.
-3. If the step needs a decision that the plan does not record, write a `D` entry and return.
+3. If the step needs a decision that the plan does not record, and you can recommend one option,
+   take that option. Give it to `/update-plan` as a choice in item 3 of Commit. Write a `D` entry
+   and return only when no option has a reason to recommend it.
    A step that changes behaviour and names no seam needs one: ask for the seam. Never pick a seam
    yourself. A review fix step needs no seam: the report row is its spec.
 4. If the step edits a ticket, deploys, or writes to any other outside service, write an `N` entry
@@ -46,7 +48,7 @@ Use the first row that matches the step:
 | Trivial tweak: copy, a variant, a single prop | `trivial` | Make the edit. Run the existing tests for the files you touched. |
 | Anything else: docs, config, CI | `done line` | Make the change. |
 
-If you find an unrecorded decision partway through, save the work, write a `D` entry, and return.
+If you find an unrecorded decision partway through, take the option you can recommend, as Cold start item 3 says. With no option to recommend, save the work, write a `D` entry, and return.
 
 **Done when:** the step's done line holds.
 
@@ -117,6 +119,8 @@ run merges again and uses the answer.
 Write each entry under `## Pending Decisions` at the end of the plan. Create the section if it
 does not exist. Number each entry type in sequence across the file: `D1`, `D2`, `B1`, `N1`.
 
+A `D` entry names no recommended option. An option that you can recommend is a choice that you take, not an entry.
+
 In the `Blocks` line, list this step and every later step that depends on it. Use the plan's own
 dependency notes. If you are not sure that a step is independent, list it.
 
@@ -126,7 +130,7 @@ In an `N` entry, when the outside action is the whole step, the Action line is
 ```
 ### D1: <question> (found in step <id>)
 - A: <option>
-- B: <option> (recommended: <reason>)
+- B: <option>
 - C: <option>
 - Work: <patch path, or none>
 - Blocks: <step IDs>

@@ -37,6 +37,10 @@ def check_run(run):
         if not isinstance(run.get(key), str):
             found.append((f"{label}: `{key}` is missing or not a string", f"set `{key}` to a string"))
     rows = run.get("rows")
+    visuals = run.get("visuals")
+    shown = isinstance(visuals, list) and any(isinstance(v, dict) and not v.get("fold") for v in visuals)
+    if rows and not shown:
+        found.append((f"{label}: has rows but no visual that shows unfolded", "add a visual before the rows, such as `bars` of the rows by status"))
     if rows and not isinstance(rows, list):
         found.append((f"{label}: `rows` is not a list", "set `rows` to a list"))
     elif rows:

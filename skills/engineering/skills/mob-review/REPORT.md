@@ -1,6 +1,6 @@
 # The report
 
-Step 5 writes the report with these inputs. Light runs change some of them, as `light-review` says.
+Step 5 writes the report with these inputs.
 
 The coverage table shows the user what ran. Counts are after the Copilot filter. On someone
 else's code, the Nit column counts the nits that Step 4 dropped:
@@ -37,14 +37,17 @@ Give `/write-report` these inputs:
   - `answer`: on someone else's code, the count in each tier, and what the user does next. On
     your own code, the count of fixed and open findings, and the fix commit. Ask no question. If
     every persona is clean, say so plainly. A clean panel is a valid result.
-  - `visuals`: one `table` with the question "Which lanes ran, and what did each find?". It holds
-    the coverage table, one row for each lane. Set `fold`, so the findings start after the answer.
+  - `visuals`: first, `bars` with the question "How many rows does each tier hold?", one bar for
+    each tier with rows. On your own code, add a bar `Fixed` with the fixed count. Then one
+    `table` with the question "Which lanes ran, and what did each find?". It holds the coverage
+    table, one row for each lane. Set `fold` on the table, so the findings start after the bars.
   - `columns` and `rows`: below.
 
-Give each finding one row. The `persona-ac-check` findings come first. A PR can pass every lane
+Give each finding one row, except a finding that the panel fixed on your own code. A fixed
+finding gets no row: the `answer` gives the fixed count and the fix commit, and the coverage table
+counts it. The `persona-ac-check` findings come first. A PR can pass every lane
 and still build the wrong thing, so spec gaps do not compete in the lane ranking. The findings of
-every other lane follow, in the Step 4 order. On your own code, the open rows come before the
-fixed rows in each group.
+every other lane follow, in the Step 4 order.
 
 | Key | Label | Holds |
 |---|---|---|
@@ -52,8 +55,8 @@ fixed rows in each group.
 | `persona` | Persona | the name without the `persona-` prefix, such as `a11y` |
 | `where` | File:line | the `file:line` of the finding. Set `mono` |
 | `issue` | Issue | the summary, a blank line, then the detail |
-| `recommendation` | Recommendation | on someone else's code, the one fix that the draft asks for. On your own code, the fix that the panel made, or for an open row, the fix to make later |
-| `result` | Result | on your own code only. `Fixed` or `Open: <reason>` |
+| `recommendation` | Recommendation | on someone else's code, the one fix that the draft asks for, then one or two sentences on how the fix removes the problem, so the user understands the comment they post. On your own code, the options, as the rule below says |
+| `result` | Result | on your own code only. `Open: <reason>` |
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
 - Keep the personas' markdown links to `main`. If a finding cites out-of-diff code as a bare
@@ -64,5 +67,9 @@ fixed rows in each group.
   before it posts.
 - Each recommendation and each draft names one fix. When a suggestion names two, pick one as
   [`FIX.md`](FIX.md) item 2 says.
-- On someone else's code, give each row the tick `reply`. On your own code, give each open row the
-  tick `fix`, so the user can act on it after QA. A fixed row has no tick.
+- On your own code, an open row gives at least two options, one on each line, the recommended
+  one first: `A: <fix> (recommended: <reason>)`, then `B: leave open: <reason>`. A finding with
+  only one option is not a choice. Fix it as `FIX.md` says, or drop it and name it in the coverage
+  table.
+- On someone else's code, give each row the tick `reply`. On your own code, give each row the
+  tick `fix`, so the user can act on it after QA.

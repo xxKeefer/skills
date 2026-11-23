@@ -33,6 +33,7 @@ def payload(title="Run"):
         "run": {
             "title": title,
             "answer": "Tick the rows.",
+            "visuals": [{"question": "How many rows are open?", "bars": [["open", 2]]}],
             "columns": [{"key": "issue", "label": "Issue"}],
             "rows": [
                 {"ticks": ["reply"], "cells": {"issue": "one"}},
@@ -113,6 +114,16 @@ class CheckReport(unittest.TestCase):
         data["runs"][0]["rows"][0]["ticks"] = "reply"
         self.save(data)
         self.fails("bad `ticks`")
+
+        data = self.data()
+        del data["runs"][0]["visuals"]
+        self.save(data)
+        self.fails("no visual")
+
+        data = self.data()
+        data["runs"][0]["visuals"] = [{"question": "q", "fold": True, "bars": [["open", 2]]}]
+        self.save(data)
+        self.fails("no visual")
 
         data = self.data()
         data["runs"][0]["rows"] = 5

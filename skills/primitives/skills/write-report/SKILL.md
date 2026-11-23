@@ -92,21 +92,29 @@ Follow these rules:
 - **Top fields.** Set `title` and `skill` from this call. The script sets `path` to the absolute
   path from Step 1, and the prompt names it.
 - **Date.** The script sets `date` to today when the run has none.
-- **Answer.** One to three sentences: the verdict, and what the user does next.
-- **Visuals.** Each visual answers one question. Write that question in `question`. Leave out a
-  visual that answers no question that the user has. Use one of these types:
+- **Answer.** One or two sentences: the verdict, and what the user does next.
+- **Visuals.** The user decides from the picture, not from the text. A run with rows needs at
+  least one visual with no `fold`, before the rows, and `check_report.py` fails a run without
+  one. Each visual answers one question. Write that question in `question`. Leave out a visual
+  that answers no question that the user has. Use one of these types:
   - `mermaid` for graphs and flows.
   - `bars` for counts, as `[label, count]` pairs.
   - `table` for a small table of plain text.
   - `html` for inline SVG or hand-made CSS, when no other type fits. Tailwind classes work. The
-    page is dark: use `text-paper` for text, `bg-slab` for a panel, and `mag` for the accent.
+    page is a white newspaper sheet: use `text-ink` for text, `bg-code` for a panel, `border-rule`
+    for a hairline, and `accent` for the red accent.
 - **Fold.** Set `fold` on a visual that the user checks only sometimes, such as a long table.
   The page then shows only its question, and a click opens it. Do not fold a `mermaid` visual,
   because Mermaid can draw a closed graph at the wrong size.
 - **Rows.** Give one row to each item that the user can act on. The script gives each row with no
   `id` the ID `r<run>.<n>`, with `<n>` from 1 in row order, such as `r2.3`. `columns` gives each
   `key` and `label`. Set `mono` for code, such as `file:line`. Set `fold` for long text, such as
-  a draft reply. `cells` maps each column key to plain text.
+  a draft reply. `cells` maps each column key to plain text. Keep each cell that has no `fold`
+  to about 25 words, and move the rest into a column with `fold`.
+- **Cards.** The page shows each row as a card, two cards to a line. The first column and each
+  short one-line cell form the kicker. The `mono` cells form a byline. The first long cell is the
+  headline up to its first blank line, and the body after it. So put the summary first in that
+  cell, then a blank line, then the detail.
 - **Ticks.** `ticks` lists the actions that the user can tick for the row, such as `["reply"]`
   or `["fix", "reply", "resolve"]`. A row with no ticks gets no checkbox and no note field.
 - **Track.** The top-level `track` lists the ticks that only mark a row for the user, such as
@@ -133,9 +141,7 @@ Follow these rules:
 2. Run `python3 $SKILL_DIR/scripts/check_report.py <path>`. It prints `ok` and exits 0, or prints
    one line for each error in the `runs` block, with a fix, and exits 1. On exit 1, fix the temp
    file, and run both scripts again.
-3. Open the file in the default browser with the OS open command: `open` on macOS, `xdg-open`
-   on Linux. If the command fails, go on.
-4. Return the `file://` URL that the script printed, not a bare path. A caller shows this URL to
+3. Return the `file://` URL that the script printed, not a bare path. A caller shows this URL to
    the user, because an editor opens a bare path.
 
 **Done when:** both scripts exit 0, and you return the `file://` URL.

@@ -47,7 +47,7 @@ class WriteReport(unittest.TestCase):
                 "head": "abc1234",
                 "meta": {"PR": "#1"},
                 "answer": "Tick the rows.",
-                "visuals": [],
+                "visuals": [{"question": "How many rows are open?", "bars": [["open", 2]]}],
                 "columns": [{"key": "issue", "label": "Issue"}],
                 "rows": [
                     {"ticks": ["reply"], "cells": {"issue": "one"}},

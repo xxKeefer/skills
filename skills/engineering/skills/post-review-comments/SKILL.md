@@ -72,7 +72,7 @@ head. From here on, the PR head is the head.
    `git diff --merge-base origin/<base> <head> -- <path> | grep '^@@'`. A hunk `+<start>,<count>`
    holds the lines `<start>` to `<start> + <count> - 1`. A row outside every hunk, or on line 0,
    goes in the review body, as `` `<path>:<line>` `` and then its comment.
-4. Scan each draft as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says. The prefix line stays.
+4. Scan each draft as [`DRAFT-SCAN.md`](../../DRAFT-SCAN.md) says.
 5. Write each draft to `c<n>.md` in a folder from `mktemp -d`, with `<n>` from 1 in the order of
    the IDs. Use a quoted heredoc (`<<'EOF'`), so that backticks and `$` stay as written.
 
@@ -139,25 +139,33 @@ anchor on the wrong line.
 `/engineering:mob-review` writes each draft in this layout, with a blank line between the blocks:
 
 ````markdown
-**:robot: AI Review (<Tier>):**
+<what is wrong on this line, and what it breaks if it ships, in one or two short sentences>
 
-**Problem:** <what is wrong on this line, one or two short sentences>
-
-**Risk:** <the failure if it ships>
-
-**Proposed Solution:** <the fix, one sentence>
+<the fix, in one sentence>
 
 ```suggestion
 <the new text of the anchored line>
 ```
 ````
 
-- `<Tier>` is `Change Requested`, `Nit`, or `Future`. Every comment starts with this prefix line,
-  word for word.
-- Problem comes from the summary, Risk from the detail, and Proposed Solution from the suggestion.
-  Keep each one short. Do not restate the code. The reader can see the line.
+- Write in [the user's voice](#the-users-voice). Use no prefix line, no tier label, no bold
+  section labels, and no words that say an AI wrote the comment.
+- The first block comes from the summary and the detail, and the second from the suggestion. Keep
+  each one short. Do not restate the code. The reader can see the line.
 - Add the `suggestion` block only when the fix replaces the anchored line. Copy that line from the
   head with `git show "<head>:<path>" | sed -n '<line>p'`, and keep its indentation. Else describe
   the fix in Proposed Solution, and leave out the block.
 - Write for the PR author. Name no persona, and use no panel term such as `inScope`.
 - Keep each markdown link to `main` from the finding.
+
+## The user's voice
+
+Each draft reads as if the user wrote it, because the user posts it as their own.
+
+1. Find the user's login with `gh api user -q .login`. Read up to 20 of their recent review
+   comments on the repo:
+   `gh api "repos/<owner>/<repo>/pulls/comments?sort=created&direction=desc&per_page=100" --jq '[.[] | select(.user.login == "<login>")] | .[:20] | .[].body'`.
+2. Match their length, casing, punctuation, and tone. Start a nit with `nit:` only when their own
+   comments do.
+3. With no comments to read, write short, plain, first-person sentences, as one colleague to
+   another.
