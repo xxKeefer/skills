@@ -146,8 +146,8 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: the `/bulletin` row of the journal README, the journal `CLAUDE.md` data-flow line, and the Bulletin term of `CONTEXT.md` match the new entry. The plugin version stays 2.12.0, because no push has shipped it. This proves AC L still holds.
 - [x] **17. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
   - Done: the suite passes, and each behaviour that the branch changes has a test.
-- [ ] **18. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. The run 2 future row on `check_bulletin.py:74` stays open: do not raise it again.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **18. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. The run 2 future row on `check_bulletin.py:74` stays open: do not raise it again.
+  - Done: report `.ai/review_feat-bulletin.html` run 4, base 0472310, reviewed head 54d5818 (panel read 663c6fa). The panel fixed 11 of 11 findings. No second panel read the fixes.
 - [ ] **19. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
   - Done: the draft PR URL is in this line.
 
@@ -194,3 +194,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 15 done. `SKILL.md` (9.5 KB) scans with `--window <window_days>`, runs `occasions.py` through next Sunday, and sends charts to `/show-me` in inline SVG form. `LAYOUT.md` has the main and side frame, the four cards, the chart rule, and the story sections. Choice: the nine section names are the `data-id` prefixes of stories, and the plain `<section>` containers carry no `data-id`. Gates green. Commit d336e84.
 - 2026-11-24: step 16 done. The journal README row, the journal `CLAUDE.md` data-flow line, and the `CONTEXT.md` Bulletin term match the new entry. Plugin stays 2.12.0. Gates green. Commit 3986db0.
 - 2026-11-24: step 17 done. Both bulletin specs (23 and 23 tests) and both hook tests are green. The redesign counts as a new approved scope, so step 18 is its first review step, and the loop stops after it.
+- 2026-11-24: step 18 done. Run 4 found 11 issues (4 change requested, 7 nits) and fixed all 11 in ff39277 (code) and 54d5818 (docs). The worst: `ENTRY` stopped at the first nested `</article>`, so `state` lost ids and a backfill split an older entry. The plan already held three review steps, so the loop stops here, even though the fix changed runtime code. A test now covers nested cards, and a run of `add` and `state` over three nested entries ended with `check_bulletin.py` printing `ok`.
