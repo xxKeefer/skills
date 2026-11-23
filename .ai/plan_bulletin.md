@@ -113,9 +113,13 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: report `.ai/review_feat-bulletin.html`, base 0472310, reviewed head 4461b04 (panel read 33ce948). The panel fixed 9 of 9 findings, and no row stays open.
 - [x] **8. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
   - Done: the suite passes, and each behaviour that the branch changes has a test.
-- [ ] **9. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run the lanes that raised a finding in run 1 (a11y, code-quality, comments, skills, test-design, test-quality), and correctness, because `bulletin.py` and `check_bulletin.py` changed after the reviewed head. No row stays open from run 1, so tell the panel to raise no repeat of the run 1 rows.
+- [x] **9. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run the lanes that raised a finding in run 1 (a11y, code-quality, comments, skills, test-design, test-quality), and correctness, because `bulletin.py` and `check_bulletin.py` changed after the reviewed head. No row stays open from run 1, so tell the panel to raise no repeat of the run 1 rows.
+  - Done: report `.ai/review_feat-bulletin.html` run 2, base 0472310, reviewed head 036dfe7 (panel read 03139c9). The panel fixed 4 of 5 findings. One future row stays open.
+- [ ] **10. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
+  - Done: the suite passes, and each behaviour that the branch changes has a test.
+- [ ] **11. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run the lanes whose files changed after 036dfe7, and the lanes that raised a finding in run 2: correctness and test-design. Do not raise the open run 2 row again (the future row on `check_bulletin.py:74`), and do not raise any row that only repeats it. This is the third review step, so the loop stops after it.
   - Done: the report path and the reviewed base and head SHAs are in this line.
-- [ ] **10. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
+- [ ] **12. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
   - Done: the draft PR URL is in this line.
 
 ## Suggested skills
@@ -137,3 +141,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 6 done. Both specs and `pre-commit_test.sh` are green: 15 tests, 12 tests, 19 ok lines.
 - 2026-11-24: step 7 done. The panel read 33ce948 and found 9 issues (4 change requested, 5 nits). Fix commit 4461b04 fixed all 9. The fix changed `bulletin.py`, `check_bulletin.py`, and the `--window` rule of `SKILL.md`, so the run adds steps 8 and 9 as a second test and review round. Report: `.ai/review_feat-bulletin.html`.
 - 2026-11-24: step 8 done. Both bulletin specs (16 and 13 tests), both hook tests, and the journal and broadsheet specs are green.
+- 2026-11-24: step 9 done. Run 2 found 5 issues (1 change requested, 3 nits, 1 future). Fix commit 036dfe7 fixed 4: `add` keeps entries newest-first on a backfill, refuses an entry dated for another day, and exits 1 on a missing folder, and the check has a test for a placeholder in an attribute. The future row on `check_bulletin.py:74` stays open, because the persona marked it future and the impact is low. `add` changed, so the run adds steps 10 and 11 as the third and last round.

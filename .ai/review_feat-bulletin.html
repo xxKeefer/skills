@@ -60,6 +60,157 @@
  "skill": "/engineering:build",
  "runs": [
   {
+   "title": "Panel run 2",
+   "head": "03139c9",
+   "meta": {
+    "Base": "main 0472310",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-bulletin",
+    "Spec": ".ai/plan_bulletin.md",
+    "Fixed in": "036dfe7",
+    "Plan": "/home/xxkeefer/studio/code/skills.feat-bulletin/.ai/plan_bulletin.md"
+   },
+   "answer": "The panel found 5 issues and fixed 4 in commit 036dfe7. One future row stays open. Fix it only if you want the extra tests.",
+   "visuals": [
+    {
+     "question": "How many rows does each tier hold?",
+     "bars": [
+      [
+       "Change Requested",
+       1
+      ],
+      [
+       "Nit",
+       3
+      ],
+      [
+       "Future",
+       1
+      ],
+      [
+       "Fixed",
+       4
+      ]
+     ]
+    },
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "a11y",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "code-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "comments",
+        "-",
+        "-",
+        "-",
+        "ran (no comments in scope)"
+       ],
+       [
+        "correctness",
+        "1",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "skills",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "test-design",
+        "0",
+        "2",
+        "1",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "ac-check, decisions-log, pr-size",
+        "-",
+        "-",
+        "-",
+        "skipped (clean in run 1, files unchanged in kind)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "tier",
+     "label": "Tier"
+    },
+    {
+     "key": "persona",
+     "label": "Persona"
+    },
+    {
+     "key": "where",
+     "label": "File:line",
+     "mono": true
+    },
+    {
+     "key": "issue",
+     "label": "Issue"
+    },
+    {
+     "key": "recommendation",
+     "label": "Recommendation"
+    },
+    {
+     "key": "result",
+     "label": "Result"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "fix"
+     ],
+     "cells": {
+      "tier": "Future",
+      "persona": "test-design",
+      "where": "skills/journal/skills/bulletin/scripts/check_bulletin.py:74",
+      "issue": "An unrecognised file name skips the week check.\n\nThe check passes a mis-named file. The add path for a bad file name, the not-a-date branch of the check, and the usage exit 2 have no test. The impact is low, because the file is local and personal.",
+      "recommendation": "A: add one small test for each of the three branches (recommended: it costs three short tests and closes the gaps)\nB: leave open: the impact is low, and the branches are plain",
+      "result": "Open: the persona marked it future"
+     },
+     "id": "r2.1"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-24"
+  },
+  {
    "title": "Panel run",
    "head": "33ce948",
    "meta": {
