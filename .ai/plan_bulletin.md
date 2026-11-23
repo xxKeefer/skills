@@ -24,14 +24,19 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 - [x] **B.** Run it when the file exists and has no entry for today → the new entry goes above every older entry, and the older entries are byte-for-byte unchanged.
 - [x] **C.** Run it when the file has an entry for today → it writes nothing, scans nothing, and gives the path.
 - [x] **D.** A day passes with no run → the file has no entry for it, nothing fails, and the next entry says how many days it covers.
-- [x] **E.** An entry is written → the scan covers Monday to today only, and the entry names no note older than that window except in a goal's context.
-- [x] **F.** An entry is written → it gives each goal of the year, month, and week as served, not served, or carried, and says what changed since the latest earlier entry, or that it is the first of the week.
+- [ ] **E.** An entry is written → the scan covers Monday of last week to today, and the entry names no note older than that window except in a goal's context.
+- [ ] **F.** An entry is written → it gives each goal of the week as served, not served, or carried, and says what changed since the latest earlier entry, or that it is the first of the week. It names no yearly or monthly goal table.
 - [x] **G.** Earlier entries exist → each story is marked new, changed, or unchanged by its `data-id` against the latest earlier entry, and an unchanged story gets one line.
 - [x] **H.** The page is checked → the check fails on a suggestion row, a choice control, a prompt box, a script, an entry with no masthead, two entries for one day, entries out of newest-first order, an entry outside the file's ISO week, or a placeholder left over.
 - [x] **I.** The file name is built → `bulletin.py` gives the same week number as the broadsheet for every date, including the 2027-01-01 case in ISO year 2026 week 53.
 - [x] **J.** An entry is written and a place is set → it holds today's forecast from `weather.py` (conditions, high and low, chance of rain), or a line that says the forecast is not available, or a line that says to set a place.
 - [x] **K.** An entry is written → it lists the items that `occasions.py` gives as due today, and the items due on each later day of the week, by day, and says so when `occasions.md` has rows it cannot read.
 - [x] **L.** The skill is installed → the journal README lists `/bulletin`, the journal `CLAUDE.md` data flow names it, and the journal plugin version moves up one minor.
+- [ ] **M.** An entry is written → it has a main column with This week, Last week, Next week, and Reflect, and a side column with the weather, the events, and the chores.
+- [ ] **N.** An entry is written → Reflect holds four cards: Learning, Ideas, Friction, and What's next, each with items of this week and of last week, or a line that says it has none.
+- [ ] **O.** An entry is written → it holds at least one chart as inline SVG, each with `role="img"` and an `aria-label`, and the page check fails on an `<svg>` with neither.
+- [ ] **P.** The state is read → it gives `last_week_start` and `window_days`, so that the scan covers Monday of last week to today for every weekday.
+- [ ] **Q.** The page is checked → the check fails on an entry with no Reflect card for one of the four names, and passes an entry with all four.
 
 ## Context
 
@@ -49,6 +54,8 @@ Decisions:
 - Events: the skill runs `$SKILL_DIR/../../scripts/occasions.py` for today and for each later day of the week, and lists the due items by day. No bulletin script reads the `When` rules.
 - No suggestion rows, no choice controls, no prompts, no script on the page.
 - The entry's `data-id` is `<section>:<short kebab-case name>`, as in the broadsheet.
+
+Revision 2026-11-24: the user asked for a tighter focus on this week, last week, and next week, the weather and events in a side column, more charts through `/show-me`, and a masonry of reflect cards. Steps 12 to 19 do it. The year and month goal tables leave the entry. Charts are inline SVG, because the page has no script.
 
 Out of scope: the broadsheet reading the bulletin, vault suggestions, and moving past weeks to `chronicles/`.
 
@@ -74,6 +81,10 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 | J | weather | L | `weather.py` has its own tests, and the skill only calls it |
 | K | events | L | `occasions.py` has its own tests, and the skill only calls it |
 | L | docs and version | L | docs |
+| M, N | layout and reflect cards | L | the agent writes it from `SKILL.md`, and a reviewer reads it. The page check holds the card names |
+| O | chart labels | M | an unlabelled chart is invisible to a screen reader, and the check is the only guard |
+| P | window arithmetic | H | the first build got the window wrong by one day, and every weekday has its own value |
+| Q | reflect cards in the check | M | the check is the only guard on the page shape |
 
 ### Conditions
 
@@ -88,6 +99,10 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 | C7 | G | `state` gives the `data-id` list of the latest entry, and an empty list for the first entry | EP | Unit | `bulletin.spec.py` |
 | C8 | H | the check passes a good page | EP | Unit | `check_bulletin.spec.py` |
 | C9 | H | the check fails on each of: a `class="action"` row, a `<select>`, a `<textarea>`, a `<script>`, an entry with no masthead, two entries for one day, entries oldest first, an entry outside the file's week, a `{{placeholder}}` | decision table | Unit | `check_bulletin.spec.py` |
+
+| C10 | P | `state` gives `window_days` and `last_week_start` for each weekday Monday to Sunday, and for the 2027-01-01 case | BVA | Unit | `bulletin.spec.py` |
+| C11 | O | the check fails on an `<svg>` with no `role="img"`, and on one with no `aria-label`, and passes a labelled one | decision table | Unit | `check_bulletin.spec.py` |
+| C12 | Q | the check fails on an entry that lacks one of the four reflect cards, and passes an entry with all four | decision table | Unit | `check_bulletin.spec.py` |
 
 ### Not testing
 
@@ -119,7 +134,21 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: the suite passes, and each behaviour that the branch changes has a test.
 - [x] **11. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run correctness and test-design, which raised a finding in run 2, and code-quality and test-quality, whose files changed after the run 2 read of 03139c9. Do not raise the open run 2 row again (the future row on `check_bulletin.py:74`), and do not raise any row that only repeats it. This is the third review step, so the loop stops after it.
   - Done: report `.ai/review_feat-bulletin.html` run 3, base 0472310, reviewed head b632088 (panel read 67b884a). The panel fixed 3 of 3 findings. The loop stopped at the third review step.
-- [ ] **12. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
+- [ ] **12. State gives the window.** Seam: `state` in `skills/journal/skills/bulletin/scripts/bulletin.py`. Conditions: C10.
+  - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `state` also prints `last_week_start` and `window_days`, where `window_days` is the days from Monday of last week to today. They prove AC P.
+- [ ] **13. Check the new page shape.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C11, C12. The existing check tests must keep passing, so edit the `entry()` helper of the spec to hold the four cards.
+  - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green. The check fails on an `<svg>` with no `role="img"` or no `aria-label`, and on an entry with no card for one of Learning, Ideas, Friction, and What's next. A card is `<article class="card" data-card="learning|ideas|friction|next">`. They prove AC O and Q.
+- [ ] **14. Template.** Kind: docs.
+  - Done: `template.html` has a two-column `.layout` with a `.side` column that drops under the main column below 700px, a `.masonry` of `.card` items made with CSS columns, and the chart classes for SVG (`.chart`, `.fill-accent`, `.fill-muted`, `.axis`, `.label`). It has no inline style and no script. A sample entry in `/tmp` is added with `bulletin.py add`, and `check_bulletin.py` prints `ok` on it. The sample is rendered with the `agent-browser` tool at 1200px and at 480px wide, and each screenshot is read: the side column sits right and then below, the cards pack in columns, and the charts show. Delete the sample after.
+- [ ] **15. Skill text.** Kind: docs.
+  - Done: `SKILL.md` scans with `--window <window_days>`, reads last week and this week from the scan, runs `occasions.py` for each day of next week as well as today and the rest of this week, and draws charts with the rule of `/show-me`: inline SVG only. `LAYOUT.md` gives the new entry frame (main and side columns, the four main parts, the four reflect cards with their `data-card` values), the chart rule (`role="img"`, `aria-label`, a `<figcaption>`, classes only), the `data-id` sections (`week`, `last`, `next`, `reflect`, `weather`, `events`, `chores`, `board`, `notes`), and the rule that the entry holds no yearly or monthly goal table. It covers AC E, F, M, N, and O.
+- [ ] **16. Register.** Kind: docs.
+  - Done: the `/bulletin` row of the journal README, the journal `CLAUDE.md` data-flow line, and the Bulletin term of `CONTEXT.md` match the new entry. The plugin version stays 2.12.0, because no push has shipped it. This proves AC L still holds.
+- [ ] **17. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
+  - Done: the suite passes, and each behaviour that the branch changes has a test.
+- [ ] **18. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. The run 2 future row on `check_bulletin.py:74` stays open: do not raise it again.
+  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [ ] **19. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
   - Done: the draft PR URL is in this line.
 
 ## Suggested skills
@@ -145,3 +174,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 10 done. Both bulletin specs (20 and 15 tests) and both hook tests are green.
 - 2026-11-24: step 11 done. Run 3 found 3 nits. Fix commit b632088 fixed all 3: `insert` is now a pure function, the page keeps CRLF bytes, and an entry file with no final newline has a test. The third review step stops the loop, even though the fix changed `add`.
 - 2026-11-24: decision. The run 2 future row on `check_bulletin.py:74` stays open. Reason: the persona marked it future, the impact is low, and the file is local. To fix it, tick the row in `.ai/review_feat-bulletin.html` run 2, and run `/build` on the prompt.
+- 2026-11-24: the user asked for a redesign of the entry. The spec and the plan have new ACs M to Q and steps 12 to 19. The first build ends at step 11.
