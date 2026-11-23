@@ -47,7 +47,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report, with a setup table first. Its fail ticks build a `/engineering:fix` prompt |
 | `/qa-screenshots` | Closure | Run a `/happy-path` checklist in your own browser, add a screenshot per item to the QA report, and append a Manual QA section to the PR |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
-| `/create-pr` | Closure | Check the review for drift, lead with a visual summary, evidence, and the merge danger, fill the repo's PR template with an AC table, its gaps, and the merge line of a sub-task, then push and open a draft PR without asking |
+| `/create-pr` | Closure | Check the review for drift, write a masthead (a visual summary, the why, and details: merge order, flag, user-facing and functional change, gaps), fold the merge danger, evidence, AC table, repo PR template, tickets, and commits into collapsed blocks, then push and open a draft PR without asking |
 | `/sync-docs` | Maintenance | Sync docs to code |
 | `/domain-modeling` | Anytime | Build and sharpen the project's domain model (glossary, ADRs) |
 | `/pr-news` | Anytime | Table what happened over a time period on your open PRs and your review requests, one table per repo |

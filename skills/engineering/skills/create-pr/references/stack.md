@@ -27,14 +27,14 @@ not open as it is.
    - Run `gh pr list --head <its branch> --state all --json number`.
    - With no plan, no `branch` key, or no PR, use the key.
 
-## Step 5: the merge line
+## Step 4: the merge line
 
-Make the merge line the first line of the body:
+The merge line is the **Merge order** bullet in the Details of the masthead:
 
-- `merge: alone` gives `Merges alone.`
-- `merge: after <SUBKEY list>` gives `Merge after <list>.` Name each PR from Step 1, else its
-  sub-task key, such as `Merge after #12 and <SUBKEY>.`
-- In a gh stack with a base other than the default branch, add: `Merge after #<base PR>. After it
+- `merge: alone` gives `alone.`
+- `merge: after <SUBKEY list>` gives `after <list>.` Name each PR from Step 1, else its
+  sub-task key, such as `after #12 and <SUBKEY>.`
+- In a gh stack with a base other than the default branch, add: `after #<base PR>. When it
   merges, run gh stack sync, then merge this PR.` A squash merge of the lower PR leaves its old
   commits in this branch, and the sync drops them.
 
