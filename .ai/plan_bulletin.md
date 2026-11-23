@@ -111,7 +111,7 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: the gates are green.
 - [x] **7. Review.** Depends on every earlier step. Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code.
   - Done: report `.ai/review_feat-bulletin.html`, base 0472310, reviewed head 4461b04 (panel read 33ce948). The panel fixed 9 of 9 findings, and no row stays open.
-- [ ] **8. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
+- [x] **8. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
   - Done: the suite passes, and each behaviour that the branch changes has a test.
 - [ ] **9. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run the lanes that raised a finding in run 1 (a11y, code-quality, comments, skills, test-design, test-quality), and correctness, because `bulletin.py` and `check_bulletin.py` changed after the reviewed head. No row stays open from run 1, so tell the panel to raise no repeat of the run 1 rows.
   - Done: the report path and the reviewed base and head SHAs are in this line.
@@ -136,3 +136,4 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 5 done. README row, CLAUDE.md data flow, CONTEXT.md term, and plugin 2.12.0. The marketplace registry lists no versions.
 - 2026-11-24: step 6 done. Both specs and `pre-commit_test.sh` are green: 15 tests, 12 tests, 19 ok lines.
 - 2026-11-24: step 7 done. The panel read 33ce948 and found 9 issues (4 change requested, 5 nits). Fix commit 4461b04 fixed all 9. The fix changed `bulletin.py`, `check_bulletin.py`, and the `--window` rule of `SKILL.md`, so the run adds steps 8 and 9 as a second test and review round. Report: `.ai/review_feat-bulletin.html`.
+- 2026-11-24: step 8 done. Both bulletin specs (16 and 13 tests), both hook tests, and the journal and broadsheet specs are green.
