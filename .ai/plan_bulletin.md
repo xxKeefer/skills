@@ -20,14 +20,14 @@ Add the `bulletin` skill to the journal domain. It writes `{YYYY}-wk{ww}-bulleti
 
 ## Acceptance criteria
 
-- [ ] **A.** Run `/bulletin` when this week has no bulletin → it writes `{YYYY}-wk{ww}-bulletin.html` in the journal folder, with the ISO week of today, holding one entry with a masthead.
-- [ ] **B.** Run it when the file exists and has no entry for today → the new entry goes above every older entry, and the older entries are byte-for-byte unchanged.
+- [x] **A.** Run `/bulletin` when this week has no bulletin → it writes `{YYYY}-wk{ww}-bulletin.html` in the journal folder, with the ISO week of today, holding one entry with a masthead.
+- [x] **B.** Run it when the file exists and has no entry for today → the new entry goes above every older entry, and the older entries are byte-for-byte unchanged.
 - [x] **C.** Run it when the file has an entry for today → it writes nothing, scans nothing, and gives the path.
 - [x] **D.** A day passes with no run → the file has no entry for it, nothing fails, and the next entry says how many days it covers.
 - [ ] **E.** An entry is written → the scan covers Monday to today only, and the entry names no note older than that window except in a goal's context.
 - [ ] **F.** An entry is written → it gives each goal of the year, month, and week as served, not served, or carried, and says what changed since the latest earlier entry, or that it is the first of the week.
 - [ ] **G.** Earlier entries exist → each story is marked new, changed, or unchanged by its `data-id` against the latest earlier entry, and an unchanged story gets one line.
-- [ ] **H.** The page is checked → the check fails on a suggestion row, a choice control, a prompt box, a script, an entry with no masthead, two entries for one day, entries out of newest-first order, an entry outside the file's ISO week, or a placeholder left over.
+- [x] **H.** The page is checked → the check fails on a suggestion row, a choice control, a prompt box, a script, an entry with no masthead, two entries for one day, entries out of newest-first order, an entry outside the file's ISO week, or a placeholder left over.
 - [x] **I.** The file name is built → `bulletin.py` gives the same week number as the broadsheet for every date, including the 2027-01-01 case in ISO year 2026 week 53.
 - [ ] **J.** An entry is written and a place is set → it holds today's forecast from `weather.py` (conditions, high and low, chance of rain), or a line that says the forecast is not available, or a line that says to set a place.
 - [ ] **K.** An entry is written → it lists the items that `occasions.py` gives as due today, and the items due on each later day of the week, by day, and says so when `occasions.md` has rows it cannot read.
@@ -99,9 +99,9 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 
 - [x] **1. Name and state.** Seam: `state` in `skills/journal/skills/bulletin/scripts/bulletin.py`. Conditions: C1, C2, C5, C6, C7.
   - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `state <journal folder> --date <date>` prints `{path, exists, today_present, days, days_since_last, last_ids, week_start}`. They prove AC C, D, I, and the state half of A and G.
-- [ ] **2. Add an entry.** Seam: `add` in `bulletin.py`, and `skills/journal/skills/bulletin/template.html`. Conditions: C3, C4, C5.
+- [x] **2. Add an entry.** Seam: `add` in `bulletin.py`, and `skills/journal/skills/bulletin/template.html`. Conditions: C3, C4, C5.
   - Done: tests in `bulletin.spec.py`, written first and seen to fail, then green. `add <path> <entry file> --date <date>` creates the file from the template or inserts the entry above the older ones, and exits 1 for a day that has an entry. They prove AC A and B.
-- [ ] **3. Check the page.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C8, C9.
+- [x] **3. Check the page.** Seam: `skills/journal/skills/bulletin/scripts/check_bulletin.py`. Conditions: C8, C9.
   - Done: tests in `check_bulletin.spec.py`, written first and seen to fail, then green. The check prints `ok` or one line for each fault, and exits 1 on a fault. They prove AC H.
 - [ ] **4. Skill text.** Kind: docs.
   - Done: `SKILL.md` has the steps: resolve with `state`, stop when today is present, scan with `--window` from `week_start`, run `weather.py` for each place, run `occasions.py` for today and each later day, read the earlier entries, write the entry, `add`, `check`, open, reply. `LAYOUT.md` gives the entry placeholders (goals, weather, events, chores, board, notes) and the `data-id` rules. The frontmatter has `disable-model-invocation: true`, as every journal skill has. This covers AC E, F, G, J, and K.
@@ -126,3 +126,5 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 
 - 2026-11-24: plan written on `feat/bulletin`.
 - 2026-11-24: step 1 done. `bulletin.py` has `state` and `add`, `check_bulletin.py` and `template.html` exist, and both specs are green (steps 2 and 3 code landed with it). Commit 4925f0e.
+- 2026-11-24: step 2 done. C3, C4, C5 had tests in `bulletin.spec.py`; mutation checks (insert at end, no template fill, no same-day guard, no template) went red and were restored. AC A, B proven.
+- 2026-11-24: step 3 done. C8, C9 had tests in `check_bulletin.spec.py`; mutation checks on each fault rule went red and were restored. AC H proven.
