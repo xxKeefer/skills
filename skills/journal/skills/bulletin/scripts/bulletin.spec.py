@@ -16,6 +16,11 @@ def entry(day, ids=()):
     return f'<article class="entry" data-date="{day}"><header class="masthead">{day}</header><ul>{rows}</ul></article>\n'
 
 
+def nested(day, ids):
+    cards = "".join(f'<article class="card" data-card="x"><ul><li data-id="{i}">x</li></ul></article>' for i in ids)
+    return f'<article class="entry" data-date="{day}"><header class="masthead">{day}</header>{cards}</article>\n'
+
+
 def state(folder, date):
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
@@ -115,6 +120,21 @@ class State(Case):
     def test_last_ids_come_from_the_latest_entry_only(self):
         self.put("2026-wk48-bulletin.html", entry("2026-11-25", ["goals:a", "goals:b", "goals:a"]) + entry("2026-11-24", ["goals:old"]))
         self.assertEqual(state(self.dir, "2026-11-26")[1]["last_ids"], ["goals:a", "goals:b"])
+
+
+class Nested(Case):
+    def test_last_ids_reach_past_the_first_nested_card(self):
+        self.put("2026-wk48-bulletin.html", '<main id="entries">\n' + nested("2026-11-26", ["a", "b"]) + nested("2026-11-25", ["z"]) + "</main>")
+        self.assertEqual(state(self.dir, "2026-11-27")[1]["last_ids"], ["a", "b"])
+
+    def test_a_backfill_after_nested_entries_leaves_each_entry_whole(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        before = '<main id="entries">\n' + nested("2026-11-26", ["a", "b"]) + nested("2026-11-25", ["y", "z"]) + "</main>"
+        self.put("2026-wk48-bulletin.html", before)
+        self.assertEqual(self.add(path, nested("2026-11-24", ["q"]), "2026-11-24"), 0)
+        after = open(path, encoding="utf-8").read()
+        self.assertEqual(after, before.replace("</main>", nested("2026-11-24", ["q"]) + "</main>"))
+        self.assertIn(nested("2026-11-25", ["y", "z"]), after)
 
 
 class Add(Case):

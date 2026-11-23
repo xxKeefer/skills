@@ -25,6 +25,10 @@ class Page(HTMLParser):
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         classes = (a.get("class") or "").split()
+        self.check_tag(tag, attrs, a, classes)
+        self.track_entry(tag, a, classes)
+
+    def check_tag(self, tag, attrs, a, classes):
         for _, value in attrs:
             for found in PLACEHOLDER.findall(value or ""):
                 self.problems.append(f"placeholder {found} is still on the page")
@@ -34,10 +38,12 @@ class Page(HTMLParser):
             self.problems.append(f"<{tag}> is not allowed on a bulletin")
         if "action" in classes or "choice" in classes or "comment" in classes:
             self.problems.append(f"class {' '.join(classes)} is a suggestion row or choice control")
-        if tag == "svg" and (a.get("role") != "img" or not (a.get("aria-label") or "").strip()):
-            self.problems.append(f"svg {self.svgs} needs role=\"img\" and an aria-label")
         if tag == "svg":
+            if a.get("role") != "img" or not (a.get("aria-label") or "").strip():
+                self.problems.append(f"svg {self.svgs} needs role=\"img\" and an aria-label")
             self.svgs += 1
+
+    def track_entry(self, tag, a, classes):
         if tag == "article":
             if "entry" in classes and self.cur is None:
                 self.cur = {"date": a.get("data-date") or "", "masthead": False, "cards": set()}

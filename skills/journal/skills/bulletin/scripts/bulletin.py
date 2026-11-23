@@ -7,7 +7,7 @@ import re
 import sys
 from pathlib import Path
 
-ENTRY = re.compile(r'<article class="entry" data-date="(\d{4}-\d\d-\d\d)">.*?</article>', re.S)
+ENTRY = re.compile(r'<article class="entry" data-date="(\d{4}-\d\d-\d\d)">.*?</article>(?=\s*(?:<article class="entry"|</main>|\Z))', re.S)
 NAME = re.compile(r"(\d{4})-wk(\d\d)-bulletin\.html$")
 TEMPLATE = Path(__file__).resolve().parent.parent / "template.html"
 OPEN = re.compile(r'<main id="entries">\r?\n')

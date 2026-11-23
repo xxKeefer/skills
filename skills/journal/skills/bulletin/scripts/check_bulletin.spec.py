@@ -113,7 +113,8 @@ class Check(unittest.TestCase):
     def test_a_card_outside_the_entry_does_not_count(self):
         card = '<article class="card" data-card="learning"><p>x</p></article>'
         code, out = check(page(entry("2026-11-24", drop=("learning",)), card))
-        self.assertEqual(code, 1)
+        self.assertEqual((code, len(out.strip().splitlines())), (1, 1))
+        self.assertIn("learning", out)
 
     def test_each_entry_needs_its_own_cards(self):
         code, out = check(page(entry("2026-11-25"), entry("2026-11-24", drop=("ideas",))))
