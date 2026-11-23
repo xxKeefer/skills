@@ -64,6 +64,9 @@ class Check(unittest.TestCase):
     def test_a_placeholder_fails(self):
         self.assertEqual(check(page(entry("2026-11-24", extra="<p>{{weather}}</p>")))[0], 1)
 
+    def test_a_placeholder_in_an_attribute_fails(self):
+        self.assertEqual(check(page(entry("2026-11-24", extra='<li data-id="{{id}}">x</li>')))[0], 1)
+
     def test_a_page_with_no_entry_fails(self):
         self.assertEqual(check(page())[0], 1)
 

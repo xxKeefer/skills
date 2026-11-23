@@ -70,19 +70,32 @@ def add(path, entry_file, day):
     if week_of(path.name) != day.isocalendar()[:2]:
         print(f"{day} is not in the week of {path.name}", file=sys.stderr)
         return 1
+    if not path.parent.is_dir():
+        print(f"{path.parent} is not a folder", file=sys.stderr)
+        return 1
     entry = Path(entry_file).read_text(encoding="utf-8")
     if not entry.endswith("\n"):
         entry += "\n"
+    written = ENTRY.search(entry)
+    if not written or written.group(1) != day.isoformat():
+        print(f"the entry is not dated {day}", file=sys.stderr)
+        return 1
     text = load(path, day)
-    if day.isoformat() in [m.group(1) for m in ENTRY.finditer(text)]:
+    entries = list(ENTRY.finditer(text))
+    if day.isoformat() in [m.group(1) for m in entries]:
         print(f"{path} has an entry for {day}", file=sys.stderr)
         return 1
-    at = text.find(OPEN)
-    if at < 0:
+    if OPEN not in text:
         print(f"{path} has no entries section", file=sys.stderr)
         return 1
-    at += len(OPEN)
-    path.write_text(text[:at] + entry + text[at:], encoding="utf-8")
+    older = next((m for m in entries if m.group(1) < day.isoformat()), None)
+    if older:
+        at, new = older.start(), entry
+    elif entries:
+        at, new = entries[-1].end(), "\n" + entry.rstrip("\n")
+    else:
+        at, new = text.index(OPEN) + len(OPEN), entry
+    path.write_text(text[:at] + new + text[at:], encoding="utf-8")
     return 0
 
 

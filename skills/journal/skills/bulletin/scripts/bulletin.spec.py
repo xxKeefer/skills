@@ -137,6 +137,33 @@ class Add(Case):
         self.assertEqual(self.add(path, entry("2026-11-24", ["z"]), "2026-11-24"), 1)
         self.assertEqual(open(path).read(), before)
 
+    def test_a_backfilled_day_goes_below_newer_entries(self):
+        path = os.path.join(self.dir, "2026-wk47-bulletin.html")
+        self.add(path, entry("2026-11-20"), "2026-11-20")
+        before = open(path, encoding="utf-8").read()
+        self.assertEqual(self.add(path, entry("2026-11-18"), "2026-11-18"), 0)
+        after = open(path, encoding="utf-8").read()
+        self.assertLess(after.index('data-date="2026-11-20"'), after.index('data-date="2026-11-18"'))
+        self.assertEqual(after.replace(entry("2026-11-18"), "", 1), before)
+
+    def test_a_backfilled_day_goes_between_two_entries(self):
+        path = os.path.join(self.dir, "2026-wk47-bulletin.html")
+        self.add(path, entry("2026-11-17"), "2026-11-17")
+        self.add(path, entry("2026-11-20"), "2026-11-20")
+        self.assertEqual(self.add(path, entry("2026-11-18"), "2026-11-18"), 0)
+        text = open(path, encoding="utf-8").read()
+        order = [text.index(f'data-date="2026-11-{d}"') for d in (20, 18, 17)]
+        self.assertEqual(order, sorted(order))
+
+    def test_an_entry_dated_for_another_day_exits_1_and_writes_nothing(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        self.assertEqual(self.add(path, entry("2026-11-23"), "2026-11-24"), 1)
+        self.assertFalse(os.path.exists(path))
+
+    def test_a_missing_folder_exits_1(self):
+        path = os.path.join(self.dir, "gone", "2026-wk48-bulletin.html")
+        self.assertEqual(self.add(path, entry("2026-11-24"), "2026-11-24"), 1)
+
     def test_a_date_outside_the_file_week_exits_1_and_writes_nothing(self):
         path = os.path.join(self.dir, "2026-wk48-bulletin.html")
         self.assertEqual(self.add(path, entry("2026-12-01"), "2026-12-01"), 1)
