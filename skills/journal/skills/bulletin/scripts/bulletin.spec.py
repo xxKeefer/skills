@@ -155,6 +155,26 @@ class Add(Case):
         order = [text.index(f'data-date="2026-11-{d}"') for d in (20, 18, 17)]
         self.assertEqual(order, sorted(order))
 
+    def test_an_entry_file_with_no_final_newline_keeps_the_layout(self):
+        path = os.path.join(self.dir, "2026-wk47-bulletin.html")
+        self.add(path, entry("2026-11-18"), "2026-11-18")
+        self.assertEqual(self.add(path, entry("2026-11-20").rstrip("\n"), "2026-11-20"), 0)
+        self.assertEqual(self.add(path, entry("2026-11-16").rstrip("\n"), "2026-11-16"), 0)
+        text = open(path, encoding="utf-8").read()
+        self.assertEqual(text.count("</article><article"), 0)
+        self.assertEqual(text.count("</article>\n"), 3)
+
+    def test_a_crlf_page_keeps_every_older_byte(self):
+        path = os.path.join(self.dir, "2026-wk47-bulletin.html")
+        self.add(path, entry("2026-11-18"), "2026-11-18")
+        crlf = open(path, encoding="utf-8").read().replace("\n", "\r\n")
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            f.write(crlf)
+        self.assertEqual(self.add(path, entry("2026-11-20"), "2026-11-20"), 0)
+        with open(path, encoding="utf-8", newline="") as f:
+            after = f.read()
+        self.assertEqual(after.replace(entry("2026-11-20"), "", 1), crlf)
+
     def test_an_entry_dated_for_another_day_exits_1_and_writes_nothing(self):
         path = os.path.join(self.dir, "2026-wk48-bulletin.html")
         self.assertEqual(self.add(path, entry("2026-11-23"), "2026-11-24"), 1)
