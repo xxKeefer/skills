@@ -80,6 +80,21 @@ class State(Case):
         self.assertEqual(state(self.dir, "2026-11-22")[1]["week_start"], "2026-11-16")
         self.assertEqual(state(self.dir, "2026-11-23")[1]["week_start"], "2026-11-23")
 
+    def test_the_window_runs_from_monday_of_last_week_to_today(self):
+        cases = [
+            ("2026-11-23", "2026-11-16", 7),
+            ("2026-11-24", "2026-11-16", 8),
+            ("2026-11-25", "2026-11-16", 9),
+            ("2026-11-26", "2026-11-16", 10),
+            ("2026-11-27", "2026-11-16", 11),
+            ("2026-11-28", "2026-11-16", 12),
+            ("2026-11-29", "2026-11-16", 13),
+            ("2027-01-01", "2026-12-21", 11),
+        ]
+        for day, start, days in cases:
+            _, out = state(self.dir, day)
+            self.assertEqual((out["last_week_start"], out["window_days"]), (start, days), day)
+
     def test_today_present_when_an_entry_has_the_date(self):
         self.put("2026-wk48-bulletin.html", entry("2026-11-24") + entry("2026-11-23"))
         _, out = state(self.dir, "2026-11-24")

@@ -55,6 +55,7 @@ def state(folder, day):
         parser.feed(entries[0].group(0))
         last_ids = list(dict.fromkeys(parser.ids))
         since = (day - datetime.date.fromisoformat(days[0])).days
+    last_week_start = day - datetime.timedelta(days=day.weekday() + 7)
     return {
         "path": str(path),
         "exists": exists,
@@ -63,6 +64,8 @@ def state(folder, day):
         "days_since_last": since,
         "last_ids": last_ids,
         "week_start": (day - datetime.timedelta(days=day.weekday())).isoformat(),
+        "last_week_start": last_week_start.isoformat(),
+        "window_days": (day - last_week_start).days,
     }
 
 
