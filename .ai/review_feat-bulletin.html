@@ -60,6 +60,95 @@
  "skill": "/engineering:build",
  "runs": [
   {
+   "title": "Panel run 3",
+   "head": "67b884a",
+   "meta": {
+    "Base": "main 0472310",
+    "Folder": "/home/xxkeefer/studio/code/skills.feat-bulletin",
+    "Spec": ".ai/plan_bulletin.md",
+    "Fixed in": "b632088",
+    "Plan": "/home/xxkeefer/studio/code/skills.feat-bulletin/.ai/plan_bulletin.md"
+   },
+   "answer": "The panel found 3 nits and fixed all 3 in commit b632088. This is the third review, so the loop stops. The one open row of run 2 stays open.",
+   "visuals": [
+    {
+     "question": "How many rows does each tier hold?",
+     "bars": [
+      [
+       "Change Requested",
+       0
+      ],
+      [
+       "Nit",
+       3
+      ],
+      [
+       "Future",
+       0
+      ],
+      [
+       "Fixed",
+       3
+      ]
+     ]
+    },
+    {
+     "question": "Which lanes ran, and what did each find?",
+     "fold": true,
+     "table": {
+      "columns": [
+       "Persona",
+       "CR",
+       "Nit",
+       "Future",
+       "Status"
+      ],
+      "rows": [
+       [
+        "code-quality",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "correctness",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-design",
+        "0",
+        "1",
+        "0",
+        "ran"
+       ],
+       [
+        "test-quality",
+        "0",
+        "0",
+        "0",
+        "ran (clean)"
+       ],
+       [
+        "other lanes",
+        "-",
+        "-",
+        "-",
+        "skipped (clean in run 2, files unchanged in kind)"
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [],
+   "rows": [],
+   "run": 3,
+   "date": "2026-11-24"
+  },
+  {
    "title": "Panel run 2",
    "head": "03139c9",
    "meta": {

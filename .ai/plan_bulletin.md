@@ -117,8 +117,8 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: report `.ai/review_feat-bulletin.html` run 2, base 0472310, reviewed head 036dfe7 (panel read 03139c9). The panel fixed 4 of 5 findings. One future row stays open.
 - [x] **10. Test.** Run the project's test suite, and add a test for each changed behaviour that no test covers. This step changes no behaviour.
   - Done: the suite passes, and each behaviour that the branch changes has a test.
-- [ ] **11. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run correctness and test-design, which raised a finding in run 2, and code-quality and test-quality, whose files changed after the run 2 read of 03139c9. Do not raise the open run 2 row again (the future row on `check_bulletin.py:74`), and do not raise any row that only repeats it. This is the third review step, so the loop stops after it.
-  - Done: the report path and the reviewed base and head SHAs are in this line.
+- [x] **11. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. Run correctness and test-design, which raised a finding in run 2, and code-quality and test-quality, whose files changed after the run 2 read of 03139c9. Do not raise the open run 2 row again (the future row on `check_bulletin.py:74`), and do not raise any row that only repeats it. This is the third review step, so the loop stops after it.
+  - Done: report `.ai/review_feat-bulletin.html` run 3, base 0472310, reviewed head b632088 (panel read 67b884a). The panel fixed 3 of 3 findings. The loop stopped at the third review step.
 - [ ] **12. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
   - Done: the draft PR URL is in this line.
 
@@ -143,3 +143,5 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
 - 2026-11-24: step 8 done. Both bulletin specs (16 and 13 tests), both hook tests, and the journal and broadsheet specs are green.
 - 2026-11-24: step 9 done. Run 2 found 5 issues (1 change requested, 3 nits, 1 future). Fix commit 036dfe7 fixed 4: `add` keeps entries newest-first on a backfill, refuses an entry dated for another day, and exits 1 on a missing folder, and the check has a test for a placeholder in an attribute. The future row on `check_bulletin.py:74` stays open, because the persona marked it future and the impact is low. `add` changed, so the run adds steps 10 and 11 as the third and last round.
 - 2026-11-24: step 10 done. Both bulletin specs (20 and 15 tests) and both hook tests are green.
+- 2026-11-24: step 11 done. Run 3 found 3 nits. Fix commit b632088 fixed all 3: `insert` is now a pure function, the page keeps CRLF bytes, and an entry file with no final newline has a test. The third review step stops the loop, even though the fix changed `add`.
+- 2026-11-24: decision. The run 2 future row on `check_bulletin.py:74` stays open. Reason: the persona marked it future, the impact is low, and the file is local. To fix it, tick the row in `.ai/review_feat-bulletin.html` run 2, and run `/build` on the prompt.
