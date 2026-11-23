@@ -108,13 +108,17 @@ classes. The page holds no inline style.
 | `lead_*` | The biggest story of all sources: a breaking change, a storm, a release, or the first item of the bulletin's suggested order. A headline, a one-line standfirst, and two to four paragraphs |
 | `breaking_box` | `<div class="box breaking"><h3>Breaking</h3>…</div>` for each breaking change, with its migration. Empty when there is none |
 | `weather_body` | A table with one row per repo: the forecast, the pass rate, the build time, the test time, each metric, and the trends |
-| `your_desk_body` | An `<ol>`, one `<li>` per stand-up row, in the bulletin's suggested order. Start each item with `<span class="tag">TYPE</span>`. Then the bulletin as prose. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
-| `around_the_repos_body` | One `<article>` per codebase-news row: `<span class="repo">`, an `<h3>` headline, and the summary. Then each repo's news paragraph |
-| `board_body` | The board tickets grouped as Done, Started, New, and Blocked, each with its assignee |
+| `your_desk_lede` | The bulletin in one or two sentences: what to do first, and why. Plain text |
+| `your_desk_body` | One card per stand-up row, in the bulletin's suggested order. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
+| `around_the_repos_body` | One card per codebase-news row, with the repo as the label. Then each repo's news paragraph |
+| `board_body` | One card per board ticket, in the order Done, Started, New, then Blocked. The label is the status and the assignee |
 | `honour_roll_body` | The Step 4 roll |
 | `classifieds_body` | The stand-up notes, such as worktrees to remove, and each skipped source |
 | `colophon` | The sources, the window, and the time of print |
 
+- A card is `<article><span class="label">LABEL</span><h3>headline</h3><p>description</p></article>`.
+  The label is a few words, such as the row type and the repo. The headline names the PR or the
+  ticket. The description says in one or two sentences what changed or what to do.
 - Each PR, ticket, and commit that the page names is a link, with `target="_blank"` and
   `rel="noopener"`.
 - Write in plain prose with newspaper headlines. Facts only. Each cell traces to a reporter's
