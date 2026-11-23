@@ -96,7 +96,8 @@ untested behaviour, needs a product decision, or has two reasonable answers. For
 verdict, start with `No fix.` Then say what to do and why.
 When a better fix than the reviewer's exists, name it. When two fixes are reasonable, name both.
 
-**The draft reply.** Write it as the PR author, in one to three sentences:
+**The draft reply.** Write it in [the user's voice](../post-review-comments/SKILL.md#the-users-voice),
+in one to three sentences:
 
 - Valid or Partially valid: say what the fix changes. For Partially valid, say which part you take
   and why you leave the rest. Write no commit hash. `/engineering:apply-review` ends the reply with

@@ -55,7 +55,7 @@ every other lane follow, in the Step 4 order.
 | `persona` | Persona | the name without the `persona-` prefix, such as `a11y` |
 | `where` | File:line | the `file:line` of the finding. Set `mono` |
 | `issue` | Issue | the summary, a blank line, then the detail |
-| `recommendation` | Recommendation | on someone else's code, the one fix that the draft asks for. On your own code, the options, as the rule below says |
+| `recommendation` | Recommendation | on someone else's code, the one fix that the draft asks for, then one or two sentences on how the fix removes the problem, so the user understands the comment they post. On your own code, the options, as the rule below says |
 | `result` | Result | on your own code only. `Open: <reason>` |
 | `draft` | Draft reply | on someone else's code only. Set `fold` |
 
