@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run: python3 check_bulletin.spec.py"""
 import os
 import subprocess
 import sys
@@ -41,6 +40,11 @@ class Check(unittest.TestCase):
 
     def test_a_textarea_fails(self):
         self.assertEqual(check(page(entry("2026-11-24", extra="<textarea></textarea>")))[0], 1)
+
+    def test_each_banned_control_and_class_fails(self):
+        for extra in ("<input>", "<button>x</button>", '<li class="choice">x</li>', '<li class="comment">x</li>'):
+            with self.subTest(extra=extra):
+                self.assertEqual(check(page(entry("2026-11-24", extra=extra)))[0], 1)
 
     def test_a_script_fails(self):
         self.assertEqual(check(page(entry("2026-11-24", extra="<script>1</script>")))[0], 1)

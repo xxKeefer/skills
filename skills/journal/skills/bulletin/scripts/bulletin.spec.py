@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run: python3 bulletin.spec.py"""
 import contextlib
 import io
 import json
@@ -107,11 +106,17 @@ class Add(Case):
     def test_creates_the_file_with_one_entry(self):
         path = os.path.join(self.dir, "2026-wk48-bulletin.html")
         self.assertEqual(self.add(path, entry("2026-11-24"), "2026-11-24"), 0)
-        text = open(path).read()
+        text = open(path, encoding="utf-8").read()
         self.assertEqual(text.count('<article class="entry"'), 1)
         self.assertNotIn("{{", text)
-        self.assertIn("2026", text)
-        self.assertIn("48", text)
+        self.assertIn("Bulletin · 2026 week 48", text)
+
+    def test_a_page_with_no_entries_marker_is_left_unchanged(self):
+        path = os.path.join(self.dir, "2026-wk48-bulletin.html")
+        body = "<html><body></body></html>"
+        self.put("2026-wk48-bulletin.html", body)
+        self.assertEqual(self.add(path, entry("2026-11-24"), "2026-11-24"), 1)
+        self.assertEqual(open(path, encoding="utf-8").read(), body)
 
     def test_inserts_above_older_entries_and_keeps_their_bytes(self):
         path = os.path.join(self.dir, "2026-wk48-bulletin.html")

@@ -59,7 +59,7 @@ path.
 
 ## Step 2: Scan the vault, the sky, and the calendar
 
-The window is the days from `week_start` to today, with both days counted. Monday gives 1.
+The window is the days from `week_start` to today, with `week_start` not counted. Monday gives 0, and Tuesday gives 1.
 
 ```sh
 python3 $SKILL_DIR/../broadsheet/scripts/scan_vault.py <vault root> --journal <journal folder> --window <days>

@@ -3,12 +3,13 @@ import argparse
 import datetime
 import html.parser
 import json
-import os
 import re
 import sys
+from pathlib import Path
 
 ENTRY = re.compile(r'<article class="entry" data-date="(\d{4}-\d\d-\d\d)">.*?</article>', re.S)
-TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "template.html")
+NAME = re.compile(r"(\d{4})-wk(\d\d)-bulletin\.html$")
+TEMPLATE = Path(__file__).resolve().parent.parent / "template.html"
 OPEN = '<main id="entries">\n'
 
 
@@ -28,15 +29,23 @@ def name_for(day):
     return f"{year}-wk{week:02d}-bulletin.html"
 
 
-def read(path):
-    with open(path, encoding="utf-8") as f:
-        return f.read()
+def week_of(name):
+    match = NAME.match(name)
+    return (int(match.group(1)), int(match.group(2))) if match else None
+
+
+def load(path, day):
+    if path.is_file():
+        return path.read_text(encoding="utf-8")
+    year, week, _ = day.isocalendar()
+    text = TEMPLATE.read_text(encoding="utf-8")
+    return text.replace("{{year}}", str(year)).replace("{{week}}", f"{week:02d}")
 
 
 def state(folder, day):
-    path = os.path.join(folder, name_for(day))
-    exists = os.path.isfile(path)
-    entries = list(ENTRY.finditer(read(path))) if exists else []
+    path = Path(folder) / name_for(day)
+    exists = path.is_file()
+    entries = list(ENTRY.finditer(path.read_text(encoding="utf-8"))) if exists else []
     days = [m.group(1) for m in entries]
     last_ids = []
     since = None
@@ -46,7 +55,7 @@ def state(folder, day):
         last_ids = list(dict.fromkeys(parser.ids))
         since = (day - datetime.date.fromisoformat(days[0])).days
     return {
-        "path": path,
+        "path": str(path),
         "exists": exists,
         "today_present": day.isoformat() in days,
         "days": days,
@@ -57,28 +66,23 @@ def state(folder, day):
 
 
 def add(path, entry_file, day):
-    match = re.match(r"(\d{4})-wk(\d\d)-bulletin\.html$", os.path.basename(path))
-    year, week, _ = day.isocalendar()
-    if not match or (int(match.group(1)), int(match.group(2))) != (year, week):
-        print(f"{day} is not in the week of {os.path.basename(path)}", file=sys.stderr)
+    path = Path(path)
+    if week_of(path.name) != day.isocalendar()[:2]:
+        print(f"{day} is not in the week of {path.name}", file=sys.stderr)
         return 1
-    entry = read(entry_file)
+    entry = Path(entry_file).read_text(encoding="utf-8")
     if not entry.endswith("\n"):
         entry += "\n"
-    if os.path.isfile(path):
-        text = read(path)
-        if day.isoformat() in [m.group(1) for m in ENTRY.finditer(text)]:
-            print(f"{path} has an entry for {day}", file=sys.stderr)
-            return 1
-    else:
-        text = read(TEMPLATE).replace("{{year}}", str(year)).replace("{{week}}", f"{week:02d}")
+    text = load(path, day)
+    if day.isoformat() in [m.group(1) for m in ENTRY.finditer(text)]:
+        print(f"{path} has an entry for {day}", file=sys.stderr)
+        return 1
     at = text.find(OPEN)
     if at < 0:
         print(f"{path} has no entries section", file=sys.stderr)
         return 1
     at += len(OPEN)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(text[:at] + entry + text[at:])
+    path.write_text(text[:at] + entry + text[at:], encoding="utf-8")
     return 0
 
 

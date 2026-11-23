@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Checks a bulletin page. Prints ok and exits 0, or prints each problem and exits 1."""
 import datetime
-import os
 import re
 import sys
 from html.parser import HTMLParser
+from pathlib import Path
+
+import bulletin
 
 BANNED = {"select", "textarea", "script", "input", "button"}
 PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
@@ -50,13 +51,10 @@ class Page(HTMLParser):
 
 
 def problems(path):
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
     page = Page()
-    page.feed(text)
+    page.feed(Path(path).read_text(encoding="utf-8"))
     found = list(dict.fromkeys(page.problems))
-    match = re.match(r"(\d{4})-wk(\d\d)-bulletin\.html$", os.path.basename(path))
-    week = (int(match.group(1)), int(match.group(2))) if match else None
+    week = bulletin.week_of(Path(path).name)
     if not page.entries:
         found.append("the page has no entry")
     seen = []
