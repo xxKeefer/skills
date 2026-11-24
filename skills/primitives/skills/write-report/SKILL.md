@@ -75,7 +75,13 @@ shape:
     "rows": [
       {
         "ticks": ["reply"],
-        "cells": { "tier": "Blocker", "where": "src/cart.ts:42", "issue": "...", "draft": "..." }
+        "cells": { "tier": "Blocker", "where": "src/cart.ts:42", "issue": "...", "draft": "..." },
+        "visuals": [
+          {
+            "question": "How does the total go wrong?",
+            "mermaid": "sequenceDiagram\n  User->>Cart: add item\n  Cart-->>User: old total"
+          }
+        ]
       }
     ]
   }
@@ -102,7 +108,13 @@ Follow these rules:
   - `table` for a small table of plain text.
   - `html` for inline SVG or hand-made CSS, when no other type fits. Tailwind classes work. The
     page is a white newspaper sheet: use `text-ink` for text, `bg-code` for a panel, `border-rule`
-    for a hairline, and `accent` for the red accent.
+    for a hairline, and `accent` for the purple accent. Use `danger` (red), `warning` (yellow),
+    `info` (blue), and `success` (green) only for the meanings in **Tones**.
+- **Row visuals.** A row can have its own `visuals` list, with the same types and rules. The card
+  shows them after the body of its first long cell. Use a row visual when a picture of that one
+  item helps the user decide, such as how a defect happens or what a fix changes. Put the visuals
+  for the whole run, such as counts by tier, in the run `visuals`. Do not put a row visual in the
+  run `visuals`.
 - **Fold.** Set `fold` on a visual that the user checks only sometimes, such as a long table.
   The page then shows only its question, and a click opens it. Do not fold a `mermaid` visual,
   because Mermaid can draw a closed graph at the wrong size.
@@ -111,10 +123,19 @@ Follow these rules:
   `key` and `label`. Set `mono` for code, such as `file:line`. Set `fold` for long text, such as
   a draft reply. `cells` maps each column key to plain text. Keep each cell that has no `fold`
   to about 25 words, and move the rest into a column with `fold`.
-- **Cards.** The page shows each row as a card, two cards to a line. The first column and each
+- **Tones.** The first cell of a row and each bar label set a colour when they are one of these
+  words, before the first comma, in any case. Red means "act now": `blocker`, `critical`,
+  `change requested`, `bug`, `fail`, `failed`, `broken`, `high`, `valid`, `not done`, and
+  `review miss`. Yellow means "act soon": `major`, `medium`, `partially valid`, `warn`, `warning`,
+  `risk`, and `skill gap`. Blue means "context": `nit`, `minor`, `low`, `info`, `future`,
+  `question`, `suggestion`, and `unknown`. Green means "done or no action": `pass`, `passed`,
+  `ok`, `done`, `fixed`, `applied`, `resolved`, `replied`, `clear`, and `invalid`. Any other word
+  gets no tone. So put the tier or the status in the first column.
+- **Cards.** The page shows each row as a card, one card to a line. The first column and each
   short one-line cell form the kicker. The `mono` cells form a byline. The first long cell is the
   headline up to its first blank line, and the body after it. So put the summary first in that
-  cell, then a blank line, then the detail.
+  cell, then a blank line, then the detail. The row visuals come after the detail. The other long
+  cells come next, in column order, and the ticks come last.
 - **Ticks.** `ticks` lists the actions that the user can tick for the row, such as `["reply"]`
   or `["fix", "reply", "resolve"]`. A row with no ticks gets no checkbox and no note field.
 - **Track.** The top-level `track` lists the ticks that only mark a row for the user, such as
@@ -145,6 +166,11 @@ Follow these rules:
    the user, because an editor opens a bare path.
 
 **Done when:** both scripts exit 0, and you return the `file://` URL.
+
+To move a report to a new template with no new run, run
+`python3 $SKILL_DIR/scripts/write_report.py --rebuild <path>`. The script writes the current
+template around the `runs` block of the file, and keeps the block exactly as it is. It does not
+write `reports.js`. Then run `check_report.py` on the file.
 
 ## The prompt
 

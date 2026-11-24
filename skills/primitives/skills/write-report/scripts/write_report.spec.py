@@ -197,6 +197,28 @@ class WriteReport(unittest.TestCase):
         with open(self.path, encoding="utf-8") as f:
             self.assertEqual(f.read(), broken)
 
+    def test_rebuild_swaps_the_template_and_keeps_the_runs_block_exactly(self):
+        run(self.path, self.payload)
+        with open(self.path, encoding="utf-8") as f:
+            old = f.read()
+        block = BLOCK.search(old).group(2)
+        with open(self.path, "w", encoding="utf-8") as f:
+            f.write("<p>old layout</p>" + old)
+        result = subprocess.run(
+            ["python3", SCRIPT, "--rebuild", self.path],
+            capture_output=True,
+            text=True,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        with open(self.path, encoding="utf-8") as f:
+            new = f.read()
+        with open(TEMPLATE, encoding="utf-8") as f:
+            template = f.read()
+        self.assertEqual(BLOCK.search(new).group(2), block)
+        self.assertEqual(BLOCK.sub("", new), BLOCK.sub("", template))
+        self.assertEqual(result.stdout.strip(), "file://" + os.path.abspath(self.path))
+
 
 if __name__ == "__main__":
     unittest.main()

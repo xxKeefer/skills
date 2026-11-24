@@ -130,6 +130,43 @@ class CheckReport(unittest.TestCase):
         self.save(data)
         self.fails("`rows` is not a list")
 
+    def test_visual_errors(self):
+        data = self.data()
+        data["runs"][0]["visuals"].append({"bars": [["open", 2]]})
+        self.save(data)
+        self.fails("no string `question`")
+
+        data = self.data()
+        data["runs"][0]["visuals"].append({"question": "q"})
+        self.save(data)
+        self.fails("one of `mermaid`, `bars`, `table`, `html`")
+
+    def test_row_visual_errors(self):
+        data = self.data()
+        data["runs"][0]["rows"][0]["visuals"] = {"question": "q", "html": "<pre></pre>"}
+        self.save(data)
+        self.fails("bad `visuals`")
+
+        data = self.data()
+        data["runs"][0]["rows"][0]["visuals"] = [{"html": "<pre></pre>"}]
+        self.save(data)
+        self.fails("no string `question`")
+
+        data = self.data()
+        data["runs"][0]["rows"][0]["visuals"] = [{"question": "q", "mermaid": "a", "html": "b"}]
+        self.save(data)
+        self.fails("one of `mermaid`, `bars`, `table`, `html`")
+
+    def test_good_row_visuals_pass(self):
+        data = self.data()
+        data["runs"][0]["rows"][0]["visuals"] = [
+            {"question": "How does it fail?", "mermaid": "flowchart LR\n  A --> B"},
+            {"question": "What changes?", "html": "<pre>+ x</pre>"},
+        ]
+        self.save(data)
+        result = check(self.path)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
