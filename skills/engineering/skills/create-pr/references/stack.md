@@ -45,3 +45,6 @@ The merge line is the **Merge order** bullet in the Details of the masthead:
 2. With no open PR, open it with `gh stack submit --auto`. This opens drafts and links the stack
    on GitHub. Then set the title and the body with `gh pr edit`, and request the bot review with
    the `gh api` call in Step 7 of `SKILL.md`.
+3. After the push, list each branch above this one in `gh stack view` that lacks the new commit.
+   When the worktree of each of those branches is clean, run `gh stack sync` and say which PRs it
+   rebased. Else name each worktree with changes, and say that the sync waits for it.

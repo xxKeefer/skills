@@ -150,11 +150,15 @@ the same key, so both runs go to one file.
        verdict.
      - `columns` and `rows`: from Step 2. When no row has a thread, leave out `draft` and
        `thread`.
-     - Row `visuals`: give each row whose verdict is `Valid` or `Partially valid`, and whose fix
-       changes logic, one `html` visual with the question "What changes in <the place>?". Make it
-       as the pseudocode panel in
-       [`mob-review/REPORT.md`](../mob-review/REPORT.md#the-report) says: the `file:line`, then
-       the fix as a diff. A fix to text, a name, or a style gets no visual.
+     - Row `visuals`, made with the rules in
+       [`mob-review/REPORT.md`](../mob-review/REPORT.md#the-report):
+       1. Every row gets a context visual with the question "What does the reviewer see in <the
+          place>?". Use a `mermaid` diagram, or an `html` visual with the `file:line` and the code
+          path as pseudocode. Show the claim of the reviewer, and the part of the code that makes
+          the verdict true.
+       2. A row whose verdict is `Valid` or `Partially valid`, and whose fix changes logic, also
+          gets the pseudocode panel, with the question "What changes in <the place>?": the
+          `file:line`, then the fix as a diff.
 
 **Done when:** the report holds the new run, and its JSON block parses.
 
