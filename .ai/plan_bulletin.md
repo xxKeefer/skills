@@ -148,8 +148,8 @@ Gates: `python3 skills/journal/skills/bulletin/scripts/bulletin.spec.py`, `pytho
   - Done: the suite passes, and each behaviour that the branch changes has a test.
 - [x] **18. Review.** Review the branch with this plan: `.ai/plan_bulletin.md`. This step changes no code. Name `/engineering:mob-review`. The run 2 future row on `check_bulletin.py:74` stays open: do not raise it again.
   - Done: report `.ai/review_feat-bulletin.html` run 4, base 0472310, reviewed head 54d5818 (panel read 663c6fa). The panel fixed 11 of 11 findings. No second panel read the fixes.
-- [ ] **19. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
-  - Done: the draft PR URL is in this line.
+- [x] **19. Push.** Push the branch and open a draft PR with `/create-pr @.ai/plan_bulletin.md`.
+  - Done: https://github.com/xxKeefer/skills/pull/92
 
 ## Suggested skills
 
