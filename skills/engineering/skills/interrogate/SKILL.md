@@ -109,7 +109,10 @@ Write one report with `/write-report`:
   findings."
 - `columns`: `title`, `command` (mono), `output` (mono, fold), `intent`, and `adversaries`.
 - `rows`: one row for each kept finding, with `ticks: ["fix"]`. In `output`, keep the lines around
-  the evidence line, at most 40 lines.
+  the evidence line, at most 40 lines. Give each row one row visual, made with the rules of
+  `/primitives:show-me`: a `mermaid` sequence diagram or flowchart with the question "How does
+  <the break> happen?". It goes from the input of the command to the output that breaks the
+  intent. Check each step in it against the code at the head from Step 1.
 - `visuals`: a table that answers "What did each adversary drop, and why?". It has one row for
   each adversary: the adversary, the count of dropped findings, and each reason with its count.
   Add each dropout as a row with the reason `no findings JSON`.
