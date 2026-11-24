@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      const palette = { danger: "#b91c1c", warning: "#b45309", info: "#1d4ed8", success: "#15803d" };
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { ink: "#121212", paper: "#ffffff", muted: "#727272", rule: "#dfdfdf", code: "#f3f3f3", accent: "#6d28d9", ...palette },
+            fontFamily: {
+              sans: ['"Atkinson Hyperlegible Next"', "system-ui", "sans-serif"],
+              serif: ['"Noto Serif"', "Georgia", "serif"],
+              mono: ['"JetBrains Mono"', "Menlo", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose" });
+      await mermaid.run({ querySelector: ".mermaid" });
+    </script>
+    <style>
+      .cell { white-space: pre-wrap; }
+      .kicker { font: 700 0.72rem/1.3 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: 0.08em; }
+      .tag { display: inline-block; font: 700 0.68rem/1.6 "JetBrains Mono", monospace; color: #fff; background: #6d28d9; padding: 0 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+      input[type="checkbox"] { accent-color: #6d28d9; width: 1rem; height: 1rem; }
+      ::selection { background: #6d28d9; color: #fff; }
+      summary::marker { color: #6d28d9; }
+    </style>
+  </head>
+  <body class="bg-paper text-ink font-sans text-[17px] leading-relaxed">
+    <main class="mx-auto max-w-[1240px] px-6 pt-10 md:px-14">
+      <header id="report-head" class="mb-10 text-center"></header>
+      <details id="other-reports" hidden class="mb-10 text-sm">
+        <summary class="kicker cursor-pointer text-accent"></summary>
+        <ul class="mt-3 columns-1 gap-10 font-mono text-xs md:columns-3"></ul>
+      </details>
+      <div id="report-runs" class="space-y-24"></div>
+      <section id="prompt-box" hidden class="sticky bottom-0 mt-16 border-t-[3px] border-double border-accent bg-paper pb-5 pt-4">
+        <textarea id="prompt" readonly class="h-32 w-full border border-ink bg-code p-3 font-mono text-sm text-ink focus:border-accent focus:outline-none"></textarea>
+        <div class="mt-3 flex items-center gap-4">
+          <button id="copy" type="button" class="kicker bg-accent px-5 py-2 text-paper hover:bg-ink">Copy prompt</button>
+          <span id="copied" class="kicker text-accent"></span>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="runs">
+{
+ "title": "QA: journal bulletin skill",
+ "path": "/home/xxkeefer/studio/code/skills.feat-bulletin/.ai/qa_feat-bulletin.html",
+ "skill": "/engineering:fix",
+ "track": [
+  "pass"
+ ],
+ "runs": [
+  {
+   "title": "Happy path, after the redesign",
+   "head": "2fb8137",
+   "meta": {
+    "Range": "main...HEAD"
+   },
+   "answer": "The redesign changed the entry to a main column and a side column, with four Reflect cards and inline SVG charts. The state script now gives last_week_start and window_days, the entry pattern reads nested cards whole, and the check script tests the svg label and the four cards. Set up the state in the first table, then run the items in order. The agent runs the agent items and reports each result. You run the you items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.",
+   "visuals": [
+    {
+     "question": "What must be in place before you start?",
+     "table": {
+      "columns": [
+       "Item",
+       "Initial state"
+      ],
+      "rows": [
+       [
+        "Run the change",
+        "From the repo root of the feat/bulletin worktree. Scripts are in skills/journal/skills/bulletin/scripts/. Python 3 only. The render items need agent-browser and a Chromium; set AGENT_BROWSER_EXECUTABLE_PATH to the Chromium binary."
+       ],
+       [
+        "Accounts",
+        "None needed."
+       ],
+       [
+        "Data that must exist",
+        "An empty temp folder for the agent items. For the you items: a vault with a journal folder that holds occasions.md."
+       ],
+       [
+        "Data that must not exist",
+        "No bulletin page in the test folder at the start."
+       ],
+       [
+        "Do not touch",
+        "Your live vault journal folder, until the you items. The skill writes one page there."
+       ],
+       [
+        "Cleanup",
+        "Delete the temp folder and the screenshots. Delete the test page from the journal folder after the you items."
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "area",
+     "label": "Area"
+    },
+    {
+     "key": "by",
+     "label": "By"
+    },
+    {
+     "key": "step",
+     "label": "Step"
+    },
+    {
+     "key": "expect",
+     "label": "Expect"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Tests",
+      "by": "agent",
+      "step": "Run bulletin.spec.py, check_bulletin.spec.py, .githooks/pre-commit_test.sh, and .githooks/commit-msg_test.sh.",
+      "expect": "Each exits 0 with no failed case."
+     },
+     "id": "r2.1"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Add and check",
+      "by": "agent",
+      "step": "Build an entry with a main and a side column, four nested article.card cards, and a labelled inline SVG chart. Add it for 23, 25, and 24 Nov 2026 in that order. Run check_bulletin.py on the page.",
+      "expect": "Each add exits 0. The page holds 25, 24, 23 in that order. The check prints ok."
+     },
+     "id": "r2.2"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "State",
+      "by": "agent",
+      "step": "Run bulletin.py state on the page folder with --date 2026-11-25.",
+      "expect": "last_ids holds the ids of all four cards of the 25 Nov entry. last_week_start is 2026-11-16. window_days is 9."
+     },
+     "id": "r2.3"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Check rules",
+      "by": "agent",
+      "step": "Remove role and aria-label from each svg in a copy of the page. In a second copy, remove the friction card. Run check_bulletin.py on each.",
+      "expect": "Each exits 1. One names the svg that needs role and aria-label. The other names the missing friction card."
+     },
+     "id": "r2.4"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Render wide",
+      "by": "agent",
+      "step": "Open the page in agent-browser at 1200px wide. Take a full-page screenshot and read it.",
+      "expect": "The main column is about twice the side column. The four Reflect cards sit in two masonry columns. The page has no sideways scroll."
+     },
+     "id": "r2.5"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Render narrow",
+      "by": "agent",
+      "step": "Open the page at 480px wide. Take a full-page screenshot and read it.",
+      "expect": "The side column sits below the main column. The Reflect cards sit in one column. The page has no sideways scroll."
+     },
+     "id": "r2.6"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Page look",
+      "by": "you",
+      "step": "Open the page that the add step made, in your own browser. Resize the window.",
+      "expect": "The page reads as a newspaper. The charts are clear, and the chart text is not too big."
+     },
+     "id": "r2.7"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill run",
+      "by": "you",
+      "step": "Run /journal:bulletin in your vault.",
+      "expect": "The new entry has a main column, a side column, a This week, Last week, Next week, and Reflect section, four Reflect cards, and at least one chart. The check prints ok."
+     },
+     "id": "r2.8"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill re-run",
+      "by": "you",
+      "step": "Run /journal:bulletin a second time on the same day.",
+      "expect": "The skill stops, says that today's entry exists, and changes no file."
+     },
+     "id": "r2.9"
+    }
+   ],
+   "run": 2,
+   "date": "2026-11-24"
+  },
+  {
+   "title": "Happy path",
+   "head": "47aa5e3",
+   "meta": {
+    "Range": "main...HEAD"
+   },
+   "answer": "The branch adds the /journal:bulletin skill: a state and add script, a check script, a page template, and the skill and layout docs. Set up the state in the first table, then run the items in order. The agent runs the agent items and reports each result. You run the you items. Tick pass or fail on each item. For a fail, write what happened in its note, then copy the prompt.",
+   "visuals": [
+    {
+     "question": "What must be in place before you start?",
+     "table": {
+      "columns": [
+       "Item",
+       "Initial state"
+      ],
+      "rows": [
+       [
+        "Run the change",
+        "From the repo root of the feat/bulletin worktree. Scripts are in skills/journal/skills/bulletin/scripts/. Python 3 only."
+       ],
+       [
+        "Accounts",
+        "None needed."
+       ],
+       [
+        "Data that must exist",
+        "An empty temp folder for the agent items. For the you items: a vault with a journal folder that holds occasions.md."
+       ],
+       [
+        "Data that must not exist",
+        "No bulletin page in the test folder at the start."
+       ],
+       [
+        "Do not touch",
+        "Your live vault journal folder, until the you items. The skill writes one page there."
+       ],
+       [
+        "Cleanup",
+        "Delete the temp folder. Delete the test page from the journal folder after the you items."
+       ]
+      ]
+     }
+    }
+   ],
+   "columns": [
+    {
+     "key": "area",
+     "label": "Area"
+    },
+    {
+     "key": "by",
+     "label": "By"
+    },
+    {
+     "key": "step",
+     "label": "Step"
+    },
+    {
+     "key": "expect",
+     "label": "Expect"
+    }
+   ],
+   "rows": [
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Tests",
+      "by": "agent",
+      "step": "Run the three spec and hook tests: bulletin.spec.py, check_bulletin.spec.py, .githooks/pre-commit_test.sh.",
+      "expect": "Each exits 0 and prints OK."
+     },
+     "id": "r1.1"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "State",
+      "by": "agent",
+      "step": "Run bulletin.py state on an empty folder with --date 2026-11-23.",
+      "expect": "exists false, days empty, days_since_last null, week_start 2026-11-23, path ends 2026-wk48-bulletin.html."
+     },
+     "id": "r1.2"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Add",
+      "by": "agent",
+      "step": "Add entries for 11-23, 11-24, and 11-27 in turn with --date.",
+      "expect": "Each exits 0. The page holds the entries newest first: 11-27, 11-24, 11-23."
+     },
+     "id": "r1.3"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Gap day",
+      "by": "agent",
+      "step": "Run state with --date 2026-11-29 after the 11-27 entry.",
+      "expect": "days_since_last is 2, today_present is false, last_ids lists the ids of the 11-27 entry."
+     },
+     "id": "r1.4"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Same-day re-run",
+      "by": "agent",
+      "step": "Add the 11-27 entry again. Compare the file checksum before and after.",
+      "expect": "Exit 1 with a message. The checksum does not change."
+     },
+     "id": "r1.5"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Backfill",
+      "by": "agent",
+      "step": "Add an entry for 11-25 after the 11-27 entry.",
+      "expect": "Exit 0. The order is 11-27, 11-25, 11-24, 11-23."
+     },
+     "id": "r1.6"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Refusals",
+      "by": "agent",
+      "step": "Add a 12-02 entry to the wk48 page. Add an entry dated 11-23 with --date 2026-11-26.",
+      "expect": "Both exit 1 with a message, and the page does not change."
+     },
+     "id": "r1.7"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Week 53",
+      "by": "agent",
+      "step": "Run state and add with --date 2027-01-01 in the temp folder.",
+      "expect": "The page is 2026-wk53-bulletin.html with the title 'Bulletin - 2026 week 53' and no placeholder. Then --date 2027-01-04 makes 2027-wk01-bulletin.html."
+     },
+     "id": "r1.8"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Check pass",
+      "by": "agent",
+      "step": "Run check_bulletin.py on the wk48 and wk53 pages.",
+      "expect": "Prints ok, exit 0."
+     },
+     "id": "r1.9"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Check fail",
+      "by": "agent",
+      "step": "Add a button to a copy of the page. Rename the copy to a different week. Run check_bulletin.py on it.",
+      "expect": "Exit 1. One line names the banned button, and one line for each entry outside the week."
+     },
+     "id": "r1.10"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Docs",
+      "by": "agent",
+      "step": "Read the journal README, journal CLAUDE.md, CONTEXT.md, and plugin.json in the diff.",
+      "expect": "Each names bulletin. plugin.json moves to 2.12.0."
+     },
+     "id": "r1.11"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Page look",
+      "by": "you",
+      "step": "Open the template page that the add step made, in a browser.",
+      "expect": "The page shows a masthead and a readable entry list, with the oxblood accent and no stray placeholder text."
+     },
+     "id": "r1.12"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill run",
+      "by": "you",
+      "step": "Run /journal:bulletin in your vault.",
+      "expect": "It writes the page in the journal folder, with goals first. The page opens in the browser, and check_bulletin.py prints ok."
+     },
+     "id": "r1.13"
+    },
+    {
+     "ticks": [
+      "pass",
+      "fail"
+     ],
+     "cells": {
+      "area": "Skill re-run",
+      "by": "you",
+      "step": "Run /journal:bulletin a second time on the same day.",
+      "expect": "It stops with the path, and says that today's entry is already on the page. The page does not change."
+     },
+     "id": "r1.14"
+    }
+   ],
+   "run": 1,
+   "date": "2026-11-24"
+  }
+ ]
+}
+</script>
+
+    <!-- reports.js lists the reports in this folder. Each write of a report writes it again. -->
+    <script src="reports.js"></script>
+    <script>
+      // The page builds itself from the runs block. Change the data, not this script.
+      const data = JSON.parse(document.getElementById("runs").textContent);
+      const tickCount = new Map();
+
+      const make = (tag, cls, text) => {
+        const node = document.createElement(tag);
+        if (cls) node.className = cls;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      const table = (labels, bodyRows) => {
+        const t = make("table", "w-full border-collapse text-sm");
+        const headRow = t.appendChild(make("thead")).appendChild(make("tr", "text-left"));
+        for (const label of labels) headRow.append(make("th", "kicker border-b border-ink py-2 pr-3 text-muted", label));
+        const body = t.appendChild(make("tbody"));
+        for (const cells of bodyRows) {
+          const tr = body.appendChild(make("tr", "border-b border-rule"));
+          for (const text of cells) tr.append(make("td", "cell py-2 pr-3 align-top", text));
+        }
+        return t;
+      };
+
+      const toneWords = {
+        danger: ["blocker", "critical", "change requested", "bug", "fail", "failed", "broken", "high", "valid", "not done", "review miss"],
+        warning: ["major", "medium", "partially valid", "warn", "warning", "risk", "skill gap"],
+        info: ["nit", "minor", "low", "info", "future", "question", "suggestion", "unknown"],
+        success: ["pass", "passed", "ok", "done", "fixed", "applied", "resolved", "replied", "clear", "invalid"],
+      };
+      const tone = (text) => {
+        const word = String(text ?? "").toLowerCase().split(",")[0].trim();
+        return Object.keys(toneWords).find((name) => toneWords[name].includes(word));
+      };
+
+      const visual = (v) => {
+        const wide = Boolean(v.mermaid || v.html);
+        const fig = make(v.fold ? "details" : "figure", `border-t-2 border-accent pt-3 ${wide ? "md:col-span-2" : ""}`);
+        fig.append(make(v.fold ? "summary" : "figcaption", `kicker mb-4 text-accent${v.fold ? " cursor-pointer" : ""}`, v.question));
+        if (v.mermaid) fig.append(make("pre", "mermaid bg-paper", v.mermaid));
+        if (v.bars) {
+          const max = Math.max(1, ...v.bars.map(([, count]) => count));
+          const list = fig.appendChild(make("div", "space-y-2"));
+          for (const [label, count] of v.bars) {
+            const line = list.appendChild(make("div", "grid grid-cols-[10rem_1fr] items-center gap-3 text-sm"));
+            line.append(make("span", "truncate", label));
+            const bar = line.appendChild(make("span", "block h-6 bg-ink px-2 font-mono text-xs font-bold leading-6 text-paper", String(count)));
+            bar.style.width = `max(2rem, ${(count / max) * 100}%)`;
+            if (tone(label)) bar.style.background = palette[tone(label)];
+            else if (count === max) bar.classList.replace("bg-ink", "bg-accent");
+          }
+        }
+        if (v.table) fig.append(table(v.table.columns, v.table.rows));
+        if (v.html) {
+          const box = fig.appendChild(make("div"));
+          box.innerHTML = v.html;
+        }
+        return fig;
+      };
+
+      // A tick named in data.track only marks the row. It adds nothing to the prompt.
+      const track = new Set(data.track || []);
+      const tickBar = (row) => {
+        const ticks = row.ticks || [];
+        tickCount.set(row.id, ticks.filter((kind) => !track.has(kind)).length);
+        const bar = make("div", "mt-auto flex flex-wrap items-center gap-4 border-t border-rule pt-3");
+        for (const kind of ticks) {
+          const label = bar.appendChild(make("label", "kicker flex cursor-pointer items-center gap-2"));
+          const box = make("input");
+          box.type = "checkbox";
+          box.dataset.id = row.id;
+          if (track.has(kind)) box.dataset.track = kind;
+          else box.dataset.tick = kind;
+          label.append(box, kind);
+        }
+        const note = bar.appendChild(make("input", "min-w-[8rem] flex-1 border-b border-rule bg-transparent px-1 py-1 text-sm placeholder:text-muted focus:border-accent focus:outline-none"));
+        note.type = "text";
+        note.placeholder = "Note";
+        note.dataset.note = row.id;
+        return bar;
+      };
+
+      const card = (run, row, withTicks) => {
+        const art = make("article", "flex flex-col gap-3 border-t border-ink pt-4");
+        const [first, ...rest] = run.columns;
+        const short = (col) => !col.mono && !col.fold && (row.cells[col.key] ?? "").length < 40 && !(row.cells[col.key] ?? "").includes("\n");
+        const kickers = [first, ...rest.filter(short)].filter(Boolean).map((col) => row.cells[col.key]).filter(Boolean);
+        const top = art.appendChild(make("div", "flex items-baseline gap-3"));
+        const tag = top.appendChild(make("span", "tag", row.id));
+        top.append(make("span", "kicker text-accent", kickers.join(" · ")));
+        const rowTone = tone(row.cells[first.key]);
+        if (rowTone) {
+          tag.style.background = palette[rowTone];
+          art.style.borderTop = `3px solid ${palette[rowTone]}`;
+        }
+        const byline = rest.filter((col) => col.mono).map((col) => row.cells[col.key]).filter(Boolean);
+        if (byline.length) art.append(make("p", "font-mono text-xs text-muted break-all", byline.join(" · ")));
+        let headline = false;
+        for (const col of rest.filter((c) => !c.mono && !short(c))) {
+          const text = row.cells[col.key] ?? "";
+          if (!text) continue;
+          if (col.fold) {
+            const fold = art.appendChild(make("details", "text-sm"));
+            fold.append(make("summary", "kicker cursor-pointer text-muted", col.label), make("div", "cell mt-2 border-l-2 border-accent pl-3", text));
+            continue;
+          }
+          if (!headline) {
+            headline = true;
+            const cut = text.indexOf("\n\n");
+            art.append(make("h3", "font-serif text-xl font-bold leading-snug", cut < 0 ? text : text.slice(0, cut)));
+            if (cut >= 0) art.append(make("p", "cell text-[15px] text-ink/80", text.slice(cut + 2)));
+            for (const v of row.visuals || []) art.append(visual(v));
+            continue;
+          }
+          const para = art.appendChild(make("div", "text-[15px]"));
+          para.append(make("p", "kicker mb-1 text-muted", col.label), make("p", "cell", text));
+        }
+        if (!headline) for (const v of row.visuals || []) art.append(visual(v));
+        if (withTicks && (row.ticks || []).length) art.append(tickBar(row));
+        return art;
+      };
+
+      document.title = data.title;
+      const head = document.getElementById("report-head");
+      const ears = head.appendChild(make("div", "flex justify-between gap-6 font-mono text-[11px] uppercase tracking-widest text-muted"));
+      ears.append(make("span", "truncate text-left", data.path), make("span", "", data.skill || ""));
+      head.append(
+        make("h1", "my-6 font-serif text-5xl font-bold leading-tight md:text-6xl", data.title),
+        make("div", "kicker border-b-[3px] border-t border-double border-b-accent border-t-ink py-2", `${data.runs.length} ${data.runs.length === 1 ? "run" : "runs"} · latest ${data.runs[0]?.date || ""}`),
+      );
+
+      const here = decodeURIComponent(location.pathname.split("/").pop());
+      const others = (window.REPORTS || []).filter((name) => name !== here);
+      if (others.length) {
+        const fold = document.getElementById("other-reports");
+        fold.hidden = false;
+        fold.querySelector("summary").textContent = `Other reports in this folder (${others.length})`;
+        const list = fold.querySelector("ul");
+        for (const name of others) {
+          const link = list.appendChild(make("li", "mb-1")).appendChild(make("a", "underline decoration-rule underline-offset-4 hover:text-accent hover:decoration-accent", name));
+          link.href = encodeURIComponent(name);
+        }
+      }
+
+      const view = document.getElementById("report-runs");
+      for (const run of data.runs) {
+        const section = view.appendChild(make("section", ""));
+        section.append(make("p", "kicker border-t-2 border-accent pt-3 text-accent", `Run ${run.run} · ${run.head || "no commit"} · ${run.date}`));
+        section.append(make("h2", "mt-3 font-serif text-4xl font-bold leading-tight", run.title));
+        const meta = Object.entries(run.meta || {}).map(([label, value]) => `${label}: ${value}`).join(" · ");
+        if (meta) section.append(make("p", "mt-2 font-mono text-xs text-muted break-all", meta));
+        section.append(make("p", "my-8 border-l-[3px] border-accent pl-4 font-serif text-xl italic leading-normal", run.answer));
+        const visuals = run.visuals || [];
+        if (visuals.length) {
+          const grid = section.appendChild(make("div", "mb-12 grid grid-cols-1 gap-x-14 gap-y-10 md:grid-cols-2"));
+          for (const v of visuals) grid.append(visual(v));
+        }
+        const rows = run.rows || [];
+        if (rows.length) {
+          const withTicks = Boolean(data.skill) && rows.some((row) => (row.ticks || []).length);
+          const grid = section.appendChild(make("div", "grid grid-cols-1 gap-y-14"));
+          for (const row of rows) grid.append(card(run, row, withTicks));
+        }
+      }
+
+      const promptBox = document.getElementById("prompt");
+      const buildPrompt = () => {
+        const picked = new Map();
+        for (const box of document.querySelectorAll("input[data-tick]:checked")) {
+          picked.set(box.dataset.id, [...(picked.get(box.dataset.id) || []), box.dataset.tick]);
+        }
+        if (!picked.size) {
+          promptBox.value = "Tick a row to build the prompt.";
+          return;
+        }
+        const ids = [...picked].map(([id, kinds]) => (tickCount.get(id) > 1 ? `${id}:${kinds.join("+")}` : id));
+        const notes = [...picked.keys()]
+          .map((id) => [id, document.querySelector(`input[data-note="${id}"]`).value.trim()])
+          .filter(([, note]) => note);
+        const lines = [`${data.skill} @${data.path} ${ids.join(" ")}`];
+        if (notes.length) lines.push("Notes:", ...notes.map(([id, note]) => `- ${id}: ${note}`));
+        promptBox.value = lines.join("\n");
+      };
+
+      if (data.skill && tickCount.size) {
+        document.getElementById("prompt-box").hidden = false;
+        document.addEventListener("change", buildPrompt);
+        document.addEventListener("input", buildPrompt);
+        document.getElementById("copy").onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(promptBox.value);
+          } catch {
+            promptBox.select();
+            document.execCommand("copy");
+          }
+          const copied = document.getElementById("copied");
+          copied.textContent = "Copied.";
+          setTimeout(() => (copied.textContent = ""), 2000);
+        };
+        buildPrompt();
+      }
+    </script>
+  </body>
+</html>

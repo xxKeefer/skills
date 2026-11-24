@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+import datetime
+import re
+import sys
+from html.parser import HTMLParser
+from pathlib import Path
+
+import bulletin
+
+BANNED = {"select", "textarea", "script", "input", "button"}
+CARDS = ("learning", "ideas", "friction", "next")
+PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
+
+
+class Page(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.problems = []
+        self.entries = []
+        self.cur = None
+        self.skip = 0
+        self.depth = 0
+        self.svgs = 0
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        classes = (a.get("class") or "").split()
+        self.check_tag(tag, attrs, a, classes)
+        self.track_entry(tag, a, classes)
+
+    def check_tag(self, tag, attrs, a, classes):
+        for _, value in attrs:
+            for found in PLACEHOLDER.findall(value or ""):
+                self.problems.append(f"placeholder {found} is still on the page")
+        if tag == "style":
+            self.skip += 1
+        if tag in BANNED:
+            self.problems.append(f"<{tag}> is not allowed on a bulletin")
+        if "action" in classes or "choice" in classes or "comment" in classes:
+            self.problems.append(f"class {' '.join(classes)} is a suggestion row or choice control")
+        if tag == "svg":
+            if a.get("role") != "img" or not (a.get("aria-label") or "").strip():
+                self.problems.append(f"svg {self.svgs} needs role=\"img\" and an aria-label")
+            self.svgs += 1
+
+    def track_entry(self, tag, a, classes):
+        if tag == "article":
+            if "entry" in classes and self.cur is None:
+                self.cur = {"date": a.get("data-date") or "", "masthead": False, "cards": set()}
+                self.entries.append(self.cur)
+                self.depth = 0
+            elif self.cur is not None and "card" in classes and a.get("data-card"):
+                self.cur["cards"].add(a["data-card"])
+            if self.cur is not None:
+                self.depth += 1
+        if self.cur is not None and "masthead" in classes:
+            self.cur["masthead"] = True
+
+    def handle_endtag(self, tag):
+        if tag == "style":
+            self.skip -= 1
+        if tag == "article" and self.cur is not None:
+            self.depth -= 1
+            if self.depth == 0:
+                self.cur = None
+
+    def handle_data(self, data):
+        if self.skip:
+            return
+        for found in PLACEHOLDER.findall(data):
+            self.problems.append(f"placeholder {found} is still on the page")
+
+
+def problems(path):
+    page = Page()
+    page.feed(Path(path).read_text(encoding="utf-8"))
+    found = list(dict.fromkeys(page.problems))
+    week = bulletin.week_of(Path(path).name)
+    if not page.entries:
+        found.append("the page has no entry")
+    seen = []
+    for entry in page.entries:
+        date = entry["date"]
+        if not entry["masthead"]:
+            found.append(f"entry {date} has no masthead")
+        for name in CARDS:
+            if name not in entry["cards"]:
+                found.append(f"entry {date} has no {name} card")
+        try:
+            day = datetime.date.fromisoformat(date)
+        except ValueError:
+            found.append(f"entry date {date!r} is not a date")
+            continue
+        if date in seen:
+            found.append(f"two entries for {date}")
+        if seen and date > seen[-1]:
+            found.append(f"entry {date} is below an older entry")
+        if week and day.isocalendar()[:2] != week:
+            found.append(f"entry {date} is outside week {week[0]}-wk{week[1]:02d}")
+        seen.append(date)
+    return found
+
+
+def main(argv):
+    if len(argv) != 1:
+        print("usage: check_bulletin.py <bulletin.html>", file=sys.stderr)
+        return 2
+    found = problems(argv[0])
+    if found:
+        print("\n".join(found))
+        return 1
+    print("ok")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -14,6 +14,7 @@ secretary/PA tone.
 | `/reflect` | File-agnostic reflection and link maintenance tool |
 | `/broadsheet` | Print this week's HTML newspaper of the vault into the journal folder: the week, the compass of reflections and trends, weather, chore rates, and suggestions to choose from, which build a prompt |
 | `/act-on-broadsheet` | Apply the rows chosen on a broadsheet page to the vault: move, archive, or delete notes, set project status, tick goals, and edit templates. Asks before a delete |
+| `/bulletin` | Add today's entry to this week's HTML bulletin in the journal folder: this week's goals and how they moved, how last week ended, a look at next week, a Reflect masonry of four cards, and a side column with weather, events, and chores. Newest entry on top |
 | `/update-occasions-config` | Migrate an old-layout `occasions.md` after one yes, then sync it into `vault_occasions.js` for Templater |
 
 ## Workflow
