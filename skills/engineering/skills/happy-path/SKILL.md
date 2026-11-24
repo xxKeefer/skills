@@ -26,6 +26,9 @@ Rules:
 - No general steps, such as how to install the tools or clone the repo
 - No automated-test-level detail — this is for eyes-on-screen verification
 - Keep it under 15 items total. To stay under the cap, merge related changes into one item.
+- When the plan or the ticket has acceptance criteria, tag each item with the AC that it proves,
+  and word its expected result from that AC. An expected result that asks for more than its AC is
+  new behaviour: leave it out, or tag it `beyond AC`.
 - Give each item a runner. `agent`: a command shows the result, such as a push, a CI status, log
   text, or an API reply. `you`: the result needs eyes on a UI or a dashboard.
 - Take each push or PR item from the plan's push step, when a plan exists. When that step is
@@ -62,7 +65,7 @@ Write the checklist with `/write-report`. Give it these:
   the prompt."
 - `visuals`: one `table` with the question "What must be in place before you start?", the columns
   `Item` and `Initial state`, and one row for each part of the setup block. Do not fold it.
-- `columns`: `area`, `by` (`agent` or `you`), `step` (the action), and `expect` (the expected
+- `columns`: `area`, `ac` (the AC ID, `beyond AC`, or empty with no ACs), `by` (`agent` or `you`), `step` (the action), and `expect` (the expected
   result).
 - `rows`: one row for each item, area by area. Each row has `ticks: ["pass", "fail"]`.
 

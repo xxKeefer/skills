@@ -89,6 +89,8 @@
 
   .action { padding-left: 8px; border-left: 3px solid transparent; }
   .action:has(.choice option:checked:not([value=""])) { border-left-color: var(--accent); }
+  .done { inline-size: 1.1em; block-size: 1.1em; margin: 0 8px 0 0; vertical-align: middle; accent-color: var(--accent); cursor: pointer; }
+  .action:has(.done:checked) { opacity: 0.45; }
   .choice { font: 500 0.72rem/1.2 var(--mono); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); padding: 2px 4px; margin-left: 4px; vertical-align: baseline; }
   .action details { display: inline-block; margin-left: 4px; }
   .action details[open] { display: block; margin: 6px 0 0; }
@@ -137,11 +139,13 @@
   ol.two li { margin-left: 2.2em; }
   li::marker { color: var(--accent); font: 700 0.85em var(--mono); }
   article { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
-  article h3 { margin-top: 6px; }
+  .tagline { font: 700 1.25em/1.2 var(--heading); border-top: 2px solid var(--accent); padding-top: 10px; margin-bottom: 14px; }
+  article h3, article h4 { margin-top: 6px; }
   article p, article li { font: 0.95rem/1.55 var(--body); }
   .row3 ul, .row3 ol { list-style: none; padding-left: 0; }
   .row3 li { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); font: 0.95rem/1.55 var(--body); }
-  .row3 li > a:first-child { display: block; font: 700 1.1em/1.25 var(--heading); margin-bottom: 4px; }
+  .row3 li > .done:first-child { float: left; margin-top: 0.25em; }
+  .row3 li > a:first-child, .row3 li > .done:first-child + a { display: block; font: 700 1.1em/1.25 var(--heading); margin-bottom: 4px; }
   .kicker {
     font: 700 0.68rem/1.4 var(--mono);
     text-transform: uppercase;

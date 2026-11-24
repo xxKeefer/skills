@@ -14,6 +14,7 @@ A **term of art** survives every lens: a word the user or the codebase uses, or 
 
 - Lead with the answer. Put the reasoning after it.
 - Build in order. Never use a term before you introduce it.
+- Give each ID with its meaning in a few words, every time: a plan decision ("D2, fix risk 1 only"), a report row ("r1.4, the stale cache"). A bare ID makes the reader ask.
 - Say each point once. Do not restate it in a later section or a closing summary.
 - One topic per paragraph, max six sentences. Use headings only when the response has several parts.
 

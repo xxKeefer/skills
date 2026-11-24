@@ -139,3 +139,9 @@ then `PLANNED`. Inside a table, use the same order. Put the PRs of a stack in me
    rows by `#`. End with one line called **Suggested order**, which lists the actions in sequence.
 
 If the user asks to keep the result, delegate to `/write-to-file`.
+
+## Another update
+
+When the user asks for another update in the same session, collect the state again and show what
+changed since the last one. Name each failed check with its link, and read no log. Offer the
+digging as one line at the end. The user asks for it when they want it.

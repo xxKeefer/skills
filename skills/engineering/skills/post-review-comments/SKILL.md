@@ -80,11 +80,16 @@ head. From here on, the PR head is the head.
 
 ## Step 4: The gate
 
-Show each draft with its row ID and its anchor. Ask once: post them all, or stop. With a stop,
-post nothing. If the user asks for a change instead, make it, scan the draft again, and ask
+Show each draft with its row ID and its anchor. Ask once, with three options:
+
+- **Post:** post them all as one review.
+- **Pending:** add them to a pending review. The user writes the review body and submits it in
+  GitHub. Only the user sees a pending review.
+- **Stop:** post nothing.
+ If the user asks for a change instead, make it, scan the draft again, and ask
 again.
 
-**Done when:** the user approved the post, or the user stopped.
+**Done when:** the user picked post, pending, or stop.
 
 ## Step 5: Post as one review
 
@@ -99,7 +104,8 @@ jq -n --arg sha "<full head sha>" --arg body "<the review body, or empty>" \
 gh api repos/<owner>/<repo>/pulls/<n>/reviews --input "$DIR/review.json" --jq '{id, html_url}'
 ```
 
-- The event is always `COMMENT`. Use `REQUEST_CHANGES` or `APPROVE` only when the user asks,
+- For a pending review, leave out `event` and `body`. GitHub then keeps the review `PENDING`.
+- For a post, the event is always `COMMENT`. Use `REQUEST_CHANGES` or `APPROVE` only when the user asks,
   because that verdict is the user's.
 - An error 422 that says the user can have only one pending review: the user has a draft review
   on this PR. Never submit, edit, or delete it. Show it with
@@ -129,7 +135,10 @@ difference.
 ## Step 7: Return
 
 Give a table with one row for each posted comment: the row ID, the tier, `<path>:<line>`, and the
-comment link. Then give the review link. Say each body that differs from what you sent, and each
+comment link. Then give the review link. For a pending review, give the PR's Files changed link,
+`https://github.com/<owner>/<repo>/pull/<n>/files`, instead: the review link does not open a
+pending review. Say that **Finish your review** at the top right adds the body and submits it.
+Say each body that differs from what you sent, and each
 anchor on the wrong line.
 
 **Done when:** the user has the review link and the table.

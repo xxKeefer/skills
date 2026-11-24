@@ -58,8 +58,10 @@ instance, not your tab. With no driver, use the browser flow below.
   covers the subject.
 - **Short-lived state** (a skeleton, a spinner): try once. If the capture misses it, capture the end
   state and record the miss.
-- **Text differs from the checklist:** compare the label on the default branch before you call it a
-  fail. A label that matches the default branch means that the checklist text is out of date.
+- **Result differs from the checklist:** before you call it a fail, compare it with the default
+  branch, and read the AC that the item proves. A result that matches the default branch and meets
+  the AC is a pass, and the checklist text is out of date. Report each fail with four parts: the
+  AC, the verdict on that AC, the cause, and the fix.
 - **Cannot do** (such as blocking a request in developer tools): skip it and record why.
 
 Record each write as you make it: what, which record, and which item.

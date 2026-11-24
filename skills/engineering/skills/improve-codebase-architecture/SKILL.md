@@ -36,8 +36,8 @@ Apply the **deletion test** to anything you suspect is shallow: would deleting i
 Write the report with `/write-report`, kind `architecture`. Give it no `skill`, because the user picks a candidate in chat. The run holds these parts:
 
 - **Answer:** the top recommendation. Name the candidate to tackle first and its row ID, and give one sentence on why.
-- **Visuals:** a folded legend, then one `html` visual per candidate that holds its card.
-- **Rows:** one row per candidate, in card order, with no ticks. The columns are `candidate`, `strength`, and `files` (mono).
+- **Visuals:** `bars` of the candidates by strength, then a folded legend.
+- **Rows:** one row per candidate, strongest first, with no ticks. The columns are `candidate`, `strength`, and `files` (mono). Each row has one row visual: an `html` visual that holds its card.
 
 Open the file for the user with `xdg-open <path>` on Linux, `open <path>` on macOS, or `start <path>` on Windows. Tell them the absolute path.
 

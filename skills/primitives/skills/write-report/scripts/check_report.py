@@ -9,6 +9,26 @@ import sys
 BLOCK = re.compile(r'(<script type="application/json" id="runs">)(.*?)(</script>)', re.S)
 
 
+TYPES = ("mermaid", "bars", "table", "html")
+
+
+def check_visuals(visuals, label):
+    if visuals is None:
+        return []
+    if not isinstance(visuals, list):
+        return [(f"{label} has bad `visuals`", "make `visuals` a list of objects")]
+    found = []
+    for v in visuals:
+        if not isinstance(v, dict):
+            found.append((f"{label} has a visual that is not an object", "make each visual an object"))
+            continue
+        if not isinstance(v.get("question"), str):
+            found.append((f"{label} has a visual with no string `question`", "set `question` to the question that the visual answers"))
+        if sum(key in v for key in TYPES) != 1:
+            found.append((f"{label} has a visual without exactly one of `mermaid`, `bars`, `table`, `html`", "give each visual one type"))
+    return found
+
+
 def check_row(row, label):
     if not isinstance(row, dict):
         return [(f"{label}: a row is not an object", "make each row an object")]
@@ -21,6 +41,7 @@ def check_row(row, label):
     ticks = row.get("ticks")
     if not (ticks is None or (isinstance(ticks, list) and all(isinstance(t, str) for t in ticks))):
         found.append((f"{label}: row `{row_id}` has bad `ticks`", "make `ticks` a list of strings"))
+    found.extend(check_visuals(row.get("visuals"), f"{label}: row `{row_id}`"))
     return found
 
 
@@ -39,6 +60,7 @@ def check_run(run):
     rows = run.get("rows")
     visuals = run.get("visuals")
     shown = isinstance(visuals, list) and any(isinstance(v, dict) and not v.get("fold") for v in visuals)
+    found.extend(check_visuals(visuals, label))
     if rows and not shown:
         found.append((f"{label}: has rows but no visual that shows unfolded", "add a visual before the rows, such as `bars` of the rows by status"))
     if rows and not isinstance(rows, list):

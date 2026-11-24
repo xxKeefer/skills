@@ -8,9 +8,9 @@
 |---|---|
 | `title` | `Architecture review of <repo name>` |
 | `answer` | The top recommendation: the candidate, its row ID, and one sentence on why. No other introduction. |
-| First visual | The legend, as an `html` visual with `fold` set. Question: "How do I read the diagrams?" |
-| Next visuals | One `html` visual per candidate, which holds its card. Do not fold a card, because Mermaid can draw a closed graph at the wrong size. |
-| Rows | One row per candidate, in card order, with no ticks: `candidate`, `strength`, and `files` (mono). The user names a row ID to explore it. |
+| Run visuals | First, `bars` with the question "How many candidates has each strength?", one bar for each strength. Then the legend, as an `html` visual with `fold` set. Question: "How do I read the diagrams?" |
+| Rows | One row per candidate, strongest first, with no ticks: `candidate`, `strength`, and `files` (mono). The user names a row ID to explore it. |
+| Row visuals | One `html` visual in each row, which holds the card of its candidate. Do not fold a card, because Mermaid can draw a closed graph at the wrong size. |
 
 ## Legend
 
@@ -20,9 +20,9 @@ Solid box = module, dashed line = seam, red arrow = leakage, thick dark box = de
 
 The diagrams carry the weight. Prose is sparse, plain, and uses the glossary terms (from the `/codebase-design` skill) without ceremony.
 
-Each candidate is one `<article>`, inside the `html` string of its visual:
+Each candidate is one `<article>`, inside the `html` string of its row visual:
 
-- **Title** — the `question` of the visual holds it: the row ID, then the deepening as a why question, such as "r1.2: Why collapse the Order intake pipeline?". The card itself has no title line.
+- **Title** — the `question` of the visual holds it: the deepening as a why question, such as "Why collapse the Order intake pipeline?". The row card shows the row ID, so the question does not repeat it. The card itself has no title line.
 - **Badge row** — recommendation strength (`Strong` = emerald, `Worth exploring` = amber, `Speculative` = slate), plus a tag for the dependency category (`in-process`, `local-substitutable`, `ports & adapters`, `mock`).
 - **Files** — monospaced list, `font-mono text-sm`.
 - **Before / After diagram** — the centrepiece. Two columns, side by side. See patterns below.

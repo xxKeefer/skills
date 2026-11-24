@@ -16,6 +16,7 @@ Foundational skills that other domains compose. Always install this domain.
 | `/update-plan` | Update a plan doc in place with current progress |
 | `/do-next` | Cold-start from a plan doc and execute the next step |
 | `/checkpoint` | Stop at a safe point: one `wip:` commit and a resume note in the plan |
+| `/brief` | Write a cold-start prompt that hands one piece of work to a fresh agent, and copy it to the clipboard |
 | `/sitrep` | Show the open decisions, the choices made alone, the skipped steps, and the follow-ups of a plan |
 | `/tabular-analysis` | Compare concepts in a markdown table with the user's exact columns, one row each |
 | `/discover-vault-directory` | Find a folder in the Obsidian vault by glob and marker files |

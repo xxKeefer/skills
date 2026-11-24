@@ -71,5 +71,21 @@ every other lane follow, in the Step 4 order.
   one first: `A: <fix> (recommended: <reason>)`, then `B: leave open: <reason>`. A finding with
   only one option is not a choice. Fix it as `FIX.md` says, or drop it and name it in the coverage
   table.
+- Give each row two row `visuals`, in this order, made with the rules of
+  [`/primitives:show-me`](../../../primitives/skills/show-me/SKILL.md). The card shows them after
+  the issue detail and before the recommendation.
+  1. **How the defect happens.** Ask the question as "How does <the defect> happen?". Use a
+     `mermaid` sequence diagram or flowchart. When the flow depends on state that changes step by
+     step, use an `html` visual: a text diagram in a `<pre>`, then a table with the columns
+     Step, What happens, and State.
+  2. **What the fix changes.** Ask the question as "What changes in <the place>?". Use an `html`
+     visual: a label line with the `file:line`, then a `<pre class="bg-code">` that shows the fix
+     as pseudocode in a diff. Put each `+` line in `<span class="text-success">` and each `-` line
+     in `<span class="text-danger">`. Write `<` as `&lt;` and `&` as `&amp;` in the `<pre>`.
+  - In the pseudocode, mark each name that does not exist in the code as made up. Add a last
+    line `-- made up: <name>, <name>`.
+  - Before you write a diagram, check each claim in it against the code at the reviewed head.
+    Read the lines at `head`, not at the working tree. Leave out a claim that the code does not
+    show.
 - On someone else's code, give each row the tick `reply`. On your own code, give each row the
   tick `fix`, so the user can act on it after QA.

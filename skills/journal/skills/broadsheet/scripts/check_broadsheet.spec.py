@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.path.join(HERE, "check_broadsheet.py")
 SECTIONS = ["masthead", "lead", "compass", "weather", "chores", "gaps", "the-ledger", "letters", "stale-shelf",
             "the-morgue", "editorial", "floor-plan", "honour-roll", "the-board", "back-pages"]
-ROW = ('<li class="action" data-id="{id}"><span>A row</span>'
+ROW = ('<li class="action" data-id="{id}"><input type="checkbox" class="done" aria-label="Done"><span>A row</span>'
        '<select class="choice" aria-label="Choice"><option value="">-</option><option>archive</option></select>'
        '<details><summary>Comment</summary><textarea class="comment" aria-label="Comment"></textarea></details></li>')
 PROMPT_SCRIPT = "<script>document.querySelectorAll('.action');</script>"
@@ -39,13 +39,13 @@ def filled():
 
 
 TEMPLATE = os.path.join(os.path.dirname(HERE), "template.html")
-SAMPLE_ROW = ('<li class="action" data-id="{id}">{text} '
+SAMPLE_ROW = ('<li class="action" data-id="{id}"><input type="checkbox" class="done" aria-label="Done">{text} '
               '<select class="choice" aria-label="Choice for {id}"></select>'
               '<details><summary>Comment</summary><textarea class="comment" aria-label="Comment on {id}"></textarea></details></li>')
 SAMPLE = {
     "accent": "#8b1e3f",
     "ledger_body": ('<table><tr><th>Goal</th><th>State</th><th>Choice</th></tr>'
-                    '<tr class="action" data-id="ledger-run"><td>Run twice a week</td><td>served</td><td>'
+                    '<tr class="action" data-id="ledger-run"><td><input type="checkbox" class="done" aria-label="Done">Run twice a week</td><td>served</td><td>'
                     '<select class="choice" aria-label="Choice for ledger-run"></select>'
                     '<details><summary>Comment</summary><textarea class="comment" aria-label="Comment on ledger-run"></textarea></details>'
                     '</td></tr></table>'),
@@ -142,6 +142,31 @@ class Check(unittest.TestCase):
         code, out = check(page(rows=(row,)))
         self.assertEqual(code, 1)
         self.assertIn("action row morgue-3 has no comment", out)
+
+    def test_names_an_action_row_with_no_done_checkbox(self):
+        row = ROW.format(id="stale-4").replace('<input type="checkbox" class="done" aria-label="Done">', "")
+        code, out = check(page(rows=(row,)))
+        self.assertEqual(code, 1)
+        self.assertIn("stale-4 has no done checkbox", out)
+
+    def test_names_a_card_that_is_not_in_a_group(self):
+        for section in ("floor-plan", "the-board", "back-pages"):
+            html = page().replace(f'<h2>{section}</h2>', f'<h2>{section}</h2><div class="three"><article><h3>Loose card</h3></article></div>')
+            code, out = check(html)
+            self.assertEqual(code, 1, section)
+            self.assertIn('"Loose card" is not in a group', out)
+
+    def test_names_a_group_with_no_tagline(self):
+        html = page().replace('<h2>back-pages</h2>', '<h2>back-pages</h2><div class="three"><div class="group"><article><h4>A story</h4></article></div></div>')
+        code, out = check(html)
+        self.assertEqual(code, 1)
+        self.assertIn("group with no tagline", out)
+
+    def test_cards_grouped_under_taglines_are_fine(self):
+        html = page().replace('<h2>back-pages</h2>', '<h2>back-pages</h2><div class="three"><div class="group"><h3 class="tagline">The kitchen had a big week</h3>'
+                              '<article><h4>Pho</h4><p>Good.</p></article><article><h4>Bread</h4><p>Flat.</p></article></div></div>')
+        code, out = check(html)
+        self.assertEqual(code, 0, out)
 
     def test_a_text_input_comment_is_fine(self):
         row = re.sub(r"<details>.*?</details>", '<input class="comment" type="text" aria-label="Comment">', ROW.format(id="a"))

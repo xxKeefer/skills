@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Write or update an HTML report. Usage: write_report.py <report path> <run json path>"""
+"""Write or update an HTML report. Usage: write_report.py <report path> <run json path>
+Rebuild a report from the current template, with its runs block unchanged: write_report.py --rebuild <report path>"""
 import datetime
 import json
 import os
@@ -26,7 +27,21 @@ def read_block(text, label):
         fail(f"{label}: the runs block does not parse: {error}")
 
 
+def rebuild(report):
+    with open(report, encoding="utf-8") as f:
+        text = f.read()
+    read_block(text, "runs block in the report")
+    block = BLOCK.search(text).group(2)
+    with open(TEMPLATE, encoding="utf-8") as f:
+        template = f.read()
+    with open(report, "w", encoding="utf-8") as f:
+        f.write(BLOCK.sub(lambda m: m.group(1) + block + m.group(3), template, count=1))
+    print("file://" + report)
+
+
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == "--rebuild":
+        return rebuild(os.path.abspath(sys.argv[2]))
     if len(sys.argv) != 3:
         fail("Usage: write_report.py <report path> <run json path>")
     report = os.path.abspath(sys.argv[1])

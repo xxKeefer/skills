@@ -17,19 +17,31 @@ Step 7 of the broadsheet skill fills `template.html` from this file.
 | `stale_body` | One `<li class="action">` per Step 5 pick, then the total |
 | `morgue_body` | One `<li class="action">` per delete candidate, or the oldest archived notes as plain `<li>`, then the total |
 | `editorial_body` | The Step 6 prose, then an `<ol>` with one `<li class="action">` per change |
-| `floor_plan_body` | One `<article class="action">` per finding: `<span class="kicker">` with the folder, an `<h3>`, the reason, and the action |
+| `floor_plan_body` | One `<article class="action">` per finding: `<span class="kicker">` with the folder, an `<h4>`, the reason, and the action |
 | `honour_roll_body` | Up to three: the longest chore streak, the most-linked new note, and the biggest win of the week |
-| `board_body` | One `<article>` per shown project from Step 5: `<span class="kicker">` with the project status, an `<h3>` with the project, and its next card. A status suggestion is an `<article class="action">` |
+| `board_body` | One `<article>` per shown project from Step 5: `<span class="kicker">` with the project status, an `<h4>` with the project, and its next card. A status suggestion is an `<article class="action">` |
 | `back_pages_body` | One `<article>` per story from Step 5, with `<span class="kicker">` for the folder. Each want list suggestion is an `<li class="action">` in that article |
 | `colophon` | `dates_from`, the limits, last week's page or none, and the time of print |
 
 Floor plan, the board, and the back pages print their articles as masonry cards, three columns on
 a wide screen. Each card reads as a label, a headline, and one or two sentences.
 
+Group the cards by theme: what they share, such as an epic, a goal, a kind of work, or a part of
+the code. Each group is `<div class="group"><h3 class="tagline">tagline</h3>cards</div>`, and the
+headline of each card in it is an `<h4>`.
+
+- The tagline is one descriptive line that says what the cards add up to, such as "Three reviews
+  wait on you" or "The forms library grows up". A bare category, such as "Reviews", is not a
+  tagline.
+- A group holds two or more cards. A card that fits no group goes in one last group, such as
+  "Also on the desk".
+- Keep the order of the cards inside a group. Order the groups by their first card.
+
 Each suggestion row has this shape:
 
 ```html
 <li class="action" data-id="letters:<inbox folder>/<note>.md">
+  <input type="checkbox" class="done" aria-label="Done: Note title">
   <a href="obsidian://open?vault=..." target="_blank" rel="noopener">Note title</a>
   <span class="age">12 days</span> <span class="tag">new</span>
   <strong>Why:</strong> the reason. <strong>Do:</strong> what the action does.
@@ -38,6 +50,8 @@ Each suggestion row has this shape:
 </li>
 ```
 
+- Start each row with the `done` checkbox, in its first cell for a table row. The box is only a
+  visual cue. A tick dims the row, and nothing saves it or adds it to a prompt.
 - Leave the `<select>` empty. The page script fills it from `data-choices` of the section. Each
   section of the template names its choices and has a `<dl class="legend">` that says what each
   one does there. Keep both as the template has them: a choice with no meaning for a section is

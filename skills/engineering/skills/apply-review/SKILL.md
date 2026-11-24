@@ -100,7 +100,9 @@ and then green, and each added test went red under its break.
 2. If a note or the user's message asks to check first, show `git show --stat HEAD` when Step 4
    made a commit, and the text of each reply. Ask once: push and reply, or stop.
 3. When Step 4 made no commit, go to Step 6.
-4. Run `git push`. Never force.
+4. In a gh stack (`gh stack view` succeeds), push and sync as Step 7 of
+   [`create-pr/references/stack.md`](../create-pr/references/stack.md) says. Else run `git push`.
+   Never force.
 5. If the push fails, post no reply, because the hash is not on the remote. Say why the push
    failed, and go to Step 7.
 
