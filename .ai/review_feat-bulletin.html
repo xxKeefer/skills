@@ -9,10 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      const palette = { danger: "#b91c1c", warning: "#b45309", info: "#1d4ed8", success: "#15803d" };
       tailwind.config = {
         theme: {
           extend: {
-            colors: { ink: "#121212", paper: "#ffffff", muted: "#727272", rule: "#dfdfdf", code: "#f3f3f3", accent: "#d0021b" },
+            colors: { ink: "#121212", paper: "#ffffff", muted: "#727272", rule: "#dfdfdf", code: "#f3f3f3", accent: "#6d28d9", ...palette },
             fontFamily: {
               sans: ['"Atkinson Hyperlegible Next"', "system-ui", "sans-serif"],
               serif: ['"Noto Serif"', "Georgia", "serif"],
@@ -30,10 +31,10 @@
     <style>
       .cell { white-space: pre-wrap; }
       .kicker { font: 700 0.72rem/1.3 "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: 0.08em; }
-      .tag { display: inline-block; font: 700 0.68rem/1.6 "JetBrains Mono", monospace; color: #fff; background: #d0021b; padding: 0 6px; text-transform: uppercase; letter-spacing: 0.08em; }
-      input[type="checkbox"] { accent-color: #d0021b; width: 1rem; height: 1rem; }
-      ::selection { background: #d0021b; color: #fff; }
-      summary::marker { color: #d0021b; }
+      .tag { display: inline-block; font: 700 0.68rem/1.6 "JetBrains Mono", monospace; color: #fff; background: #6d28d9; padding: 0 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+      input[type="checkbox"] { accent-color: #6d28d9; width: 1rem; height: 1rem; }
+      ::selection { background: #6d28d9; color: #fff; }
+      summary::marker { color: #6d28d9; }
     </style>
   </head>
   <body class="bg-paper text-ink font-sans text-[17px] leading-relaxed">
@@ -584,6 +585,17 @@
         return t;
       };
 
+      const toneWords = {
+        danger: ["blocker", "critical", "change requested", "bug", "fail", "failed", "broken", "high", "valid", "not done", "review miss"],
+        warning: ["major", "medium", "partially valid", "warn", "warning", "risk", "skill gap"],
+        info: ["nit", "minor", "low", "info", "future", "question", "suggestion", "unknown"],
+        success: ["pass", "passed", "ok", "done", "fixed", "applied", "resolved", "replied", "clear", "invalid"],
+      };
+      const tone = (text) => {
+        const word = String(text ?? "").toLowerCase().split(",")[0].trim();
+        return Object.keys(toneWords).find((name) => toneWords[name].includes(word));
+      };
+
       const visual = (v) => {
         const wide = Boolean(v.mermaid || v.html);
         const fig = make(v.fold ? "details" : "figure", `border-t-2 border-accent pt-3 ${wide ? "md:col-span-2" : ""}`);
@@ -597,7 +609,8 @@
             line.append(make("span", "truncate", label));
             const bar = line.appendChild(make("span", "block h-6 bg-ink px-2 font-mono text-xs font-bold leading-6 text-paper", String(count)));
             bar.style.width = `max(2rem, ${(count / max) * 100}%)`;
-            if (count === max) bar.classList.replace("bg-ink", "bg-accent");
+            if (tone(label)) bar.style.background = palette[tone(label)];
+            else if (count === max) bar.classList.replace("bg-ink", "bg-accent");
           }
         }
         if (v.table) fig.append(table(v.table.columns, v.table.rows));
@@ -636,7 +649,13 @@
         const short = (col) => !col.mono && !col.fold && (row.cells[col.key] ?? "").length < 40 && !(row.cells[col.key] ?? "").includes("\n");
         const kickers = [first, ...rest.filter(short)].filter(Boolean).map((col) => row.cells[col.key]).filter(Boolean);
         const top = art.appendChild(make("div", "flex items-baseline gap-3"));
-        top.append(make("span", "tag", row.id), make("span", "kicker text-accent", kickers.join(" · ")));
+        const tag = top.appendChild(make("span", "tag", row.id));
+        top.append(make("span", "kicker text-accent", kickers.join(" · ")));
+        const rowTone = tone(row.cells[first.key]);
+        if (rowTone) {
+          tag.style.background = palette[rowTone];
+          art.style.borderTop = `3px solid ${palette[rowTone]}`;
+        }
         const byline = rest.filter((col) => col.mono).map((col) => row.cells[col.key]).filter(Boolean);
         if (byline.length) art.append(make("p", "font-mono text-xs text-muted break-all", byline.join(" · ")));
         let headline = false;
@@ -653,11 +672,13 @@
             const cut = text.indexOf("\n\n");
             art.append(make("h3", "font-serif text-xl font-bold leading-snug", cut < 0 ? text : text.slice(0, cut)));
             if (cut >= 0) art.append(make("p", "cell text-[15px] text-ink/80", text.slice(cut + 2)));
+            for (const v of row.visuals || []) art.append(visual(v));
             continue;
           }
           const para = art.appendChild(make("div", "text-[15px]"));
           para.append(make("p", "kicker mb-1 text-muted", col.label), make("p", "cell", text));
         }
+        if (!headline) for (const v of row.visuals || []) art.append(visual(v));
         if (withTicks && (row.ticks || []).length) art.append(tickBar(row));
         return art;
       };
@@ -700,7 +721,7 @@
         const rows = run.rows || [];
         if (rows.length) {
           const withTicks = Boolean(data.skill) && rows.some((row) => (row.ticks || []).length);
-          const grid = section.appendChild(make("div", "grid grid-cols-1 gap-x-14 gap-y-10 md:grid-cols-2"));
+          const grid = section.appendChild(make("div", "grid grid-cols-1 gap-y-14"));
           for (const row of rows) grid.append(card(run, row, withTicks));
         }
       }
