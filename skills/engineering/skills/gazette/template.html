@@ -109,7 +109,9 @@
   .done { inline-size: 1.1em; block-size: 1.1em; margin: 0 8px 0 0; vertical-align: middle; accent-color: var(--accent); cursor: pointer; }
   .action:has(.done:checked) { opacity: 0.45; }
   .columns article { break-inside: avoid; margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
-  .columns article h3 { margin-top: 6px; }
+  .columns > .group { break-inside: avoid; margin-bottom: 34px; }
+  .tagline { font: 700 1.25em/1.2 var(--heading); border-top: 2px solid var(--accent); padding-top: 10px; margin-bottom: 14px; }
+  .columns article h3, .columns article h4 { margin-top: 6px; font-size: 1.05em; }
   .columns article p { font: 0.95rem/1.55 var(--sans); margin-bottom: 8px; }
   .label {
     font: 700 0.68rem/1.4 var(--mono);

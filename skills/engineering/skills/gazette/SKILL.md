@@ -111,19 +111,30 @@ classes. The page holds no inline style.
 | `breaking_box` | `<div class="box breaking"><h3>Breaking</h3>…</div>` for each breaking change, with its migration. Empty when there is none |
 | `weather_body` | A table with one row per repo: the forecast, the pass rate, the build time, the test time, each metric, and the trends |
 | `your_desk_lede` | The bulletin in one or two sentences: what to do first, and why. Plain text |
-| `your_desk_body` | One card per stand-up row, in the bulletin's suggested order. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
-| `around_the_repos_body` | One card per codebase-news row, with the repo as the label. Then each repo's news paragraph |
-| `board_body` | One card per board ticket, in the order Done, Started, New, then Blocked. The label is the status and the assignee |
+| `your_desk_body` | Groups of cards, one card per stand-up row, in the bulletin's suggested order. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
+| `around_the_repos_body` | Groups of cards, one card per codebase-news row, with the repo as the label. Then each repo's news paragraph |
+| `board_body` | Groups of cards, one card per board ticket, in the order Done, Started, New, then Blocked. The label is the status and the assignee |
 | `honour_roll_body` | The Step 4 roll |
 | `classifieds_body` | The stand-up notes, such as worktrees to remove, and each skipped source |
 | `colophon` | The sources, the window, and the time of print |
 
-- A card is `<article><span class="label">LABEL</span><h3>headline</h3><p>description</p></article>`.
+- A card is `<article><span class="label">LABEL</span><h4>headline</h4><p>description</p></article>`.
   A Your desk card is an action item: write it as `<article class="action">`, and start it with
   `<input type="checkbox" class="done" aria-label="Done: <headline>">`. The box is only a visual
   cue. A tick dims the card, and nothing saves it.
   The label is a few words, such as the row type and the repo. The headline names the PR or the
   ticket. The description says in one or two sentences what changed or what to do.
+- Group the cards in Your desk, Around the repos, and the board by theme: what they share, such as
+  an epic, a goal, a kind of work, or a part of the code. Each group is
+  `<div class="group"><h3 class="tagline">tagline</h3>cards</div>`, and the headline of each card
+  in it is an `<h4>`.
+
+  - The tagline is one descriptive line that says what the cards add up to, such as "Three reviews
+    wait on you" or "The forms library grows up". A bare category, such as "Reviews", is not a
+    tagline.
+  - A group holds two or more cards. A card that fits no group goes in one last group, such as
+    "Also on the desk".
+  - Keep the order of the cards inside a group. Order the groups by their first card.
 - Each PR, ticket, and commit that the page names is a link, with `target="_blank"` and
   `rel="noopener"`.
 - A card about a review, such as a review request, a review to address, or a ticket in a review

@@ -149,6 +149,25 @@ class Check(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("stale-4 has no done checkbox", out)
 
+    def test_names_a_card_that_is_not_in_a_group(self):
+        for section in ("floor-plan", "the-board", "back-pages"):
+            html = page().replace(f'<h2>{section}</h2>', f'<h2>{section}</h2><div class="three"><article><h3>Loose card</h3></article></div>')
+            code, out = check(html)
+            self.assertEqual(code, 1, section)
+            self.assertIn('"Loose card" is not in a group', out)
+
+    def test_names_a_group_with_no_tagline(self):
+        html = page().replace('<h2>back-pages</h2>', '<h2>back-pages</h2><div class="three"><div class="group"><article><h4>A story</h4></article></div></div>')
+        code, out = check(html)
+        self.assertEqual(code, 1)
+        self.assertIn("group with no tagline", out)
+
+    def test_cards_grouped_under_taglines_are_fine(self):
+        html = page().replace('<h2>back-pages</h2>', '<h2>back-pages</h2><div class="three"><div class="group"><h3 class="tagline">The kitchen had a big week</h3>'
+                              '<article><h4>Pho</h4><p>Good.</p></article><article><h4>Bread</h4><p>Flat.</p></article></div></div>')
+        code, out = check(html)
+        self.assertEqual(code, 0, out)
+
     def test_a_text_input_comment_is_fine(self):
         row = re.sub(r"<details>.*?</details>", '<input class="comment" type="text" aria-label="Comment">', ROW.format(id="a"))
         self.assertEqual(check(page(rows=(row,))), (0, "ok\n"))

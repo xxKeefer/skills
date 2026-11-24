@@ -71,7 +71,8 @@ class CheckGazette(unittest.TestCase):
 
     def test_fails_a_your_desk_card_with_no_done_checkbox(self):
         html = page().replace('<section id="your-desk"><p>News.</p></section>',
-                              '<section id="your-desk"><article><span class="label">Ticket</span><h3>Plan it</h3><p>Do it.</p></article></section>')
+                              '<section id="your-desk"><div class="group"><h3 class="tagline">Plans</h3>'
+                              '<article><span class="label">Ticket</span><h4>Plan it</h4><p>Do it.</p></article></div></section>')
         result = check(html)
         self.assertEqual(result.returncode, 1)
         self.assertIn("Plan it", result.stdout)
@@ -79,8 +80,32 @@ class CheckGazette(unittest.TestCase):
 
     def test_passes_a_your_desk_card_with_a_done_checkbox(self):
         html = page().replace('<section id="your-desk"><p>News.</p></section>',
-                              '<section id="your-desk"><article class="action"><input type="checkbox" class="done" aria-label="Done: Plan it">'
-                              '<span class="label">Ticket</span><h3>Plan it</h3><p>Do it.</p></article></section>')
+                              '<section id="your-desk"><div class="group"><h3 class="tagline">Plans</h3>'
+                              '<article class="action"><input type="checkbox" class="done" aria-label="Done: Plan it">'
+                              '<span class="label">Ticket</span><h4>Plan it</h4><p>Do it.</p></article></div></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_fails_a_card_that_is_not_in_a_group(self):
+        for section in ("your-desk", "around-the-repos", "the-board"):
+            html = page().replace(f'<section id="{section}"><p>News.</p></section>',
+                                  f'<section id="{section}"><article><span class="label">News</span><h4>Loose card</h4></article></section>')
+            result = check(html)
+            self.assertEqual(result.returncode, 1, section)
+            self.assertIn('"Loose card" is not in a group', result.stdout)
+
+    def test_fails_a_group_with_no_tagline(self):
+        html = page().replace('<section id="the-board"><p>News.</p></section>',
+                              '<section id="the-board"><div class="group"><article><span class="label">Done</span><h4>A ticket</h4></article></div></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("group with no tagline", result.stdout)
+
+    def test_passes_cards_grouped_under_taglines(self):
+        html = page().replace('<section id="around-the-repos"><p>News.</p></section>',
+                              '<section id="around-the-repos"><div class="group"><h3 class="tagline">The forms library grows up</h3>'
+                              '<article><span class="label">web</span><h4>Delete a set</h4><p>Done.</p></article>'
+                              '<article><span class="label">web</span><h4>Link a set</h4><p>Done.</p></article></div></section>')
         result = check(html)
         self.assertEqual(result.returncode, 0, result.stdout)
 

@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 SECTIONS = ["masthead", "lead", "weather", "your-desk", "around-the-repos", "the-board", "honour-roll"]
 TICKET = re.compile(r"\b[A-Z][A-Z0-9]+-\d+\b")
 PR = re.compile(r"(?<![\w&])#\d+\b")
+GROUPED = {"your-desk", "around-the-repos", "the-board"}
 PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
 
 
@@ -21,6 +22,7 @@ class Page(HTMLParser):
         self.in_body = False
         self.card = None
         self.section = None
+        self.divs = []
         self.in_label = False
         self.in_headline = False
 
@@ -41,13 +43,21 @@ class Page(HTMLParser):
             self.problems.append(f'<{tag}> has an inline style. Use a class from the template: style="{a["style"]}"')
         if tag == "section" and a.get("id"):
             self.section = a["id"]
+        classes = (a.get("class") or "").split()
+        if tag == "div":
+            self.divs.append({"tagline": False} if "group" in classes else None)
+        if "tagline" in classes:
+            for group in reversed(self.divs):
+                if group:
+                    group["tagline"] = True
+                    break
         if tag == "article":
             self.card = {"label": "", "headline": "", "headline_hrefs": [], "desk": self.section == "your-desk", "done": False}
         if self.card is not None and tag == "input" and a.get("type") == "checkbox" and "done" in (a.get("class") or "").split():
             self.card["done"] = True
         if self.card is not None and tag == "span" and "label" in (a.get("class") or "").split():
             self.in_label = True
-        if self.card is not None and tag == "h3":
+        if self.card is not None and tag in ("h3", "h4"):
             self.in_headline = True
         if tag == "a" and self.in_headline:
             self.card["headline_hrefs"].append(a.get("href", ""))
@@ -62,12 +72,18 @@ class Page(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "span":
             self.in_label = False
-        if tag == "h3":
+        if tag in ("h3", "h4"):
             self.in_headline = False
+        if tag == "div" and self.divs:
+            group = self.divs.pop()
+            if group and not group["tagline"]:
+                self.problems.append(f"#{self.section}: a group with no tagline")
         if tag == "article" and self.card is not None:
             label = self.card["label"].strip()
             if "review" in label.lower() and not any("/pull/" in h for h in self.card["headline_hrefs"]):
                 self.problems.append(f'review card "{label}" does not link its headline to the PR')
+            if self.section in GROUPED and not any(self.divs):
+                self.problems.append(f'#{self.section}: card "{self.card["headline"].strip()}" is not in a group')
             if self.card["desk"] and not self.card["done"]:
                 self.problems.append(f'your-desk card "{self.card["headline"].strip()}" has no done checkbox')
             self.card = None

@@ -11,6 +11,7 @@ CHOICES = ["do", "veto", "snooze", "done"]
 KINDS = ["vault", "suite"]
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 NOTE = re.compile(r"\b\d\d-[\w-]+/[^<>\n]*?\.md\b")
+GROUPED = {"floor-plan", "the-board", "back-pages"}
 PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
 
 
@@ -29,6 +30,8 @@ class Page(HTMLParser):
         self.in_dt = False
         self.rows = []
         self.textareas = {}
+        self.divs = []
+        self.card = None
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -44,6 +47,18 @@ class Page(HTMLParser):
         if tag == "section":
             self.cur = {"id": a.get("id") or "", "prompt": a.get("data-prompt"), "choices": a.get("data-choices") or "",
                         "dts": [], "rows": 0}
+        cls = (a.get("class") or "").split()
+        if tag == "div":
+            self.divs.append({"tagline": False} if "group" in cls else None)
+        if "tagline" in cls:
+            for group in reversed(self.divs):
+                if group:
+                    group["tagline"] = True
+                    break
+        if tag == "article":
+            self.card = {"headline": "", "in_headline": False, "grouped": any(self.divs)}
+        if self.card and tag in ("h3", "h4"):
+            self.card["in_headline"] = True
         if tag == "dt":
             self.in_dt = True
             if self.cur:
@@ -100,6 +115,18 @@ class Page(HTMLParser):
                 self.problems.append(f"{name}: the legend explains {c}, which the section does not offer")
 
     def handle_endtag(self, tag):
+        if self.card and tag in ("h3", "h4"):
+            self.card["in_headline"] = False
+        if tag == "article" and self.card:
+            section = self.cur["id"] if self.cur else ""
+            if section in GROUPED and not self.card["grouped"]:
+                self.problems.append(f'#{section}: card "{self.card["headline"].strip()}" is not in a group')
+            self.card = None
+        if tag == "div" and self.divs:
+            group = self.divs.pop()
+            if group and not group["tagline"]:
+                section = self.cur["id"] if self.cur else ""
+                self.problems.append(f"#{section}: a group with no tagline")
         if tag == "dt":
             self.in_dt = False
         if tag == "section":
@@ -156,6 +183,8 @@ class Page(HTMLParser):
                     self.problems.append(f"textarea #{box} is read-only; the user must be able to edit the prompt")
 
     def handle_data(self, data):
+        if self.card and self.card["in_headline"]:
+            self.card["headline"] += data
         if self.in_dt and self.cur and self.cur["dts"]:
             self.cur["dts"][-1] += data
         for found in PLACEHOLDER.findall(data):
