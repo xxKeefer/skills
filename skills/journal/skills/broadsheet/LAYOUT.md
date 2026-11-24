@@ -30,6 +30,7 @@ Each suggestion row has this shape:
 
 ```html
 <li class="action" data-id="letters:<inbox folder>/<note>.md">
+  <input type="checkbox" class="done" aria-label="Done: Note title">
   <a href="obsidian://open?vault=..." target="_blank" rel="noopener">Note title</a>
   <span class="age">12 days</span> <span class="tag">new</span>
   <strong>Why:</strong> the reason. <strong>Do:</strong> what the action does.
@@ -38,6 +39,8 @@ Each suggestion row has this shape:
 </li>
 ```
 
+- Start each row with the `done` checkbox, in its first cell for a table row. The box is only a
+  visual cue. A tick dims the row, and nothing saves it or adds it to a prompt.
 - Leave the `<select>` empty. The page script fills it from `data-choices` of the section. Each
   section of the template names its choices and has a `<dl class="legend">` that says what each
   one does there. Keep both as the template has them: a choice with no meaning for a section is

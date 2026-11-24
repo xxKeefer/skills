@@ -63,7 +63,9 @@ class Page(HTMLParser):
             rows[-1]["choice"] = True
         if rows and tag in ("input", "textarea") and "comment" in classes:
             rows[-1]["comment"] = True
-        row = {"id": a.get("data-id") or "", "choice": False, "comment": False} if "action" in classes else None
+        if rows and tag == "input" and a.get("type") == "checkbox" and "done" in classes:
+            rows[-1]["done"] = True
+        row = {"id": a.get("data-id") or "", "choice": False, "comment": False, "done": False} if "action" in classes else None
         if tag not in VOID:
             self.stack.append((tag, row))
         elif row:
@@ -126,6 +128,8 @@ class Page(HTMLParser):
             self.problems.append(f"action row {name} has no choice control")
         if not row["comment"]:
             self.problems.append(f"action row {name} has no comment")
+        if not row["done"]:
+            self.problems.append(f"action row {name} has no done checkbox")
 
     def close(self):
         super().close()

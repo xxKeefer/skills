@@ -20,6 +20,7 @@ class Page(HTMLParser):
         self.skip_depth = 0
         self.in_body = False
         self.card = None
+        self.section = None
         self.in_label = False
         self.in_headline = False
 
@@ -38,8 +39,12 @@ class Page(HTMLParser):
             self.sections.add(a["id"])
         if self.in_body and "style" in a:
             self.problems.append(f'<{tag}> has an inline style. Use a class from the template: style="{a["style"]}"')
+        if tag == "section" and a.get("id"):
+            self.section = a["id"]
         if tag == "article":
-            self.card = {"label": "", "headline_hrefs": []}
+            self.card = {"label": "", "headline": "", "headline_hrefs": [], "desk": self.section == "your-desk", "done": False}
+        if self.card is not None and tag == "input" and a.get("type") == "checkbox" and "done" in (a.get("class") or "").split():
+            self.card["done"] = True
         if self.card is not None and tag == "span" and "label" in (a.get("class") or "").split():
             self.in_label = True
         if self.card is not None and tag == "h3":
@@ -63,7 +68,11 @@ class Page(HTMLParser):
             label = self.card["label"].strip()
             if "review" in label.lower() and not any("/pull/" in h for h in self.card["headline_hrefs"]):
                 self.problems.append(f'review card "{label}" does not link its headline to the PR')
+            if self.card["desk"] and not self.card["done"]:
+                self.problems.append(f'your-desk card "{self.card["headline"].strip()}" has no done checkbox')
             self.card = None
+        if tag == "section":
+            self.section = None
         if tag == "a":
             self.link_depth -= 1
         if tag in ("code", "pre"):
@@ -74,6 +83,8 @@ class Page(HTMLParser):
     def handle_data(self, data):
         if self.in_label:
             self.card["label"] += data
+        if self.in_headline:
+            self.card["headline"] += data
         for found in PLACEHOLDER.findall(data):
             self.problems.append(f"placeholder {found} is still on the page")
         if self.skip_depth or self.link_depth or self.code_depth:

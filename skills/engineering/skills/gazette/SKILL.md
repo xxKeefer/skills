@@ -119,6 +119,9 @@ classes. The page holds no inline style.
 | `colophon` | The sources, the window, and the time of print |
 
 - A card is `<article><span class="label">LABEL</span><h3>headline</h3><p>description</p></article>`.
+  A Your desk card is an action item: write it as `<article class="action">`, and start it with
+  `<input type="checkbox" class="done" aria-label="Done: <headline>">`. The box is only a visual
+  cue. A tick dims the card, and nothing saves it.
   The label is a few words, such as the row type and the repo. The headline names the PR or the
   ticket. The description says in one or two sentences what changed or what to do.
 - Each PR, ticket, and commit that the page names is a link, with `target="_blank"` and

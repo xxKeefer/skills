@@ -106,6 +106,8 @@
   }
 
   .columns { column-count: 3; column-gap: 60px; column-rule: 1px solid var(--rule); }
+  .done { inline-size: 1.1em; block-size: 1.1em; margin: 0 8px 0 0; vertical-align: middle; accent-color: var(--accent); cursor: pointer; }
+  .action:has(.done:checked) { opacity: 0.45; }
   .columns article { break-inside: avoid; margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
   .columns article h3 { margin-top: 6px; }
   .columns article p { font: 0.95rem/1.55 var(--sans); margin-bottom: 8px; }

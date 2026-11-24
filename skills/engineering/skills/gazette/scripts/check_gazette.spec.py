@@ -69,6 +69,21 @@ class CheckGazette(unittest.TestCase):
         result = check(page(card))
         self.assertEqual(result.returncode, 0, result.stdout)
 
+    def test_fails_a_your_desk_card_with_no_done_checkbox(self):
+        html = page().replace('<section id="your-desk"><p>News.</p></section>',
+                              '<section id="your-desk"><article><span class="label">Ticket</span><h3>Plan it</h3><p>Do it.</p></article></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("Plan it", result.stdout)
+        self.assertIn("done checkbox", result.stdout)
+
+    def test_passes_a_your_desk_card_with_a_done_checkbox(self):
+        html = page().replace('<section id="your-desk"><p>News.</p></section>',
+                              '<section id="your-desk"><article class="action"><input type="checkbox" class="done" aria-label="Done: Plan it">'
+                              '<span class="label">Ticket</span><h3>Plan it</h3><p>Do it.</p></article></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_fails_a_missing_section(self):
         result = check(page(sections=[s for s in SECTIONS if s != "weather"]))
         self.assertEqual(result.returncode, 1)
