@@ -121,8 +121,14 @@ Follow these rules:
 - **Rows.** Give one row to each item that the user can act on. The script gives each row with no
   `id` the ID `r<run>.<n>`, with `<n>` from 1 in row order, such as `r2.3`. `columns` gives each
   `key` and `label`. Set `mono` for code, such as `file:line`. Set `fold` for long text, such as
-  a draft reply. `cells` maps each column key to plain text. Keep each cell that has no `fold`
-  to about 25 words, and move the rest into a column with `fold`.
+  a draft reply. `cells` maps each column key to plain text, with the links in **Links**. Keep
+  each cell that has no `fold` to about 25 words, and move the rest into a column with `fold`.
+- **Links.** Write each PR and each tracker issue as a link, `[#456](https://…)` or
+  `[ABC-12](https://…)`, in `meta`, `answer`, cells, and `table` cells. Get a PR URL from the code
+  host, such as the `url` field of `gh pr view <n> --json url`. Build an issue URL from the URL
+  form in the tracker notes of the `## Tools on this machine` block. When you cannot find a URL,
+  write plain text. The page shows a link only for a `https://` or `http://` URL, and
+  `check_report.py` fails any other link.
 - **Tones.** The first cell of a row and each bar label set a colour when they are one of these
   words, before the first comma, in any case. Red means "act now": `blocker`, `critical`,
   `change requested`, `bug`, `fail`, `failed`, `broken`, `high`, `valid`, `not done`, and

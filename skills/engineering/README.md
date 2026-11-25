@@ -45,7 +45,7 @@ yes, and it stops before each action on the pause list, such as a merge or a rea
 | `/fix` | Implementation | Fix a broken behaviour found during manual QA, or each failed item of a QA report prompt, with one commit for each |
 | `/squash-bugs` | Implementation | Fix a batch of QA bug tickets in parallel, one worktree and one subagent per ticket, then report every fix and every open decision |
 | `/happy-path` | Closure | Write a manual QA checklist for the current changeset as an HTML report, with a setup table first. Its fail ticks build a `/engineering:fix` prompt |
-| `/qa-screenshots` | Closure | Run a `/happy-path` checklist in your own browser, add a screenshot per item to the QA report, and append a Manual QA section to the PR |
+| `/qa-screenshots` | Closure | Run a `/happy-path` checklist in your own browser, add a screenshot per item to the QA report, and append a Manual QA section with the images uploaded to the PR |
 | `/resolve-conflicts` | Closure | Resolve git merge/rebase conflicts with history-aware context |
 | `/create-pr` | Closure | Check the review for drift, write a masthead (a visual summary, the why, and details: merge order, flag, user-facing and functional change, gaps), fold the merge danger, evidence, AC table, repo PR template, tickets, and commits into collapsed blocks, then push and open a draft PR without asking |
 | `/sync-docs` | Maintenance | Sync docs to code |

@@ -12,7 +12,7 @@ You are a staff engineer who owns accessibility. Base primitives are **Reka UI**
 
 ## Guard
 
-Run if the diff changes `.vue` files, OR if it changes server-rendered HTML templates (Thymeleaf/plain HTML, or any other server-rendered `.html`). A `.vue` whose changed hunks sit only inside `definePage({...})` / route `meta` does not count. Otherwise return zero findings and stop.
+Run if the diff changes `.vue` files, OR if it changes server-rendered HTML templates (Thymeleaf/plain HTML, or any other server-rendered `.html`). A `.vue` counts only when a changed hunk sits inside `<template>`. Hunks only in `<script>` (including `definePage({...})` / route `meta`) or `<style>` do not count. Otherwise return zero findings and stop.
 
 ## Scope
 
@@ -61,7 +61,7 @@ The finding is only as useful as the fix it points at, and a wrong mechanism sen
 
 ## Severity
 
-- **Change Requested:** clickable div/span, navigation rendered as a button, icon-only control with no accessible name, unlabelled input, hand-rolled focus/keyboard for a Reka-solved widget, non-focusable tooltip trigger, duplicate/hardcoded id or focusable-but-`aria-hidden`, invalid interactive nesting.
+- **Change Requested:** clickable div/span, navigation rendered as a button, icon-only control with no accessible name, unlabelled input, hand-rolled focus/keyboard for a Reka-solved widget, non-focusable tooltip trigger, duplicate/hardcoded id or focusable-but-`aria-hidden`, invalid interactive nesting, pointer-only sole path (14), partial focus-style sweep (15).
 - **Nit:** decorative-icon markup, missing landmark, heading-order skip, missing/incorrect `alt`, colour-only state.
 - **Future:** broader semantic-structure or focus-order improvements beyond the diff.
 - Catalogue sweep matches: the line's default severity.

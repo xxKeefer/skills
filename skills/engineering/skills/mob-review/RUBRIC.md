@@ -8,4 +8,4 @@ The rubric is a review rubric skill that the repo's `CLAUDE.md` or `AGENTS.md` n
 
 ## Step 4: Merge its findings
 
-The project rubric overlaps the personas by design. When one of its findings names the same file, line, and problem as a persona finding, keep the persona's. Its remaining findings stand.
+The project rubric overlaps the personas by design. When one of its findings names the same file and problem as a persona finding within a few lines, as [`COPILOT.md`](COPILOT.md) Step 4 says, keep the persona's finding at the higher of the two tiers. Its remaining findings stand.

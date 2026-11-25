@@ -157,6 +157,26 @@ class CheckReport(unittest.TestCase):
         self.save(data)
         self.fails("one of `mermaid`, `bars`, `table`, `html`")
 
+    def test_link_without_web_url_fails(self):
+        data = self.data()
+        data["runs"][0]["rows"][0]["cells"]["issue"] = "See [#456](456)."
+        self.save(data)
+        self.fails("link `[#456](456)`")
+
+        data = self.data()
+        data["runs"][0]["meta"] = {"Ticket": "[ABC-1](browse/ABC-1)"}
+        self.save(data)
+        self.fails("link `[ABC-1](browse/ABC-1)`")
+
+    def test_web_links_pass(self):
+        data = self.data()
+        data["runs"][0]["meta"] = {"PR": "[#456](https://github.com/o/r/pull/456)"}
+        data["runs"][0]["answer"] = "Merge [#456](https://github.com/o/r/pull/456)."
+        data["runs"][0]["rows"][0]["cells"]["issue"] = "Fixes [ABC-1](https://tracker.example.com/browse/ABC-1)."
+        self.save(data)
+        result = check(self.path)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_good_row_visuals_pass(self):
         data = self.data()
         data["runs"][0]["rows"][0]["visuals"] = [

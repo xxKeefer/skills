@@ -94,8 +94,21 @@ Plan only the scope from Step 2. Read the code in the worktree from Step 3. If t
 changes is unknown, send one search subagent to find it. Its brief names no model. When a step
 rewrites a rule, search the repo for the rule's old words, and give each copy a step.
 
+Find the **precedent**: the existing feature that the ticket is most like. An AC that says "like
+X" names it. Else search for the screen, component, or function that does the nearest job. Read
+**principle-subtract-before-you-add**
+([`../principle-subtract-before-you-add/SKILL.md`](../principle-subtract-before-you-add/SKILL.md))
+and apply it. When a step would copy markup or logic from the precedent, the first step moves that
+part into one shared part, and the precedent uses it with no change in behaviour. The new feature
+then uses the same part. If that first step adds more than about 300 lines, it becomes its own
+PR, and this ticket builds on it.
+
 The plan holds:
 
+- **The precedent.** The existing feature that the ticket is like, and the shared part that the
+  plan takes from it. If there is no precedent, say so in one line.
+- **The subtraction line.** The estimated source lines that the plan adds and deletes, with tests
+  counted apart, and each thing that the plan deletes. If the plan deletes nothing, say why.
 - **Steps.** Each step is a vertical slice: when it is done, a user can exercise it end to end.
   Put the most uncertain or risky work first. Each step that changes behaviour names its seam and
   the IDs of its test conditions. Its done line names the tests that it adds, and the letter of
@@ -116,8 +129,9 @@ Before you rate the ACs, read the defect hotspots of this repo, as
 For each `—` row, ask whether the ticket needs an AC for that behaviour. A yes adds the AC with the
 next free letter, and the row takes that letter. A no keeps the `—` row.
 
-**Done when:** each AC has a Risks row, each H and M row has a condition, and each condition is in
-the Conditions list of a step or under Not testing.
+**Done when:** the plan names its precedent or says there is none, it has a subtraction line, each
+AC has a Risks row, each H and M row has a condition, and each condition is in the Conditions list
+of a step or under Not testing.
 
 ## Step 6: Plan gate
 
@@ -148,7 +162,8 @@ The plan has the layout of the `/write-to-file` plan template. Fill it this way:
   `spec` when `/plan` gave a spec. For a sub-task with a map unit (Step 1), add `merge` and
   `builds_on` from the unit. `/claim` and `/do-next` read `worktree` and `branch`. `/create-pr`
   reads `merge`.
-- **Goal.** The goal, the scope (SCOPED, or SPLIT path 1), and the `/scope-ticket` estimate.
+- **Goal.** The goal, the scope (SCOPED, or SPLIT path 1), the `/scope-ticket` estimate, the
+  precedent, and the subtraction line.
 - **Acceptance criteria.** The lettered ACs from Step 1 and Step 5.
 - **Context.** What the linked tickets, the comments, and the attachments decide. The production
   gate. For a sub-task with a map unit, the map path and the unit's `Done:` line.

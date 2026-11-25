@@ -59,6 +59,7 @@ Find the project's own conventions in the repo (`CLAUDE.md`, `AGENTS.md`, the ex
 - **Filters, search, or page held outside the URL** → `persona-url-state`. You keep whether they are in the query key.
 - Whether the endpoint a query or mutation calls matches the backend contract, and whether the FE's permission gate matches the backend's authorisation → `persona-api-integrity`.
 - **What the screen shows while a query is pending, after it fails, or after its context is gone** (`initialData` faking a loaded state, last good data kept after an error, an in-flight write landing after logout/company switch, out-of-order hand-rolled fetches) → `persona-async-state`. You keep keys, invalidation, `staleTime`, `enabled`, optimistic-update mechanics and `signal` forwarding.
+- **The loading flag of a disabled or gated query that the screen reads**, such as `isLoading` that is `false` while the query waits on `enabled`, so the empty state shows → `persona-async-state` rule 12. Rule 11 does not report it.
 - General code structure/extraction/immutability → `persona-code-quality`.
 - Naming of keys/composables/files → `persona-naming`.
 - Non-query reactivity (`computed`/`watch` unrelated to queries) → `persona-vue-reactivity`.

@@ -40,7 +40,7 @@ Each finding states the input or keypress and what happens: "type `0042` into Ac
 
 When the diff touches a `min`, `max`, or `maxlength` bound, `type="number"`, or `v-model.number`, read [references/bounds-rules.md](references/bounds-rules.md). It holds rules 6 to 9.
 
-When the diff touches a hidden or toggled field, a cross-field rule, a date picker with limits, a form reset after submit, or a `disabled` field, read [references/validation-state-rules.md](references/validation-state-rules.md). It holds rules 10 to 14.
+When the diff touches a hidden or toggled field, a cross-field rule, a date picker with limits, a form reset after submit, a reset or discard of a draft, or a `disabled` field, read [references/validation-state-rules.md](references/validation-state-rules.md). It holds rules 10 to 15.
 
 When the diff touches a zod or yup schema, a field registration, `v-model` on query data or a prop, a key handler on a container, or a wizard step route, read [references/schema-state-and-wizard-rules.md](references/schema-state-and-wizard-rules.md). It holds rules 15 to 20.
 
@@ -51,7 +51,8 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 - **File pickers, drop zones and CSV imports** → `persona-file-upload`. **Work lost when the session expires mid-form** → `persona-resilience`.
 - **Whitespace-only values, trimming, Unicode length, paste, and autocorrect** → `persona-text-input`.
 - **Keyboard operability, focus order, labels, `aria-*`, and focus after dialog close** → `persona-a11y`. You own *what Enter does*; they own *whether the control can be reached and operated*.
-- **Double submit, a submit button not disabled while pending, and a refetch overwriting an edit** → `persona-async-state`.
+- **Double submit, a submit button not disabled while pending, a control that starts a conflicting write while a save is in flight (such as Discard or Cancel), and a refetch overwriting an edit** → `persona-async-state`.
+- **A missing not-found branch after a successful load** → `persona-correctness`.
 - **A bound or field shape that disagrees with the OpenAPI spec, `""` sent where the API wants `null`** → `persona-api-integrity`. You own a bound that is missing, or that contradicts itself on the FE.
 - **`!value` treating a real 0 as missing** → `persona-code-quality` #10.
 - **Whether a boundary or Enter test exists** → `persona-test-design`. You name the defect; they name the missing test.
@@ -60,7 +61,7 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 
 ## Severity
 
-- **Change Requested:** `@keydown.enter` on a design-system input (1), Enter action with no IME guard (2), raw button with no type in a form (3), Enter submitting something unchosen (4), Escape discarding a create/edit dialog (5), missing bound (6), contradictory bound (7), number input for an identifier or an unhandled empty number (8), stale hidden-field state (10), cross-field rule not re-run (11), typed date bypassing the picker (12), submit losing the user's work (13), `z.coerce.number()` on a form field (15), `.optional()` rejecting an empty string (16), a field registered with an undefined name (17), a form bound to query data or a prop (18), a parent key handler swallowing typing (19), and a wizard step reachable by URL (20).
+- **Change Requested:** `@keydown.enter` on a design-system input (1), Enter action with no IME guard (2), raw button with no type in a form (3), Enter submitting something unchosen (4), Escape discarding a create/edit dialog (5), missing bound (6), contradictory bound (7), number input for an identifier or an unhandled empty number (8), stale hidden-field state (10), cross-field rule not re-run (11), typed date bypassing the picker (12), submit losing the user's work (13), `z.coerce.number()` on a form field (15), `.optional()` rejecting an empty string (16), a field registered with an undefined name (17), a form bound to query data or a prop (18), a parent key handler swallowing typing (19), a wizard step reachable by URL (20), and a reset or discard that leaves a control on an old value (15).
 - **Nit:** Enter doing nothing (4), Escape discarding a small form (5), wheel or arrow changing a value (9), and disabled where readonly was meant (14).
 - **Future:** a shared number-field component with bounds, wheel handling and empty-value handling built in. Suggest, never block.
 - **Never:** a rule you can't tie to a concrete input or keypress; a theoretical bound on a value the user can't edit; anything on an unchanged line.

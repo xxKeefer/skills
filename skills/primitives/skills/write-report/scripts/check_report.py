@@ -10,6 +10,28 @@ BLOCK = re.compile(r'(<script type="application/json" id="runs">)(.*?)(</script>
 
 
 TYPES = ("mermaid", "bars", "table", "html")
+LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
+
+
+def texts(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, list):
+        for item in value:
+            yield from texts(item)
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            if key not in ("mermaid", "html"):
+                yield from texts(item)
+
+
+def check_links(run, label):
+    return [
+        (f"{label}: link `{match.group(0)}` has no web URL", "start the URL with `https://`, or write the text with no link")
+        for text in texts(run)
+        for match in LINK.finditer(text)
+        if not match.group(2).startswith(("https://", "http://"))
+    ]
 
 
 def check_visuals(visuals, label):
@@ -57,6 +79,7 @@ def check_run(run):
     for key in ("title", "date", "answer"):
         if not isinstance(run.get(key), str):
             found.append((f"{label}: `{key}` is missing or not a string", f"set `{key}` to a string"))
+    found.extend(check_links(run, label))
     rows = run.get("rows")
     visuals = run.get("visuals")
     shown = isinstance(visuals, list) and any(isinstance(v, dict) and not v.get("fold") for v in visuals)

@@ -16,7 +16,7 @@ This lane exists because lint reaches only the crudest cases (`no-empty`, `no-co
 
 Run only if the **changed lines**, not merely the changed files, touch a failure path: `catch`, `finally`, `throw`, `.catch(`, `.then(`, `reject`, `onError`, `captureException`, `console.`, `fetch(`, `response.ok`, `Promise.`, or a `*Error` type. Bare `async`/`await` with no failure path in the changed lines is **not** a trigger. Applies to non-test `.ts`/`.vue` source. Otherwise return zero findings and stop.
 
-Judge the hunks, not the file. A component that merely renders data another module fetches is not in scope.
+Judge the hunks, not the file. A component that merely renders data another module fetches is not in scope. A trigger on an unchanged context line does not count. So a new call inside an unchanged catch, such as an analytics call, is out of scope, unless the new line is itself a trigger.
 
 ## Scope
 
@@ -30,6 +30,8 @@ Before you flag a hand-rolled error helper, read [references/error-infrastructur
 
 **Swallowed failures**
 
+Before you flag a catch that drops a request error (rules 1 to 4), check whether the shared HTTP client already reports request errors to the error tracker. Raise the finding only when it does not.
+
 1. **Empty catch.** `catch {}` or `catch (e) {}` with no body: the failure vanishes. Change Requested.
 2. **Catch that only logs.** A catch whose entire body is a `console.*` call. The user sees nothing and Sentry learns nothing. Change Requested.
 3. **Catch that returns a masking default.** Returning `[]`, `null`, `0`, or `''` from a catch so the caller can't distinguish "no data" from "the request failed", with nothing reported. Change Requested. (Returning an empty collection is fine *if* the failure is still surfaced.)
@@ -41,11 +43,7 @@ Before you flag a hand-rolled error helper, read [references/error-infrastructur
 6. **Local `try/catch` + toast around a TanStack query or mutation** that duplicates the global handler, giving the user two toasts for one failure. The opt-out is the project's per-query flag, not a hand-rolled catch. Change Requested.
 7. **A failure the user caused and can fix that is reported to Sentry but never shown** (validation, a rejected form value): wrong audience. And the converse: an internal invariant breach toasted at the user in raw form. Nit.
 
-**Context and taxonomy**
-
-8. **`throw new Error('...')` with no context**: the message must say what failed, why, and with what input. `throw new Error('Invalid response')` is unactionable in Sentry. Change Requested.
-9. **A new operational error type that doesn't extend the project's base error**, where the project has an error taxonomy: it loses its context and the trace id, so the report can't be joined to the backend trace. Change Requested.
-10. **Re-wrapping a typed error in a bare `Error`**, discarding an HTTP error's status or the trace id. Rethrow the original, or wrap with `cause`. Change Requested.
+When the changed lines throw, define, or re-wrap an error, read [references/context-and-taxonomy.md](references/context-and-taxonomy.md). It holds rules 8 to 10.
 
 **Cancellation is not a failure**
 
@@ -57,7 +55,7 @@ Before you flag a hand-rolled error helper, read [references/error-infrastructur
 
 **Unhandled async**
 
-13. **Floating promise**: an async call neither awaited, `.catch()`-ed, nor explicitly `void`-marked. `@typescript-eslint/no-floating-promises` catches some of this; flag where it doesn't reach (async work started in `onMounted`, a watcher callback, or a template handler). Change Requested.
+13. **Floating promise**: an async call neither awaited, `.catch()`-ed, nor explicitly `void`-marked. `@typescript-eslint/no-floating-promises` catches some of this; flag where it doesn't reach (async work started in `onMounted`, a watcher callback, or a template handler). Before you suggest `void`, check the lint config for a rule that bans the `void` operator. When one does, suggest an awaited call in an async handler. Change Requested.
 14. **`.then()` with no `.catch()`** on a chain that can reject. Change Requested.
 15. **`async` template handler** (`@click="save"` where `save` is async) whose rejection has nowhere to go: it becomes an unhandled rejection rather than a toast. Nit.
 

@@ -20,7 +20,7 @@ Find the project's analytics wrapper (`CLAUDE.md`, `AGENTS.md`, `package.json`, 
 
 Run if the diff's **changed lines** do any of:
 - touch analytics directly: the wrapper's event, flow-tracking and navigation-tracking calls, a direct `posthog.` call, or any file in the wrapper's analytics directory or lib;
-- in an app that activates the wrapper, add a user-facing flow: a new page, a multi-step wizard or stepper, a dialog/drawer whose confirm fires a mutation, a new order/checkout/signup/billing entry point, or a flag-gated alternate experience of an existing flow.
+- in an app that activates the wrapper, add a user-facing flow: a new page (the diff adds a route or a page file, not an existing tab or page shown for another product type), a multi-step wizard or stepper, a dialog/drawer whose confirm fires a mutation, a new order/checkout/signup/billing entry point, or a flag-gated alternate experience of an existing flow. Before you count a flag-gated surface, check the project's conventions and recalled memory for surfaces excluded from tracking. An excluded surface does not count.
 
 Judge the hunks, not the file. Return zero findings for test/story/mock/docs/CI-only diffs, backend code, and apps that do not activate the analytics wrapper (search for its import across `apps` if unsure).
 
@@ -32,11 +32,8 @@ Read the wrapper's event map and vocabulary files at HEAD whenever the diff adds
 
 ## What you review
 
-### A. Over-tracking: do not record what the database knows
+When the diff adds or changes a capture call, a flow-tracking call, or a navigation-tracking call, read [references/over-tracking.md](references/over-tracking.md). It holds rules 1 to 3.
 
-1. **Backend-measurable event with no client-only context (Nit).** A `track` whose whole payload restates a persisted fact (a record created, a status changed, a count of rows) and carries nothing only the browser knows (the entry `source`, the flow it closes, the experience, `requested_count` vs `added_count` from one click). Ask: "could a SQL query over the service's tables produce this exact number?" If yes and nothing else rides, drop it. **Do not flag** a `*_settled` or `*_created` event that closes a funnel in the same tool, or carries the surface it came from: `project_created { source }` and `invoice_dispute_submit_settled` are the pattern, not the smell.
-2. **Volume: event on a hot path (Change Requested).** `track` inside a `computed`, a render path, a `watch` on a value that changes per keystroke/scroll/poll/resize, an input `@input`/`@update:modelValue` handler, a `refetchInterval` callback, or a loop over items. One user action must produce one event. Debounce to the committed value (blur, submit, filter applied), or track the settle, not the stream.
-3. **Duplicate of what already fires (Change Requested).** A manual `track` on a route enter / `onMounted` that restates `$pageview` (the wrapper already sends one per settled navigation with the route name), unless it carries something the route cannot (rendered experience, entry default). A second `track` or navigation-tracking call for a click the handler already sends as `navigation_click`, including the logo and breadcrumb clicks the app shell tracks itself. Two components each starting the same flow for one user action. A new event whose name or payload is a near-copy of one already in the typed event map: extend the existing one with a property instead.
 When the diff adds or changes an event property, an identity field, or the page-view query allowlist, read [references/event-properties.md](references/event-properties.md). It holds rules 4 to 6.
 
 When the diff adds a capture call, a flow-tracking call, an event type, or a step or reason, read [references/contract-correctness.md](references/contract-correctness.md). It holds rules 7 to 11.

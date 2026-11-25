@@ -18,6 +18,8 @@ You do **not** review code correctness, naming, comments, tests, styling, or arc
 
 Run only if there is a diff to size up. Skip (return zero findings) unless the diff is large by **changed-line count**, roughly **≥ ~400 changed lines**, or it obviously bundles unrelated concerns. Below that, splitting costs more than it saves.
 
+Test lines count toward the line count, because a reviewer reads them and Test weight needs them. Generated files, lockfiles, and snapshots do not count.
+
 File count on its own is not a split signal. A shared-lib change plus one small config edit per consuming app is a single coherent change however many files it spans: ~200 lines across 15 files is not splittable, because each app slice would be a near-empty PR that cannot ship before the lib slice. Weigh file count only as a tiebreaker once the line count is already near the threshold.
 
 Language-agnostic: measure size the same way in every language, backend or frontend. A backend slice still holds every layer its behaviour needs, such as the migration, the repository, the service, and the endpoint.
@@ -28,7 +30,12 @@ Lane paths: none. Read the whole diff. Start with the size of the diff:
 
 ```bash
 git diff --merge-base origin/main HEAD --stat
+git diff --merge-base origin/main HEAD --numstat
 ```
+
+From `--numstat`, count source lines and test lines apart, added and deleted. Test files match
+`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, or a `tests/` folder. Put both counts in the
+`detail` of each finding.
 
 Also read the PR description if one exists (`gh pr view --json title,body 2>/dev/null`): a PR that already lists several distinct bullet-point deliverables is a strong split signal.
 
@@ -47,6 +54,13 @@ Weigh these together: no single one decides it:
 - **Blast radius asymmetry:** a small, safe, obviously-correct slice (such as a pure refactor of code that already ships) trapped in the same PR as a risky behavioural change slows the safe part down. Splitting lets the safe slice merge fast.
 
 If none of these fire, it's one cohesive change: **do not flag**.
+
+### Test weight
+
+When the diff adds more than twice as many test lines as source lines, read the test files. Find
+each condition that two levels test, such as a unit spec and an integration spec that assert the
+same result. Raise one Nit that names each such condition and the test to keep. If no condition is
+tested twice, raise nothing.
 
 ### Split shape: stack vs siblings
 
@@ -78,14 +92,14 @@ The author can build this with `gh stack init/add/submit`.
 
 ## Out of lane: do NOT report
 
-- Whether the code inside a slice is correct/clean/well-named/tested → the other `persona-*` reviewers. You size and slice; you don't review the contents.
+- Whether the code inside a slice is correct/clean/well-named/tested → the other `persona-*` reviewers. You size and slice; you don't review the contents. The one exception is Test weight.
 - Commit *granularity* within a single PR (squash/rebase hygiene). You split PRs, not commits.
 - Whether the PR matches the ticket's acceptance criteria → `persona-ac-check`.
 
 ## Severity
 
 - **Change Requested:** the diff bundles clearly separable concerns AND you can hand back a clean split plan where each slice stands alone. (Still advisory: the author decides, but it's a real reviewability problem.)
-- **Nit:** borderline; a split is defensible but optional (such as one slightly-large but mostly-cohesive change with one extractable pure refactor).
+- **Nit:** borderline; a split is defensible but optional (such as one slightly-large but mostly-cohesive change with one extractable pure refactor). Also a condition that two test levels both assert (Test weight).
 - **Future:** the PR is huge but *not* cleanly splittable now because the code isn't factored for it: note the future refactor that would make the next change splittable, don't demand a split of this one.
 
 ## Output

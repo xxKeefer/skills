@@ -1,5 +1,7 @@
 # PR table and plan claims
 
+**The author's rating.** Use the author's rating when the test approach has one. Argue with it only when the diff clearly contradicts it (the plan said `L, copy only` and the diff changes a price). That disagreement is itself a finding.
+
 2. **The PR body**, if a PR exists: `gh pr view --json body -q .body`. You need its AC table (`Risk`, `Tested by`, `Conditions`) and its **Gaps** line. **No such table** (the PR predates the template, or uses another one) → rules 3, 4 and 5 don't apply, and rule 1's "not listed under Gaps" test is skipped. A missing table is not a finding: `persona-ac-check` and the template own the PR body.
 
 3. **"Tested by" claim no test backs (Change Requested).** The PR's AC table names a spec or test that doesn't exist, doesn't exercise that AC, or asserts something else (it renders the component and asserts nothing about the AC's outcome). Also a **Conditions** cell listing a condition no test proves. The table is what QA and reviewers trust. A false entry is worse than an empty one.

@@ -22,14 +22,12 @@ Lane paths: `'*.spec.ts' '*.test.ts'`. Also read the source-under-test when judg
 
 - The project's shared test utilities: where they wrap `mount` as shallow mount (children stubbed), that is the default for isolation; deep mount only for parent↔child interaction. Use the utilities' `screen`, `flushPromises`, `waitForElementToBeRemoved`, and its TanStack query mocks where they exist. Read the utilities' source before judging the idiom.
 - **`failOnConsole` is on**: any `console.error/warn/log/info/debug` fails the test. Flag `vi.spyOn(console, ...)` used to swallow real warnings.
-- **Check the project's vitest config before claiming leakage.** A project whose config sets `restoreMocks`/`clearMocks` (and possibly `unstubGlobals`) needs no manual `afterEach` restore for a `vi.spyOn`. Read the `test` block of the owning config first; only flag leakage in a project that lacks them.
-- Lint enforces `testing-library/no-wait-for-multiple-assertions`. `test` preferred over `it`.
+- Prefer `test` over `it`, and cite `testing-library/no-wait-for-multiple-assertions` as a lint rule, only when the repo's lint config or conventions name them.
 
 ## What you review
 
-1. **Accessible selectors over test ids (Change Requested / Nit).** Prefer `getByRole`/`getByLabelText`/`getByText`/`getByPlaceholderText`. Flag a **new** `getByTestId`/`data-testid` query where a role + accessible name would work. (Table/pagination internals with no role are a legitimate testid fallback.) Before proposing a role query, confirm the role is **unique** in the rendered tree: a non-unique role with no distinguishing accessible name is not a better selector, and a testid is then the legitimate fallback (for example `role="alert"` on both a toast and field validation messages).
+1. **Accessible selectors over test ids (Change Requested / Nit).** Prefer `getByRole`/`getByLabelText`/`getByText`/`getByPlaceholderText`. Flag a **new** `getByTestId`/`data-testid` query where a role + accessible name would work. (Table/pagination internals with no role are a legitimate testid fallback.) Before proposing a role query, confirm the role is **unique** in the rendered tree: a non-unique role with no distinguishing accessible name is not a better selector, and a testid is then the legitimate fallback (for example `role="alert"` on both a toast and field validation messages). Before any selector suggestion, check which test library the spec imports. Suggest only that library's APIs.
 When a spec builds mock data, asserts text or a count, passes an id to a builder, or lists roles, options or statuses, read [references/text-assertions-and-test-data.md](references/text-assertions-and-test-data.md). It holds rules 2, 14, 25 and 26.
-3. **Mock leakage (Change Requested).** In a project whose config lacks `restoreMocks` (check it), a `vi.spyOn`/`vi.mock` stub added without an `afterEach(() => vi.restoreAllMocks())` can bleed into later tests. Flag spies/stubs without cleanup. This includes **`vi.stubGlobal(...)`** (`FileReader`, `window.open`, `ResizeObserver`, `WebAssembly`) and `vi.setSystemTime`/`Settings.now`/`classList` mutations left unrestored (no `unstubGlobals`): they leak across files; and a spy **reassigned after `vi.mock` already captured the original reference** (the mock keeps calling the original).
 4. **`waitFor` misuse (Change Requested).** Exactly ONE assertion inside `waitFor`; remaining assertions after it. No side-effects (clicks/events/renders) inside `waitFor`.
 5. **Hard waits & nondeterminism (Change Requested).** Flag `await new Promise(r => setTimeout(r, N))` with N>0 (use `waitFor`/`flushPromises`); unseeded `Math.random`/`faker`; wall-clock `Date.now()`/`new Date()` without `vi.setSystemTime(fixedDate)`; fake timers set without restoring real timers; and **`vi.useFakeTimers()` enabled *after* the component is mounted**: timers scheduled during mount aren't controlled by `runAllTimersAsync()`, so enable fake timers before `render`.
 6. **Missing `await` (Change Requested).** `fireEvent`/`userEvent`/`flushPromises`/`waitFor`/`vi.waitFor` must be awaited, and so must `findBy*` when it comes from `@testing-library/vue`. **Exception:** where the project's test utilities export a `screen` that makes `findBy*`/`findAllBy*` synchronous wrappers of `queryBy*` (null when absent) and puts the async lookup under `resolveBy*`, an un-awaited `expect(screen.findByX(...)).not.toBeInTheDocument()` is valid there and is that library's documented absence idiom. Check which `screen` the spec imports before flagging.
@@ -41,12 +39,13 @@ When a spec builds mock data, asserts text or a count, passes an id to a builder
 10. **`describe.each`/`test.each` + helper extraction (Nit).** Suggest `test.each` for repetitive value-varied cases; extract a shared `renderComponent`/arrange helper to dedupe setup blocks.
 11. **Right mount depth (Nit).** `deepMount` where `mount` (shallow) would isolate the unit; or `mount` where the test genuinely needs children rendered.
 
-When a spec sets a time zone, stubs or replaces a global, resets mocks by hand, uses a deprecated API, or a shared mock resolves `undefined`, read [references/runner-api-and-shared-mocks.md](references/runner-api-and-shared-mocks.md). It holds rules 12 and 13.
+When a spec adds a spy, sets a time zone or the system time, stubs or replaces a global, resets mocks by hand, uses a deprecated API, or a shared mock resolves `undefined`, read [references/runner-api-and-shared-mocks.md](references/runner-api-and-shared-mocks.md). It holds rules 3, 12 and 13.
 
 ## Out of lane: do NOT report
 
 - Playwright/MSW integration tests → `persona-integration-test`.
-- A test coupled to the implementation, a mock of the project's own code, or a unit reachable only by patching a global → `persona-test-quality`.
+- A test coupled to the implementation, a test that reads a private framework field (such as `vm.$`), a mock of the project's own code, or a unit reachable only by patching a global → `persona-test-quality`.
+- An assertion that no source line can make fail (a self-comparison, a field the code never sets, a repeat of a proven check), or one on a test-only attribute → `persona-test-quality` rule 6.
 - Quality of the non-test source under test → `persona-code-quality`.
 - Naming of test files/vars → `persona-naming`.
 - Which conditions *should* be tested: missing edge cases, boundaries, untested reverse directions, uncovered role/flag combinations, wrong test level, PR "Tested by" claims → `persona-test-design`. You review the tests that exist.
@@ -66,5 +65,6 @@ Never edit source or test files. Mutation testing (deleting a guard or flipping 
 
 - `category`: `vitest`.
 - `detail`: the concrete flake or false-pass scenario.
-- `suggestion`: the fix.
+- `suggestion`: the fix. A new assertion checks an observable result, such as a request or a rendered row, not a spy on a library call such as a cache method.
+- Before a `suggestion` mocks or counts a request, read the cache freshness of the query that sends it. When the cache would answer, remove or expire the entry first in the test.
 - Example `summary`: `two assertions inside waitFor`.
