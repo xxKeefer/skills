@@ -22,7 +22,7 @@ Run only if the **changed lines** of non-test `.vue`/`.ts` under `apps/**` or `l
 
 Lane paths: `'*.ts' '*.vue' ':!*.spec.ts' ':!*.test.ts'`.
 
-**Check the schema before flagging a missing value:** find the field's zod schema (the API client's models) and say whether it is optional or nullable. A null-rendering finding on a field the schema marks required needs evidence that the API omits it.
+**Check the schema before flagging a missing value:** find the zod schema that parses the response on this code path, and say whether the field is optional or nullable. A schema of the same name in another package does not count. A null-rendering finding on a field the schema marks required needs evidence that the API omits it.
 
 Canonical helpers:
 - Dates: the project's date component or formatter, with shared format constants and one empty placeholder. Values should be decoded to a date type in the API client's schema. Check any repo rule on dates.
@@ -42,13 +42,14 @@ Each finding names the value and what renders: "a service with `rateLimit: null`
 **Dates and times**
 
 4. **Date display or parsing outside the shared helpers (Change Requested).** A date shown with `toLocaleString`, `Intl.DateTimeFormat`, Luxon, or a hand-built string instead of the project's date component or formatter; `new Date('2026-10-13')` on a date-only value, which is UTC midnight and shows the previous day west of UTC; a "UTC" label on a value rendered in local time, or no zone at all on a time that matters (maintenance windows, billing cut-off). (DS-E1, DS-E2, DS-E6, DS-E12)
-5. **Date range edges (Change Requested when it changes what's billed or filtered, else Nit).** An "until" date sent or compared as midnight at the start of the day, so the last day is excluded; seconds and milliseconds epochs mixed (a 1970 date, or year 50000). (DS-E10, DS-E5)
-6. **Relative time oddities (Nit).** "in 0 seconds", "1 days ago", a negative "−3 minutes ago" from client clock skew, or a relative label that never updates while the page stays open. Use `Intl.RelativeTimeFormat` and clamp. (DS-E7, DS-E8)
+
+When the diff sends or compares a date range, or shows a relative time, read [references/date-ranges-and-relative-time.md](references/date-ranges-and-relative-time.md). It holds rules 5 and 6.
 
 **Numbers, money and units**
 
 7. **Money formatted by hand (Change Requested).** `toFixed(2)`, a hard-coded `$`, a float sum of prices, or the currency taken from the UI locale rather than the account, instead of the project's money formatter. Watch for "-$0.00", for JPY shown with two decimals, and for a legacy formatter rendering a real $0 as `-`. (DS-D2, DS-D4, DS-D5, DS-D6, DS-D7)
 8. **Unit conversion wrong (Change Requested).** Bandwidth divided by 1024, or bits and bytes mixed (Mbps vs MB/s), so 10000 Mbps shows as "9.77 Gbps"; a conversion that shows "2.4999999 Gbps"; a value and its unit split across a line break. (DS-D9, DS-D10, DS-D11)
+
 When the diff computes a ratio or percentage, shows large numbers, or adds a copy button, read [references/ratios-large-numbers-and-copying.md](references/ratios-large-numbers-and-copying.md). It holds rules 9 to 11.
 
 When the diff reads a nested nullable object, maps a sentinel value, passes a value to `Intl` or an enum-checking prop, or maps a status to a state, read [references/render-crashes-and-sentinels.md](references/render-crashes-and-sentinels.md). It holds rules 12 to 15.

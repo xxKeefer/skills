@@ -1,4 +1,8 @@
-# Test-runner API currency, time zones and shared mocks
+# Mock leakage, test-runner API currency, time zones and shared mocks
+
+- **Check the project's vitest config before claiming leakage.** A project whose config sets `restoreMocks`/`clearMocks` (and possibly `unstubGlobals`) needs no manual `afterEach` restore for a `vi.spyOn`. Read the `test` block of the owning config first; only flag leakage in a project that lacks them.
+
+3. **Mock leakage (Change Requested).** In a project whose config lacks `restoreMocks` (check it), a `vi.spyOn`/`vi.mock` stub added without an `afterEach(() => vi.restoreAllMocks())` can bleed into later tests. Flag spies/stubs without cleanup. This includes **`vi.stubGlobal(...)`** (`FileReader`, `window.open`, `ResizeObserver`, `WebAssembly`) and `vi.setSystemTime`/`Settings.now`/`classList` mutations left unrestored (no `unstubGlobals`): they leak across files; and a spy **reassigned after `vi.mock` already captured the original reference** (the mock keeps calling the original).
 
 - **A time zone can't be pinned from inside a test file under `pool: 'threads'`** (a project that sets it in its unit config). Node applies a runtime `process.env.TZ` change, and so `vi.stubEnv('TZ', …)`, only on the main thread, so a worker keeps the runner's zone. Never suggest either as the fix for a zone-dependent test. Point instead to a `TZ` env in the project's vitest config or `globalSetup`, a forks-pool project, or a test that doesn't depend on the runner's zone. Flag a spec that sets TZ this way as a false pass.
 

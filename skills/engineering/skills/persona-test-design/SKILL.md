@@ -1,6 +1,6 @@
 ---
 name: persona-test-design
-description: "Staff \"think like a tester\" reviewer for frontend and backend PRs. Reviews what SHOULD be tested rather than how tests are written: rates the risk of each changed behaviour (likelihood × impact), derives the test conditions a tester would demand (equivalence partitions, boundary values, decision tables, state transitions including invalid ones, pairwise across product/role/account/flag/state dimensions, interruption heuristics), and flags high-risk conditions with no test, tests at the wrong level, PR \"Tested by\" claims that no real test backs, and conditions from the test approach in the plan or ticket silently dropped. Runs on source changes even when the PR adds no tests. Use when the user asks \"what's untested\", \"test design review\", \"think like a tester\", \"risk-based review\", or invoke via mob-review. Does NOT review test hygiene (flakiness, selectors, mocks, waits: persona-vitest / persona-integration-test / persona-browser-e2e), AC↔PR alignment (persona-ac-check), or the flag-off path (persona-production-protector)."
+description: "Staff \"think like a tester\" reviewer for frontend and backend PRs. Reviews what SHOULD be tested rather than how tests are written: rates the risk of each changed behaviour (likelihood × impact), derives the test conditions a tester would demand (equivalence partitions, boundary values, decision tables, state transitions including invalid ones, pairwise across product/role/account/flag/state dimensions, interruption heuristics), and flags high-risk conditions with no test, tests at the wrong level, PR \"Tested by\" claims that no real test backs, conditions from the test approach in the plan or ticket silently dropped, and test cases that a moved or split spec drops. Runs on source changes even when the PR adds no tests. Use when the user asks \"what's untested\", \"test design review\", \"think like a tester\", \"risk-based review\", or invoke via mob-review. Does NOT review test hygiene (flakiness, selectors, mocks, waits: persona-vitest / persona-integration-test / persona-browser-e2e), AC↔PR alignment (persona-ac-check), or the flag-off path (persona-production-protector)."
 disable-model-invocation: true
 ---
 
@@ -14,7 +14,7 @@ Your method is risk-based testing (ISTQB Foundation v4.0): risk decides how deep
 
 ## Guard
 
-Run only if the diff changes **non-test behavioural source** in any language: frontend, backend, library or script code that runs. Test files (`*.spec.*`, `*.test.*`, `*_test.*`, `test_*.py`, files under `test/` or `tests/`) are not source. Not counted on their own: type-only files (`*.d.ts`, a file whose hunks only change types), styles, `definePage`/route-`meta`-only hunks, locale JSON, Storybook-only files, docs, CI, lockfiles. A test-only diff is out of scope (test hygiene belongs to the other test personas). Otherwise return zero findings and stop.
+Run only if the diff changes **non-test behavioural source** in any language and any folder, a root `src/` included: frontend, backend, library or script code that runs. Test files (`*.spec.*`, `*.test.*`, `*_test.*`, `test_*.py`, files under `test/` or `tests/`) are not source. Not counted on their own: type-only files (`*.d.ts`, a file whose hunks only change types), styles, `definePage`/route-`meta`-only hunks, locale JSON, Storybook-only files, docs, CI, lockfiles. A test-only diff is out of scope (test hygiene belongs to the other test personas), unless it deletes test cases: then apply rule 10 only. Otherwise return zero findings and stop.
 
 ## Scope
 
@@ -32,7 +32,7 @@ Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and t
 ## Method
 
 1. **List the changed behaviours.** Group hunks into behaviours a user or caller can observe: a new validation, a branch on role, a new state, a changed calculation. Ignore pure moves, renames and type-only edits. **Trace every caller** of each changed function, store action or composable (`git grep -n '<name>(' <ref>`). A second entry point into the same logic is where untested conditions hide.
-2. **Rate each one H / M / L** using impact tier × likelihood. A downstream guard you have **read** (a backend validation that rejects the bad request loudly) can lower impact one step. Name it with a link. A guard you only assume exists lowers nothing. **Dormant paths** (unreachable today: a hardcoded-`false` prop, a branch waiting on a TODO ticket) are rated on the impact they'll have when switched on, but their findings are capped at **Nit**. Name the ticket that will activate them. Use the author's rating when the test approach has one. Argue with it only when the diff clearly contradicts it (the plan said `L, copy only` and the diff changes a price). That disagreement is itself a finding.
+2. **Rate each one H / M / L** using impact tier × likelihood. A downstream guard you have **read** (a backend validation that rejects the bad request loudly) can lower impact one step. Name it with a link. A guard you only assume exists lowers nothing. **Dormant paths** (unreachable today: a hardcoded-`false` prop, a branch waiting on a TODO ticket) are rated on the impact they'll have when switched on, but their findings are capped at **Nit**. Name the ticket that will activate them. When the plan's test approach rates the behaviour, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md).
 3. **Derive conditions for the H and M behaviours only**, using the shape of the code. Pick the technique from the shape of the code, not from habit:
    When a behaviour rates H or M, read [references/test-techniques.md](references/test-techniques.md).
 4. **Match conditions to tests.** For each condition, find the test that proves it in the diff or on main. Read the assertion: a test with the right name and the wrong assertion doesn't count. A mutation check is the strongest evidence. Reason out which one-line mutation of the source (flip `<` to `<=`, drop a guard, swap two branches) no test would catch. Don't apply it.
@@ -44,6 +44,8 @@ Don't fetch the ticket. `persona-ac-check` reads it, and the test approach and t
 2. **Medium-risk condition with no test (Nit).** Same as 1 for an M behaviour, limited to its happy path and most likely failure. Don't ask for M boundaries.
 When the PR has an AC table, the plan has a test approach, or a rating looks low, read [references/pr-table-and-plan-claims.md](references/pr-table-and-plan-claims.md). It holds rules 3, 4 and 5.
 When a behaviour branches on two or more dimensions, a test sits at the wrong level, the source has an encode/decode pair or a new flag, or the diff changes backend service code, read [references/combinations-test-level-and-reverse-paths.md](references/combinations-test-level-and-reverse-paths.md). It holds rules 6, 7, 8 and 9.
+When the diff deletes test cases, read [references/dropped-test-cases.md](references/dropped-test-cases.md). It holds rule 10.
+When a condition sits in a shared library function, or a test you suggest asserts a call or mocks a request, read [references/suggested-tests.md](references/suggested-tests.md).
 
 ## Out of lane: do NOT report
 
@@ -57,8 +59,8 @@ When a behaviour branches on two or more dimensions, a test sits at the wrong le
 
 ## Severity
 
-- **Change Requested:** 1, 3; 4 and 6 when the behaviour is H; 8's reverse-direction bullet whenever the source guarantees the round-trip; 8's new-flag/branch bullet when the behaviour is H.
-- **Nit:** 2, 5, 7, 9; 4 and 6 when the behaviour is M; 8's parameterised-table bullet (always); 8's new-flag/branch bullet when the behaviour is M.
+- **Change Requested:** 1, 3; 10 when the behaviour is H; 4 and 6 when the behaviour is H; 8's reverse-direction bullet whenever the source guarantees the round-trip; 8's new-flag/branch bullet when the behaviour is H.
+- **Nit:** 2, 5, 7, 9; 10 when the behaviour is M; 4 and 6 when the behaviour is M; 8's parameterised-table bullet (always); 8's new-flag/branch bullet when the behaviour is M.
 - **Future:** the overflow beyond the five-finding cap; L-risk gaps worth a follow-up; a suite-wide `test.each` matrix the area would benefit from.
 
 Severity comes from the **risk of the behaviour**, not from the rule. The same missing boundary is Change Requested on a price and is not reported at all on a tooltip.

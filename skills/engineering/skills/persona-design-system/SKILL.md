@@ -12,7 +12,7 @@ You are a staff frontend engineer who owns the design system. You review **only*
 
 ## Guard
 
-Run only if the diff changes `.vue`, a styles file (such as `*.styles.ts`), or any file containing Tailwind class strings / CSS. A `.vue` whose changed hunks sit only inside `definePage({...})` / route `meta` does not count. Otherwise return zero findings and stop. This lane is frontend-only and has no backend analog: Tailwind utilities and design-system tokens have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
+Run only if the diff changes `.vue`, a styles file (such as `*.styles.ts`), or any file containing Tailwind class strings / CSS. A `.vue` counts only when a changed hunk sits in `<template>` or `<style>`, or changes a class string. Otherwise return zero findings and stop. This lane is frontend-only and has no backend analog: Tailwind utilities and design-system tokens have no backend counterpart, so on a backend or otherwise non-frontend diff, return `inScope:false` with zero findings.
 
 ## Scope
 

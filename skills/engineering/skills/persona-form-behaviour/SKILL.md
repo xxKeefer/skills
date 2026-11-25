@@ -51,7 +51,8 @@ When the diff touches a zod or yup schema, a field registration, `v-model` on qu
 - **File pickers, drop zones and CSV imports** → `persona-file-upload`. **Work lost when the session expires mid-form** → `persona-resilience`.
 - **Whitespace-only values, trimming, Unicode length, paste, and autocorrect** → `persona-text-input`.
 - **Keyboard operability, focus order, labels, `aria-*`, and focus after dialog close** → `persona-a11y`. You own *what Enter does*; they own *whether the control can be reached and operated*.
-- **Double submit, a submit button not disabled while pending, and a refetch overwriting an edit** → `persona-async-state`.
+- **Double submit, a submit button not disabled while pending, a control that starts a conflicting write while a save is in flight (such as Discard or Cancel), and a refetch overwriting an edit** → `persona-async-state`.
+- **A missing not-found branch after a successful load** → `persona-correctness`.
 - **A bound or field shape that disagrees with the OpenAPI spec, `""` sent where the API wants `null`** → `persona-api-integrity`. You own a bound that is missing, or that contradicts itself on the FE.
 - **`!value` treating a real 0 as missing** → `persona-code-quality` #10.
 - **Whether a boundary or Enter test exists** → `persona-test-design`. You name the defect; they name the missing test.

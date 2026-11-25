@@ -47,11 +47,27 @@ When you judge a test against the interface, read
    global, a module import, or an environment variable, because the unit builds its own client.
    Suggest that the unit takes the dependency as a parameter. Anchor the finding at the patch in
    the test.
+6. **Assertion that cannot fail (Change Requested).** For each new assertion, name the source
+   line whose removal makes it fail. Report an assertion with no such line: a value compared to a
+   copy of itself, a field the code never sets, or a check that an earlier step already proved.
+   Also report an assertion on an attribute that the source sets only for the test, such as a
+   `data-*` attribute that carries state. An id attribute used only to find an element is not
+   this rule.
+
+Exceptions:
+
+- **A repo rule asks for mocked imports.** Before you flag a mock under rule 2, read the repo's
+  testing rules (`CLAUDE.md`, `AGENTS.md`, and the rules folders they point to) and the plan. Do
+  not flag the mock when they require component isolation through mocked imports or a shallow
+  mount, or when the plan names that mock as the test seam. Do not ask for a full render in place
+  of the shallow mount that the rule asks for.
+- **One call site for the global.** Do not report rule 5, and do not ask for a new module or an
+  injected dependency, when the code has one call site for that global.
 
 ## Out of lane: do NOT report
 
 - Rules 3 and 4 on a Vitest unit test (`*.spec.ts` / `*.test.ts` in a project that runs Vitest)
-  → `persona-vitest` rules 7 and 8. Rules 1, 2, and 5 stay yours on every test file.
+  → `persona-vitest` rules 7 and 8. Rules 1, 2, 5, and 6 stay yours on every test file.
 - Runner idioms, flakiness, waits, selectors, builders, and leaks between tests →
   `persona-vitest` (unit), `persona-integration-test` (Playwright and MSW), and
   `persona-browser-e2e` (a standalone browser E2E suite).
@@ -64,7 +80,7 @@ When you judge a test against the interface, read
 
 - **Change Requested:** a test coupled to the implementation (1), a mock of the project's own
   code (2), an expected value that restates the implementation (3), and a test that passes when
-  the feature breaks (4).
+  the feature breaks (4), and an assertion that cannot fail (6).
 - **Nit:** a unit that a test can reach only by patching a global (5).
 - **Future:** a suite-wide move from mocks of internals to tests at the interface.
 

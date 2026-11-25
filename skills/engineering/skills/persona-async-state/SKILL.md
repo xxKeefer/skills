@@ -16,7 +16,7 @@ No other persona owns this lane: `persona-tanstack` checks how a query is config
 
 Run only if the **changed lines**, not merely the changed files, touch asynchronous state: `await`, `.then(`, an async `watch`/`watchEffect` callback, `useMutation`/`mutate`/`mutateAsync`, `isPending`/`isFetching`/`isError`, `initialData`/`placeholderData`, `AbortController`/`signal`, `onWatcherCleanup`, a store `$reset`/logout/account-or-company-switch handler, or a `route.params`/`route.query` read inside an async callback. Applies to non-test `.ts`/`.vue` source. Otherwise return zero findings and stop.
 
-Judge the hunks, not the file. Changing which function an event binding or import points at (`@logout="…"`, a swapped composable source) doesn't count; the handler's own body has to change. A component that only renders a query's `data` with its loading and error branches intact is not in scope.
+Judge the hunks, not the file. Changing which function an event binding or import points at (`@logout="…"`, a swapped composable source) doesn't count; the handler's own body has to change. A hunk that only adds or removes comments in a handler is not a change to its body. A component that only renders a query's `data` with its loading and error branches intact is not in scope.
 
 ## Scope
 
@@ -39,9 +39,11 @@ Read enough of the surrounding file to know what triggers the async call (a watc
 4. **In-flight write into reset state (Change Requested).** A logout, account or company switch, `$reset()`, revert or dialog close resets the store or form, but a request started before it still resolves and writes into the fresh state. Abort it, or capture the context (account or company id, form generation) and drop the result when it no longer matches.
 5. **Reactive context re-read after an await (Change Requested).** A success/error callback or the code after an `await` reads `route.params.x`, `currentCompany.value`, or a selection ref instead of the value captured when the call started. If the user navigated or switched, the follow-up (navigate, toast, cache write) targets the wrong record. Capture first, use the captured value.
 6. **Partial reset on revert / cancel / context switch (Nit; Change Requested when the leftover can be submitted).** A reset handler clears the dirty flag or one ref but leaves the selected item, draft or derived state from the previous context. Name the ref that survives and what it causes.
-7. **A load that needs two inputs but waits on one (Nit).** A watcher that fires the load when `a` changes but reads `b` too, so the load runs before `b` is ready or doesn't rerun when `b` changes. Watch both, or gate on readiness. (Whether the watcher should be a `computed` at all is `persona-vue-reactivity`'s call.)
+11. **Finishing write into state a newer action owns (Change Requested).** A completion handler writes shared state (closes a panel, clears a selection, resets a flow) with no check that the state still belongs to the action that started it. The user starts a second action before the first one finishes, and the first one's finish closes or resets it. Capture an owner id at the start and write only when it still matches.
 
-When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback such as `data ?? []`, read [references/pending-and-failure-rules.md](references/pending-and-failure-rules.md). It holds rules 8 to 10.
+When the diff adds or changes a watcher that starts a load, read [references/watcher-load-rules.md](references/watcher-load-rules.md). It holds rule 7.
+
+When the diff touches `initialData`, `placeholderData`, `isError`, `isLoading`, `enabled`, a fallback such as `data ?? []`, or an empty check that stands for "not loaded", read [references/pending-and-failure-rules.md](references/pending-and-failure-rules.md). It holds rules 8 to 10 and 12.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
@@ -52,6 +54,8 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 - **Query keys, invalidation, `staleTime`/`gcTime`, `enabled`, optimistic-update mechanics (`onMutate`/`cancelQueries`/rollback), forwarding `signal` inside a queryFn** → `persona-tanstack`. Split rule: they own whether the query is configured right; you own what the screen shows while it is pending, after it fails, or after the context it belonged to is gone.
 - **`watch` that should be `computed`, lost reactivity from destructuring, `.value` passed where a getter is expected** → `persona-vue-reactivity`.
 - **Whether a failure reaches Sentry or a toast, swallowed errors, floating promises, reported `CanceledError`** → `persona-error-handling`. An aborted request you recommend must still be rethrown or ignored per their rule 11.
+- **A form control value left stale after a synchronous reset, with no request in flight** → `persona-form-behaviour`. Rule 6 does not report it.
+- **A missing not-found branch after a successful load** → `persona-correctness`.
 - **Timers, listeners, observers left running after unmount** → `persona-code-quality`.
 - **Null/undefined and `0`/`''` truthiness bugs** → `persona-code-quality`.
 - **Whether the race has a test** → `persona-test-design` (how an existing race test is written → `persona-vitest` / `persona-integration-test`).
@@ -59,7 +63,7 @@ When the diff touches `initialData`, `placeholderData`, `isError`, or a fallback
 
 ## Severity
 
-- **Change Requested:** last-response-wins write (1), colliding sequence guard (2), conflicting write enabled on the same entity (3), in-flight write into reset state (4), reactive context re-read after an await (5), partial reset whose leftover can be submitted (6), `initialData` faking a loaded state (8), last good data kept and still submittable after a failure (9).
+- **Change Requested:** last-response-wins write (1), colliding sequence guard (2), conflicting write enabled on the same entity (3), in-flight write into reset state (4), reactive context re-read after an await (5), partial reset whose leftover can be submitted (6), finishing write into state a newer action owns (11), `initialData` faking a loaded state (8), last good data kept and still submittable after a failure (9), not loaded read as loaded and empty (12).
 - **Nit:** double-submit on an idempotent action (3), partial reset with no submit path (6), load waiting on one of two inputs (7), stale data shown but not actionable after a failure (9), empty-on-error fallback (10).
 - **Future:** a hand-rolled fetch that is race-safe today but would be simpler as a `useQuery`: suggest, never block.
 - **Never:** a race you cannot name both writers (or the outliving writer and its lost context) for; a `useQuery` read keyed on the changing input (already safe); a deliberate fire-and-forget whose result is never written to state.

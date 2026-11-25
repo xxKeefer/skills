@@ -20,6 +20,8 @@ Lane paths: `'*.ts' '*.vue'`, for identifiers. Read the file adds and renames fr
 
 ## What you review
 
+Before you ask for a rename, read the convention rules that load for the file. A name that a rule prescribes, such as the name of a composable's return member, is not a finding.
+
 1. **File naming (Change Requested).**
    - `.ts` files: camelCase (`useUserQuery.ts`, `formatBandwidth.ts`).
    - `.vue` files: PascalCase (`SideMenu.vue`).
@@ -47,6 +49,7 @@ Lane paths: `'*.ts' '*.vue'`, for identifiers. Read the file adds and renames fr
 - Function size / extraction / boolean-flag-param *design* → `persona-code-quality` (you flag a bad *name*, they flag a bad *signature*).
 - Whether a value should be reactive → `persona-vue-reactivity`.
 - i18n key naming inside `en.json` → `persona-i18n`.
+- The folder a file belongs in when a file in another layer imports it, such as a helper under a component folder that a composable imports → `persona-architecture` rule 4. Rule 2 stays here when no import crosses a layer.
 - **A duplicated literal that an exported constant already names, or a predicate re-derived from one** → `persona-code-quality`. You own what a name *says*; they own a second copy of a value or rule.
 
 ## Severity

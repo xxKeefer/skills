@@ -21,7 +21,7 @@ Spawn every in-scope `persona-*` reviewer in parallel over one diff, then aggreg
 
 ## Step 1: Resolve target and compute the diff scope
 
-Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional plan or spec path. Step 3 passes it to `persona-ac-check` and `persona-test-design`. A plan has steps for `/do-next` to run, and a spec has none. With a plan, Step 6 records the report in its review step.
+Accept an optional target: a PR number/URL, a branch name, or nothing. Also accept an optional plan or spec path. Step 3 passes it to every lane. A plan has steps for `/do-next` to run, and a spec has none. With a plan, Step 6 records the report in its review step.
 
 **Run from inside the repo.** The panel reviews one repo's diff; one run per repo. Never check a PR out over someone's uncommitted work.
 
@@ -100,13 +100,20 @@ Give each the same diff context and this exact brief:
 > - Full patch: `<SCRATCH>/diff.patch`
 > - Changed files: `<SCRATCH>/files.txt`
 
-When Step 1 has a plan or spec path, add one line to the `persona-ac-check` and `persona-test-design` briefs: `Plan or spec: <absolute path>`. Add one line to the `persona-comments` brief from the Step 1 ownership check: `Lens: own code` or `Lens: someone else's code`.
+When Step 1 has a plan or spec path, when an earlier run on this branch wrote a review report, or when the change is a refactor or a migration, read [`BRIEF-EXTRAS.md`](BRIEF-EXTRAS.md), and add the lines that it gives.
+
+Add one line to the `persona-comments` brief from the Step 1 ownership check: `Lens: own code` or `Lens: someone else's code`.
 
 **Project rubric, same message, when the repo has one.** Read [`RUBRIC.md`](RUBRIC.md), and follow its Step 3.
 
 ## Step 4: Aggregate
 
-Wait until every persona subagent has returned, then collect each persona's JSON. Skip any that failed, and combine all `findings`. Write no report while a persona still runs. When two personas report one problem, one of them strayed: drop the out-of-lane finding.
+Wait until every persona subagent has returned, then collect each persona's JSON. Skip any that failed, and combine all `findings`. Write no report while a persona still runs.
+
+- **Name each result by the lane you spawned**, such as `persona-a11y`. Ignore the returned `persona` field. A lane can return a short name or a wrong name.
+- **Check each `file:line` against the branch file** (`git show HEAD:<file>`, or the working tree for uncommitted work). A lane can cite the line number in `diff.patch`. When the line does not hold the code that the finding names, find that code in the file, and correct `line`.
+- **When two personas report one problem, one of them strayed.** One problem is the same file and problem within a few lines, as [`COPILOT.md`](COPILOT.md) Step 4 says. Drop the out-of-lane finding.
+- **When a lane finding and a `persona-ac-check` finding name the same file, line, and problem,** fold the lane finding into the ac-check finding. Keep the higher of the two tiers, and add any risk that only the lane names as one sentence of the ac-check `detail`.
 
 When the rubric ran, follow Step 4 of [`RUBRIC.md`](RUBRIC.md).
 

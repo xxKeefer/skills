@@ -21,6 +21,12 @@ Other number inputs, from the forms research: `1e3, 1e309, '1,5', '1.5', '1.50',
 
 For lengths, run `max` and `max + 1` twice: once in ASCII and once with emoji (`👨‍👩‍👧‍👦` counts as 11 UTF-16 units), because `maxlength` and `.length` count UTF-16 code units (IN-C1 (persona-text-input)).
 
+## Keypresses for any input with an Enter handler
+
+| Keypress | Expect | Catches |
+| --- | --- | --- |
+| Type with a Japanese, Chinese, or Korean IME, then press Enter to confirm a candidate. Run it in Chrome and in Safari | the candidate is confirmed, and the Enter action does not fire | Enter during IME composition (FM-A6, IN-A1 (persona-text-input)), a guard on `isComposing` alone in Safari (IN-A2 (persona-text-input)) |
+
 ## Per-form smoke script (about five minutes)
 
 1. Open the form untouched. There should be no errors. Tab through: the order is logical and every focus is visible.

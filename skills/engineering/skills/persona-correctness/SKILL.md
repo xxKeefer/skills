@@ -23,6 +23,7 @@ Lane paths: none. Read the whole diff.
 
 - Read each changed function whole, not only its hunk. A wrong condition often hides in the lines around the change.
 - For rule 7, find the callers of a changed signature, return value, or thrown error on `origin/main`: `git grep -n '<name>' origin/main`.
+- For rule 11, find the other sites that compute the same rule on `origin/main`: grep for the field, the helper, and the constant that the changed rule reads.
 
 ## What you review
 
@@ -39,6 +40,7 @@ Lane paths: none. Read the whole diff.
 8. **Coercion and equality (Change Requested).** Loose equality that coerces, a string compared with a number, objects or arrays compared by reference where the code means by value, exact equality on floats, or integer division and overflow where the code expects an exact result.
 9. **Input the signature allows (Nit).** A changed function crashes or gives a wrong result on an input that its own signature or type accepts, but no caller passes that input today. Name the input and the caller guard that protects it now.
 10. **Bug beside the change (Future).** A defect in unchanged code that you found while you built a counterexample for a changed line. Report it only with its own counterexample.
+11. **One rule, two answers (Change Requested).** The diff adds or changes a rule, such as rounding, emptiness, or eligibility. Another site computes the same rule and gives a different answer for the same input. Examples: one path treats a blank value as empty and another treats it as set. A total shows rounded amounts but compares exact amounts. One flag is read with two defaults. Report each site that disagrees, with the input that splits them.
 
 ## Out of lane: do NOT report
 
@@ -48,9 +50,9 @@ Each lane below owns its class of defect in its own file types. A plain logic er
 - Races, out-of-order responses, and in-flight writes into reset UI state → `persona-async-state`. Session expiry, other tabs, network loss, and deploys → `persona-resilience`.
 - Swallowed errors, error routing, and floating promises → `persona-error-handling`.
 - Lost reactivity, and watch versus computed → `persona-vue-reactivity`. Query keys and cache invalidation → `persona-tanstack`.
-- Shell exit statuses, quoting, and pipes → `persona-shell`. Workflow YAML → `persona-github-actions`.
+- Shell exit statuses, quoting, and pipes → `persona-shell`. This includes a crash that follows an unchecked failed shell command, such as an empty variable after a failed command. Workflow YAML → `persona-github-actions`.
 - Injection, secrets, and unsafe redirects → `persona-security`.
-- A request or response that does not match the backend → `persona-api-integrity`.
+- A request or response that does not match the backend → `persona-api-integrity`. This includes a request body that omits a field the server stores, and a value the frontend derives where the backend owns the real value. Report it only when the cause is local logic, not the shape of the request.
 - Form, text input, URL, file upload, and chart edge cases → `persona-form-behaviour`, `persona-text-input`, `persona-url-state`, `persona-file-upload`, `persona-charts`.
 - Structure, smells, duplication, and library reuse → `persona-code-quality`. Names → `persona-naming`. Type readability → `persona-typing`.
 - Whether a test covers the case → `persona-test-design`. Test code → `persona-vitest`.
@@ -58,7 +60,7 @@ Each lane below owns its class of defect in its own file types. A plain logic er
 
 ## Severity
 
-- **Change Requested:** rules 1 to 8. A counterexample from an input the code can receive gives a wrong result or a crash.
+- **Change Requested:** rules 1 to 8 and 11. A counterexample from an input the code can receive gives a wrong result or a crash.
 - **Nit:** rule 9. The counterexample needs an input that no caller passes today.
 - **Future:** rule 10. A bug in unchanged code beside the change.
 
@@ -67,4 +69,5 @@ Each lane below owns its class of defect in its own file types. A plain logic er
 - `category`: `correctness`.
 - `detail`: the counterexample: the input or state, the path through the changed lines, and the wrong result.
 - `suggestion`: the fix, and the test case that would catch the bug.
+- When the brief names a claim to prove or disprove, give a verdict on it. A disproved claim is a finding: put `Claim disproved:` at the start of `summary`, and the counterexample in `detail`. When you run alone, print a line under the table for each claim: the verdict and its evidence.
 - Example `summary`: `loop stops one row early, so the last row is never saved`.

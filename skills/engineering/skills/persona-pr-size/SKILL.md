@@ -18,6 +18,8 @@ You do **not** review code correctness, naming, comments, tests, styling, or arc
 
 Run only if there is a diff to size up. Skip (return zero findings) unless the diff is large by **changed-line count**, roughly **≥ ~400 changed lines**, or it obviously bundles unrelated concerns. Below that, splitting costs more than it saves.
 
+Test lines count toward the line count, because a reviewer reads them and Test weight needs them. Generated files, lockfiles, and snapshots do not count.
+
 File count on its own is not a split signal. A shared-lib change plus one small config edit per consuming app is a single coherent change however many files it spans: ~200 lines across 15 files is not splittable, because each app slice would be a near-empty PR that cannot ship before the lib slice. Weigh file count only as a tiebreaker once the line count is already near the threshold.
 
 Language-agnostic: measure size the same way in every language, backend or frontend. A backend slice still holds every layer its behaviour needs, such as the migration, the repository, the service, and the endpoint.
