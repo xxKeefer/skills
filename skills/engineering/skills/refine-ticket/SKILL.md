@@ -37,6 +37,7 @@ Change only the summary and the ACs. The size and the split belong to `/scope-ti
 | ACs | Each AC has the form `- [ ] **A.** <action> → <expected>`, and a person can check it. "Tests pass" is not an AC. |
 | Summary | Two or three sentences at the top of the description tell any reader what changes. |
 | Scope | No AC holds a vague scope word from [`../scope-ticket/SKILL.md`](../scope-ticket/SKILL.md) Step 2. |
+| Precedent | The ticket names the existing screen or flow that the new one is like, or says that none exists. |
 
 List each gap: a check that fails, each vague word, each AC with no expected result, and each
 statement that two readers can read in two ways. Close a gap from the linked tickets and the
@@ -53,6 +54,8 @@ Run `/grill` on the list. Put the caller's questions first, then the gaps in tic
 
 - A missing user story is one question: who gains, what changes, and why.
 - A vague scope word becomes a bound: the list of screens, records, or cases that the AC covers.
+- A missing precedent is one question: which existing screen or flow is this most like? Search the
+  product first, and offer the nearest match as the recommended answer.
 
 **Done when:** each gap and each caller question has an answer from the user.
 
@@ -67,6 +70,8 @@ check one AC.
 - A dropped AC keeps its letter, struck through: `- ~~**C.** <action> → <expected>~~`. Never
   re-letter.
 - A sub-check is `A.1`, nested under its AC.
+- When a precedent exists, the AC that it shapes names it, as in "like the usage summary on the
+  account page".
 
 **Summary.** Write two or three sentences that a reader with no code knowledge understands. They
 carry the user story: who gains, what changes, and why. Keep a name only when the reader sees it in

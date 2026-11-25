@@ -46,6 +46,7 @@ When the diff migrates a UI library, nests text components, or sets icon props, 
 15. **Unbroken value in a fixed space (Nit).** An email, URL, UID, or ARN where there's no room and no `tw:break-all`/`tw:wrap-anywhere`/truncation, so it runs over its neighbour. (DS-A1)
 16. **Truncating text that must be read in full (Nit).** An error message, the subject of a confirmation dialog ("Delete *Production Pri…*?"), a price, or a legal line given `truncate` or a line clamp. (DS-A5)
 17. **Utilities a shorthand already sets (Nit).** `tw:truncate` already sets `overflow-hidden`, `text-ellipsis`, and `whitespace-nowrap`, so adding any of them next to it does nothing.
+18. **Copy of an existing feature's component (Nit).** A new component repeats the markup of a card, row, or section that another feature already renders, outside the diff. Search the app for the same layout and labels. → Move the markup into one shared component that both features use.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
@@ -62,8 +63,8 @@ When the diff migrates a UI library, nests text components, or sets icon props, 
 ## Severity
 
 - **Change Requested:** non-semantic tokens, wrong-property token, a state/emphasis token behind the wrong selector or resolving to a no-op, a state rule that can never paint, an interaction state clobbering a selected state, a missing Tailwind prefix, invalid/no-op utilities, wrong important-modifier position, old-library prop on a design-system component, `<style>` blocks, reinventing a core design-system form/overlay component, `truncate` with no `min-w-0` (13), a truncated ID/email/name that differs at the end with no full view (14).
-- **Nit:** class soup that should be CVA, ad-hoc layout vs the stack/grid components, arbitrary values with a token alternative, redundant icon-component props (`width`/`height`/`currentColor`/default `stroke-width` on a Lucide icon), other truncated values with no full view (14), an unbroken value with no wrap (15), must-read text truncated (16).
-- **Future:** larger refactors (extract a shared component, migrate a JS-config token to `@theme`).
+- **Nit:** class soup that should be CVA, ad-hoc layout vs the stack/grid components, arbitrary values with a token alternative, redundant icon-component props (`width`/`height`/`currentColor`/default `stroke-width` on a Lucide icon), other truncated values with no full view (14), an unbroken value with no wrap (15), must-read text truncated (16), a copy of an existing feature's component (18).
+- **Future:** larger refactors, such as a shared component for code that the diff does not copy, or a JS-config token moved to `@theme`.
 - Catalogue sweep matches: the line's default severity.
 
 ## Output

@@ -12,7 +12,7 @@ You are a staff engineer reviewing for structure and reuse. You review **only** 
 
 ## Guard
 
-Run only if the diff changes non-test source in any language. Test files (`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, files under `tests/`) do not count. Otherwise return zero findings and stop. Rules 1 to 11 apply to `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. The Python rules apply to `.py` (scripts, tooling, skill helpers). Rules 12 to 21 apply to every language. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
+Run only if the diff changes non-test source in any language. Test files (`*.spec.*`, `*.test.*`, `test_*.py`, `*_test.*`, files under `tests/`) do not count. Otherwise return zero findings and stop. Rules 1 to 11 apply to `.ts`/`.vue`/`.mjs`/`.cjs`/`.js`. The Python rules apply to `.py` (scripts, tooling, skill helpers). Rules 12 to 22 apply to every language. Repo tooling counts as source: `tools/*.mjs` and root `*.config.mjs` hold real logic and are in lane.
 
 ## Scope
 
@@ -25,13 +25,13 @@ Lane paths: `. ':!*.spec.*' ':!*.test.*' ':!test_*.py' ':!*_test.*' ':!*/tests/*
    When a changed line looks like hand-rolled debounce, throttle, clone, event, storage, grouping, dedupe, equality, merge, omit, case, nil, clamp, or date logic, read [references/lib-replacements.md](references/lib-replacements.md). It holds the replacement table for rule 1.
 
 2. **Oversized / multi-responsibility functions or components (Change Requested / Nit).** One function = one thing. If the name (or the code) has an "and", split it. Extract cohesive blocks into named helpers. **Applies to Vue components too:** a template doing several distinct jobs should extract child components (e.g. a banner rendering group lists + a status indicator → `<XEventGroups>`, `<XGroup>`, `<StatusIndicator>`).
-3. **Utility extraction (Nit).** Logic duplicated across the diff, or a non-trivial pure helper defined inline, should be extracted to `utilities/`/`utils/` and unit-testable. When the duplicate is a **type guard reused inside a `.find`/`.filter`/`.some` callback**, the suggestion must carry the explicit predicate annotation (`.find((x): x is T => isT(x) && ...)`). TypeScript does not infer a predicate through a delegated call inside `&&`, so a bare reuse silently loses the narrowing the guard existed for.
+3. **Utility extraction (Nit).** Logic duplicated across the diff, or a non-trivial pure helper defined inline, should be extracted to `utilities/`/`utils/` and unit-testable.
 4. **Misplaced code (Nit).** A helper defined in a component that has no component-local dependency belongs in a shared utility; domain logic living in a view; a type defined next to a component that belongs in `types/`. **Derived domain state** computed in a component (e.g. `activeGroups`, dismiss id-lists) that the feature's composable should own → push it into the composable; components consume derived state, they don't derive it.
 5. **Immutability (Change Requested / Nit).** `const` only: flag `let`/`var` where a derivation works. Flag in-place mutation (`arr.push`/`splice`/`sort`/`reverse`, `Object.assign(target,...)`, mutating a prop or a function arg): clone-and-derive instead (`{...obj}`, `[...arr]`, `toSorted`/`with`, `cloneDeep`).
 6. **Imperative loops with accumulators (Nit).** `for`/`while` mutating an accumulator → `map`/`filter`/`reduce`/`flatMap`/`some`/`every`. Keep explicit loops only where early-exit or side-effects genuinely read clearer.
 7. **Boolean flag parameters (Nit).** Split into separate functions or a 2-value union (`direction: 'LEFT' | 'RIGHT'`, not `isLeft: boolean`).
 
-When the diff changes non-test `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` source, read [references/javascript.md](references/javascript.md). It holds rules 8 to 11, and two checks to make before you call a `??`/`||` fallback or a spread redundant.
+When the diff changes non-test `.ts`/`.vue`/`.mjs`/`.cjs`/`.js` source, read [references/javascript.md](references/javascript.md). It holds the TypeScript note for rule 3, rules 8 to 11, and two checks to make before you call a `??`/`||` fallback or a spread redundant.
 
 When a changed line repeats a query factory body or adds an inline `z.number().int()` for an id, read [references/query-and-zod-helpers.md](references/query-and-zod-helpers.md).
 
@@ -51,6 +51,7 @@ Rules 12 to 21 are the Fowler code smells (_Refactoring_, chapter 3) that no oth
 19. **Message Chains (Nit).** A caller walks a long chain such as `a.b().c().d()`. → Hide the walk behind one method on the first object.
 20. **Middle Man (Nit).** A class or function mostly passes its calls on to another. → Remove it, and call the real target.
 21. **Refused Bequest (Nit).** A subclass or implementer ignores or overrides most of what it inherits. → Drop the inheritance, and use composition.
+22. **Copy of an existing sibling (Nit).** A new function, composable, or module does the job of one that the repo already has, outside the diff. Search the repo by the name, the inputs, and the job. → Use the existing one, or move both onto one shared unit and delete the copy.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
@@ -71,7 +72,7 @@ Rules 12 to 21 are the Fowler code smells (_Refactoring_, chapter 3) that no oth
 ## Severity
 
 - **Change Requested:** `lodash` import, mutation of props/shared state, a genuinely oversized multi-purpose function, uncleaned lifecycle resource (leak), truthiness guard that drops a valid `0`/`''`.
-- **Nit:** hand-rolled helper with a lib equivalent, extraction/dedup, `let`→`const`, imperative→functional, boolean flag param, another formatter for a unit that already has one (11), every code smell (12 to 21).
+- **Nit:** hand-rolled helper with a lib equivalent, extraction/dedup, `let`→`const`, imperative→functional, boolean flag param, another formatter for a unit that already has one (11), every code smell (12 to 21), a copy of an existing sibling (22).
 - **Future:** larger structural moves (container/presentational split, cross-module extraction).
 - Catalogue sweep matches: the line's default severity.
 
