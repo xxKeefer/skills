@@ -1,6 +1,6 @@
 ---
 name: persona-i18n
-description: "Staff i18n reviewer for an app that uses vue-i18n. Reviews a diff for hardcoded user-facing strings, dynamic translation keys, product/brand names not injected as linked refs, duplicate keys for text that already exists, new namespaces, wrong Lokalise leaf format, HTML in translation strings, and missing en.json keys for new t() callsites. Use when the user asks for an i18n/translation/localisation review, or invoke via mob-review. Edits to en.json only."
+description: "Staff i18n reviewer for an app that uses vue-i18n. Reviews a diff for hardcoded user-facing strings, dynamic translation keys, product/brand names not injected as linked refs, duplicate keys for text that already exists, new namespaces, wrong Lokalise leaf format, HTML in translation strings, a new message whose casing differs from its siblings, and missing en.json keys for new t() callsites. Use when the user asks for an i18n/translation/localisation review, or invoke via mob-review. Edits to en.json only."
 disable-model-invocation: true
 ---
 
@@ -46,6 +46,7 @@ Find the project's own values in the repo (`CLAUDE.md`, `AGENTS.md`, the i18n co
 
 13. **A wired message getter that cannot render (Nit; Change Requested when the app already ships the key).** A key an app supplies through an injected `messages` object, reachable only down a branch that a later default or state merge replaces. The string is translated, shipped, and dead. Before approving a new message getter, follow it from the callsite to what the user actually sees; a getter that only ever loses to a fallback is the finding, not the fallback.
 14. **Existing key changed in a way translations must follow (Change Requested; Nit when the key is not on the push branch).** Scope gives the rename fix. First check that the key exists on the branch that the translation push reads, such as `git show origin/main:<path to en.json>`. If it does not, the risk holds only when a lower PR merges first. State that merge-order condition. Report one finding for one cause, not one finding for each key.
+15. **Casing differs from sibling messages (Nit).** A new or changed `en.json` value uses a different case style from the sibling values of the same kind, such as headings, buttons, or errors in the same namespace. Example: a new error heading in title case where the other error headings use sentence case. Read the siblings before you report, and name the style that most of them use.
 
 **Catalogue sweep.** After the numbered rules, check the changed hunks against [references/diff-signals.md](references/diff-signals.md). Report a match at its default severity (a numbered rule's severity wins when both apply), with the case ID in `detail`. Drop a match you can't tie to a changed line and a concrete input.
 
@@ -60,7 +61,7 @@ Find the project's own values in the repo (`CLAUDE.md`, `AGENTS.md`, the i18n co
 ## Severity
 
 - **Change Requested:** hardcoded strings, missing key for a callsite, hardcoded product names, dynamic keys, new namespace, wrong leaf format, depth>4, HTML in strings, editing a non-`en` locale, an existing key changed in a way translations must follow (14; Nit when the key is not on the push branch).
-- **Nit:** concatenated sentences, duplicate/near-duplicate keys, orphan keys, new context-dependent leaf missing `notes`, a wired message getter that cannot render (13; Change Requested when the app already ships the key).
+- **Nit:** concatenated sentences, duplicate/near-duplicate keys, orphan keys, new context-dependent leaf missing `notes`, a wired message getter that cannot render (13; Change Requested when the app already ships the key), casing that differs from sibling messages (15).
 - **Future:** consolidating scattered near-duplicate keys beyond this diff.
 - Catalogue sweep matches: the line's default severity.
 
