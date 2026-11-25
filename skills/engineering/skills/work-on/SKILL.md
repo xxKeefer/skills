@@ -127,6 +127,7 @@ exists.
 
 Run each step in order. Mark each step done in the list when it is done.
 
+- Before the first step, compare `git branch --show-current` with the plan's `branch`. When they differ, name the plan's `worktree` and stop. Run no step from another branch.
 - Before an action on the pause list, stop (H4). A step that would do the action does not do it.
 - When a step returns an open `D` entry, stop (H3).
 - When a step fails and gives no `D` entry, stop, and show the failure as an H3 stop.

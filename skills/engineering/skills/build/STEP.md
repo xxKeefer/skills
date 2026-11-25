@@ -76,7 +76,7 @@ the work, write a `B` entry, and return.
    alone and that the plan does not record, give `/update-plan` the decision, the reason, the
    evidence, and the result. It adds each one to the decision log.
 4. Commit the plan edit, and the decision log if `/update-plan` wrote or changed it, with the
-   message `docs(ai): mark step <id> done`, so the tree is clean when you return.
+   message `docs(ai): mark step <id> done`, so the tree is clean when you return. When the plan file is outside the repo or untracked, edit it in place and make no commit.
 
 If the step changed no file except the plan and the decision log, make only the commit of item 4. A test step or a
 review step that only records its report is an example. Return `Commit: none`.

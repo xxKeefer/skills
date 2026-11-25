@@ -113,6 +113,8 @@ The plan holds:
   Put the most uncertain or risky work first. Each step that changes behaviour names its seam and
   the IDs of its test conditions. Its done line names the tests that it adds, and the letter of
   each AC that it proves. Each AC has one step.
+  A check that the agent can run, such as a probe with a throwaway tool, is an agent step. Write
+  "the user ran" only for a check that needs the user's own machine or sign-in.
 - **The production gate.** Name the flag, permission, or setting that gates the change, and what a
   user without it sees. If nothing gates it, say why that is safe.
 - **The design note.** Only when the change adds a library, a public API, or a seam between apps.
@@ -199,7 +201,7 @@ Skip this step in these cases:
   ticket with their letters.
 
 1. Show the exact change: the letter on each AC, and each new AC from Step 5. Write a new AC in
-   plain words that every reader of the ticket understands. Change no other text.
+   plain words that every reader of the ticket understands. Change no other text. Write no plan step, Test approach, or other plan text into the ticket.
 2. Ask once. Write after a yes, or at once when the user waived questions.
 3. Read the ticket back. Check that only the letters and the new ACs changed. Show any other
    difference.
