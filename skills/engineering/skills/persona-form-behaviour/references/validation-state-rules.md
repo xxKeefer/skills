@@ -1,4 +1,4 @@
-# Validation state rules (10 to 14)
+# Validation state rules (10 to 15)
 
 **Validation state**
 
@@ -7,3 +7,4 @@
 12. **Typed input bypasses the picker's limits (Change Requested).** A date picker with `min`/`max` (or disabled dates) whose text field accepts any typed date, including a date in the past. Reka `DateField` still writes an out-of-range typed date to the model and only sets `isInvalid`/`data-invalid`, so it gets submitted unless the schema rejects it. Enforce the limit in the schema. (FM-J3, FM-J5)
 13. **A failed or repeated submit loses the user's work (Change Requested).** The form resets before the request succeeds, so a 500 wipes everything; a component reused across `/services/:id` keeps the previous record's form values; the form isn't reset after a successful create, so the next create starts with old values. (FM-H6, FM-H7, FM-H11)
 14. **Disabled where readonly was meant (Nit).** A field rendered `disabled` to look locked, whose value then drops out of a native submit or can't be selected and copied. Use `readonly` for "visible but not editable". (FM-G1, FM-G2)
+15. **A reset or discard leaves a control showing an old value (Change Requested).** A reset or Discard rebuilds the draft, but a control keeps the old value because it binds to its own local state or is not re-keyed. The user then sees one value and submits another.
