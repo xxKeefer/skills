@@ -114,16 +114,22 @@ changes nothing.
 
 **Done when:** the user named the rows to apply.
 
-## Step 6: Apply and commit
+## Step 6: Apply in a worktree and open a PR
 
-1. For each approved row, make the change through its route. A skill edit bumps the version of
+1. Make a new worktree of `$SKILLS_ROOT` on a new branch off the default branch, named for the
+   retro, such as `retro/<date>-<topic>`. Make each skill, backlog, and repo edit there. Never edit
+   the main checkout, because it can hold the user's other work.
+2. For each approved row, make the change through its route. A skill edit bumps the version of
    its domain in `plugin.json`. A new skill adds a row to the domain's `README.md`.
-2. Run the scrub check in `$SKILLS_ROOT/.githooks/pre-commit` on the staged tree. Fix each match.
-3. Commit the changes in `$SKILLS_ROOT`, one commit for each domain. A steering file outside the
+3. Run the scrub check in `$SKILLS_ROOT/.githooks/pre-commit` on the staged tree. Fix each match.
+4. Commit the changes in the worktree, one commit for each domain. A steering file outside the
    repo gets no commit.
-4. Show each path that changed, and the commits.
+5. Push the branch and open a draft PR with `/create-pr`. The PR is the review. Never push to the
+   default branch, and never merge.
+6. Show each path that changed, the commits, and the PR link.
 
-**Done when:** each approved row is applied, and each change in `$SKILLS_ROOT` is committed.
+**Done when:** each approved row is applied, each change in `$SKILLS_ROOT` is committed on the
+worktree branch, and the draft PR is open.
 
 ## Step 7: Return
 
