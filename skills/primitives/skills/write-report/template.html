@@ -65,10 +65,29 @@
       const data = JSON.parse(document.getElementById("runs").textContent);
       const tickCount = new Map();
 
+      const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+      const linked = (node, text) => {
+        let last = 0;
+        for (const found of text.matchAll(linkPattern)) {
+          node.append(text.slice(last, found.index));
+          const link = node.appendChild(document.createElement("a"));
+          link.className = "underline decoration-accent underline-offset-4 hover:text-accent";
+          link.href = found[2];
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = found[1];
+          last = found.index + found[0].length;
+        }
+        node.append(text.slice(last));
+        return node;
+      };
+
+      const plain = (text) => String(text ?? "").replace(linkPattern, "$1");
+
       const make = (tag, cls, text) => {
         const node = document.createElement(tag);
         if (cls) node.className = cls;
-        if (text !== undefined) node.textContent = text;
+        if (text !== undefined) linked(node, String(text));
         return node;
       };
 
@@ -91,7 +110,7 @@
         success: ["pass", "passed", "ok", "done", "fixed", "applied", "resolved", "replied", "clear", "invalid"],
       };
       const tone = (text) => {
-        const word = String(text ?? "").toLowerCase().split(",")[0].trim();
+        const word = plain(text).toLowerCase().split(",")[0].trim();
         return Object.keys(toneWords).find((name) => toneWords[name].includes(word));
       };
 
@@ -99,7 +118,7 @@
         const wide = Boolean(v.mermaid || v.html);
         const fig = make(v.fold ? "details" : "figure", `border-t-2 border-accent pt-3 ${wide ? "md:col-span-2" : ""}`);
         fig.append(make(v.fold ? "summary" : "figcaption", `kicker mb-4 text-accent${v.fold ? " cursor-pointer" : ""}`, v.question));
-        if (v.mermaid) fig.append(make("pre", "mermaid bg-paper", v.mermaid));
+        if (v.mermaid) fig.appendChild(make("pre", "mermaid bg-paper")).textContent = v.mermaid;
         if (v.bars) {
           const max = Math.max(1, ...v.bars.map(([, count]) => count));
           const list = fig.appendChild(make("div", "space-y-2"));
@@ -145,7 +164,7 @@
       const card = (run, row, withTicks) => {
         const art = make("article", "flex flex-col gap-3 border-t border-ink pt-4");
         const [first, ...rest] = run.columns;
-        const short = (col) => !col.mono && !col.fold && (row.cells[col.key] ?? "").length < 40 && !(row.cells[col.key] ?? "").includes("\n");
+        const short = (col) => !col.mono && !col.fold && plain(row.cells[col.key]).length < 40 && !(row.cells[col.key] ?? "").includes("\n");
         const kickers = [first, ...rest.filter(short)].filter(Boolean).map((col) => row.cells[col.key]).filter(Boolean);
         const top = art.appendChild(make("div", "flex items-baseline gap-3"));
         const tag = top.appendChild(make("span", "tag", row.id));
