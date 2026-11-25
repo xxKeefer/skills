@@ -53,9 +53,15 @@ instance, not your tab. With no driver, use the browser flow below.
 - **Flag change:** use a local override that changes this browser only, if the project or the
   browser notes name one. Record the old value before you write, and put it back after the item.
   Change a real flag only when the user approved it.
-- **Screenshot:** save it as a PNG at `<report folder>/screenshots/<nn>-<slug>.png`. An item with
-  two states gets `<nn>a` and `<nn>b`. Move the mouse off the page first, and close any panel that
-  covers the subject.
+- **Stale page:** after a new push, check one changed string first. If the page still shows the
+  old text, hard-reload the tab.
+- **Two kinds of capture.** A check is a small capture that shows you the state. A keeper is the
+  evidence for the PR: full size, cropped to the content area, and saved to disk. Never use a check
+  as a keeper. The browser notes say how to take each kind.
+- **Keeper:** wait until the page shows the result of the last action, because an early capture
+  shows the state before it. Move the mouse off the page, and close any panel that covers the
+  subject. Save it as a PNG at `<report folder>/screenshots/<nn>-<slug>.png`. An item with two
+  states gets `<nn>a` and `<nn>b`. Keep checks out of that folder.
 - **Short-lived state** (a skeleton, a spinner): try once. If the capture misses it, capture the end
   state and record the miss.
 - **Result differs from the checklist:** before you call it a fail, compare it with the default
@@ -66,8 +72,11 @@ instance, not your tab. With no driver, use the browser flow below.
 
 Record each write as you make it: what, which record, and which item.
 
-**Done when:** each item has a PNG or a recorded skip reason, and each flag override has its old
-value again.
+Read the pixel width of each keeper. A keeper under 1200 px wide is too small to read on the PR,
+so retake it.
+
+**Done when:** each item has a keeper of 1200 px or more, or a recorded skip reason, and each flag
+override has its old value again.
 
 ## Step 4: Show the screenshots in the QA report
 
@@ -86,7 +95,8 @@ path.
 ## Step 5: Draft the PR section
 
 Use one `####` heading per item, numbered as in the checklist, with the same headings as the
-report. Put a line of evidence under a heading only where the screenshot alone does not prove the
+report. Under each heading, put one image reference for each keeper, with the heading as its alt
+text. Put a line of evidence under a heading only where the screenshot alone does not prove the
 item.
 
 ```markdown
@@ -95,21 +105,32 @@ item.
 
 #### 1. <heading>
 
-_Screenshot: drag in `01-<slug>.png`._
+![1. <heading>](./01-<slug>.png)
 
 </details>
 ```
+
+Write the new body, the old body and then this section, to `<report folder>/screenshots/body.md`,
+so that each `./` path resolves to its keeper.
 
 Show the draft, the skipped items with their reasons, the findings, and every write. **Wait for a
 yes.**
 
 ## Step 6: Update the PR
 
-1. Try to open the PR in the browser. If the page opens, paste each image under its heading in the
-   web editor.
-2. If the page does not open, keep the placeholder lines. Append the section with
-   `gh pr edit <n> --body-file`, and leave every other section as it is.
-3. Read the body back. Check that the old body is an unchanged prefix of the new one.
+1. Run `gh pr edit --help`. If it lists `--attach`, upload the keepers with the body in one call,
+   from the screenshots folder. Give one `--attach` for each keeper:
+   `gh pr edit <n> --body-file body.md --attach './01-<slug>.png#1. <heading>'`.
+   gh rewrites each `./` reference to the uploaded image.
+2. Read the body back. Count the `user-attachments` image URLs. Each keeper must appear once. A
+   multi-file upload can skip a file, and gh exits non-zero when one upload fails. For each `./`
+   reference that is left, save the read-back body to `body.md`, and run the command again with
+   only that file.
+3. If gh has no `--attach`, say that a newer gh uploads the images. Try to open the PR in the
+   browser, and paste each image under its heading. If the page does not open, change each image
+   reference to `_Screenshot: drag in <file>._`, and append the section with
+   `gh pr edit <n> --body-file`.
+4. Check that the old body is an unchanged prefix of the new one.
 
-**Done when:** the prefix check passes. Report the PR link and the files to drag in, in heading
-order.
+**Done when:** the prefix check passes, and each keeper is an uploaded image or a drag-in line.
+Report the PR link, and any files to drag in, in heading order.
