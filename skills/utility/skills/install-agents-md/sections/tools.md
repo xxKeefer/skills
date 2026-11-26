@@ -11,3 +11,5 @@ When a role says none, skip the step and say so.
 | Code host | {{code_host_tool}}  | {{code_host_notes}}  |
 | Browser   | {{browser_tool}}    | {{browser_notes}}    |
 | Notifier  | {{notifier_command}} | {{notifier_notes}}   |
+| Editor    | {{editor_tool}}     | {{editor_notes}}     |
+| Complexity | {{complexity_tool}} | {{complexity_notes}} |

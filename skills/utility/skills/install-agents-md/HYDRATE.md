@@ -15,6 +15,10 @@ Read the machine, not the repo. Never write a value into a file in this repo.
 | `browser_notes` | The path of a file with browser rules, or `none` | `~/.claude/tools/` |
 | `notifier_command` | A shell command that takes a title and a body as its two arguments, such as `notify-send` on Linux, or `sh -c 'osascript -e "display notification \"$2\" with title \"$1\""' sh` on macOS. Write `none` when the machine has none. `/babysit` reads it | The installed CLIs: `command -v notify-send osascript` |
 | `notifier_notes` | The path of a file with notifier rules, or `none` | `~/.claude/tools/` |
+| `editor_tool` | The editor that opens a file at a line, and its URL form, such as Zed, `zed://file/<abs path>:<line>`. Write `none` when the machine has none. `/visualise-pr` reads it | The installed apps: `command -v zed code` |
+| `editor_notes` | The path of a file with editor rules, or `none` | `~/.claude/tools/` |
+| `complexity_tool` | The CLI that measures complexity for each function, and its install command, such as `lizard --csv`, install with `pipx install lizard`. Write `none` when the machine has none. `/visualise-pr` reads it | The installed CLIs: `command -v lizard` |
+| `complexity_notes` | The path of a file with complexity rules, or `none` | `~/.claude/tools/` |
 
 When the existing `~/.claude/AGENTS.md` already holds a tool table, take the values from it.
 
