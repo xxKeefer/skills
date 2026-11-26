@@ -27,10 +27,10 @@ def texts(value):
 
 def check_links(run, label):
     return [
-        (f"{label}: link `{match.group(0)}` has no web URL", "start the URL with `https://`, or write the text with no link")
+        (f"{label}: link `{match.group(0)}` has no web URL", "start the URL with `https://` or `zed://file/`, or write the text with no link")
         for text in texts(run)
         for match in LINK.finditer(text)
-        if not match.group(2).startswith(("https://", "http://"))
+        if not match.group(2).startswith(("https://", "http://", "zed://file/"))
     ]
 
 

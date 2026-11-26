@@ -168,6 +168,18 @@ class CheckReport(unittest.TestCase):
         self.save(data)
         self.fails("link `[ABC-1](browse/ABC-1)`")
 
+        data = self.data()
+        data["runs"][0]["answer"] = "See [a.ts:3](vscode://file/a.ts:3)."
+        self.save(data)
+        self.fails("link `[a.ts:3](vscode://file/a.ts:3)`")
+
+    def test_editor_links_pass(self):
+        data = self.data()
+        data["runs"][0]["rows"][0]["cells"]["issue"] = "See [src/a.ts:3](zed://file/repo/src/a.ts:3)."
+        self.save(data)
+        result = check(self.path)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_web_links_pass(self):
         data = self.data()
         data["runs"][0]["meta"] = {"PR": "[#456](https://github.com/o/r/pull/456)"}

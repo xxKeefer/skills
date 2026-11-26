@@ -127,16 +127,18 @@ Follow these rules:
   `[ABC-12](https://…)`, in `meta`, `answer`, cells, and `table` cells. Get a PR URL from the code
   host, such as the `url` field of `gh pr view <n> --json url`. Build an issue URL from the URL
   form in the tracker notes of the `## Tools on this machine` block. When you cannot find a URL,
-  write plain text. The page shows a link only for a `https://` or `http://` URL, and
-  `check_report.py` fails any other link.
+  write plain text. A file link in the editor has the form `zed://file/<abs path>:<line>`. The
+  page shows a link only for a `https://`, `http://`, or `zed://file/` URL, and
+  `check_report.py` fails any other link. A web link opens in a new tab.
 - **Tones.** The first cell of a row and each bar label set a colour when they are one of these
   words, before the first comma, in any case. Red means "act now": `blocker`, `critical`,
-  `change requested`, `bug`, `fail`, `failed`, `broken`, `high`, `valid`, `not done`, and
-  `review miss`. Yellow means "act soon": `major`, `medium`, `partially valid`, `warn`, `warning`,
-  `risk`, and `skill gap`. Blue means "context": `nit`, `minor`, `low`, `info`, `future`,
-  `question`, `suggestion`, and `unknown`. Green means "done or no action": `pass`, `passed`,
-  `ok`, `done`, `fixed`, `applied`, `resolved`, `replied`, `clear`, and `invalid`. Any other word
-  gets no tone. So put the tier or the status in the first column.
+  `change requested`, `bug`, `fail`, `failed`, `broken`, `high`, `valid`, `not done`,
+  `review miss`, and `worse`. Yellow means "act soon": `major`, `medium`, `partially valid`,
+  `warn`, `warning`, `risk`, `skill gap`, and `mixed`. Blue means "context": `nit`, `minor`,
+  `low`, `info`, `future`, `question`, `suggestion`, and `unknown`. Green means "done or no
+  action": `pass`, `passed`, `ok`, `done`, `fixed`, `applied`, `resolved`, `replied`, `clear`,
+  `invalid`, and `better`. Any other word, such as `no change`, gets no tone. So put the tier or
+  the status in the first column.
 - **Cards.** The page shows each row as a card, one card to a line. The first column and each
   short one-line cell form the kicker. The `mono` cells form a byline. The first long cell is the
   headline up to its first blank line, and the body after it. So put the summary first in that
