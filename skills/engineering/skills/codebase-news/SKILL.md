@@ -4,19 +4,23 @@ description: >
   Summarise the notable changes in the current repo over a time period, from the changelogs and
   the commits. Use when the user says "codebase news" or "what changed while I was away", or is
   back from leave.
-argument-hint: "[time-period, default last 24 hours]"
+argument-hint: "[time-period, default last 24 hours] [paths...]"
 ---
 
 # Codebase News
 
 Turn a window of repo history into one table that a returning developer can scan in a minute. One
-row per theme, not one per commit. The repo is the current working directory.
+row per theme, not one per commit. The repo is the current working directory. Paths limit the news
+to part of the repo, such as one app of a monorepo.
 
 ## Step 1: Resolve the window
 
 - Take `<time-period>` in any form that `git log --since` reads: `2 weeks`, `2026-10-07`,
   `last monday`. A range such as `2026-10-01..2026-10-14` also sets `--until`.
 - No argument: use the last 24 hours (`--since="24 hours ago"`).
+- Take any paths after the period as git pathspecs, such as `apps/web` or `:(exclude)libs`.
+  With paths, add `-- <paths>` to each `git log`, `git diff`, and `git ls-tree` below, and read
+  only the changelogs under them. A commit that touches no path is out of the news.
 - Find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD`. Remove the
   `origin/` prefix to get `<default>`.
 - Fetch it (`git fetch origin <default>`). Read everything from `origin/<default>`, not from the

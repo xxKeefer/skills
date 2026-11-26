@@ -25,6 +25,8 @@ class Page(HTMLParser):
         self.divs = []
         self.in_label = False
         self.in_headline = False
+        self.board_cards = 0
+        self.board_filter = False
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -37,6 +39,8 @@ class Page(HTMLParser):
             self.skip_depth += 1
         if tag in ("code", "pre"):
             self.code_depth += 1
+        if tag == "select" and a.get("id") == "board-person":
+            self.board_filter = True
         if a.get("id") in SECTIONS:
             self.sections.add(a["id"])
         if self.in_body and "style" in a:
@@ -52,7 +56,10 @@ class Page(HTMLParser):
                     group["tagline"] = True
                     break
         if tag == "article":
-            self.card = {"label": "", "headline": "", "headline_hrefs": [], "desk": self.section == "your-desk", "done": False}
+            self.card = {"label": "", "headline": "", "headline_hrefs": [], "desk": self.section == "your-desk", "done": False,
+                         "person": "data-person" in a}
+            if self.section == "the-board":
+                self.board_cards += 1
         if self.card is not None and tag == "input" and a.get("type") == "checkbox" and "done" in (a.get("class") or "").split():
             self.card["done"] = True
         if self.card is not None and tag == "span" and "label" in (a.get("class") or "").split():
@@ -84,6 +91,8 @@ class Page(HTMLParser):
                 self.problems.append(f'review card "{label}" does not link its headline to the PR')
             if self.section in GROUPED and not any(self.divs):
                 self.problems.append(f'#{self.section}: card "{self.card["headline"].strip()}" is not in a group')
+            if self.section == "the-board" and not self.card["person"]:
+                self.problems.append(f'board card "{self.card["headline"].strip()}" has no data-person')
             if self.card["desk"] and not self.card["done"]:
                 self.problems.append(f'your-desk card "{self.card["headline"].strip()}" has no done checkbox')
             self.card = None
@@ -115,7 +124,7 @@ def main(path):
     page = Page()
     with open(path) as f:
         page.feed(f.read())
-    problems = page.problems + [f"section #{s} is missing" for s in SECTIONS if s not in page.sections]
+    problems = page.problems + (["#the-board has cards but no #board-person filter"] if page.board_cards and not page.board_filter else []) + [f"section #{s} is missing" for s in SECTIONS if s not in page.sections]
     for problem in problems:
         print(problem)
     if problems:

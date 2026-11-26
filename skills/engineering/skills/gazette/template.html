@@ -120,6 +120,18 @@
     color: var(--accent);
   }
 
+  .sprint { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; margin-bottom: 36px; }
+  .sprint p, .sprint li { font: 0.95rem/1.55 var(--sans); }
+  .burndown { width: 100%; height: auto; font: 0.65rem var(--mono); fill: var(--muted); }
+  .burndown .axis { stroke: var(--rule); }
+  .burndown polyline { fill: none; stroke-width: 2; }
+  .burndown .ideal { stroke: var(--rule); stroke-dasharray: 4 4; }
+  .burndown .actual { stroke: var(--accent); }
+  .burndown .left { fill: var(--ink); font-weight: 700; }
+  .filter { display: block; font: 500 0.72rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 24px; }
+  .filter select { font: 0.95rem var(--sans); margin-left: 8px; }
+  .empty { font: italic 0.95rem/1.55 var(--heading); color: var(--muted); }
+
   .bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
   #honour-roll li strong { color: var(--accent); }
   .colophon {
@@ -133,7 +145,7 @@
 
   @media (max-width: 900px) {
     .sheet { padding: 24px 20px 48px; }
-    .front, .bottom { grid-template-columns: 1fr; }
+    .front, .bottom, .sprint { grid-template-columns: 1fr; }
     #lead, .front > aside { grid-column: auto; padding: 0; border: 0; }
     #lead .body, .columns { column-count: 1; }
     #masthead h1 { font-size: 2.8em; }
@@ -177,6 +189,8 @@
 
 <section id="the-board">
   <h2>The board</h2>
+  {{sprint_body}}
+  <label class="filter">Person<select id="board-person"><option value="">All</option>{{board_people_options}}</select></label>
   <div class="columns">{{board_body}}</div>
 </section>
 
@@ -193,5 +207,27 @@
 
 <p class="colophon">{{colophon}}</p>
 </div>
+<script>
+  const pick = document.getElementById("board-person");
+  pick.addEventListener("change", () => {
+    const who = pick.value;
+    for (const card of document.querySelectorAll("#the-board article")) {
+      card.hidden = who !== "" && card.dataset.person !== who;
+    }
+    for (const group of document.querySelectorAll("#the-board .group")) {
+      const none = !group.querySelector("article:not([hidden])");
+      let empty = group.querySelector(".empty");
+      if (none && !empty) {
+        empty = document.createElement("p");
+        empty.className = "empty";
+        group.append(empty);
+      }
+      if (empty) {
+        empty.hidden = !none;
+        empty.textContent = `${who} is not working on this.`;
+      }
+    }
+  });
+</script>
 </body>
 </html>

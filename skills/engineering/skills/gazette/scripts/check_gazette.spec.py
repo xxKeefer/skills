@@ -109,6 +109,31 @@ class CheckGazette(unittest.TestCase):
         result = check(html)
         self.assertEqual(result.returncode, 0, result.stdout)
 
+    def test_fails_a_board_card_with_no_person(self):
+        html = page().replace('<section id="the-board"><p>News.</p></section>',
+                              '<section id="the-board"><select id="board-person"><option value="">All</option></select>'
+                              '<div class="group"><h3 class="tagline">Forms ship</h3>'
+                              '<article><span class="label">Done</span><h4>A ticket</h4></article></div></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('board card "A ticket" has no data-person', result.stdout)
+
+    def test_fails_a_board_with_no_person_filter(self):
+        html = page().replace('<section id="the-board"><p>News.</p></section>',
+                              '<section id="the-board"><div class="group"><h3 class="tagline">Forms ship</h3>'
+                              '<article data-person="Ann"><span class="label">Done</span><h4>A ticket</h4></article></div></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("#board-person", result.stdout)
+
+    def test_passes_a_board_with_a_person_filter_and_people_on_cards(self):
+        html = page().replace('<section id="the-board"><p>News.</p></section>',
+                              '<section id="the-board"><select id="board-person"><option value="">All</option>'
+                              '<option>Ann</option></select><div class="group"><h3 class="tagline">Forms ship</h3>'
+                              '<article data-person="Ann"><span class="label">Done</span><h4>A ticket</h4></article></div></section>')
+        result = check(html)
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_fails_a_missing_section(self):
         result = check(page(sections=[s for s in SECTIONS if s != "weather"]))
         self.assertEqual(result.returncode, 1)

@@ -1,8 +1,9 @@
 ---
 name: gazette
 description: >
-  Print a one-page HTML newspaper for a time window: your action items, the news of each repo, the
-  board, the CI weather, and an honour roll. Use when the user says "gazette" or "newspaper", or
+  Print a one-page HTML newspaper for a time window: your action items, the news of each repo and
+  each monorepo app and lib, the board with its sprint and a person filter, the CI weather, and an
+  honour roll. Use when the user says "gazette" or "newspaper", or
   wants their day and the repos' news on one page.
 argument-hint: "[time-period] [repo paths...] [board=<query>]"
 ---
@@ -13,7 +14,8 @@ Join `/engineering:stand-up` and `/engineering:codebase-news` into one newspaper
 page answers "what do I do today", and the inside pages answer "what happened around me".
 
 `$SKILL_DIR` is this skill's base directory. The page is [`template.html`](template.html). The
-check is `$SKILL_DIR/scripts/check_gazette.py`.
+check is `$SKILL_DIR/scripts/check_gazette.py`. The sprint chart comes from
+`$SKILL_DIR/scripts/burndown.py`.
 
 > **Tools:** use the tracker and the code host that the repo's `## Agent skills` block names, else
 > the ones in the user's `## Tools on this machine` block, else ask. Read the tracker notes file
@@ -30,9 +32,18 @@ check is `$SKILL_DIR/scripts/check_gazette.py`.
    "The Daily Commit". The accent is red, `#d0021b`. With no board, skip the board section.
 4. Read the ticket URL form from the tracker notes. Each reporter brief gives it, so that each
    ticket link uses it.
+5. List the news units of each repo folder. A monorepo lists its apps and libs in its workspace
+   config, such as `pnpm-workspace.yaml`, the `workspaces` key of `package.json`, `nx.json`, a
+   `Cargo.toml` workspace, or `go.work`. Each app and each lib is a news unit, with its folder as
+   its path. The repo root is one more unit, for the changes outside every app and lib: its paths
+   are `.` and `:(exclude)<folder>` for each unit folder. A repo with no workspace is one news
+   unit.
+6. Drop each unit with no commit in the window on the default branch:
+   `git log -1 --since=<start> origin/<default> -- <paths>` prints nothing.
 
-**Done when:** you have the window, the list of repo folders, the paper name, the accent, the
-ticket URL form, and a board query or a note that there is none.
+**Done when:** you have the window, the list of repo folders, the news units with a commit in the
+window, the paper name, the accent, the ticket URL form, and a board query or a note that there is
+none.
 
 ## Step 2: Send the reporters
 
@@ -41,9 +52,10 @@ shape below. Each subagent brief names no model.
 
 1. **Desk reporter:** run `/engineering:stand-up`. Return the tables, the notes, and the bulletin
    as markdown, with every link kept.
-2. **Repo reporter**, one per repo folder: in that folder, run `/engineering:codebase-news` with
-   the window. Then collect the inputs to Steps 3 and 4. Return:
-   - the news paragraph and the table, with each ticket key and PR as a link;
+2. **News reporter**, one per news unit: in its repo folder, run
+   `/engineering:codebase-news` with the window and the unit's paths. Return the unit name, the
+   news paragraph, and the table, with each ticket key and PR as a link.
+3. **Repo reporter**, one per repo folder: collect the inputs to Steps 3 and 5. Return:
    - each PR that merged in the window: number, URL, title, author, merge commit, lines added and
      removed. With GitHub:
      `gh pr list -R <owner/repo> --state merged --search "merged:<start>..<end>" --limit 200 --json number,url,title,author,mergeCommit,additions,deletions`.
@@ -56,10 +68,15 @@ shape below. Each subagent brief names no model.
      `gh run list -R <owner/repo> --workflow "<name>" --branch <default> --created "<start>..<end>" --status completed --limit 200 --json name,conclusion,createdAt,updatedAt,url`.
      When a call returns 200 runs, say that its count is a lower bound;
    - each metric line from the config for this repo, with the number that its command gives.
-3. **Board reporter:** run the board query for the tickets whose status changed in the window.
-   Return each ticket's key, URL, summary, assignee, old status, and new status. For a ticket in a
-   review status, also find its open PR on the code host, such as with
+4. **Board reporter:** run the board query for two sets of tickets: each ticket whose status
+   changed in the window, and each ticket in the current iteration that is in progress or in
+   review. Return each ticket's key, URL, summary, assignee, old status, and new status. For a
+   ticket in a review status, also find its open PR on the code host, such as with
    `gh pr list -R <owner/repo> --search "<KEY>" --json number,url`, and return the PR URL.
+   Then read the current iteration of the board's tickets. The tracker notes name the iteration
+   field and the estimate field. Return the iteration's name, goal, start date, and end date. For
+   each ticket in it, return the key, URL, summary, assignee, epic, estimate, status, and the date
+   it reached done. With no current iteration, say so.
 
 **Done when:** each reporter returned, or you have a note for each one that failed.
 
@@ -83,7 +100,35 @@ Give each number its run count, such as `92% of 38 runs`. Link the most recent f
 
 **Done when:** each repo has a forecast, or "No reading", and each number has its count.
 
-## Step 4: Pick the honour roll
+## Step 4: Read the sprint
+
+Skip this step when the board reporter found no current iteration.
+
+1. Split the goal into its items, one per line or sentence. For each item, find its tickets: the
+   tickets that it names, the tickets of the epic that it names, and the tickets whose summary is
+   on its subject. Give the item its done estimate out of its total, such as `8 of 13 points`. An
+   item with no ticket gets "No tickets match this goal".
+2. Draw the burndown. Pipe this JSON to `python3 $SKILL_DIR/scripts/burndown.py`, and keep the SVG
+   that it prints:
+
+   ```json
+   {"start": "<YYYY-MM-DD>", "end": "<YYYY-MM-DD>", "today": "<YYYY-MM-DD>", "total": <n>,
+    "unit": "points", "done": [{"date": "<YYYY-MM-DD>", "amount": <n>}]}
+   ```
+
+   The total is the sum of the estimates of the iteration's tickets. Each done ticket adds one
+   entry with its done date and its estimate. When no ticket has an estimate, count tickets, with
+   the unit `tickets` and an amount of 1.
+3. Compare the done share with the elapsed share of the iteration: on track when the done share is
+   the same or more, else behind by the difference, such as "18% behind".
+
+The total is the scope at print time. A ticket that joined after the start raises the start of
+the line. Say so under the chart.
+
+**Done when:** each goal item has a count or "No tickets match this goal", and the chart and the
+on-track line come from the reporter's return.
+
+## Step 5: Pick the honour roll
 
 Name an engineer when a PR of theirs that merged in the window meets one of these:
 
@@ -98,7 +143,7 @@ entries, the largest effect first. With no entry, write "No callouts this editio
 
 **Done when:** each entry has a rule from the list above and a link.
 
-## Step 5: Lay out the page
+## Step 6: Lay out the page
 
 Copy `template.html`, and replace each `{{placeholder}}` with HTML. Use only the template's
 classes. The page holds no inline style.
@@ -112,9 +157,11 @@ classes. The page holds no inline style.
 | `weather_body` | A table with one row per repo: the forecast, the pass rate, the build time, the test time, each metric, and the trends |
 | `your_desk_lede` | The bulletin in one or two sentences: what to do first, and why. Plain text |
 | `your_desk_body` | Groups of cards, one card per stand-up row, in the bulletin's suggested order. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
-| `around_the_repos_body` | Groups of cards, one card per codebase-news row, with the repo as the label. Then each repo's news paragraph |
-| `board_body` | Groups of cards, one card per board ticket, in the order Done, Started, New, then Blocked. The label is the status and the assignee |
-| `honour_roll_body` | The Step 4 roll |
+| `around_the_repos_body` | Groups of cards, one card per codebase-news row, with the news unit as the label. Then each unit's news paragraph, after an `<h4>` with the unit name |
+| `sprint_body` | `<div class="sprint"><div class="box"><h3>Sprint goal</h3>…</div><div class="box"><h3>Burndown</h3>…</div></div>`. The goal box names the iteration and its end date, gives the on-track line, and lists each goal item with its count. The burndown box holds the SVG and the scope note. With no iteration, `<p>No current sprint on this board.</p>` |
+| `board_people_options` | One `<option>` for each person on a board card, in name order |
+| `board_body` | Groups of cards, one card per board ticket, in the order Done, Started, In progress, New, then Blocked. The label is the status and the assignee. Each card is `<article data-person="<assignee>">`, with the same name as its `<option>`, or `Unassigned` |
+| `honour_roll_body` | The Step 5 roll |
 | `classifieds_body` | The stand-up notes, such as worktrees to remove, and each skipped source |
 | `colophon` | The sources, the window, and the time of print |
 
@@ -144,10 +191,13 @@ classes. The page holds no inline style.
 - Write in plain prose with newspaper headlines. Facts only. Each cell traces to a reporter's
   return.
 
+- The person filter hides each board card of another person. A group with no card left shows
+  "<person> is not working on this." The template's script does both, so write no empty state.
+
 **Done when:** each stand-up row, each codebase-news row, and each board ticket is on the page, and
 no placeholder is left.
 
-## Step 6: Print
+## Step 7: Print
 
 1. Find the folder by the `/write-to-file` folder rule for doctype `report`, with `gazette` as the
    key.
