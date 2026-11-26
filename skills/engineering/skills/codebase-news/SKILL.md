@@ -19,8 +19,8 @@ to part of the repo, such as one app of a monorepo.
   `last monday`. A range such as `2026-10-01..2026-10-14` also sets `--until`.
 - No argument: use the last 24 hours (`--since="24 hours ago"`).
 - Take any paths after the period as git pathspecs, such as `apps/web` or `:(exclude)libs`.
-  With paths, add `-- <paths>` to each `git log`, `git diff`, and `git ls-tree` below, and read
-  only the changelogs under them. A commit that touches no path is out of the news.
+  With paths, add `-- <paths>` to each `git log` and `git diff` below, and read only the
+  changelogs under them. A commit that touches no path is out of the news.
 - Find the default branch with `git symbolic-ref --short refs/remotes/origin/HEAD`. Remove the
   `origin/` prefix to get `<default>`.
 - Fetch it (`git fetch origin <default>`). Read everything from `origin/<default>`, not from the
@@ -34,7 +34,9 @@ to part of the repo, such as one app of a monorepo.
 
 ## Step 2: Read the changelogs
 
-1. List the changelogs at the end commit: `git ls-tree -r --name-only <end commit> | grep -iE '(^|/)CHANGELOG\.md$'`.
+1. List the changelogs at the end commit:
+   `git diff --name-only "$(git hash-object -t tree /dev/null)" <end commit> -- <paths> | grep -iE '(^|/)CHANGELOG\.md$'`.
+   `git ls-tree` does not take pathspec magic such as `:(exclude)`, so do not use it.
 2. Read each one at the end commit (`git show <end commit>:<path>`).
 3. Keep only the release entries dated inside the window.
 4. Collect the breaking changes, features and fixes, each with its scope, ticket key and commit hash.

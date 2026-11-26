@@ -5,7 +5,7 @@ import sys
 from html.parser import HTMLParser
 
 SECTIONS = ["masthead", "lead", "weather", "your-desk", "around-the-repos", "the-board", "honour-roll"]
-TICKET = re.compile(r"\b[A-Z][A-Z0-9]+-\d+\b")
+TICKET = re.compile(r"\b([A-Z][A-Z0-9]+)-\d+\b")
 PR = re.compile(r"(?<![\w&])#\d+\b")
 GROUPED = {"your-desk", "around-the-repos", "the-board"}
 PLACEHOLDER = re.compile(r"\{\{[^}]*\}\}")
@@ -15,6 +15,8 @@ class Page(HTMLParser):
     def __init__(self):
         super().__init__()
         self.problems = []
+        self.linked = set()
+        self.bare = []
         self.sections = set()
         self.link_depth = 0
         self.code_depth = 0
@@ -56,7 +58,7 @@ class Page(HTMLParser):
                     group["tagline"] = True
                     break
         if tag == "article":
-            self.card = {"label": "", "headline": "", "headline_hrefs": [], "desk": self.section == "your-desk", "done": False,
+            self.card = {"label": "", "headline": "", "headline_hrefs": [], "hrefs": [], "desk": self.section == "your-desk", "done": False,
                          "person": "data-person" in a}
             if self.section == "the-board":
                 self.board_cards += 1
@@ -68,9 +70,12 @@ class Page(HTMLParser):
             self.in_headline = True
         if tag == "a" and self.in_headline:
             self.card["headline_hrefs"].append(a.get("href", ""))
+        if tag == "a" and self.card is not None:
+            self.card["hrefs"].append(a.get("href", ""))
         if tag == "a":
             self.link_depth += 1
             href = a.get("href", "")
+            self.linked.update(TICKET.findall(href))
             if a.get("target") != "_blank":
                 self.problems.append(f'link {href} has no target="_blank"')
             if "noopener" not in (a.get("rel") or ""):
@@ -87,7 +92,8 @@ class Page(HTMLParser):
                 self.problems.append(f"#{self.section}: a group with no tagline")
         if tag == "article" and self.card is not None:
             label = self.card["label"].strip()
-            if "review" in label.lower() and not any("/pull/" in h for h in self.card["headline_hrefs"]):
+            has_pr = any("/pull/" in h for h in self.card["hrefs"])
+            if "review" in label.lower() and has_pr and not any("/pull/" in h for h in self.card["headline_hrefs"]):
                 self.problems.append(f'review card "{label}" does not link its headline to the PR')
             if self.section in GROUPED and not any(self.divs):
                 self.problems.append(f'#{self.section}: card "{self.card["headline"].strip()}" is not in a group')
@@ -112,10 +118,11 @@ class Page(HTMLParser):
             self.card["headline"] += data
         for found in PLACEHOLDER.findall(data):
             self.problems.append(f"placeholder {found} is still on the page")
+        if self.link_depth:
+            self.linked.update(TICKET.findall(data))
         if self.skip_depth or self.link_depth or self.code_depth:
             return
-        for found in TICKET.findall(data):
-            self.problems.append(f"ticket key {found} is not a link")
+        self.bare += [(m.group(0), m.group(1)) for m in TICKET.finditer(data)]
         for found in PR.findall(data):
             self.problems.append(f"PR {found} is not a link")
 
@@ -124,7 +131,7 @@ def main(path):
     page = Page()
     with open(path) as f:
         page.feed(f.read())
-    problems = page.problems + (["#the-board has cards but no #board-person filter"] if page.board_cards and not page.board_filter else []) + [f"section #{s} is missing" for s in SECTIONS if s not in page.sections]
+    problems = page.problems + [f"ticket key {key} is not a link" for key, project in page.bare if project in page.linked] + (["#the-board has cards but no #board-person filter"] if page.board_cards and not page.board_filter else []) + [f"section #{s} is missing" for s in SECTIONS if s not in page.sections]
     for problem in problems:
         print(problem)
     if problems:

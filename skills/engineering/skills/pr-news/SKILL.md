@@ -27,21 +27,27 @@ per PR, not one per event. The sibling of `/codebase-news`, which covers a repo'
 
 ## Step 2: Find the PRs
 
-Run the two searches. Both cover every repo that the user can see.
+Run the three searches. Each covers every repo that the user can see.
 
 ```sh
 gh search prs --author=@me --state=open --limit 100 \
   --json repository,number,title,url,isDraft,updatedAt
 gh search prs "user-review-requested:@me" --state=open --limit 100 \
   --json repository,number,title,url,isDraft,updatedAt
+gh search prs --state=open --limit 100 \
+  --json repository,number,title,url,isDraft,updatedAt -- reviewed-by:@me -author:@me
 ```
 
 - `user-review-requested` matches only requests to the user, not requests to a team that the user
   is in.
-- A PR in both lists is the user's own PR. Keep it in the first list only.
+- The third search finds the PRs that the user reviewed. GitHub removes a review request when the
+  user submits a review, so the second search no longer finds those PRs.
+- A PR in the first list is the user's own PR. Keep it in the first list only. A PR in the second
+  and third lists stays in the second list only. The steps below treat each PR in the third list
+  as a review request.
 - Drop each PR whose `updatedAt` is before the start. Keep its number for the quiet list in Step 6.
 
-**Done when:** you have two lists of PRs, each PR tagged with its `nameWithOwner`.
+**Done when:** you have three lists of PRs, each PR tagged with its `nameWithOwner`.
 
 ## Step 3: Read each PR
 
@@ -72,8 +78,8 @@ gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$
 
 Count the unresolved threads, and the threads whose last comment is in the window.
 
-For a review request, also find the user's last review in `reviews`. If commits landed after it,
-the PR needs a re-review.
+For a review request, or a PR from the reviewed-by search, also find the user's last review in
+`reviews`. If commits landed after it, the PR needs a re-review.
 
 Leave out events by the user, and comments by bots that only post a status, such as coverage or
 deploy previews. Keep a bot comment that asks for a change.

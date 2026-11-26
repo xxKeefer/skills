@@ -122,12 +122,16 @@
 
   .sprint { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; margin-bottom: 36px; }
   .sprint p, .sprint li { font: 0.95rem/1.55 var(--sans); }
-  .burndown { width: 100%; height: auto; font: 0.65rem var(--mono); fill: var(--muted); }
-  .burndown .axis { stroke: var(--rule); }
-  .burndown polyline { fill: none; stroke-width: 2; }
-  .burndown .ideal { stroke: var(--rule); stroke-dasharray: 4 4; }
-  .burndown .actual { stroke: var(--accent); }
-  .burndown .left { fill: var(--ink); font-weight: 700; }
+  .progress-head { font: 700 0.95rem/1.4 var(--sans); margin-bottom: 10px; }
+  .progress-bar { display: block; width: 100%; height: 14px; }
+  rect.progress-done { fill: var(--ink); }
+  rect.progress-progress { fill: var(--accent); }
+  rect.progress-todo { fill: var(--rule); }
+  .progress-legend { display: flex; gap: 24px; list-style: none; padding: 0; margin-top: 12px; font: 0.95rem/1.4 var(--sans); }
+  .progress-legend span { display: block; font: 700 0.68rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.1em; }
+  span.progress-done { color: var(--ink); }
+  span.progress-progress { color: var(--accent); }
+  span.progress-todo { color: var(--muted); }
   .filter { display: block; font: 500 0.72rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 24px; }
   .filter select { font: 0.95rem var(--sans); margin-left: 8px; }
   .empty { font: italic 0.95rem/1.55 var(--heading); color: var(--muted); }

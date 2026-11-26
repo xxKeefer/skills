@@ -45,22 +45,50 @@ class CheckGazette(unittest.TestCase):
         self.assertIn("noopener", result.stdout)
 
     def test_fails_a_ticket_key_that_is_not_a_link(self):
-        result = check(page("<p>Fixed in ABC-12 today.</p>"))
+        link = '<a href="https://x/browse/ABC-1" target="_blank" rel="noopener">ABC-1</a>'
+        result = check(page(f"<p>{link}, then fixed in ABC-12 today.</p>"))
         self.assertEqual(result.returncode, 1)
         self.assertIn("ABC-12", result.stdout)
+
+    def test_passes_acronyms_with_a_number_that_are_not_project_keys(self):
+        result = check(page("<p>Use AES-256 over TLS-1 for the token store.</p>"))
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_fails_a_bare_key_of_a_project_that_the_page_links(self):
+        link = '<a href="https://x/browse/FOO-1" target="_blank" rel="noopener">FOO-1</a>'
+        result = check(page(f"<p>{link} then FOO-9.</p>"))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("FOO-9", result.stdout)
+
+    def test_fails_a_bare_key_of_a_project_whose_key_is_in_a_link_text(self):
+        link = '<a href="https://tracker/item/77" target="_blank" rel="noopener">XYZ-1</a>'
+        result = check(page(f"<p>{link} then XYZ-3.</p>"))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("XYZ-3", result.stdout)
+
+    def test_passes_a_bare_key_of_a_project_that_no_link_names(self):
+        result = check(page("<p>Use AES-256 and GPT-4.</p>"))
+        self.assertEqual(result.returncode, 0, result.stdout)
 
     def test_fails_a_pr_number_that_is_not_a_link(self):
         result = check(page("<p>Merged #481 today.</p>"))
         self.assertEqual(result.returncode, 1)
         self.assertIn("#481", result.stdout)
 
-    def test_fails_a_review_card_whose_headline_links_the_ticket(self):
+    def test_fails_a_review_card_whose_headline_links_the_ticket_when_it_has_a_pr(self):
         card = ('<article><span class="label">Review requested</span>'
                 '<h3><a href="https://x/browse/ABC-12" target="_blank" rel="noopener">ABC-12</a> needs a review</h3>'
-                '<p>Read it.</p></article>')
+                '<p>See <a href="https://x/pull/4" target="_blank" rel="noopener">#4</a>.</p></article>')
         result = check(page(card))
         self.assertEqual(result.returncode, 1)
         self.assertIn("review card", result.stdout)
+
+    def test_passes_a_review_card_with_no_pr_whose_headline_links_the_ticket(self):
+        card = ('<article><span class="label">In Review · Ann</span>'
+                '<h3><a href="https://x/browse/ABC-42" target="_blank" rel="noopener">ABC-42</a> waits for a PR</h3>'
+                '<p>No PR yet.</p></article>')
+        result = check(page(card))
+        self.assertEqual(result.returncode, 0, result.stdout)
 
     def test_passes_a_review_card_whose_headline_links_the_pr(self):
         card = ('<article><span class="label">Review requested</span>'

@@ -8,7 +8,7 @@ Copy this file to `~/.claude/gazette.md` and fill it in. An argument in the call
 - repos:
   - ~/code/app-one
   - ~/code/app-two
-- board: the tracker query for the board's tickets, such as `project = ABC AND sprint in openSprints()`
+- board: one or more board IDs from the tracker, such as `42` or `42, 57`
 - workflows: optional. The CI workflow names for build time and test time:
   - app-one build: CI
   - app-one test: E2E Playwright

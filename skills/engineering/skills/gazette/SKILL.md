@@ -2,10 +2,10 @@
 name: gazette
 description: >
   Print a one-page HTML newspaper for a time window: your action items, the news of each repo and
-  each monorepo app and lib, the board with its sprint and a person filter, the CI weather, and an
+  each part of it, each board with its sprint progress, a person filter, the CI weather, and an
   honour roll. Use when the user says "gazette" or "newspaper", or
   wants their day and the repos' news on one page.
-argument-hint: "[time-period] [repo paths...] [board=<query>]"
+argument-hint: "[time-period] [repo paths...] [board <id>...] [accent=<colour>]"
 ---
 
 # Gazette
@@ -14,8 +14,8 @@ Join `/engineering:stand-up` and `/engineering:codebase-news` into one newspaper
 page answers "what do I do today", and the inside pages answer "what happened around me".
 
 `$SKILL_DIR` is this skill's base directory. The page is [`template.html`](template.html). The
-check is `$SKILL_DIR/scripts/check_gazette.py`. The sprint chart comes from
-`$SKILL_DIR/scripts/burndown.py`.
+check is `$SKILL_DIR/scripts/check_gazette.py`. The sprint progress bar comes from
+`$SKILL_DIR/scripts/sprint_progress.py`.
 
 > **Tools:** use the tracker and the code host that the repo's `## Agent skills` block names, else
 > the ones in the user's `## Tools on this machine` block, else ask. Read the tracker notes file
@@ -26,23 +26,33 @@ check is `$SKILL_DIR/scripts/check_gazette.py`. The sprint chart comes from
 
 1. Read `~/.claude/gazette.md` if it exists. Its layout is in
    [`config.example.md`](config.example.md).
-2. Let each argument override its config line: a time period, repo paths, `board=<query>`,
-   `accent=<colour>`.
+2. Let each argument override its config line: a time period, repo paths, `board <id>`, and
+   `accent=<colour>`, such as `36hrs board 42`. `board <id>` can come more than once, such as
+   `board 42 board 57`.
 3. Defaults: the window is the last 24 hours. The repos are the current repo. The paper name is
-   "The Daily Commit". The accent is red, `#d0021b`. With no board, skip the board section.
+   "The Daily Commit". The accent is red, `#d0021b`. With no board, skip the board reporters and
+   the sprints. The check needs the board section, so it holds one line.
 4. Read the ticket URL form from the tracker notes. Each reporter brief gives it, so that each
    ticket link uses it.
-5. List the news units of each repo folder. A monorepo lists its apps and libs in its workspace
-   config, such as `pnpm-workspace.yaml`, the `workspaces` key of `package.json`, `nx.json`, a
-   `Cargo.toml` workspace, or `go.work`. Each app and each lib is a news unit, with its folder as
-   its path. The repo root is one more unit, for the changes outside every app and lib: its paths
-   are `.` and `:(exclude)<folder>` for each unit folder. A repo with no workspace is one news
-   unit.
-6. Drop each unit with no commit in the window on the default branch:
-   `git log -1 --since=<start> origin/<default> -- <paths>` prints nothing.
+5. Split each repo folder into news units. A news unit is a part of the repo that a reader
+   follows on its own. Pick the split that fits the shape of the repo:
+   - A workspace config, such as `pnpm-workspace.yaml`, the `workspaces` key of `package.json`,
+     `nx.json`, a `Cargo.toml` workspace, or `go.work`, lists the apps and libs. Each one can be a
+     unit.
+   - With no workspace, read the folders and the recent commits. Group by top-level folder, by
+     service, or by theme, such as `services/billing`, the docs, or the CI and infra files.
+   - A unit can hold several folders. Join small parts that change together into one themed unit.
+
+   Give each unit a short name and its paths as git pathspecs. When the units leave part of the
+   repo out, add one unit for the rest: its paths are `.` and `:(exclude)<path>` for each path of
+   the other units. A small repo, or a repo with no clear parts, is one unit.
+6. In each repo folder, find `<default>`: run `git symbolic-ref --short refs/remotes/origin/HEAD`,
+   and remove the `origin/` prefix. Fetch it with `git fetch origin <default>`.
+7. Drop each unit with no commit in the window on the default branch:
+   `git log -1 --since=<start> --until=<end> origin/<default> -- <paths>` prints nothing.
 
 **Done when:** you have the window, the list of repo folders, the news units with a commit in the
-window, the paper name, the accent, the ticket URL form, and a board query or a note that there is
+window, the paper name, the accent, the ticket URL form, and the board IDs or a note that there is
 none.
 
 ## Step 2: Send the reporters
@@ -68,15 +78,17 @@ shape below. Each subagent brief names no model.
      `gh run list -R <owner/repo> --workflow "<name>" --branch <default> --created "<start>..<end>" --status completed --limit 200 --json name,conclusion,createdAt,updatedAt,url`.
      When a call returns 200 runs, say that its count is a lower bound;
    - each metric line from the config for this repo, with the number that its command gives.
-4. **Board reporter:** run the board query for two sets of tickets: each ticket whose status
-   changed in the window, and each ticket in the current iteration that is in progress or in
-   review. Return each ticket's key, URL, summary, assignee, old status, and new status. For a
+4. **Board reporter**, one per board ID: through the tracker, find two sets of tickets on that
+   board: each ticket whose status changed in the window, and each ticket in the current iteration
+   that is in progress or in review. Return each ticket's key, URL, summary, assignee, old status, and new status. For a
    ticket in a review status, also find its open PR on the code host, such as with
    `gh pr list -R <owner/repo> --search "<KEY>" --json number,url`, and return the PR URL.
-   Then read the current iteration of the board's tickets. The tracker notes name the iteration
-   field and the estimate field. Return the iteration's name, goal, start date, and end date. For
-   each ticket in it, return the key, URL, summary, assignee, epic, estimate, status, and the date
-   it reached done. With no current iteration, say so.
+   Then read the board's current iteration and the board's columns. The tracker notes name the
+   iteration field, the estimate field, and the board tools. Return the board name, and the
+   iteration's name, goal, start date, and end date. For each ticket in the iteration, return the
+   key, URL, summary, assignee, epic, estimate, whether it is a sub-task, and its bucket from its
+   board column: `todo` for the first column, `done` for the last column, and `progress` for each
+   other column. With no current iteration, say so.
 
 **Done when:** each reporter returned, or you have a note for each one that failed.
 
@@ -100,33 +112,28 @@ Give each number its run count, such as `92% of 38 runs`. Link the most recent f
 
 **Done when:** each repo has a forecast, or "No reading", and each number has its count.
 
-## Step 4: Read the sprint
+## Step 4: Read each sprint
 
-Skip this step when the board reporter found no current iteration.
+Do this step for each board whose reporter found a current iteration.
 
 1. Split the goal into its items, one per line or sentence. For each item, find its tickets: the
    tickets that it names, the tickets of the epic that it names, and the tickets whose summary is
    on its subject. Give the item its done estimate out of its total, such as `8 of 13 points`. An
    item with no ticket gets "No tickets match this goal".
-2. Draw the burndown. Pipe this JSON to `python3 $SKILL_DIR/scripts/burndown.py`, and keep the SVG
-   that it prints:
+2. Draw the progress bar. Pipe this JSON to `python3 $SKILL_DIR/scripts/sprint_progress.py`, with
+   one entry for each ticket of the iteration, and keep the HTML that it prints:
 
    ```json
-   {"start": "<YYYY-MM-DD>", "end": "<YYYY-MM-DD>", "today": "<YYYY-MM-DD>", "total": <n>,
-    "unit": "points", "done": [{"date": "<YYYY-MM-DD>", "amount": <n>}]}
+   {"tickets": [{"points": <n or null>, "bucket": "done | progress | todo", "subtask": <true or false>}]}
    ```
 
-   The total is the sum of the estimates of the iteration's tickets. Each done ticket adds one
-   entry with its done date and its estimate. When no ticket has an estimate, count tickets, with
-   the unit `tickets` and an amount of 1.
+   The script counts estimates by board column, as a tracker's sprint progress does: it leaves out
+   sub-tasks, and counts tickets when no ticket has an estimate.
 3. Compare the done share with the elapsed share of the iteration: on track when the done share is
    the same or more, else behind by the difference, such as "18% behind".
 
-The total is the scope at print time. A ticket that joined after the start raises the start of
-the line. Say so under the chart.
-
-**Done when:** each goal item has a count or "No tickets match this goal", and the chart and the
-on-track line come from the reporter's return.
+**Done when:** each goal item has a count or "No tickets match this goal", and the progress bar
+and the on-track line come from the reporter's return.
 
 ## Step 5: Pick the honour roll
 
@@ -158,9 +165,9 @@ classes. The page holds no inline style.
 | `your_desk_lede` | The bulletin in one or two sentences: what to do first, and why. Plain text |
 | `your_desk_body` | Groups of cards, one card per stand-up row, in the bulletin's suggested order. The stand-up refers to its rows as `#<n>`, which reads as a PR number. Name the PR or the ticket instead |
 | `around_the_repos_body` | Groups of cards, one card per codebase-news row, with the news unit as the label. Then each unit's news paragraph, after an `<h4>` with the unit name |
-| `sprint_body` | `<div class="sprint"><div class="box"><h3>Sprint goal</h3>…</div><div class="box"><h3>Burndown</h3>…</div></div>`. The goal box names the iteration and its end date, gives the on-track line, and lists each goal item with its count. The burndown box holds the SVG and the scope note. With no iteration, `<p>No current sprint on this board.</p>` |
-| `board_people_options` | One `<option>` for each person on a board card, in name order |
-| `board_body` | Groups of cards, one card per board ticket, in the order Done, Started, In progress, New, then Blocked. The label is the status and the assignee. Each card is `<article data-person="<assignee>">`, with the same name as its `<option>`, or `Unassigned` |
+| `sprint_body` | One `<div class="sprint"><div class="box"><h3>Sprint goal</h3>…</div><div class="box"><h3>Sprint progress</h3>…</div></div>` for each board, in argument order. The goal box names the board, the iteration, and its end date, gives the on-track line, and lists each goal item with its count. The progress box holds the HTML from Step 4. A board with no current iteration gets `<p>No current sprint on <board name>.</p>` |
+| `board_people_options` | One `<option>` for each person on a card of any board, in name order, then `<option>Unassigned</option>` when a card has no assignee |
+| `board_body` | Groups of cards, one card per board ticket, in the order Done, Started, In progress, New, then Blocked. A ticket on two boards gets one card. The label is the status and the assignee, then the board name when the page has more than one board. Each card is `<article data-person="<assignee>">`, with the same name as its `<option>`, or `Unassigned` |
 | `honour_roll_body` | The Step 5 roll |
 | `classifieds_body` | The stand-up notes, such as worktrees to remove, and each skipped source |
 | `colophon` | The sources, the window, and the time of print |
@@ -186,8 +193,8 @@ classes. The page holds no inline style.
   `rel="noopener"`.
 - A card about a review, such as a review request, a review to address, or a ticket in a review
   status, links its headline to the PR on the code host, and puts "review" in its label. The
-  reviewer acts on the PR, not the ticket. Link the ticket in the description. Link only the
-  ticket when no PR exists.
+  reviewer acts on the PR, not the ticket. Link the ticket in the description. When no PR exists,
+  link the headline to the ticket.
 - Write in plain prose with newspaper headlines. Facts only. Each cell traces to a reporter's
   return.
 

@@ -23,9 +23,9 @@ Run these four searches. They do not depend on each other, so run them in parall
 1. **Tracker:** the open tickets assigned to the user, with the summary, the status, the type, the
    parent, and the last update.
 2. **Code host, own PRs:** the user's open PRs in every repo they can see. With GitHub:
-   `gh search prs --author=@me --state=open --json repository,number,title,url,isDraft,updatedAt`.
+   `gh search prs --author=@me --state=open --limit 100 --json repository,number,title,url,isDraft,updatedAt`.
 3. **Code host, review requests:** the open PRs that ask the user for a review. With GitHub:
-   `gh search prs --review-requested=@me --state=open --json repository,number,title,url,author,updatedAt`.
+   `gh search prs "user-review-requested:@me" --state=open --limit 100 --json repository,number,title,url,author,updatedAt`.
 4. **Local branches:** each worktree or clone in the user's work folder, with its path, its branch,
    its last commit, its count of changed files, and its commits ahead of and behind its remote.
    With worktrunk: `wt list --format=json` in each repo. With gh-stack: `gh stack view --json` in
